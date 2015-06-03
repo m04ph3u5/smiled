@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="it.polito.applied.smiled.mailMessage" />
+	<context:component-scan base-package="it.polito.applied.smiled.service" />
+	<context:component-scan base-package="it.polito.applied.smiled.validator" />
+	<context:component-scan base-package="it.polito.applied.smiled.updater" />
+	
+	
+<!-- 	<mvc:resources location="assets" mapping="/assets/**" /> -->
+<!-- 	<mvc:resources location="pdfs" mapping="/pdfs/**" /> -->
+
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="3" />
+		<property name="maxPoolSize" value="15" />
+		<property name="queueCapacity" value="50" />
+	</bean>
+	
+<!-- 	<task:annotation-driven executor="taskExecutor" />  -->
+<!-- 	<task:executor id="taskExecutor" -->
+<!-- 				   pool-size="5-25" -->
+<!--         		   queue-capacity="100"/> -->
+<!-- 	<task:annotation-driven executor="taskExecutor" />  -->
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="storybookpolito@gmail.com" />
+		<property name="password" value="secret2015" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver"> 
+		<property name="order" value="1" /> <property name="contentNegotiationManager"> 
+		<bean class="org.springframework.web.accept.ContentNegotiationManager"> <constructor-arg> 
+		<bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy"> 
+		<constructor-arg> <map> <entry key="json" value="application/json" /> </map> 
+		</constructor-arg> </bean> </constructor-arg> </bean> </property> <property 
+		name="defaultViews"> <list> <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" 
+		/> </list> </property> </bean> -->
+
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
+		p:defaultLocale="it" />
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basename="messages"></bean>
+
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="0" />
+
+</beans>

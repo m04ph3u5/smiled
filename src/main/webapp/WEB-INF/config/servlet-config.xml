@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:property-placeholder location="classpath:application.properties" />
+
+
+
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean
+				class="org.springframework.security.web.bind.support.AuthenticationPrincipalArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
+
+	<context:component-scan base-package="it.polito.applied.smiled.controller" />
+
+
+	<mvc:resources mapping="/assets/**" location="/assets/"
+		cache-period="0" />
+
+	<security:global-method-security
+		pre-post-annotations="enabled">
+		<security:expression-handler ref="smiledExpressionHandler" />
+	</security:global-method-security>
+
+
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+			p:paramName="language" />
+	</mvc:interceptors>
+
+<!-- 	<mvc:view-controller path="/" view-name="/index.html"/> -->
+
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/WEB-INF/home/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+<!-- 	<mvc:default-servlet-handler/> -->
+		
+</beans>

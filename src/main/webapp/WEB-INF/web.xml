@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd ">
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>smiledServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/servlet-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+        <servlet-name>smiledServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+	<!-- <servlet-mapping> -->
+	<!-- <servlet-name>smiledServlet</servlet-name> -->
+	<!-- <url-pattern>/images/**</url-pattern> -->
+	<!-- </servlet-mapping> -->
+
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>smiledServlet</servlet-name> -->
+<!-- 		<url-pattern>*.html</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
+	<servlet>
+		<servlet-name>smiledServletREST</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/servlet-rest-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+			<location>/tmp/smiled/uploads</location>
+			<max-file-size>2097152</max-file-size>
+			<max-request-size>4194304</max-request-size>
+		</multipart-config>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>smiledServletREST</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			<!--  /WEB-INF/config/servlet-config.xml-->
+			/WEB-INF/config/security-config.xml
+			/WEB-INF/config/mongo-config.xml
+			/WEB-INF/config/common-servlet-config.xml
+		</param-value>
+	</context-param>
+
+	<!-- <error-page> -->
+	<!-- <error-code>400</error-code> -->
+	<!-- <location>/WEB-INF/errorPage/400.jsp</location> -->
+	<!-- </error-page> -->
+
+	<!-- <error-page> -->
+	<!-- <error-code>404</error-code> -->
+	<!-- <location>/WEB-INF/errorPage/404.jsp</location> -->
+	<!-- </error-page> -->
+
+	<!-- <error-page> -->
+	<!-- <error-code>500</error-code> -->
+	<!-- <location>/WEB-INF/errorPage/500.jsp</location> -->
+	<!-- </error-page> -->
+
+	<!-- <error-page> -->
+	<!-- <error-code>405</error-code> -->
+	<!-- <location>/WEB-INF/errorPage/400.jsp</location> -->
+	<!-- </error-page> -->
+
+	<display-name>Archetype Created Web Application</display-name>
+
+</web-app>

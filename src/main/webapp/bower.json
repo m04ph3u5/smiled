@@ -1,0 +1,14 @@
+{
+	"name": "ThesisProject",
+	"version": "0.0.1-SNAPSHOT",
+	"dependencies": {
+		"angular": "latest",
+		"angular-resource": "latest",
+		"angular-ui-router": "latest",
+		"angular-ui-bootstrap-bower": "latest",
+		"angular-permission": "latest",
+		"angular-cookies": "latest",
+		"ngstorage" : "latest",
+		"restangular": "latest"
+	}
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<context:component-scan base-package="it.polito.applied.smiled.service" />
+	<context:component-scan base-package="it.polito.applied.smiled.security" />
+
+	<beans:bean id="bCryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<beans:bean id="smiledExpressionHandler"
+		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<beans:property name="permissionEvaluator">
+			<beans:ref bean="permissionEvaluatorBean" />
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="permissionEvaluatorBean"
+		class="it.polito.applied.smiled.security.SmiledPermissionEvaluator" />
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userServiceImpl">
+			<password-encoder ref="bCryptPasswordEncoder" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<http use-expressions="true"  entry-point-ref="restServicesEntryPoint">
+		<remember-me key="smiledKey" token-validity-seconds="2000000" />
+		<intercept-url pattern="/" access="permitAll"
+			requires-channel="https" />
+		<intercept-url pattern="/login" access="permitAll"
+			requires-channel="https" />
+		<intercept-url pattern="/dashboard" access="permitAll"
+			requires-channel="https" />
+		<intercept-url pattern="/assets/public/**" access="permitAll"
+			requires-channel="https" />
+
+
+<!-- 		<intercept-url pattern="/400.html" access="permitAll" -->
+<!-- 			requires-channel="https" /> -->
+<!-- 		<intercept-url pattern="/404.html" access="permitAll" -->
+<!-- 			requires-channel="https" /> -->
+<!-- 		<intercept-url pattern="/500.html" access="permitAll" -->
+<!-- 			requires-channel="https" /> -->
+
+		<!-- <intercept-url pattern="/login.html" access="permitAll" -->
+		<!-- requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/api/v1/firstPassword" access="permitAll" -->
+		<!-- requires-channel="https" /> -->
+
+		<!-- <intercept-url pattern="/loginFailed.html" access="permitAll" -->
+		<!-- requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/logout.html" access="permitAll" -->
+		<!-- requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/register.html" access="permitAll" -->
+		<!-- requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/errorRegistrationPage.html" -->
+		<!-- access="permitAll" requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/errorRegistrationPageExpired.html" -->
+		<!-- access="permitAll" requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/registrationConfirm.html" -->
+		<!-- access="permitAll" requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/checkRegister.html" access="permitAll" -->
+		<!-- requires-channel="https" /> -->
+		<!-- <intercept-url pattern="/setPassword.html" access="hasRole('ROLE_ANONYMOUS')" -->
+		<!-- requires-channel="https" /> -->
+
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"
+			requires-channel="https" />
+		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/>
+		<csrf token-repository-ref="customCsrfTokenRepository"></csrf>
+		<form-login
+			login-processing-url="/apiLogin"
+			default-target-url="/"
+			authentication-success-handler-ref="authenticationSuccessHandler"
+			authentication-failure-handler-ref="authenticationFailureHandler"/>
+		<logout logout-url="/apiLogout"/>
+	</http>
+
+	<beans:bean id="customCsrfTokenRepository"
+		class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
+		<beans:property name="headerName" value="X-XSRF-TOKEN" />	
+	</beans:bean>
+
+</beans:beans>
