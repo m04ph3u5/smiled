@@ -1,6 +1,6 @@
 angular.module('smiled.application')
-	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider',
-         function($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider){
+	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', 'userService',
+         function($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, userService){
 
 			var notFoundPath;
 			$stateProvider
@@ -28,7 +28,12 @@ angular.module('smiled.application')
 				})
 				.state('logged',{
 					url: "/",
-					templateUrl: "assets/public/partials/dashboard.html",
+					templateUrl: function(){
+						if(userService.hasRoleUser())
+							return "assets/public/partials/dashboardUser.html";
+						else if(userService.hasRoleTeacher())
+							return "assets/public/partials/dashboardTeacher.html";
+					},
 					controller: "dashboardCtrl",
 					data: {
 						permissions:{

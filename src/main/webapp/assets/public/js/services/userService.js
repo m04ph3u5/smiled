@@ -1,9 +1,27 @@
 angular.module('smiled.application').factory('userService', [ '$http', '$cookies', '$state', '$localStorage', 'apiService', 'Permission', '$q',
                function userService($http,$cookies,$state,$localStorage,apiService, Permission, $q){
 
-	var isLogged;
+	var logged=false;
 	var cookie;
 	var user;
+	var roleUser=false;
+	var roleTeacher=false;
+	var roleAdmin=false;
+	
+	var observerIsLoggedCallbacks = [];
+
+	//register an observer
+	function registerObserverCallback(callback){
+		observerIsLoggedCallbacks.push(callback);
+	}
+
+	//call this when you know 'isLogged' has been changed
+	var notifyObservers = function(){
+		angular.forEach(observerIsLoggedCallbacks, function(callback){
+			callback();
+		});
+	}
+
 
     $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
     
@@ -37,9 +55,10 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 			method: 'POST',
 			data: 'j_username='+email+'&j_password='+password+"&submit="
 		}).then(function(data){
-			isLogged=true;
+			logged=true;
 			user=apiService.getMe();
 			checkPermission();
+			notifyObservers();
 			$state.go("logged");
 		},function(reason){
 			console.log("Authentication failed: "+reason);
@@ -52,9 +71,10 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 			method: 'POST',
 		}).then(function(data){
 			console.log("logged out");
-			isLogged=false;
+			logged=false;
 			user=null;
 			checkPermission();
+			notifyObservers();
 			$state.go("login");
 		},function(reason){
 			console.log("Logout failed: "+reason);
@@ -66,8 +86,12 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 			
 			var deferred = $q.defer();
 
-			if(user==null)
+			if(user==null){
 				deferred.resolve();
+				roleUser=false;
+				roleTeacher=false;
+				roleAdmin=false;
+			}
 			else{
 				user.then(
 						function(data){
@@ -85,8 +109,10 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 
 			user.then(
 					function(data){
-						if(data.role.authority=="ROLE_USER")
+						if(data.role.authority=="ROLE_USER"){
+							roleUser=true;
 							deferred.resolve();
+						}
 						else
 							deferred.reject();
 					}, function () {
@@ -101,8 +127,10 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 
 			user.then(
 					function(data){
-						if(data.role.authority=="ROLE_TEACHER")
+						if(data.role.authority=="ROLE_TEACHER"){
+							roleTeacher=true;
 							deferred.resolve();
+						}
 						else
 							deferred.reject();
 					}, function () {
@@ -117,8 +145,10 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 
 			user.then(
 					function(data){
-						if(data.role.authority=="ROLE_ADMIN")
+						if(data.role.authority=="ROLE_ADMIN"){
+							roleAdmin=true;
 							deferred.resolve();
+						}
 						else
 							deferred.reject();
 					}, function () {
@@ -129,13 +159,33 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		});
 	}
 	
+	function isLogged(){
+		return logged;
+	}
+	
+	function hasRoleUser(){
+		return roleUser;
+	}
+	
+	function hasRoleTeacher(){
+		return roleTeacher;
+	}
+	
+	function hasRoleAdmin(){
+		return roleAdmin;
+	}
+	
 	onStartup();
 	
 	return {
 	    login: login,
 	    logout: logout,
 	    checkPermission : checkPermission,
+	    registerObserverCallback: registerObserverCallback,
 	    isLogged: isLogged,
+	    hasRoleUser: hasRoleUser,
+	    hasRoleTeacher: hasRoleTeacher,
+	    hasRoleAdmin: hasRoleAdmin,
 	    user: user
 	}; 
 }]);
