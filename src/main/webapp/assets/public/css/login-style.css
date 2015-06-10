@@ -1,0 +1,50 @@
+.divLanding{
+			background-color:#A2B776;
+			border-radius: 25px;
+		}
+		.bg{
+			background-image: url(https://localhost:8443/ThesisProject/assets/public/img/teacher.jpg);
+			background-size:cover;		
+		}
+		.boxFluttuante {
+			border-radius: 25px;
+			background-color: rgba(90, 170, 137, 0.6);
+			text-align:center;
+			color:#e8e8e8;
+			margin-top:50px;
+		}
+		input[type=date]::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			display: none;
+		}
+		input[type=date]::-webkit-calendar-picker-indicator {
+			-webkit-appearance: none;
+			display: none;
+		}
+		
+		.form-control{
+			border-radius:10px;
+			background-color: #44644D;
+			color:#e8e8e8;
+			border: 1px solid #44644D;
+		}
+		.form-control::-webkit-input-placeholder { color: #e8e8e8; }
+		.form-control:-moz-placeholder { color: #e8e8e8; }
+		.form-control::-moz-placeholder { color: #e8e8e8; }
+		.form-control:-ms-input-placeholder { color: #e8e8e8; }
+		
+		.confirm{
+			background-color:rgba(232,232,232,0.6);
+			margin-bottom:20px;
+		}
+		.navbar{
+			background-color:rgba(90, 170, 137, 0.6);
+			border: 1px solid rgba(90, 170, 137, 0.6);
+			 color: #e8e8e8;
+		}
+		.navbar-default .navbar-brand {
+			color: #E8E8E8;
+		}
+		.login{
+			margin-bottom:0px;
+		}
