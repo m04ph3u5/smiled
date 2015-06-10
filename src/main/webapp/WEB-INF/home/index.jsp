@@ -1,10 +1,13 @@
 <!doctype html>
 <html data-ng-app="smiled.application">
 <head>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/public/css/custom-style.css">
+<link rel="stylesheet" href="assets/public/css/jquery-ui.css">
 </head>
 <base href="/ThesisProject/">
-<body data-ng-controller="indexCtrl">
+<body data-ng-cloak data-ng-controller="indexCtrl">
 
 	<nav data-ng-if="isLogged" class="navbar navbar-default">
 		<div class="container-fluid">
@@ -16,7 +19,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Smiled</a>
+				<a class="navbar-brand" href="" data-ui-sref="logged">Smiled</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -46,8 +49,10 @@
 							<li class="divider"></li>
 							<li><a href="#">Vedi tutti</a></li>
 						</ul></li>
-					<li><a href="#"><img src="assets/public/img/user_ico.png"
-							class="img-circle" width="20" height="20"> Nome utente</a></li>
+					<li>
+						<a href="" data-ng-hide="isLogged"><img src="assets/public/img/user_ico.png" class="img-circle" width="20" height="20"> Utente </a>
+						<a data-ui-sref="personalProfile" href="" data-ng-show="isLogged"><img data-ng-src="/media/img/cover/users/{{user.id}}" class="img-circle" width="20" height="20"> {{user.firstName}} {{user.lastName}}</a>
+					</li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false"><span
 							class="glyphicon glyphicon-cog"><span class="caret"></span></a>
@@ -65,21 +70,21 @@
 		<!-- /.container-fluid -->
 	</nav>
 
-	<div class="container">
 
-		<div class="content-main" data-ui-view></div>
+	<div data-ui-view></div>
 
-
-
-		<div id="footer">
-			<div class="container">
-				<span class="pull-right text-info credit">Smiled Platform</span>
-			</div>
-		</div>
-	</div>
 
 	<!-- VENDOR SCRIPT -->
+	
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="assets/public/js/vendor/jquery-ui.js"></script>
 	<script src="assets/public/js/vendor/angular/angular.js"></script>
+	<script src="assets/public/js/vendor/angular-ui-date/src/date.js"></script>
+	<script src="assets/public/js/vendor/angular-ui-date/datepicker-it.js"></script>
+		
 	<script
 		src="assets/public/js/vendor/angular-cookies/angular-cookies.js"></script>
 	<script
@@ -93,8 +98,12 @@
 		src="assets/public/js/vendor/angular-permission/dist/angular-permission.js"></script>
 	<script src="assets/public/js/vendor/lodash/lodash.js"></script>
 	<script src="assets/public/js/vendor/restangular/src/restangular.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="assets/public/js/vendor/stomp-websocket/lib/stomp.js"></script>
+	<script src="assets/public/js/vendor/ng-file-upload/ng-file-upload.js"></script>
+		<script src="assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.js"></script>
+	<script
+		src="assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.js"></script>
+
 	
 	<!-- CUSTOM SCRIPT -->
 	<script src="assets/public/js/app.js"></script>
@@ -103,7 +112,13 @@
 	<script src="assets/public/js/controllers/loginController.js"></script>
 	<script src="assets/public/js/controllers/dashboardController.js"></script>
 	<script src="assets/public/js/controllers/indexController.js"></script>
+	<script src="assets/public/js/controllers/registerController.js"></script>
+	<script src="assets/public/js/controllers/updateScenarioController.js"></script>
+	<script src="assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="assets/public/js/services/userService.js"></script>
 	<script src="assets/public/js/services/apiService.js"></script>
+	
+
+
 </body>
 </html>

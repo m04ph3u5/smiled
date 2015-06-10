@@ -1,40 +1,43 @@
-<div class="container" ng-controller="registerCtrl">
+<div class="container" data-ng-controller="registerCtrl">
 		<div class="hero-unit">
 			<h1>Registrati su Smiled</h1>
 			<div>
 				<p>Pagina di registrazione dei docenti!</p>
 			</div>
 
+			<div class="error" data-ng-show="error">
+				C'è stato un problema con la tua richiesta
+			</div>
+
 			<form>
 				<div class="form-group">
 					<label for="textinputEmail"> Email: </label>
-					<input type="email"/>
-					<div class="error">${errorMessage}</div>
+					<input type="email" data-ng-model="register.email"/>
 				</div>
 				<div class="form-group">
 					<label for="textinputPassword"> Password: </label>
-					<input type="password"/>
+					<input type="password" data-ng-model="register.password"/>
 				</div>
 				<div class="form-group">
-					<label for="textinputFirstName"> First name: </label>
-					<input type="text"/>
+					<label for="textinputFirstName"> Nome: </label>
+					<input type="text" data-ng-model="register.firstName"/>
 				</div>
 				<div class="form-group">
-					<label for="textinputLastName"> Last name: </label>
-					<input type="text"/>
+					<label for="textinputLastName"> Cognome: </label>
+					<input type="text" data-ng-model="register.lastName"/>
 				</div>
 				<div class="form-group">
-					<label for="textinputGender"> Gender (M/F): </label>
-					<select>
+					<label for="textinputGender"> Sesso (M/F): </label>
+					<select data-ng-model="register.gender">
 						<option value="m">M</option>
 						<option value="f">F</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label for="textinputMatter"> Matter: </label>
-					<input type="text"/>
+					<label for="textinputMatter"> Materia: </label>
+					<input type="text" data-ng-model="register.matter"/>
 				</div>
-				<button type="submit" class="btn btn-primary btn-lg" name="submit" value="Sign Up!" >Registrati</button>
+				<button data-ng-click="postRegister()" class="btn btn-primary btn-lg" name="submit" value="Sign Up!" >Registrati</button>
 			</form>
 			
 		</div>

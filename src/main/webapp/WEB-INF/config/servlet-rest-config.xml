@@ -32,6 +32,6 @@
 			p:paramName="language" />
 	</mvc:interceptors>
 
-	<mvc:resources mapping="/assets/**" location="/, classpath:/assets/"
-		cache-period="0" />
+<!-- 	<mvc:resources mapping="/assets/**" location="/, classpath:/assets/" -->
+<!-- 		cache-period="0" /> -->
 </beans>

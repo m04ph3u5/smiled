@@ -1,29 +1,27 @@
-angular.module('smiled.application').controller('registerCtrl', ['$scope', 'userService', function loginCtrl($scope, apiService){
+angular.module('smiled.application').controller('registerCtrl', ['$scope', 'apiService', '$state', 
+                                                                 function registerCtrl($scope, apiService, $state){
+
+	$scope.error=false;
+	$scope.postRegister = postRegister;
+	$scope.register = {};
 	
-	$scope.register = register;
-	
-	console.log("---------->registerCTRL");
-	
-	function register(){
-		apiService.register($scope.register);
+	function postRegister(){
+		apiService.postRegister($scope.register).then(
+				function(data){
+					$scope.error=false;
+					alert("La tua richiesta è stata accettata. A breve riceverai una mail per confermare la tua registrazione");
+					$state.go("login");
+				},
+				function(reason){
+					$scope.error=true;
+					$scope.register.email="";
+					$scope.register.firstName="";
+					$scope.register.lastName="";
+					$scope.register.gender="";
+					$scope.register.password="";
+					$scope.register.matter="";
+				}
+		);
 	}
+
 }]);
-
-private String email;
-
-@Size(min=8, max=128)
-private String password;
-
-@Size(min=2, max=30)
-private String firstName;
-
-@Size(min=2, max=30)
-private String lastName;
-
-@NotNull
-@Size(min=1, max=1)
-private String gender;
-
-@NotNull
-@NotEmpty
-private String matter;

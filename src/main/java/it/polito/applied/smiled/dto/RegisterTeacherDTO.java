@@ -1,10 +1,11 @@
 package it.polito.applied.smiled.dto;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class RegisterTeacherDTO {
 
@@ -23,12 +24,7 @@ public class RegisterTeacherDTO {
 	private String lastName;
 	
 	@NotNull
-	@Size(min=1, max=1)
-	private String gender;
-	
-	@NotNull
-	@NotEmpty
-	private String matter;
+	private Date bornDate;
 
 	public String getEmail() {
 		return email;
@@ -62,22 +58,14 @@ public class RegisterTeacherDTO {
 		this.lastName = lastName;
 	}
 
-	public String getGender() {
-		return gender;
+	public Date getBornDate() {
+		return bornDate;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setBornDate(Date bornDate) {
+		this.bornDate = bornDate;
 	}
 
-	public String getMatter() {
-		return matter;
-	}
-
-	public void setMatter(String matter) {
-		this.matter = matter;
-	}
-	
 	
 	
 }

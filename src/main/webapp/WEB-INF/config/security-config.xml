@@ -41,8 +41,15 @@
 			requires-channel="https" />
 		<intercept-url pattern="/assets/public/**" access="permitAll"
 			requires-channel="https" />
-
-
+		<intercept-url pattern="/api/v1/register" access="permitAll"
+			requires-channel="https" />
+		<intercept-url pattern="/register" access="permitAll"
+			requires-channel="https" />
+		<intercept-url pattern="/registrationConfirm.html"
+			access="permitAll" requires-channel="https" />
+		<intercept-url pattern="/setPassword.html" access="hasRole('ROLE_ANONYMOUS')"
+			requires-channel="https" />
+		
 <!-- 		<intercept-url pattern="/400.html" access="permitAll" -->
 <!-- 			requires-channel="https" /> -->
 <!-- 		<intercept-url pattern="/404.html" access="permitAll" -->
@@ -59,8 +66,6 @@
 		<!-- requires-channel="https" /> -->
 		<!-- <intercept-url pattern="/logout.html" access="permitAll" -->
 		<!-- requires-channel="https" /> -->
-		<!-- <intercept-url pattern="/register.html" access="permitAll" -->
-		<!-- requires-channel="https" /> -->
 		<!-- <intercept-url pattern="/errorRegistrationPage.html" -->
 		<!-- access="permitAll" requires-channel="https" /> -->
 		<!-- <intercept-url pattern="/errorRegistrationPageExpired.html" -->
@@ -74,8 +79,8 @@
 
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"
 			requires-channel="https" />
-		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/>
-		<csrf token-repository-ref="customCsrfTokenRepository"></csrf>
+<!-- 		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/> -->
+<!-- 		<csrf token-repository-ref="customCsrfTokenRepository"></csrf> -->
 		<form-login
 			login-processing-url="/apiLogin"
 			default-target-url="/"
@@ -84,9 +89,9 @@
 		<logout logout-url="/apiLogout"/>
 	</http>
 
-	<beans:bean id="customCsrfTokenRepository"
-		class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
-		<beans:property name="headerName" value="X-XSRF-TOKEN" />	
-	</beans:bean>
+<!-- 	<beans:bean id="customCsrfTokenRepository" -->
+<!-- 		class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"> -->
+<!-- 		<beans:property name="headerName" value="X-XSRF-TOKEN" />	 -->
+<!-- 	</beans:bean> -->
 
 </beans:beans>

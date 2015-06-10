@@ -8,7 +8,7 @@ public class UserProfile {
 	// la updateUser di userServiceImpl e lo UserDTOValidator (ed eventuali altre classi)
 	protected String gender;
 	protected String coverPhoto;
-	protected Date birthDate;
+	protected Date bornDate;
 	
 	
 	public String getGender() {
@@ -27,12 +27,12 @@ public class UserProfile {
 		this.coverPhoto = coverPhoto;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
+	public Date getBornDate() {
+		return bornDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBornDate(Date bornDate) {
+		this.bornDate = bornDate;
 	}
 	
 	

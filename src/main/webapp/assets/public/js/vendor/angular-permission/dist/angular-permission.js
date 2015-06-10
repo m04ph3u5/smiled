@@ -86,6 +86,8 @@
           not yet injected anywere which makes this kinda useless.
           Should remove if we cannot find a use for it.
         **/
+    	  
+    	console.log("---------->inDefineRole");
         validateRoleDefinitionParams(roleName, validationFunction);
         roleValidationConfig[roleName] = validationFunction;
 

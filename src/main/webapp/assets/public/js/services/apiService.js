@@ -1,34 +1,34 @@
-angular.module('smiled.application').factory('apiService', [ '$resource', 
-              function apiService($resource){
+angular.module('smiled.application').factory('apiService', [ 'Restangular', 
+              function apiService(Restangular){
+	
+	var me = Restangular.one('me');
+	var register = Restangular.one('register');
+	var uploadMedia = Restangular.one("media");
+	
+	function getMe(){
+		return me.get();
+	}
+	
+	function postRegister(registerObject){
+		console.log(registerObject);
+		return register.post("",registerObject);
+	}
+	
+	function uploadCoverScenario(id, cover){
+		console.log("uploadCover");
+		console.log(cover);
+		return uploadMedia
+		.withHttpConfig({transformRequest: angular.identity})
+		.customPOST(cover,"scenarios/"+id+"/cover", undefined, { 'Content-Type': undefined });
+	}
 	
 
-	var baseUrl = "https://localhost:8443/ThesisProject/api/v1";
-	
-	var meApi = $resource(baseUrl+"/me",{},{
-		getMe: {method: "GET"},
-		updateMe: {method: "PUT", params: {}}
-	});
-	
-	var registerApi = $resource(baseUrl+"/register",{},{
-		register : {method: "POST", params: {}}
-	});
-	
-	var getMe = function(){
-		return meApi.getMe().$promise;
+	return {
+		getMe: getMe,
+		postRegister: postRegister,
+		uploadCoverScenario: uploadCoverScenario,
 	}
 	
-	var updateMe = function(me){
-		return meApi.updateMe(me).$promise;
-	}
-	
-	var register = function(){
-		return registerApi.register().$promise;
-	}
-		
-	return{
-		getMe : getMe,
-		updateMe: updateMe
-	}
 	
 	
 }]);

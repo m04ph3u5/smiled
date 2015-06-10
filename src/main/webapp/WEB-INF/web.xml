@@ -22,21 +22,40 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
+
 	<servlet-mapping>
-        <servlet-name>smiledServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+		<servlet-name>smiledServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>smiledMessageServlet</servlet-name> -->
+<!-- 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>contextClass</param-name> -->
+<!-- 			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>contextConfigLocation</param-name> -->
+<!-- 			<param-value>it.polito.applied.smiled.websocket.WebSocketConfig</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
+
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>smiledMessageServlet</servlet-name> -->
+<!-- 		<url-pattern>/message/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
 	<!-- <servlet-mapping> -->
 	<!-- <servlet-name>smiledServlet</servlet-name> -->
 	<!-- <url-pattern>/images/**</url-pattern> -->
 	<!-- </servlet-mapping> -->
 
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>smiledServlet</servlet-name> -->
-<!-- 		<url-pattern>*.html</url-pattern> -->
-<!-- 	</servlet-mapping> -->
+	<!-- <servlet-mapping> -->
+	<!-- <servlet-name>smiledServlet</servlet-name> -->
+	<!-- <url-pattern>*.html</url-pattern> -->
+	<!-- </servlet-mapping> -->
 
 	<servlet>
 		<servlet-name>smiledServletREST</servlet-name>

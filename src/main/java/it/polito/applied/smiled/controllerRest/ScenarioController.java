@@ -25,6 +25,7 @@ import it.polito.applied.smiled.validator.CharacterDTOPutValidator;
 import it.polito.applied.smiled.validator.ScenarioDTOPostValidator;
 import it.polito.applied.smiled.validator.ScenarioDTOPutValidator;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -75,7 +76,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@RequestMapping(value="/v1/scenarios", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
-	public Id createScenario(@RequestBody @Valid ScenarioDTO scenarioDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException{
+	public Id createScenario(@RequestBody @Valid ScenarioDTO scenarioDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, IllegalStateException, IOException{
 		/*Controllo se la validazione dei campi obbligatori va a buon fine(per le modifiche si utilizza il metodo PUT)*/
 		if(result.hasErrors()){
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
@@ -99,7 +100,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public Scenario updateScenario(@PathVariable String id, @RequestBody ScenarioDTO scenarioDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException{
+	public Scenario updateScenario(@PathVariable String id, @RequestBody ScenarioDTO scenarioDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException{
 		/*Sulle PUT effettuiamo solo validazioni custom,  
 		 * in quanto � possibile modificare arbitrariamente solo alcuni campi
 		 * e lasciare altri a null quando si fa una update

@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import it.polito.applied.smiled.dto.CharacterDTO;
@@ -30,7 +31,7 @@ import com.mongodb.MongoException;
 public interface ScenarioService {
 
 	public String createScenario(ScenarioDTO scenarioDTO, String email)
-			throws MongoException, BadRequestException;public List<Reference> getAllScenariosUsers(String id) throws MongoException, NotFoundException;
+			throws MongoException, BadRequestException, IllegalStateException, IOException;public List<Reference> getAllScenariosUsers(String id) throws MongoException, NotFoundException;
 	
 			public List<Reference> subscribeStudentIfNotPresent(List<EmailDTO> studentsEmail, String teacherId, String scenarioId) throws MongoException, BadRequestException;
 	
@@ -38,7 +39,7 @@ public interface ScenarioService {
 	public Scenario getScenario(String id) throws MongoException, NotFoundException;
 	
 	public Scenario updateScenario(String id, ScenarioDTO scenario, String email)
-			throws MongoException, BadRequestException;
+			throws MongoException, BadRequestException, IllegalStateException, IOException;
 	
 	public void removeScenario(String id) throws BadRequestException;
 	

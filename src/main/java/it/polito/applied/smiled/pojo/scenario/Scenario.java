@@ -44,7 +44,7 @@ public class Scenario {
 		name=s.getName();
 		status=ScenarioStatus.CREATED_V1;
 		history= s.getHistory();
-		cover=s.getCover();
+		//cover=s.getCover();
 		this.teacherCreator = teacherCreator;
 		creationDate = new Date();
 	}

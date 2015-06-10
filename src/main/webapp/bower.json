@@ -9,6 +9,10 @@
 		"angular-permission": "latest",
 		"angular-cookies": "latest",
 		"ngstorage" : "latest",
-		"restangular": "latest"
+		"restangular": "latest",
+		"stomp-websocket": "latest",
+		"sockjs-client": "latest",
+		"ng-file-upload": "latest",
+		"angular-ui-date": "latest"
 	}
 }

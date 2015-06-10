@@ -36,16 +36,28 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		
 		/*Oltre al promise lo UserService espone anche una serie di valori booleani utili nella gestione dei permessi. Tali booleani vengono 
 		 * calcolati sull'onSuccess della chiamata all'API /me*/
-//		user.then(function(data){
-//			isLogged=true;
-//			$state.go('logged');
-//		},function(reason){
-//			isLogged=false;
-//			hasRoleAdmin=false;
-//			hasRoleTeacher=false;
-//			hasRoleUser=false;
-//			$state.go('login');
-//		});
+		user.then(function(data){
+			logged=true;
+			notifyObservers();
+			if(data.role.authority=="ROLE_USER"){
+				roleUser=true;
+				$state.go("student");
+			}
+			else if(data.role.authority=="ROLE_TEACHER"){
+				roleTeacher=true;
+				$state.go("teacher");
+			}
+			else if(data.role.authority=="ROLE_ADMIN"){
+				roleAdmin=true;
+				$state.go("admin");
+			}
+		},function(reason){
+			logged=false;
+			roleAdmin=false;
+			roleTeacher=false;
+			roleUser=false;
+			$state.go('login');
+		});
     	
     }
     
@@ -57,11 +69,30 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		}).then(function(data){
 			logged=true;
 			user=apiService.getMe();
-			checkPermission();
 			notifyObservers();
-			$state.go("logged");
+			user.then(function(data){
+				if(data.role.authority=="ROLE_USER"){
+					roleUser=true;
+					$state.go("student");
+				}
+				else if(data.role.authority=="ROLE_TEACHER"){
+					roleTeacher=true;
+					$state.go("teacher");
+				}
+				else if(data.role.authority=="ROLE_ADMIN"){
+					roleAdmin=true;
+					$state.go("admin");
+				}
+			},function(reason){
+				logged=false;
+				roleAdmin=false;
+				roleTeacher=false;
+				roleUser=false;
+				$state.go('login');
+			});
 		},function(reason){
-			console.log("Authentication failed: "+reason);
+			console.log("Authentication failed: ");
+			console.log(reason);
 		})
 	}
 	
@@ -73,90 +104,14 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 			console.log("logged out");
 			logged=false;
 			user=null;
-			checkPermission();
+			roleAdmin=false;
+			roleTeacher=false;
+			roleUser=false;
 			notifyObservers();
 			$state.go("login");
 		},function(reason){
 			console.log("Logout failed: "+reason);
 		})
-	}
-	
-	function checkPermission(){
-		Permission.defineRole('anonymous',function(){
-			
-			var deferred = $q.defer();
-
-			if(user==null){
-				deferred.resolve();
-				roleUser=false;
-				roleTeacher=false;
-				roleAdmin=false;
-			}
-			else{
-				user.then(
-						function(data){
-							deferred.reject();
-						}, function () {
-							// Error with request
-							deferred.resolve();
-				});
-			}
-			return deferred.promise;
-		})
-		.defineRole('user',function(){
-			
-			var deferred = $q.defer();
-
-			user.then(
-					function(data){
-						if(data.role.authority=="ROLE_USER"){
-							roleUser=true;
-							deferred.resolve();
-						}
-						else
-							deferred.reject();
-					}, function () {
-						// Error with request
-						deferred.reject();
-			});
-			return deferred.promise;
-		})
-		.defineRole('teacher',function(){
-			
-			var deferred = $q.defer();
-
-			user.then(
-					function(data){
-						if(data.role.authority=="ROLE_TEACHER"){
-							roleTeacher=true;
-							deferred.resolve();
-						}
-						else
-							deferred.reject();
-					}, function () {
-						// Error with request
-						deferred.reject();
-			});
-			return deferred.promise;
-		})
-		.defineRole('admin',function(){
-			
-			var deferred = $q.defer();
-
-			user.then(
-					function(data){
-						if(data.role.authority=="ROLE_ADMIN"){
-							roleAdmin=true;
-							deferred.resolve();
-						}
-						else
-							deferred.reject();
-					}, function () {
-						// Error with request
-						deferred.reject();
-			});
-			return deferred.promise;
-		});
 	}
 	
 	function isLogged(){
@@ -175,17 +130,20 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		return roleAdmin;
 	}
 	
+	function getUser(){
+		return user;
+	}
+	
 	onStartup();
 	
 	return {
 	    login: login,
 	    logout: logout,
-	    checkPermission : checkPermission,
 	    registerObserverCallback: registerObserverCallback,
 	    isLogged: isLogged,
 	    hasRoleUser: hasRoleUser,
 	    hasRoleTeacher: hasRoleTeacher,
 	    hasRoleAdmin: hasRoleAdmin,
-	    user: user
+	    getUser: getUser
 	}; 
 }]);

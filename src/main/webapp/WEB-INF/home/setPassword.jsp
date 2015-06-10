@@ -64,11 +64,21 @@ body {
 				<p>Ci sei quasi. Imposta la tua nuova passsword ed inizia ad utilizzare SMILED!</p>
 			</div>
 
-			<form:form commandName="setPassword">
+			<form:form commandName="firstPassword">
 				<div class="form-group">
 					<label for="textinputEmail"> Email: </label>
 					<form:input path="email" type="email" cssErrorClass="error" placeholder="Inserisci qui la ta email"/>
 					<form:errors path="email" cssClass="error" />
+				</div>
+				<div class="form-group">
+					<label for="textinputEmail"> Nome: </label>
+					<form:input path="firstname" type="text" cssErrorClass="error" placeholder="Nome"/>
+					<form:errors path="firstname" cssClass="error" />
+				</div>
+				<div class="form-group">
+					<label for="textinputEmail"> Cognome: </label>
+					<form:input path="lastname" type="text" cssErrorClass="error" placeholder="Cognome"/>
+					<form:errors path="lastname" cssClass="error" />
 				</div>
 				<div class="form-group">
 					<label for="textinputOldPassword"> Vecchia password: </label>

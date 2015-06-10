@@ -127,8 +127,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 //					update.set("profile.coverPhoto", userDTO.getProfile().getCoverPhoto());
 				if(userDTO.getProfile().getGender()!=null)
 					update.set("profile.gender", userDTO.getProfile().getGender());
-				if(userDTO.getProfile().getBirthDate()!=null)
-					update.set("profile.birthDate", userDTO.getProfile().getBirthDate());
+				if(userDTO.getProfile().getBornDate()!=null)
+					update.set("profile.birthDate", userDTO.getProfile().getBornDate());
 			}
 			
 			User user = userRepository.updateUser(update,userEmail);
@@ -224,7 +224,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			roles.add(new Role("ROLE_USER"));
 			u.setRoles(roles);
 			UserProfile profile = new UserProfile();
-			profile.setGender(teacher.getGender());
+			profile.setBornDate(teacher.getBornDate());
 			u.setProfile(profile);
 
 			try{
