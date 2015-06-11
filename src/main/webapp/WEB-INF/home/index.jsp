@@ -51,7 +51,7 @@
 						</ul></li>
 					<li>
 						<a href="" data-ng-hide="isLogged"><img src="assets/public/img/user_ico.png" class="img-circle" width="20" height="20"> Utente </a>
-						<a data-ui-sref="personalProfile" href="" data-ng-show="isLogged"><img data-ng-src="/media/img/cover/users/{{user.id}}" class="img-circle" width="20" height="20"> {{user.firstName}} {{user.lastName}}</a>
+						<a data-ui-sref="personalProfile" href="" data-ng-show="isLogged"><img data-ng-src="{{cover}}" class="img-circle" width="20" height="20"> {{user.firstName}} {{user.lastName}}</a>
 					</li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false"><span
@@ -113,6 +113,7 @@
 	<script src="assets/public/js/controllers/dashboardController.js"></script>
 	<script src="assets/public/js/controllers/indexController.js"></script>
 	<script src="assets/public/js/controllers/registerController.js"></script>
+	<script src="assets/public/js/controllers/createScenarioController.js"></script>
 	<script src="assets/public/js/controllers/updateScenarioController.js"></script>
 	<script src="assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="assets/public/js/services/userService.js"></script>

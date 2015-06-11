@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('personalProfileCtrl', ['$scope', 'apiService', 'Upload',
-                                                              function personalProfileCtrl($scope, apiService, Upload){
+angular.module('smiled.application').controller('personalProfileCtrl', ['$scope', 'apiService', 'Upload','userService',
+                                                              function personalProfileCtrl($scope, apiService, Upload, userService){
 	
 	//$scope.cover=null;
 	
@@ -32,6 +32,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['$scope'
 //	        })
 	        .success(function (data, status, headers, config) {
 	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+	            userService.notifyImageProfileObservers();          
 	        });
 		}
 	}

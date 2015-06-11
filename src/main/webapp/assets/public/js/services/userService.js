@@ -9,14 +9,25 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 	var roleAdmin=false;
 	
 	var observerIsLoggedCallbacks = [];
+	var observerImageProfileCallbacks = [];
+	
+	function registerObserverImageProfileCallback(callback){
+		observerImageProfileCallbacks.push(callback);
+	}
+	
+	function notifyImageProfileObservers(){
+		angular.forEach(observerImageProfileCallbacks, function(callback){
+			callback();
+		});
+	}
 
 	//register an observer
-	function registerObserverCallback(callback){
+	function registerObserverLoginCallback(callback){
 		observerIsLoggedCallbacks.push(callback);
 	}
 
 	//call this when you know 'isLogged' has been changed
-	var notifyObservers = function(){
+	var notifyLoginObservers = function(){
 		angular.forEach(observerIsLoggedCallbacks, function(callback){
 			callback();
 		});
@@ -38,7 +49,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		 * calcolati sull'onSuccess della chiamata all'API /me*/
 		user.then(function(data){
 			logged=true;
-			notifyObservers();
+			notifyLoginObservers();
 			if(data.role.authority=="ROLE_USER"){
 				roleUser=true;
 				$state.go("student");
@@ -69,7 +80,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		}).then(function(data){
 			logged=true;
 			user=apiService.getMe();
-			notifyObservers();
+			notifyLoginObservers();
 			user.then(function(data){
 				if(data.role.authority=="ROLE_USER"){
 					roleUser=true;
@@ -107,7 +118,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 			roleAdmin=false;
 			roleTeacher=false;
 			roleUser=false;
-			notifyObservers();
+			notifyLoginObservers();
 			$state.go("login");
 		},function(reason){
 			console.log("Logout failed: "+reason);
@@ -139,7 +150,9 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 	return {
 	    login: login,
 	    logout: logout,
-	    registerObserverCallback: registerObserverCallback,
+	    registerObserverLoginCallback: registerObserverLoginCallback,
+	    registerObserverImageProfileCallback: registerObserverImageProfileCallback,
+	    notifyImageProfileObservers: notifyImageProfileObservers,
 	    isLogged: isLogged,
 	    hasRoleUser: hasRoleUser,
 	    hasRoleTeacher: hasRoleTeacher,

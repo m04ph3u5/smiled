@@ -39,5 +39,6 @@ public interface CustomScenarioRepository {
 	public boolean updateCharacterToScenario(CharacterReference charRef,
 			String scenarioId);
 	public boolean removePost(String scenarioId, String id);
+	public boolean setCover(String scenarioId, String metadataId);
 
 }

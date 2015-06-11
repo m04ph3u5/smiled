@@ -331,6 +331,21 @@ public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 			return false;
 	}
 
+	@Override
+	public boolean setCover(String scenarioId, String metaId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(scenarioId));
+		
+		Update u = new Update();
+		u.set("cover",metaId);
+		
+		WriteResult w = mongoOp.updateFirst(q, u, Scenario.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;		
+	}
+
 	
 
 	

@@ -121,14 +121,14 @@
 				</div>
 				<div class="col-md-9 col-sm-12 singleRow box">
 					<h3>Scenari</h3>
-					<div class="leftFloat marginMTop">
+					<div class="leftFloat marginMTop" data-ui-sref="createScenario">
 						<img src="assets/public/img/607931.png"
 							class="img-circle imgPreviewL"> <img
 							class="overlapImg img-circle" src="assets/public/img/plus.png">
 						<h4>Crea scenario</h4>
 					</div>
 					<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="leftFloat marginMTop" data-ng-repeat="s in user.openScenarios">
-						<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
+						<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 							class="img-circle imgPreviewL"> <img
 							class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
 						<h4>{{s.name}}</h4>

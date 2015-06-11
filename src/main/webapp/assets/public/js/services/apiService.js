@@ -14,19 +14,25 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular',
 		return register.post("",registerObject);
 	}
 	
-	function uploadCoverScenario(id, cover){
-		console.log("uploadCover");
-		console.log(cover);
-		return uploadMedia
-		.withHttpConfig({transformRequest: angular.identity})
-		.customPOST(cover,"scenarios/"+id+"/cover", undefined, { 'Content-Type': undefined });
+	function createScenario(scenarioDTO){
+		var scenario = Restangular.one("scenarios");
+		console.log(scenarioDTO);
+		return scenario.post("",scenarioDTO);
+	}
+	
+	function updateScenario(id,scenarioDTO){
+		var scenario = Restangular.one("scenarios",id);
+		scenario.name = scenarioDTO.name;
+		scenario.startHistoryDate = scenarioDTO.startHistoryDate;
+		scenario.endHistoryDate = scenarioDTO.endHistoryDate;
+		scenario.put();		
 	}
 	
 
 	return {
 		getMe: getMe,
 		postRegister: postRegister,
-		uploadCoverScenario: uploadCoverScenario,
+		createScenario : createScenario
 	}
 	
 	

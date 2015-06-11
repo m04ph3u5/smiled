@@ -13,4 +13,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface ScenarioRepository extends MongoRepository<Scenario, String>, CustomScenarioRepository{
 
 	public Scenario findById(String id);
+
 }

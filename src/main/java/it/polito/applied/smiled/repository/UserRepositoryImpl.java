@@ -392,4 +392,17 @@ public class UserRepositoryImpl implements CustomUserRepository {
 			return false;
 	}
 
+	@Override
+	public boolean setCover(String userId, String coverId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(userId));
+		Update u = new Update();
+		u.set("profile.coverPhoto", coverId);
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
+	}
+
 }

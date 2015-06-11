@@ -43,7 +43,6 @@ public interface CustomUserRepository {
 			String scenarioId);
 	public boolean removeDraftPost(String userId, String postId);
 	public boolean addDraftPost(String userId, String postId);
-
-
+	public boolean setCover(String userId, String coverId);
 
 }

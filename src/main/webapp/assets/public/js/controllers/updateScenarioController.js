@@ -21,7 +21,7 @@ angular.module('smiled.application').controller('updateScenarioCtrl', ['$scope',
 		if(file && file.length){
 			
 			Upload.upload({
-	            url: 'api/v1/media/scenarios/'+id+'/cover',
+	            url: 'api/v1/scenarios/'+id+'/cover',
 	            headers : {
 	                'Content-Type': file.type
 	            },

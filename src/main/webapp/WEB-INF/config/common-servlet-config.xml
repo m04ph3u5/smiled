@@ -9,12 +9,14 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
+	<context:property-placeholder location="classpath:application.properties" />
+
+
 	<context:component-scan base-package="it.polito.applied.smiled.mailMessage" />
 	<context:component-scan base-package="it.polito.applied.smiled.service" />
 	<context:component-scan base-package="it.polito.applied.smiled.validator" />
 	<context:component-scan base-package="it.polito.applied.smiled.updater" />
 	
-	<context:property-placeholder location="classpath:application.properties" />
 	
 <!-- 	<mvc:resources location="assets" mapping="/assets/**" /> -->
 <!-- 	<mvc:resources location="pdfs" mapping="/pdfs/**" /> -->

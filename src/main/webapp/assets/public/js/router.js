@@ -98,6 +98,17 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('createScenario',{
+			url: "/createScenario",
+			templateUrl: "assets/private/partials/createScenario.html",
+			controller: "createScenarioCtrl",
+			data: {
+				permissions: {
+					except: ['anonymous'],
+					redirectTo: 'login'
+				}
+			}
+		})
 		.state('notFound',{
 			url: '/404',
 			templateUrl: "assets/public/partials/404.html"
