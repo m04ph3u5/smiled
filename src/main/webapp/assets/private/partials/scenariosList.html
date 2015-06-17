@@ -1,0 +1,61 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8">
+			<h1>I miei scenari</h1>
+			<div class="box">
+				<h2>Scenari in creazione</h2>
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="roundedImgDiv" style="background-image:url('http://blog.fancyrhino.com/wp-content/uploads/2014/03/3.jpg')"></div>
+							</div>
+								<div class="col-sm-6 vAlignExt">
+									<div class="vAlignInt">IVANHOE</div>
+								</div>
+						</div>
+					</div>	
+						<div class="col-sm-4">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="roundedImgDiv floatRight" style="background-image:url('http://entropymag.org/wp-content/uploads/2014/05/defocus_lights.jpg')"></div>
+								</div>
+								<div class="col-sm-6 vAlignExt">
+									<div class="vAlignInt">THE BALLAD OF THE ANCIENT MARINER</div>
+								</div>
+							</div>
+						</div>
+				</div>	
+							
+				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.creatingScenarios">
+					<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+						class="img-circle imgPreviewL">
+					<img class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
+					<h4>{{s.name}}</h4>
+				</div>
+			</div>
+			<div class="box">		
+				<h2>Scenari attivi</h2>
+				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.openScenarios">
+					<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+						class="img-circle imgPreviewL"> <img
+						class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
+					<h4>{{s.name}}</h4>
+				</div>
+			</div>
+			<div class="box">			
+				<h2>Scenari conclusi</h2>
+				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.closedScenarios">
+					<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+						class="img-circle imgPreviewL"> <img
+						class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
+					<h4>{{s.name}}</h4>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2"></div>
+		
+	</div>
+
+</div>
