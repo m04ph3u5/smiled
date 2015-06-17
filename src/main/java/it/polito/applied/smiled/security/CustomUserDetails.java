@@ -25,6 +25,7 @@ public class CustomUserDetails implements UserDetails {
 	private String password;
 	private UserStatus status;
 	private List<Role> roles;
+	private List<String> creatingScenariosId;
 	private List<String> openScenariosId;
 	private List<String> closedScenariosId;
 	//Questa lista contiene gli id di tutti gli utenti del sistema che hanno una relazione con lo user corrente (amicizia, isTeacher, isStudent, isColleagues)
@@ -78,7 +79,7 @@ public class CustomUserDetails implements UserDetails {
 		roles=user.getRoles();
 		openScenariosId=user.getOpenScenariosId();
 		closedScenariosId=user.getClosedScenariosId();
-
+		creatingScenariosId=user.getCreatingScenariosId();
 	}
 
 	@Override
@@ -128,6 +129,15 @@ public class CustomUserDetails implements UserDetails {
 			return true;
 		else 
 			return false;
+	}
+	
+	public boolean containsCreatingScenario(String id){
+		return creatingScenariosId.contains(id);	
+
+	}
+
+	public List<String> getCreatingScenariosId() {
+		return creatingScenariosId;
 	}
 
 	public boolean containsOpenScenario(String id){

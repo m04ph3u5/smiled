@@ -22,6 +22,7 @@ public class UserDTO {
 	private String lastName;
 	private Date registrationDate;
 	private Role role;
+	private List<ScenarioReference> creatingScenarios;
 	private List<ScenarioReference> openScenarios;
 	private List<ScenarioReference> closedScenarios;
 	private UserProfile profile;
@@ -58,6 +59,7 @@ public class UserDTO {
 		registrationDate = user.getRegistrationDate();
 		openScenarios = user.getOpenScenarios();
 		closedScenarios = user.getClosedScenarios();
+		creatingScenarios = user.getCreatingScenarios();
 		profile = user.getProfile();
 		invitedBy = user.getInvitedBy();
 		if(user.getRoles()!=null){
@@ -157,6 +159,14 @@ public class UserDTO {
 
 	public void setInvitedBy(String invitedBy) {
 		this.invitedBy = invitedBy;
+	}
+
+	public List<ScenarioReference> getCreatingScenarios() {
+		return creatingScenarios;
+	}
+
+	public void setCreatingScenarios(List<ScenarioReference> creatingScenarios) {
+		this.creatingScenarios = creatingScenarios;
 	}
 	
 	

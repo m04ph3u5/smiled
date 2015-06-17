@@ -1,3 +1,43 @@
-<div>
-	    Scegli la tua cover <button class="btn-default" ngf-select ngf-change="uploadCover($files)">Carica</button>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-sm-5 col-md-3 box" id="imgProfile">
+			<div id="overlayed"></div>
+		</div>
+		<div class="col-sm-7 col-md-5 box fixedHeight">
+			<div class="fitContent table-responsive">
+			<table class="table">
+				<tr><h1>NOME COGNOME</h1></tr>
+				<tr>
+					<td>Data di nascita: </td>								
+					<td>12/06/1976</td>					
+				</tr>
+				<tr>
+					<td>Ruolo: </td>								
+					<td>Docente</td>					
+				</tr>
+				<tr>
+					<td>Scuola: </td>								
+					<td>Liceo Scientifico "P. Gobetti"</td>					
+				</tr>
+				<tr>
+					<td>Materie insegnate: </td>								
+					<td>Storia, Letteratura, Latino</td>					
+				</tr>
+				<tr>
+					<td>Interessi: </td>								
+					<td>Tennis, Cinema, Teatro</td>					
+				</tr>
+				<tr>
+					<td>Citazione: </td>								
+					<td>«I miei problemi sono iniziati con la prima educazione. Andavo in una scuola per insegnanti disagiati.» (Woody Allen)</td>					
+				</tr>				
+			</table>
+			<p id="uploadSpan" ngf-select ngf-change="uploadCover($files)">Aggiorna l'immagine personale</p>
+			
+			</div>
+		<div class="col-md-2"></div>
+			
+		</div>
+	</div>
 </div>

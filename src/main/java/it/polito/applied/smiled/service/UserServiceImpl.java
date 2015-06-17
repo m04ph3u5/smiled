@@ -509,4 +509,11 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		
 	}
 
+	@Override
+	public void createScenarioOfUser(Reference user,
+			ScenarioReference scenarioRef) {
+		userRepository.createScenarioToUser(user.getId(), scenarioRef);
+		
+	}
+
 }

@@ -1,25 +1,28 @@
-angular.module('smiled.application').controller('registerCtrl', ['$scope', 'apiService', '$state', 
-                                                                 function registerCtrl($scope, apiService, $state){
+angular.module('smiled.application').controller('registerCtrl', ['apiService', '$state', 'alertingRegistration',
+                                                                 function registerCtrl(apiService, $state, alertingRegistration){
 
-	$scope.error=false;
-	$scope.postRegister = postRegister;
-	$scope.register = {};
-	
-	function postRegister(){
-		apiService.postRegister($scope.register).then(
+	console.log("registerController");
+	var self = this;
+	self.user= {};
+
+	console.log("registerController");
+	console.log(self.user);
+
+	self.postRegister = function (){
+		console.log(self.user);
+		apiService.postRegister(self.user).then(
 				function(data){
-					$scope.error=false;
-					alert("La tua richiesta è stata accettata. A breve riceverai una mail per confermare la tua registrazione");
-					$state.go("login");
+					console.log("success register");
+					alertingRegistration.addSuccess("La tua richiesta è stata accettata. A breve riceverai una mail per confermare la tua registrazione");
 				},
 				function(reason){
-					$scope.error=true;
-					$scope.register.email="";
-					$scope.register.firstName="";
-					$scope.register.lastName="";
-					$scope.register.gender="";
-					$scope.register.password="";
-					$scope.register.matter="";
+					console.log("failure register");
+					self.user.email="";
+					self.user.firstName="";
+					self.user.lastName="";
+					self.user.borndate="";
+					self.user.password="";
+
 				}
 		);
 	}

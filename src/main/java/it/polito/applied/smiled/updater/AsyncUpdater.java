@@ -168,6 +168,12 @@ public class AsyncUpdater {
 				for(Reference r : scenario.getInvited())
 					usersId.add(r.getId());
 			
+			if(scenario.getCollaborators()!=null)
+				for(Reference r : scenario.getCollaborators())
+					usersId.add(r.getId());
+			
+			usersId.add(scenario.getTeacherCreator().getId());
+			
 			userRepository.openScenarioToUsers(usersId, new ScenarioReference(scenario));
 		}
 	}

@@ -1,6 +1,10 @@
 package it.polito.applied.smiled.pojo;
 
+import it.polito.applied.smiled.pojo.scenario.Place;
+import it.polito.applied.smiled.pojo.scenario.Tag;
+
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,13 +14,17 @@ public class FileMetadata {
 
 	@Id
 	private String id;
+	private String originalName;
 	private Date creationDate;
 	private Date lastChange;
 	private String userId;
 	private String scenarioId;
 	private String characterId;
 	private String coverId;
-	private String path;
+	private List<Tag> tags;
+	private String description;
+	private Place place;	
+	private SupportedMedia format;
 	private ResourceType type;
 	
 	public Date getCreationDate() {
@@ -55,12 +63,7 @@ public class FileMetadata {
 	public void setCoverId(String coverId) {
 		this.coverId = coverId;
 	}
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
-	}
+	
 	public String getId() {
 		return id;
 	}
@@ -69,6 +72,36 @@ public class FileMetadata {
 	}
 	public void setType(ResourceType type) {
 		this.type = type;
+	}
+	public String getOriginalName() {
+		return originalName;
+	}
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+	public SupportedMedia getFormat() {
+		return format;
+	}
+	public void setFormat(SupportedMedia format) {
+		this.format = format;
+	}
+	public List<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Place getPlace() {
+		return place;
+	}
+	public void setPlace(Place place) {
+		this.place = place;
 	}
 	
 	

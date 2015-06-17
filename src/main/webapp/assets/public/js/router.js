@@ -8,6 +8,7 @@ angular.module('smiled.application')
 			url: "/",
 			templateUrl: 'assets/public/partials/login.html',
 			controller: "loginCtrl",
+			controllerAs:"login",
 			data: {
 				permissions:{
 					only: ['anonymous'],
@@ -18,7 +19,7 @@ angular.module('smiled.application')
 		.state('logout',{
 			url: "/login",
 			templateUrl: 'assets/public/partials/login.html',
-			controller: "loginCtrl",
+			controller: "loginCtrl",			
 			data: {
 				permissions:{
 					except: ['anonymous'],
@@ -29,7 +30,8 @@ angular.module('smiled.application')
 		.state('logged',{
 			url: "/",
 			template: "",
-			controller: "dashboardCtrl",	
+			controller: "dashboardCtrl",
+			controllerAs: "dashboard",
 			data: {
 				permissions:{
 					except: ['anonymous'],
@@ -41,6 +43,7 @@ angular.module('smiled.application')
 			url: "/",
 			templateUrl: "assets/private/partials/dashboardStudent.html",
 			controller: "dashboardCtrl",
+			controllerAs: "dashboard",
 			data: {
 				permissions:{
 					only: ['user'],
@@ -52,6 +55,7 @@ angular.module('smiled.application')
 			url: "/",
 			templateUrl: "assets/private/partials/dashboardTeacher.html",
 			controller: "dashboardCtrl",
+			controllerAs: "dashboard",
 			data: {
 				permissions:{
 					only: ['teacher'],
@@ -63,6 +67,7 @@ angular.module('smiled.application')
 			url: "/",
 			templateUrl: "assets/private/partials/dashboardAdmin.html",
 			controller: "dashboardCtrl",
+			controllerAs: "dashboard",
 			data: {
 				permissions:{
 					only: ['admin'],
@@ -76,7 +81,7 @@ angular.module('smiled.application')
 				id : null
 			},
 			templateUrl: "assets/private/partials/updateScenario.html",
-			controller: "updateScenarioCtrl",
+			controller: "updateScenarioCtrl",			
 			data: {
 				permissions: {
 					only: ['teacher'],
@@ -102,6 +107,19 @@ angular.module('smiled.application')
 			url: "/createScenario",
 			templateUrl: "assets/private/partials/createScenario.html",
 			controller: "createScenarioCtrl",
+			controllerAs:"createScenario",
+			data: {
+				permissions: {
+					except: ['anonymous'],
+					redirectTo: 'login'
+				}
+			}
+		})
+		.state('expandScenarios',{
+			url: "/expandScenarios",
+			templateUrl: "assets/private/partials/scenariosList.html",
+//			controller: "dashboardCtrl",
+//			controllerAs: "scenariosList",
 			data: {
 				permissions: {
 					except: ['anonymous'],

@@ -1,25 +1,24 @@
-angular.module('smiled.application').controller('indexCtrl', ['$scope', 'userService', 'apiService', 
-                                                              function indexCtrl($scope, userService,apiService){
+angular.module('smiled.application').controller('indexCtrl', [ 'userService', 'apiService', 
+                                                              function indexCtrl(userService,apiService){
 	userService.registerObserverLoginCallback(isLoggedUpdate);
 	userService.registerObserverImageProfileCallback(updateImageProfile);
 	
-	var user = {};
-	var baseImageProfile = "/media/img/cover/users/";
+	var baseImageProfile = "api/v1/me/cover";
 	
+	var self = this;
 	
 	function isLoggedUpdate(){
 		console.log("isLoggedUpdate call")
-		$scope.isLogged = userService.isLogged();
-		if($scope.isLogged){
+		self.isLogged = userService.isLogged();
+		if(self.isLogged){
 			apiService.getMe().then(
 					function(data){
-						$scope.user=data;
-						user=data;
+						self.user=data;
 						console.log(data);
 						
-						var imageProfileUrl = baseImageProfile+$scope.user.id;
+						var imageProfileUrl = baseImageProfile;
 						var random = new Date();
-						$scope.cover = imageProfileUrl+"?"+random.toString();
+						self.cover = imageProfileUrl+"?"+random.toString();
 					},
 					function(reason){
 						console.log("Something wrong");
@@ -35,11 +34,11 @@ angular.module('smiled.application').controller('indexCtrl', ['$scope', 'userSer
 	
 	function updateImageProfile(){
 		var random = new Date();
-		console.log(baseImageProfile+user.id+"?"+random.toString());
-		$scope.cover = baseImageProfile+user.id+"?"+random.toString();
+		console.log(baseImageProfile+"?"+random.toString());
+		self.cover = baseImageProfile+"?"+random.toString();
 	}
 	
-	$scope.logout = logout;
+	self.logout = logout;
 	
 	isLoggedUpdate();
 	

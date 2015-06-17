@@ -1,5 +1,7 @@
 package it.polito.applied.smiled.controllerRest;
 
+import java.io.FileNotFoundException;
+
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.DuplicateSchoolException;
@@ -111,16 +113,23 @@ public abstract class BaseController {
 	}
 	
 	
-	@ExceptionHandler(AccessDeniedException.class)
-	@ResponseStatus(value = HttpStatus.FORBIDDEN)
-	public ErrorInfo handleAccessDeniedException(AccessDeniedException e){
+//	@ExceptionHandler(AccessDeniedException.class)
+//	@ResponseStatus(value = HttpStatus.FORBIDDEN)
+//	public ErrorInfo handleAccessDeniedException(AccessDeniedException e){
+//		ErrorInfo error = new ErrorInfo();
+//		error.setStatusCode("403");
+//		System.out.println("FORBIDDEN");
+//		return error;
+//	}
+//	
+	@ExceptionHandler(FileNotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ErrorInfo handleFileNotFoundException(FileNotFoundException e){
 		ErrorInfo error = new ErrorInfo();
-		error.setStatusCode("403");
-		System.out.println("FORBIDDEN");
+		error.setStatusCode("404");
+		System.out.println("File not found"+e.getMessage());
 		return error;
 	}
-	
-	
 	
 //	@ExceptionHandler(Exception.class)
 //	@ResponseStatus(value = HttpStatus.BAD_REQUEST)

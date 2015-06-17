@@ -1,89 +1,93 @@
 
-<div class="bg" style="padding-bottom: 20px">
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans'
-		rel='stylesheet' type='text/css'>
-	<link href="assets/public/css/login-style.css" rel='stylesheet'
-		type='text/css'>
 
-	<header>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="">Smiled</a>
-				</div>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans'
+	rel='stylesheet' type='text/css'>
+<link href="assets/public/css/login-style.css" rel='stylesheet'
+	type='text/css'>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-					</ul>
-
-
-					<form class="navbar-form navbar-right" role="form">
-						<div class="form-group">
-							<input type="email" class="form-control" placeholder="Email"
-								data-ng-model="user.email">
-						</div>
-						<div class="form-group">
-							<input type="password" class="form-control"
-								placeholder="Password" data-ng-model="user.password">
-						</div>
-						<button class="btn btn-default confirm login"
-							data-ng-click="login()">Login</button>
-
-					</form>
-				</div>
-				<!-- /.navbar-collapse -->
+<header>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a data-ui-sref="logged" href=""> <img width="35px"
+					height="35px" src="assets/public/img/logo.png">Smiled</img>
+				</a>
 			</div>
-			<!-- /.container-fluid -->
-	</header>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-8"></div>
-			<div class="col-md-3 boxFluttuante">
-				<h3>Iscrizione Docente</h3>
-				<label>Informazioni personali</label>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Nome"
-							data-ng-model="register.firstName" required></input>
-						<div class="form-group"></div>
-						<input type="text" class="form-control" placeholder="Cogome"
-							data-ng-model="register.lastName" required></input>
-					</div>
-					<div class="form-group">
-						<form class="form-inline">
-							<div class="form-group">
-								<label class="control-label">Data di nascita:</label> 
-								<input ui-date="dateOptions" class="form-control" required data-ng-model="register.bornDate"></input>
-							</div>
-					</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+				</ul>
 
 
+				<form class="navbar-form navbar-right" role="form" novalidate>
 					<div class="form-group">
-						<label>Account</label> <input type="email" class="form-control"
-							placeholder="Email" data-ng-model="register.email" required></input>
+						<input type="text" class="form-control" placeholder="EMAIL"
+							data-ng-model="login.user.email">
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control"
-							placeholder="Password" data-ng-model="register.password" required></input>
+						<input type="password" class="form-control" placeholder="PASSWORD"
+							data-ng-model="login.user.password">
 					</div>
-					<div class="form-group">
-						<input type="password" class="form-control"
-							placeholder="Conferma password" data-ng-model="confirmPassword" required></input>
-					</div>
-					<button data-ng-click="postRegister()"
-						class="btn btn-default confirm">Registrati</button>
+					<button class="btn btn-default confirm login"
+						data-ng-click="login.login()">LOGIN</button>
+
 				</form>
-				
 			</div>
+			<alerts></alerts>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+</header>
+<div class="container-fluid bg fill"
+	ng-controller="registerCtrl as register">
+	<div class="row">
+		<div class="col-md-8"></div>
+		<div class="col-md-3 boxFluttuante">
+			<h3>ISCRIZIONE DOCENTE</h3>
+			<label>INFORMAZIONI PERSONALI</label>
+			<form role="form">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="NOME"
+						data-ng-model="register.user.firstName" required></input>
+					<div class="form-group"></div>
+					<input type="text" class="form-control" placeholder="COGNOME"
+						data-ng-model="register.user.lastName" required></input>
+				</div>
+				<div class="form-group">
+					<form class="form-inline">
+						<div class="form-group">
+							<input ui-date="dateOptions" class="form-control" required
+								data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
+						</div>
+				</div>
+
+
+				<div class="form-group">
+					<label>ACCOUNT</label> <input type="email" class="form-control"
+						placeholder="EMAIL" data-ng-model="register.user.email" required></input>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="PASSWORD"
+						data-ng-model="register.user.password" required></input>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control"
+						placeholder="CONFERMA PASSWORD" data-ng-model="confirmPassword"
+						required></input>
+				</div>
+				<button data-ng-click="postRegister()"
+					class="btn btn-default confirm">REGISTRATI</button>
+			</form>
+
 		</div>
 	</div>
 </div>

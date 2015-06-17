@@ -18,6 +18,6 @@ public interface CustomCharacterRepository {
 	public boolean putToDeletedCharacter(String characterId);
 	public boolean addPostToCharacter(String id, PostReference postReference);
 	public boolean removePostFromCharacter(String id, String id2);
-
+	public boolean setCover(String userId, String coverId);
 
 }

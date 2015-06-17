@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.User;
@@ -16,5 +17,6 @@ public interface UserRepository extends MongoRepository<User,String>, CustomUser
 
 	public User findByEmail(final String email);
 	public User findById(final String id);
+	
 	
 }

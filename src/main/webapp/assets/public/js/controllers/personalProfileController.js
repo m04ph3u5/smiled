@@ -20,7 +20,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['$scope'
 	var uploadCover = function(file){
 		if(file && file.length){
 			Upload.upload({
-	            url: 'api/v1/media/users/cover/',
+	            url: 'api/v1/me/cover/',
 	            headers : {
 	                'Content-Type': file.type
 	            },

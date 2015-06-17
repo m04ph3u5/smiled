@@ -7,6 +7,7 @@ import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
+import it.polito.applied.smiled.pojo.user.UserProfile;
 import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.pojo.user.User;
 
@@ -104,6 +105,9 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		Update u = new Update();
 		u.addToSet("openScenarios", scenario);
 		u.pull("invitingScenariosId", scenario.getId());
+		ScenarioReference ref = new ScenarioReference();
+		ref.setId(scenario.getId());
+		u.pull("creatingScenarios", ref);
 		WriteResult w = mongoOp.updateFirst(q, u, User.class);
 		return w.getN();
 	}
@@ -230,6 +234,9 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		Update u = new Update();
 		u.addToSet("openScenarios", scen);
 		u.pull("invitingScenariosId", scen.getId());
+		ScenarioReference ref = new ScenarioReference();
+		ref.setId(scen.getId());
+		u.pull("creatingScenarios", ref);
 		if(listId.size()==1)
 			w = mongoOp.updateFirst(q, u, User.class);
 		else
@@ -298,6 +305,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		
 		u.pull("openScenarios", scenarioRef);
 		u.pull("closedScenarios", scenarioRef);
+		u.pull("creatingScenarios", scenarioRef);
 		u.pull("invitingScenariosId", id);
 		
 		u.addToSet("blockedScenariosId",id);
@@ -358,6 +366,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		ScenarioReference ref = new ScenarioReference();
 		ref.setId(scenarioId);
 		u.pull("openScenarios", ref);
+		u.pull("creatingScenarios", ref);
 		u.push("invitingScenariosId",scenarioId);
 		WriteResult w = mongoOp.updateFirst(q, u, User.class);
 		if(w.isUpdateOfExisting())
@@ -398,11 +407,25 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		q.addCriteria(Criteria.where("id").is(userId));
 		Update u = new Update();
 		u.set("profile.coverPhoto", coverId);
-		WriteResult w = mongoOp.updateFirst(q, u, User.class);
-		if(w.isUpdateOfExisting())
+		FindAndModifyOptions options = new FindAndModifyOptions();
+		options.upsert(true);
+		User user = mongoOp.findAndModify(q, u, options, User.class);
+		if(user!=null)
 			return true;
 		else
 			return false;
+	}
+
+	@Override
+	public int createScenarioToUser(String id,
+			ScenarioReference scenario) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(id));
+		Update u = new Update();
+		u.addToSet("creatingScenarios", scenario);
+		u.pull("invitingScenariosId", scenario.getId());
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		return w.getN();
 	}
 
 }

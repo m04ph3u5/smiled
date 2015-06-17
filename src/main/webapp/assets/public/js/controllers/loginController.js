@@ -1,54 +1,82 @@
-angular.module('smiled.application').controller('loginCtrl', ['$scope', 'userService', 'apiService', 
-                                                              function loginCtrl($scope, userService, apiService){
+angular.module('smiled.application').controller('loginCtrl', ['userService', 'apiService','alerting',
+                                                              function loginCtrl(userService, apiService, alerting){
 	
-	$scope.login = login;
-	$scope.logout = logout;
-	$scope.postRegister = postRegister;
-
+	var self = this;
+	self.user = {
+		
+	};
+	
+	
+	self.register = {};
+	/*Opzioni per datepicker*/
+	self.dateOptions = {
+			dateFormat: 'dd/mm/yy'
+			//autosize: true
+	};
 	
 	console.log("LoginCtrl");
-	
-	function login(){
-		console.log("-----------> User: "+$scope.user.email+" - Password: "+$scope.user.password);
-		userService.login($scope.user.email, $scope.user.password);
+		
+	self.login = function(){
+		console.log("1");
+		if(self.user.email==null || self.user.email==""){
+			alerting.addWarning("Inserire email");
+			console.log("2");
+		}
+		else if(self.user.password==null || self.user.password==""){
+			alerting.addWarning("Inserire password");
+			console.log("3");
+		}
+		else if(!validateEmail(self.user.email)){
+			alerting.addWarning("Email non valida!");
+		}
+		else{
+			userService.login(self.user.email, self.user.password);
+			self.user.password ="";
+			console.log("4");
+		}
 	}
-	
-	function logout(){
+	var validateEmail = function (email) {
+	    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{1,6}(?:\.[a-z]{1})?)$/i;
+	    return re.test(email);
+	}
+	var logout = function(){
 		userService.logout();
 	}
-	
-	$scope.error=false;
-	$scope.register = {};
-	
-	function postRegister(){
+
+	var postRegister = function(){
 		if(validateRegister()){
-			apiService.postRegister($scope.register).then(
+			apiService.postRegister(self.register).then(
 					function(data){
-						$scope.error=false;
+
 						alert("La tua richiesta e' stata accettata. A breve riceverai una mail per confermare la tua registrazione");
 					},
 					function(reason){
-						$scope.error=true;
-//						$scope.register.email="";
-//						$scope.register.firstName="";
-//						$scope.register.lastName="";
-//						$scope.register.password="";
-//						$scope.register.bornDate="";
+
+						self.register.email="";
+						self.register.firstName="";
+						self.register.lastName="";
+						self.register.password="";
+						self.register.bornDate="";
 					}
 			);
 		}
+		else{
+			//GESTIRE ERRORE
+			self.register.email="";
+			self.register.firstName="";
+			self.register.lastName="";
+			self.register.password="";
+			self.register.bornDate="";
+		}
 	}
 	
-	function validateRegister(){
-		if($scope.register.password!=$scope.confirmPassword)
+	var validateRegister = function(){
+		if(self.register.password!=self.confirmPassword)
 			return false;
 		
 		return true;
 	}
 	
-	/*Opzioni per datepicker*/
-	$scope.dateOptions = {
-			dateFormat: 'dd/mm/yy'
-			//autosize: true
-	};
+
+	
 }]);

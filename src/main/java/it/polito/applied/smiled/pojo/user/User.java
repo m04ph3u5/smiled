@@ -27,6 +27,7 @@ public abstract class User {
 	protected String password;
 	protected List<Role> roles;
 	
+	protected List<ScenarioReference> creatingScenarios; 
 	protected List<ScenarioReference> openScenarios;
 	protected List<ScenarioReference> closedScenarios;
 	/*Lista di scenari da cui l'utente è stato bannato. Prendiamo solo l'id in quanto l'elenco di questi scenari non deve essere mostrato all'utente
@@ -52,6 +53,15 @@ public abstract class User {
 			}
 		return l;
 	}	
+	
+	public List<String> getCreatingScenariosId(){
+		List<String> l = new ArrayList<String>();
+		if(creatingScenarios!=null)
+			for(ScenarioReference s: creatingScenarios){
+				l.add(s.getId());
+			}
+		return l;
+	}
 
 	
 	public List<String> getClosedScenariosId(){
@@ -183,6 +193,14 @@ public abstract class User {
 
 	public void setDraftPostsId(List<String> draftPostsId) {
 		this.draftPostsId = draftPostsId;
+	}
+
+	public List<ScenarioReference> getCreatingScenarios() {
+		return creatingScenarios;
+	}
+
+	public void setCreatingScenarios(List<ScenarioReference> creatingScenarios) {
+		this.creatingScenarios = creatingScenarios;
 	}
 	
 	

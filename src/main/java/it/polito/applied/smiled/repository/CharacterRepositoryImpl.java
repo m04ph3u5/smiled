@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.user.User;
 
 import com.mongodb.WriteResult;
 
@@ -110,5 +111,16 @@ public class CharacterRepositoryImpl implements CustomCharacterRepository{
 			return false;
 	}
 
-	
+	@Override
+	public boolean setCover(String characterId, String coverId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(characterId));
+		Update u = new Update();
+		u.set("cover", coverId);
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
+	}
 }

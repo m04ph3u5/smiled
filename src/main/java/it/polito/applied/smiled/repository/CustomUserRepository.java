@@ -44,5 +44,5 @@ public interface CustomUserRepository {
 	public boolean removeDraftPost(String userId, String postId);
 	public boolean addDraftPost(String userId, String postId);
 	public boolean setCover(String userId, String coverId);
-
+	public int createScenarioToUser(String id,	ScenarioReference scenarioReference);
 }

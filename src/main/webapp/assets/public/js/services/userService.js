@@ -1,8 +1,7 @@
-angular.module('smiled.application').factory('userService', [ '$http', '$cookies', '$state', '$localStorage', 'apiService', 'Permission', '$q',
-               function userService($http,$cookies,$state,$localStorage,apiService, Permission, $q){
+angular.module('smiled.application').factory('userService', [ '$http', '$state', 'apiService', 'Permission','alerting',
+               function userService($http,$state,apiService, Permission, alerting){
 
 	var logged=false;
-	var cookie;
 	var user;
 	var roleUser=false;
 	var roleTeacher=false;
@@ -11,18 +10,18 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 	var observerIsLoggedCallbacks = [];
 	var observerImageProfileCallbacks = [];
 	
-	function registerObserverImageProfileCallback(callback){
+	var registerObserverImageProfileCallback = function(callback){
 		observerImageProfileCallbacks.push(callback);
 	}
 	
-	function notifyImageProfileObservers(){
+	var notifyImageProfileObservers = function(){
 		angular.forEach(observerImageProfileCallbacks, function(callback){
 			callback();
 		});
 	}
 
 	//register an observer
-	function registerObserverLoginCallback(callback){
+	var registerObserverLoginCallback = function(callback){
 		observerIsLoggedCallbacks.push(callback);
 	}
 
@@ -33,10 +32,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		});
 	}
 
-
-    $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
     
-    function onStartup(){
+    var onStartup= function(){
   		
 		console.log("onStartup");
 
@@ -71,8 +68,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		});
     	
     }
-    
-	function login(email, password){
+    $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+	var login = function(email, password){
 		$http({
 			url: '/ThesisProject/apiLogin',
 			method: 'POST',
@@ -102,12 +99,13 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 				$state.go('login');
 			});
 		},function(reason){
+			alertingLogin.addDanger("Attenzione credenziali errate!");
 			console.log("Authentication failed: ");
 			console.log(reason);
 		})
 	}
 	
-	function logout(){
+	var logout = function(){
 		$http({
 			url: '/ThesisProject/apiLogout',
 			method: 'POST',
@@ -125,23 +123,23 @@ angular.module('smiled.application').factory('userService', [ '$http', '$cookies
 		})
 	}
 	
-	function isLogged(){
+	var  isLogged = function(){
 		return logged;
 	}
 	
-	function hasRoleUser(){
+	var hasRoleUser = function(){
 		return roleUser;
 	}
 	
-	function hasRoleTeacher(){
+	var hasRoleTeacher = function(){
 		return roleTeacher;
 	}
 	
-	function hasRoleAdmin(){
+	var hasRoleAdmin = function(){
 		return roleAdmin;
 	}
 	
-	function getUser(){
+	var getUser = function(){
 		return user;
 	}
 	

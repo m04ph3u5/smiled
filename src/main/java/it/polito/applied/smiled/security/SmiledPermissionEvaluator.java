@@ -49,7 +49,7 @@ public class SmiledPermissionEvaluator implements PermissionEvaluator{
 			}
 			else if(targetDomainObject.getClass().equals(Scenario.class)){
 				Scenario s = (Scenario) targetDomainObject;
-				if(user.containsOpenScenario(s.getId()) || user.containsClosedScenario(s.getId()))
+				if(user.containsOpenScenario(s.getId()) || user.containsClosedScenario(s.getId()) || user.containsCreatingScenario(s.getId()))
 					founded=true;
 			}else
 				return false;//se il targetType è diverso da User, Scenario non chiamo il repository ma ritorno false a prescindere
@@ -84,7 +84,7 @@ public class SmiledPermissionEvaluator implements PermissionEvaluator{
 					founded=true;
 			}
 			else if(targetType.equals("Scenario")){
-				if(user.containsOpenScenario((String)targetId) || user.containsClosedScenario((String)targetId))
+				if(user.containsOpenScenario((String)targetId) || user.containsClosedScenario((String)targetId) || user.containsCreatingScenario((String)targetId))
 					founded=true;
 			}else
 				return false; //se il targetType è diverso da User, Scenario non chiamo il repository ma ritorno false a prescindere

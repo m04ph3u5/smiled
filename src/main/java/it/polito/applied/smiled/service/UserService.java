@@ -64,5 +64,7 @@ public interface UserService {
 	public void addColleagueToTeacher(String teacherId, Reference colleague);
 	public void addFriendToStudent(String studentId, Reference friend);
 	public void moveScenarioFromOpenToInviting(String collaboratorId, String id);
+	public void createScenarioOfUser(Reference r,
+			ScenarioReference scenarioReference);
 	
 }

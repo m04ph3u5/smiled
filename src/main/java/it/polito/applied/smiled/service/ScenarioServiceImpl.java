@@ -108,7 +108,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 			Scenario scenario = new Scenario(scenarioDTO,ref);
 			scenario = scenarioRepository.insert(scenario);
-			int n = userRepository.openScenarioToUser(t.getId(),new ScenarioReference(scenario));
+			int n = userRepository.createScenarioToUser(t.getId(),new ScenarioReference(scenario));
 			if(n!=1){
 				scenarioRepository.delete(scenario);
 				throw new BadRequestException();
@@ -650,7 +650,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 				 * tolgo dalla lista degli attendees per inserirlo nella lista dei teachersCollaborator*/
 				scenarioRepository.addCollaborator(r, scen.getStatus(), idScenario, true);
 				permissionEvaluator.upsertPermission(r.getId(), scen.getId(), Scenario.class, "MODERATOR");		
-				userService.openScenarioOfUser(r, new ScenarioReference(scen));
 			}else if(scen.getCollaborators()==null || !scen.getCollaborators().contains(r)){
 				scenarioRepository.addCollaborator(r, scen.getStatus(), idScenario, false);
 				permissionEvaluator.addPermission(r.getId(), Scenario.class, "MODERATOR", scen.getId());
@@ -660,6 +659,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 					asyncUpdater.addRelationShipToUser(u, scen);
 			}
 	
+			if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
+				userService.openScenarioOfUser(r, new ScenarioReference(scen));
+			else
+				userService.createScenarioOfUser(r, new ScenarioReference(scen));
+
 			return r;
 		}catch(MongoException e){
 			throw e;

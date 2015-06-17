@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.pojo;
 
+import java.util.Date;
 import java.util.List;
 
 import it.polito.applied.smiled.pojo.scenario.Scenario;
@@ -13,6 +14,8 @@ public class ScenarioReference {
 	private String myCharacterId;
 	private String myCharacterName;
 	private String myCharacterCover;
+	
+	private Date creationDate;
 	
 	private List<String> myPastCharactersId;
 	
@@ -28,6 +31,7 @@ public class ScenarioReference {
 		myCharacterName=null;
 		myCharacterCover=null;
 		myPastCharactersId=null;
+		this.creationDate=scenario.getCreationDate();
 	}
 	
 	public String getId() {
@@ -79,6 +83,16 @@ public class ScenarioReference {
 		if(myPastCharactersId!=null)
 			myPastCharactersId.add(id);
 	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	
 	
 //	@Override
 //	public boolean equals(Object o){
