@@ -10,7 +10,7 @@
 <base href="/ThesisProject/">
 <body data-ng-cloak data-ng-controller="indexCtrl as index">
 <div  class="container-fluid fillContent">
-
+      CIAO CIAO
 	<nav data-ng-if="index.isLogged" class="navbar navbar-default">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
