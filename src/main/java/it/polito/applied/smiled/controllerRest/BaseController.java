@@ -15,6 +15,7 @@ import it.polito.applied.smiled.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -109,6 +110,16 @@ public abstract class BaseController {
 		ErrorInfo error = new ErrorInfo();
 		error.setStatusCode("400");
 		System.out.println("HttpMessageNotReadableException: "+e.getMessage());
+		return error;
+	}
+	
+	
+	@ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public ErrorInfo handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException e){
+		ErrorInfo error = new ErrorInfo();
+		error.setStatusCode("400");
+		System.out.println("HttpMediaTypeNotAcceptableException: "+e.getMessage());
 		return error;
 	}
 	

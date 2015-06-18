@@ -43,7 +43,7 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 		userService.logout();
 	}
 
-	var postRegister = function(){
+	self.postRegister = function(){
 		if(validateRegister()){
 			apiService.postRegister(self.register).then(
 					function(data){

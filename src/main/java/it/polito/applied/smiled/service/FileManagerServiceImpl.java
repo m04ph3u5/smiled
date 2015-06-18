@@ -16,6 +16,8 @@ import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -66,6 +68,10 @@ public class FileManagerServiceImpl implements FileManagerService {
 	private String path;
 	
 	
+	@Value("${file.icon}")
+	private String fileIcon;
+	
+	
 	@Override
 	public void postCoverScenario(String id, MultipartFile scenarioCover, CustomUserDetails user) throws IllegalStateException, IOException, BadRequestException, HttpMediaTypeNotAcceptableException {
 
@@ -105,7 +111,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 			dir.mkdirs();
 			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
 			if(oldCover.renameTo(newPath)){
-				saveThumbnail(newPath, oldMeta.getId(),oldMeta.getFormat());
+				saveThumbnail(newPath, oldMeta.getId());
 				File f = new File(path+"cover/scenarios/"+getFolderPath(id)+"/"+id);
 				scenarioCover.transferTo(f);
 				//meta.setPath(path+"cover/scenarios/"+id);
@@ -165,9 +171,12 @@ public class FileManagerServiceImpl implements FileManagerService {
 			File dir = new File(path+"media/"+getFolderPath(oldMeta.getId()));
 			dir.mkdirs();
 			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
+			
+
 			if(oldCover.renameTo(newPath)){
-				saveThumbnail(newPath, oldMeta.getId(),oldMeta.getFormat());
 				userCover.transferTo(new File(path+"cover/users/"+getFolderPath(u.getId())+"/"+u.getId()));
+				saveThumbnail(newPath, oldMeta.getId());
+
 				//meta.setPath(path+"cover/scenarios/"+id);
 				meta=fileMetadataRepository.save(meta);
 				//oldMeta.setPath(path+"media/"+oldMeta.getId()+"."+oldMeta.getFormat());
@@ -220,7 +229,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 			dir.mkdirs();
 			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
 			if(oldCover.renameTo(newPath)){
-				saveThumbnail(newPath, oldMeta.getId(),oldMeta.getFormat());
+				saveThumbnail(newPath, oldMeta.getId());
 				characterCover.transferTo(new File(path+"cover/users/"+getFolderPath(c.getId())+"/"+c.getId()));
 				//meta.setPath(path+"cover/scenarios/"+id);
 				meta=fileMetadataRepository.save(meta);
@@ -260,8 +269,11 @@ public class FileManagerServiceImpl implements FileManagerService {
 		meta.setOriginalName(media.getOriginalFilename());
 		meta.setFormat(type);
 		meta=fileMetadataRepository.save(meta);
-		media.transferTo(new File(path+"media/"+meta.getId()+"."+meta.getFormat()));
-		fileMetadataRepository.setFileMetadataPath(meta.getId(), path+"media/"+meta.getId()+"."+meta.getFormat());
+		File dir = new File(path+"media/"+getFolderPath(meta.getId()));
+		dir.mkdirs();
+		File file = new File(dir,meta.getId()+"."+meta.getFormat());
+		media.transferTo(file);
+	//	fileMetadataRepository.setFileMetadataPath(meta.getId(), path+"media/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
 		
 		
 		return meta.getId();
@@ -309,7 +321,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
+			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+".jpg");
 			byte[] data = Files.readAllBytes(file);
 			metaDTO.setThumb(new String(Base64.encode(data)));
 			fileMetaList.add(metaDTO);
@@ -328,7 +340,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			metaDTO.setThumb("");
+			metaDTO.setThumb(fileIcon);
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
@@ -364,7 +376,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			metaDTO.setThumb("");
+			metaDTO.setThumb(fileIcon);
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
@@ -428,7 +440,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		return false;
 	}
 	
-	private void saveThumbnail(File file, String id, SupportedMedia type) throws IOException{
+	private void saveThumbnail(File file, String id) throws IOException{
 		BufferedImage sourceImage = ImageIO.read(file);
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
@@ -439,7 +451,9 @@ public class FileManagerServiceImpl implements FileManagerService {
             float percentWidth = width - ((width/100)*percentHight);
             BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_INT_RGB);
             Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
-            img.createGraphics().drawImage(scaledImage, 0, 0, null);
+            Graphics2D g2 = img.createGraphics();
+            g2.setColor(Color.WHITE);
+            g2.drawImage(scaledImage, 0, 0, null);
             img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
             img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
 
@@ -449,14 +463,16 @@ public class FileManagerServiceImpl implements FileManagerService {
             float  percentHight = height - ((height/100)*percentWidth);
             BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_INT_RGB);
             Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
-            img.createGraphics().drawImage(scaledImage, 0, 0, null);
+            Graphics2D g2 = img.createGraphics();
+            g2.setColor(Color.WHITE);
+            g2.drawImage(scaledImage, 0, 0, null);
             img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
             img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
 
         }
 		  File dir = new File(path+"thumb/"+getFolderPath(id));
 		  dir.mkdirs();
-		  File f = new File(dir,id+"."+type); 
+		  File f = new File(dir,id+"."+SupportedMedia.jpg); 
 		  ImageIO.write(img2,"jpg",f);
 	}
 	

@@ -61,7 +61,7 @@
 						</ul></li>
 					<li>
 						<a href="" data-ng-hide="index.isLogged"><img src="assets/public/img/user_ico.png" class="img-circle" width="20" height="20"> Utente </a>
-						<a data-ui-sref="personalProfile" href="" data-ng-show="index.isLogged"><img data-ng-src="http://revistaeducacionvirtual.com/wp-content/uploads/2015/02/docente.jpg" class="img-circle" width="30" height="30"> {{index.user.firstName}} {{index.user.lastName}}</a>
+						<a data-ui-sref="personalProfile" href="" data-ng-show="index.isLogged"><img data-ng-src="api/v1/me/cover" class="img-circle" width="30" height="30"> {{index.user.firstName}} {{index.user.lastName}}</a>
 					</li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false"><span

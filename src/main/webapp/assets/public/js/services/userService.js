@@ -99,7 +99,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$state',
 				$state.go('login');
 			});
 		},function(reason){
-			alertingLogin.addDanger("Attenzione credenziali errate!");
+			alerting.addDanger("Attenzione credenziali errate!");
 			console.log("Authentication failed: ");
 			console.log(reason);
 		})

@@ -30,14 +30,24 @@
 				</tr>
 				<tr>
 					<td>Citazione: </td>								
-					<td>«I miei problemi sono iniziati con la prima educazione. Andavo in una scuola per insegnanti disagiati.» (Woody Allen)</td>					
+					<td>ï¿½I miei problemi sono iniziati con la prima educazione. Andavo in una scuola per insegnanti disagiati.ï¿½ (Woody Allen)</td>					
 				</tr>				
 			</table>
-			<p id="uploadSpan" ngf-select ngf-change="uploadCover($files)">Aggiorna l'immagine personale</p>
+			<p class="uploadSpan" ngf-select ngf-change="uploadCover($files)">Aggiorna l'immagine personale</p>
+			<p class="uploadSpan" ngf-select ngf-change="uploadFile($files)">Aggiungi file personale</p>
 			
 			</div>
 		<div class="col-md-2"></div>
-			
+		<div>
+			<h3>MyImage</h3>
+				<div data-ng-repeat="thumb in images track by $index">
+					<img src='data:image/jpeg;base64, {{thumb}}'>
+				</div>
+			<h3>MyFile</h3>
+			<div data-ng-repeat="thumb in files">
+					<img src='{{thumb}}'>
+				</div>
+		</div>
 		</div>
 	</div>
 </div>

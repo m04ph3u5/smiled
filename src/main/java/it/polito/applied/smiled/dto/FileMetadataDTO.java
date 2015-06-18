@@ -12,7 +12,7 @@ import javax.validation.constraints.Null;
 
 public class FileMetadataDTO {
 	
-
+	private String name;
 	private String characterId;
 	private List<Tag> tags;
 	private String description;
@@ -32,6 +32,7 @@ public class FileMetadataDTO {
 	}
 	
 	public FileMetadataDTO(FileMetadata meta){
+		this.name=meta.getId()+"."+meta.getFormat();
 		this.characterId=meta.getCharacterId();
 		this.tags=meta.getTags();
 		this.description=meta.getDescription();

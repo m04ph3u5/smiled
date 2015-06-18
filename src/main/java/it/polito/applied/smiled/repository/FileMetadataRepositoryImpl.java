@@ -50,9 +50,11 @@ public class FileMetadataRepositoryImpl implements CustomFileMetadataRepository{
 	@Override
 	public List<FileMetadata> findUserFile(String userId, Pageable p) {
 		Query q = new Query();
-		Criteria c1 = new Criteria();
-		c1.andOperator(Criteria.where("format").ne(SupportedMedia.jpg),Criteria.where("format").ne(SupportedMedia.png));
-		q.addCriteria(Criteria.where("userId").is(userId).andOperator(c1.andOperator(Criteria.where("type").ne(ResourceType.TO_CONFIRM_DOC))));
+		
+		q.addCriteria(Criteria.where("userId").is(userId)
+				.andOperator(Criteria.where("format").ne(SupportedMedia.jpg)
+						.andOperator(Criteria.where("format").ne(SupportedMedia.png)
+								.andOperator(Criteria.where("type").ne(ResourceType.TO_CONFIRM_DOC)))));
 		q.with(p);
 		return mongoOp.find(q, FileMetadata.class);
 	}
