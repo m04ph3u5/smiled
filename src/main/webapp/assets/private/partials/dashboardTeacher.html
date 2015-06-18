@@ -2,18 +2,17 @@
 <div class="container-fluid mainContent">
 	<div class="row-fluid">
 		<div class="col-lg-1"></div>
-		<div class="col-sm-12 col-lg-10 noPadding">
+		<div class="col-sm-12 col-lg-10">
 			<div class="row-fluid">
 				<div
 					class="col-md-3 doubleRow box hidden-xs hidden-sm visible-md visible-lg">
 					<h3>Compiti</h3>
-					Scrivo una minchiata
 					</div>						
 				<div
 					class="col-sm-12 singleRow box visible-xs visible-sm hidden-md hidden-lg">
 					<h3>Compiti</h3>
 				</div>
-				<div class="col-md-9 col-xs-12 singleRow box" >
+				<div class="col-md-9 col-xs-12 singleRow box">
 					<h3>Scenari</h3>
 					<div class="row marginMTop">						
 						<div class="col-sm-2" ui-sref="createScenario" >
@@ -22,7 +21,7 @@
 								<h4><i>Crea scenario</i></h4>
 					    </div>
 						
-						<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.openScenarios">
+						<div data-ui-sref="scenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.openScenarios">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
@@ -39,7 +38,7 @@
 				</div>
 
 				<div class="col-sm-4 col-md-3 singleRow box">
-					<h3>Alunni</h3>
+					<h3 ui-sref="viewStudents">Alunni</h3>
 					<table>
 						<tbody>
 							<tr data-ng-repeat="a in dashboard.user.students">
@@ -51,7 +50,7 @@
 					</table>
 				</div>
 				<div class="col-sm-4 col-md-3 singleRow box">
-					<h3>Colleghi</h3>
+					<h3 ui-sref="viewColleagues">Colleghi</h3>
 					<table>
 						<tbody>
 							<tr data-ng-repeat="c in dashboard.user.colleagues">
@@ -95,7 +94,7 @@
 							</div>
 					</div>
 				<div class="col-sm-8 col-md-6 singleRow box">
-					<h3>Materiale didattico</h3>
+					<h3 ui-sref="viewFiles">Materiale didattico</h3>
 					<div>
 						<h4>Titolo del file</h4>
 						Qua verranno inserite le anteprime dei singoli materiali
@@ -110,9 +109,8 @@
 					  <li class="list-group-item"><a href="">Bello Antonio ha commentato il suo post</a></li>
 					</ul>
 				</div>
-
-
-
-
 			</div>
 		</div>
+		<div class="col-lg-1"></div>
+	</div>
+</div>
