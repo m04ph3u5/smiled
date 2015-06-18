@@ -11,9 +11,11 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /*Classe che mappa l'oggetto User che andrà salvato nel DB. La classe è astratta, sia la classe Teacher che quella Student la dovranno implementare.*/
 
+@Document
 public abstract class User {
 
 	@Id

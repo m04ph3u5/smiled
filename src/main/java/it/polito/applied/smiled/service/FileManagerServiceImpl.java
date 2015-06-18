@@ -452,7 +452,8 @@ public class FileManagerServiceImpl implements FileManagerService {
             BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_INT_RGB);
             Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
             Graphics2D g2 = img.createGraphics();
-            g2.setColor(Color.WHITE);
+            g2.setBackground(Color.WHITE);
+            g2.clearRect(0,0,(int)percentWidth, 100);
             g2.drawImage(scaledImage, 0, 0, null);
             img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
             img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
@@ -464,7 +465,8 @@ public class FileManagerServiceImpl implements FileManagerService {
             BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_INT_RGB);
             Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
             Graphics2D g2 = img.createGraphics();
-            g2.setColor(Color.WHITE);
+            g2.setBackground(Color.WHITE);
+            g2.clearRect(0,0,100, (int)percentHight);
             g2.drawImage(scaledImage, 0, 0, null);
             img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
             img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
