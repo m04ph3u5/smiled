@@ -9,7 +9,6 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 			$state.go("student");
 		}
 		if(userService.hasRoleTeacher()){	
-
 			$state.go("teacher");
 		}
 		if(userService.hasRoleAdmin()){
@@ -30,9 +29,9 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 //					}
 //					self.firstScenarios; 
 //					
-
 				},
 				function(reason){
+					self.user={};
 					console.log("dashboardCtrl error getting user");
 				}
 			);

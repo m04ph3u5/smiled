@@ -110,8 +110,8 @@ angular.module('smiled.application')
 			controllerAs:"createScenario",
 			data: {
 				permissions: {
-					except: ['anonymous'],
-					redirectTo: 'login'
+					only: ['teacher'],
+					redirectTo: 'logged'
 				}
 			}
 		})
@@ -124,8 +124,8 @@ angular.module('smiled.application')
 		.state('expandScenarios',{
 			url: "/expandScenarios",
 			templateUrl: "assets/private/partials/scenariosList.html",
-//			controller: "dashboardCtrl",
-//			controllerAs: "scenariosList",
+			controller: "expandCtrl",
+			controllerAs: "expand",
 			data: {
 				permissions: {
 					except: ['anonymous'],
@@ -185,7 +185,7 @@ angular.module('smiled.application')
 	.run(function (Permission,userService, $q) {
     	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
-    		  console.log("define anonymous");
+    		  console.log("check anonymous");
 
     		  if(userService.isLogged())
     			  return false;
@@ -194,7 +194,7 @@ angular.module('smiled.application')
 
     	  });
     	  Permission.defineRole('user',function(stateParams){
-    		  console.log("define user");
+    		  console.log("check user");
     		  var deferred = $q.defer();
     		  userService.getUser().then(
     				  function(data){
@@ -210,7 +210,7 @@ angular.module('smiled.application')
     		  return deferred.promise;    			
     	  });
     	  Permission.defineRole('teacher',function(stateParams){
-    		  console.log("define teacher");
+    		  console.log("check teacher");
     		  var deferred = $q.defer();
     		  userService.getUser().then(
     				  function(data){
@@ -226,7 +226,7 @@ angular.module('smiled.application')
     		  return deferred.promise; 
     	  });
     	  Permission.defineRole('admin',function(stateParams){
-    		  console.log("define admin");
+    		  console.log("check admin");
     		  var deferred = $q.defer();
     		  userService.getUser().then(
     				  function(data){

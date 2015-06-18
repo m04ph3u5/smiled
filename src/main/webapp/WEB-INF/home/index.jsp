@@ -10,7 +10,6 @@
 <base href="/ThesisProject/">
 <body data-ng-cloak data-ng-controller="indexCtrl as index">
 <div  class="container-fluid fillContent">
-
 	<nav data-ng-if="index.isLogged" class="navbar navbar-default">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -126,6 +125,7 @@
 	<script src="assets/public/js/controllers/loginController.js"></script>
 	<script src="assets/public/js/controllers/registerController.js"></script>
 	<script src="assets/public/js/controllers/dashboardController.js"></script>
+	<script src="assets/public/js/controllers/expandScenarioController.js"></script>
 	<script src="assets/public/js/controllers/indexController.js"></script>
 	<script src="assets/public/js/controllers/createScenarioController.js"></script>
 	<script src="assets/public/js/controllers/updateScenarioController.js"></script>
