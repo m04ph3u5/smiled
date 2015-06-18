@@ -1,4 +1,4 @@
-angular.module("smiled.application").directive('alertRegistration',['alertingRegistration', function(alertingRegistration) {
+angular.module("smiled.application").directive('alertregistration',['alertingRegistration', function(alertingRegistration) {
 
         return {
             restrict: "AE",

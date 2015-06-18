@@ -2,8 +2,6 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular',
               function apiService(Restangular){
 	
 	var me = Restangular.one('me');
-	var meImage = Restangular.one('me/media/image/meta');
-	var meFile = Restangular.one('me/media/files/meta')
 	var register = Restangular.one('register');
 	var uploadMedia = Restangular.one("media");
 	
@@ -30,20 +28,11 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular',
 		scenario.put();		
 	}
 	
-	function getImagePersonalProfile(){
-		return meImage.get();
-	}
-	
-	function getFilePersonalProfile(){
-		return meFile.get();
-	}
 
 	return {
 		getMe: getMe,
 		postRegister: postRegister,
-		createScenario : createScenario,
-		getImagePersonalProfile: getImagePersonalProfile,
-		getFilePersonalProfile: getFilePersonalProfile
+		createScenario : createScenario
 	}
 	
 	

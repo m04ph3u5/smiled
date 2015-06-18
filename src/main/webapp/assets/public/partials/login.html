@@ -19,6 +19,9 @@
 				<a data-ui-sref="logged" href=""> <img width="35px"
 					height="35px" src="assets/public/img/logo.png">Smiled</img>
 				</a>
+				<work-spinner>
+					<img src="assets/public/img/spinner.gif" />
+				</work-spinner>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,7 +45,7 @@
 
 				</form>
 			</div>
-			<alerts></alerts>
+			<alertlogin></alertlogin>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
@@ -54,7 +57,8 @@
 		<div class="col-md-3 boxFluttuante">
 			<h3>ISCRIZIONE DOCENTE</h3>
 			<label>INFORMAZIONI PERSONALI</label>
-			<form role="form">
+			<alertregistration></alertregistration>
+			<form role="form" novalidate>
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="NOME"
 						data-ng-model="register.user.firstName" required></input>
@@ -72,7 +76,7 @@
 
 
 				<div class="form-group">
-					<label>ACCOUNT</label> <input type="email" class="form-control"
+					<label>ACCOUNT</label> <input type="text" class="form-control"
 						placeholder="EMAIL" data-ng-model="register.user.email" required></input>
 				</div>
 				<div class="form-group">
@@ -81,9 +85,10 @@
 				</div>
 				<div class="form-group">
 					<input type="password" class="form-control"
-						placeholder="CONFERMA PASSWORD" data-ng-model="confirmPassword"
+						placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"
 						required></input>
 				</div>
+				
 				<button data-ng-click="register.postRegister()"
 					class="btn btn-default confirm">REGISTRATI</button>
 			</form>

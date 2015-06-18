@@ -1,5 +1,5 @@
-angular.module('smiled.application').factory('userService', [ '$http', '$state', 'apiService', 'Permission','alerting',
-               function userService($http,$state,apiService, Permission, alerting){
+angular.module('smiled.application').factory('userService', [ '$http', '$state', 'apiService', 'Permission','alertingLogin',
+               function userService($http,$state,apiService, Permission, alertingLogin){
 
 	var logged=false;
 	var user;
@@ -99,7 +99,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$state',
 				$state.go('login');
 			});
 		},function(reason){
-			alerting.addDanger("Attenzione credenziali errate!");
+			alertingLogin.addDanger("Attenzione credenziali errate!");
 			console.log("Authentication failed: ");
 			console.log(reason);
 		})

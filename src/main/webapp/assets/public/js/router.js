@@ -115,6 +115,12 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('createScenario.createScenarioSon',{
+			parent: "createScenario",
+			url: "/createScenarioSon",
+			templateUrl: "assets/private/partials/createScenario.createScenarioSon.html",
+			
+		})
 		.state('expandScenarios',{
 			url: "/expandScenarios",
 			templateUrl: "assets/private/partials/scenariosList.html",

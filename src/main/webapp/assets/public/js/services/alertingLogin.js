@@ -1,4 +1,4 @@
-angular.module("smiled.application").factory('alerting',['$timeout', function($timeout) {
+angular.module("smiled.application").factory('alertingLogin',['$timeout', function($timeout) {
         
         var currentAlerts = [];
         var alertTypes = ["success", "info", "warning", "danger"];
