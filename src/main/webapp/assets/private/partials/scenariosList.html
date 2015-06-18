@@ -28,7 +28,7 @@
 						</div>
 				</div>	
 							
-				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.creatingScenarios">
+				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in expand.user.creatingScenarios">
 					<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 						class="img-circle imgPreviewL">
 					<img class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
@@ -37,7 +37,7 @@
 			</div>
 			<div class="box">		
 				<h2>Scenari attivi</h2>
-				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.openScenarios">
+				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in expand.user.openScenarios">
 					<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 						class="img-circle imgPreviewL"> <img
 						class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
@@ -46,7 +46,7 @@
 			</div>
 			<div class="box">			
 				<h2>Scenari conclusi</h2>
-				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.closedScenarios">
+				<div data-ui-sref="updateScenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in expand.user.closedScenarios">
 					<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 						class="img-circle imgPreviewL"> <img
 						class="overlapImg img-circle" src="assets/public/img/100-719.jpg">

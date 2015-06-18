@@ -3,16 +3,22 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 
 	var self = this;
 	self.user= {};
-
-
 	self.postRegister = function (){
 
 		if(validateRegister()){
 			apiService.postRegister(self.user).then(
 					function(data){
+						//il server ha accettato la registrazione
 						console.log("success register");
+						self.user.email="";
+						self.user.firstName="";
+						self.user.lastName="";
+						self.user.bornDate="";
+						self.user.password="";
+						self.user.confirmPassword="";
 						alertingRegistration.addSuccess("La tua richiesta è stata accettata. A breve riceverai una mail per confermare la tua registrazione");
 					},
+					//il server ha rifiutato la registrazione
 					function(reason){ 
 						self.user.email="";
 						self.user.firstName="";
@@ -25,6 +31,7 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 						
 					}
 			);
+		//la validazione lato client è fallita
 		}else{
 			self.user.password="";
 			self.user.confirmPassword="";
