@@ -75,13 +75,13 @@ angular.module('smiled.application')
 				}
 			}
 		})
-		.state('updateScenario',{
-			url: "/updateScenario",
+		.state('scenario',{
+			url: "/scenario",
 			params : {
 				id : null
 			},
-			templateUrl: "assets/private/partials/updateScenario.html",
-			controller: "updateScenarioCtrl",			
+			templateUrl: "assets/private/partials/scenario.html",
+			controller: "scenarioCtrl",			
 			data: {
 				permissions: {
 					only: ['teacher'],
@@ -126,6 +126,42 @@ angular.module('smiled.application')
 			templateUrl: "assets/private/partials/scenariosList.html",
 			controller: "expandCtrl",
 			controllerAs: "expand",
+			data: {
+				permissions: {
+					except: ['anonymous'],
+					redirectTo: 'login'
+				}
+			}
+		})
+		.state('viewStudents',{
+			url: "/viewStudents",
+			templateUrl: "assets/private/partials/studentsList.html",
+//			controller: "dashboardCtrl",
+//			controllerAs: "scenariosList",
+			data: {
+				permissions: {
+					except: ['anonymous'],
+					redirectTo: 'login'
+				}
+			}
+		})
+		.state('viewColleagues',{
+			url: "/viewColleagues",
+			templateUrl: "assets/private/partials/colleaguesList.html",
+//			controller: "dashboardCtrl",
+//			controllerAs: "scenariosList",
+			data: {
+				permissions: {
+					except: ['anonymous'],
+					redirectTo: 'login'
+				}
+			}
+		})
+		.state('viewFiles',{
+			url: "/viewFiles",
+			templateUrl: "assets/private/partials/filesList.html",
+//			controller: "dashboardCtrl",
+//			controllerAs: "scenariosList",
 			data: {
 				permissions: {
 					except: ['anonymous'],
