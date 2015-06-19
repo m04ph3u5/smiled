@@ -13,6 +13,7 @@
 		"stomp-websocket": "latest",
 		"sockjs-client": "latest",
 		"ng-file-upload": "latest",
-		"angular-ui-date": "latest"
+		"angular-ui-date": "latest",
+		"ngDialog": "latest"
 	}
 }
