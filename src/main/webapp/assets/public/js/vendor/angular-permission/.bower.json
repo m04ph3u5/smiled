@@ -1,6 +1,6 @@
 {
   "name": "angular-permission",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "authors": [
     "Rafael Vidaurre <narzerus@gmail.com>"
   ],
@@ -22,6 +22,7 @@
     "tests",
     "src"
   ],
+  "directory": "/",
   "devDependencies": {
     "angular": "*",
     "angular-mocks": "*"
@@ -29,11 +30,11 @@
   "dependencies": {
     "angular-ui-router": "~0.2.11"
   },
-  "_release": "0.2.0",
+  "_release": "0.3.0",
   "_resolution": {
     "type": "version",
-    "tag": "0.2.0",
-    "commit": "dab6314940a2d86305754a2a976c3ca1f39443e8"
+    "tag": "v0.3.0",
+    "commit": "1f540701738fdaaaaef1f097d62f8995b2826694"
   },
   "_source": "git://github.com/Narzerus/angular-permission.git",
   "_target": "*",

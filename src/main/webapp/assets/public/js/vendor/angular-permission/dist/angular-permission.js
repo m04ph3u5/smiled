@@ -1,7 +1,7 @@
 /**
  * angular-permission
  * Route permission and access control as simple as it can get
- * @version v0.2.0 - 2015-03-02
+ * @version v0.3.0 - 2015-06-15
  * @link http://www.rafaelvidaurre.com
  * @author Rafael Vidaurre <narzerus@gmail.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -11,7 +11,8 @@
   'use strict';
 
   angular.module('permission', ['ui.router'])
-    .run(['$rootScope', 'Permission', '$state', function ($rootScope, Permission, $state) {
+    .run(['$rootScope', 'Permission', '$state', '$q',
+    function ($rootScope, Permission, $state, $q) {
       $rootScope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
         if (toState.$$finishAuthorize) {
@@ -37,6 +38,10 @@
           event.preventDefault();
           toState = angular.extend({'$$finishAuthorize': true}, toState);
 
+          if ($rootScope.$broadcast('$stateChangePermissionStart', toState, toParams).defaultPrevented) {
+            return;
+          }
+
           Permission.authorize(permissions, toParams).then(function () {
             // If authorized, use call state.go without triggering the event.
             // Then trigger $stateChangeSuccess manually to resume the rest of the process
@@ -53,10 +58,22 @@
             if (!$rootScope.$broadcast('$stateChangeStart', toState, toParams, fromState, fromParams).defaultPrevented) {
               $rootScope.$broadcast('$stateChangePermissionDenied', toState, toParams);
 
-              // If not authorized, redirect to wherever the route has defined, if defined at all
               var redirectTo = permissions.redirectTo;
-              if (redirectTo) {
-                $state.go(redirectTo, toParams);
+              var result;
+
+              if (angular.isFunction(redirectTo)) {
+                redirectTo = redirectTo();
+
+                $q.when(redirectTo).then(function (newState) {
+                  if (newState) {
+                    $state.go(newState, toParams);
+                  }
+                });
+
+              } else {
+                if (redirectTo) {
+                  $state.go(redirectTo, toParams);
+                }
               }
             }
           });
@@ -86,8 +103,6 @@
           not yet injected anywere which makes this kinda useless.
           Should remove if we cannot find a use for it.
         **/
-    	  
-    	console.log("---------->inDefineRole");
         validateRoleDefinitionParams(roleName, validationFunction);
         roleValidationConfig[roleName] = validationFunction;
 

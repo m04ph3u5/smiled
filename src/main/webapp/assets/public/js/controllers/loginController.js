@@ -19,6 +19,7 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 		
 		if(self.user.email==null || self.user.email==""){
 			alertingLogin.addWarning("Inserire email");
+			self.user.password ="";
 		
 		}
 		else if(self.user.password==null || self.user.password==""){
@@ -27,6 +28,11 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 		}
 		else if(!validateEmail(self.user.email)){
 			alertingLogin.addWarning("Email non valida!");
+			self.user.password ="";
+		}
+		else if(self.user.password.length<8){
+			alertingLogin.addWarning("Password troppo corta!");
+			self.user.password ="";
 		}
 		else{
 			userService.login(self.user.email, self.user.password);

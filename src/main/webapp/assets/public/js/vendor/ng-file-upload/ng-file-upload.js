@@ -1,38 +1,34 @@
 /**!
  * AngularJS file upload/drop directive and service with progress and abort
  * @author  Danial  <danial.farid@gmail.com>
- * @version 5.0.3
+ * @version 5.0.9
  */
+
+if (window.XMLHttpRequest && !(window.FileAPI && FileAPI.shouldLoad)) {
+  window.XMLHttpRequest.prototype.setRequestHeader = (function (orig) {
+    return function (header, value) {
+      if (header === '__setXHR_') {
+        var val = value(this);
+        // fix for angular < 1.2.0
+        if (val instanceof Function) {
+          val(this);
+        }
+      } else {
+        orig.apply(this, arguments);
+      }
+    };
+  })(window.XMLHttpRequest.prototype.setRequestHeader);
+}
+
 var ngFileUpload = angular.module('ngFileUpload', []);
 
-ngFileUpload.version = '5.0.3';
+ngFileUpload.version = '5.0.9';
 ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, $timeout) {
-  function patchXHR(fnName, newFn) {
-    window.XMLHttpRequest.prototype[fnName] = newFn(window.XMLHttpRequest.prototype[fnName]);
-  }
-
-  if (window.XMLHttpRequest && !window.XMLHttpRequest.__isFileAPIShim) {
-    patchXHR('setRequestHeader', function (orig) {
-      return function (header, value) {
-        if (header === '__setXHR_') {
-          var val = value(this);
-          // fix for angular < 1.2.0
-          if (val instanceof Function) {
-            val(this);
-          }
-        } else {
-          orig.apply(this, arguments);
-        }
-      };
-    });
-  }
-
   function sendHttp(config) {
     config.method = config.method || 'POST';
     config.headers = config.headers || {};
 
-    var deferred =
-        $q.defer();
+    var deferred = $q.defer();
     var promise = deferred.promise;
 
     config.headers.__setXHR_ = function () {
@@ -192,7 +188,7 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
 
   this.http = function (config) {
     config.transformRequest = config.transformRequest || function (data) {
-        if (window.ArrayBuffer && data instanceof window.ArrayBuffer) {
+        if ((window.ArrayBuffer && data instanceof window.ArrayBuffer) || data instanceof Blob) {
           return data;
         }
         return $http.defaults.transformRequest[0](arguments);
@@ -201,8 +197,7 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
   };
 }
 
-])
-;
+]);
 
 (function () {
     ngFileUpload.directive('ngfSelect', ['$parse', '$timeout', '$compile',
@@ -292,8 +287,6 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
         }
 
         function createFileInput(evt, resetOnClick) {
-            if (elem.attr('disabled') || disabled) return;
-
             if (!resetOnClick && (evt || isInputTypeFile())) return elem.$$ngfRefElem || elem;
 
             var fileElem = angular.element('<input type="file">');
@@ -323,6 +316,7 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
         }
 
         function clickHandler(evt) {
+            if (elem.attr('disabled') || disabled) return false;
             if (evt != null) {
                 evt.preventDefault();
                 evt.stopPropagation();
@@ -344,7 +338,7 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
                 if (evt && resetOnClick && $parse(attr.ngfResetModelOnClick)(scope) !== false) resetModel(evt);
 
                 // fix for android native browser < 4.4
-                if (isAndroidBelow44(navigator.userAgent)) {
+                if (shouldClickLater(navigator.userAgent)) {
                     setTimeout(function () {
                         clickAndAssign(evt);
                     }, 0);
@@ -365,13 +359,15 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
         }
     }
 
-    function isAndroidBelow44(ua) {
+    function shouldClickLater(ua) {
+        // android below 4.4
         var m = ua.match(/Android[^\d]*(\d+)\.(\d+)/);
         if (m && m.length > 2) {
             return parseInt(m[1]) < 4 || (parseInt(m[1]) === 4 && parseInt(m[2]) < 4);
         }
 
-        return false;
+        // safari on windows
+        return /.*Windows.*Safari.*/.test(ua);
     }
 
     ngFileUpload.validate = function (scope, $parse, attr, file, evt) {
@@ -412,11 +408,11 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
                                          files, rejFiles, evt, noDelay) {
         function update() {
             if ($parse(attr.ngfKeep)(scope) === true) {
+                var prevFiles = (ngModel.$modelValue || []).slice(0);
                 if (!files || !files.length) {
-                    return;
-                }
-                if ($parse(attr.ngfKeepDistinct)(scope) === true) {
-                    var prevFiles = (ngModel.$modelValue || []).slice(0), len = prevFiles.length;
+                    files = prevFiles;
+                } else if ($parse(attr.ngfKeepDistinct)(scope) === true) {
+                    var len = prevFiles.length;
                     for (var i = 0; i < files.length; i++) {
                         for (var j = 0; j < len; j++) {
                             if (files[i].name === prevFiles[j].name) break;
@@ -425,12 +421,9 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
                             prevFiles.push(files[i]);
                         }
                     }
-                    if (len === prevFiles.length) {
-                        return;
-                    }
-                    files = [].concat(prevFiles);
+                    files = prevFiles;
                 } else {
-                    files = (ngModel.$modelValue || []).concat(files);
+                    files = prevFiles.concat(files);
                 }
             }
             if (ngModel) {

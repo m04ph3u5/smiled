@@ -1,9 +1,6 @@
 <meta charset="UTF-8">
-<div class="container-fluid mainContent" ng-controller="PopoverDemoCtrl as popover">
+<div class="container-fluid mainContent">
 
-
-	
-  
 	<div class="row-fluid">
 		<div class="col-lg-1"></div>
 		<div class="col-sm-12 col-lg-10">
@@ -19,28 +16,10 @@
 				<div class="col-md-9 col-xs-12 singleRow box">
 					<h3>Scenari</h3>
 					<div class="row marginMTop">					
-						<div class="col-sm-2" ng-click="dashboard.user.createScenario" >
+						<div class="col-sm-2" ng-click="dashboard.showPopUpCreationScenario()" >
 								<img href="" src="assets/public/img/Icon_WriteArticles.png"
-									class="img-circle imgPreviewL" popover-template="popover.dynamicPopover.templateUrl" 
-									popover-title="{{dynamicPopover.title}}"
-									popover-placement="right"> 
+									class="img-circle imgPreviewL" > 
 								<h4><i>Crea scenario</i></h4>
-								<div class="row-fluid" >
-   
-    <script type="text/ng-template" id="myPopoverTemplate.html">
-      <div>{{dynamicPopover.content}}</div>
-      <div class="form-group">
-        <label>Titolo Scenario:</label>
-        <input type="text" ng-model="dynamicPopover.title" class="form-control">
-        <label>Data inizio:</label>
-        <input type="text" ng-model="dynamicPopover.startDate" class="form-control">
-        <label>Data fine:</label>
-        <input type="text" ng-model="dynamicPopover.endDate" class="form-control">
-
-      </div>
-    </script>
-    <hr />
-  </div>
 			
 					    </div>
 					    

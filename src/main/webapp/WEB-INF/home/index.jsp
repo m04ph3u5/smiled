@@ -6,6 +6,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/public/css/custom-style.css">
 <link rel="stylesheet" href="assets/public/css/jquery-ui.css">
+<link rel="stylesheet" href="assets/public/vendor/ngDialog/css/ngDialog.css">
 </head>
 <base href="/ThesisProject/">
 <body data-ng-cloak data-ng-controller="indexCtrl as index">
@@ -113,8 +114,8 @@
 	<script src="assets/public/js/vendor/stomp-websocket/lib/stomp.js"></script>
 	<script src="assets/public/js/vendor/ng-file-upload/ng-file-upload.js"></script>
 		<script src="assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.js"></script>
-	<script
-		src="assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.js"></script>
+	<script src="assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.js"></script>
+	<script src="assets/public/js/vendor/ngDialog/js/ngDialog.js"></script>
 
 	
 	<!-- CUSTOM SCRIPT -->

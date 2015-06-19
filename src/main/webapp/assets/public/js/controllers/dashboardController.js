@@ -1,11 +1,10 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Permission', 'apiService', 'userService',
+angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Permission', 'apiService', 'userService','ngDialog',
        
-                                                                  function dashboardCtrl( $state, permission,apiService,userService){
+                                                                  function dashboardCtrl( $state, permission,apiService,userService,ngDialog){
 	
 	var self = this;
-	self.showPopUp = false;
-	
-	function onStartup(){
+
+	var onStartup = function (){
 		if(userService.hasRoleUser()){
 			$state.go("student");
 		}
@@ -16,12 +15,16 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 			$state.go("admin");
 		}
 	}
-	
-	var createScenario = function(){
-		self.showPopUp = true;
+	var showPopUpCreationScenario = function (){
+		ngDialog.open({
+		     template:'assets/private/partials/createScenario.html',
+		     className: 'ngdialog-theme-default',
+
+		});
+	};
 		
-	}
-	function getMe(){
+		
+	var getMe = function(){
 		
 		return apiService.getMe().then(
 				
@@ -40,6 +43,9 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 				}
 			);
 	}
+	return {
+		showPopUpCreationScenario : showPopUpCreationScenario
+	};
 	
 	onStartup();
 	getMe();
