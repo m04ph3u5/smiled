@@ -6,7 +6,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/public/css/custom-style.css">
 <link rel="stylesheet" href="assets/public/css/jquery-ui.css">
-<link rel="stylesheet" href="assets/public/vendor/ngDialog/css/ngDialog.css">
+<link rel="stylesheet" href="assets/public/js/vendor/ngDialog/css/ngDialog.css">
 </head>
 <base href="/ThesisProject/">
 <body data-ng-cloak data-ng-controller="indexCtrl as index">
@@ -127,10 +127,9 @@
 	<script src="assets/public/js/controllers/dashboardController.js"></script>
 	<script src="assets/public/js/controllers/expandScenarioController.js"></script>
 	<script src="assets/public/js/controllers/indexController.js"></script>
-	<script src="assets/public/js/controllers/createScenarioController.js"></script>
 	<script src="assets/public/js/controllers/updateScenarioController.js"></script>
 	<script src="assets/public/js/controllers/personalProfileController.js"></script>
-	<script src="assets/public/js/controllers/popoverDemoController.js"></script>
+	<script src="assets/public/js/controllers/dialogCreateScenarioController.js"></script>
 	<script src="assets/public/js/services/userService.js"></script>
 	<script src="assets/public/js/services/apiService.js"></script>
 	<script src="assets/public/js/services/alertingLogin.js"></script>

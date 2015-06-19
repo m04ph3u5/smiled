@@ -1,0 +1,17 @@
+
+<h2>Crea un nuovo scenario</h2>
+<form class="navbar-form navbar-right" role="form" novalidate>
+	<div >
+			<input type="text" class="form-control" placeholder="TITOLO"
+				data-ng-model="title"/>
+	</div>
+	<div >
+			<input type="text" data-ng-model="startDate" class="form-control" placeholder="DATA INIZIO"/>
+	</div>
+	<div >
+			<input type="text" class="form-control" placeholder="DATA FINE"
+				data-ng-model="endDate"/>
+	</div>
+	<button class="btn btn-default confirm " data-ng-click="createScenario.createScenario() && closeThisDialog('')">CREA</button>
+</form>
+	
