@@ -1,12 +1,12 @@
-<div class="container-fluid" ng-mouseup="createScenario.showHideContent($event)">
+<div class="container-fluid" ng-mouseup="updateScenario.showHideContent($event)">
 	<div class="row">
 		<aside class="col-sm-2"></aside>
 		<div class="col-sm-8 centralText">
-			<h1>Crea un nuovo scenario</h1>
+			<h1>Scenario</h1>
 			<div class="centralDivs box" id="basicinfobox">
 				<h3>Informazioni di base</h3>
-				<span>Inserisci le informazioni di base sullo scenario</span>					
-					<div id="basicinfobox-on" ng-show="createScenario.basicinfoboxOn">
+				<span>Modifica le informazioni di base sullo scenario</span>					
+					<div id="basicinfobox-on" ng-show="updateScenario.basicinfoboxOn">
 						<form class="form-inline" role="form">
 							<div class="form-group goLeft">								
 								<input type="text" class="form-control" id="titolo" placeholder="TITOLO">
@@ -21,7 +21,7 @@
 			<div class="centralDivs box" id="studentsbox">
 				<h3>Partecipanti</h3>
 				<span>Inserisci gli studenti che parteciperanno a questo scenario</span>
-				<div id="studentsbox-on" ng-show="createScenario.studentsboxOn">
+				<div id="studentsbox-on" ng-show="updateScenario.studentsboxOn">
 					<form role="form">
 							<div class="form-group goLeft">
 								<label for="students">Chi saranno gli studenti iscritti a questo scenario?</label>
@@ -36,7 +36,7 @@
 			<div class="centralDivs box" id="charactersbox">
 				<h3>Personaggi</h3>
 				<span>Inserisci i personaggi della storia</span>
-				<div id="charactersbox-on" ng-show="createScenario.charactersboxOn">
+				<div id="charactersbox-on" ng-show="updateScenario.charactersboxOn">
 					<form role="form">
 							<div class="form-group goLeft">
 								<label>Quali saranno i nomi dei personaggi?</label>
@@ -66,7 +66,7 @@
 			<div class="centralDivs box" id="associationbox">
 				<h3>Associazioni</h3>
 				<span>Inserisci le associazioni studente-personaggio</span>
-				<div id="associationbox-on" ng-show="createScenario.associationboxOn">
+				<div id="associationbox-on" ng-show="updateScenario.associationboxOn">
 				<!--Inserire corrispondenza con nomi inseriti-->
 					<form role="form">
 							<div class="form-group goLeft">
@@ -111,7 +111,7 @@
 			<div class="centralDivs box" id="collaboratorsbox">
 				<h3>Collaboratori</h3>
 				<span>Aggiungi i nomi di coloro che collaboreranno allo sviluppo dello scenario</span>
-				<div id="collaboratorsbox-on" ng-show="createScenario.collaboratorsboxOn">
+				<div id="collaboratorsbox-on" ng-show="updateScenario.collaboratorsboxOn">
 					<form role="form">
 							<div class="form-group goLeft">						
 								<textarea class="form-control" rows="3" placeholder="COLLABORATORI GIA' ISCRITTI A SMILED"></textarea>

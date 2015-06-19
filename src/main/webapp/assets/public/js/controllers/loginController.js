@@ -14,17 +14,16 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 			//autosize: true
 	};
 	
-	console.log("LoginCtrl");
 		
 	self.login = function(){
-		console.log("1");
+		
 		if(self.user.email==null || self.user.email==""){
 			alertingLogin.addWarning("Inserire email");
-			console.log("2");
+		
 		}
 		else if(self.user.password==null || self.user.password==""){
 			alertingLogin.addWarning("Inserire password");
-			console.log("3");
+			
 		}
 		else if(!validateEmail(self.user.email)){
 			alertingLogin.addWarning("Email non valida!");
@@ -32,7 +31,7 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 		else{
 			userService.login(self.user.email, self.user.password);
 			self.user.password ="";
-			console.log("4");
+			
 		}
 	}
 	var validateEmail = function (email) {

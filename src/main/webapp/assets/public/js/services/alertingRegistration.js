@@ -19,14 +19,17 @@ angular.module("smiled.application").factory('alertingRegistration',['$timeout',
             addAlert("success", message);
         };
 
-        var addAlert = function (type, message) {
-            var alert = { type: type, message: message };
-            currentAlerts.push(alert);
-
-            $timeout(function () {
-                removeAlert(alert);
-            }, 5000);
-        };
+		var addAlert = function (type, message) {
+		        	
+		        	if(currentAlerts.length==0){
+		        		var alert = { type: type, message: message };
+		        		currentAlerts.push(alert);
+		
+		        		$timeout(function () {
+		        			removeAlert(alert);
+		        		}, 7000);
+		        	}
+		 };
 
         var removeAlert = function (alert) {
             for (var i = 0; i < currentAlerts.length; i++) {

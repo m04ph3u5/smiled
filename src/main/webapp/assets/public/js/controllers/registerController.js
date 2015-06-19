@@ -16,7 +16,7 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 						self.user.bornDate="";
 						self.user.password="";
 						self.user.confirmPassword="";
-						alertingRegistration.addSuccess("La tua richiesta è stata accettata. A breve riceverai una mail per confermare la tua registrazione");
+						alertingRegistration.addSuccess("La tua richiesta e' stata accettata. A breve riceverai una mail per confermare la tua registrazione");
 					},
 					//il server ha rifiutato la registrazione
 					function(reason){ 
@@ -26,7 +26,8 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 						self.user.bornDate="";
 						self.user.password="";
 						self.user.confirmPassword="";
-						throw new Error ("Non è stato possibile completare la registrazione, ti preghiamo di riprovare!");
+						alertingRegistration.addDanger("Non e' stato possibile completare la registrazione, ti preghiamo di riprovare!");
+						throw new Error ("Non e' stato possibile completare la registrazione, ti preghiamo di riprovare!");
 						
 						
 					}
