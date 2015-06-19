@@ -3,6 +3,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
                                                                   function dashboardCtrl( $state, permission,apiService,userService){
 	
 	var self = this;
+	self.showPopUp = false;
 	
 	function onStartup(){
 		if(userService.hasRoleUser()){
@@ -16,7 +17,10 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 		}
 	}
 	
-	
+	var createScenario = function(){
+		self.showPopUp = true;
+		
+	}
 	function getMe(){
 		
 		return apiService.getMe().then(

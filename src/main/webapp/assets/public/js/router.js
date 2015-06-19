@@ -103,24 +103,24 @@ angular.module('smiled.application')
 				}
 			}
 		})
-		.state('createScenario',{
-			url: "/createScenario",
-			templateUrl: "assets/private/partials/createScenario.html",
-			controller: "createScenarioCtrl",
-			controllerAs:"createScenario",
+		.state('updateScenario',{
+			url: "/updateScenario",
+			templateUrl: "assets/private/partials/updateScenario.html",
+			controller: "updateScenarioCtrl",
+			controllerAs:"updateScenario",
 			data: {
 				permissions: {
-					only: ['teacher'],
+					except: ['anonymous'],
 					redirectTo: 'logged'
 				}
 			}
 		})
-		.state('createScenario.createScenarioSon',{
-			parent: "createScenario",
-			url: "/createScenarioSon",
-			templateUrl: "assets/private/partials/createScenario.createScenarioSon.html",
-			
-		})
+//		.state('createScenario.createScenarioSon',{
+//			parent: "createScenario",
+//			url: "/createScenarioSon",
+//			templateUrl: "assets/private/partials/createScenario.createScenarioSon.html",
+//			
+//		})
 		.state('expandScenarios',{
 			url: "/expandScenarios",
 			templateUrl: "assets/private/partials/scenariosList.html",

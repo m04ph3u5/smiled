@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('createScenarioCtrl', [ 'apiService', 
-                                                              function createScenarioCtrl(apiService){
+angular.module('smiled.application').controller('updateScenarioCtrl', [ 'apiService', 
+                                                              function updateScenarioCtrl(apiService){
 
 	
 	var self = this;

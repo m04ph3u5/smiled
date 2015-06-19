@@ -20,12 +20,15 @@ angular.module("smiled.application").factory('alertingLogin',['$timeout', functi
         };
 
         var addAlert = function (type, message) {
-            var alert = { type: type, message: message };
-            currentAlerts.push(alert);
+        	
+        	if(currentAlerts.length==0){
+        		var alert = { type: type, message: message };
+        		currentAlerts.push(alert);
 
-            $timeout(function () {
-                removeAlert(alert);
-            }, 5000);
+        		$timeout(function () {
+        			removeAlert(alert);
+        		}, 5000);
+        	}
         };
 
         var removeAlert = function (alert) {
