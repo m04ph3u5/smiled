@@ -61,6 +61,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$state',
 			}
 		},function(reason){
 			logged=false;
+			notifyLoginObservers();
 			roleAdmin=false;
 			roleTeacher=false;
 			roleUser=false;
@@ -75,12 +76,12 @@ angular.module('smiled.application').factory('userService', [ '$http', '$state',
 			method: 'POST',
 			data: 'j_username='+email+'&j_password='+password+"&submit="
 		}).then(function(data){
-			logged=true;
 			user=apiService.getMe();
+			logged=true;
 			notifyLoginObservers();
 			user.then(function(data){
 				if(data.role.authority=="ROLE_USER"){
-					roleUser=true;
+					roleUser=true;				
 					$state.go("student");
 				}
 				else if(data.role.authority=="ROLE_TEACHER"){
@@ -93,6 +94,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$state',
 				}
 			},function(reason){
 				logged=false;
+				notifyLoginObservers();
 				roleAdmin=false;
 				roleTeacher=false;
 				roleUser=false;

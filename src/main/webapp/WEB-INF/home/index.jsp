@@ -118,7 +118,6 @@
 
 	
 	<!-- CUSTOM SCRIPT -->
-	<!-- CUSTOM SCRIPT -->
 	<script src="assets/public/js/app.js"></script>
 	<script src="assets/public/js/router.js"></script>
 	<script src="assets/public/js/controllers/shellController.js"></script>
@@ -131,16 +130,21 @@
 	<script src="assets/public/js/controllers/updateScenarioController.js"></script>
 	<script src="assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="assets/public/js/controllers/popoverDemoController.js"></script>
-	<script src="assets/public/js/wrapping/exceptionHandler.js"></script>
-	<script src="assets/public/js/wrapping/interpolateDebug.js"></script>
-	<script src="assets/public/js/wrapping/requestCounter.js"></script>
 	<script src="assets/public/js/services/userService.js"></script>
 	<script src="assets/public/js/services/apiService.js"></script>
 	<script src="assets/public/js/services/alertingLogin.js"></script>
 	<script src="assets/public/js/services/alertingRegistration.js"></script>
 	<script src="assets/public/js/directives/alertLogin.js"></script> 
-	<script src="assets/public/js/directives/alertRegistration.js"></script> 
+	<script src="assets/public/js/directives/alertRegistration.js"></script>
+	<script src="assets/public/js/directives/workSpinner.js"></script>
 	<script src="assets/public/js/support/jqSupport.js"></script>
+	
+	<!-- CUSTOM SCRIPT WRAPPING -->
+	<script src="assets/public/js/wrapping/exceptionHandler.js"></script>  
+	<script src="assets/public/js/wrapping/interpolateDebug.js"></script>
+	<script src="assets/public/js/wrapping/requestCounter.js"></script>
+	<script src="assets/public/js/wrapping/stateChangeErrors.js"></script>
+	
 	
 
 

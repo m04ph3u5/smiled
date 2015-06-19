@@ -1,4 +1,4 @@
-angular.module("smiled.application").directive('alertlogin',['alertingLogin', function(alerting) {
+angular.module("smiled.application").directive('alertlogin',['alertingLogin', function(alertingLogin) {
 
         return {
             restrict: "AE",
@@ -6,11 +6,11 @@ angular.module("smiled.application").directive('alertlogin',['alertingLogin', fu
             scope: true,
             controller: function($scope) {
                 $scope.removeAlert = function (alert) {
-                	alerting.removeAlert(alert);
+                	alertingLogin.removeAlert(alert);
                 };
             },
             link: function (scope) {
-                scope.currentAlerts = alerting.currentAlerts;
+                scope.currentAlerts = alertingLogin.currentAlerts;
             }
         };
 
