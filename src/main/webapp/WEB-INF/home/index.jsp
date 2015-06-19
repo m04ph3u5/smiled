@@ -131,6 +131,9 @@
 	<script src="assets/public/js/controllers/updateScenarioController.js"></script>
 	<script src="assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="assets/public/js/controllers/popoverDemoController.js"></script>
+	<script src="assets/public/js/wrapping/exceptionHandler.js"></script>
+	<script src="assets/public/js/wrapping/interpolateDebug.js"></script>
+	<script src="assets/public/js/wrapping/requestCounter.js"></script>
 	<script src="assets/public/js/services/userService.js"></script>
 	<script src="assets/public/js/services/apiService.js"></script>
 	<script src="assets/public/js/services/alertingLogin.js"></script>
