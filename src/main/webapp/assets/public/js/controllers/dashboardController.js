@@ -18,7 +18,6 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 	var showPopUpCreationScenario = function (){
 		ngDialog.open({
 		     template:'assets/private/partials/createScenario.html',
-		     className: 'ngdialog-theme-default',
 
 		});
 	};
