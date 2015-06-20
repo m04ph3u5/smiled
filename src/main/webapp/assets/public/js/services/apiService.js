@@ -5,22 +5,22 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular',
 	var register = Restangular.one('register');
 	var uploadMedia = Restangular.one("media");
 	
-	function getMe(){
+	var getMe = function(){
 		return me.get();
 	}
 	
-	function postRegister(registerObject){
+	var postRegister = function (registerObject){
 		console.log(registerObject);
 		return register.post("",registerObject);
 	}
 	
-	function createScenario(scenarioDTO){
+	var createScenario = function (scenarioDTO){
 		var scenario = Restangular.one("scenarios");
 		console.log(scenarioDTO);
 		return scenario.post("",scenarioDTO);
 	}
 	
-	function updateScenario(id,scenarioDTO){
+	var updateScenario = function (id,scenarioDTO){
 		var scenario = Restangular.one("scenarios",id);
 		scenario.name = scenarioDTO.name;
 		scenario.startHistoryDate = scenarioDTO.startHistoryDate;
@@ -32,7 +32,8 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular',
 	return {
 		getMe: getMe,
 		postRegister: postRegister,
-		createScenario : createScenario
+		createScenario : createScenario,
+		updateScenario : updateScenario
 	}
 	
 	

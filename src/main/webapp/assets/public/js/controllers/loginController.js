@@ -6,8 +6,6 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 		
 	};
 	
-	
-	self.register = {};
 	/*Opzioni per datepicker*/
 	self.dateOptions = {
 			dateFormat: 'dd/mm/yy'

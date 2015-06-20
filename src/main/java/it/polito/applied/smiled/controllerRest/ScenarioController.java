@@ -79,6 +79,7 @@ public class ScenarioController extends BaseController{
 	public Id createScenario(@RequestBody @Valid ScenarioDTO scenarioDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, IllegalStateException, IOException{
 		/*Controllo se la validazione dei campi obbligatori va a buon fine(per le modifiche si utilizza il metodo PUT)*/
 		if(result.hasErrors()){
+			System.out.println(scenarioDTO.getName()+ " " + scenarioDTO.getHistory().getStartDate() +" "+ scenarioDTO.getHistory().getEndDate());
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
 		scenarioDTO.setId(null); //non dovrebbe servire

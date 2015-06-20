@@ -1,6 +1,6 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Permission', 'apiService', 'userService','ngDialog',
+angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Permission', 'apiService', 'userService', 'scenarioService',
        
-                                                                  function dashboardCtrl( $state, permission,apiService,userService,ngDialog){
+                                                                  function dashboardCtrl( $state, permission,apiService,userService, scenarioService){
 	
 	var self = this;
 
@@ -15,25 +15,13 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 			$state.go("admin");
 		}
 	}
-	var showPopUpCreationScenario = function (){
+	
+	var showPopupCreationScenario = function (){
+		console.log("showPopupCreationScenario");
+		scenarioService.showModal();
 		
-		ngDialog.open({
-		     template:'assets/private/partials/createScenario.html',
-		     className: 'ngdialog-message',
-		     controller: 'createScenarioCtrl',
-		     controllerAs: 'createScenario',
-		     preCloseCallback: function(value) {
-                 if (confirm('Close it?  (Value = ' + value+ ')')) {
-                     return true;
-                 }
-                 return false;
-             }
-		     
-
-		});
 	};
-		
-		
+			
 	var getMe = function(){
 		
 		return apiService.getMe().then(
@@ -53,11 +41,13 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 				}
 			);
 	}
-	return {
-		showPopUpCreationScenario : showPopUpCreationScenario
-	};
+	
 	
 	onStartup();
 	getMe();
+	
+	return {
+		showPopupCreationScenario : showPopupCreationScenario
+	}
 	
 }]);

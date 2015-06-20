@@ -132,13 +132,18 @@
 	<script src="assets/public/js/controllers/dialogCreateScenarioController.js"></script>
 	<script src="assets/public/js/services/userService.js"></script>
 	<script src="assets/public/js/services/apiService.js"></script>
+	<script src="assets/public/js/services/scenarioService.js"></script>
 	<script src="assets/public/js/services/alertingLogin.js"></script>
 	<script src="assets/public/js/services/alertingRegistration.js"></script>
-	<script src="assets/public/js/directives/alertLogin.js"></script> 
-	<script src="assets/public/js/directives/alertRegistration.js"></script>
-	<script src="assets/public/js/directives/workSpinner.js"></script>
+	<script src="assets/public/js/services/alertingGeneric.js"></script>
 	<script src="assets/public/js/support/jqSupport.js"></script>
 	
+	<!-- CUSTOM SCRIPT DIRECTIVE -->
+	<script src="assets/public/js/directives/alertLogin.js"></script> 
+	<script src="assets/public/js/directives/alertRegistration.js"></script>
+	<script src="assets/public/js/directives/alertGeneric.js"></script>
+	<script src="assets/public/js/directives/workSpinner.js"></script>
+		
 	<!-- CUSTOM SCRIPT WRAPPING -->
 	<script src="assets/public/js/wrapping/exceptionHandler.js"></script>  
 	<script src="assets/public/js/wrapping/interpolateDebug.js"></script>

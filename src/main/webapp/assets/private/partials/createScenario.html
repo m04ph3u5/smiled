@@ -1,17 +1,20 @@
-
-<h2>Crea un nuovo scenario</h2>
-<form class="navbar-form navbar-right" role="form" novalidate>
-	<div >
-			<input type="text" class="form-control" placeholder="TITOLO"
-				data-ng-model="title"/>
-	</div>
-	<div >
-			<input type="text" data-ng-model="startDate" class="form-control" placeholder="DATA INIZIO"/>
-	</div>
-	<div >
-			<input type="text" class="form-control" placeholder="DATA FINE"
-				data-ng-model="endDate"/>
-	</div>
-	<button class="btn btn-default confirm " data-ng-click="createScenario.createScenario() && closeThisDialog('')">CREA</button>
-</form>
+<div class="modal-header">
+	<h3 class="modal-title">Crea un nuovo scenario</h3>
+</div>
+<div class="modal-body">
+	<label for="title">TITOLO</label>
+	<input id="title" type="text" class="form-control" placeholder="SCEGLI UN TITOLO"
+				data-ng-model="createScenario.scenario.title"/>
+	<label for="startDate">DATA INIZIO</label>
+	<input id="startDate" type="text" data-ng-model="createScenario.scenario.startDate" class="form-control" placeholder="yyyy-MM-dd"/>
+	<label for="endDate">DATA FINE</label>
+	<input id="endDate" type="text" class="form-control" placeholder="yyyy-MM-dd"
+				data-ng-model="createScenario.scenario.endDate"/>
+	<alertgeneric></alertgeneric>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" data-ng-click="createScenario.createScenario()">CREA</button>
+	<button class="btn btn-warning" data-ng-click="$dismiss()">ANNULLA</button>
 	
+</div>
+
