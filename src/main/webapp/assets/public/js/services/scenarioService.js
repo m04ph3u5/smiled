@@ -31,18 +31,19 @@ angular.module('smiled.application').factory('scenarioService', ['$modal', 'apiS
 			 var scenarioDTO = {};
 			 scenarioDTO.name = scenario.title;
 			 scenarioDTO.history = history;
-			 
-			 console.log("titolo: "+ scenarioDTO.name);
-			 
+			 			 
 			 s = apiService.createScenario(scenarioDTO);
-			 return s;
+			 return s; 
 			 
-			 
-			 
+		}
+		
+		var updateScenario = function(scenario){
+			
 		}
 		
 		return {
 			createScenario : createScenario,
+			updateScenario : updateScenario,
 			showModal : showModal,
 			closeModal: closeModal
 		}

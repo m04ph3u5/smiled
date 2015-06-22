@@ -1,4 +1,4 @@
-angular.module('smiled.application').controller('loginCtrl', ['userService', 'apiService','alertingLogin',
+angular.module('smiled.application').controller('loginCtrl', ['userService', 'apiService','alertingLogin', 
                                                               function loginCtrl(userService, apiService, alertingLogin){
 	
 	var self = this;

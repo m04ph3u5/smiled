@@ -3,7 +3,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
                                                                   function dashboardCtrl( $state, permission,apiService,userService, scenarioService){
 	
 	var self = this;
-
+	self.user = {};
+	
 	var onStartup = function (){
 		if(userService.hasRoleUser()){
 			$state.go("student");
@@ -28,7 +29,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 				
 				function(data){
 					self.user = data;
-					var list = data.creatingScenarios;
+					console.log("-----------");
+					console.log(self.user.creatingScenarios);
 //					if (list.lenght<=3){
 //						
 //					}
@@ -36,7 +38,6 @@ angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Per
 //					
 				},
 				function(reason){
-					self.user={};
 					console.log("dashboardCtrl error getting user");
 				}
 			);

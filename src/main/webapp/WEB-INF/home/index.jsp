@@ -5,6 +5,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/public/css/custom-style.css">
+<link rel="stylesheet" href="assets/public/css/validation-form.css">
 <link rel="stylesheet" href="assets/public/css/jquery-ui.css">
 <link rel="stylesheet" href="assets/public/js/vendor/ngDialog/css/ngDialog.css">
 </head>
@@ -95,9 +96,7 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="assets/public/js/vendor/jquery-ui.js"></script>
 	<script src="assets/public/js/vendor/angular/angular.js"></script>
-	<script src="assets/public/js/vendor/angular-ui-date/src/date.js"></script>
-	<script src="assets/public/js/vendor/angular-ui-date/datepicker-it.js"></script>
-		
+	<script src="assets/public/js/vendor/angular-ui-date/src/date.js"></script>		
 	<script
 		src="assets/public/js/vendor/angular-cookies/angular-cookies.js"></script>
 	<script
@@ -143,6 +142,8 @@
 	<script src="assets/public/js/directives/alertRegistration.js"></script>
 	<script src="assets/public/js/directives/alertGeneric.js"></script>
 	<script src="assets/public/js/directives/workSpinner.js"></script>
+	<script src="assets/public/js/directives/formInput.js"></script>
+	<script src="assets/public/js/directives/emailNotAlreadyUsed.js"></script>
 		
 	<!-- CUSTOM SCRIPT WRAPPING -->
 	<script src="assets/public/js/wrapping/exceptionHandler.js"></script>  

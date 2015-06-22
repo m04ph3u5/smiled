@@ -1,4 +1,4 @@
-angular.module('smiled.application').factory('userService', [ '$http', '$state', 'apiService', 'Permission','alertingLogin',
+angular.module('smiled.application').factory('userService', [ '$http', '$state', 'apiService', 'Permission','alertingLogin', 
                function userService($http,$state,apiService, Permission, alertingLogin){
 
 	var logged=false;

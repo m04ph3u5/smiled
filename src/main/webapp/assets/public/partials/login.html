@@ -55,42 +55,43 @@
 		<div class="col-md-8"></div>
 		<div class="col-md-3 boxFluttuante">
 			<h3>ISCRIZIONE DOCENTE</h3>
-			<label>INFORMAZIONI PERSONALI</label>
 			<alertregistration></alertregistration>
-			<form role="form" novalidate>
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="NOME"
+			<H5>INFORMAZIONI PERSONALI</H5>
+			<form novalidate name="registerForm" ng-submit="register.postRegister()">
+				<div forminput>
+					<input type="text" id="firstName" name="firstName" placeholder="NOME"
 						data-ng-model="register.user.firstName" required></input>
-					<div class="form-group"></div>
-					<input type="text" class="form-control" placeholder="COGNOME"
+						
+				</div>
+				<div forminput>
+					<input type="text" id="lastName" name="lastName" placeholder="COGNOME"
 						data-ng-model="register.user.lastName" required></input>
 				</div>
-				<div class="form-group">
-					<form class="form-inline">
-						<div class="form-group">
-							<input ui-date="dateOptions" class="form-control" required
-								data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
-						</div>
+					
+				<div forminput>
+						<input ui-date="dateOptions" id="bornDate" name="bornDate" required
+							data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>		
 				</div>
 
-
-				<div class="form-group">
-					<label>ACCOUNT</label> <input type="text" class="form-control"
-						placeholder="EMAIL" data-ng-model="register.user.email" required></input>
+				<h5>ACCOUNT</h5>
+				<div forminput>
+					<label for="email">Email</label>
+					<input type="text" name="email" id="email"
+						placeholder="EMAIL" data-ng-model="register.user.email" required emailnotalreadyused></input>
 				</div>
-				<div class="form-group">
-					<input type="password" class="form-control" placeholder="PASSWORD"
+				<div forminput>
+					<input type="password" name="password" id="password" placeholder="PASSWORD"
 						data-ng-model="register.user.password" required></input>
 				</div>
-				<div class="form-group">
-					<input type="password" class="form-control"
+				<div forminput>
+					<input type="password" name="confirmPassword" id="confirmPassword"
 						placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"
 						required></input>
 				</div>
 				
-				<button data-ng-click="register.postRegister()"
-					class="btn btn-default confirm">REGISTRATI</button>
+				<button  type="submit" class="btn btn-default confirm">REGISTRATI</button>
 			</form>
+			
 
 		</div>
 	</div>
