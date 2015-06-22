@@ -6,7 +6,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/public/css/custom-style.css">
 <link rel="stylesheet" href="assets/public/css/jquery-ui.css">
-<link rel="stylesheet" href="assets/public/vendor/ngDialog/css/ngDialog.css">
+<link rel="stylesheet" href="assets/public/js/vendor/ngDialog/css/ngDialog.css">
 </head>
 <base href="/ThesisProject/">
 <body data-ng-cloak data-ng-controller="indexCtrl as index">
@@ -117,6 +117,7 @@
 	<script src="assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.js"></script>
 	<script src="assets/public/js/vendor/ngDialog/js/ngDialog.js"></script>
 
+	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
 	
 	<!-- CUSTOM SCRIPT -->
 	<script src="assets/public/js/app.js"></script>
@@ -147,7 +148,34 @@
 	<script src="assets/public/js/wrapping/stateChangeErrors.js"></script>
 	
 	
-
+<script>
+	var url = 'https://'+window.location.host+'/ThesisProject/websocket/marcopolo';
+	var sock = new SockJS(url);
+	
+	var stomp = Stomp.over(sock);
+	
+	var payload = JSON.stringify({ 'message': 'Marco!' });
+	stomp.connect('guest', 'guest', function(frame) {
+		stomp.send("/marco", {}, payload);
+	});
+	
+// 	sock.onopen = function() {
+	
+// 		console.log('Opening');
+// 		sayMarco();
+// 	};
+// 	sock.onmessage = function(e) {
+// 		console.log('Received message: ', e.data);
+// 		setTimeout(function(){sayMarco()}, 2000);
+// 	};
+// 	sock.onclose = function() {
+// 		console.log('Closing');
+// 	};
+// 	function sayMarco() {
+// 		console.log('Sending Marco!');
+// 		sock.send("Marco!");
+// 	}
+ </script>
 
 </body>
 </html>
