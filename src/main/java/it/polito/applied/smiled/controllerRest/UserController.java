@@ -6,10 +6,12 @@ import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Message;
+import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.UserService;
 import it.polito.applied.smiled.validator.UserDTOValidator;
@@ -195,5 +197,12 @@ public class UserController extends BaseController{
 		return userDTO;
 
 	}
-
+	
+	/*TODO valutare sicurezza su questo metodo e necessità del metodo stesso
+	 * Potrebbe essere utile per una validazione realtime al momento della registrazione*/
+	@RequestMapping(value="/v1/users/email",method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void emailIsRegistered(@RequestParam(value = "email", required=true) String email) throws  MongoException, UserNotFoundException{
+		UserDTO u = userService.getOneself(email);
+	}
 }

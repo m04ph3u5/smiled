@@ -8,6 +8,7 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>src/main/webapp/WEB-INF/config/security-config.xml</config>
+		<config>src/main/webapp/WEB-INF/config/websocket-config.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/config/servlet-config.xml</config>

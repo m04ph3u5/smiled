@@ -265,37 +265,33 @@ When ``true``, closing the dialog restores focus to the element that launched it
 
 When ``true``, automatically selects appropriate values for any unspecified accessibility attributes. Default value is ``true``
 
-See [Accessibility](#Accessibility) for more information.
 
 ##### ``ariaRole {String}``
 
 Specifies the value for the ``role`` attribute that should be applied to the dialog element. Default value is ``null`` (unspecified)
 
-See [Accessibility](#Accessibility) for more information.
 
 ##### ``ariaLaballedById {String}``
 
 Specifies the value for the ``aria-labelledby`` attribute that should be applied to the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the value is not validated against the DOM. See [Accessibility](#Accessibility) for more information.
-
+If specified, the value is not validated against the DOM. 
 ##### ``ariaLaballedBySelector {String}``
 
 Specifies the CSS selector for the element to be referenced by the ``aria-labelledby`` attribute on the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the first matching element is used. See [Accessibility](#Accessibility) for more information.
+If specified, the first matching element is used. 
 
 ##### ``ariaDescribedById {String}``
 
 Specifies the value for the ``aria-describedby`` attribute that should be applied to the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the value is not validated against the DOM. See [Accessibility](#Accessibility) for more information.
-
+If specified, the value is not validated against the DOM.
 ##### ``ariaDescribedBySelector {String}``
 
 Specifies the CSS selector for the element to be referenced by the ``aria-describedby`` attribute on the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the first matching element is used. See [Accessibility](#Accessibility) for more information.
+If specified, the first matching element is used. 
 
 ===
 
