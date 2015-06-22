@@ -200,7 +200,7 @@ public class UserController extends BaseController{
 	
 	/*TODO valutare sicurezza su questo metodo e necessità del metodo stesso
 	 * Potrebbe essere utile per una validazione realtime al momento della registrazione*/
-	@RequestMapping(value="/v1/users",method=RequestMethod.GET)
+	@RequestMapping(value="/v1/users/email",method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void emailIsRegistered(@RequestParam(value = "email", required=true) String email) throws  MongoException, UserNotFoundException{
 		UserDTO u = userService.getOneself(email);
