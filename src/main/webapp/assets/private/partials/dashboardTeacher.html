@@ -33,6 +33,25 @@
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
 							<h4>{{s.name}}</h4>
+					<div class="row marginMTop">					
+						<div class="col-sm-2"  >
+								<img href="" ng-click="dashboard.showPopupCreationScenario()" src="assets/public/img/Icon_WriteArticles.png"
+									class="img-circle imgPreviewL" > 
+								<h4><i>Crea scenario</i></h4>
+								
+			
+					    </div>
+					    <div data-ui-sref="scenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.creatingScenarios">
+								<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+									class="img-circle imgPreviewL"> <img
+									class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
+								<h4>{{s.name}}</h4>
+						</div>
+						<div data-ui-sref="scenario({id : '{{s.id}}' })" class="col-sm-2" data-ng-repeat="s in dashboard.user.openScenarios">
+								<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+									class="img-circle imgPreviewL"> <img
+									class="overlapImg img-circle" src="assets/public/img/100-719.jpg">
+								<h4>{{s.name}}</h4>
 						</div>
 						<div class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.closedScenarios">
