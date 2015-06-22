@@ -13,7 +13,7 @@ angular.module("smiled.application").directive('emailnotalreadyused', ['$http', 
 		};
 	
 		var validateUsername = function(value){
-			return $http.get("api/v1/emailValidation=" + encodeURI(value))
+			return $http.get("api/v1/users=" + encodeURI(value))
 				.then(processResponse);
 			
 		};
@@ -22,7 +22,6 @@ angular.module("smiled.application").directive('emailnotalreadyused', ['$http', 
 	
         return {
             restrict: "A",
-            templateUrl: "assets/public/partials/alerts.html",
             require: "ngModel",
             link: function(scope, element, attributes, ngModel){
             	ngModel.$asyncValidators.username = validateUsername;
