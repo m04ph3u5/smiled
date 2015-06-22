@@ -41,6 +41,7 @@
 			requires-channel="https" />
 		<intercept-url pattern="/assets/public/**" access="permitAll"
 			requires-channel="https" />
+		<intercept-url pattern="/websocket/**" access="permitAll" />
 		<intercept-url pattern="/api/v1/register" access="permitAll"
 			requires-channel="https" />
 		<intercept-url pattern="/register" access="permitAll"
@@ -79,8 +80,8 @@
 
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"
 			requires-channel="https" />
-		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/>
-		<csrf token-repository-ref="customCsrfTokenRepository"></csrf>
+<!-- 		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/> -->
+<!-- 		<csrf token-repository-ref="customCsrfTokenRepository"></csrf> -->
 		<form-login
 			login-processing-url="/apiLogin"
 			default-target-url="/"
@@ -88,10 +89,12 @@
 			authentication-failure-handler-ref="authenticationFailureHandler"/>
 		<logout logout-url="/apiLogout"/>
 	</http>
+	
+	
 
-	<beans:bean id="customCsrfTokenRepository"
-		class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
-		<beans:property name="headerName" value="X-XSRF-TOKEN" />	
-	</beans:bean>
+<!-- 	<beans:bean id="customCsrfTokenRepository" -->
+<!-- 		class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"> -->
+<!-- 		<beans:property name="headerName" value="X-XSRF-TOKEN" />	 -->
+<!-- 	</beans:bean> -->
 
 </beans:beans>
