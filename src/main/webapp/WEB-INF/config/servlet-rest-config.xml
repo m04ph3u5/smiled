@@ -8,15 +8,17 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-
+	<context:component-scan base-package="it.polito.applied.smiled.controllerRest" />
+	
+	
+	
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean
 				class="org.springframework.security.web.bind.support.AuthenticationPrincipalArgumentResolver" />
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
-
-	<context:component-scan base-package="it.polito.applied.smiled.controllerRest" />
+	
 
 	<security:global-method-security
 		pre-post-annotations="enabled">
@@ -31,6 +33,5 @@
 			p:paramName="language" />
 	</mvc:interceptors>
 
-<!-- 	<mvc:resources mapping="/assets/**" location="/, classpath:/assets/" -->
-<!-- 		cache-period="0" /> -->
+			
 </beans>

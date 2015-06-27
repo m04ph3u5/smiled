@@ -21,8 +21,7 @@
 <!-- 	<mvc:resources location="assets" mapping="/assets/**" /> -->
 <!-- 	<mvc:resources location="pdfs" mapping="/pdfs/**" /> -->
 
-	<mvc:resources mapping="/assets/**" location="/assets/"
-		cache-period="0" />
+	
 	
 		
 	<bean id="taskExecutor"

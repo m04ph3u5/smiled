@@ -11,7 +11,7 @@
 
 	<context:component-scan base-package="it.polito.applied.smiled.websocket"></context:component-scan>
 	
-	 <websocket:message-broker application-destination-prefix="/app">
+	<websocket:message-broker application-destination-prefix="/app">
         <websocket:stomp-endpoint path="/marcopolo">
             <websocket:sockjs/>
         </websocket:stomp-endpoint>

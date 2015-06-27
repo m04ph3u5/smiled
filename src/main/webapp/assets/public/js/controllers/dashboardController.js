@@ -1,52 +1,23 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['$state', 'Permission', 'apiService', 'userService','ngDialog',
-       
-                                                                  function dashboardCtrl( $state, permission,apiService,userService,ngDialog){
+angular.module('smiled.application').controller('dashboardCtrl', ['userService','scenarioService',
+   function dashboardCtrl(userService,scenarioService){
 	
 	var self = this;
-
-	var onStartup = function (){
-		if(userService.hasRoleUser()){
-			$state.go("student");
-		}
-		if(userService.hasRoleTeacher()){	
-			$state.go("teacher");
-		}
-		if(userService.hasRoleAdmin()){
-			$state.go("admin");
-		}
-	}
-	var showPopUpCreationScenario = function (){
-		ngDialog.open({
-		     template:'assets/private/partials/createScenario.html',
-
-		});
-	};
-		
-		
-	var getMe = function(){
-		
-		return apiService.getMe().then(
-				
-				function(data){
-					self.user = data;
-					var list = data.creatingScenarios;
-//					if (list.lenght<=3){
-//						
-//					}
-//					self.firstScenarios; 
-//					
-				},
-				function(reason){
-					self.user={};
-					console.log("dashboardCtrl error getting user");
-				}
-			);
-	}
-	return {
-		showPopUpCreationScenario : showPopUpCreationScenario
-	};
+	//self.user = {};
 	
-	onStartup();
-	getMe();
+	userService.getUser().then(
+		function(data){
+			self.user=data;
+			console.log(self.user);
+		}
+	);
+
+	var showPopUpCreationScenario = function (){
+		scenarioService.showModal();
+	};
+		
+		
+
+	self.showPopUpCreationScenario=showPopUpCreationScenario;
+	
 	
 }]);

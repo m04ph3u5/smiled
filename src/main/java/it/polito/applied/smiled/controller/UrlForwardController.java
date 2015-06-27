@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.controller;
 
+import it.polito.applied.smiled.controller.BaseController;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.SetPasswordDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mongodb.MongoException;
 
 @Controller
-public class UrlForwardController{
+public class UrlForwardController extends BaseController{
 	
 	@Autowired
 	UserService userService;
@@ -59,7 +60,7 @@ public class UrlForwardController{
 	}
 	
 	
-	@RequestMapping(value="/*")
+	@RequestMapping(value="/**",method=RequestMethod.GET)
 	public String index() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(auth.isAuthenticated()){
@@ -70,6 +71,5 @@ public class UrlForwardController{
 	    return "index";
 	}
 	
-
 	
 }

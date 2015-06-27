@@ -8,6 +8,7 @@ import it.polito.applied.smiled.exception.DuplicateSchoolException;
 import it.polito.applied.smiled.exception.ErrorCreateClassInfo;
 import it.polito.applied.smiled.exception.ErrorInfo;
 import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
 import it.polito.applied.smiled.exception.InvalidUserInsertAttemptionException;
 import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
@@ -122,6 +123,7 @@ public abstract class BaseController {
 		System.out.println("HttpMediaTypeNotAcceptableException: "+e.getMessage());
 		return error;
 	}
+	
 	
 	
 //	@ExceptionHandler(AccessDeniedException.class)

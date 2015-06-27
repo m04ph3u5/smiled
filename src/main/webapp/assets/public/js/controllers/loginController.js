@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('loginCtrl', ['userService', 'apiService','alertingLogin',
-                                                              function loginCtrl(userService, apiService, alertingLogin){
+angular.module('smiled.application').controller('loginCtrl', ['userService', 'apiService','alertingLogin', '$state',
+                                                              function loginCtrl(userService, apiService, alertingLogin, $state){
 	
 	var self = this;
 	self.user = {
@@ -35,8 +35,16 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 			self.user.password ="";
 		}
 		else{
-			userService.login(self.user.email, self.user.password);
-			self.user.password ="";
+			userService.login(self.user.email, self.user.password).then(
+					function(data){
+						$state.go('logged.dashboard');
+					},
+					function(reason){
+						alertingLogin.addDanger("Attenzione credenziali errate!");
+						self.user.password ="";
+						self.user.email ="";
+					});
+			
 			
 		}
 	}

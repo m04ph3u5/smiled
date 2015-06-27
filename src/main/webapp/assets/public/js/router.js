@@ -5,179 +5,245 @@ angular.module('smiled.application')
 		var notFoundPath;
 		$stateProvider
 		.state('login',{
-			url: "/",
+			url: "/login",
 			templateUrl: 'assets/public/partials/login.html',
 			controller: "loginCtrl",
 			controllerAs:"login",
 			data: {
 				permissions:{
 					only: ['anonymous'],
-					redirectTo: 'logged'
-				}
-			}
-		})
-		.state('logout',{
-			url: "/login",
-			templateUrl: 'assets/public/partials/login.html',
-			controller: "loginCtrl",			
-			data: {
-				permissions:{
-					except: ['anonymous'],
-					redirectTo: 'login'
+					redirectTo: 'logged.dashboard'
 				}
 			}
 		})
 		.state('logged',{
-			url: "/",
-			template: "",
-			controller: "dashboardCtrl",
-			controllerAs: "dashboard",
+			templateUrl: 'assets/private/partials/template-logged.html',
+			abstract: true,
 			data: {
-				permissions:{
+				permissions: {
 					except: ['anonymous'],
-					redirectTo: 'login'
+					redirectTo: 'login' 
 				}
 			}
 		})
-		.state('student',{
-			url: "/",
-			templateUrl: "assets/private/partials/dashboardStudent.html",
-			controller: "dashboardCtrl",
-			controllerAs: "dashboard",
-			data: {
-				permissions:{
-					only: ['user'],
-					redirectTo: 'login'
+		.state('logged.dashboard',{
+			url: '/',
+			views: {
+				'content': {
+					controller: "loggedCtrl",
+					controllerAs: "logged"
+				}				
+			}
+		})
+		.state('logged.dashboard.teacher',{
+			url: "dashboard",
+			views: {
+				'content@logged': {
+					templateUrl: 'assets/private/partials/dashboardTeacher.html',
+					controller: "dashboardCtrl",
+					controllerAs: "dashboard"
 				}
 			}
 		})
-		.state('teacher',{
-			url: "/",
-			templateUrl: "assets/private/partials/dashboardTeacher.html",
-			controller: "dashboardCtrl",
-			controllerAs: "dashboard",
-			data: {
-				permissions:{
-					only: ['teacher'],
-					redirectTo: 'login'
+		.state('logged.dashboard.student',{
+			url: "dashboard",
+			views: {
+				'content@logged': {
+					templateUrl: 'assets/private/partials/dashboardStudent.html',
+					controller: "dashboardCtrl",
+					controllerAs: "dashboard"
 				}
 			}
 		})
-		.state('admin',{
-			url: "/",
-			templateUrl: "assets/private/partials/dashboardAdmin.html",
-			controller: "dashboardCtrl",
-			controllerAs: "dashboard",
-			data: {
-				permissions:{
-					only: ['admin'],
-					redirectTo: 'login'
+		.state('logged.dashboard.admin',{
+			url: "dashboard",
+			views: {
+				'content@logged': {
+					templateUrl: 'assets/private/partials/dashboardAdmin.html',
+					controller: "dashboardCtrl",
+					controllerAs: "dashboard"
 				}
 			}
 		})
-		.state('scenario',{
-			url: "/scenario",
+		.state('logged.scenario',{
+			url: "/scenario/{id}",
 			params : {
 				id : null
 			},
-			templateUrl: "assets/private/partials/scenario.html",
-			controller: "scenarioCtrl",			
-			data: {
-				permissions: {
-					only: ['teacher'],
-					redirectTo: 'logged'
+			views: {
+				'content' : {
+					templateUrl: "assets/private/partials/scenario.html",
+					controller: "scenarioCtrl"
 				}
 			}
+			
 		})
-		.state('personalProfile',{
-			url: "/profile",
-			params : {
-				id : null
-			},
-			templateUrl: "assets/private/partials/personalProfile.html",
-			controller: "personalProfileCtrl",
-			data: {
-				permissions: {
-					except: ['anonymous'],
-					redirectTo: 'login'
-				}
-			}
-		})
-		.state('updateScenario',{
-			url: "/updateScenario",
-			templateUrl: "assets/private/partials/updateScenario.html",
-			controller: "updateScenarioCtrl",
-			controllerAs:"updateScenario",
-			data: {
-				permissions: {
-					except: ['anonymous'],
-					redirectTo: 'logged'
-				}
-			}
-		})
-//		.state('createScenario.createScenarioSon',{
-//			parent: "createScenario",
-//			url: "/createScenarioSon",
-//			templateUrl: "assets/private/partials/createScenario.createScenarioSon.html",
-//			
+//		.state('logout',{
+//			url: "/login",
+//			templateUrl: 'assets/public/partials/login.html',
+//			controller: "loginCtrl",			
+//			data: {
+//				permissions:{
+//					except: ['anonymous'],
+//					redirectTo: 'login'
+//				}
+//			}
 //		})
-		.state('expandScenarios',{
-			url: "/expandScenarios",
-			templateUrl: "assets/private/partials/scenariosList.html",
-			controller: "expandCtrl",
-			controllerAs: "expand",
-			data: {
-				permissions: {
-					except: ['anonymous'],
-					redirectTo: 'login'
-				}
-			}
-		})
-		.state('viewStudents',{
-			url: "/viewStudents",
-			templateUrl: "assets/private/partials/studentsList.html",
+//		.state('logged',{
+//			url: "/",
+//			template: "",
 //			controller: "dashboardCtrl",
-//			controllerAs: "scenariosList",
-			data: {
-				permissions: {
-					except: ['anonymous'],
-					redirectTo: 'login'
-				}
-			}
-		})
-		.state('viewColleagues',{
-			url: "/viewColleagues",
-			templateUrl: "assets/private/partials/colleaguesList.html",
+//			controllerAs: "dashboard",
+//			data: {
+//				permissions:{
+//					except: ['anonymous'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('student',{
+//			url: "/",
+//			templateUrl: "assets/private/partials/dashboardStudent.html",
 //			controller: "dashboardCtrl",
-//			controllerAs: "scenariosList",
-			data: {
-				permissions: {
-					except: ['anonymous'],
-					redirectTo: 'login'
-				}
-			}
-		})
-		.state('viewFiles',{
-			url: "/viewFiles",
-			templateUrl: "assets/private/partials/filesList.html",
+//			controllerAs: "dashboard",
+//			data: {
+//				permissions:{
+//					only: ['user'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('teacher',{
+//			url: "/",
+//			templateUrl: "assets/private/partials/dashboardTeacher.html",
 //			controller: "dashboardCtrl",
-//			controllerAs: "scenariosList",
-			data: {
-				permissions: {
-					except: ['anonymous'],
-					redirectTo: 'login'
-				}
-			}
-		})
+//			controllerAs: "dashboard",
+//			data: {
+//				permissions:{
+//					only: ['teacher'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('admin',{
+//			url: "/",
+//			templateUrl: "assets/private/partials/dashboardAdmin.html",
+//			controller: "dashboardCtrl",
+//			controllerAs: "dashboard",
+//			data: {
+//				permissions:{
+//					only: ['admin'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('scenario',{
+//			url: "/scenario",
+//			params : {
+//				id : null
+//			},
+//			templateUrl: "assets/private/partials/scenario.html",
+//			controller: "scenarioCtrl",			
+//			data: {
+//				permissions: {
+//					only: ['teacher'],
+//					redirectTo: 'logged'
+//				}
+//			}
+//		})
+//		.state('personalProfile',{
+//			url: "/profile",
+//			params : {
+//				id : null
+//			},
+//			templateUrl: "assets/private/partials/personalProfile.html",
+//			controller: "personalProfileCtrl",
+//			data: {
+//				permissions: {
+//					except: ['anonymous'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('updateScenario',{
+//			url: "/updateScenario",
+//			templateUrl: "assets/private/partials/updateScenario.html",
+//			controller: "updateScenarioCtrl",
+//			controllerAs:"updateScenario",
+//			data: {
+//				permissions: {
+//					except: ['anonymous'],
+//					redirectTo: 'logged'
+//				}
+//			}
+//		})
+////		.state('createScenario.createScenarioSon',{
+////			parent: "createScenario",
+////			url: "/createScenarioSon",
+////			templateUrl: "assets/private/partials/createScenario.createScenarioSon.html",
+////			
+////		})
+//		.state('expandScenarios',{
+//			url: "/expandScenarios",
+//			templateUrl: "assets/private/partials/scenariosList.html",
+//			controller: "expandCtrl",
+//			controllerAs: "expand",
+//			data: {
+//				permissions: {
+//					except: ['anonymous'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('viewStudents',{
+//			url: "/viewStudents",
+//			templateUrl: "assets/private/partials/studentsList.html",
+////			controller: "dashboardCtrl",
+////			controllerAs: "scenariosList",
+//			data: {
+//				permissions: {
+//					except: ['anonymous'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('viewColleagues',{
+//			url: "/viewColleagues",
+//			templateUrl: "assets/private/partials/colleaguesList.html",
+////			controller: "dashboardCtrl",
+////			controllerAs: "scenariosList",
+//			data: {
+//				permissions: {
+//					except: ['anonymous'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
+//		.state('viewFiles',{
+//			url: "/viewFiles",
+//			templateUrl: "assets/private/partials/filesList.html",
+////			controller: "dashboardCtrl",
+////			controllerAs: "scenariosList",
+//			data: {
+//				permissions: {
+//					except: ['anonymous'],
+//					redirectTo: 'login'
+//				}
+//			}
+//		})
 		.state('notFound',{
 			url: '/404',
 			templateUrl: "assets/public/partials/404.html"
 		});
+		
+		$urlRouterProvider.otherwise(function($injector,$location){
+			var state = $injector.get('$state');
+			 state.go('login');
+		});
 	
+
 		$locationProvider.html5Mode(true);
 	
-		$urlRouterProvider
-		.otherwise('/');
 	
 		RestangularProvider.setBaseUrl('/ThesisProject/api/v1');
 		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
@@ -186,11 +252,16 @@ angular.module('smiled.application')
     	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
     		  console.log("check anonymous");
-
-    		  if(userService.isLogged())
-    			  return false;
-    		  else
-    			  return true;
+    		  var deferred = $q.defer();
+    		  userService.getUser().then(
+    				  function(data){
+    					  deferred.reject();
+    				  },
+    				  function(reason){
+    					  deferred.resolve();
+    				  }
+    		  );
+    		  return deferred.promise;
 
     	  });
     	  Permission.defineRole('user',function(stateParams){

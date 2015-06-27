@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
+	
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean
@@ -18,8 +19,8 @@
 	<context:component-scan base-package="it.polito.applied.smiled.controller" />
 
 
-<!-- 	<mvc:resources mapping="/assets/**" location="/assets/" -->
-<!-- 		cache-period="0" /> -->
+<!-- 	<mvc:default-servlet-handler/> -->
+
 
 	<security:global-method-security
 		pre-post-annotations="enabled">
