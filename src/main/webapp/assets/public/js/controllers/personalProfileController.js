@@ -1,21 +1,30 @@
-angular.module('smiled.application').controller('personalProfileCtrl', ['$scope', 'apiService', 'Upload','userService',
-                                                              function personalProfileCtrl($scope, apiService, Upload, userService){
+angular.module('smiled.application').controller('personalProfileCtrl', ['Upload','userService', '$stateParams', 'CONSTANTS',
+                                                              function personalProfileCtrl(Upload, userService, $stateParams, CONSTANTS){
 	
-	//$scope.cover=null;
+	var self = this;
+	var id = null;
 	
+	var onSuccessGetUser = function(data){
+		self.user = data;
+	}
+	
+	var onErrorGetUser = function(reason){
+		console.log("Error getting user personalProfile: "+reason);
+	}
+	
+	if($stateParams.id)
+		id = $stateParams.id;
+	if(id){
+		userService.getUser(id).then(onSuccessGetUser, onErrorGetUser);
+		self.url = CONSTANTS.urlGetUserCover(id);
 
-//	var uploadCover = function(file){
-//		console.log("uploadCover");
-//		$scope.cover=file;
-//		console.log($scope.cover);
-//		
-//		if($scope.cover!=null){
-//			var fd = new FormData();
-//			fd.append('file',$scope.cover);
-//			console.log(fd);
-//			apiService.uploadCoverScenario(id,$scope.cover);
-//		}
-//	}
+	}else{
+		userService.getMe().then(onSuccessGetUser, onErrorGetUser);
+		self.url = CONSTANTS.urlGetMeCover;
+
+	}
+	
+	
 	
 	var uploadCover = function(file){
 		if(file && file.length){
@@ -32,10 +41,9 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['$scope'
 //	        })
 	        .success(function (data, status, headers, config) {
 	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-	            userService.notifyImageProfileObservers();          
+	            //userService.notifyImageProfileObservers();          
 	        });
 		}
 	}
 	
-	$scope.uploadCover = uploadCover;
 }]);

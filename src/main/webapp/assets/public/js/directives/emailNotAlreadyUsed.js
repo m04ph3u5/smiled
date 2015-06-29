@@ -13,6 +13,7 @@ angular.module("smiled.application").directive('emailnotalreadyused', ['$http', 
 		};
 	
 		var validateUsername = function(value){
+			console.log("validateUsername");
 			return $http.get("api/v1/users=" + encodeURI(value))
 				.then(processResponse);
 			

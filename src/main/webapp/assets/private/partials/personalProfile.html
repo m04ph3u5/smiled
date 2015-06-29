@@ -2,15 +2,15 @@
 	<div class="row">
 		<div class="col-md-2"></div>
 		<div class="col-sm-5 col-md-3 box" id="imgProfile">
-			<div id="overlayed"></div>
+			<div id="overlayed"><img data-ng-src="{{personalProfile.url}}" data-err-src="assets/public/img/user_ico.png"></img></div>
 		</div>
 		<div class="col-sm-7 col-md-5 box fixedHeight">
 			<div class="fitContent table-responsive">
 			<table class="table">
-				<tr><h1>NOME COGNOME</h1></tr>
+				<tr><h1>{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h1></tr>
 				<tr>
 					<td>Data di nascita: </td>								
-					<td>12/06/1976 NON SONO MAI NATA!!</td>					
+					<td>{{personalProfile.user.profile.bornDate}}</td>					
 				</tr>
 				<tr>
 					<td>Ruolo: </td>								
@@ -41,11 +41,11 @@
 		<div>
 			<h3>MyImage</h3>
 				<div data-ng-repeat="thumb in images track by $index">
-					<img src='data:image/jpeg;base64, {{thumb}}'>
+					<img data-ng-src='data:image/jpeg;base64, {{thumb}}'>
 				</div>
 			<h3>MyFile</h3>
 			<div data-ng-repeat="thumb in files">
-					<img src='{{thumb}}'>
+					<img data-ng-src='{{thumb}}'>
 				</div>
 		</div>
 		</div>

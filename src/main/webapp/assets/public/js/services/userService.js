@@ -1,39 +1,35 @@
 angular.module('smiled.application').factory('userService', [ '$http', '$q',
                function userService($http, $q){
 
-	var user = null;
-	var callHttpGetMe = function(){
-		return $http.get('/ThesisProject/api/v1/me')
-			.then(onSuccessGetMe,onErrorGetMe);
-	}
+
 	
-	var getUser = function(){
-		if(user!=null){
-			var u = $q.defer();
-			u.resolve(user);
-			return u.promise;
-		}
-		console.log("userService.getUser()");
-		return callHttpGetMe();
+	var getMe = function(){
+		var u = $q.defer();
+		$http.get('/ThesisProject/api/v1/me').then(
+			function(response){
+				u.resolve(response.data);
+			},
+			function(reason){
+				u.reject(reason);
+			}
+		);
+		return u.promise;
+	}
 		
+	var getUser = function(id){
+		var u = $q.defer();
+		$http.get('/ThesisProject/api/v1/users/'+id).then(
+			function(response){
+				u.resolve(response.data);
+			},
+			function(reason){
+				u.reject(reason);
+			}
+		);
+		return u.promise;
 	}
 	
-	var updateUser = function(){
-		return callHttpGetMe();
-	}
-	
-	var onSuccessGetMe = function(response){
-		user=response.data;		
-		console.log("userService.getUser() --> onSuccess");
-		return user;
-	}
-	
-	var onErrorGetMe = function(reason){
-		user=null;
-		console.log("Error retrieve user: "+reason);
-		return $q.reject("Error retrieve user: "+reason);
-	}
-	
+
 	var logout = function(){
 		return $http({
 			url: '/ThesisProject/apiLogout',
@@ -79,8 +75,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 	return {
 		login: login,
 		logout: logout,
-		getUser: getUser,
-		updateUser: updateUser
+		getMe : getMe, 
+		getUser: getUser
 	}
 
 	

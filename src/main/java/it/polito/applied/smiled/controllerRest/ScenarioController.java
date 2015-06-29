@@ -107,7 +107,6 @@ public class ScenarioController extends BaseController{
 		 * */
 		
 		scenarioDTO.setId(id);
-		
 		//TODO Qui bisogna mettere tutte le validazioni custom sulla update di uno scenario
 		/*scenarioDTOPutValidator.validate(scenarioDTO, result);
 		if(result.hasErrors()){
@@ -124,7 +123,8 @@ public class ScenarioController extends BaseController{
 		//Non � possibile fare la GET di uno scenario se non fa parte della propria lista di scenari aperti o chiusi
 //		if(!activeUser.containsOpenScenario(id) && !activeUser.containsClosedScenario(id))
 //			throw new ForbiddenException();
-		
+		System.out.println("Getting scenarios");
+
 		return scenarioService.getScenario(id);
 	}
 	

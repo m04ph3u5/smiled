@@ -72,7 +72,7 @@ public class FileUploadController extends BaseController{
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="users/{id}/cover", method=RequestMethod.GET)
-	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
+	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
 	public FileSystemResource getUserCover(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException{
 		return new FileSystemResource(fileManagerService.getUserCover(id));
 	}

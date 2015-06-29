@@ -14,10 +14,10 @@
 					<h3>Compiti</h3>
 				</div>
 				<div class="col-md-9 col-xs-12 singleRow box">
-					<h3>Scenari</h3>
+					<a href=""><h3 data-ui-sref="logged.dashboard.scenariosList">Scenari</h3></a>
 					<div class="row marginMTop">
-						<div class="col-sm-2"
-							ng-click="dashboard.showPopUpCreationScenario()">
+						<div class="col-sm-2" data-ui-sref="logged.scenarioWizard.info">
+<!-- 						ng-click="dashboard.showPopUpCreationScenario()" -->
 							<img href="" src="assets/public/img/Icon_WriteArticles.png"
 								class="img-circle imgPreviewL">
 							<h4>
@@ -25,9 +25,10 @@
 							</h4>
 
 						</div>
-						<div data-ui-sref="logged.scenario({id : '{{s.id}}' })" class="col-sm-2"
+						<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+								data-err-src="assets/public/img/logo.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
@@ -36,6 +37,7 @@
 						<div data-ui-sref="logged.scenario({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+								data-err-src="assets/public/img/logo.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
@@ -44,6 +46,7 @@
 						<div class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.closedScenarios">
 							<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
+								data-err-src="assets/public/img/logo.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle" src="assets/public/img/red.png">
 							<h4>{{s.name}}</h4>
@@ -55,11 +58,12 @@
 				</div>
 
 				<div class="col-sm-4 col-md-3 singleRow box">
-					<h3 ui-sref="viewStudents">Alunni</h3>
+					<h3 data-ui-sref="logged.dashboard.studentsList">Alunni</h3>
 					<table>
 						<tbody>
 							<tr data-ng-repeat="a in dashboard.user.students">
-								<td><img src="/media/img/cover/users/{{a.id}}"
+								<td><img data-ng-src="api/v1/users/{{a.id}}/cover"
+									data-err-src="assets/public/img/user_ico.png"
 									class="img-circle imgPreviewM tableMargin"></td>
 								<td><span>{{a.lastname}} {{a.firstname}}</span></td>
 							</tr>
@@ -71,7 +75,8 @@
 					<table>
 						<tbody>
 							<tr data-ng-repeat="c in dashboard.user.colleagues">
-								<td><img src="/media/img/cover/users/{{c.id}}"
+								<td><img data-ng-src="/media/img/cover/users/{{c.id}}"
+									data-err-src="assets/public/img/user_ico.png"
 									class="img-circle imgPreviewM tableMargin"></td>
 								<td><span>{{c.lastname}} {{c.firstname}}</span></td>
 							</tr>

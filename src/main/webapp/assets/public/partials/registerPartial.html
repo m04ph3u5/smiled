@@ -5,53 +5,8 @@
 <link href="assets/public/css/login-style.css" rel='stylesheet'
 	type='text/css'>
 
-<header>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a data-ui-sref="logged" href=""> <img width="35px"
-					height="35px" src="assets/public/img/logo.png">Smiled</img>
-				</a>
-				<work-spinner>
-					<img src="assets/public/img/spinner.gif" />
-				</work-spinner>
-			</div>
-
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-				</ul>
-
-				<form class="navbar-form navbar-right" role="form" novalidate>
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="EMAIL"
-							data-ng-model="login.user.email">
-					</div>
-					<div class="form-group">
-						<input type="password" class="form-control" placeholder="PASSWORD"
-							data-ng-model="login.user.password">
-					</div>
-					<button class="btn btn-default confirm login"
-						data-ng-click="login.login()">LOGIN</button>
-
-				</form>
-			</div>
-			<alertlogin></alertlogin>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container-fluid -->
-	</nav>
-</header>
-<div class="container-fluid bg fill"
-	ng-controller="registerCtrl as register">
+	
+<div class="container-fluid bg fill">
 	<div class="row">
 		<div class="col-md-8"></div>
 		<div class="col-md-3 boxFluttuante">

@@ -4,15 +4,29 @@ angular.module('smiled.application')
 	
 		var notFoundPath;
 		$stateProvider
-		.state('login',{
-			url: "/login",
-			templateUrl: 'assets/public/partials/login.html',
-			controller: "loginCtrl",
-			controllerAs:"login",
+		.state('notLogged',{
+			templateUrl: 'assets/public/partials/template-notLogged.html',
+			abstract : true,
 			data: {
-				permissions:{
+				permissions: {
 					only: ['anonymous'],
 					redirectTo: 'logged.dashboard'
+				}
+			}
+			
+		})
+		.state('notLogged.login',{
+			url: "/login",
+			views: {
+				'header': {
+					templateUrl: 'assets/public/partials/navbar-login.html',
+					controller: "loginCtrl",
+					controllerAs:"login",
+				},
+				'content': {
+					templateUrl: 'assets/public/partials/registerPartial.html',
+					controller: "registerCtrl",
+					controllerAs:"register",
 				}
 			}
 		})
@@ -22,7 +36,7 @@ angular.module('smiled.application')
 			data: {
 				permissions: {
 					except: ['anonymous'],
-					redirectTo: 'login' 
+					redirectTo: 'notLogged.login' 
 				}
 			}
 		})
@@ -33,6 +47,12 @@ angular.module('smiled.application')
 					controller: "loggedCtrl",
 					controllerAs: "logged"
 				}				
+			},
+			resolve : {
+				loggedUser : function(userService){
+					return userService.getMe();
+				} 
+			
 			}
 		})
 		.state('logged.dashboard.teacher',{
@@ -65,18 +85,93 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('logged.dashboard.scenariosList',{
+			url: "scenari",
+			views: {
+				'content@logged': {
+					templateUrl: "assets/private/partials/scenariosList.html",
+					controller: 'scenariosListCtrl',
+					controllerAs: 'scenariosList'
+				}
+			}
+		})
+		.state('logged.dashboard.studentsList',{
+			url: "studenti",
+			views: {
+				'content@logged': {
+					templateUrl: "assets/private/partials/studentsList.html",
+					controller: 'studentsListCtrl',
+					controllerAs: 'studentsList'
+				}
+			}
+		})
+		.state('logged.userProfile',{
+			url: "/utente/{id}",
+			params: {
+				id : null
+			},
+			views: {
+				'content': {
+					templateUrl: "assets/private/partials/personalProfile.html",
+					controller: 'personalProfileCtrl',
+					controllerAs: 'personalProfile'
+				}
+			}
+		})
 		.state('logged.scenario',{
 			url: "/scenario/{id}",
+			/*params id necessario per accedere allo stato attraverso state.go*/
 			params : {
 				id : null
 			},
 			views: {
 				'content' : {
 					templateUrl: "assets/private/partials/scenario.html",
-					controller: "scenarioCtrl"
+					controller: "scenarioCtrl",
+					controllerAs: "scenario"
+				}
+			},
+			resolve : {
+				scenario : function(apiService,$stateParams,$q){
+					var idScenario = $stateParams.id;
+					return apiService.getScenario(idScenario);
 				}
 			}
 			
+		})
+		.state('logged.scenarioWizard',{
+			abstract: true,
+			url : "/scenarioWizard",
+			params: {
+				id: null
+			},
+			views : {
+				'content' : {
+					templateUrl: "assets/private/partials/template-scenario-wizard.html",
+					controller: "scenarioWizardCtrl",
+					controllerAs: "scenarioWizard"
+				}
+			}
+		})
+		.state('logged.scenarioWizard.info',{
+			url : "/{id}/info",
+			templateUrl: "assets/private/partials/info-scenario-wizard.html",
+		})
+		.state('logged.scenarioWizard.attendees',{
+			url : "/{id}/attendees",
+			templateUrl: "assets/private/partials/attendees-scenario-wizard.html",
+		})
+		.state('logged.scenarioWizard.characters',{
+			url : "/{id}/characters",
+			templateUrl: "assets/private/partials/characters-scenario-wizard.html",
+		})
+		.state('logged.scenarioWizard.associations',{
+			url : "/{id}/associations",
+			templateUrl: "assets/private/partials/associations-scenario-wizard.html",
+		})
+		.state('logged.scenarioWizard.collaborators',{
+			url : "/{id}/collaborators",
+			templateUrl: "assets/private/partials/collaborators-scenario-wizard.html",
 		})
 //		.state('logout',{
 //			url: "/login",
@@ -231,14 +326,18 @@ angular.module('smiled.application')
 //				}
 //			}
 //		})
-		.state('notFound',{
+		.state('notLogged.notFound',{
 			url: '/404',
-			templateUrl: "assets/public/partials/404.html"
+			views: {
+				'content': {
+					templateUrl: "assets/public/partials/404.html"			
+				}
+			}
 		});
 		
 		$urlRouterProvider.otherwise(function($injector,$location){
 			var state = $injector.get('$state');
-			 state.go('login');
+			state.go('notLogged.notFound');
 		});
 	
 
@@ -253,7 +352,7 @@ angular.module('smiled.application')
     	  Permission.defineRole('anonymous',function(stateParams){
     		  console.log("check anonymous");
     		  var deferred = $q.defer();
-    		  userService.getUser().then(
+    		  userService.getMe().then(
     				  function(data){
     					  deferred.reject();
     				  },
@@ -267,7 +366,7 @@ angular.module('smiled.application')
     	  Permission.defineRole('user',function(stateParams){
     		  console.log("check user");
     		  var deferred = $q.defer();
-    		  userService.getUser().then(
+    		  userService.getMe().then(
     				  function(data){
     					  if(data.role.authority=="ROLE_USER")
     						  deferred.resolve();
@@ -283,7 +382,7 @@ angular.module('smiled.application')
     	  Permission.defineRole('teacher',function(stateParams){
     		  console.log("check teacher");
     		  var deferred = $q.defer();
-    		  userService.getUser().then(
+    		  userService.getMe().then(
     				  function(data){
     					  if(data.role.authority=="ROLE_TEACHER")
     						  deferred.resolve();
@@ -299,7 +398,7 @@ angular.module('smiled.application')
     	  Permission.defineRole('admin',function(stateParams){
     		  console.log("check admin");
     		  var deferred = $q.defer();
-    		  userService.getUser().then(
+    		  userService.getMe().then(
     				  function(data){
     					  if(data.role.authority=="ROLE_ADMIN")
     						  deferred.resolve();

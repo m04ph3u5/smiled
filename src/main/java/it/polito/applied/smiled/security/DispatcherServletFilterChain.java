@@ -24,9 +24,6 @@ public class DispatcherServletFilterChain implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
 		String path = req.getRequestURI().substring(req.getContextPath().length());
 
-		System.out.println("FILTER");
-		System.out.println(req.getRequestURI());
-		System.out.println(path);
 		if (path.startsWith("/assets") || path.startsWith("/api") || path.startsWith("/websocket")) {
 		    chain.doFilter(request, response); // Goes to default servlet.
 		} else{

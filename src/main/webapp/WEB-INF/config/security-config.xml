@@ -37,18 +37,10 @@
 			requires-channel="https" />
 		<intercept-url pattern="/login" access="permitAll"
 			requires-channel="https" />
-		<intercept-url pattern="/dashboard" access="permitAll"
-			requires-channel="https" />
 		<intercept-url pattern="/assets/public/**" access="permitAll"
 			requires-channel="https" />
 		<intercept-url pattern="/websocket/**" access="permitAll" />
 		<intercept-url pattern="/api/v1/register" access="permitAll"
-			requires-channel="https" />
-		<intercept-url pattern="/register" access="permitAll"
-			requires-channel="https" />
-		<intercept-url pattern="/registrationConfirm.html"
-			access="permitAll" requires-channel="https" />
-		<intercept-url pattern="/setPassword.html" access="hasRole('ROLE_ANONYMOUS')"
 			requires-channel="https" />
 		<intercept-url pattern="/api/v1/users/email" access="hasRole('ROLE_ANONYMOUS')"
 			requires-channel="https" />

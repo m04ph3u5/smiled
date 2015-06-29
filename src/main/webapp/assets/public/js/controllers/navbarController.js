@@ -5,7 +5,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	var baseImageProfile = "api/v1/me/cover";
 	
 	var self = this;
-	userService.getUser().then(		
+	userService.getMe().then(		
 		function(data){
 			self.user=data;
 		},
@@ -40,7 +40,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	function logout(){
 		userService.logout().then(
 				function(data){
-					$state.go('login');
+					$state.go('notLogged.login');
 				},
 				function(reason){
 					console.log('Errore logout');

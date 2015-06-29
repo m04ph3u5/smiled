@@ -162,7 +162,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			
 			
 			/*Inserisco lo scenario nelle liste degli utenti (openScenarios o closedScenarios) partecipanti o collaboratori*/
-			if(newStatus.equals(ScenarioStatus.ACTIVE) || newStatus.equals(ScenarioStatus.CLOSED)){
+			if(newStatus!=null && (newStatus.equals(ScenarioStatus.ACTIVE) || newStatus.equals(ScenarioStatus.CLOSED))){
 				/*Lista che contiene tutti gli utenti dello scenario ad eccezione degli invited*/
 				List<String> usersId = new ArrayList<String>();
 				/*Sotto insieme della lista userId che contiene tutti gli utenti ad eccezione del creatore e di tutti i collaboratori teacher

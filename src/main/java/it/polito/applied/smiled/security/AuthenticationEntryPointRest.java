@@ -27,16 +27,23 @@ public class AuthenticationEntryPointRest extends LoginUrlAuthenticationEntryPoi
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
 			throws IOException, ServletException
 	{
+		String path = request.getRequestURI().substring(request.getContextPath().length());
 		
-		ErrorInfo e = new ErrorInfo();
-		e.setStatusCode(HttpStatus.UNAUTHORIZED.toString());
-		e.setMessage("Devi essere loggato per accedere a questa risorsa");
+		if (path.startsWith("/assets") || path.startsWith("/api") || path.startsWith("/websocket")) {
+			ErrorInfo e = new ErrorInfo();
+			e.setStatusCode(HttpStatus.UNAUTHORIZED.toString());
+			e.setMessage("Devi essere loggato per accedere a questa risorsa");
 
 
-		String json = JacksonUtil.toJSON(e);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.getWriter().println(json);
+			String json = JacksonUtil.toJSON(e);
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.getWriter().println(json);
+		} else{
+		    response.sendRedirect("/ThesisProject#"+path);
+		}
+		
+	
 
 		
 	}

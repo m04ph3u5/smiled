@@ -59,7 +59,9 @@ public class UrlForwardController extends BaseController{
 		
 	}
 	
-	
+	/*TODO gestire valori di ritorno quando vengono richieste pagine che non esistono
+	 * Si potrebbe aggiungere un header alla risposta contenente l'url richiesto di modo che si Angular,
+	 * attraverso un interceptor, di farsi carico della gestione di pagine di errore. */
 	@RequestMapping(value="/**",method=RequestMethod.GET)
 	public String index() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

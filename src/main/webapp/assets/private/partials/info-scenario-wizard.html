@@ -1,0 +1,11 @@
+<label for="title">TITOLO</label>
+<input id="title" type="text" class="form-control" placeholder="SCEGLI UN TITOLO"
+		data-ng-model="scenarioWizard.scenario.name" value="{{scenarioWizard.scenario.name}}"/>
+<label for="startDate">DATA INIZIO</label>
+<input id="startDate" type="text" data-ng-model="scenarioWizard.scenario.history.startDate" 
+		class="form-control" placeholder="yyyy-MM-dd" value="{{scenarioWizard.scenario.history.startDate | date}}"/>
+<label for="endDate">DATA FINE</label>
+<input id="endDate" type="text" class="form-control" placeholder="yyyy-MM-dd"
+		data-ng-model="scenarioWizard.scenario.history.endDate" value="{{scenarioWizard.scenario.history.endDate | date}"/>
+<br>		
+<div class="btn btn-primary pull-right" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">Avanti</div>

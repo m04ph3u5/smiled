@@ -1,0 +1,40 @@
+<div class="container">
+	<div class="panel panel-primary">
+	    <div class="panel-heading" style="font-size:large">
+			{{scenarioWizard.title}}
+	    </div>
+	
+	    <div class="panel-body">
+	        <div class="wizard">
+	            <a data-ui-sref=".info"
+	               data-ng-click="scenarioWizard.changeStateTab(0)"
+	               data-ui-sref-active="active">
+	               Info generali
+	            </a>
+	            <a data-ui-sref=".attendees"
+	           	   data-ng-click="scenarioWizard.changeStateTab(1)"
+	               data-ui-sref-active="active">
+	               Partecipanti
+	            </a>
+	            <a data-ui-sref=".characters"
+	               data-ng-click="scenarioWizard.changeStateTab(2)"	           
+	               data-ui-sref-active="active">
+	               Personaggi
+	            </a>
+	            <a data-ui-sref=".associations"
+	               data-ng-click="scenarioWizard.changeStateTab(3)"
+	               data-ui-sref-active="active">
+	               Associazioni
+	            </a>
+	            <a data-ui-sref=".collaborators"
+	               data-ng-click="scenarioWizard.changeStateTab(4)"
+	               data-ui-sref-active="active">
+	               Collaboratori
+	            </a>
+	        </div>
+	
+	        <div data-ui-view></div>
+	    </div>
+	
+	</div>
+</div>

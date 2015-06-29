@@ -1,38 +1,99 @@
-angular.module('smiled.application').factory('apiService', [ 'Restangular', 
-              function apiService(Restangular){
+angular.module('smiled.application').factory('apiService', [ 'Restangular', '$http', '$q',
+              function apiService(Restangular,$http,$q){
 	
-	var me = Restangular.one('me');
+	/*TODO Da riscrivere utilizzando il pattern giusto $http*/
+	
 	var register = Restangular.one('register');
-	var uploadMedia = Restangular.one("media");
-	
-	function getMe(){
-		return me.get();
-	}
 	
 	function postRegister(registerObject){
 		console.log(registerObject);
 		return register.post("",registerObject);
 	}
 	
-	function createScenario(scenarioDTO){
-		var scenario = Restangular.one("scenarios");
-		console.log(scenarioDTO);
-		return scenario.post("",scenarioDTO);
+//	function createScenario(scenarioDTO){
+//		var scenario = Restangular.one("scenarios");
+//		console.log(scenarioDTO);
+//		return scenario.post("",scenarioDTO);
+//	}
+	
+//	function updateScenario(id,scenarioDTO){
+//		var scenario = Restangular.one("scenarios",id);
+//		scenario.name = scenarioDTO.name;
+//		scenario.startHistoryDate = scenarioDTO.startHistoryDate;
+//		scenario.endHistoryDate = scenarioDTO.endHistoryDate;
+//		scenario.put();		
+//	}
+	/*-----------------------------------------------------------*/	
+
+	var getScenario = function(idScenario){
+		var p = $q.defer();
+		$http.get('/ThesisProject/api/v1/scenarios/'+idScenario).then(
+				function(response){
+					console.log(response.data);
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
 	}
 	
-	function updateScenario(id,scenarioDTO){
-		var scenario = Restangular.one("scenarios",id);
-		scenario.name = scenarioDTO.name;
-		scenario.startHistoryDate = scenarioDTO.startHistoryDate;
-		scenario.endHistoryDate = scenarioDTO.endHistoryDate;
-		scenario.put();		
+	var createScenario = function(scenarioDTO){
+		var s = $q.defer();
+		$http.post("/ThesisProject/api/v1/scenarios", scenarioDTO).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
 	}
 	
+	var updateScenario = function(scenarioDTO, id){
+		var s = $q.defer();
+		$http.put("/ThesisProject/api/v1/scenarios/"+id, scenarioDTO).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
+	var addUsersToScenario = function(emailsDTO, id){
+		var e = $q.defer();
+		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/users", emailsDTO).then(
+				function(response){
+					e.resolve(response.data);
+				},
+				function(reason){
+					e.reject(reason);
+				}
+		);
+		return e.promise;
+	}
+	
+//	var onSuccessGetScenario = function(response){
+//		console.log("Getting data scenario: "+response.data);
+//		scenarios = response.data;
+//		return scenarios;
+//	}
+//	
+//	var onErrorGetScenario = function(reason){
+//		console.log("Error retreaving scenario: "+reason);
+//	}
 
 	return {
-		getMe: getMe,
 		postRegister: postRegister,
-		createScenario : createScenario
+		createScenario : createScenario,
+		getScenario : getScenario,
+		updateScenario : updateScenario,
+		addUsersToScenario: addUsersToScenario
 	}
 	
 	
