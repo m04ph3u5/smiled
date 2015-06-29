@@ -91,6 +91,9 @@
 			display: table-cell;
   			vertical-align: middle !important;
 		}
+		.marginMTop{
+			margin-top: 3%;
+		}
 
 /* Index */
 		.fillContent{
@@ -245,7 +248,11 @@
 						
 		}
 
-
+/* Elenco scenari */
+		.sideMarginThree{
+			margin-right:3%;
+			margin-left:3%;
+		}
 
 
 /*Non ancora classificato*/
@@ -313,9 +320,7 @@
 			display:table-row;
 		}
 		
-		.marginMTop{
-			margin-top: 3%;
-		}
+
 		h4{
 			margin-bottom:1%;
 		}
