@@ -153,6 +153,10 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('logged.scenarioWizard.create',{
+			url : "/create",
+			templateUrl: "assets/private/partials/info-scenario-wizard.html",
+		})
 		.state('logged.scenarioWizard.info',{
 			url : "/{id}/info",
 			templateUrl: "assets/private/partials/info-scenario-wizard.html",

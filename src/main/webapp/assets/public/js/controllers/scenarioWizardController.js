@@ -21,7 +21,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			apiService.getScenario(id).then(
 					function(data){
 						self.scenarioServer = data;
-						self.scenario = JSON.parse(JSON.stringify(data));
+						self.scenario = angular.copy(data);
 						self.title = data.name;
 					}
 			);
@@ -39,13 +39,14 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							function(data){
 								console.log("then saveInfo");
 								id = data.id;
-								$state.go('logged.scenarioWizard.attendees');
 								console.log("after then save Info");
 							},
 							function(reason){								
 								console.log("Errore creazione scenario");
 							}
 					);
+				}else{
+					console.log("fail infoValidate");
 				}
 			}else{
 				if(!isEquivalent(self.scenario,self.scenarioServer) && infoValidate()){
@@ -53,7 +54,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							function(data){
 								self.scenarioServer = data;
 								console.log("then saveInfo updateScenario");
-								$state.go('logged.scenarioWizard.attendees');
 							},
 							function(reason){
 								console.log("Errore update scenario");
@@ -116,7 +116,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}
 				case 1 : {
 					tab = newDestination;
-					$state.go("logged.scenarioWizard.info");
 					break;
 				}
 				case 2: {
@@ -136,36 +135,44 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var isEquivalent =  function(a, b) {
 			console.log("isEquivalent");
-			// Create arrays of property names
-		    var aProps = Object.getOwnPropertyNames(a);
-		    var bProps = Object.getOwnPropertyNames(b);
-
-		    // If number of properties is different,
-		    // objects are not equivalent
-		    if (aProps.length != bProps.length) {
-		        return false;
-		    }
-
-		    for (var i = 0; i < aProps.length; i++) {
-		        var propName = aProps[i];
-
-		        // If values of same property are not equal,
-		        // objects are not equivalent
-		        if (a[propName] != b[propName]) {
-		            return false;
-		        }
-		    }
-
-		    // If we made it this far, objects
-		    // are considered equivalent
-		    return true;
+//			console.log(a);
+//			console.log(b);
+//			// Create arrays of property names
+//		    var aProps = Object.getOwnPropertyNames(a);
+//		    var bProps = Object.getOwnPropertyNames(b);
+//
+//		    // If number of properties is different,
+//		    // objects are not equivalent
+//		    if (aProps.length != bProps.length) {
+//		    	console.log("different length");
+//		        return false;
+//		    }
+//
+//		    for (var i = 0; i < aProps.length; i++) {
+//		        var propName = aProps[i];
+//
+//		        // If values of same property are not equal,
+//		        // objects are not equivalent
+//		        if (a[propName] !== b[propName]) {
+//		            return false;
+//		        }
+//		    }
+//
+//		    // If we made it this far, objects
+//		    // are considered equivalent
+//		    console.log("isEquivalent ---> return true");
+//		    return true;
+			return angular.equals(a, b);
 		}
 		
 		var infoValidate = function(){
 			var ret=true;
 			console.log("infoValidate");
-			
+			console.log(self.scenario.history);
+			console.log(self.scenario.history.startDate);
+			console.log(self.scenario.history.endDate);
 			if(!self.scenario.name || self.scenario.name.length<2){
+				console.log("infoValidate ---> 1");
 				ret=false;
 				if(self.scenarioServer.name){
 					self.scenario.name=self.scenarioServer.name;
@@ -173,7 +180,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					self.scenario.name="";
 				}
 			}
-			if(!self.scenario.history || !self.scenario.history.startDate || !checkDate(self.scenario.history.startDate)){
+			if(!self.scenario.history || !self.scenario.history.startDate){
+				console.log("infoValidate ---> 2");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.startDate){
 					self.scenario.history.startDate=self.scenarioServer.history.startDate;
@@ -181,7 +189,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					self.scenario.history.startDate="";
 				}
 			}
-			if(!self.scenario.history || !self.scenario.history.endDate || !checkDate(self.scenario.history.endDate)){
+			if(!self.scenario.history || !self.scenario.history.endDate){
+				console.log("infoValidate ---> 3");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.endDate){
 					self.scenario.history.endDate=self.scenarioServer.history.endDate;
@@ -191,6 +200,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 			if(self.scenario.history && self.scenario.history.startDate && self.scenario.history.endDate){
 				if(self.scenario.history.startDate>self.scenario.history.endDate){
+					console.log("infoValidate ---> 4");
 					ret=false;
 					if(self.scenarioServer.history && self.scenarioServer.history.endDate){
 						self.scenario.history.endDate=self.scenarioServer.history.endDate;
