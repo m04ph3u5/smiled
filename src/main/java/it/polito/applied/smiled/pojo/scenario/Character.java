@@ -23,10 +23,16 @@ public class Character {
 	@NotNull
 	@Size(min=2,max=64)
 	private String name;
+	private String nickname;
 	private String description;
 	private Date birthDate;
 	private Date deadDate;
 	private String cover;
+	private String quote;
+	private String gender;
+	private String bornTown;
+	private String deadTown;
+	private String role;
 	private Reference actualUser;
 	private Date actualUserStart;
 	private Map<String,IntervalDate> pastUserId;
@@ -50,6 +56,12 @@ public class Character {
 		this.deadDate = c.getDeadDate();
 		this.idScenario = idScenario;
 		this.createdBy=creatorId;
+		this.quote=c.getQuote();
+		this.gender=c.getGender();
+		this.bornTown=c.getBornTown();
+		this.deadTown=c.getDeadTown();
+		this.role=c.getRole();
+		this.nickname=c.getNickname();
 	}
 	
 	public String getName() {
@@ -137,10 +149,31 @@ public class Character {
 	public boolean isDeleted() {
 		return deleted;
 	}
-
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-	
-	
+	public String getBornTown() {
+		return bornTown;
+	}
+	public void setBornTown(String bornTown) {
+		this.bornTown = bornTown;
+	}
+	public String getDeadTown() {
+		return deadTown;
+	}
+	public void setDeadTown(String deadTown) {
+		this.deadTown = deadTown;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 }

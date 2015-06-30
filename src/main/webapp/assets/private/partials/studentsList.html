@@ -1,12 +1,12 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-2"></div>
-		<div class="col-sm-8 panel panel-info">
-			<div class="panel-heading">I miei alunni</div>
-			<div class="panel-body">
+		<div class="col-sm-8">
+			<h1>I miei alunni</h4>
+			<div class="box">
 				<div data-ng-repeat="s in studentsList.user.students | orderBy: 'lastname'">
 					<div data-ui-sref="logged.userProfile({id: '{{s.id}}'})" class="box">
-						<img data-ng-src="api/v1/users/{{s.id}}/cover" data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM tableMargin">
+						<img data-ng-src="api/v1/users/{{s.id}}/cover" data-err-src="assets/public/img/user_icon.png" class="img-circle imgPreviewM tableMargin">
 						<p>{{s.lastname}} {{s.firstname}}</p>
 					</div>
 				</div>

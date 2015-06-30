@@ -1,18 +1,32 @@
 angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiService', '$stateParams', '$state', 
-                                                                       '$location', '$scope', '$element', 'userService',
-   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService){
+                                                                       '$location', '$scope', '$element', 'userService', 
+                                                                       'Upload', 'CONSTANTS',
+   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS){
 	
 		var self = this;
 		self.scenario = {};
 		var tab;
 		self.scenarioServer = {};
+		//self.charactersCover = [];
 		self.emailList;
 		self.user;
+		self.currentCharacter = {};
+		self.characters = [];
+		var currentCharacterIndex = -1;
+		
 		userService.getMe().then(
 			function(data){
 				self.user = data;
 			}
 		);
+		
+		var fillCharactersCover = function(){
+			for(var i=0; i<self.scenario.characters.length; i++){
+				var char = angular.copy(self.scenario.characters[i]);
+				char.cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
+				self.characters.push(char);
+			}
+		}
 		
 		var id = $stateParams.id;
 		if(id==null){
@@ -23,8 +37,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						self.scenarioServer = data;
 						self.scenario = angular.copy(data);
 						self.title = data.name;
+						fillCharactersCover();
 					}
 			);
+			self.scenarioCover = CONSTANTS.urlScenarioCover(id);
 		}
 		
 		
@@ -88,6 +104,86 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		self.uploadCover = function(file){
+			if(file && file.length){
+				Upload.upload({
+		            url: CONSTANTS.urlCoverScenario(id),
+		            headers : {
+		                'Content-Type': file.type
+		            },
+		            file: file
+		        })
+//		            .progress(function (evt) {
+//		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//		            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//		        })
+		        .success(function (data, status, headers, config) {
+		            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+		            var date = new Date();
+		            self.scenarioCover = CONSTANTS.urlScenarioCover(id)+"?"+date.toString() ;
+		        });
+			}
+		}
+		
+		self.uploadCharacterCover = function(file,event,idCharacter){
+			if(file && file.length && idCharacter){
+				Upload.upload({
+		            url: CONSTANTS.urlCharacterCover(id,idCharacter),
+		            headers : {
+		                'Content-Type': file.type
+		            },
+		            file: file
+		        })
+//		            .progress(function (evt) {
+//		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//		            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//		        })
+		        .success(function (data, status, headers, config) {
+		            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+		            console.log(self.scenario.characters.length);
+		            for(var i=0; i<self.scenario.characters.length; i++){
+		            	if(self.scenario.characters[i].id==idCharacter){
+		            		var d = new Date();
+		            		self.charactersCover[i] = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
+		            		console.log(self.scenario.characters[i]);
+		            		console.log(self.charactersCover[i]);
+		            	}
+		            }
+		        });
+			}
+		}
+		
+		self.addCharacter = function(){
+			if(self.newCharacter && self.newCharacter.name.length>2){
+				apiService.addCharacterToScenario(self.newCharacter,id).then(
+						function(data){
+							self.newCharacter.id = data.id;
+							//self.newCharacter.status=false;
+							self.scenario.characters.push(angular.copy(self.newCharacter));
+							//cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
+							self.charactersCover.push(CONSTANTS.urlCharacterCover(id,self.newCharacter.id));
+							self.newCharacter.name = "";
+							self.newCharacter.id = null;
+						},
+						function(reason){
+							
+						}
+				);
+			}
+		}
+		
+		self.openAccordion = function(i){
+			if(currentCharacterIndex!=-1){
+				apiService.updateCharacter(id, self.scenario.characters[currentCharacterIndex]).then(
+						function(data){
+							self.scenario.characters[currentCharacterIndex] = data;
+							currentCharacterIndex=i;
+							console.log("Character aggiornato");
+						}
+				);
+			}else
+				currentCharacterIndex=i;
+		}
 /*--------------------------------------UTILITY----------------------------------------------------*/
 		
 		var onStartup = function(){
@@ -232,8 +328,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var extractEmails = function(text){
 		    return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
-		}
-		
+		}	
 
 		onStartup();
 

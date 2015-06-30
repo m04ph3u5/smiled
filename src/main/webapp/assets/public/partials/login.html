@@ -1,0 +1,97 @@
+
+
+<link href='https://fonts.googleapis.com/css?family=Open+Sans'
+	rel='stylesheet' type='text/css'>
+<link href="assets/public/css/login-style.css" rel='stylesheet'
+	type='text/css'>
+
+<header>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a data-ui-sref="logged" href=""> <img width="35px"
+					height="35px" src="assets/public/img/logo.png">Smiled</img>
+				</a>
+				<work-spinner>
+					<img src="assets/public/img/spinner.gif" />
+				</work-spinner>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+				</ul>
+
+				<form class="navbar-form navbar-right" role="form" novalidate>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="EMAIL"
+							data-ng-model="login.user.email">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="PASSWORD"
+							data-ng-model="login.user.password">
+					</div>
+					<button class="btn btn-default confirm login"
+						data-ng-click="login.login()">LOGIN</button>
+
+				</form>
+			</div>
+			<alertlogin></alertlogin>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+</header>
+<div class="container-fluid bg fill"
+	ng-controller="registerCtrl as register">
+	<div class="row">
+		<div class="col-lg-8 col-md-7 col-sm-6 col-xs-1"></div>
+		<div class="col-lg-3 col-md-4 col-sm-5 col-xs-10 boxFluttuante">
+			<h3>ISCRIZIONE DOCENTE</h3>
+			<label>INFORMAZIONI PERSONALI</label>
+			<alertregistration></alertregistration>
+			<form role="form" novalidate>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="NOME"
+						data-ng-model="register.user.firstName" required></input>
+					<div class="form-group"></div>
+					<input type="text" class="form-control" placeholder="COGNOME"
+						data-ng-model="register.user.lastName" required></input>
+				</div>
+				<div class="form-group">
+					<form class="form-inline">
+						<div class="form-group">
+							<input ui-date="dateOptions" class="form-control" required
+								data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
+						</div>
+				</div>
+
+
+				<div class="form-group">
+					<label>ACCOUNT</label> <input type="text" class="form-control"
+						placeholder="EMAIL" data-ng-model="register.user.email" required></input>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="PASSWORD"
+						data-ng-model="register.user.password" required></input>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control"
+						placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"
+						required></input>
+				</div>
+				
+				<button data-ng-click="register.postRegister()"
+					class="btn btn-default confirm">REGISTRATI</button>
+			</form>
+
+		</div>
+	</div>
+</div>

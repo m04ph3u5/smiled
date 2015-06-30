@@ -132,8 +132,8 @@ public class AsyncUpdater {
 						String userId = character.getUserId();
 						ScenarioReference ref = new ScenarioReference(scenario);
 						ref.setMyCharacterId(character.getId());
-						ref.setMyCharacterCover(character.getCharacterCover());
-						ref.setMyCharacterName(character.getCharacterName());
+						ref.setMyCharacterCover(character.getCover());
+						ref.setMyCharacterName(character.getName());
 						ref.setMyPastCharactersId(null);
 						permissionEvaluator.addPermission(userId, Character.class, "WRITE", character.getId());
 						Reference userRef = new Reference();
@@ -151,8 +151,8 @@ public class AsyncUpdater {
 						}else{
 							Reference charRef = new Reference();
 							charRef.setId(character.getId());
-							charRef.setFirstname(character.getCharacterName());
-							charRef.setCover(character.getCharacterCover());
+							charRef.setFirstname(character.getName());
+							charRef.setCover(character.getCover());
 							userRepository.addActualCharacterToUser(userId, charRef, scenario.getId());
 						}
 					}

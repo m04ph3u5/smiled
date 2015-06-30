@@ -5,8 +5,8 @@ import it.polito.applied.smiled.pojo.scenario.Character;
 public class CharacterReference {
 
 	private String id;
-	private String characterName;
-	private String characterCover;
+	private String name;
+	private String cover;
 	private String userId;
 	
 	public CharacterReference(){
@@ -15,8 +15,8 @@ public class CharacterReference {
 	
 	public CharacterReference(Character c){
 		this.id=c.getId();
-		this.characterName=c.getName();
-		this.characterCover=c.getCover();
+		this.name=c.getName();
+		this.cover=c.getCover();
 		if(c.getActualUser()!=null)
 			this.userId=c.getActualUser().getId();
 	}
@@ -30,17 +30,17 @@ public class CharacterReference {
 		this.id = id;
 	}
 
-	public String getCharacterName() {
-		return characterName;
+	public String getName() {
+		return name;
 	}
-	public void setCharacterName(String characterName) {
-		this.characterName = characterName;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getCharacterCover() {
-		return characterCover;
+	public String getCover() {
+		return cover;
 	}
-	public void setCharacterCover(String characterCover) {
-		this.characterCover = characterCover;
+	public void setCover(String cover) {
+		this.cover = cover;
 	}
 	public String getUserId() {
 		return userId;

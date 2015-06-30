@@ -1,6 +1,6 @@
-angular.module('smiled.application').controller('createScenarioCtrl', ['scenarioService','alertingGeneric', '$timeout',
+angular.module('smiled.application').controller('createScenarioCtrl', ['scenarioService','alertingGeneric', '$state',
        
-                                                                  function createScenarioCtrl(scenarioService, alertingGeneric, $timeout){
+                                                                  function createScenarioCtrl(scenarioService, alertingGeneric, $state){
 	
 	var self = this;
 	var scenario = {
@@ -21,9 +21,8 @@ angular.module('smiled.application').controller('createScenarioCtrl', ['scenario
 			var s= scenarioService.createScenario(scenario);
 			s.then(function(data){
 				 alertingGeneric.addSuccess("ScenarioCreato");
-					$timeout(function () {
-						scenarioService.closeModal();
-		    		}, 2000);
+				 scenarioService.closeModal();
+				 $state.go("logged.scenarioWizard.info", {"id": data.id});
 				 
 			 }, function(reason){
 				 console.log("Creazione scenario fallita!");

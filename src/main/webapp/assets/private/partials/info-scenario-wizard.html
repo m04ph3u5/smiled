@@ -7,5 +7,9 @@
 <label for="endDate">DATA FINE</label>
 <input id="endDate" type="text" class="form-control" placeholder="yyyy-MM-dd"
 		data-ng-model="scenarioWizard.scenario.history.endDate" value="{{scenarioWizard.scenario.history.endDate | date}"/>
-<br>		
+<br>	
+<img data-ng-src="{{scenarioWizard.scenarioCover}}" 
+	data-err-src="assets/public/img/logo.png" class="img-circle imgPreviewM">
+	<p class="uploadSpan btn btn-default btn-file" ngf-select ngf-change="scenarioWizard.uploadCover($files)">Cambia la copertina dello scenario</p>
+<br>
 <div class="btn btn-primary pull-right" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">Avanti</div>

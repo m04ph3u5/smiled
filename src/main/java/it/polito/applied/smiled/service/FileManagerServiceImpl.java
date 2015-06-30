@@ -247,7 +247,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Override
 	public File getCharacterCover(String characterId) {
-		return new File(path+"cover/characters/"+characterId);
+		return new File(path+"cover/characters/"+getFolderPath(characterId)+"/"+characterId);
 	}
 
 	@Override

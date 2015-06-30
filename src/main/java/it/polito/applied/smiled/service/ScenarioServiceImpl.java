@@ -732,7 +732,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 				u.set("birthDate",character.getBirthDate());
 			if(character.getDeadDate()!=null)
 				u.set("deadDate",character.getDeadDate());
-			
+			if(character.getBornTown()!=null)
+				u.set("bornTown", character.getBornTown());
+			if(character.getDeadTown()!=null)
+				u.set("deadTown", character.getDeadTown());
+			if(character.getGender()!=null)
+				u.set("gender", character.getGender());
+			if(character.getNickname()!=null)
+				u.set("nickname", character.getNickname());
+			if(character.getQuote()!=null)
+				u.set("quote", character.getQuote());
 			Character c = characterRepository.updateCharacter(character.getId(), u);
 			
 			if(updateRef){

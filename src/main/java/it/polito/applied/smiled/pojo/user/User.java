@@ -177,9 +177,9 @@ public abstract class User {
 			for(ScenarioReference r : openScenarios){
 				if(r.getId().equals(scenarioId)){
 					if(r.getMyCharacterId().equals(charRef.getId())){
-						r.setMyCharacterName(charRef.getCharacterName());
+						r.setMyCharacterName(charRef.getName());
 						/*TODO togliere setCover perché probabilmente non serve (url cover fisso)*/
-						r.setMyCharacterCover(charRef.getCharacterCover());
+						r.setMyCharacterCover(charRef.getCover());
 					}
 					break;
 				}

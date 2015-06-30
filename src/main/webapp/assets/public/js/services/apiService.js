@@ -78,6 +78,32 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		return e.promise;
 	}
 	
+	var addCharacterToScenario = function(character, id){
+		var c = $q.defer();
+		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/characters", character).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+	
+	var updateCharacter = function(id, characterDTO){
+		var c = $q.defer();
+		$http.put("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+characterDTO.id, characterDTO).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+	
 //	var onSuccessGetScenario = function(response){
 //		console.log("Getting data scenario: "+response.data);
 //		scenarios = response.data;
@@ -93,7 +119,9 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		createScenario : createScenario,
 		getScenario : getScenario,
 		updateScenario : updateScenario,
-		addUsersToScenario: addUsersToScenario
+		addUsersToScenario: addUsersToScenario,
+		addCharacterToScenario : addCharacterToScenario,
+		updateCharacter: updateCharacter
 	}
 	
 	
