@@ -1,3 +1,41 @@
-collaborators-scenario-wizard.html
+<h3>Aggiungi collaboratore</h3>
+<form class="form-search">
+	  <input type="search" ng-model="scenarioWizard.selectedUser" class="input-medium search-query" placeholder="Nome Cognome" 
+	  typeahead="s as s.firstname for s in scenarioWizard.user.collaborators | filter:$viewValue | limitTo:10" 
+	  typeahead-min-length='1' 
+	  typeahead-on-select='onSelectPart($item, $model, $label)' 
+	  typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
+        <i class="icon-search nav-search-icon"></i>
+	
+</form>
+<p>{{scenarioWizard.selectedUser}}</p>
+<br>
+<h3>Inserisci le mail dei docenti che vuoi invitare a iscriversi alla piattaforma ed allo scenario</h3>
+<textarea data-ng-model="scenarioWizard.emailList" class="form-control" rows="3" placeholder="Es. studente1@email.it studente2@email.it ..."></textarea>
+<br>
+<div class="pull-right">
+<button class="btn btn-primary" data-ng-click="scenarioWizard.inviteCollaborators()">Invita</button>
+</div>
+<div class="container-fluid">
+	<div class="row fluid">
+		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.collaborators.length>0">
+			<h3>Collaboratori</h3>
+			<div data-ng-repeat="s in scenarioWizard.scenarioServer.collaborators">
+					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
+						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.lastname}} {{s.firstname}} 
+			</div>
+		</div>
+		
+	</div>
+</div>
+<br>
+<div class="btn btn-primary pull-left" data-ui-sref="logged.scenarioWizard.associations">Indietro</div>
 
-{{scenarioWizard.scenario.name}}
+
+
+<script type="text/ng-template" id="customTemplate.html">
+  <a>
+      <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+       {{match.model}}
+  </a>
+</script>
