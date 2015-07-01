@@ -1,8 +1,8 @@
 <h3>Aggiungi partecipante</h3>
 <form class="form-search">
 	  <input type="search" ng-model="scenarioWizard.selectedUser" class="input-medium search-query" placeholder="Nome Cognome" 
-	  typeahead="s as s.firstname for s in scenarioWizard.user.students | filter:$viewValue | limitTo:10" 
-	  typeahead-min-length='1' 
+	  typeahead="s as s.lastname+' '+s.firstname for s in scenarioWizard.user.students | filter:$viewValue | limitTo:10" 
+	  typeahead-min-length='2' 
 	  typeahead-on-select='onSelectPart($item, $model, $label)' 
 	  typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
         <i class="icon-search nav-search-icon"></i>
@@ -43,7 +43,8 @@
 
 <script type="text/ng-template" id="customTemplate.html">
   <a>
-      <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
-       {{match.model}}
+      <img data-ng-src="api/v1/users/{{match.model.id}}/cover" 
+						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM">
+	  <b>{{match.model.lastname}} {{match.model.firstname}}</b>
   </a>
 </script>
