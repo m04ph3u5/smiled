@@ -254,6 +254,27 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		self.deleteAttendee = function(s){
+			apiService.removeUserFromScenario(id, s.id).then(
+					function(data){
+						for(var i=0; i<self.scenarioServer.attendees.length; i++){
+							if(self.scenarioServer.attendees[i].id==s.id)
+								self.scenarioServer.attendees.splice(i,1);
+						}
+					},
+					function(reason){
+						console.log("Delete user failed: "+reason);
+					}
+			)
+		}
+		
+		self.deleteInvited = function(s){
+			apiService.removeUserFromScenario(id, s.id).then(
+					function(data){
+						
+					}
+			)
+		}
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/
 		

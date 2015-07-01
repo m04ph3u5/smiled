@@ -130,6 +130,19 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		return c.promise;
 	}
 	
+	var removeUserFromScenario = function(id, idUser){
+		var u = $q.defer();
+		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/users/"+idUser).then(
+				function(response){
+					u.resolve(response.data);
+				},
+				function(reason){
+					u.reject(reason);
+				}
+		);
+		return u.promise;
+	} 
+	
 //	var onSuccessGetScenario = function(response){
 //		console.log("Getting data scenario: "+response.data);
 //		scenarios = response.data;
@@ -149,7 +162,8 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		addCharacterToScenario : addCharacterToScenario,
 		updateCharacter: updateCharacter,
 		getCharacter : getCharacter,
-		deleteScenario: deleteScenario
+		deleteScenario: deleteScenario,
+		removeUserFromScenario: removeUserFromScenario
 	}
 	
 	
