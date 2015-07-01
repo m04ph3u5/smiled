@@ -36,6 +36,9 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	self.deleteScenario = function(){
 		if(self.scenToDelete!=null && self.scenToDelete!=""){
 			modalService.deleteScenario();
+			modalService.closeModalDeleteScen();
+			 $state.go("logged.dashboard");
+			
 		}
 		console.log("delete  aaaaaaaaaaaaaaaaaaaa");
 	}

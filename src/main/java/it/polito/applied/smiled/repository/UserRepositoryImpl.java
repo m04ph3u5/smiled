@@ -189,6 +189,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		u.pull("openScenarios", scenarioRef);
 		u.pull("closedScenarios", scenarioRef);
 		u.pull("invitingScenariosId", scenarioId);
+		u.pull("creatingScenarios", scenarioRef);
 		
 		w = mongoOp.updateFirst(q, u, User.class);
 		
@@ -202,6 +203,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 	@Override
 	public int removeScenarioFromUsers(List<String> usersToRemove, String id) {
 		
+		System.out.println("aaaaaaaaaaaa"+usersToRemove.get(0));
 		if(usersToRemove==null || usersToRemove.isEmpty())
 			return 0;
 
@@ -215,6 +217,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		scenarioRef.setId(id);
 		
 		u.pull("openScenarios", scenarioRef);
+		u.pull("creatingScenarios", scenarioRef);
 		u.pull("closedScenarios", scenarioRef);
 		u.pull("invitingScenariosId", id);
 		
