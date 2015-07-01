@@ -263,7 +263,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 					},
 					function(reason){
-						console.log("Delete user failed: "+reason);
+						console.log("Delete attendee failed: "+reason);
 					}
 			)
 		}
@@ -271,9 +271,29 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.deleteInvited = function(s){
 			apiService.removeUserFromScenario(id, s.id).then(
 					function(data){
-						
+						for(var i=0; i<self.scenarioServer.invited.length; i++){
+							if(self.scenarioServer.invited[i].id==s.id)
+								self.scenarioServer.invited.splice(i,1);
+						}
+					},
+					function(reason){
+						console.log("Delete invited user failed: "+reason);
 					}
 			)
+		}
+		
+		self.deleteCharacter = function(c){
+			apiService.removeCharacterFromScenario(id, c.id).then(
+					function(data){
+						for(var i=0; i<self.scenario.characters.length; i++){
+							if(self.scenario.characters[i].id==c.id)
+								self.scenario.characters.splice(i,1);
+						}
+					},
+					function(reason){
+						console.log("Delete character failed: "+reason);
+					}
+			);
 		}
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/
