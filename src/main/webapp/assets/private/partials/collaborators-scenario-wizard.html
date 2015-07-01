@@ -11,7 +11,18 @@
 <br>
 <div class="btn btn-primary pull-left" data-ui-sref="logged.scenarioWizard.associations">Indietro</div>
 
-
+<div class="container-fluid">
+	<div class="row fluid">
+		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.collaborators.length>0">
+			<h3>Partecipanti</h3>
+			<div data-ng-repeat="s in scenarioWizard.scenarioServer.collaborators">
+				<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCollaborators(s)"></span></div>
+				<img data-ng-src="api/v1/users/{{s.id}}/cover" 
+						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.lastname}} {{s.firstname}} 
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/ng-template" id="customTemplate.html">
   <a>

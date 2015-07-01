@@ -254,6 +254,36 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		self.addAttendee = function(attendee){
+			var emailsDTO = [];
+			emailsDTO.push({"email": attendee.email});
+			
+			//utilizzo la addUsersToScenario passandogli un vettore che contiene una sola email 
+			apiService.addUsersToScenario(emailsDTO,scenario.id).then(
+					function(data){
+						for(var i=0; i<data.length; i++){
+							if(data[i].firstname!=null){
+								if(self.scenarioServer.attendees==null || self.scenarioServer.attendees == "")
+									self.scenarioServer.attendees = new Array();
+								self.scenarioServer.attendees.push(data[i]);
+
+							}
+							else{
+								if(self.scenarioServer.invited==null || self.scenarioServer.invited == "")
+									self.scenarioServer.invited = new Array();
+								self.scenarioServer.invited.push(data[i]);
+							}
+						}
+						self.emailList=null;
+					},
+					function(reason){
+						
+					}
+			);
+			
+		}
+		
+		
 		self.deleteAttendee = function(s){
 			apiService.removeUserFromScenario(id, s.id).then(
 					function(data){
@@ -266,6 +296,14 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						console.log("Delete attendee failed: "+reason);
 					}
 			)
+		}
+		
+		self.addCollaborator = function(collaborator){
+			
+		}
+		
+		self.deleteCollaborator = function(){
+			
 		}
 		
 		self.deleteInvited = function(s){
