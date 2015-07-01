@@ -12,13 +12,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		//self.charactersCover = [];
 		self.emailList;
 		self.user;
+		self.selectableStudents;
 		self.currentCharacter = {};
 		self.charactersServer = [];
 		var currentCharacterIndex = -1;
+		var getMePromise = $q.defer();
 		
 		userService.getMe().then(
 			function(data){
 				self.user = data;
+				var userCopy = angular.copy(self.user);
+				console.log("user.getMe");
+				console.log(userCopy);
+				self.selectableStudents = userCopy.students;
+				getMePromise.resolve();
 			}
 		);
 		
@@ -28,12 +35,33 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		};
 		
 		var fillCharactersCover = function(){
-			for(var i=0; i<self.scenario.characters.length; i++){
-				var char = angular.copy(self.scenario.characters[i]);
-				char.cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
-				char.isOpen=false;
-				char.isSync=false;
-				self.charactersServer[i] = char;
+			if(self.scenario && self.scenario.characters){
+				for(var i=0; i<self.scenario.characters.length; i++){
+					var char = angular.copy(self.scenario.characters[i]);
+					char.cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
+					char.isOpen=false;
+					char.isSync=false;
+					self.charactersServer[i] = char;
+				}
+			}
+		}
+		
+		var updateSelctableAttendees = function(){
+			console.log("updateSelctableAttendees");
+			console.log(self.selctableStudents);
+			console.log(self.scenarioServer.attendees);
+			console.log(self.scenarioServer);
+			if(self.scenarioServer && self.scenarioServer.attendees && self.selctableStudents){
+				console.log("selectable");
+				for(var i=0; i<self.scenarioServer.attendees.length; i++){
+					console.log("selectable: "+i);
+					for(var j=0; j<self.selctableStudents.length; j++){
+						console.log("selectable: "+i+" "+j);
+						if(self.scenarioSever.attendees[i].id==self.selctableStudents[j].id){
+							self.selctableStudents.splice(j,1);
+						}
+					}
+				}
 			}
 		}
 		
@@ -47,6 +75,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						self.scenario = angular.copy(data);
 						self.title = data.name;
 						fillCharactersCover();
+						getMePromise.then(updateSelctableAttendees());
 					}
 			);
 			self.scenarioCover = CONSTANTS.urlScenarioCover(id);
@@ -255,11 +284,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.addAttendee = function(attendee){
+			console.log(attendee);
 			var emailsDTO = [];
 			emailsDTO.push({"email": attendee.email});
 			
 			//utilizzo la addUsersToScenario passandogli un vettore che contiene una sola email 
-			apiService.addUsersToScenario(emailsDTO,scenario.id).then(
+			apiService.addUsersToScenario(emailsDTO,id).then(
 					function(data){
 						for(var i=0; i<data.length; i++){
 							if(data[i].firstname!=null){
@@ -275,6 +305,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							}
 						}
 						self.emailList=null;
+						self.selectedUser="";
+						for(var j=0; j<self.selectableStudents.length; j++){
+							if(self.selectableStudents[j].id==attendee.id){
+								self.selectableStudents.splice(j,1);
+							}
+								
+						}
 					},
 					function(reason){
 						

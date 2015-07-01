@@ -1,14 +1,14 @@
 <h3>Aggiungi partecipante</h3>
 <form class="form-search">
-	  <input type="search" ng-model="scenarioWizard.selectedUser" class="input-medium search-query" placeholder="Nome Cognome" 
-	  typeahead="s as s.lastname+' '+s.firstname for s in scenarioWizard.user.students | filter:$viewValue | limitTo:10" 
-	  typeahead-min-length='2' 
-	  typeahead-on-select='onSelectPart($item, $model, $label)' 
-	  typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
-        <i class="icon-search nav-search-icon"></i>
-	
+	  <div class="inner-addon left-addon">
+		  <i class="glyphicon glyphicon-user"></i>
+		  <input type="search" ng-model="scenarioWizard.selectedUser" class="form-control input-medium search-query" placeholder="Nome Cognome" 
+		  typeahead="s as s.lastname+' '+s.firstname for s in scenarioWizard.selectableStudents | filter:$viewValue | limitTo:10" 
+		  typeahead-min-length='2' 
+		  typeahead-on-select='scenarioWizard.addAttendee(scenarioWizard.selectedUser)' 
+		  typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
+	  </div>
 </form>
-<p>{{scenarioWizard.selectedUser}}</p>
 <br>
 <h3>Inserisci le mail degli studenti che vuoi invitare</h3>
 <textarea data-ng-model="scenarioWizard.emailList" class="form-control" rows="3" placeholder="Es. studente1@email.it studente2@email.it ..."></textarea>
@@ -42,7 +42,7 @@
 
 
 <script type="text/ng-template" id="customTemplate.html">
-  <a>
+  <a href="">
       <img data-ng-src="api/v1/users/{{match.model.id}}/cover" 
 						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM">
 	  <b>{{match.model.lastname}} {{match.model.firstname}}</b>
