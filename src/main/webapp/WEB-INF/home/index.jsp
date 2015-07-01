@@ -64,10 +64,10 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/scenarioController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/studentsListController.js"></script>
-	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/dialogCreateScenarioController.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/dialogScenarioController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/userService.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/apiService.js"></script>
-	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/scenarioService.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/modalService.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/alertingLogin.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/alertingGeneric.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/constantService.js"></script>

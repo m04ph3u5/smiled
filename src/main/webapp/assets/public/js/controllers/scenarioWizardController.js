@@ -1,17 +1,19 @@
 angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiService', '$stateParams', '$state', 
                                                                        '$location', '$scope', '$element', 'userService', 
-                                                                       'Upload', 'CONSTANTS',
-   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS){
+                                                                       'Upload', 'CONSTANTS', '$q','modalService',
+   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS, $q, modalService){
 	
-		var self = this;
-		self.scenario = {};
+	 	var self = this;
+		/*Variabile che contiene lo scenario prelevato dalla getScenario
+		 * self.scenario.characters è l'array di Reference a Character contenuto in scenario*/
+	 	self.scenario = {};
 		var tab;
 		self.scenarioServer = {};
 		//self.charactersCover = [];
 		self.emailList;
 		self.user;
 		self.currentCharacter = {};
-		self.characters = [];
+		self.charactersServer = [];
 		var currentCharacterIndex = -1;
 		
 		userService.getMe().then(
@@ -20,11 +22,18 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		);
 		
+		self.showPopUpDeleteScenario = function (){
+			if(self.scenario!=null)
+				modalService.showModalDeleteScen(self.scenario);
+		};
+		
 		var fillCharactersCover = function(){
 			for(var i=0; i<self.scenario.characters.length; i++){
 				var char = angular.copy(self.scenario.characters[i]);
 				char.cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
-				self.characters.push(char);
+				char.isOpen=false;
+				char.isSync=false;
+				self.charactersServer[i] = char;
 			}
 		}
 		
@@ -91,11 +100,19 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				apiService.addUsersToScenario(emailsDTO,id).then(
 						function(data){
 							for(var i=0; i<data.length; i++){
-								if(data[i].firstname!=null)
+								if(data[i].firstname!=null){
+									if(self.scenarioServer.attendees==null || self.scenarioServer.attendees == "")
+										self.scenarioServer.attendees = new Array();
 									self.scenarioServer.attendees.push(data[i]);
-								else
+
+								}
+								else{
+									if(self.scenarioServer.invited==null || self.scenarioServer.invited == "")
+										self.scenarioServer.invited = new Array();
 									self.scenarioServer.invited.push(data[i]);
+								}
 							}
+							self.emailList=null;
 						},
 						function(reason){
 							
@@ -107,7 +124,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.uploadCover = function(file){
 			if(file && file.length){
 				Upload.upload({
-		            url: CONSTANTS.urlCoverScenario(id),
+		            url: CONSTANTS.urlScenarioCover(id),
 		            headers : {
 		                'Content-Type': file.type
 		            },
@@ -140,13 +157,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //		        })
 		        .success(function (data, status, headers, config) {
 		            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-		            console.log(self.scenario.characters.length);
 		            for(var i=0; i<self.scenario.characters.length; i++){
 		            	if(self.scenario.characters[i].id==idCharacter){
 		            		var d = new Date();
-		            		self.charactersCover[i] = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
-		            		console.log(self.scenario.characters[i]);
-		            		console.log(self.charactersCover[i]);
+		            		self.charactersServer[i].cover = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
 		            	}
 		            }
 		        });
@@ -159,9 +173,14 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						function(data){
 							self.newCharacter.id = data.id;
 							//self.newCharacter.status=false;
+							if(self.scenario.characters==null || self.scenario.characters=="")
+								self.scenario.characters= new Array();
 							self.scenario.characters.push(angular.copy(self.newCharacter));
-							//cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
-							self.charactersCover.push(CONSTANTS.urlCharacterCover(id,self.newCharacter.id));
+							self.newCharacter.cover = CONSTANTS.urlCharacterCover(id,self.newCharacter.id);
+							self.newCharacter.isOpen=false;
+							self.newCharacter.isSync=false;
+							self.charactersServer.push(angular.copy(self.newCharacter));
+							self.newCharacter.cover = null;
 							self.newCharacter.name = "";
 							self.newCharacter.id = null;
 						},
@@ -172,18 +191,70 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
-		self.openAccordion = function(i){
-			if(currentCharacterIndex!=-1){
-				apiService.updateCharacter(id, self.scenario.characters[currentCharacterIndex]).then(
+		var getCharacter = function(i){
+			var c = $q.defer();
+			console.log("getCharacter");
+			if(!self.charactersServer[i].isSync){
+				console.log("getCharacter");
+				apiService.getCharacter(id, self.charactersServer[i].id).then(
 						function(data){
-							self.scenario.characters[currentCharacterIndex] = data;
-							currentCharacterIndex=i;
-							console.log("Character aggiornato");
+							var oldIsOpen = self.charactersServer[i].isOpen;
+							console.log(data);
+							self.charactersServer[i] = data;
+							self.charactersServer[i].isSync=true;
+							self.charactersServer[i].isOpen = oldIsOpen;
+							c.resolve(data);
+						},
+						function(reason){
+							self.charactersServer[i].isSync=false;
+							c.reject();
 						}
 				);
-			}else
-				currentCharacterIndex=i;
+				return c.promise;
+			}
+			else 
+				return c.resolve(self.charactersServer[i]);
 		}
+		
+		var syncCurrentCharacter = function(c){
+			console.log("syncCurrentCharacter");
+			self.currentCharacter.name = c.name;
+			self.currentCharacter.birthDate = c.birthDate;
+			self.currentCharacter.deadDate = c.deadDate;
+			self.currentCharacter.bornTown = c.bornTown;
+			self.currentCharacter.deadTown = c.deadTown;
+			self.currentCharacter.description = c.description;
+			self.currentCharacter.quote = c.quote;
+			self.currentCharacter.gender = c.gender;
+			self.currentCharacter.role = c.role;
+		}
+		
+		self.openAccordion = function(i){
+			console.log("openAccordion");
+			getCharacter(i).then(function(data){syncCurrentCharacter(data)});
+			if(currentCharacterIndex!=-1){
+				if(isCurrentCharacterValid(self.currentCharacter)){
+					if(isUpdatedCharacter(self.currentCharacter, self.charactersServer[currentCharacterIndex])){
+						apiService.updateCharacter(id, self.currentCharacter, self.charactersServer[currentCharacterIndex].id).then(
+								function(data){
+									self.charactersServer[currentCharacterIndex] = data;
+									self.scenario.characters[currentCharacterIndex].name = data.name;
+									currentCharacterIndex=i;
+									console.log("Character aggiornato");
+								}
+						);
+					}else{
+						/*TO CONTINUE*/
+					}
+				}else{
+					
+				}
+			}else{
+				currentCharacterIndex=i;
+			}
+		}
+		
+		
 /*--------------------------------------UTILITY----------------------------------------------------*/
 		
 		var onStartup = function(){
@@ -329,6 +400,33 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var extractEmails = function(text){
 		    return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
 		}	
+		
+		var isUpdatedCharacter = function(newChar, oldChar){
+			if(newChar.name!=oldChar.name)
+				return true;
+			if(newChar.birthDate!=newChar.birthDate)
+				return true;
+			if(newChar.deadDate!=newChar.deadDate)
+				return true;
+			if(newChar.bornTown!=newChar.bornTown)
+				return true;
+			if(newChar.deadTown!=newChar.deadTown)
+				return true;
+			if(newChar.description!=newChar.description)
+				return true;
+			if(newChar.quote!=newChar.quote)
+				return true;
+			if(newChar.gender!=newChar.gender)
+				return true;
+			if(newChar.role!=newChar.role)
+				return true;
+			
+			return false;
+		}
+		
+		var isCurrentCharacterValid = function(char){
+			return true;
+		}
 
 		onStartup();
 

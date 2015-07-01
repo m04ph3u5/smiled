@@ -254,9 +254,9 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 
 	@Override
 	public void confirmRegistration(String token, String email) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException {
-
+		
 		RegistrationToken r = checkValidityTokenAndEmail(token,email);
-
+		
 		int n = userRepository.updateToApproveUserStatus(email);
 		if(n==0)
 			throw new UserNotFoundException(email);

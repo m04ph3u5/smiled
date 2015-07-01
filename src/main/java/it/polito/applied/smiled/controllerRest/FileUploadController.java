@@ -46,6 +46,7 @@ public class FileUploadController extends BaseController{
 	@RequestMapping(value="scenarios/{id}/cover", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public void uploadCoverScenario(@PathVariable String id, @RequestPart("file") MultipartFile scenarioCover, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
+		System.out.println("POST COVER");
 		fileManagerService.postCoverScenario(id, scenarioCover, user);
 	}
 	

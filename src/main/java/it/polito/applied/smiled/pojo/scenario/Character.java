@@ -176,4 +176,25 @@ public class Character {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
+
+	public String getQuote() {
+		return quote;
+	}
+
+
+	public void setQuote(String quote) {
+		this.quote = quote;
+	}
+
+
+	public String getGender() {
+		return gender;
+	}
+
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
 }

@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','scenarioService',
-   function dashboardCtrl(loggedUser,scenarioService){
+angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService',
+   function dashboardCtrl(loggedUser,modalService){
 	
 	var self = this;
 	//self.user = {};
@@ -14,13 +14,10 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	console.log(loggedUser);
 	self.user = loggedUser;
 
-	var showPopUpCreationScenario = function (){
-		scenarioService.showModal();
+	self.showPopUpCreationScenario = function (){
+		modalService.showModalCreateScen();
 	};
 		
 		
-
-	self.showPopUpCreationScenario=showPopUpCreationScenario;
-	
 	
 }]);

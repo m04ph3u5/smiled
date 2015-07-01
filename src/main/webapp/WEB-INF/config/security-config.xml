@@ -44,6 +44,9 @@
 			requires-channel="https" />
 		<intercept-url pattern="/api/v1/users/email" access="hasRole('ROLE_ANONYMOUS')"
 			requires-channel="https" />
+			
+		<intercept-url pattern="/registrationConfirm.html"
+			access="permitAll" requires-channel="https" />
 		
 <!-- 		<intercept-url pattern="/400.html" access="permitAll" -->
 <!-- 			requires-channel="https" /> -->
@@ -65,8 +68,7 @@
 		<!-- access="permitAll" requires-channel="https" /> -->
 		<!-- <intercept-url pattern="/errorRegistrationPageExpired.html" -->
 		<!-- access="permitAll" requires-channel="https" /> -->
-		<!-- <intercept-url pattern="/registrationConfirm.html" -->
-		<!-- access="permitAll" requires-channel="https" /> -->
+
 		<!-- <intercept-url pattern="/checkRegister.html" access="permitAll" -->
 		<!-- requires-channel="https" /> -->
 		<!-- <intercept-url pattern="/setPassword.html" access="hasRole('ROLE_ANONYMOUS')" -->

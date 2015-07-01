@@ -742,6 +742,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				u.set("nickname", character.getNickname());
 			if(character.getQuote()!=null)
 				u.set("quote", character.getQuote());
+			if(character.getRole()!=null)
+				u.set("role", character.getRole());
 			Character c = characterRepository.updateCharacter(character.getId(), u);
 			
 			if(updateRef){

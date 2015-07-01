@@ -10,48 +10,54 @@
 <div>
 	<h2>Personaggi dello scenario</h2>
 	<accordion close-others="true">
-		<div data-ng-repeat="c in scenarioWizard.scenario.characters" data-ng-click="scenarioWizard.openAccordion($index)">
-				<accordion-group>
+		<div data-ng-repeat="c in scenarioWizard.scenario.characters">
+				<accordion-group is-open="scenarioWizard.charactersServer[$index].isOpen">
 					<accordion-heading>
-						<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></div>	
-						<p><b>{{c.name}}</b></p>
+						<div data-ng-click="scenarioWizard.openAccordion($index)">
+							<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': scenarioWizard.charactersServer[$index].isOpen, 'glyphicon-chevron-right': !scenarioWizard.charactersServer[$index].isOpen}"></div>	
+							<p><b>{{c.name}}</b></p>
+						</div>	
 					</accordion-heading>
 				
 				<div>
 					<div class="row"></div>
 					<div class="row">
+						<label class="col-md-2">Nome</label>
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.name">
+					</div>
+					<div class="row">
 						<label class="col-md-2">Biografia</label>
-						<textarea class="col-md-4" rows="3" data-ng-model="currentCharacter.description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
-						<img data-ng-src="{{scenarioWizard.characters[$index].cover}}"
+						<textarea class="col-md-4" rows="3" data-ng-model="scenarioWizard.currentCharacter.description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
+						<img data-ng-src="{{scenarioWizard.charactersServer[$index].cover}}"
 						data-err-src="assets/public/img/cesar.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
 					</div>
 					<div class="row">
 						<label class="col-md-2">Data di nascita</label>
-						<input  class="col-md-4" data-ng-model="currentCharacter.birthDate">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.birthDate">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Data di morte</label>
-						<input  class="col-md-4" data-ng-model="currentCharacter.deadDate">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.deadDate">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Luogo di nascita</label>
-						<input  class="col-md-4" data-ng-model="currentCharacter.bornTown">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.bornTown">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Luogo di morte</label>
-						<input  class="col-md-4" data-ng-model="currentCharacter.deadTown">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.deadTown">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Genere</label>
-						<input  class="col-md-4" data-ng-model="currentCharacter.gender">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.gender">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Citazione</label>
-						<input  class="col-md-4" data-ng-model="currentCharacter.quote">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.quote">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Ruolo</label>
-						<input  class="col-md-4" data-ng-model="currentCharacter.role" placeholder="Es. Re - Papa">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.role" placeholder="Es. Re - Papa">
 					</div>
 					<div class="row">
 						<div class="uploadSpan btn btn-default btn-file pull-right"
