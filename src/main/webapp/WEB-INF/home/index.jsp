@@ -3,7 +3,7 @@
 <head>
 <!-- <meta charset="UTF-8"> -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	href="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/custom-style.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/jquery-ui.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/validation-form.css">
@@ -20,9 +20,9 @@
 	<!-- VENDOR SCRIPT -->
 	
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		src="https://localhost:8443/ThesisProject/assets/public/js/vendor/jquery/dist/jquery.js"></script>
 	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		src="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap/dist/js/bootstrap.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/jquery-ui.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular/angular.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-ui-date/src/date.js"></script>
@@ -72,7 +72,8 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/alertingGeneric.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/constantService.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/alertingRegistration.js"></script>
-	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertLogin.js"></script> 
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertLogin.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertRegistration.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/workSpinner.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/errSrc.js"></script>

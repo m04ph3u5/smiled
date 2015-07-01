@@ -21,13 +21,15 @@
 		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.attendees.length>0">
 			<h3>Partecipanti</h3>
 			<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees">
-					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
+				<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteAttendee(s)"></span></div>
+				<img data-ng-src="api/v1/users/{{s.id}}/cover" 
 						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.lastname}} {{s.firstname}} 
 			</div>
 		</div>
 		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.invited.length>0">
 			<h3>Studenti invitati</h3>
 			<div data-ng-repeat="s in scenarioWizard.scenarioServer.invited">
+					<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteInvited(s)"></span></div>
 					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
 						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> <u>{{s.email}}</u>
 			</div>

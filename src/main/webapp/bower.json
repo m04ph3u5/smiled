@@ -14,6 +14,8 @@
 		"sockjs-client": "latest",
 		"ng-file-upload": "latest",
 		"angular-ui-date": "latest",
-		"ngDialog": "latest"
+		"ngDialog": "latest",
+		"jquery": "1.11.1",
+		"bootstrap" : "3.3.4"
 	}
 }
