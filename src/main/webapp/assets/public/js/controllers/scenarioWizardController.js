@@ -34,7 +34,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				modalService.showModalDeleteScen(self.scenario);
 		};
 		
-		var fillCharactersCover = function(){
+		var fillCharacters = function(){
 			if(self.scenario && self.scenario.characters){
 				for(var i=0; i<self.scenario.characters.length; i++){
 					var char = angular.copy(self.scenario.characters[i]);
@@ -46,19 +46,28 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
-		var updateSelctableAttendees = function(){
-			console.log("updateSelctableAttendees");
-			console.log(self.selctableStudents);
+		var reInsertInSelectable = function(s){
+			console.log("reInsertInSelectable");
+			self.selectableStudents.push(s);
+			for(var j=0; j<self.selectableStudents.length; j++){
+				console.log(self.selectableStudents[j]);
+			}
+			
+		}
+		
+		var updateSelectableAttendees = function(){
+			console.log("updateSelectableAttendees");
+			console.log(self.selectableStudents);
 			console.log(self.scenarioServer.attendees);
 			console.log(self.scenarioServer);
-			if(self.scenarioServer && self.scenarioServer.attendees && self.selctableStudents){
+			if(self.scenarioServer && self.scenarioServer.attendees && self.selectableStudents){
 				console.log("selectable");
 				for(var i=0; i<self.scenarioServer.attendees.length; i++){
 					console.log("selectable: "+i);
-					for(var j=0; j<self.selctableStudents.length; j++){
+					for(var j=0; j<self.selectableStudents.length; j++){
 						console.log("selectable: "+i+" "+j);
-						if(self.scenarioSever.attendees[i].id==self.selctableStudents[j].id){
-							self.selctableStudents.splice(j,1);
+						if(self.scenarioSever.attendees[i].id==self.selectableStudents[j].id){
+							self.selectableStudents.splice(j,1);
 						}
 					}
 				}
@@ -74,8 +83,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						self.scenarioServer = data;
 						self.scenario = angular.copy(data);
 						self.title = data.name;
-						fillCharactersCover();
-						getMePromise.then(updateSelctableAttendees());
+						fillCharacters();
+						updateSelectableAttendees();
 					}
 			);
 			self.scenarioCover = CONSTANTS.urlScenarioCover(id);
@@ -222,9 +231,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var getCharacter = function(i){
 			var c = $q.defer();
-			console.log("getCharacter");
+			console.log("getCharacter1");
 			if(!self.charactersServer[i].isSync){
-				console.log("getCharacter");
+				console.log("getCharacter2");
 				apiService.getCharacter(id, self.charactersServer[i].id).then(
 						function(data){
 							var oldIsOpen = self.charactersServer[i].isOpen;
@@ -247,38 +256,46 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var syncCurrentCharacter = function(c){
 			console.log("syncCurrentCharacter");
-			self.currentCharacter.name = c.name;
-			self.currentCharacter.birthDate = c.birthDate;
-			self.currentCharacter.deadDate = c.deadDate;
-			self.currentCharacter.bornTown = c.bornTown;
-			self.currentCharacter.deadTown = c.deadTown;
-			self.currentCharacter.description = c.description;
-			self.currentCharacter.quote = c.quote;
-			self.currentCharacter.gender = c.gender;
-			self.currentCharacter.role = c.role;
+			self.currentCharacter.name = angular.copy(c.name);
+			self.currentCharacter.birthDate = angular.copy(c.birthDate);
+			self.currentCharacter.deadDate = angular.copy(c.deadDate);
+			self.currentCharacter.bornTown = angular.copy(c.bornTown);
+			self.currentCharacter.deadTown = angular.copy(c.deadTown);
+			self.currentCharacter.description = angular.copy(c.description);
+			self.currentCharacter.quote = angular.copy(c.quote);
+			self.currentCharacter.gender = angular.copy(c.gender);
+			self.currentCharacter.role = angular.copy(c.role);
 		}
 		
 		self.openAccordion = function(i){
 			console.log("openAccordion");
-			getCharacter(i).then(function(data){syncCurrentCharacter(data)});
+			getCharacter(i); //metto dentro charactersServer[i] le informazioni ritornate dal server e relative al character i-esimo
 			if(currentCharacterIndex!=-1){
 				if(isCurrentCharacterValid(self.currentCharacter)){
 					if(isUpdatedCharacter(self.currentCharacter, self.charactersServer[currentCharacterIndex])){
-						apiService.updateCharacter(id, self.currentCharacter, self.charactersServer[currentCharacterIndex].id).then(
+						//va fatta la put delle nuove informazioni ed alla fine va gestito l'aggiornamento del currentCharacter
+						console.log("PUT PUT PUT PUT PUT");
+						var c = angular.copy(self.currentCharacter);
+						syncCurrentCharacter(self.charactersServer[i]);
+						apiService.updateCharacter(id, c, self.charactersServer[currentCharacterIndex].id).then(
 								function(data){
 									self.charactersServer[currentCharacterIndex] = data;
-									self.scenario.characters[currentCharacterIndex].name = data.name;
+									self.scenario.characters[currentCharacterIndex].name = angular.copy(data.name);		
 									currentCharacterIndex=i;
 									console.log("Character aggiornato");
 								}
 						);
-					}else{
+					}else{ //il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
 						/*TO CONTINUE*/
+						//TODO
+						currentCharacterIndex = i;
 					}
-				}else{
-					
+				}else{ //la validazione delle info digitate è fallita
+					   //TODO
+					currentCharacterIndex = i;
 				}
 			}else{
+				//si tratta della prima apertura dell'accordion in questa istanza dello state
 				currentCharacterIndex=i;
 			}
 		}
@@ -328,6 +345,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							if(self.scenarioServer.attendees[i].id==s.id)
 								self.scenarioServer.attendees.splice(i,1);
 						}
+						reInsertInSelectable(s);
 					},
 					function(reason){
 						console.log("Delete attendee failed: "+reason);
