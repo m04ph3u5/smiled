@@ -1,12 +1,12 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
+		<div class="col-md-8">
 			<div class="row">
-				<div class="col-xs-10">
+				<div class="col-sm-10">
 					<h1>I miei scenari</h1>			
 				</div>
-				<div class="col-xs-2">
+				<div class="col-sm-2">
 					<div class="col-sm-2" ng-click="dashboard.showPopUpCreationScenario()" >
 						<img href="" src="assets/public/img/Icon_WriteArticles.png"
 							class="img-circle imgPreviewL" > 
@@ -19,17 +19,17 @@
 				<div ng-if='scenariosList.user.creatingScenarios==null'>Non sono presenti scenari in creazione</div>			
 				
 					<div class="row sideMarginThree">
-					<div data-ng-repeat="s in scenariosList.user.creatingScenarios" data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
-						<div class="col-sm-4"  data-ui-sref="createScenario">
-						<!-- Aggiungere il link con la pagina giusta -->
-							<div class="row marginMTop">
-								<div class="col-sm-6">
+					<div data-ng-repeat="s in scenariosList.user.creatingScenarios" >
+						<div class="col-sm-4 col-xs-6"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
+							<div class="row marginMTop" ng-mousehover="">
+								<div class="col-sm-4 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
 									url('assets/public/img/logo.png')"></div>
 								</div>
-									<div class="col-sm-6 vAlignExt">
-										<div class="vAlignInt">{{s.name}}</div>										
+									<div class="col-sm-8 vAlignExt">
+										<h4 class="vAlignInt">{{s.name}}</h4>
+										<div class="textLeft">Creato il: {{s.creationDate}}</div>								
 									</div>
 							</div>
 						</div>	
@@ -41,16 +41,17 @@
 				<div ng-if='scenariosList.user.openScenarios==null'>Non sono presenti scenari attivi</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.openScenarios" >
-						<div class="col-sm-4"  data-ui-sref="logged.scenario({id : '{{s.id}}' })">
+						<div class="col-sm-4 col-xs-6"  data-ui-sref="logged.scenario({id : '{{s.id}}' })">
 							<div class="row marginMTop">
-								<div class="col-sm-6">
+								<div class="col-sm-4 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
 									url('assets/public/img/logo.png'),
 									url('assets/public/img/logo.png')"></div>
 								</div>
 								<div class="col-sm-6 vAlignExt">
-									<div class="vAlignInt">{{s.name}} {{s.creationDate}}</div>
+									<h4 class="vAlignInt">{{s.name}} {{s.creationDate}}</h4>
+									<div class="textLeft">Creato il: {{s.creationDate}}</div>
 								</div>
 							</div>
 						</div>	
@@ -62,14 +63,15 @@
 				<div ng-if='scenariosList.user.closedScenarios==null'>Non sono ancora stati chiusi scenari</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.closedScenarios" >				
-						<div class="col-sm-4"  data-ui-sref="logged.scenario({id : '{{s.id}}' })">
+						<div class="col-sm-4 col-xs-6"  data-ui-sref="logged.scenario({id : '{{s.id}}' })">
 							<div class="row marginMTop">
-								<div class="col-sm-6">
+								<div class="col-sm-6 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover')"></div>
 								</div>
 									<div class="col-sm-6 vAlignExt">
-										<div class="vAlignInt">{{s.name}}</div>
+										<h4 class="vAlignInt">{{s.name}}</h4>
+										<div class="textLeft">Creato il: {{s.creationDate}}</div>
 									</div>
 							</div>
 						</div>	

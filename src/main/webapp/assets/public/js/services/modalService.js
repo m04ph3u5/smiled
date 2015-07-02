@@ -10,7 +10,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var optionsCreateScen = {
 				templateUrl:'assets/private/partials/createScenario.html',
 				controller: 'dialogScenarioCtrl',
-				controllerAs: 'dialogScenario'
+				controllerAs: 'dialogScenario',
+				
 		};
 		
 		var optionsDeleteScen = {

@@ -56,7 +56,7 @@
 		.form-control::-moz-placeholder { color: #5B5955; }
 		.form-control:-ms-input-placeholder { color: #5B5955; }
 		
-		.confirm{
+		.generalButton{
 			background:transparent;
 			border-color:#5B5955;
 			

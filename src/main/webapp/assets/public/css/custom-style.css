@@ -42,12 +42,29 @@
 		.form-control::-moz-placeholder { color: #5B5955; }
 		.form-control:-ms-input-placeholder { color: #5B5955; }
 		
-		.confirm{
+		.generalButton{
 			background:transparent;
 			border-color:#5b5955;
-			margin-top:3%;
-			margin-bottom:20px;
+			margin-top:3%;			
 		}
+		.positiveButton{
+			background:transparent;
+			border-color:#89b151;
+			margin-top:3%;	
+			color:#89b151;		
+		}
+		.positiveButton:hover, .positiveButton:focus{
+			outline:none;
+		    -webkit-box-shadow: none;
+    		box-shadow: none;
+			background:transparent;
+			border-color:#89b151;
+			margin-top:3%;	
+			color:#89b151;
+			border-width:3px;
+			font-weight: bold;
+		}
+		
 		div:focus{
 			background-color:#E0D8A9;
 		    outline:0;
@@ -169,24 +186,6 @@
 		 #uploadSpan:hover{
 		 	color:#ADA783;
 		 }
-/*Creazione scenario*/
-
-		.centralDivs{
-			padding-right:3%;
-			padding-left:3%;
-			padding-bottom:1%;
-			padding-top:1%;
-		}
-
-		.creationbox:focus{
-		    outline:0;
-		    -webkit-box-shadow: none;
-    		box-shadow: none;+
-    		border: 0px 0px 0px 0px;
-		}
-		.notShown{
-			display:none;
-		}
 
 /*Scenario*/
 		.jumbotron{
@@ -253,7 +252,19 @@
 			margin-right:3%;
 			margin-left:3%;
 		}
+		
+/* Creazione scenario */
 
+		.modal-dialog {
+			  width: 400px;
+			  background-color: rgba(224, 216, 169, 0.8);
+		}
+		.modal-content{
+			border-radius: 0px;
+			background-color: transparent;
+		}
+		.modal-open{background: transparent
+		}
 
 /*Non ancora classificato*/
 		

@@ -20,24 +20,28 @@
 							<h3>Nuovo compito</h3>	
 							<div class="marginMTop">
 								<form role="form">
+							<div class="form-group">
+								<input type="text" class="form-control" id="email"
+									placeholder="TITOLO DEL COMPITO">
+							</div>
+							<div class="form-group">
+								I PROMESSI SPOSI
+							</div>
+							<div class="form-group">
+								<form class="form-horizontal" role="form">
 									<div class="form-group">
-									  <input type="text" class="form-control" id="email" placeholder="Titolo del compito">
-									</div>
-									<div class="form-group">
-									 <label>I Promessi Sposi</label>
-									</div>
-									<div class="form-group">
-										<form class="form-horizontal"role="form">											
+										<form class="form-inline">
 											<div class="form-group">
-														<label for="date" class="control-label col-sm-4">Consegna:</label>
-														<div class="col-sm-8">
-															<input type="date" id="date" class="form-control" required="required"></input>
-														</div>
+												<input ui-date="dateOptions" class="form-control" required
+													data-ng-model="register.bornDate"
+													placeholder="DATA CONSEGNA COMPITO"></input>
 											</div>
 										</form>
 									</div>
-									<button type="submit" class="confirm btn btn-default">Crea</button>									
 								</form>
+							</div>
+							<button type="submit" class="confirm btn btn-default">Crea</button>
+						</form>
 							</div>
 				</div>
 				<div class="col-xs-12 box">
