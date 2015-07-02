@@ -1,0 +1,144 @@
+<meta charset="UTF-8">
+<div class="container-fluid mainContent">
+	<!-- Added test commit -->
+	<div class="row-fluid">
+		<div class="col-lg-1"></div>
+		<div class="col-sm-12 col-lg-10">
+			<div class="row-fluid">
+				<div
+					class="col-md-3 doubleRow box hidden-xs hidden-sm visible-md visible-lg">
+					<h3>Compiti</h3>
+				</div>
+				<div
+					class="col-sm-12 singleRow box visible-xs visible-sm hidden-md hidden-lg">
+					<h3>Compiti</h3>
+				</div>
+				<div class="col-md-9 col-xs-12 singleRow box">
+					<a href=""><h3 data-ui-sref="logged.dashboard.scenariosList">Scenari</h3></a>
+					<div class="row marginMTop">
+						<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
+<!-- 						ng-click="dashboard.showPopUpCreationScenario()" -->
+							<img href="" src="assets/public/img/Icon_WriteArticles.png"
+								class="img-circle imgPreviewL">
+							<h4>
+								<i>Crea scenario</i>
+							</h4>
+
+						</div>
+						<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
+							data-ng-repeat="s in dashboard.user.creatingScenarios">
+							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+								data-err-src="assets/public/img/logo.png"
+								class="img-circle imgPreviewL"> <img
+								class="overlapImg img-circle"
+								src="assets/public/img/100-719.jpg">
+							<h4>{{s.name}}</h4>
+						</div>
+						<div data-ui-sref="logged.scenario({id : '{{s.id}}' })" class="col-sm-2"
+							data-ng-repeat="s in dashboard.user.openScenarios">
+							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+								data-err-src="assets/public/img/logo.png"
+								class="img-circle imgPreviewL"> <img
+								class="overlapImg img-circle"
+								src="assets/public/img/100-719.jpg">
+							<h4>{{s.name}}</h4>
+						</div>
+						<div class="col-sm-2"
+							data-ng-repeat="s in dashboard.user.closedScenarios">
+							<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
+								data-err-src="assets/public/img/logo.png"
+								class="img-circle imgPreviewL"> <img
+								class="overlapImg img-circle" src="assets/public/img/red.png">
+							<h4>{{s.name}}</h4>
+						</div>
+						<div class="col-sm-2">
+							<div ui-sref="expandScenarios">Vedi altri</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4 col-md-3 singleRow box">
+					<h3 data-ui-sref="logged.dashboard.studentsList">Alunni</h3>
+					<table>
+						<tbody>
+							<tr data-ng-repeat="a in dashboard.user.students">
+								<td><img data-ng-src="api/v1/users/{{a.id}}/cover"
+									data-err-src="assets/public/img/user_ico.png"
+									class="img-circle imgPreviewM tableMargin"></td>
+								<td><span>{{a.lastname}} {{a.firstname}}</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-sm-4 col-md-3 singleRow box">
+					<h3 data-ui-sref="logged.dashboard.colleaguesList">Colleghi</h3>
+					<table>
+						<tbody>
+							<tr data-ng-repeat="c in dashboard.user.colleagues">
+								<td><img data-ng-src="/media/img/cover/users/{{c.id}}"
+									data-err-src="assets/public/img/user_ico.png"
+									class="img-circle imgPreviewM tableMargin"></td>
+								<td><span>{{c.lastname}} {{c.firstname}}</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-sm-4 col-md-3 singleRow box">
+					<h3>Nuovo compito</h3>
+					<div class="marginMTop">
+						<form role="form">
+							<div class="form-group">
+								<input type="text" class="form-control" id="email"
+									placeholder="TITOLO DEL COMPITO">
+							</div>
+							<div class="form-group">
+								<select class="form-control">
+									<option>SCEGLI SCENARIO</option>
+									<option>Nome 2</option>
+									<option>Nome 3</option>
+									<option>Nome 4</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<form class="form-inline">
+											<div class="form-group">
+												<input ui-date="dateOptions" class="form-control" required
+													data-ng-model="register.bornDate"
+													placeholder="DATA CONSEGNA COMPITO"></input>
+											</div>
+										</form>
+									</div>
+								</form>
+							</div>
+							<button type="submit" class="confirm btn btn-default">Crea</button>
+						</form>
+
+					</div>
+				</div>
+				<div class="col-sm-8 col-md-6 singleRow box">
+					<h3 data-ui-sref="logged.dashboard.filesList">Materiale didattico</h3>
+					<div>
+						<h4>Titolo del file</h4>
+						Qua verranno inserite le anteprime dei singoli materiali
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-6 singleRow box">
+					<h3>Azioni</h3>
+					<ul class="list-group">
+						<li class="list-group-item"><a href="">Guidi Marco ha
+								inserito un nuovo post </a></li>
+						<li class="list-group-item"><a href="">A Rea Anna piace
+								il post di Renzo</a></li>
+						<li class="list-group-item"><a href="">Rea Anna ha
+								completato un compito </a></li>
+						<li class="list-group-item"><a href="">Bello Antonio ha
+								commentato il suo post</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-1"></div>
+	</div>
+</div>
