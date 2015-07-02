@@ -11,54 +11,55 @@
 	<h2>Personaggi dello scenario</h2>
 	<accordion close-others="true">
 		<div data-ng-repeat="c in scenarioWizard.scenario.characters">
-				<accordion-group is-open="scenarioWizard.charactersServer[$index].isOpen">
+				<accordion-group is-open="c.isOpen" is-disabled="scenarioWizard.accordionIsDisabled">
 					<accordion-heading>
 						<div data-ng-click="scenarioWizard.openAccordion($index)">
-							<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': scenarioWizard.charactersServer[$index].isOpen, 'glyphicon-chevron-right': !scenarioWizard.charactersServer[$index].isOpen}"></div>	
+							<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': c.isOpen, 'glyphicon-chevron-right': !c.isOpen}"></div>	
 							<p><b>{{c.name}}</b></p>
 						</div>	
 					</accordion-heading>
 				
 				<div>
 					<div class="row"></div>
+					
 					<div class="row">
 						<label class="col-md-2">Nome</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.name">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].name">
 						<div><a href=""><span class="glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCharacter(c)" style="margin-right: 15px;"></span></a></div>
 					</div>
 					<div class="row">
 						<label class="col-md-2">Biografia</label>
-						<textarea class="col-md-4" rows="3" data-ng-model="scenarioWizard.currentCharacter.description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
-						<img data-ng-src="{{scenarioWizard.charactersServer[$index].cover}}"
+						<textarea class="col-md-4" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
+						<img data-ng-src="{{c.cover}}"
 						data-err-src="assets/public/img/cesar.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
 					</div>
 					<div class="row">
 						<label class="col-md-2">Data di nascita</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.birthDate">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].birthDate">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Data di morte</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.deadDate">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].deadDate">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Luogo di nascita</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.bornTown">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Luogo di morte</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.deadTown">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].deadTown">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Genere</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.gender">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].gender">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Citazione</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.quote">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].quote">
 					</div>
 					<div class="row">
 						<label class="col-md-2">Ruolo</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacter.role" placeholder="Es. Re - Papa">
+						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
 					</div>
 					<div class="row">
 						<div class="uploadSpan btn btn-default btn-file pull-right"

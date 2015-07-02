@@ -1748,4 +1748,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 		post.addLike(charRef);
 		postRepository.save(post);
 	}
+
+
+	@Override
+	public List<Character> getAllCharacters(String scenarioId) {
+		return characterRepository.getAllCharactersFromScenario(scenarioId);
+		
+	}
 }

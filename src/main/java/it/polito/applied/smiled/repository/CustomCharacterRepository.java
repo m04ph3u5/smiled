@@ -19,5 +19,6 @@ public interface CustomCharacterRepository {
 	public boolean addPostToCharacter(String id, PostReference postReference);
 	public boolean removePostFromCharacter(String id, String id2);
 	public boolean setCover(String userId, String coverId);
+	public List<Character> getAllCharactersFromScenario(String scenarioId);
 
 }

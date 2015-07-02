@@ -207,6 +207,13 @@ public class ScenarioController extends BaseController{
 
 		return scenarioService.addCharacterToScenario(characterDTO, scenarioId, activeUser.getId());
 	}
+	//Creo e aggiungo un nuovo personaggio allo scenario  
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/{scenarioId}/characters", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#scenarioId, 'Scenario', 'MODERATOR')")
+	public List<Character> getCharacters(@PathVariable String scenarioId) throws MongoException, BadRequestException, ForbiddenException{
+		return scenarioService.getAllCharacters(scenarioId);
+	}
 	
 	//Restituisce il personaggio cercato
 	@ResponseStatus(value = HttpStatus.OK)

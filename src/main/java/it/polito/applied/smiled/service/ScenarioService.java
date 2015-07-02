@@ -97,5 +97,7 @@ public interface ScenarioService {
 			Authentication auth, boolean isMetaComment) throws NotFoundException, ForbiddenException;
 
 	public void addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException;
+
+	public List<Character> getAllCharacters(String scenarioId);
 	
 }
