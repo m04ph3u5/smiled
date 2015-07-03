@@ -82,7 +82,7 @@
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/wrapping/exceptionHandler.js"></script>  
-	<script src="https://localhost:8443/ThesisProject/assets/public/js/wrapping/interpolateDebug.js"></script>
+<!-- 	<script src="https://localhost:8443/ThesisProject/assets/public/js/wrapping/interpolateDebug.js"></script> -->
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/wrapping/requestCounter.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/wrapping/stateChangeErrors.js"></script>
 	
