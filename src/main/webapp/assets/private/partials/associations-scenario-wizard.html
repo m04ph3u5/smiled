@@ -1,3 +1,49 @@
-associations-scenario-wizard.html
-
-{{scenarioWizard.scenario.name}}
+<div>
+	<h2>Associa gli studenti ai personaggi</h2>
+	<h5>Trascina la scheda di uno studente sul personaggio che vuoi fargli interpretare</h5>
+	
+	<div class="col-md-6">
+		<h3 class="text-center">Studenti</h3>
+		<div class="container-fluid">
+			<div class="row fluid">
+				<div class="col-md-6 " data-ng-show="scenarioWizard.scenarioServer.attendees.length>0">
+					<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees" data-drop="true" 
+						jqyoui-droppable="{index: {{$index}}, onDrop:'scenarioWizard.dropAttendeeCallback(s.id, $index)'}">
+						<div class="btn btn-warning" data-drag="true" jqyoui-draggable="{index: {{$index}},animate:true, onStart: 'scenarioWizard.dragAttendeeCallback(c.id, $index)'}">
+								<img data-ng-src="api/v1/users/{{s.id}}/cover" 
+										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.lastname}} {{s.firstname}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-6">
+		<h3 class="text-center">Personaggi</h3>
+		<div class="container-fluid">
+			<div class="row fluid">
+				<div class="col-md-6 " data-ng-show="scenarioWizard.scenarioServer.characters.length>0">
+					<div data-drop="true" data-ng-repeat="c in scenarioWizard.scenarioServer.characters" 
+								jqyoui-droppable="{index: {{$index}}, onDrop:'scenarioWizard.dropCharacterCallback(c.id, $index)'}">
+						<div class="btn btn-warning" data-drag="true" 
+							jqyoui-draggable="{index: {{$index}},animate:true, onStart: 'scenarioWizard.dragCharacterCallback(c.id, $index)'}">
+								<img data-ng-src="api/v1/users/{{c.id}}/cover" 
+										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{c.name}} 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div>
+		<h3>Associazioni</h3>
+		<div class="row fluid" data-ng-repeat="s in scenarioWizard.associations">
+			<div class="btn btn-info"><img data-ng-src="api/v1/users/{{s.id}}/cover" 
+								data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.lastname}} {{s.firstname}} </div>
+			<div class="btn btn-info"><img data-ng-src="api/v1/users/{{s.id}}/cover" 
+								data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.name}}</div>
+		</div>
+	</div>
+</div>

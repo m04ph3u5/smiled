@@ -499,6 +499,22 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			);
 		}
 		
+		self.dragAttendeeCallback = function(event, ui, idAttendee, $index){
+			console.log("dragAttendeeCallback: "+idAttendee);
+		}
+		
+		self.dropAttendeeCallback = function(event, ui, idAttendee, $index){
+			console.log("dropAttendeeCallback: "+idAttendee);
+		}
+		
+		self.dragCharacterCallback = function(event, ui, idCharacter, $index){
+			console.log("dragCharacterCallback: "+idCharacter);
+		}
+		
+		self.dropCharacterCallback = function(event, ui, idCharacter, $index){
+			console.log("dropCharacterCallback: "+idCharacter);
+		}
+		
 /*--------------------------------------UTILITY----------------------------------------------------*/
 		
 		var onStartup = function(){
