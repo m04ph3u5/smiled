@@ -5,13 +5,14 @@
 	<div class="col-md-6">
 		<h3 class="text-center">Studenti</h3>
 		<div class="container-fluid">
-			<div class="row fluid">
-				<div class="col-md-6 " data-ng-show="scenarioWizard.scenarioServer.attendees.length>0">
-					<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees" data-drop="true" 
-						jqyoui-droppable="{index: {{$index}}, onDrop:'scenarioWizard.dropAttendeeCallback(s.id, $index)'}">
-						<div class="btn btn-warning" data-drag="true" jqyoui-draggable="{index: {{$index}},animate:true, onStart: 'scenarioWizard.dragAttendeeCallback(c.id, $index)'}">
-								<img data-ng-src="api/v1/users/{{s.id}}/cover" 
-										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.lastname}} {{s.firstname}}
+			<div class="row fluid col-md-6">
+<!-- 				<div class="col-md-6" data-ng-show="!self.scenarioWizard.attendees || scenarioWizard.scenarioServer.attendees.length<=0">Non hai ancora invitato nessuno studente a partecipare</div> -->
+				<div ui-on-Drop="scenarioWizard.onDrop($event,$data, a)">
+					<div ui-draggable="true" drag="a"
+					on-drop-success="scenarioWizard.dropSuccessHandler($event, $index, scenarioWizard.scenarioServer.attendees)"
+					ng-repeat="a in scenarioWizard.scenarioServer.attendees track by $index">
+						<div class="btn btn-info"><img data-ng-src="api/v1/users/{{a.id}}/cover" 
+									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.lastname}} {{a.firstname}} 
 						</div>
 					</div>
 				</div>
@@ -22,20 +23,26 @@
 	<div class="col-md-6">
 		<h3 class="text-center">Personaggi</h3>
 		<div class="container-fluid">
-			<div class="row fluid">
-				<div class="col-md-6 " data-ng-show="scenarioWizard.scenarioServer.characters.length>0">
-					<div data-drop="true" data-ng-repeat="c in scenarioWizard.scenarioServer.characters" 
-								jqyoui-droppable="{index: {{$index}}, onDrop:'scenarioWizard.dropCharacterCallback(c.id, $index)'}">
-						<div class="btn btn-warning" data-drag="true" 
-							jqyoui-draggable="{index: {{$index}},animate:true, onStart: 'scenarioWizard.dragCharacterCallback(c.id, $index)'}">
-								<img data-ng-src="api/v1/users/{{c.id}}/cover" 
-										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{c.name}} 
+			<div class="row fluid col-md-6">
+<!-- 				<div class="col-md-6 " data-ng-show="!self.scenarioWizard.characters || scenarioWizard.scenarioServer.characters.length<=0">Non hai ancora creato nessun personaggio per questo scenario</div> -->
+				<div ui-on-Drop="scenarioWizard.onDrop($event,$data, c)">
+					<div ui-draggable="true" drag="c"
+					on-drop-success="scenarioWizard.dropSuccessHandler($event, $index, scenarioWizard.scenarioServer.charaters)"
+					ng-repeat="c in scenarioWizard.scenarioServer.characters track by $index">
+						<div class="btn btn-info"><img data-ng-src="api/v1/users/{{c.id}}/cover" 
+									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{c.name}}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<div class="container form-inline" style="text-align: center;">
+          <div class="btn btn-droppable" ng-repeat="item in list5" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
+            <div class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true, onStart: 'dragCallback($index)'}" ng-hide="!item.title">{{item.title}}</div>
+          </div>
+          
 	<br>
 	<div>
 		<h3>Associazioni</h3>

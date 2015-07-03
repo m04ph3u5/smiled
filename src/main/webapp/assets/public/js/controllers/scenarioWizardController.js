@@ -64,14 +64,15 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 			apiService.getAllCharactersFromScen(id).then(
 					function(data){
-						
-						for(var i=0; i<self.scenario.characters.length;i++){
-							for(var j=0; j<data.length;j++){
-								if(data[j].id==self.scenario.characters[i].id){
-									self.charactersServer[i]=data[j];
-									self.currentCharacters[i] = angular.copy(data[j])
-									data.splice(j,1);
-									break;
+						if(self.scenario.characters){
+							for(var i=0; i<self.scenario.characters.length;i++){
+								for(var j=0; j<data.length;j++){
+									if(data[j].id==self.scenario.characters[i].id){
+										self.charactersServer[i]=data[j];
+										self.currentCharacters[i] = angular.copy(data[j])
+										data.splice(j,1);
+										break;
+									}
 								}
 							}
 						}
@@ -499,20 +500,39 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			);
 		}
 		
-		self.dragAttendeeCallback = function(event, ui, idAttendee, $index){
-			console.log("dragAttendeeCallback: "+idAttendee);
+		self.dragAttendeeCallback = function(event, ui){
+			//console.log("dragAttendeeCallback: "+idAttendee);
+			console.log("dragAttendeeCallbackIndex: "+ui);
 		}
 		
-		self.dropAttendeeCallback = function(event, ui, idAttendee, $index){
-			console.log("dropAttendeeCallback: "+idAttendee);
+		self.dropAttendeeCallback = function(event, ui, id){
+			//console.log("dropAttendeeCallback: "+idAttendee);
+			console.log("dropAttendeeCallbackIndex: "+id);
 		}
 		
-		self.dragCharacterCallback = function(event, ui, idCharacter, $index){
-			console.log("dragCharacterCallback: "+idCharacter);
+		self.dragCharacterCallback = function(event, ui, id){
+			//console.log("dragCharacterCallback: "+idCharacter);
+			console.log("dragCharacterCallbackIndex: "+id);
 		}
 		
-		self.dropCharacterCallback = function(event, ui, idCharacter, $index){
-			console.log("dropCharacterCallback: "+idCharacter);
+		self.dropCharacterCallback = function(event, ui, id){
+			//console.log("dropCharacterCallback: "+idCharacter);
+			console.log("dropCharacterCallbackIndex: "+id);
+		}
+		
+		self.dropSuccessHandler =function($event, index, array){
+			console.log("dropSuccessHandler");
+			console.log(index);
+			//console.log(array[index]);
+			console.log($event);
+			console.log(array);
+		}
+		
+		self.onDrop = function($event, $data, array){
+			console.log("onDrop");
+			console.log($event);
+			console.log($data);
+			console.log(array);
 		}
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/
