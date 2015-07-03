@@ -400,7 +400,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.addCollaborator = function(collaborator){
-			
+			console.log(collaborator);
+			var emailDTO = {"email": collaborator.email};
 		}
 		
 		self.deleteCollaborator = function(){
@@ -587,21 +588,21 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var isUpdatedCharacter = function(newChar, oldChar){
 			if(newChar.name!=oldChar.name)
 				return true;
-			if(newChar.birthDate!=newChar.birthDate)
+			if(newChar.birthDate!=oldChar.birthDate)
 				return true;
-			if(newChar.deadDate!=newChar.deadDate)
+			if(newChar.deadDate!=oldChar.deadDate)
 				return true;
-			if(newChar.bornTown!=newChar.bornTown)
+			if(newChar.bornTown!=oldChar.bornTown)
 				return true;
-			if(newChar.deadTown!=newChar.deadTown)
+			if(newChar.deadTown!=oldChar.deadTown)
 				return true;
-			if(newChar.description!=newChar.description)
+			if(newChar.description!=oldChar.description)
 				return true;
-			if(newChar.quote!=newChar.quote)
+			if(newChar.quote!=oldChar.quote)
 				return true;
-			if(newChar.gender!=newChar.gender)
+			if(newChar.gender!=oldChar.gender)
 				return true;
-			if(newChar.role!=newChar.role)
+			if(newChar.role!=oldChar.role)
 				return true;
 			
 			return false;
