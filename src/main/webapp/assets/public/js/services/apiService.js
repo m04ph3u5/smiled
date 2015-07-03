@@ -91,6 +91,19 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		return e.promise;
 	}
 	
+	var addCollaboratorToScenario = function (emailDTO, id){
+		var e = $q.defer();
+		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/collaborators", emailDTO).then(
+				function(response){
+					e.resolve(response.data);
+				},
+				function(reason){
+					e.reject(reason);
+				}
+		);
+		return e.promise;
+	}
+	
 	var addCharacterToScenario = function(character, id){
 		var c = $q.defer();
 		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/characters", character).then(
@@ -133,6 +146,19 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 	var removeUserFromScenario = function(id, idUser){
 		var u = $q.defer();
 		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/users/"+idUser).then(
+				function(response){
+					u.resolve(response.data);
+				},
+				function(reason){
+					u.reject(reason);
+				}
+		);
+		return u.promise;
+	} 
+	
+	var removeCollaboratorFromScenario = function(id, idCollaborator, putInAttendeesList){
+		var u = $q.defer();
+		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/collaborators/"+idCollaborator, putInAttendeesList).then(
 				function(response){
 					u.resolve(response.data);
 				},
@@ -188,11 +214,13 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		getScenario : getScenario,
 		updateScenario : updateScenario,
 		addUsersToScenario: addUsersToScenario,
+		removeUserFromScenario: removeUserFromScenario,
+		addCollaboratorToScenario: addCollaboratorToScenario,
+		removeCollaboratorFromScenario: removeCollaboratorFromScenario,
 		addCharacterToScenario : addCharacterToScenario,
 		updateCharacter: updateCharacter,
 		getCharacter : getCharacter,
 		deleteScenario: deleteScenario,
-		removeUserFromScenario: removeUserFromScenario,
 		removeCharacterFromScenario: removeCharacterFromScenario,
 		getAllCharactersFromScen : getAllCharactersFromScen
 	}
