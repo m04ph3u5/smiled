@@ -431,4 +431,17 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		return w.getN();
 	}
 
+	@Override
+	public boolean addColleagueToTeacher(String id, Reference r) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(id));
+		Update u = new Update();
+		u.addToSet("colleagues", r);
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
+	}
+
 }

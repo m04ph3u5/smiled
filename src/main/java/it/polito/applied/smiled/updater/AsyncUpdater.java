@@ -96,6 +96,11 @@ public class AsyncUpdater {
 		taskExecutor.execute(r);
 		
 	}	
+	
+	public void sendTeacherInviteEmail(String invitedEmail, String invitingTeacher){
+	//	Runnable r = new sendEmailRunnable(firstName,email, token);
+	//	taskExecutor.execute(r);
+	}
 
 	public void sendStudentsRegistrationEmail(Map<String,String> toSendEmail,
 			Reference teacherRef) {
@@ -192,6 +197,7 @@ public class AsyncUpdater {
 			toSendEmail=null;
 			teacherRef=null;
 		}
+		
 		
 		public sendEmailRunnable(Map<String,String> toSendEmail,
 				Reference teacherRef){

@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -516,4 +518,61 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		
 	}
 
+	@Override
+	public void inviteColleague(EmailDTO emailDTO, CustomUserDetails activeUser) throws UserAlreadyExistsException {
+		try{
+			
+			//if(!teacherAlreadyPresent(emailDTO.getEmail())){
+				/*SALVA UTENTE NEL REPOSITORY USER*/		
+				User u = new Teacher();
+				u.setEmail(emailDTO.getEmail());
+				//genero pwd casuale
+				String pwd = RandomStringUtils.random(10,true,true);
+				String hashPassword=passwordEncoder.encode(pwd);
+				u.setPassword(hashPassword);
+				u.setStatus(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD);
+				u.setRegistrationDate(new Date());
+
+				List<Role> roles = new ArrayList<Role>();
+				roles.add(new Role("ROLE_TEACHER"));
+				roles.add(new Role("ROLE_USER"));
+				u.setRoles(roles);
+				
+				u.setInvitedBy(activeUser.getId());
+				
+				asyncUpdater.sendTeacherInviteEmail(emailDTO.getEmail(), activeUser.getUsername());
+
+				try{
+					userRepository.save(u);
+				}catch(MongoDataIntegrityViolationException e){
+					//TODO 
+					/*Inserire report eccezione (in tutte le eccezioni di questa classe)*/
+					User user = userRepository.findByEmail(emailDTO.getEmail());
+					Reference r = new Reference(user);
+					userRepository.addColleagueToTeacher(activeUser.getId(),r);
+					System.out.println("Invito non è stato fatto poichè l'email era già presente nel sistema, aggiungo solo il nuovo teacher alla mia lista di colleghi");
+					
+					throw new UserAlreadyExistsException(u.getEmail());
+				}
+			//}		
+				
+//				try{
+//					RegistrationToken registration = new RegistrationToken(teacher.getEmail());
+//					registrationRepository.save(registration);
+//					asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName(), teacher.getEmail(),registration.getToken().toString());
+//				}catch(MongoDataIntegrityViolationException e){
+//					/*Eccezione che in teoria non dovrebbe mai verificarsi, in quanto abbiamo giÃ  controllato che non esista uno user con quella email
+//					 * al passo precedente*/
+//					throw e;
+//				}
+		}catch(MongoException e){
+			throw e;
+		}
+
+	}
+	
+	@Override
+	public boolean teacherAlreadyPresent(String email){
+		return true;
+	}
 }

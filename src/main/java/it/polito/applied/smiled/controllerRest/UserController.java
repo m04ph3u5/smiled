@@ -1,17 +1,16 @@
 package it.polito.applied.smiled.controllerRest;
 
 import it.polito.applied.smiled.dto.ChangePasswordDTO;
+import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Message;
-import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.UserService;
 import it.polito.applied.smiled.validator.UserDTOValidator;
@@ -54,6 +53,15 @@ public class UserController extends BaseController{
 			throw new BadRequestException();
 		}
 		userService.registerTeacher(registerTeacherDTO);
+	}
+	
+	@RequestMapping(value="/v1/colleagues", method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void inviteColleague(@RequestBody @Valid EmailDTO emailDTO, BindingResult result,  @AuthenticationPrincipal CustomUserDetails activeUser)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, UserAlreadyExistsException, BadRequestException{
+		if(result.hasErrors()){
+			throw new BadRequestException();
+		}
+		userService.inviteColleague(emailDTO, activeUser);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")

@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
@@ -14,6 +15,7 @@ import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.security.CustomUserDetails;
 
 import java.util.List;
 
@@ -66,5 +68,7 @@ public interface UserService {
 	public void moveScenarioFromOpenToInviting(String collaboratorId, String id);
 	public void createScenarioOfUser(Reference r,
 			ScenarioReference scenarioReference);
+	public void inviteColleague(EmailDTO emailDTO, CustomUserDetails activeUser) throws UserAlreadyExistsException;
+	public boolean teacherAlreadyPresent(String email);
 	
 }

@@ -123,4 +123,12 @@ public class CharacterRepositoryImpl implements CustomCharacterRepository{
 		else
 			return false;
 	}
+
+	@Override
+	public List<Character> getAllCharactersFromScenario(String scenarioId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("idScenario").is(scenarioId));
+		return mongoOp.find(q, Character.class);
+		
+	}
 }

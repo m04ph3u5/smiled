@@ -1,20 +1,19 @@
 <h3>Aggiungi collaboratore</h3>
 <form class="form-search">
-	  <input type="search" ng-model="scenarioWizard.selectedUser" class="input-medium search-query" placeholder="Nome Cognome" 
-	  typeahead="s as s.firstname for s in scenarioWizard.user.collaborators | filter:$viewValue | limitTo:10" 
-	  typeahead-min-length='1' 
-	  typeahead-on-select='onSelectPart($item, $model, $label)' 
-	  typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
-        <i class="icon-search nav-search-icon"></i>
-	
+	 <div class="inner-addon left-addon">
+		<i class="glyphicon glyphicon-user"></i>
+	  	<input type="search" ng-model="scenarioWizard.selectedUser" class="input-medium search-query" placeholder="Nome Cognome" 
+	  		typeahead="s as s.firstname for s in scenarioWizard.selectableCollaborators | filter:$viewValue | limitTo:10" 
+	  		typeahead-min-length='1' 
+	  		typeahead-on-select='onSelectPart($item, $model, $label)' 
+	  	typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
+	 </div>
 </form>
 <br>
-<div class="btn btn-primary pull-left" data-ui-sref="logged.scenarioWizard.associations">Indietro</div>
-
 <div class="container-fluid">
 	<div class="row fluid">
 		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.collaborators.length>0">
-			<h3>Partecipanti</h3>
+			<h3>Moderatori dello scenario</h3>
 			<div data-ng-repeat="s in scenarioWizard.scenarioServer.collaborators">
 				<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCollaborators(s)"></span></div>
 				<img data-ng-src="api/v1/users/{{s.id}}/cover" 
@@ -24,9 +23,13 @@
 	</div>
 </div>
 
+<br>
+<div class="btn btn-primary pull-left" data-ui-sref="logged.scenarioWizard.associations">Indietro</div>
+
 <script type="text/ng-template" id="customTemplate.html">
-  <a>
-      <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
-       {{match.model}}
+  <a href="">
+      <img data-ng-src="api/v1/users/{{match.model.id}}/cover" 
+						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM">
+	  <b>{{match.model.lastname}} {{match.model.firstname}}</b>
   </a>
 </script>
