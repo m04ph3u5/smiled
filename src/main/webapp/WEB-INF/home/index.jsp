@@ -5,7 +5,7 @@
 <link rel="stylesheet"
 	href="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/custom-style.css">
-<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/jquery-ui.css">
+<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/validation-form.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngDialog/css/ngDialog.css">
 </head>
@@ -21,9 +21,10 @@
 	
 	<script
 		src="https://localhost:8443/ThesisProject/assets/public/js/vendor/jquery/dist/jquery.js"></script>
+
 	<script
 		src="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap/dist/js/bootstrap.js"></script>
-	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/jquery-ui.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/jquery-ui/jquery-ui.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular/angular.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-ui-date/src/date.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-ui-date/datepicker-it.js"></script>
@@ -46,7 +47,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngDialog/js/ngDialog.js"></script>
-
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-drag-drop/dist/main.js"></script>
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
 	<!-- CUSTOM SCRIPT -->

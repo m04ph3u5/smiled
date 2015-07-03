@@ -1,0 +1,18 @@
+.dragged {
+  background-color: gray;
+}
+
+.dragover {
+  background-color: red;
+}
+
+.dnd-overlay {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/*# sourceMappingURL=drag-and-drop.css.map */

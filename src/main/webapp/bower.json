@@ -16,6 +16,7 @@
 		"angular-ui-date": "latest",
 		"ngDialog": "latest",
 		"jquery": "1.11.1",
-		"bootstrap" : "3.3.4"
+		"bootstrap" : "3.3.4",
+		"ng-drag-drop" : "latest"
 	}
 }

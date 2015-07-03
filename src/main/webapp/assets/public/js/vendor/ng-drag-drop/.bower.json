@@ -1,0 +1,39 @@
+{
+  "name": "ngDragDrop",
+  "version": "0.0.2",
+  "homepage": "https://github.com/cllu/ngDragDrop",
+  "authors": [
+    "Chunliang Lyu <hi@chunlianglyu.com>"
+  ],
+  "description": "An Angular directive to provide drag and drop support",
+  "main": [
+    "dist/main.js",
+    "dist/main.css"
+  ],
+  "keywords": [
+    "angular",
+    "directive",
+    "drag and drop"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1"
+  },
+  "_release": "0.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.2",
+    "commit": "09c2a910611e8175202d3ee2dda7b538da27d560"
+  },
+  "_source": "git://github.com/cllu/ngDragDrop.git",
+  "_target": "~0.0.2",
+  "_originalSource": "ng-drag-drop",
+  "_direct": true
+}

@@ -1,0 +1,19 @@
+// The element being dragger
+.dragged {
+  background-color: gray;
+}
+
+// The element being dragged over
+.dragover {
+  //border: 2px dashed #000;
+  background-color: red;
+}
+
+.dnd-overlay {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

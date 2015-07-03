@@ -1,0 +1,54 @@
+<html ng-app="exampleApp">
+<head>
+  <link rel="stylesheet" href="dist/main.css">
+</head>
+
+<body>
+
+<div class="row" ng-controller="ExampleCtrl">
+  <div ng-repeat="country in countries"
+       drag-and-drop="country"
+       on-drag="onCountryDrag"
+       on-drop="onCountryDrop"
+       class="large-3 columns"
+       style="height: 60px; border:1px solid gray;">
+    <span ng-bind="country.name"></span>
+    <small ng-bind="country.code"></small>
+  </div>
+</div>
+
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="dist/main.js"></script>
+<script>
+
+  var app = angular.module('exampleApp', ['ngDragDrop']);
+
+  app.controller('ExampleCtrl', ['$scope', function ($scope) {
+
+
+    $scope.country = {};
+    $scope.countries = [
+      {name: 'Afghanistan', code: 'AF', id: 1},
+      {name: 'Åland Islands', code: 'AX', id: 2},
+      {name: 'Albania', code: 'AL', id: 3},
+      {name: 'Algeria', code: 'DZ', id: 4},
+      {name: 'American Samoa', code: 'AS', id: 5},
+      {name: 'Zimbabwe', code: 'ZW', id: 6}
+    ];
+
+    $scope.onCountryDrag = function (source) {
+      console.log('being dragged');
+      console.log(source);
+    };
+
+    $scope.onCountryDrop = function (source, target) {
+      console.log('source');
+      console.log(source);
+      console.log('target');
+      console.log(target);
+    };
+
+  }]);
+</script>
+</body>
+</html>
