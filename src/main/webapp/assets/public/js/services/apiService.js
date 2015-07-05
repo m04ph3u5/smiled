@@ -197,6 +197,36 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		return c.promise;
 	}
 	
+	var addUserToCharacter = function(id, userId, characterId){
+		var c = $q.defer();
+		
+		$http.put("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+characterId+"/users/"+userId).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		
+		return c.promise;
+	}
+	
+	var removeUserFromCharacter = function(id, userId, characterId){
+		var c = $q.defer();
+		
+		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+characterId+"/users/"+userId).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		
+		return c.promise;
+	}
+	
 	
 //	var onSuccessGetScenario = function(response){
 //		console.log("Getting data scenario: "+response.data);
@@ -222,7 +252,9 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		getCharacter : getCharacter,
 		deleteScenario: deleteScenario,
 		removeCharacterFromScenario: removeCharacterFromScenario,
-		getAllCharactersFromScen : getAllCharactersFromScen
+		getAllCharactersFromScen : getAllCharactersFromScen,
+		addUserToCharacter: addUserToCharacter,
+		removeUserFromCharacter: removeUserFromCharacter
 	}
 	
 	

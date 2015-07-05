@@ -10,6 +10,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 	 	self.scenario = {};
 		var tab;
 		self.scenarioServer = {};
+		self.associated = [];
+		self.notAssociatedAttendees = [];
+		self.notAssociatedCharacters = [];
 		//self.charactersCover = [];
 		self.emailList;
 		self.accordionIsDisabled=true;
@@ -51,7 +54,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						
 						
 						retrieveCharacterAndOrder();
-						
+						updateAssociated();
+					
 					}, function(reason){
 						console.log("errore");
 					}
@@ -94,6 +98,29 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}
 		}
 		
+		var updateAssociated = function(){
+			if(self.scenarioServer.attendees){
+				var attendees = self.scenarioServer.attendees;
+				for(var i=0; i<self.scenarioServer.characters.length; i++){
+					if(self.scenarioServer.characters[i].userId==null){
+						self.notAssociatedCharacters.push(self.scenarioServer.characters[i]);
+					}else{
+						for(var j=0; j<attendees.length; j++){
+							if(attendees[j].id==self.scenarioServer.characters[i].userId){
+								var association = {};
+								association.character = self.scenarioServer.characters[i];
+								association.attendee = attendees[j];
+								self.associations.push(association);
+								attendees.splice(j,1);
+								break;
+							}
+						}
+					}
+				}
+				self.notAssociatedAttendees = attendees;
+			}
+		}
+		
 		
 		/*------------------------------------------------------------------------------------------------------------------------ */
 		
@@ -129,7 +156,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					
 					for(var j=0; j<self.selectableStudents.length; j++){
 						
-						if(self.scenarioSever.attendees[i].id==self.selectableStudents[j].id){
+						if(self.scenarioServer.attendees[i].id==self.selectableStudents[j].id){
 							self.selectableStudents.splice(j,1);
 						}
 					}
@@ -349,23 +376,53 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					if(isCurrentCharacterValid(self.currentCharacters[currentCharacterIndex])){
 						//va fatta la put delle nuove informazioni ed alla fine va gestito l'aggiornamento del currentCharacter
 						console.log("PUT PUT PUT PUT PUT");
-						syncCurrentCharacter(i, self.charactersServer[i]);
+						console.log(i);
+						if(i!=currentCharacterIndex){
+							syncCurrentCharacter(i, self.charactersServer[i]);
+						}
 						apiService.updateCharacter(id, self.currentCharacters[currentCharacterIndex], self.charactersServer[currentCharacterIndex].id).then(
 								function(data){
 									self.charactersServer[currentCharacterIndex] = data;
-									self.scenario.characters[currentCharacterIndex].name = data.name;		
-									currentCharacterIndex=i;
+									self.scenario.characters[currentCharacterIndex].name = data.name;
+									if(self.scenario.characters[currentCharacterIndex].userId!=null){
+										console.log("toUPDATE --------> ")
+										for(var k=0; i<self.associations.length; k++){
+											if(self.associations[k].character.id==self.scenario.characters[currentCharacterIndex].id){
+												self.associations[k].character.name=self.scenario.characters[currentCharacterIndex].name;
+												break;
+											}
+							
+										}
+									}else{
+										for(var j=0; j<self.notAssociatedCharacters.length; j++){
+											if(self.notAssociatedCharacters[j].id==self.scenario.characters[currentCharacterIndex].id){
+												self.notAssociatedCharacters[j].name=self.scenario.characters[currentCharacterIndex].name;
+												break;
+											}
+							
+										}
+									}
+									if(currentCharacterIndex!=i)
+										currentCharacterIndex=i;
+									else
+										currentCharacterIndex=-1;
 									console.log("Character aggiornato");
 								}
 						);
 					}else{ //il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
 						/*TO CONTINUE*/
 						//TODO
-						currentCharacterIndex = i;
+						if(currentCharacterIndex!=i)
+							currentCharacterIndex=i;
+						else
+							currentCharacterIndex=-1;
 					}
 				}else{ //la validazione delle info digitate è fallita
 					   //TODO
-					currentCharacterIndex = i;
+					if(currentCharacterIndex!=i)
+						currentCharacterIndex=i;
+					else
+						currentCharacterIndex=-1;
 				}
 			}else{
 				//si tratta della prima apertura dell'accordion in questa istanza dello state
@@ -500,39 +557,73 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			);
 		}
 		
-		self.dragAttendeeCallback = function(event, ui){
-			//console.log("dragAttendeeCallback: "+idAttendee);
-			console.log("dragAttendeeCallbackIndex: "+ui);
+		/*Variabile temporanea utilizzata dal drag & drop per tenere traccia dell'ultima card presa*/
+		var dragged;
+		self.associations = new Array();
+		
+		self.dropSuccessHandlerCharacter =function($event, indexAttendee){
+			console.log("dropSuccessHandlerCharacter");
+			console.log(indexAttendee);
+			var association = {};
+			association.attendee = self.scenarioServer.attendees[indexAttendee];
+			association.character = self.scenarioServer.characters[dragged];
+			apiService.addUserToCharacter(id, association.attendee.id, association.character.id).then(
+					function(data){
+						self.associations.push(angular.copy(association));
+						self.notAssociatedAttendees.splice(indexAttendee,1);
+						self.notAssociatedCharacters.splice(dragged,1);
+					},
+					function(reason){
+						console.log("Association failed: "+reason);
+					}
+			);
 		}
 		
-		self.dropAttendeeCallback = function(event, ui, id){
-			//console.log("dropAttendeeCallback: "+idAttendee);
-			console.log("dropAttendeeCallbackIndex: "+id);
+		self.dropSuccessHandlerAttendee =function($event, indexCharacter){
+			console.log("dropSuccessHandlerAttendee");
+			console.log(indexCharacter);
+			var association = {};
+			association.attendee = self.scenarioServer.attendees[dragged];
+			association.character = self.scenarioServer.characters[indexCharacter];
+			
+			apiService.addUserToCharacter(id, association.attendee.id, association.character.id).then(
+					function(data){
+						self.associations.push(angular.copy(association));
+						self.notAssociatedAttendees.splice(dragged,1);
+						self.notAssociatedCharacters.splice(indexCharacter,1);
+					},
+					function(reason){
+						console.log("Association failed: "+reason);
+					}
+			);
 		}
 		
-		self.dragCharacterCallback = function(event, ui, id){
-			//console.log("dragCharacterCallback: "+idCharacter);
-			console.log("dragCharacterCallbackIndex: "+id);
-		}
-		
-		self.dropCharacterCallback = function(event, ui, id){
-			//console.log("dropCharacterCallback: "+idCharacter);
-			console.log("dropCharacterCallbackIndex: "+id);
-		}
-		
-		self.dropSuccessHandler =function($event, index, array){
-			console.log("dropSuccessHandler");
-			console.log(index);
-			//console.log(array[index]);
-			console.log($event);
-			console.log(array);
-		}
-		
-		self.onDrop = function($event, $data, array){
+		self.onDrop = function($event, $data, index){
 			console.log("onDrop");
 			console.log($event);
 			console.log($data);
-			console.log(array);
+			console.log(index);			
+			dragged = index;
+		}
+		
+		self.removeAssociation =  function(a){
+			var character = a.character;
+			var attendee = a.attendee;
+			for(var i=0; i<self.associations.length; i++){
+				if(self.associations[i].attendee.id==a.attendee.id){
+					apiService.removeUserFromCharacter(id, attendee.id, character.id).then(
+							function(data){
+								self.notAssociatedAttendees.push(attendee);
+								self.notAssociatedCharacters.push(character);
+								self.associations.splice(i,1);
+							},
+							function(reason){
+								console.log("Removing asssociation failed:" +reason);
+							}
+					);
+					break;
+				}
+			}
 		}
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/
