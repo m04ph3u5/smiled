@@ -11,6 +11,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				templateUrl:'assets/private/partials/createScenario.html',
 				controller: 'dialogScenarioCtrl',
 				controllerAs: 'dialogScenario',
+				size: 'modal-lg'
 				
 		};
 		
@@ -45,9 +46,30 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var createScenario = function(scenario){
 			console.log("CREATE SCENARIO -----------------------");
-			 var history ={};
-			 history.startDate = scenario.startDate;
-			 history.endDate = scenario.endDate;
+			 var history ={
+					 startDate : {
+						 year : "",
+						 month :"",
+						 day : "",
+						 afterChrist : "",
+					 },
+					 endDate : {
+						 year : "",
+						 month :"",
+						 day : "",
+						 afterChrist : "",
+					 }
+			 };
+			 history.startDate.year = scenario.startDate.year;
+			 history.startDate.month = scenario.startDate.month;
+			 history.startDate.day = scenario.startDate.day;
+			 history.startDate.afterChrist = scenario.startDate.afterChrist;
+			 
+			 history.endDate.year = scenario.endDate.year;
+			 history.endDate.month = scenario.endDate.month;
+			 history.endDate.day = scenario.endDate.day;
+			 history.endDate.afterChrist = scenario.endDate.afterChrist;
+			 
 			 var scenarioDTO = {};
 			 scenarioDTO.name = scenario.title;
 			 scenarioDTO.history = history;
