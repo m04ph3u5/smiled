@@ -1,0 +1,81 @@
+<div class="modal-header">
+	<h3 class="modal-title">Modifica la data</h3>
+</div>
+<div class="modal-body">
+	<label for="title">{{scenarioWizard.scenario.name}}</label>
+	<label for="startDate">DATA INIZIO</label>
+	
+	<div class="form-group row" id="startDate">
+	
+		<input style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="scenarioWizard.newStartYear"  placeholder="Anno"/>
+		
+		<select class="selectpicker" data-ng-model="scenarioWizard.newStartMonth">
+		    <option value="" disabled selected style="display:none;">Mese</option>
+		    <option>Gennaio</option>
+		    <option>Febbraio</option>
+		    <option>Marzo</option>
+		    <option>Aprile</option>
+		    <option>Maggio</option>
+		    <option>Giugno</option>
+		    <option>Luglio</option>
+		    <option>Agosto</option>
+		    <option>Settembre</option>
+		    <option>Ottobre</option>
+		    <option>Novembre</option>
+		    <option>Dicembre</option>
+ 		</select>
+ 		
+		<select class="selectpicker"  data-ng-model="scenarioWizard.newStartDay">
+		    <option value="" disabled selected style="display:none;">Giorno</option>
+		    <option>1</option>
+		    <option>2</option>
+		    <option>3</option>
+		    <option>4</option>
+		    <option>5</option>
+		    <option>6</option>
+		    <option>7</option>
+		    <option>8</option>
+		    <option>9</option>
+		    <option>10</option>
+		    <option>11</option>
+		    <option>12</option>
+		    <option>13</option>
+		    <option>14</option>
+		    <option>15</option>
+		    <option>16</option>
+		    <option>17</option>
+		    <option>18</option>
+		    <option>19</option>
+		    <option>20</option>
+		    <option>21</option>
+		    <option>22</option>
+		    <option>23</option>
+		    <option>24</option>
+		    <option>25</option>
+		    <option>26</option>
+		    <option>27</option>
+		    <option>28</option>
+		    <option>29</option>
+		    <option>30</option>
+		    <option>31</option>
+ 		</select>
+ 		
+
+		<span class="btn-group">
+			<label class="btn-primary btn-sm" data-ng-model="scenarioWizard.newStartAfterChrist" btn-radio="false">A.C.</label>
+			<label class="btn-primary btn-sm" data-ng-model="scenarioWizard.newStartAfterChrist" btn-radio="true">D.C.</label>
+		</span>
+		
+	</div>
+
+	
+	<alertgeneric></alertgeneric>
+	
+</div>
+<div class="modal-footer">
+	<button class="positiveButton btn" data-ng-click="scenarioWizard.changeStartDate()">MODIFICA</button>
+	<button class="generalButton btn" data-ng-click="$dismiss()">ANNULLA</button>
+	
+</div>
+<!-- Test commit -->
+

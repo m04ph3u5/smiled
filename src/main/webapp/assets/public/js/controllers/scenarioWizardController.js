@@ -47,6 +47,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						self.scenarioServer = data;
 						self.scenario = angular.copy(data);
 						self.title = data.name;
+						
 						updateSelectableAttendees();
 						//aggiorno le cover dei characters dello scenario
 						updateCover();
@@ -682,6 +683,21 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						console.log("C'è stato un problema, impossibile attivare lo scenario");
 					}
 			);
+		}
+		
+		
+		
+		
+		self.showPopUpSetDate = function(flagFirst){
+			modalService.showPopUpSetDate(flagFirst);
+		}
+		
+		self.changeStartDate = function(){
+			console.log("CHANGE START DATE ---------------->");
+		}
+		
+		self.changeEndDate = function(date){
+			console.log("CHANGE END DATE ---------------->");
 		}
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/

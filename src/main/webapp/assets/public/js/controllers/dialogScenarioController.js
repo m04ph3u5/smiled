@@ -13,7 +13,6 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	self.createScenario = function (){
 		
 		if(self.scenario.title=="" || self.scenario.title==null || self.scenario.startDate==null || self.scenario.endDate==null){
-			console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			alertingGeneric.addWarning("Inserire tutti i dati richiesti");
 		}
 		else if (self.scenario.title.length<2)

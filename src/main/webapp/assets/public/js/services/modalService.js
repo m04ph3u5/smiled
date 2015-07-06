@@ -3,15 +3,17 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var scenario = {
 				
 		};
+		var flagFirst = true;
 		
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
+		var modalInstanceSetDate;
 		
 		var optionsCreateScen = {
 				templateUrl:'assets/private/partials/createScenario.html',
 				controller: 'dialogScenarioCtrl',
 				controllerAs: 'dialogScenario',
-				size: 'modal-lg'
+				size: 'modal-lg'  //TODO non funziona
 				
 		};
 		
@@ -21,7 +23,11 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				controllerAs: 'dialogScenario',
 		};
 		
-		 
+		var optionsSetDate = {
+				templateUrl:'assets/private/partials/setDate.html',
+				controller: 'dialogScenarioCtrl',
+				controllerAs: 'dialogScenario',
+		};
 		
 		var showModalCreateScen = function(){
 			modalInstanceCreateScen = $modal.open(optionsCreateScen);
@@ -90,6 +96,11 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			return scenario;
 		}
 		
+		var showPopUpSetDate = function(f){
+			flagFirst = f;
+			modalInstanceSetDate = $modal.open(optionsSetDate);
+			return modalInstanceSetDate.result;
+		}
 	
 		
 		return {
@@ -99,7 +110,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalCreateScen: closeModalCreateScen,
 			showModalDeleteScen : showModalDeleteScen,
 			closeModalDeleteScen: closeModalDeleteScen,
-			getScenToDelete : getScenToDelete
+			getScenToDelete : getScenToDelete,
+			showPopUpSetDate : showPopUpSetDate
 		}
 }]);
 
