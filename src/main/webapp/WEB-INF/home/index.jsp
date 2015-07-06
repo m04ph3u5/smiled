@@ -77,6 +77,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertRegistration.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/workSpinner.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/historicalDate.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/errSrc.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/support/jqSupport.js"></script>
 	
