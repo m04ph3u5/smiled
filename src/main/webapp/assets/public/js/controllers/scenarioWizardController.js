@@ -645,6 +645,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log("onStartup WizardController: "+tab);
 		}
 		
+		self.checkOpenAccordion = function(){
+			console.log("checkOpenAccordion");
+			if(self.scenario.characters){
+				for(var i=0; i<self.scenario.characters.length; i++){
+					console.log("charactersServer[i]: "+i);
+					if(self.scenario.characters[i].isOpen){
+						console.log("checkOpen: "+i);
+						self.openAccordion(i);
+						break;
+					}
+				}
+			}
+		}
+		
 		self.changeStateTab = function(newDestination){
 			switch(tab){
 				case 0 : {
@@ -657,6 +671,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					break;
 				}
 				case 2: {
+					self.checkOpenAccordion();
 					tab = newDestination;
 					break;
 				}
