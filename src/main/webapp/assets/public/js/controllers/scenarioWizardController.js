@@ -626,6 +626,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		self.openScenario = function(){
+			var scenarioDTO = {"status": "ACTIVE"};
+			apiService.updateScenario(scenarioDTO, id).then(
+					function(data){
+						console.log("activating");
+						self.scenarioServer=data;
+						$state.go("logged.scenario", {id : id});
+					},
+					function(reason){
+						console.log("C'è stato un problema, impossibile attivare lo scenario");
+					}
+			);
+		}
+		
 /*--------------------------------------UTILITY----------------------------------------------------*/
 		
 		var onStartup = function(){

@@ -31,7 +31,10 @@
 	               data-ui-sref-active="active">
 	               Collaboratori
 	            </a>
-	            <div class="btn btn-danger pull-right" data-ng-click="scenarioWizard.showPopUpDeleteScenario()">Cancella</div>
+	            <div class="col-md-2 pull-right">
+		            <div class="row btn btn-success" data-ng-show="scenarioWizard.associations.length>0" data-ng-click="scenarioWizard.openScenario()">Attiva</div>
+		            <div class="row btn btn-danger pull-right" data-ng-click="scenarioWizard.showPopUpDeleteScenario()">Cancella</div>
+	            </div>
 	        </div>
 	
 	        <div data-ui-view></div>
