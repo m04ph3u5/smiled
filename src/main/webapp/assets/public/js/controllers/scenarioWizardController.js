@@ -235,6 +235,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 									if(self.scenarioServer.attendees==null || self.scenarioServer.attendees == "")
 										self.scenarioServer.attendees = new Array();
 									self.scenarioServer.attendees.push(data[i]);
+									self.notAssociatedAttendees.push(angular.copy(data[i]));
 
 								}
 								else{
@@ -315,6 +316,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.newCharacter.isSync=null;
 							self.charactersServer.push(angular.copy(self.newCharacter));
 							self.currentCharacters.push(angular.copy(self.newCharacter));
+							self.notAssociatedCharacters.push(angular.copy(self.newCharacter));
 							self.newCharacter.cover = null;
 							self.newCharacter.name = "";
 							self.newCharacter.id = null;
@@ -469,7 +471,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								if(self.scenarioServer.attendees==null || self.scenarioServer.attendees == "")
 									self.scenarioServer.attendees = new Array();
 								self.scenarioServer.attendees.push(data[i]);
-
+								self.notAssociatedAttendees.push(angular.copy(data[i]));
 							}
 							else{
 								if(self.scenarioServer.invited==null || self.scenarioServer.invited == "")
@@ -502,6 +504,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								self.scenarioServer.attendees.splice(i,1);
 						}
 						reInsertInSelectable(s);
+						manageAssociationOnAttendeeDeletion(s);
 					},
 					function(reason){
 						console.log("Delete attendee failed: "+reason);
@@ -548,6 +551,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								self.scenario.characters.splice(i,1);
 								self.charactersServer.splice(i,1);
 								self.currentCharacters.splice(i,1);
+								manageAssociationOnCharacterDeletion(c);
 							}
 						}
 					},
@@ -555,6 +559,46 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						console.log("Delete character failed: "+reason);
 					}
 			);
+		}
+		
+		var manageAssociationOnAttendeeDeletion = function(a){
+			if(self.notAssociatedAttendees){
+				for(var j=0; j<self.notAssociatedAttendees.length; j++){
+					if(self.notAssociatedAttendees[j].id==a.id){
+						self.notAssociatedAttendees.splice(j,1);
+						return;
+					}
+				}
+			}
+			if(self.associations){
+				for(var i=0; i<self.associations.length; i++){
+					if(self.associations[i].attendee.id==a.id){
+						self.notAssociatedCharacters.push(self.associations[i].character);
+						self.associations.splice(i,1);
+						break;
+					}
+				}
+			}
+		}
+		
+		var manageAssociationOnCharacterDeletion = function(c){
+			if(self.notAssociatedCharacters){
+				for(var j=0; j<self.notAssociatedCharacters.length; j++){
+					if(self.notAssociatedCharacters[j].id==c.id){
+						self.notAssociatedCharacters.splice(j,1);
+						return;
+					}
+				}
+			}
+			if(self.associations){
+				for(var i=0; i<self.associations.length; i++){
+					if(self.associations[i].character.id==c.id){
+						self.notAssociatedAttendees.push(self.associations[i].attendee);
+						self.associations.splice(i,1);
+						break;
+					}
+				}
+			}
 		}
 		
 		/*Variabile temporanea utilizzata dal drag & drop per tenere traccia dell'ultima card presa*/
@@ -566,7 +610,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log(indexAttendee);
 			var association = {};
 			association.attendee = self.scenarioServer.attendees[indexAttendee];
-			association.character = self.scenarioServer.characters[dragged];
+			association.character = self.scenario.characters[dragged];
 			apiService.addUserToCharacter(id, association.attendee.id, association.character.id).then(
 					function(data){
 						self.associations.push(angular.copy(association));
@@ -584,7 +628,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log(indexCharacter);
 			var association = {};
 			association.attendee = self.scenarioServer.attendees[dragged];
-			association.character = self.scenarioServer.characters[indexCharacter];
+			association.character = self.scenario.characters[indexCharacter];
 			
 			apiService.addUserToCharacter(id, association.attendee.id, association.character.id).then(
 					function(data){
