@@ -346,6 +346,21 @@ angular.module('smiled.application')
 //				}
 //			}
 //		})
+		.state('notLogged.setPassword',{
+			url: '/setPassword.html',
+			views: {
+				'header': {
+					templateUrl: 'assets/public/partials/navbar-login.html',
+					controller: "loginCtrl",
+					controllerAs:"login",
+				},
+				'content': {
+					templateUrl: 'assets/public/partials/registerPartial.html',
+					controller: "registerCtrl",
+					controllerAs:"register",
+				}
+			}
+		})
 		.state('notLogged.registrationConfirm',{
 			url: '/registrationConfirm.html',
 			views: {
