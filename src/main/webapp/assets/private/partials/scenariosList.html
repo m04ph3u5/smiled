@@ -29,7 +29,7 @@
 								</div>
 									<div class="col-sm-8 vAlignExt">
 										<h4 class="vAlignInt">{{s.name}}</h4>
-										<div class="textLeft">Creato il: {{s.creationDate}}</div>								
+										<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>								
 									</div>
 							</div>
 						</div>	
@@ -50,8 +50,8 @@
 									url('assets/public/img/logo.png')"></div>
 								</div>
 								<div class="col-sm-6 vAlignExt">
-									<h4 class="vAlignInt">{{s.name}} {{s.creationDate}}</h4>
-									<div class="textLeft">Creato il: {{s.creationDate}}</div>
+									<h4 class="vAlignInt">{{s.name}} {{s.creationDate | date: scenariosList.realDateWithoutHour}}</h4>
+									<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>
 								</div>
 							</div>
 						</div>	
@@ -71,7 +71,7 @@
 								</div>
 									<div class="col-sm-6 vAlignExt">
 										<h4 class="vAlignInt">{{s.name}}</h4>
-										<div class="textLeft">Creato il: {{s.creationDate}}</div>
+										<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>
 									</div>
 							</div>
 						</div>	
