@@ -40,9 +40,10 @@ angular.module('smiled.application').controller('loginCtrl', ['userService', 'ap
 						$state.go('logged.dashboard');
 					},
 					function(reason){
-						alertingLogin.addDanger("Attenzione credenziali errate!");
 						self.user.password ="";
 						self.user.email ="";
+						alertingLogin.addDanger("Attenzione credenziali errate!");
+						
 					});
 			
 			

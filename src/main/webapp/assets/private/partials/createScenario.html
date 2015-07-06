@@ -6,42 +6,12 @@
 	<input id="title" type="text" class="form-control" placeholder="SCEGLI UN TITOLO"
 				data-ng-model="dialogScenario.scenario.title"/>
 	<label for="startDate">DATA INIZIO</label>
+	
 	<div class="form-group row" id="startDate">
-		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.startDate.day">
-	    <option value="" disabled selected style="display:none;">Giorno</option>
-	    <option>1</option>
-	    <option>2</option>
-	    <option>3</option>
-	    <option>4</option>
-	    <option>5</option>
-	    <option>6</option>
-	    <option>7</option>
-	    <option>8</option>
-	    <option>9</option>
-	    <option>10</option>
-	    <option>11</option>
-	    <option>12</option>
-	    <option>13</option>
-	    <option>14</option>
-	    <option>15</option>
-	    <option>16</option>
-	    <option>17</option>
-	    <option>18</option>
-	    <option>19</option>
-	    <option>20</option>
-	    <option>21</option>
-	    <option>22</option>
-	    <option>23</option>
-	    <option>24</option>
-	    <option>25</option>
-	    <option>26</option>
-	    <option>27</option>
-	    <option>28</option>
-	    <option>29</option>
-	    <option>30</option>
-	    <option>31</option>
- 		</select>
- 		<select class="selectpicker" data-ng-model="dialogScenario.scenario.startDate.month">
+	
+		<input style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="dialogScenario.scenario.startDate.year"  placeholder="Anno"/>
+		
+		<select class="selectpicker" data-ng-model="dialogScenario.scenario.startDate.month">
 		    <option value="" disabled selected style="display:none;">Mese</option>
 		    <option>1</option>
 		    <option>2</option>
@@ -57,52 +27,55 @@
 		    <option>12</option>
  		</select>
  		
-		<input class="col-xs-3 " type="text" data-ng-model="dialogScenario.scenario.startDate.year"  placeholder="Anno"/>
+		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.startDate.day">
+		    <option value="" disabled selected style="display:none;">Giorno</option>
+		    <option>1</option>
+		    <option>2</option>
+		    <option>3</option>
+		    <option>4</option>
+		    <option>5</option>
+		    <option>6</option>
+		    <option>7</option>
+		    <option>8</option>
+		    <option>9</option>
+		    <option>10</option>
+		    <option>11</option>
+		    <option>12</option>
+		    <option>13</option>
+		    <option>14</option>
+		    <option>15</option>
+		    <option>16</option>
+		    <option>17</option>
+		    <option>18</option>
+		    <option>19</option>
+		    <option>20</option>
+		    <option>21</option>
+		    <option>22</option>
+		    <option>23</option>
+		    <option>24</option>
+		    <option>25</option>
+		    <option>26</option>
+		    <option>27</option>
+		    <option>28</option>
+		    <option>29</option>
+		    <option>30</option>
+		    <option>31</option>
+ 		</select>
+ 		
+
 		<span class="btn-group">
-			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.startDate.afterBefore" btn-radio="'false'">A.C.</label>
-			
-			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.startDate.afterBefore" btn-radio="'true'">D.C.</label>
+			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.startDate.afterChrist" btn-radio="false">A.C.</label>
+			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.startDate.afterChrist" btn-radio="true">D.C.</label>
 		</span>
 		
 	</div>
 	
 	<label for="endDate">DATA FINE</label>
 	<div class="form-group row" id="endDate">
-		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.endDate.day">
-	    <option value="" disabled selected style="display:none;">Giorno</option>
-	    <option>1</option>
-	    <option>2</option>
-	    <option>3</option>
-	    <option>4</option>
-	    <option>5</option>
-	    <option>6</option>
-	    <option>7</option>
-	    <option>8</option>
-	    <option>9</option>
-	    <option>10</option>
-	    <option>11</option>
-	    <option>12</option>
-	    <option>13</option>
-	    <option>14</option>
-	    <option>15</option>
-	    <option>16</option>
-	    <option>17</option>
-	    <option>18</option>
-	    <option>19</option>
-	    <option>20</option>
-	    <option>21</option>
-	    <option>22</option>
-	    <option>23</option>
-	    <option>24</option>
-	    <option>25</option>
-	    <option>26</option>
-	    <option>27</option>
-	    <option>28</option>
-	    <option>29</option>
-	    <option>30</option>
-	    <option>31</option>
- 		</select>
- 		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.endDate.month">
+	
+		<input style="margin:3px;" class="col-xs-3" type="text" data-ng-model="dialogScenario.scenario.endDate.year" placeholder="Anno"/>
+		
+		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.endDate.month">
 		    <option value="" disabled selected style="display:none;">Mese</option>
 		    <option>1</option>
 		    <option>2</option>
@@ -117,7 +90,47 @@
 		    <option>11</option>
 		    <option>12</option>
  		</select>
-		<input class="col-xs-3" type="text" data-ng-model="dialogScenario.scenario.endDate.year" placeholder="Anno"/>
+ 		
+		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.endDate.day">
+		    <option value="" disabled selected style="display:none;">Giorno</option>
+		    <option>1</option>
+		    <option>2</option>
+		    <option>3</option>
+		    <option>4</option>
+		    <option>5</option>
+		    <option>6</option>
+		    <option>7</option>
+		    <option>8</option>
+		    <option>9</option>
+		    <option>10</option>
+		    <option>11</option>
+		    <option>12</option>
+		    <option>13</option>
+		    <option>14</option>
+		    <option>15</option>
+		    <option>16</option>
+		    <option>17</option>
+		    <option>18</option>
+		    <option>19</option>
+		    <option>20</option>
+		    <option>21</option>
+		    <option>22</option>
+		    <option>23</option>
+		    <option>24</option>
+		    <option>25</option>
+		    <option>26</option>
+		    <option>27</option>
+		    <option>28</option>
+		    <option>29</option>
+		    <option>30</option>
+		    <option>31</option>
+ 		</select>
+
+
+		<span class="btn-group">
+			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.endDate.afterChrist" btn-radio="false">A.C.</label>
+			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.endDate.afterChrist" btn-radio="true">D.C.</label>
+		</span>
 		
 	</div>
 	

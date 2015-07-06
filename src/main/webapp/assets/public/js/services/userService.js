@@ -31,7 +31,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 	
 
 	var logout = function(){
-		return $http({
+		var log = $q.defer()
+		$http({
 			url: '/ThesisProject/apiLogout',
 			method: 'POST',
 			headers: {
@@ -41,17 +42,19 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 				function(data){
 					console.log("logged out");
 					user=null;
-					return true;
+					log.resolve(data);
 				},
 				function(reason){
 					console.log("Logout failed: "+reason);
-					return false;
+					log.reject(reason);
 				}
 			);
+		return log.promise;
 	}
 	
 	var login = function(email, password){
-		return $http({
+		var log = $q.defer();
+		$http({
 			url: '/ThesisProject/apiLogin',
 			method: 'POST',
 			data: 'j_username='+email+'&j_password='+password+"&submit=",
@@ -61,15 +64,16 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 		}).then(
 				function(data){
 					console.log("Autenticato!")
-					return true;	
+					log.resolve(data);
 				},
 				function(reason){
 					console.log("Authentication failed: ");
 					console.log(reason);
-					return false;
+					log.reject(reason);
 				}
-			);
-		}
+		);
+		return log.promise;
+	}
 	
 	
 	return {

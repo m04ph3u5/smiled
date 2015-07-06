@@ -7,12 +7,13 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	self.scenToDelete = modalService.getScenToDelete();
 	self.scenario.startDate = {};
 	self.scenario.endDate = {};
-	self.scenario.startDate.afterBefore = "true";
-	self.scenario.endDate.afterBefore = "true";
+	self.scenario.startDate.afterChrist = true;
+	self.scenario.endDate.afterChrist = true;
 	
 	self.createScenario = function (){
 		
-		if(self.scenario.title=="" || self.scenario.title==null || self.scenario.startDate=="" || self.scenario.startDate==null || self.scenario.endDate=="" || self.scenario.endDate==null){
+		if(self.scenario.title=="" || self.scenario.title==null || self.scenario.startDate==null || self.scenario.endDate==null){
+			console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			alertingGeneric.addWarning("Inserire tutti i dati richiesti");
 		}
 		else if (self.scenario.title.length<2)
@@ -48,13 +49,13 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	}
 	var checkDate = function(date){
 		// regular expression to match required date format
-		   var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-
-
-	    if(date != '' && !date.match(re)) {
-	      return false;
-	    }
-	    else
+//		   var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
+//
+//
+//	    if(date != '' && !date.match(re)) {
+//	      return false;
+//	    }
+//	    else
 	    	return true;
 	    
 	    
