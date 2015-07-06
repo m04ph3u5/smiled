@@ -1,5 +1,7 @@
 package it.polito.applied.smiled.pojo.scenario;
 
+import it.polito.applied.smiled.pojo.HistoricalDate;
+
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -8,23 +10,23 @@ public class History {
 	//TODO
 	/*DA CONTROLLARE SE POSSIBILE MAPPARE DATA STORICA SU OGGETTO DATE DIRETTAMENTE*/
 	@NotNull
-	private Date startDate;
+	private HistoricalDate startDate;
 	@NotNull
-	private Date endDate;
+	private HistoricalDate endDate;
 	
 	private String description;
 	private String mapURL;
 	
-	public Date getStartDate() {
+	public HistoricalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(HistoricalDate startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public HistoricalDate getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(HistoricalDate endDate) {
 		this.endDate = endDate;
 	}
 	public String getDescription() {
