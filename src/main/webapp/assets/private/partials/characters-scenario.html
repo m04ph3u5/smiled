@@ -1,1 +1,6 @@
-CHARACTERS
+<h1>Personaggi</h1>
+
+<div class="box" data-ng-repeat="a in scenarioCharacters.associations">
+	<img data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/cesar.png"
+		class="img-circle imgPreviewM"> <b>{{a.name}}</b>
+</div>
