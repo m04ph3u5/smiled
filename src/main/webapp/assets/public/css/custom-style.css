@@ -61,6 +61,13 @@
 			border-color:#5b5955;
 			margin-top:3%;			
 		}
+		.generalButton2,.generalButton2:hover{
+			background:transparent;
+			border-color:#8cbea3;
+			color:#8cbea3;		
+			
+			margin-bottom:20px;
+		}
 		.positiveButton{
 			background:transparent;
 			border-color:#89b151;
@@ -125,6 +132,19 @@
 		.marginMTop{
 			margin-top: 3%;
 		}
+		.form-control[readonly]{
+			background-color:transparent;
+		}
+		.imgPreviewL{
+			height:100px;
+			width:100px;
+			img-size:cover;
+		}
+		
+		.imgPreviewM{
+			height:50px;
+			width:50px;
+		}
 
 /* Index */
 		.fillContent{
@@ -185,29 +205,26 @@
     	.pickRow{
     		margin-left: 1%;
     	}
-    	.buttonAC{
+    	.buttonAC, .buttonDC{
     		background-color:transparent;
-			border-color:#8cbea3;
+			border-color:#5B5955;
 			margin-top:3%;	
-			color:#8cbea3;		
+			color:#5B5955;		
 			display: inline-block;
-			  max-width: 100%;
-			  margin-bottom: 5px;
+			max-width: 100%;
+			margin-bottom: 5px;
 			-webkit-box-shadow: none;
 			box-shadow: none;			
     	}
-    	.buttonDC{
-    	background-color:transparent;
-			border-color:#abbe90;
-			margin-top:3%;	
-			color:#abbe90;		
-			display: inline-block;
-			  max-width: 100%;
-			  margin-bottom: 5px;
-			-webkit-box-shadow: none !important;
-			box-shadow: none !important;			
-			
+    	.buttonAC:hover, .buttonDC:hover{
+    		background-color:#8cbea3;	
     	}
+    	.buttonAC:active, .buttonAC.active{
+			background-color: #5DAF82;
+    		
+    	}
+    			
+    	
 
 /*Profilo*/
 		.profileSection{
@@ -314,7 +331,7 @@
 /* Creazione scenario */
 
 		.modal-dialog {
-			  width: 400px;
+			  width: 500px;
 			  background-color: rgba(224, 216, 169, 0.8);
 		}
 		.modal-content{
@@ -322,6 +339,31 @@
 			background-color: transparent;
 		}
 		.modal-open{background: transparent
+		}
+		.stepTitle,.stepTitle:hover{
+			margin-top:3%;
+			color:#404b41;
+		}
+		.wizard a {
+		    display: inline-block;
+		    /*margin-right: 5px;*/
+		    min-width: 150px;
+		    outline: none;
+		    padding: 10px 40px 10px;
+		    position: relative;
+		    text-decoration: none;
+		    text-align: center;
+		}
+		.wizard .active {
+			background: #abbe90;
+		}
+		.textLeft{
+			text-align: left;
+		}
+		.block{
+			display:inline-block;
+			margin-top:2%;
+			min-width:100%;
 		}
 
 /*Non ancora classificato*/
@@ -333,16 +375,7 @@
 			display:table;
 		}
 		
-		.imgPreviewL{
-			height:100px;
-			width:100px;
-			img-size:cover;
-		}
 		
-		.imgPreviewM{
-			height:50px;
-			width:50px;
-		}
 		
 		.leftFloat{
 			float:left;
@@ -356,9 +389,7 @@
 			margin-right:5px;
 		}
 		
-		.textLeft{
-			text-align: left;
-		}
+
 		.floatRight{
 			float: right;
 		}
@@ -405,20 +436,7 @@
 }
 
 
-.wizard a {
-    background: #e0d8a9;
-    display: inline-block;
-    /*margin-right: 5px;*/
-    min-width: 150px;
-    outline: none;
-    padding: 10px 40px 10px;
-    position: relative;
-    text-decoration: none;
-    text-align: center;
-}
-.wizard .active {
-    background: #ffcf9b;
-}
+
 
 .inner-addon { 
     position: relative; 

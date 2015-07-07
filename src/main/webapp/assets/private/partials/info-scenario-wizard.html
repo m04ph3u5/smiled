@@ -3,13 +3,15 @@
 		data-ng-model="scenarioWizard.scenario.name" value="{{scenarioWizard.scenario.name}}"/>
 <label for="startDate">DATA INIZIO</label>
 <input id="startDate" type="text" readonly="readonly" data-ng-click="scenarioWizard.showPopUpSetDate(true)"
-		class="form-control" placeholder="yyyy-MM-dd" value="{{scenarioWizard.scenario.history.startDate.day}} - {{scenarioWizard.scenario.history.startDate.month}} - {{scenarioWizard.scenario.history.startDate.year }}"/>
+		class="form-control" placeholder="yyyy-MM-dd" value="{{scenarioWizard.scenario.history.startDate.day}}/{{scenarioWizard.scenario.history.startDate.month}}/{{scenarioWizard.scenario.history.startDate.year }}"/>
 <label for="endDate">DATA FINE</label>
 <input id="endDate" type="text" class="form-control" placeholder="yyyy-MM-dd" readonly="readonly" data-ng-click="scenarioWizard.showPopUpSetDate(false)"
-		value="{{scenarioWizard.scenario.history.endDate.day}} - {{scenarioWizard.scenario.history.endDate.month}} - {{scenarioWizard.scenario.history.endDate.year}}"/>
-<br>	
-<img data-ng-src="{{scenarioWizard.scenarioCover}}" 
-	data-err-src="assets/public/img/logo.png" class="img-circle imgPreviewM">
-	<p class="uploadSpan btn btn-default btn-file" ngf-select ngf-change="scenarioWizard.uploadCover($files)">Cambia la copertina dello scenario</p>
-<br>
-<div class="btn btn-primary pull-right" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">Avanti</div>
+		value="{{scenarioWizard.scenario.history.endDate.day}}/{{scenarioWizard.scenario.history.endDate.month}}/{{scenarioWizard.scenario.history.endDate.year}}"/>	
+<div class="block">
+	<img data-ng-src="{{scenarioWizard.scenarioCover}}" 
+			data-err-src="assets/public/img/logo.png" 
+			class="img-circle imgPreviewL ">
+	<p class="uploadSpan btn generalButton" ngf-select ngf-change="scenarioWizard.uploadCover($files)">CAMBIA LA COPERTINA DELLO SCENARIO</p>
+</div>
+
+<div class="btn generalButton2 pull-right" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">AVANTI</div>
