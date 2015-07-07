@@ -44,7 +44,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			self.charging = true;
 			apiService.getScenario(id).then(
 					function(data){
-						self.scenarioServer = data;
+						self.scenarioServer = angular.copy(data);
 						console.log("----------------------START--------------------------");
 						console.log(data);
 						self.scenario = angular.copy(data);
@@ -103,7 +103,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var updateAssociated = function(){
 			if(self.scenarioServer.attendees){
-				var attendees = self.scenarioServer.attendees;
+				var attendees = angular.copy(self.scenarioServer.attendees);
 				for(var i=0; i<self.scenarioServer.characters.length; i++){
 					if(self.scenarioServer.characters[i].userId==null){
 						self.notAssociatedCharacters.push(self.scenarioServer.characters[i]);
@@ -689,7 +689,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(data){
 						console.log("activating");
 						self.scenarioServer=data;
-						$state.go("logged.scenario", {id : id});
+						$state.go("logged.scenario.posts", {id : id});
 					},
 					function(reason){
 						console.log("C'è stato un problema, impossibile attivare lo scenario");
