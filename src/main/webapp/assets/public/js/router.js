@@ -1,6 +1,6 @@
 angular.module('smiled.application')
-	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', 
-	         function($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider){
+	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
+	         function($stateProvider, $urlRouterProvider, $locationProvider){
 	
 		var notFoundPath;
 		$stateProvider
@@ -431,9 +431,6 @@ angular.module('smiled.application')
 
 		$locationProvider.html5Mode(true);
 	
-	
-		RestangularProvider.setBaseUrl('/ThesisProject/api/v1');
-		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 	}])
 	.run(function (Permission,userService, $q) {
     	  console.log("Run application");
