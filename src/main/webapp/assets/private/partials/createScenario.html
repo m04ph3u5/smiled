@@ -7,12 +7,12 @@
 				data-ng-model="dialogScenario.scenario.title"/>
 	<label for="startDate">DATA INIZIO</label>
 	
-	<div class="form-group row" id="startDate">
+	<div class="form-group row pickRow" id="startDate">
 	
-		<input style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="dialogScenario.scenario.startDate.year"  placeholder="Anno"/>
+		<input class="col-xs-3 form-control customInput" type="text" data-ng-model="dialogScenario.scenario.startDate.year"  placeholder="ANNO"/>
 		
-		<select class="selectpicker" data-ng-model="dialogScenario.scenario.startDate.month">
-		    <option value="" disabled selected style="display:none;">Mese</option>
+		<select class="col-xs-3 selectpicker form-control customInput" data-ng-model="dialogScenario.scenario.startDate.month">
+		    <option value="" disabled selected style="display:none;">MESE</option>
 		    <option>Gennaio</option>
 		    <option>Febbraio</option>
 		    <option>Marzo</option>
@@ -27,8 +27,8 @@
 		    <option>Dicembre</option>
  		</select>
  		
-		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.startDate.day">
-		    <option value="" disabled selected style="display:none;">Giorno</option>
+		<select class="col-xs-4 selectpicker form-control customInput2"  data-ng-model="dialogScenario.scenario.startDate.day">
+		    <option value="" disabled selected style="display:none;">GIORNO</option>
 		    <option>1</option>
 		    <option>2</option>
 		    <option>3</option>
@@ -64,19 +64,19 @@
  		
 
 		<span class="btn-group">
-			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.startDate.afterChrist" btn-radio="false">A.C.</label>
-			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.startDate.afterChrist" btn-radio="true">D.C.</label>
+			<label class="btn buttonAC" data-ng-model="dialogScenario.scenario.startDate.afterChrist" btn-radio="false">A.C.</label>
+			<label class="btn buttonDC" data-ng-model="dialogScenario.scenario.startDate.afterChrist" btn-radio="true">D.C.</label>
 		</span>
 		
 	</div>
 	
 	<label for="endDate">DATA FINE</label>
-	<div class="form-group row" id="endDate">
+	<div class="form-group row pickRow" id="endDate">
 	
-		<input style="margin:3px;" class="col-xs-3" type="text" data-ng-model="dialogScenario.scenario.endDate.year" placeholder="Anno"/>
+		<input class="col-xs-3 form-control customInput" type="text" data-ng-model="dialogScenario.scenario.endDate.year" placeholder="ANNO"/>
 		
-		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.endDate.month">
-		    <option value="" disabled selected style="display:none;">Mese</option>
+		<select class="col-xs-3 selectpicker form-control customInput"  data-ng-model="dialogScenario.scenario.endDate.month">
+		    <option value="" disabled selected style="display:none;">MESE</option>
 		    <option>1</option>
 		    <option>2</option>
 		    <option>3</option>
@@ -91,8 +91,8 @@
 		    <option>12</option>
  		</select>
  		
-		<select class="selectpicker"  data-ng-model="dialogScenario.scenario.endDate.day">
-		    <option value="" disabled selected style="display:none;">Giorno</option>
+		<select class="col-xs-4 selectpicker form-control customInput2"  data-ng-model="dialogScenario.scenario.endDate.day">
+		    <option value="" disabled selected style="display:none;">GIORNO</option>
 		    <option>1</option>
 		    <option>2</option>
 		    <option>3</option>
@@ -128,8 +128,8 @@
 
 
 		<span class="btn-group">
-			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.endDate.afterChrist" btn-radio="false">A.C.</label>
-			<label class="btn-primary btn-sm" data-ng-model="dialogScenario.scenario.endDate.afterChrist" btn-radio="true">D.C.</label>
+			<label class="btn buttonAC" data-ng-model="dialogScenario.scenario.endDate.afterChrist" btn-radio="false">A.C.</label>
+			<label class="btn buttonDC" data-ng-model="dialogScenario.scenario.endDate.afterChrist" btn-radio="true">D.C.</label>
 		</span>
 		
 	</div>

@@ -32,6 +32,19 @@
     		box-shadow: none;
     		border-color:#5B5955;
 		}
+		.selectpicker{
+			background-color:rgba(224, 216, 169, 1);
+			border-top: none;
+			border-left:none;
+			border-right:none;
+			outline:none;
+			border-radius:0px;
+			-webkit-appearance: none;.
+			border: 0;
+    		box-shadow: none;
+    		border-color:#5B5955;
+		}
+		
 		
 		textarea{
 			resize:none;
@@ -154,6 +167,47 @@
 			height:840px;
 			max-height:100%;
 		}
+		.customInput{
+			width:20%;
+			display: inline;
+			margin-right:2%;
+    	}
+    	.customInput2{
+			width:25%;
+			display: inline;
+			margin-right:2%;
+    	}
+    	.customInput3{
+			width:22%;
+			display: inline;
+			margin-right:2%;
+    	}
+    	.pickRow{
+    		margin-left: 1%;
+    	}
+    	.buttonAC{
+    		background-color:transparent;
+			border-color:#8cbea3;
+			margin-top:3%;	
+			color:#8cbea3;		
+			display: inline-block;
+			  max-width: 100%;
+			  margin-bottom: 5px;
+			-webkit-box-shadow: none;
+			box-shadow: none;			
+    	}
+    	.buttonDC{
+    	background-color:transparent;
+			border-color:#abbe90;
+			margin-top:3%;	
+			color:#abbe90;		
+			display: inline-block;
+			  max-width: 100%;
+			  margin-bottom: 5px;
+			-webkit-box-shadow: none !important;
+			box-shadow: none !important;			
+			
+    	}
 
 /*Profilo*/
 		.profileSection{
