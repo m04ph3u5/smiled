@@ -53,9 +53,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						updateCover();
 						updateSelectableCollaborators();
 						
-						
-						retrieveCharacterAndOrder();
 						updateAssociated();
+
+						retrieveCharacterAndOrder();
 					
 					}, function(reason){
 						console.log("errore");
@@ -120,6 +120,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}
 				self.notAssociatedAttendees = attendees;
 			}
+			console.log("----------------------------->UPDATE ASSOCIATIONS");
+			console.log(self.notAssociatedAttendees);
+			console.log(self.notAssociatedCharacters);
+			console.log(self.associations);
 		}
 		
 		
@@ -293,7 +297,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		            for(var i=0; i<self.scenario.characters.length; i++){
 		            	if(self.scenario.characters[i].id==idCharacter){
 		            		var d = new Date();
-		            		self.charactersServer[i].cover = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
+		            		self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
 		            	}
 		            }
 		        });
@@ -552,6 +556,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								self.scenario.characters.splice(i,1);
 								self.charactersServer.splice(i,1);
 								self.currentCharacters.splice(i,1);
+								/*TODO valutares*/
+								self.scenarioServer.characters.splice(i,1);
 								manageAssociationOnCharacterDeletion(c);
 							}
 						}
@@ -610,10 +616,11 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log("dropSuccessHandlerCharacter");
 			console.log(indexAttendee);
 			var association = {};
-			association.attendee = self.scenarioServer.attendees[indexAttendee];
-			association.character = self.scenario.characters[dragged];
+			association.attendee = self.notAssociatedAttendees[indexAttendee];
+			association.character = self.notAssociatedCharacters[dragged];
 			apiService.addUserToCharacter(id, association.attendee.id, association.character.id).then(
 					function(data){
+						/*TODO allineare charactersServer*/
 						self.associations.push(angular.copy(association));
 						self.notAssociatedAttendees.splice(indexAttendee,1);
 						self.notAssociatedCharacters.splice(dragged,1);
@@ -628,8 +635,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log("dropSuccessHandlerAttendee");
 			console.log(indexCharacter);
 			var association = {};
-			association.attendee = self.scenarioServer.attendees[dragged];
-			association.character = self.scenario.characters[indexCharacter];
+			association.attendee = self.notAssociatedAttendees[dragged];
+			association.character = self.notAssociatedCharacters[indexCharacter];
 			
 			apiService.addUserToCharacter(id, association.attendee.id, association.character.id).then(
 					function(data){
@@ -643,6 +650,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			);
 		}
 		
+		/*index --> dove vado*/
 		self.onDrop = function($event, $data, index){
 			console.log("onDrop");
 			console.log($event);
