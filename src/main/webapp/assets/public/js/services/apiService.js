@@ -29,7 +29,7 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		var p = $q.defer();
 		$http.get('/ThesisProject/api/v1/scenarios/'+idScenario).then(
 				function(response){
-					console.log(response.data);
+					console.log(response);
 					p.resolve(response.data);
 				},
 				function(reason){

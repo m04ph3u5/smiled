@@ -1,0 +1,57 @@
+<div class="row">
+	<div class="col-md-2 pull-left">
+	<div class="box" data-ng-show="scenario.isModerator">
+		Attività moderatore
+	</div>
+	<div class="box" data-ng-show="scenario.hasCharacter">
+			<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/cesar.png" 
+			class="img-circle imgPreviewM">{{scenario.currentCharacter.name}}
+	</div>
+	</div>
+	
+	<div class="col-md-8">
+		<div class="jumbotron" style="background-image: url('{{scenario.scen.cover}}')">		
+			<h1>{{scenario.scen.name}}</h1>
+			<!-- p da mostrare solo per moderator -->
+			<p id="uploadSpan" ngf-select ngf-change="uploadCover($files)"><span class="glyphicon glyphicon-camera"></span></p>
+		</div>
+		<div class="container-fluid wizard">
+		<div class="row">
+			<a href="" style="width: 33%;" data-ui-sref=".posts" data-ui-sref-active="active">POST</a>
+			<a href="" style="width: 33%;" data-ui-sref=".characters" data-ui-sref-active="active">PERSONAGGI</a>
+			<a href="" style="width: 33%;" data-ui-sref=".map" data-ui-sref-active="active">MAPPA</a>
+			</div>
+		</div>
+<!-- 		<ul class="wizard nav nav-pills nav-justified menu"> -->
+<!-- 			<li><a href="" data-ui-sref-active="active" data-ui-sref=".posts">POST</a></li> -->
+<!-- 			<li><a href="" data-ui-sref-active="active" data-ui-sref=".characters">PERSONAGGI</a></li> -->
+<!-- 			<li><a href="" data-ui-sref-active="active" data-ui-sref=".map">MAPPA</a></li> -->
+<!-- 		</ul> -->
+		<div data-ui-view="body"></div>
+	</div>
+	
+	<div class="col-md-2 pull-right">
+		<div class="box input-group marginM">
+			<input type="text" class="form-control" placeholder="Cerca nello scenario...">
+			<span class="input-group-btn">
+				<button class="btn btn-default confirm" type="button"><span class="glyphicon glyphicon-search"></span></button>
+			</span>
+		</div>
+		<div class="box">
+			<p class="marginMTop">
+				Creato da<b> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</b><br>
+				<span data-ng-if="scenario.scen.collaborators"><b>{{scenario.scen.collaborators.length}}</b> collaboratori<br></span>
+				<span data-ng-if="!scenario.scen.collaborators"><b>0</b> collaboratori<br></span>
+				<span data-ng-if="scenario.scen.attendees"><b>{{scenario.scen.attendees.length}}</b> partecipanti<br></span>
+				<span data-ng-if="!scenario.scen.attendees"><b>0</b> partecipanti<br></span>
+				<span data-ng-if="scenario.scen.characters"><b>{{scenario.scen.characters.length}}</b> personaggi<br></span>
+				<span data-ng-if="!scenario.scen.characters"><b>0</b> personaggi<br></span>
+			</p>
+		</div>
+		<div data-ng-if="scenario.isModerator" class="box" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
+			<a href=""><p class="marginMTop">
+				Gestisci scenario
+			</p></a>
+		</div>
+	</div>
+</div>

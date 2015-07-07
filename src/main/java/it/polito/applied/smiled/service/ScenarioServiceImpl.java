@@ -262,6 +262,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			Scenario s = scenarioRepository.findById(id);
 			if(s==null)
 				throw new NotFoundException();
+
 			return s;
 		}catch(MongoException e){
 			throw e;

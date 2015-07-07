@@ -45,6 +45,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			apiService.getScenario(id).then(
 					function(data){
 						self.scenarioServer = data;
+						console.log("----------------------START--------------------------");
+						console.log(data);
 						self.scenario = angular.copy(data);
 						self.title = data.name;
 						
@@ -505,8 +507,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			apiService.removeUserFromScenario(id, s.id).then(
 					function(data){
 						for(var i=0; i<self.scenarioServer.attendees.length; i++){
-							if(self.scenarioServer.attendees[i].id==s.id)
+							if(self.scenarioServer.attendees[i].id==s.id){
 								self.scenarioServer.attendees.splice(i,1);
+								self.scenario.attendees.splice(i,1);
+							}
 						}
 						reInsertInSelectable(s);
 						manageAssociationOnAttendeeDeletion(s);

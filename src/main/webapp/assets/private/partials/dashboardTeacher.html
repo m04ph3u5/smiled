@@ -34,7 +34,7 @@
 								src="assets/public/img/100-719.jpg">
 							<h4>{{s.name}}</h4>
 						</div>
-						<div data-ui-sref="logged.scenario({id : '{{s.id}}' })" class="col-sm-2"
+						<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 								data-err-src="assets/public/img/logo.png"
@@ -43,7 +43,7 @@
 								src="assets/public/img/100-719.jpg">
 							<h4>{{s.name}}</h4>
 						</div>
-						<div class="col-sm-2"
+						<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.closedScenarios">
 							<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
 								data-err-src="assets/public/img/logo.png"
