@@ -687,7 +687,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(data){
 						console.log("activating");
 						self.scenarioServer=data;
-						$state.go("logged.scenario", {id : id});
+						$state.go("logged.scenario.posts", {id : id});
 					},
 					function(reason){
 						console.log("C'è stato un problema, impossibile attivare lo scenario");

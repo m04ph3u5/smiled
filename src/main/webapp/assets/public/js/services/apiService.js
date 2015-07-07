@@ -226,6 +226,23 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q',
 		return c.promise;
 	}
 	
+/*      -------------- GESTIONE DEI POST-----------------*/	
+	 var getPagedPosts = function(id, nPag, nItem, historicalOrder){
+			var c = $q.defer();
+			
+			$http.get("/ThesisProject/api/v1/scenarios/"+id+"/posts", {
+			    params: { "nPag": nPag, "nItem": nItem, "historicalOrder": historicalOrder }}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+			
+			return c.promise;
+	 }
+	
 	
 //	var onSuccessGetScenario = function(response){
 //		console.log("Getting data scenario: "+response.data);
@@ -253,7 +270,9 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q',
 		removeCharacterFromScenario: removeCharacterFromScenario,
 		getAllCharactersFromScen : getAllCharactersFromScen,
 		addUserToCharacter: addUserToCharacter,
-		removeUserFromCharacter: removeUserFromCharacter
+		removeUserFromCharacter: removeUserFromCharacter,
+		
+		getPagedPosts : getPagedPosts
 	}
 	
 	
