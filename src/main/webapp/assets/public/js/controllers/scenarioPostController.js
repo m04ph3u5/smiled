@@ -1,5 +1,5 @@
 angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope',
               function scenarioPostCtrl(CONSTANTS,$scope){
-	console.log("------------------------------------------->");
-	console.log($scope.scenario.isCreator);
+	var self = this;
+	self.scen = $scope.scenario.scen;
 }]);
