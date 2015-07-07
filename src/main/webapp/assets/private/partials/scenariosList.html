@@ -41,7 +41,7 @@
 				<div ng-if='scenariosList.user.openScenarios==null'>Non sono presenti scenari attivi</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.openScenarios" >
-						<div class="col-sm-4 col-xs-6"  data-ui-sref="logged.scenario({id : '{{s.id}}' })">
+						<div class="col-sm-4 col-xs-6"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop">
 								<div class="col-sm-4 sideMarginThree">
 									<div class="roundedImgDiv" 
@@ -63,7 +63,7 @@
 				<div ng-if='scenariosList.user.closedScenarios==null'>Non sono ancora stati chiusi scenari</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.closedScenarios" >				
-						<div class="col-sm-4 col-xs-6"  data-ui-sref="logged.scenario({id : '{{s.id}}' })">
+						<div class="col-sm-4 col-xs-6"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop">
 								<div class="col-sm-6 sideMarginThree">
 									<div class="roundedImgDiv" 

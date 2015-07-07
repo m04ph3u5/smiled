@@ -120,24 +120,57 @@ angular.module('smiled.application')
 		})
 		.state('logged.scenario',{
 			url: "/scenario/{id}",
+			abstract: true,
 			/*params id necessario per accedere allo stato attraverso state.go*/
 			params : {
 				id : null
 			},
 			views: {
 				'content' : {
-					templateUrl: "assets/private/partials/scenario.html",
+					templateUrl: "assets/private/partials/template-scenario.html",
 					controller: "scenarioCtrl",
 					controllerAs: "scenario"
 				}
 			},
 			resolve : {
-				scenario : function(apiService,$stateParams,$q){
+				scenario : function(apiService,$stateParams){
 					var idScenario = $stateParams.id;
 					return apiService.getScenario(idScenario);
+				},
+				loggedUser : function(userService){
+					return userService.getMe();
+				}
+			}			
+		})
+		.state('logged.scenario.posts',{
+			url: '/post',
+			views: {
+				'body': {
+					templateUrl: "assets/private/partials/posts-scenario.html",
+					controller: "scenarioPostCtrl",
+					controllerAs: "scenarioPost"
 				}
 			}
-			
+		})
+		.state('logged.scenario.characters',{
+			url: '/personaggi',
+			views: {
+				'body': {
+					templateUrl: "assets/private/partials/characters-scenario.html",
+					controller: "scenarioCharactersCtrl",
+					controllerAs: "scenarioCharacters"
+				}
+			}
+		})
+		.state('logged.scenario.map',{
+			url: '/mappa',
+			views: {
+				'body': {
+					templateUrl: "assets/private/partials/map-scenario.html",
+					controller: "scenarioMapCtrl",
+					controllerAs: "scenarioMap"
+				}
+			}
 		})
 		.state('logged.scenarioWizard',{
 			abstract: true,

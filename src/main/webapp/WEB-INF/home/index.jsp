@@ -63,6 +63,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/navbarController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/updateScenarioController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/scenarioController.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/scenarioPostController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/studentsListController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/dialogScenarioController.js"></script>
