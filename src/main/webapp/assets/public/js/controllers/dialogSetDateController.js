@@ -1,31 +1,27 @@
-angular.module('smiled.application').controller('dialogSetDateCtrl', ['modalService','alertingGeneric', '$state', 's', 'start',
+angular.module('smiled.application').controller('dialogSetDateCtrl', ['modalService','alertingGeneric', '$state', 'scen', 'start',
        
-                                                                  function dialogSetDateCtrl(modalService, alertingGeneric, $state, s, start){
+                                                                  function dialogSetDateCtrl(modalService, alertingGeneric, $state, scen, start){
 	
 	var self = this;
-	self.scenario = {};
-
-	self.scenario.startDate = {};
-	self.scenario.endDate = {};
-	self.scenario.startDate.afterChrist = true;
-	self.scenario.endDate.afterChrist = true;
-
-	self.newStartDate = {};
-	self.newStartDate.year = "1000";
-	self.newStartDate.month = "2";
-	self.newStartDate.day = "10";
-	self.newStartDate.afterChrist = true;
 	
-	self.changeStartDate = function(){
-		console.log("changeeeeeeeee start");
-	}
-	self.changeEndDate = function(){
-		console.log("changeeeeeeeee end");
+	self.start = start;
+	self.newDate = {};
+
+	
+	if(start==true){
+		//modifico la data di inizio
+		self.newDate = scen.history.startDate;
+		
+	}else{
+		//modifico la data di fine
+		self.newDate = scen.history.endDate;
 	}
 	
 	
-	console.log(s);
-	console.log(start);
+	self.closeModal = function(){
+		modalService.closeModalSetDate();
+	}
+
 	
 	var checkDate = function(date){
 		// regular expression to match required date format
