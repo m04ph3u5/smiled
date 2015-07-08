@@ -5,12 +5,18 @@ angular.module('smiled.application').controller('loggedCtrl', ['loggedUser', '$s
 		console.log(loggedUser);
 		console.log(loggedUser.role.authority);
 		
-		if(loggedUser.role.authority=="ROLE_ADMIN")
+		if(loggedUser.role.authority=="ROLE_ADMIN"){
+			console.log("ADMIN");
 			$state.go('logged.dashboard.admin');
-		else if(loggedUser.role.authority=="ROLE_TEACHER")
+		}
+		else if(loggedUser.role.authority=="ROLE_TEACHER"){
+			console.log("TEACHER");
 			$state.go('logged.dashboard.teacher');
-		else if(loggedUser.role.authority=="ROLE_USER")
-				$state.go('logged.dashboard.student');
+		}
+		else if(loggedUser.role.authority=="ROLE_USER"){
+			console.log("USER");	
+			$state.go('logged.dashboard.student');
+		}
 	
 		
 

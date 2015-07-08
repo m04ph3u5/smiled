@@ -43,12 +43,12 @@
 		<div class="box">
 			<p class="marginMTop">
 				Creato da<b> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</b><br>
-				<span data-ng-if="scenario.scen.collaborators"><b>{{scenario.scen.collaborators.length}}</b> collaboratori<br></span>
-				<span data-ng-if="!scenario.scen.collaborators"><b>0</b> collaboratori<br></span>
 				<span data-ng-if="scenario.scen.attendees"><b>{{scenario.scen.attendees.length}}</b> partecipanti<br></span>
 				<span data-ng-if="!scenario.scen.attendees"><b>0</b> partecipanti<br></span>
 				<span data-ng-if="scenario.scen.characters"><b>{{scenario.scen.characters.length}}</b> personaggi<br></span>
 				<span data-ng-if="!scenario.scen.characters"><b>0</b> personaggi<br></span>
+				<span data-ng-if="scenario.scen.collaborators"><b>{{scenario.scen.collaborators.length}}</b> collaboratori<br></span>
+				<span data-ng-if="!scenario.scen.collaborators"><b>0</b> collaboratori<br></span>
 			</p>
 		</div>
 		<div data-ng-if="scenario.isModerator" class="box" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">

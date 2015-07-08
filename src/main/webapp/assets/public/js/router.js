@@ -41,7 +41,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard',{
-			url: "/dashboard",
+			url: '/',
 			views: {
 				'content': {
 					controller: "loggedCtrl",
@@ -56,7 +56,6 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard.teacher',{
-			
 			views: {
 				'content@logged': {
 					templateUrl: 'assets/private/partials/dashboardTeacher.html',
@@ -66,7 +65,6 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard.student',{
-			
 			views: {
 				'content@logged': {
 					templateUrl: 'assets/private/partials/dashboardStudent.html',
@@ -76,7 +74,6 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard.admin',{
-			
 			views: {
 				'content@logged': {
 					templateUrl: 'assets/private/partials/dashboardAdmin.html',
