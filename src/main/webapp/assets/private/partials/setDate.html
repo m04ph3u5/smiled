@@ -7,25 +7,25 @@
 	
 	<div class="form-group row" id="startDate">
 	
-		<input style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="scenarioWizard.newStartYear"  placeholder="Anno"/>
+		<input style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="dialogSetDate.newStartDate.year"  placeholder="Anno"/>
 		
-		<select class="selectpicker" data-ng-model="scenarioWizard.newStartMonth">
+		<select class="selectpicker" data-ng-model="dialogSetDate.newStartDate.month">
 		    <option value="" disabled selected style="display:none;">Mese</option>
-		    <option>Gennaio</option>
-		    <option>Febbraio</option>
-		    <option>Marzo</option>
-		    <option>Aprile</option>
-		    <option>Maggio</option>
-		    <option>Giugno</option>
-		    <option>Luglio</option>
-		    <option>Agosto</option>
-		    <option>Settembre</option>
-		    <option>Ottobre</option>
-		    <option>Novembre</option>
-		    <option>Dicembre</option>
+		    <option value="1">Gennaio</option>
+		    <option value="2">Febbraio</option>
+		    <option value="3">Marzo</option>
+		    <option value="4">Aprile</option>
+		    <option value="5">Maggio</option>
+		    <option value="6">Giugno</option>
+		    <option value="7">Luglio</option>
+		    <option value="8">Agosto</option>
+		    <option value="9">Settembre</option>
+		    <option value="10">Ottobre</option>
+		    <option value="11">Novembre</option>
+		    <option value="12">Dicembre</option>
  		</select>
  		
-		<select class="selectpicker"  data-ng-model="scenarioWizard.newStartDay">
+		<select class="selectpicker"  data-ng-model="dialogSetDate.newStartDate.day">
 		    <option value="" disabled selected style="display:none;">Giorno</option>
 		    <option>1</option>
 		    <option>2</option>
@@ -62,8 +62,8 @@
  		
 
 		<span class="btn-group">
-			<label class="btn-primary btn-sm" data-ng-model="scenarioWizard.newStartAfterChrist" btn-radio="false">A.C.</label>
-			<label class="btn-primary btn-sm" data-ng-model="scenarioWizard.newStartAfterChrist" btn-radio="true">D.C.</label>
+			<label class="btn-primary btn-sm" data-ng-model="dialogSetDate.newStartDate.afterChrist" btn-radio="false">A.C.</label>
+			<label class="btn-primary btn-sm" data-ng-model="dialogSetDate.newStartDate.afterChrist" btn-radio="true">D.C.</label>
 		</span>
 		
 	</div>
@@ -73,7 +73,8 @@
 	
 </div>
 <div class="modal-footer">
-	<button class="positiveButton btn" data-ng-click="scenarioWizard.changeStartDate()">MODIFICA</button>
+	<button class="positiveButton btn" data-ng-click="dialogSetDate.changeStartDate()">CHANGESTART</button>
+	<button class="positiveButton btn" data-ng-click="dialogSetDate.changeEndDate()">CHANGEend</button>
 	<button class="generalButton btn" data-ng-click="$dismiss()">ANNULLA</button>
 	
 </div>

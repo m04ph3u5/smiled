@@ -3,7 +3,6 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var scenario = {
 				
 		};
-		var flagFirst = true;
 		
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
@@ -23,11 +22,33 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				controllerAs: 'dialogScenario',
 		};
 		
-		var optionsSetDate = {
+		var optionsSetDateStart = {
 				templateUrl:'assets/private/partials/setDate.html',
-				controller: 'dialogScenarioCtrl',
-				controllerAs: 'dialogScenario',
+				controller: 'dialogSetDateCtrl',
+				controllerAs: 'dialogSetDate',
+				resolve : {
+					s : function(){
+						return scenario;
+					},
+					start : function(){
+						return true;
+					}
+				}
 		};
+		var optionsSetDateEnd = {
+				templateUrl:'assets/private/partials/setDate.html',
+				controller: 'dialogSetDateCtrl',
+				controllerAs: 'dialogSetDate',
+				resolve : {
+					s : function(){
+						return scenario;
+					},
+					start : function(){
+						return false;
+					}
+				}
+		};
+		
 		
 		var showModalCreateScen = function(){
 			modalInstanceCreateScen = $modal.open(optionsCreateScen);
@@ -96,9 +117,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			return scenario;
 		}
 		
-		var showPopUpSetDate = function(f){
-			flagFirst = f;
-			modalInstanceSetDate = $modal.open(optionsSetDate);
+		//f serve a specificare (nel caso di set date) se si cerca di modificare la data di inizio o di fine dello scenario
+
+		var showPopUpSetDate = function(s, f){
+			scenario = s;
+			if(f==true)
+				modalInstanceSetDate = $modal.open(optionsSetDateStart);
+			else
+				modalInstanceSetDate = $modal.open(optionsSetDateEnd);
 			return modalInstanceSetDate.result;
 		}
 	

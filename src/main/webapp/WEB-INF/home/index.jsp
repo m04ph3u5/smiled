@@ -69,6 +69,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/studentsListController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/dialogScenarioController.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/dialogSetDateController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/userService.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/apiService.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/modalService.js"></script>

@@ -46,6 +46,9 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 		}
 		console.log("delete  aaaaaaaaaaaaaaaaaaaa");
 	}
+	
+
+	
 	var checkDate = function(date){
 		// regular expression to match required date format
 //		   var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;

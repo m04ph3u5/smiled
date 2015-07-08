@@ -699,16 +699,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		
 		self.showPopUpSetDate = function(flagFirst){
-			modalService.showPopUpSetDate(flagFirst);
+			modalService.showPopUpSetDate(self.scenario, flagFirst);
 		}
 		
-		self.changeStartDate = function(){
-			console.log("CHANGE START DATE ---------------->");
-		}
 		
-		self.changeEndDate = function(date){
-			console.log("CHANGE END DATE ---------------->");
-		}
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/
 		
