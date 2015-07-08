@@ -1,44 +1,46 @@
-<h3>Aggiungi partecipante</h3>
+<label>INSERISCI I PARTECIPANTI</label>
 <form class="form-search">
 	  <div class="inner-addon left-addon">
 		  <i class="glyphicon glyphicon-user"></i>
-		  <input type="search" ng-model="scenarioWizard.selectedUser" class="form-control input-medium search-query" placeholder="Nome Cognome" 
+		  <input type="search" ng-model="scenarioWizard.selectedUser" class="form-control input-medium search-query" placeholder="NOME COGNOME" 
 		  typeahead="s as s.lastname+' '+s.firstname for s in scenarioWizard.selectableStudents | filter:$viewValue | limitTo:10" 
 		  typeahead-min-length='1' 
 		  typeahead-on-select='scenarioWizard.addAttendee(scenarioWizard.selectedUser)' 
 		  typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
 	  </div>
 </form>
-<br>
-<h3>Inserisci le mail degli studenti che vuoi invitare</h3>
-<textarea data-ng-model="scenarioWizard.emailList" class="form-control" rows="3" placeholder="Es. studente1@email.it studente2@email.it ..."></textarea>
-<br>
-<div class="pull-right">
-<button class="btn btn-primary" data-ng-click="scenarioWizard.inviteStudents()">Invita</button>
-</div>
 <div class="container-fluid">
-	<div class="row fluid">
-		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.attendees.length>0">
-			<h3>Partecipanti</h3>
-			<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees">
-				<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteAttendee(s)"></span></div>
+<div class="row">
+	<label>INSERISCI LE EMAIL DEGLI STUDENTI CHE VUOI INVITARE</label>
+	<textarea data-ng-model="scenarioWizard.emailList" class="form-control" rows="3" placeholder="ES: studente1@email.it studente2@email.it ..."></textarea>
+	<br>
+	<div class="pull-right">
+	<button class="btn generalButton" data-ng-click="scenarioWizard.inviteStudents()">INVITA</button>
+	</div>
+</div>
+	<div class="row">
+		<div class="col-md-4" data-ng-show="scenarioWizard.scenarioServer.attendees.length>0">
+			<label>PARTECIPANTI</label>
+			<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees" class="enlight">
 				<img data-ng-src="api/v1/users/{{s.id}}/cover" 
-						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{s.lastname}} {{s.firstname}} 
+						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{s.lastname}} {{s.firstname}} 
+				<span show-on-hover-parent style="display:none" class="glyphicon glyphicon-trash marginMTop" data-ng-click="scenarioWizard.deleteAttendee(s)"></span>
 			</div>
 		</div>
-		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.invited.length>0">
-			<h3>Studenti invitati</h3>
-			<div data-ng-repeat="s in scenarioWizard.scenarioServer.invited">
-					<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteInvited(s)"></span></div>
+		<div class="col-md-4" data-ng-show="scenarioWizard.scenarioServer.invited.length>0">
+			<label>STUDENTI INVITATI</label>
+			<div data-ng-repeat="s in scenarioWizard.scenarioServer.invited" class="enlight">
 					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
-						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> <u>{{s.email}}</u>
+						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM marginMTop"> 
+						<u>{{s.email}}</u>
+						<span show-on-hover-parent style="display:none;" class="pickRow glyphicon glyphicon-trash" data-ng-click="scenarioWizard.deleteInvited(s)"></span></div>
 			</div>
 		</div>
 	</div>
 </div>
-<br>
-<div class="btn btn-primary pull-left" data-ui-sref="logged.scenarioWizard.info">Indietro</div>
-<div class="btn generalButton2 pull-right" data-ui-sref="logged.scenarioWizard.characters">AVANTI</div>
+</div>
+<div class="btn generalButton pull-left" data-ui-sref="logged.scenarioWizard.info">INDIETRO</div>
+<div class="btn positiveButton pull-right" data-ui-sref="logged.scenarioWizard.characters">AVANTI</div>
 
 
 <script type="text/ng-template" id="customTemplate.html">

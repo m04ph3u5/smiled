@@ -10,8 +10,9 @@
 <div class="block">
 	<img data-ng-src="{{scenarioWizard.scenarioCover}}" 
 			data-err-src="assets/public/img/logo.png" 
-			class="img-circle imgPreviewL ">
-	<p class="uploadSpan btn generalButton" ngf-select ngf-change="scenarioWizard.uploadCover($files)">CAMBIA LA COPERTINA DELLO SCENARIO</p>
+			class="img-circle imgPreviewL "
+			style="margin-right:3%">
+	<p class="uploadSpan btn positiveButton" ngf-select ngf-change="scenarioWizard.uploadCover($files)">CAMBIA LA COPERTINA DELLO SCENARIO</p>
 </div>
 
-<div class="btn generalButton2 pull-right" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">AVANTI</div>
+<div class="btn generalButton pull-right" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">AVANTI</div>

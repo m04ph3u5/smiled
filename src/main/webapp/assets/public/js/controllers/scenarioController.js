@@ -47,7 +47,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 					if(loggedUser.openScenarios[i].myCharacterId){
 						self.hasCharacter=true;
 						self.currentCharacter.name = loggedUser.openScenarios[i].name;
-						self.cuurentCharacter.cover = CONSTANTS.urlCharacterCover(self.scen.id, self.currentCharacter.id);
+						self.currentCharacter.cover = CONSTANTS.urlCharacterCover(self.scen.id, self.currentCharacter.id);
 					}
 				}
 			}

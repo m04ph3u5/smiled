@@ -1,14 +1,14 @@
-angular.module('smiled.application').factory('apiService', [ 'Restangular', '$http', '$q',
-              function apiService(Restangular,$http,$q){
+angular.module('smiled.application').factory('apiService', ['$http', '$q',
+              function apiService($http,$q){
 	
 	/*TODO Da riscrivere utilizzando il pattern giusto $http*/
 	
-	var register = Restangular.one('register');
-	
-	function postRegister(registerObject){
-		console.log(registerObject);
-		return register.post("",registerObject);
-	}
+//	var register = Restangular.one('register');
+//	
+//	function postRegister(registerObject){
+//		console.log(registerObject);
+//		return register.post("",registerObject);
+//	}
 	
 //	function createScenario(scenarioDTO){
 //		var scenario = Restangular.one("scenarios");
@@ -29,7 +29,6 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		var p = $q.defer();
 		$http.get('/ThesisProject/api/v1/scenarios/'+idScenario).then(
 				function(response){
-					console.log(response);
 					p.resolve(response.data);
 				},
 				function(reason){
@@ -227,6 +226,23 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		return c.promise;
 	}
 	
+/*      -------------- GESTIONE DEI POST-----------------*/	
+	 var getPagedPosts = function(id, nPag, nItem, historicalOrder){
+			var c = $q.defer();
+			
+			$http.get("/ThesisProject/api/v1/scenarios/"+id+"/posts", {
+			    params: { "nPag": nPag, "nItem": nItem, "historicalOrder": historicalOrder }}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+			
+			return c.promise;
+	 }
+	
 	
 //	var onSuccessGetScenario = function(response){
 //		console.log("Getting data scenario: "+response.data);
@@ -239,7 +255,7 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 //	}
 
 	return {
-		postRegister: postRegister,
+//		postRegister: postRegister,
 		createScenario : createScenario,
 		getScenario : getScenario,
 		updateScenario : updateScenario,
@@ -254,7 +270,9 @@ angular.module('smiled.application').factory('apiService', [ 'Restangular', '$ht
 		removeCharacterFromScenario: removeCharacterFromScenario,
 		getAllCharactersFromScen : getAllCharactersFromScen,
 		addUserToCharacter: addUserToCharacter,
-		removeUserFromCharacter: removeUserFromCharacter
+		removeUserFromCharacter: removeUserFromCharacter,
+		
+		getPagedPosts : getPagedPosts
 	}
 	
 	

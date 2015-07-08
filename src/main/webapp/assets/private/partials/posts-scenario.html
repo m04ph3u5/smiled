@@ -1,1 +1,8 @@
-POST
+<div class="container-fluid">
+				<div class="col-xs-12 box" ng-if="scenario.hasCharacter">							
+						Crea nuovo post <span class="glyphicon glyphicon-pencil"></span>
+				</div>
+				<div class="col-xs-12 box" ng-if="!scenario.hasCharacter">							
+						Non puoi creare un nuovo post
+				</div>
+</div>
