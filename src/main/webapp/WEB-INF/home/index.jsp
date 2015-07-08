@@ -47,7 +47,8 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngDialog/js/ngDialog.js"></script>
-	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-drag-drop/scripts/angular-drag-and-drop.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-native-dragdrop/draganddrop.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
 	<!-- CUSTOM SCRIPT -->
