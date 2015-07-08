@@ -133,9 +133,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					}
 				}
 				self.notAssociatedAttendees = attendees;
-				if(!teacherPlay)
-					self.notAssociatedAttendees.push(self.scenario.teacherCreator);
+				
 			}
+			if(!teacherPlay)
+				self.notAssociatedAttendees.push(self.scenario.teacherCreator);
 			console.log("----------------------------->UPDATE ASSOCIATIONS");
 			console.log(self.notAssociatedAttendees);
 			console.log(self.notAssociatedCharacters);
