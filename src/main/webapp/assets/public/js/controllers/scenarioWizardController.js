@@ -100,11 +100,18 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var updateAssociated = function(){
+			var teacherPlay=false;
 			if(self.scenarioServer.attendees){
 				var attendees = angular.copy(self.scenarioServer.attendees);
 				for(var i=0; i<self.scenarioServer.characters.length; i++){
 					if(self.scenarioServer.characters[i].userId==null){
 						self.notAssociatedCharacters.push(self.scenarioServer.characters[i]);
+					}else if(self.scenarioServer.characters[i].userId==self.scenarioServer.teacherCreator.id){
+						var association = {};
+						association.character = self.scenarioServer.characters[i];
+						association.attendee = self.scenarioServer.teacherCreator;
+						self.associations.push(association);
+						teacherPlay=true;
 					}else{
 						for(var j=0; j<attendees.length; j++){
 							if(attendees[j].id==self.scenarioServer.characters[i].userId){
@@ -119,6 +126,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					}
 				}
 				self.notAssociatedAttendees = attendees;
+				if(!teacherPlay)
+					self.notAssociatedAttendees.push(self.scenario.teacherCreator);
 			}
 			console.log("----------------------------->UPDATE ASSOCIATIONS");
 			console.log(self.notAssociatedAttendees);

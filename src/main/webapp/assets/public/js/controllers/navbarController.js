@@ -1,8 +1,6 @@
-angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 
-                                                              function navbarCtrl(userService,$state){
+angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS',
+                                                              function navbarCtrl(userService,$state, CONSTANTS){
 	
-	
-	var baseImageProfile = "api/v1/me/cover";
 	
 	var self = this;
 	userService.getMe().then(		
@@ -10,10 +8,18 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			self.user=data;
 		},
 		function(reason){
-			console.log("------------------------>navbarCtrl");
 			console.log(reason);
 		}
 	);
+	
+	self.cover = CONSTANTS.urlMeCover;
+
+	var updateCover = function(){
+		var date = new Date();
+		self.cover = CONSTANTS.urlMeCover+"?"+date.toString();
+	}
+	
+	userService.registerObserverPersonalCover(updateCover);
 	
 	
 //	function isLoggedUpdate(){

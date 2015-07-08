@@ -2,7 +2,8 @@
 	<div class="row">
 		<div class="col-md-2"></div>
 		<div class="col-sm-5 col-md-3 box" id="imgProfile">
-			<div id="overlayed"><img data-ng-src="{{personalProfile.url}}" data-err-src="assets/public/img/user_ico.png"></img></div>
+			<div id="overlayed"><img class="toFitImage" data-ng-src="{{personalProfile.url}}" data-err-src="assets/public/img/user_ico.png"></img></div>
+			<div class="pull-right" data-ng-show="personalProfile.isModifiable"><span class="uploadSpan glyphicon glyphicon-camera" ngf-select ngf-change="personalProfile.uploadCover($files)"></span></div>
 		</div>
 		<div class="col-sm-7 col-md-5 box fixedHeight">
 			<div class="fitContent table-responsive">
@@ -10,7 +11,7 @@
 				<tr><h1>{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h1></tr>
 				<tr>
 					<td>Data di nascita: </td>								
-					<td>{{personalProfile.user.profile.bornDate}}</td>					
+					<td>{{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</td>					
 				</tr>
 				<tr>
 					<td>Ruolo: </td>								
@@ -33,21 +34,19 @@
 					<td>�I miei problemi sono iniziati con la prima educazione. Andavo in una scuola per insegnanti disagiati.� (Woody Allen)</td>					
 				</tr>				
 			</table>
-			<p class="uploadSpan" ngf-select ngf-change="uploadCover($files)">Aggiorna l'immagine personale</p>
-			<p class="uploadSpan" ngf-select ngf-change="uploadFile($files)">Aggiungi file personale</p>
-			
+						
 			</div>
-		<div class="col-md-2"></div>
-		<div>
-			<h3>MyImage</h3>
-				<div data-ng-repeat="thumb in images track by $index">
-					<img data-ng-src='data:image/jpeg;base64, {{thumb}}'>
-				</div>
-			<h3>MyFile</h3>
-			<div data-ng-repeat="thumb in files">
-					<img data-ng-src='{{thumb}}'>
-				</div>
-		</div>
+<!-- 		<div class="col-md-2"></div> -->
+<!-- 		<div> -->
+<!-- 			<h3>MyImage</h3> -->
+<!-- 				<div data-ng-repeat="thumb in images track by $index"> -->
+<!-- 					<img data-ng-src='data:image/jpeg;base64, {{thumb}}'> -->
+<!-- 				</div> -->
+<!-- 			<h3>MyFile</h3> -->
+<!-- 			<div data-ng-repeat="thumb in files"> -->
+<!-- 					<img data-ng-src='{{thumb}}'> -->
+<!-- 				</div> -->
+<!-- 		</div> -->
 		</div>
 	</div>
 </div>

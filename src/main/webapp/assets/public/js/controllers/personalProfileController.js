@@ -12,21 +12,24 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		console.log("Error getting user personalProfile: "+reason);
 	}
 	
+	self.dateFormat = CONSTANTS.realDateFormatWithoutHour;
+	self.isModifiable=false;
+	
 	if($stateParams.id)
 		id = $stateParams.id;
 	if(id){
 		userService.getUser(id).then(onSuccessGetUser, onErrorGetUser);
-		self.url = CONSTANTS.urlGetUserCover(id);
+		self.url = CONSTANTS.urlUserCover(id);
 
 	}else{
 		userService.getMe().then(onSuccessGetUser, onErrorGetUser);
-		self.url = CONSTANTS.urlGetMeCover;
-
+		self.url = CONSTANTS.urlMeCover;
+		self.isModifiable=true;
 	}
 	
 	
 	
-	var uploadCover = function(file){
+	self.uploadCover = function(file){
 		if(file && file.length){
 			Upload.upload({
 	            url: 'api/v1/me/cover/',
@@ -41,7 +44,9 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 //	        })
 	        .success(function (data, status, headers, config) {
 	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-	            //userService.notifyImageProfileObservers();          
+	            var date = new Date();
+	            self.url = CONSTANTS.urlMeCover+"?"+date.toString();    
+	            userService.notifyPersonalCoverObservers();
 	        });
 		}
 	}

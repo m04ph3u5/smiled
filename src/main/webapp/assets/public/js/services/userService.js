@@ -75,12 +75,27 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 		return log.promise;
 	}
 	
+	var observerChangePersonalCoverCallbacks = [];
+	
+	//register an observer
+	var registerObserverPersonalCover = function(callback){
+		observerChangePersonalCoverCallbacks.push(callback);
+	};
+	  
+	//call this when you know 'foo' has been changed
+	var notifyPersonalCoverObservers = function(){
+		angular.forEach(observerChangePersonalCoverCallbacks, function(callback){
+			callback();
+		});
+	};
 	
 	return {
 		login: login,
 		logout: logout,
 		getMe : getMe, 
-		getUser: getUser
+		getUser: getUser,
+		registerObserverPersonalCover: registerObserverPersonalCover,
+		notifyPersonalCoverObservers: notifyPersonalCoverObservers
 	}
 
 	
