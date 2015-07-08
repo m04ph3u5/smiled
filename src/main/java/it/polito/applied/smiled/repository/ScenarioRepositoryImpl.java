@@ -346,6 +346,21 @@ public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 			return false;		
 	}
 
+	@Override
+	public boolean removeUserFromCharacterReference(String idScenario, CharacterReference character, String userToDelete) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(idScenario)
+				.andOperator(Criteria.where("characters._id").is(new ObjectId(character.getId()))));
+		Update u = new Update();
+		character.setUserId(null);
+		u.set("characters.$", character);
+		WriteResult w = mongoOp.updateFirst(q, u, Scenario.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;		
+	}
+
 	
 
 	

@@ -97,30 +97,37 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				for(var i=0;i<self.scenario.characters.length;i++){
 					self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
 				}
+			if(self.scenario.attendees)
+				for(var i=0;i<self.scenario.attendees.length; i++){
+					self.scenario.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
+				}
+			self.scenario.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
 		}
 		
 		var updateAssociated = function(){
 			var teacherPlay=false;
-			if(self.scenarioServer.attendees){
-				var attendees = angular.copy(self.scenarioServer.attendees);
-				for(var i=0; i<self.scenarioServer.characters.length; i++){
-					if(self.scenarioServer.characters[i].userId==null){
-						self.notAssociatedCharacters.push(self.scenarioServer.characters[i]);
-					}else if(self.scenarioServer.characters[i].userId==self.scenarioServer.teacherCreator.id){
-						var association = {};
-						association.character = self.scenarioServer.characters[i];
-						association.attendee = self.scenarioServer.teacherCreator;
-						self.associations.push(association);
-						teacherPlay=true;
-					}else{
-						for(var j=0; j<attendees.length; j++){
-							if(attendees[j].id==self.scenarioServer.characters[i].userId){
-								var association = {};
-								association.character = self.scenarioServer.characters[i];
-								association.attendee = attendees[j];
-								self.associations.push(association);
-								attendees.splice(j,1);
-								break;
+			if(self.scenario.attendees){
+				var attendees = angular.copy(self.scenario.attendees);
+				if(self.scenario.characters){
+					for(var i=0; i<self.scenario.characters.length; i++){
+						if(self.scenario.characters[i].userId==null){
+							self.notAssociatedCharacters.push(self.scenario.characters[i]);
+						}else if(self.scenario.characters[i].userId==self.scenario.teacherCreator.id){
+							var association = {};
+							association.character = self.scenario.characters[i];
+							association.attendee = self.scenario.teacherCreator;
+							self.associations.push(association);
+							teacherPlay=true;
+						}else{
+							for(var j=0; j<attendees.length; j++){
+								if(attendees[j].id==self.scenario.characters[i].userId){
+									var association = {};
+									association.character = self.scenario.characters[i];
+									association.attendee = attendees[j];
+									self.associations.push(association);
+									attendees.splice(j,1);
+									break;
+								}
 							}
 						}
 					}
@@ -246,6 +253,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						function(data){
 							for(var i=0; i<data.length; i++){
 								if(data[i].firstname!=null){
+									data[i].cover = CONSTANTS.getUserCover(data[i].id);
+									console.log(data[i]);
 									if(self.scenarioServer.attendees==null || self.scenarioServer.attendees == "")
 										self.scenarioServer.attendees = new Array();
 									self.scenarioServer.attendees.push(data[i]);
@@ -325,11 +334,11 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.newCharacter.isOpen=false;
 							self.newCharacter.isSync=false;
 							self.scenario.characters.push(angular.copy(self.newCharacter));
-							self.newCharacter.cover = null;
 							self.newCharacter.isOpen=null;
 							self.newCharacter.isSync=null;
 							self.charactersServer.push(angular.copy(self.newCharacter));
 							self.currentCharacters.push(angular.copy(self.newCharacter));
+							console.log(self.newCharater);
 							self.notAssociatedCharacters.push(angular.copy(self.newCharacter));
 							self.newCharacter.cover = null;
 							self.newCharacter.name = "";
@@ -482,6 +491,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(data){
 						for(var i=0; i<data.length; i++){
 							if(data[i].firstname!=null){
+								data[i].cover=CONSTANTS.urlUserCover(data[i].id);
 								if(self.scenarioServer.attendees==null || self.scenarioServer.attendees == "")
 									self.scenarioServer.attendees = new Array();
 								self.scenarioServer.attendees.push(data[i]);

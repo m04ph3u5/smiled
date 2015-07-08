@@ -40,5 +40,6 @@ public interface CustomScenarioRepository {
 			String scenarioId);
 	public boolean removePost(String scenarioId, String id);
 	public boolean setCover(String scenarioId, String metadataId);
-
+	public boolean removeUserFromCharacterReference(String idScenario, CharacterReference character,
+			String userToDelete);
 }

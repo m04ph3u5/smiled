@@ -5,7 +5,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.posts = [];
 	self.newPost = {};
 	
-	
 	self.addImageToNewPost = function(){
 		console.log("addImageToNewPost");
 		self.newPost.image="";

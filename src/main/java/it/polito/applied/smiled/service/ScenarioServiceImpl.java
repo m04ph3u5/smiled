@@ -508,9 +508,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 					System.out.println("Rimuovo permission su Character");
 					permissionEvaluator.removeOnePermission(c.getUserId(), Character.class, c.getId());
 					characterRepository.updateActualUserReference(c.getId(), null);
+					scenarioRepository.removeUserFromCharacterReference(scen.getId(), c, userToDelete);
+					break;
 				}
 			}
-		}		
+		}
 	}
 
 
@@ -866,6 +868,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 			if(user.getOpenScenarios()!=null){
 				for(ScenarioReference s : user.getOpenScenarios()){
+					if(s.getId().equals(c.getScenarioId())){
+						if(s.getMyCharacterId()!=null)
+							throw new BadRequestException();
+						founded=true;
+						break;
+					}
+				}
+			}
+			
+			if(!founded && user.getCreatingScenarios()!=null){
+				for(ScenarioReference s : user.getCreatingScenarios()){
 					if(s.getId().equals(c.getScenarioId())){
 						if(s.getMyCharacterId()!=null)
 							throw new BadRequestException();
