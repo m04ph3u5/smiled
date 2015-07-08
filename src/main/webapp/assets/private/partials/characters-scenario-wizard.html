@@ -1,75 +1,75 @@
-<div>
-	<h2>Crea nuovo personaggio</h2>
-	<br>
-	<label for="characterName">NOME</label>
-	<input type="text" id="characterName" class="form-control" placeholder="Es. Giulio Cesare"
-		data-ng-model="scenarioWizard.newCharacter.name">
-	<div class="pull-right btn btn-primary" data-ng-click="scenarioWizard.addCharacter()">Crea personaggio</div>
+<div class="container-fluid">
+	<div class="row">
+		<label for="characterName">INSERISCI IL NOME DEL NUOVO PERSONAGGIO</label>
+		<input type="text" id="characterName" class="form-control" placeholder="ES: GIULIO CESARE"
+			data-ng-model="scenarioWizard.newCharacter.name">
+		<div class="pull-right btn generalButton" data-ng-click="scenarioWizard.addCharacter()">CREA PERSONAGGIO</div>
+	</div>
 </div>
 <br>
 <div>
-	<h2>Personaggi dello scenario</h2>
+	<label>PERSONAGGI DELLO SCENARIO</label>
+	<div class="row">
 	<accordion close-others="true">
 		<div data-ng-repeat="c in scenarioWizard.scenario.characters">
+			<div class="col-md-6">
 				<accordion-group is-open="c.isOpen" is-disabled="scenarioWizard.accordionIsDisabled">
-					<accordion-heading>
+					<accordion-heading>						
 						<div data-ng-click="scenarioWizard.openAccordion($index)">
 							<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': c.isOpen, 'glyphicon-chevron-right': !c.isOpen}"></div>	
-							<p><b>{{c.name}}</b></p>
+							<img ng-src="{{c.cover}}" err-src="assets/public/img/cesar.png" class="img-circle imgPreviewM">
+							<b>{{c.name}}</b>
 						</div>	
 					</accordion-heading>
-				
-				<div>
-					<div class="row"></div>
-					
+								
 					<div class="row">
-						<label class="col-md-2">Nome</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].name">
+						<label class="col-md-4">Nome</label>
+						<input class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].name">
 						<div><a href=""><span class="glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCharacter(c)" style="margin-right: 15px;"></span></a></div>
 					</div>
 					<div class="row">
-						<label class="col-md-2">Biografia</label>
-						<textarea class="col-md-4" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
+						<label class="col-md-4">Biografia</label>
+						<textarea class="col-md-5 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
 						<img data-ng-src="{{c.cover}}"
 						data-err-src="assets/public/img/cesar.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
 					</div>
 					<div class="row">
-						<label class="col-md-2">Data di nascita</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].birthDate">
+						<label class="col-md-4">Data di nascita</label>
+						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].birthDate">
 					</div>
 					<div class="row">
-						<label class="col-md-2">Data di morte</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].deadDate">
+						<label class="col-md-4">Data di morte</label>
+						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].deadDate">
 					</div>
 					<div class="row">
-						<label class="col-md-2">Luogo di nascita</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
+						<label class="col-md-4">Luogo di nascita</label>
+						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
 					</div>
 					<div class="row">
-						<label class="col-md-2">Luogo di morte</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].deadTown">
+						<label class="col-md-4">Luogo di morte</label>
+						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].deadTown">
 					</div>
 					<div class="row">
-						<label class="col-md-2">Genere</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].gender">
+						<label class="col-md-4">Genere</label>
+						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].gender">
 					</div>
 					<div class="row">
-						<label class="col-md-2">Citazione</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].quote">
+						<label class="col-md-4">Citazione</label>
+						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].quote">
 					</div>
 					<div class="row">
-						<label class="col-md-2">Ruolo</label>
-						<input  class="col-md-4" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
+						<label class="col-md-4 ">Ruolo</label>
+						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
 					</div>
 					<div class="row">
-						<div class="uploadSpan btn btn-default btn-file pull-right"
-						ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')">Cambia l'immagine del personaggio</div>
+						<div class="pickRow col-md-9 uploadSpan btn generalButton btn-file"
+						ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')">CAMBIA L'IMMAGINE DEL PERSONAGGIO</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</accordion>
+	</div>
 </div>
-<br>
-<div class="btn btn-primary pull-left" data-ui-sref="logged.scenarioWizard.attendees">Indietro</div>
-<div class="btn btn-primary pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.associations">Avanti</div>
+<div class="btn generalButton pull-left" data-ui-sref="logged.scenarioWizard.attendees">INDIETRO</div>
+<div class="btn positiveButton pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.associations">AVANTI</div>

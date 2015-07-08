@@ -1,8 +1,8 @@
-<h3>Aggiungi collaboratore</h3>
+<label>AGGIUNGI I COLLABORATORI</label>
 <form class="form-search">
 	 <div class="inner-addon left-addon">
 		<i class="glyphicon glyphicon-user"></i>
-	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="input-medium search-query" placeholder="Nome Cognome" 
+	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="form-control input-medium search-query" placeholder="NOME COGNOME" 
 	  		typeahead="s as s.firstname for s in scenarioWizard.selectableCollaborators | filter:$viewValue | limitTo:10" 
 	  		typeahead-min-length='1' 
 	  		typeahead-on-select='scenarioWizard.addCollaborator(scenarioWizard.selectedCollaborator)'  
@@ -24,7 +24,7 @@
 </div>
 
 <br>
-<div class="btn btn-primary pull-left" data-ui-sref="logged.scenarioWizard.associations">Indietro</div>
+<div class="btn generalButton pull-left" data-ui-sref="logged.scenarioWizard.associations">INDIETRO</div>
 
 <script type="text/ng-template" id="customTemplate.html">
   <a href="">

@@ -1,9 +1,8 @@
-<div>
-	<h2>Associa gli studenti ai personaggi</h2>
-	<h5>Trascina la scheda di uno studente sul personaggio che vuoi fargli interpretare</h5>
+<label>ASSOCIA GLI STUDENTI AI PERSONAGGI</label>
+	Trascina la scheda di uno studente sul personaggio che vuoi fargli interpretare
 	
 	<div class="col-md-6">
-		<h3 class="text-center">Studenti</h3>
+		<label class="text-center">STUDENTI</label>
 		<div class="container-fluid">
 			<div class="row fluid col-md-6">
 <!-- 				<div class="col-md-6" data-ng-show="!self.scenarioWizard.attendees || scenarioWizard.scenarioServer.attendees.length<=0">Non hai ancora invitato nessuno studente a partecipare</div> -->
@@ -22,7 +21,7 @@
 	</div>
 	
 	<div class="col-md-6">
-		<h3 class="text-center">Personaggi</h3>
+		<label class="text-center">PERSONAGGI</label>
 		<div class="container-fluid">
 			<div class="row fluid col-md-6">
 <!-- 				<div class="col-md-6 " data-ng-show="!self.scenarioWizard.characters || scenarioWizard.scenarioServer.characters.length<=0">Non hai ancora creato nessun personaggio per questo scenario</div> -->
@@ -44,10 +43,10 @@
           <div class="btn btn-droppable" ng-repeat="item in list5" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
             <div class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true, onStart: 'dragCallback($index)'}" ng-hide="!item.title">{{item.title}}</div>
           </div>
-          
+         </div> 
 	<div class="row"></div>
 	<div class="text-center">
-		<h3>Associazioni</h3>
+		<label>ASSOCIAZIONI</label>
 		<div class="row" data-ng-repeat="a in scenarioWizard.associations">
 			<div class="col-xs-6 col-xs-offset-3">
 				<div show-on-hover-parent style="display:none">
@@ -61,3 +60,5 @@
 			</div>
 		</div>
 	</div>
+<div class="btn generalButton pull-left" data-ui-sref="logged.scenarioWizard.attendees">INDIETRO</div>
+<div class="btn positiveButton pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.associations">AVANTI</div>
