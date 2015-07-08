@@ -16,7 +16,10 @@
 					<span data-ng-click="scenarioPost.setPositionNewPost()" class="glyphicon glyphicon-map-marker"></span><label></label>
 				</div> 
 				<div class="pull-right">
-					<span data-ng-click="scenarioPost.setDateNewPost()" class="glyphicon glyphicon-calendar"></span><label>{{scenarioPost.newPost.date}}</label>
+					<div data-ng-click="scenarioPost.setDateNewPost()" class="glyphicon glyphicon-calendar">
+						<div data-ng-show="scenarioPost.showDatePicker" historical-date-picker year="scenarioPost.newDate.year" month="scenarioPost.newDate.month"
+							day="scenarioPost.newDate.day" afterChrist="scenarioPost.newDate.afterChrist"></div>
+					</div><label>{{scenarioPost.newDate.year}} {{scenarioPost.newDate.month}} </label>
 				</div>
 			</div>
 			<div class="row col-md-10 col-md-offset-1">

@@ -3,7 +3,15 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	var self = this;
 	self.scen = $scope.scenario.scen;
 	self.posts = [];
-	self.newPost = {};
+	self.newPost = {
+			year: "",
+			month: "",
+			day: "",
+			hour: "",
+			minute: "",
+			afterChist: ""
+	};
+	self.showDatePicker=false;
 	
 	self.addImageToNewPost = function(){
 		console.log("addImageToNewPost");
@@ -21,7 +29,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	
 	self.setDateNewPost = function(){
 		console.log("setDateNewPost");
-		self.newPost.date="";
+		self.showDatePicker = !self.showDatePicker;
 	}
 	
 	self.saveNewPost = function(){
