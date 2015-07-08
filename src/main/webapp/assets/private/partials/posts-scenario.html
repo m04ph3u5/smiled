@@ -1,6 +1,26 @@
 <div class="container-fluid">
-				<div class="col-xs-12 box" ng-if="scenario.hasCharacter">							
-						Crea nuovo post <span class="glyphicon glyphicon-pencil"></span>
+				<div ng-if="scenario.hasCharacter">
+					<div>	
+						<div class="row col-md-10 col-md-offset-1 box">	
+							<div class="text-center">					
+								<textarea placeholder="A cosa stavi pensando?" class="col-md-12" rows="5" data-ng-model="scenarioPost.newPost.content"></textarea>
+							</div>
+							<div class="pull-left">
+								<span data-ng-click="scenarioPost.addImageToNewPost()" class="glyphicon glyphicon-camera"></span><label>{{scenarioPost.newPost.image}}</label>
+								<span data-ng-click="scenarioPost.addFileToNewPost()" class="glyphicon glyphicon-file"></span><label>{{scenarioPost.newPost.file}}</label>
+								<span data-ng-click="scenarioPost.setPositionNewPost()" class="glyphicon glyphicon-map-marker"></span><label></label>
+							</div> 
+							<div class="pull-right">
+								<span data-ng-click="scenarioPost.setDateNewPost()" class="glyphicon glyphicon-calendar"></span><label>{{scenarioPost.newPost.date}}</label>
+							</div>
+						</div>
+						<div class="row col-md-10 col-md-offset-1">
+							<div class="pull-right">
+								<div data-ng-click="scenarioPost.draftNewPost()" class="btn btn-warning">Salva bozza</div>
+								<div data-ng-click="scenarioPost.saveNewPost()" class="btn btn-primary">Pubblica</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="col-xs-12 box" ng-if="!scenario.hasCharacter">							
 						Non puoi creare un nuovo post

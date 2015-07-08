@@ -17,6 +17,7 @@
 		"ngDialog": "latest",
 		"jquery": "1.11.1",
 		"bootstrap" : "3.3.4",
-		"ng-drag-drop" : "latest"
+		"angular-native-dragdrop" : "1.1.0",
+		"ngInfiniteScroll": "1.0.0"
 	}
 }
