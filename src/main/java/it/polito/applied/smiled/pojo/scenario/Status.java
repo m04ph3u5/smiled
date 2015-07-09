@@ -13,7 +13,8 @@ public class Status extends Post{
 	private CharacterReference character;
 	private List<Tag> tags;
 	private String text;
-	private Media media;
+	private String imageId;
+	private String fileId;
 	private List<Source> sources;
 	private Place place;
 
@@ -51,12 +52,7 @@ public class Status extends Post{
 	public void setText(String text) {
 		this.text = text;
 	}
-	public Media getMedia() {
-		return media;
-	}
-	public void setMedia(Media media) {
-		this.media = media;
-	}
+	
 	public List<Source> getSources() {
 		return sources;
 	}
@@ -73,5 +69,26 @@ public class Status extends Post{
 	public void setPlace(Place place) {
 		this.place = place;
 	}
+
+
+	public String getImageId() {
+		return imageId;
+	}
+
+
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
+
+
+	public String getFileId() {
+		return fileId;
+	}
+
+
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
+	
 	
 }

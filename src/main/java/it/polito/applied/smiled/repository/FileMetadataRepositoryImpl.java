@@ -80,6 +80,34 @@ public class FileMetadataRepositoryImpl implements CustomFileMetadataRepository{
 		q.with(p);
 		return mongoOp.find(q, FileMetadata.class);
 	}
+
+	@Override
+	public boolean addImageToPost(String imageId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(imageId));
+		Update u = new Update();
+		u.set("type", ResourceType.IMAGE);
+		
+		WriteResult w = mongoOp.updateFirst(q, u, FileMetadata.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;	
+	}
+
+	@Override
+	public boolean addFileToPost(String fileId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(fileId));
+		Update u = new Update();
+		u.set("type", ResourceType.DOCUMENT);
+		
+		WriteResult w = mongoOp.updateFirst(q, u, FileMetadata.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;	
+	}
 	
 	
 }
