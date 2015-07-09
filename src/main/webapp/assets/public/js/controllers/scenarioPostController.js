@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope', 'apiService',
-              function scenarioPostCtrl(CONSTANTS,$scope, apiService){
+angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload',
+              function scenarioPostCtrl(CONSTANTS,$scope, apiService,Upload){
 	var self = this;
 	self.scen = $scope.scenario.scen;
 	self.posts = [];
@@ -7,12 +7,18 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.newPost.date = {
 			afterChrist : true
 	};
+	self.newPost.image = {};
+	self.newPost.file  = {};
 	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 	self.showDatePicker=false;
 	
-	self.addImageToNewPost = function(){
-		console.log("addImageToNewPost");
-		self.newPost.image="";
+	self.addImageToNewPost = function(file){
+		uploadMediaToPost(file,true);
+	}
+	
+	self.removeImage = function(){
+		self.newPost.image.name = "";
+		
 	}
 	
 	self.addFileToNewPost = function(){
@@ -78,6 +84,34 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 					}
 			);
 		}	
+	}
+	
+	var uploadMediaToPost = function(file,isImage){
+		if(file && file.length){
+			Upload.upload({
+	            url: CONSTANTS.urlMediaScenarioPost(self.scen.id),
+	            headers : {
+	                'Content-Type': file.type
+	            },
+	            file: file
+	        })
+//	            .progress(function (evt) {
+//	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//	        })
+	        .success(function (data, status, headers, config) {
+	           console.log("SUCCESS UPLOAD");
+	           console.log(data);
+	           if(isImage){
+	        	   self.newPost.image.id = data.id;
+	        	   self.newPost.image.name = config.file[0].name;
+	        	   console.log(self.newPost.image.name);
+	           }else{
+	        	   self.newPost.file.id = data.id;
+	        	   self.newPost.file.name = config.file.name;
+	           }
+	        });
+		}
 	}
 	
 //	apiService.getPagedPosts(self.scen.id, 0, 5, false).then(

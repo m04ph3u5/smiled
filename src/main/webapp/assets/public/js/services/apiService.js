@@ -1,14 +1,14 @@
-angular.module('smiled.application').factory('apiService', ['$http', '$q',
-              function apiService($http,$q){
+angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Restangular',
+              function apiService($http,$q, Restangular){
 	
 	/*TODO Da riscrivere utilizzando il pattern giusto $http*/
 	
-//	var register = Restangular.one('register');
-//	
-//	function postRegister(registerObject){
-//		console.log(registerObject);
-//		return register.post("",registerObject);
-//	}
+	var register = Restangular.one('register');
+	
+	function postRegister(registerObject){
+		console.log(registerObject);
+		return register.post("",registerObject);
+	}
 	
 //	function createScenario(scenarioDTO){
 //		var scenario = Restangular.one("scenarios");
