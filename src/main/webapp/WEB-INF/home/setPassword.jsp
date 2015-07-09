@@ -57,46 +57,51 @@ body {
 		</div>
 	</div>
 
-	<div class="container">
-		<div class="hero-unit">
+	<div class="container-fluid">
+		<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-3 box textLeft">
 			<h1>Imposta la password</h1>
 			<div>
 				<p>Ci sei quasi. Imposta la tua nuova passsword ed inizia ad utilizzare SMILED!</p>
 			</div>
 
 			<form:form commandName="firstPassword">
-				<div class="form-group">
-					<label for="textinputEmail"> Email: </label>
-					<form:input path="email" type="email" cssErrorClass="error" placeholder="Inserisci qui la ta email"/>
+				<div class="form-group row">
+					<label for="textinputEmail" class=" col-sm-3"> EMAIL: </label>
+					<form:input class="generalInput col-sm-8" path="email" type="email" cssErrorClass="error" placeholder="INSERISCI LA TUA EMAIL"/>
 					<form:errors path="email" cssClass="error" />
 				</div>
-				<div class="form-group">
-					<label for="textinputEmail"> Nome: </label>
-					<form:input path="firstname" type="text" cssErrorClass="error" placeholder="Nome"/>
+				<div class="form-group row">
+					<label for="textinputEmail" class=" col-sm-3"> NOME: </label>
+					<form:input class="generalInput col-sm-8" path="firstname" type="text" cssErrorClass="error" placeholder="NOME"/>
 					<form:errors path="firstname" cssClass="error" />
 				</div>
-				<div class="form-group">
-					<label for="textinputEmail"> Cognome: </label>
-					<form:input path="lastname" type="text" cssErrorClass="error" placeholder="Cognome"/>
+				<div class="form-group row">
+					<label for="textinputEmail" class=" col-sm-3"> COGNOME: </label>
+					<form:input class="generalInput col-sm-8" path="lastname" type="text" cssErrorClass="error" placeholder="COGNOME"/>
 					<form:errors path="lastname" cssClass="error" />
 				</div>
-				<div class="form-group">
-					<label for="textinputOldPassword"> Vecchia password: </label>
-					<form:input path="oldPassword" type="password" cssErrorClass="error" placheholder="Insersci la vecchia password"/>
+				<div class="form-group row">
+					<label for="textinputOldPassword" class=" col-sm-3"> VECCHIA PASSWORD: </label>
+					<form:input class="generalInput col-sm-8" path="oldPassword" type="password" cssErrorClass="error" placeholder="INSERISCI LA VECCHIA PASSWORD"/>
 					<form:errors path="oldPassword" cssClass="error" />
 				</div>
-				<div class="form-group">
-				<label for="textinputNewPassword"> Nuova password: </label>
-					<form:input path="newPassword" type="password" cssErrorClass="error" placeholder="Insersci la tua nuova password"/>
+				<div class="form-group row">
+				<label for="textinputNewPassword" class=" col-sm-3"> NUOVA PASSWORD: </label>
+					<form:input class="generalInput col-sm-8" path="newPassword" type="password" cssErrorClass="error" placeholder="INSERISCI LA TUA NUOVA PASSWORD"/>
 					<form:errors path="newPassword" cssClass="error" />
 				</div>
-				<button type="submit" class="btn btn-primary btn-lg" name="submit">Cambia la password</button>
+				<button type="submit" class="btn generalButton textRight" name="submit">CAMBIA PASSWORD</button>
 			</form:form>
-			
+			</div>
 		</div>
 	</div>
 
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
+	<link rel="stylesheet"
+	href="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/custom-style.css">
 </body>
 </html>
