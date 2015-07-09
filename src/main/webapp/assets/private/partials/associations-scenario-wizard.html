@@ -18,9 +18,14 @@
 									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}}
 						</div>
 					</div>
-					<div ng-if="!scenarioWizard.isStudent(a)">
+					<div ng-if="!scenarioWizard.isStudent(a) && !a==scenarioWizard.scenario.teacherCreator">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
 										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (docente)
+						</div>
+					</div>
+					<div ng-if="!scenarioWizard.isStudent(a) && a==scenarioWizard.scenario.teacherCreator">
+						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
+										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (creatore)
 						</div>
 					</div>
 					<div class="col-sm-3 col-xs-12"></div>
