@@ -1,42 +1,41 @@
+<div class="container-fluid text-center">
 <label>ASSOCIA GLI STUDENTI AI PERSONAGGI</label>
-	Trascina la scheda di uno studente sul personaggio che vuoi fargli interpretare
-	
+	<p>Trascina la scheda di uno studente sul personaggio che vuoi fargli interpretare</p>
+	<div class="row">
 	<div class="col-md-6">
-		<label class="text-center">PARTECIPANTI</label>
-		<div class="container-fluid">
-			<div class="row fluid col-md-6">
-<!-- 				<div class="col-md-6" data-ng-show="!self.scenarioWizard.attendees || scenarioWizard.scenarioServer.attendees.length<=0">Non hai ancora invitato nessuno studente a partecipare</div> -->
-				<div>
-					<div ui-draggable="true" drag="a" ui-on-Drop="scenarioWizard.onDrop($event,$data, $index)"
-					drag-channel="attendees" drop-channel="characters"
-					on-drop-success="scenarioWizard.dropSuccessHandlerCharacter($event, $index, scenarioWizard.scenarioServer.attendees)"
-					ng-repeat="a in scenarioWizard.notAssociatedAttendees track by $index">
-						<div class="btn btn-info"><img data-ng-src="{{a.cover}}" 
-									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.lastname}} {{a.firstname}} 
-						</div>
+		<label>PARTECIPANTI</label>
+		<!-- Mettere qualcosa di decente quando non ce n'è -->
+							
+<!-- 			<div class="col-sm-6" data-ng-show="!self.scenarioWizard.attendees || scenarioWizard.scenarioServer.attendees.length<=0">Non hai ancora invitato nessuno studente a partecipare</div> -->
+				<div ui-draggable="true" drag="a" ui-on-Drop="scenarioWizard.onDrop($event,$data, $index)"
+				drag-channel="attendees" drop-channel="characters"
+				on-drop-success="scenarioWizard.dropSuccessHandlerCharacter($event, $index, scenarioWizard.scenarioServer.attendees)"
+				ng-repeat="a in scenarioWizard.notAssociatedAttendees track by $index">
+				<div class="row">	
+					<div class="col-sm-3 col-xs-12"></div>
+					<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{a.cover}}" 
+								data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} 
 					</div>
+					<div class="col-sm-3 col-xs-12"></div>
 				</div>
 			</div>
-		</div>
 	</div>
 	
 	<div class="col-md-6">
-		<label class="text-center">PERSONAGGI</label>
-		<div class="container-fluid">
-			<div class="row fluid col-md-6">
-<!-- 				<div class="col-md-6 " data-ng-show="!self.scenarioWizard.characters || scenarioWizard.scenarioServer.characters.length<=0">Non hai ancora creato nessun personaggio per questo scenario</div> -->
-				<div>
-					<div ui-draggable="true" drag="c" ui-on-Drop="scenarioWizard.onDrop($event,$data, $index)"
-					drag-channel="characters" drop-channel="attendees"
-					on-drop-success="scenarioWizard.dropSuccessHandlerAttendee($event, $index, scenarioWizard.scenarioServer.characters)"
-					ng-repeat="c in scenarioWizard.notAssociatedCharacters track by $index">
-						<div class="btn btn-info"><img data-ng-src="{{c.cover}}" 
-									data-err-src="assets/public/img/napoleone.png" class="img-circle imgPreviewL"> {{c.name}}
-						</div>
+		<label>PERSONAGGI</label>
+<!-- 			<div class="col-md-6 " data-ng-show="!self.scenarioWizard.characters || scenarioWizard.scenarioServer.characters.length<=0">Non hai ancora creato nessun personaggio per questo scenario</div> -->
+				<div ui-draggable="true" drag="c" ui-on-Drop="scenarioWizard.onDrop($event,$data, $index)"
+				drag-channel="characters" drop-channel="attendees"
+				on-drop-success="scenarioWizard.dropSuccessHandlerAttendee($event, $index, scenarioWizard.scenarioServer.characters)"
+				ng-repeat="c in scenarioWizard.notAssociatedCharacters track by $index">
+				<div class="row">
+					<div class="col-sm-3 col-xs-12"></div>
+					<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{c.cover}}" 
+								data-err-src="assets/public/img/napoleone.png" class="img-circle imgPreviewM"> {{c.name}}
 					</div>
+					<div class="col-sm-3 col-xs-12"></div>
+				
 				</div>
-			</div>
-		</div>
 	</div>
 	
 	<div class="container form-inline" style="text-align: center;">
@@ -44,21 +43,27 @@
             <div class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true, onStart: 'dragCallback($index)'}" ng-hide="!item.title">{{item.title}}</div>
           </div>
          </div> 
-	<div class="row"></div>
+    </div>
+	<div class="row">
 	<div class="text-center">
 		<label>ASSOCIAZIONI</label>
+<!-- 			Mettere qualcosa se non ci sono associazioni -->
 		<div class="row" data-ng-repeat="a in scenarioWizard.associations">
-			<div class="col-xs-6 col-xs-offset-3">
-				<div show-on-hover-parent style="display:none">
-					<span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.removeAssociation(a)"></span></div>
-				<div class="btn btn-info">
+			<div class="col-xs-6 col-xs-offset-3">				
+				<div class="btn generalButton">
 					<img data-ng-src="{{a.attendee.cover}}/" 
 									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
+				</div>
+				<img hide-on-hover-parent data-ng-src="assets/public/img/red.png" class="img-circle imgPreviewM">
+				<img show-on-hover-parent style="display:none" data-ng-src="assets/public/img/logo.png" class="img-circle imgPreviewM" data-ng-click="scenarioWizard.removeAssociation(a)">
+				<div class="btn generalButton">
 					<img data-ng-src="{{a.character.cover}}" 
 										data-err-src="assets/public/img/napoleone.png" class="img-circle imgPreviewL"> {{a.character.name}}
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
 <div class="btn generalButton pull-left" data-ui-sref="logged.scenarioWizard.attendees">INDIETRO</div>
 <div class="btn positiveButton pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.associations">AVANTI</div>
+</div>

@@ -74,7 +74,12 @@
 		*::-moz-placeholder { color: #5B5955; }
 		*::-ms-input-placeholder { color: #5B5955; }
 		
-	
+		.btn-success{
+			background-color:#89b151;
+		}
+		.btn-danger{
+			background-color:#cb654f;
+		}
 		.generalButton{
 			background:transparent;
 			border-color:#5b5955;
@@ -380,6 +385,10 @@
 		}
 		.textLeft{
 			text-align: left;
+		}
+		.textRight{
+			text-align: right;
+			padding-right:5%;
 		}
 		.block{
 			display:inline-block;
