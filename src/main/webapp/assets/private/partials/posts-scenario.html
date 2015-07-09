@@ -11,7 +11,7 @@
 								data-err-src="assets/public/img/cesar.png"></img><i>{{scenario.currentCharacter.name}}</i>
 						</div>
 						<div style="margin-right:15px;" class="pull-right">
-							<label>{{scenarioPost.newPost.date.formatted}}</label>
+							<label data-ng-click="scenarioPost.setDateNewPost()">{{scenarioPost.newPost.date.formatted}}</label>
 							<div data-ng-click="scenarioPost.setDateNewPost()"
 								class="glyphicon glyphicon-calendar"></div>
 								<div data-ng-show="scenarioPost.showDatePicker"
@@ -22,12 +22,16 @@
 						rows="5" data-ng-model="scenarioPost.newPost.content"></textarea>
 				</div>
 				<div class="pull-left">
-					<span data-ng-click="scenarioPost.addImageToNewPost()"
-						class="glyphicon glyphicon-camera"></span><label>{{scenarioPost.newPost.image}}</label>
-					<span data-ng-click="scenarioPost.addFileToNewPost()"
-						class="glyphicon glyphicon-file"></span><label>{{scenarioPost.newPost.file}}</label>
-					<span data-ng-click="scenarioPost.setPositionNewPost()"
-						class="glyphicon glyphicon-map-marker"></span><label></label>
+					<span title="Aggiungi un'immagine al post" data-ng-click="scenarioPost.addImageToNewPost()"
+						class="tooltips glyphicon glyphicon-camera" style="margin-right:5px;"></span><label>{{scenarioPost.newPost.image}}</label>
+					<span title="Allega un file al post" data-ng-click="scenarioPost.addFileToNewPost()"
+						class="tooltips glyphicon glyphicon-file" style="margin-right:5px;"></span><label>{{scenarioPost.newPost.file}}</label>
+					<span title="Aggiungi una posizione al post" data-ng-click="scenarioPost.setPositionNewPost()"
+						class="tooltips glyphicon glyphicon-map-marker" style="margin-right:5px;"></span><label></label>
+					<span title="Tagga personaggi al post" data-ng-click="scenarioPost.tagToNewPost()"
+						class="tooltips glyphicon glyphicon-tags" style="margin-right:5px;"></span><label></label>
+					<span title="Indica le tue fonti" data-ng-click="scenarioPost.addSourceToNewPost()"
+						class="tooltips glyphicon glyphicon-book" style="margin-right:5px;"></span><label></label>
 				</div>
 			</div>
 			<div class="row col-md-10 col-md-offset-1">

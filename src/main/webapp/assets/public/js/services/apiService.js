@@ -227,6 +227,20 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q',
 	}
 	
 /*      -------------- GESTIONE DEI POST-----------------*/	
+	
+	var sendStatus = function(id, idCharacter, status){
+		var s = $q.defer();
+		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+idCharacter+"/status", status).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
 	 var getPagedPosts = function(id, nPag, nItem, historicalOrder){
 			var c = $q.defer();
 			
@@ -271,7 +285,8 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q',
 		getAllCharactersFromScen : getAllCharactersFromScen,
 		addUserToCharacter: addUserToCharacter,
 		removeUserFromCharacter: removeUserFromCharacter,
-		
+		/*Gesitone post*/
+		sendStatus: sendStatus,
 		getPagedPosts : getPagedPosts
 	}
 	

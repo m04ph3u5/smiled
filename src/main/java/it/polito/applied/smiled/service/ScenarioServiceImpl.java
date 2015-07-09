@@ -1012,7 +1012,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		if(userRef==null)
+		if(userRef==null){
 			if(scenario.getCollaborators()!=null){
 				for(Reference r : scenario.getCollaborators()){
 					if(r.getId().equals(character.getUserId())){
@@ -1021,6 +1021,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 			}
+		}
+		
+		if(userRef==null){
+			if(scenario.getTeacherCreator().getId().equals(character.getUserId()))
+				userRef = scenario.getTeacherCreator();
+		}
 		
 		if(userRef==null)
 			throw new BadRequestException();
