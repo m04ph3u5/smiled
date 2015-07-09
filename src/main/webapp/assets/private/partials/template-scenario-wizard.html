@@ -9,7 +9,7 @@
 	            	data-ui-sref=".info"
 	               	data-ng-click="scenarioWizard.changeStateTab(0)"
 	               	data-ui-sref-active="active">
-	               	<img data-ng-src="assets/public/img/logo.png"
+	               	<img data-ng-src="assets/public/img/ic_info.png"
 					class="img-circle imgPreviewL">
 					<div class="stepTitle">INFO GENERALI</div>
 	               
@@ -18,7 +18,7 @@
 	            	data-ui-sref=".attendees"
 	           	   	data-ng-click="scenarioWizard.changeStateTab(1)"
 	               	data-ui-sref-active="active">
-	               	<img data-ng-src="assets/public/img/logo.png"
+	               	<img data-ng-src="assets/public/img/ic_attendees.png"
 					class="img-circle imgPreviewL">
 	               	<div class="stepTitle">PARTECIPANTI</div>
 	            </a>
@@ -26,7 +26,7 @@
 	            	data-ui-sref=".characters"
 	               	data-ng-click="scenarioWizard.changeStateTab(2)"	           
 	               	data-ui-sref-active="active">
-	               	<img data-ng-src="assets/public/img/logo.png"
+	               	<img data-ng-src="assets/public/img/ic_characters.png"
 					class="img-circle imgPreviewL">
 	              	<div class="stepTitle">PERSONAGGI</div>
 	            </a>
@@ -34,7 +34,7 @@
 	            	data-ui-sref=".associations"
 	               	data-ng-click="scenarioWizard.changeStateTab(3)"
 	               	data-ui-sref-active="active">
-	               	<img data-ng-src="assets/public/img/logo.png"
+	               	<img data-ng-src="assets/public/img/ic_associations.png"
 					class="img-circle imgPreviewL">
 	               	<div class="stepTitle">ASSOCIAZIONI</div>
 	            </a>
@@ -42,7 +42,7 @@
 	            	data-ui-sref=".collaborators"
 	               	data-ng-click="scenarioWizard.changeStateTab(4)"
 	               	data-ui-sref-active="active">
-	               	<img data-ng-src="assets/public/img/logo.png"
+	               	<img data-ng-src="assets/public/img/ic_collaborators.png"
 					class="img-circle imgPreviewL">
 	               	<div class="stepTitle">COLLABORATORI</div>
 	            </a>
@@ -51,8 +51,10 @@
 	
 	        <div data-ui-view class="box textLeft col-xs-12"></div>
 	        <div class="row textRight pickRow">
-		            <div class="btn btn-success" data-ng-show="scenarioWizard.associations.length>0" data-ng-click="scenarioWizard.openScenario()">ATTIVA</div>
-		            <div class="btn btn-danger" data-ng-click="scenarioWizard.showPopUpDeleteScenario()">CANCELLA</div>
+		            <div class="btn btn-success" data-ng-show="scenarioWizard.associations.length>0 && !scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.openScenario()">ATTIVA</div>
+		            <div class="btn generalButton" data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.suspendScenario()">SOSPENDI</div>
+		            <div class="btn btn-warning" data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.closeScenario()">CHIUDI</div>
+		            <div class="btn btn-danger" data-ng-click="scenarioWizard.showPopUpDeleteScenario()">ELIMINA</div>
 	            </div>
 	    </div>
 	

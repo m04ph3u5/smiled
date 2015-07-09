@@ -15,17 +15,17 @@
 					<div class="col-sm-3 col-xs-12"></div>
 					<div ng-if=" scenarioWizard.isStudent(a)">
 						<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{a.cover}}" 
-									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}}
+									data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}}
 						</div>
 					</div>
 					<div ng-if="!scenarioWizard.isStudent(a) && !a.id==scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
-										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (docente)
+										data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (docente)
 						</div>
 					</div>
 					<div ng-if="!scenarioWizard.isStudent(a) && a.id==scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
-										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (creatore)
+										data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (creatore)
 						</div>
 					</div>
 					<div class="col-sm-3 col-xs-12"></div>
@@ -43,7 +43,7 @@
 				<div class="row">
 					<div class="col-sm-3 col-xs-12"></div>
 					<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{c.cover}}" 
-								data-err-src="assets/public/img/napoleone.png" class="img-circle imgPreviewM"> {{c.name}}
+								data-err-src="assets/public/img/ic_characters.png" class="img-circle imgPreviewM"> {{c.name}}
 					</div>
 					<div class="col-sm-3 col-xs-12"></div>
 				
@@ -64,30 +64,30 @@
 		<div class="row">
 			<div class="col-sm-1"></div>
 			<div ng-if=" scenarioWizard.isStudent(a.attendee)">
-				<div class="col-xs-4 btn generalButton">
+				<div class="col-xs-4 btn generalButton textLeft">
 				<img data-ng-src="{{a.attendee.cover}}/" 
-					 data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
+					 data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
 				</div>
 			</div>								
 			<div ng-if="!scenarioWizard.isStudent(a.attendee) && !a.attendee.id==scenarioWizard.scenario.teacherCreator.id">
-				<div class="col-xs-4 btn generalButton1">
+				<div class="col-xs-4 btn generalButton1textLeft ">
 				<img data-ng-src="{{a.attendee.cover}}/" 
-					 data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (docente)
+					 data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (docente)
 				</div>
 			</div>
 			<div ng-if="!scenarioWizard.isStudent(a.attendee) && a.attendee.id==scenarioWizard.scenario.teacherCreator.id">
-				<div class="col-xs-4 btn generalButton1">
+				<div class="col-xs-4 btn generalButton1 textLeft">
 					<img data-ng-src="{{a.attendee.cover}}/" 
-						 data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (creatore)
+						 data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (creatore)
 				</div>
 			</div>
 			<div class="col-sm-2">
-				<img hide-on-hover-parent data-ng-src="assets/public/img/red.png" class="linkImg img-circle imgPreviewM">
-				<img show-on-hover-parent style="display:none" data-ng-src="assets/public/img/logo.png" class="linkImg img-circle imgPreviewM" data-ng-click="scenarioWizard.removeAssociation(a)">
+				<img hide-on-hover-parent data-ng-src="assets/public/img/ic_association.png" class="linkImg" width="150px">
+				<img show-on-hover-parent style="display:none" data-ng-src="assets/public/img/ic_association_del.png" class="linkImg" width="150px" data-ng-click="scenarioWizard.removeAssociation(a)">
 			</div>
-			<div class="col-xs-4 btn generalButton">
+			<div class="col-xs-4 btn generalButton textLeft">
 				<img data-ng-src="{{a.character.cover}}" 
-					data-err-src="assets/public/img/napoleone.png" class="img-circle imgPreviewL"> {{a.character.name}}
+					data-err-src="assets/public/img/ic_characters.png" class="img-circle imgPreviewL"> {{a.character.name}}
 			</div>
 			<div class="col-sm-1"></div>
 			</div>

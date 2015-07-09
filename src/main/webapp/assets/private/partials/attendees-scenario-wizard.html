@@ -23,7 +23,7 @@
 			<label>PARTECIPANTI</label>
 			<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees" class="enlight">
 				<img data-ng-src="api/v1/users/{{s.id}}/cover" 
-						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{s.lastname}} {{s.firstname}} 
+						data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{s.lastname}} {{s.firstname}} 
 				<span show-on-hover-parent style="display:none" class="glyphicon glyphicon-trash marginMTop" data-ng-click="scenarioWizard.deleteAttendee(s)"></span>
 			</div>
 		</div>
@@ -31,7 +31,7 @@
 			<label>STUDENTI INVITATI</label>
 			<div data-ng-repeat="s in scenarioWizard.scenarioServer.invited" class="enlight">
 					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
-						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM marginMTop"> 
+						data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM marginMTop"> 
 						<u>{{s.email}}</u>
 						<span show-on-hover-parent style="display:none;" class="pickRow glyphicon glyphicon-trash" data-ng-click="scenarioWizard.deleteInvited(s)"></span></div>
 			</div>

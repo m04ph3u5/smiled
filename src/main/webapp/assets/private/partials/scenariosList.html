@@ -3,16 +3,14 @@
 		<div class="col-sm-2"></div>
 		<div class="col-md-8">
 			<div class="row">
-				<div class="col-sm-10">
+				<div class="col-sm-8">
 					<h1>I miei scenari</h1>			
 				</div>
-				<div class="col-sm-2">
 					<div class="col-sm-2" ng-click="dashboard.showPopUpCreationScenario()" >
-						<img href="" src="assets/public/img/Icon_WriteArticles.png"
-							class="img-circle imgPreviewL" > 
+						<img href="" src="assets/public/img/ic_newscenario.png"
+							class="img-circle imgPreviewM" > 
 						<h4><i>Crea scenario</i></h4>
 					</div>
-				</div>
 			</div>
 			<div class="box">
 				<h2>Scenari in creazione</h2>
@@ -25,7 +23,7 @@
 								<div class="col-sm-4 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
-									url('assets/public/img/logo.png')"></div>
+									url('assets/public/img/ic_creatingscenario.png')"></div>
 								</div>
 									<div class="col-sm-8 vAlignExt">
 										<h4 class="vAlignInt">{{s.name}}</h4>
@@ -46,8 +44,7 @@
 								<div class="col-sm-4 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
-									url('assets/public/img/logo.png'),
-									url('assets/public/img/logo.png')"></div>
+									url('assets/public/img/ic_openscenario.png')"></div>
 								</div>
 								<div class="col-sm-6 vAlignExt">
 									<h4 class="vAlignInt">{{s.name}}</h4>
@@ -67,7 +64,8 @@
 							<div class="row marginMTop">
 								<div class="col-sm-6 sideMarginThree">
 									<div class="roundedImgDiv" 
-									style="background-image:url('api/v1/scenarios/{{s.id}}/cover')"></div>
+									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
+									url('assets/public/img/ic_closedscenarios.png')"></div>
 								</div>
 									<div class="col-sm-6 vAlignExt">
 										<h4 class="vAlignInt">{{s.name}}</h4>
