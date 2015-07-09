@@ -269,7 +269,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 //	}
 
 	return {
-//		postRegister: postRegister,
+		postRegister: postRegister,
 		createScenario : createScenario,
 		getScenario : getScenario,
 		updateScenario : updateScenario,
