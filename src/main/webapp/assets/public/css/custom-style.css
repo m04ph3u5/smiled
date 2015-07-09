@@ -154,6 +154,10 @@
 			width:100px;
 			img-size:cover;
 		}
+		.imgPreviewXL{
+			height:150px;
+			img-size:cover;
+		}
 		
 		.imgPreviewM{
 			height:50px;

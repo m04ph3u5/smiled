@@ -57,7 +57,6 @@ angular.module("smiled.application").directive("historicalDatePicker",[ function
         				break;
         			}
         		}
-        		console.log("m vale: "+ m);
         		return m;
         	}
         	scope.$watch('date', function(newValue,oldValue){

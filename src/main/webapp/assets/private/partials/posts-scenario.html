@@ -45,6 +45,44 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 box" ng-if="!scenario.hasCharacter">Non
-		puoi creare un nuovo post</div>
+	
+	<hr class="hrDivider">
+
+	<div data-ng-repeat="s in scenarioPost.posts"> 	
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1 box">
+			<div class="row">
+				<div class="pull-left col-md-8">
+					<b class="pull-left">{{s.character.name}}</b>
+				</div>
+				<div class="pull-right col-md-4">
+					<label class="pull-right">{{scenarioPost.formatDate(s.historicalDate)}}</label>
+				</div>
+			</div>
+			<div class="row rowPost">
+				<div class="col-md-2">
+					<img style="margin: 5px;"
+						class="pull-left img-thumbnail imgPreviewL"
+						data-ng-src="scenarioPost.getUrlCoverCharacter({{s.character.id}})"
+						data-err-src="assets/public/img/cesar.png"></img>
+				</div>
+				
+				<div class="col-md-10 postStatus">
+				<div class="row">
+					<div class="col-md-12">
+						<label class="pull-left">{{s.text}}</label>
+					</div>
+					<div data-ng-show="s.imageId">
+						<img class="imgPreviewXL" data-ng-src="{{scenarioPost.getUrlMedia(s.imageId)}}">
+					</div>
+				</div>
+				</div>
+			</div>
+			
+			
+			
+			
+		</div>
+	</div>
+	</div>
 </div>

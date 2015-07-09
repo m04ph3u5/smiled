@@ -252,7 +252,8 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Override
 	public File getMedia(String filename) {
-		return new File(path+"media/"+getFolderPath(filename)+"/"+filename);
+		FileMetadata meta=fileMetadataRepository.findById(filename);
+		return new File(path+"media/"+getFolderPath(filename)+"/"+filename+"."+meta.getFormat());
 	}
 
 	@Override

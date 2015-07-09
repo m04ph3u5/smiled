@@ -2,3 +2,32 @@ tooltips:before{ content:attr(title); display:none; }
 
 tooltips:hover::before{ width:200px; display:block; background:yellow; border:1px solid black; padding:8px; margin:25px 0 0 10px; }
 
+.rowPost{
+	/*overflow:hidden;*/
+	position: relative;
+	height: 250px;	
+}
+
+.postStatus{
+	border-radius: 5px; 
+	border: 2px solid #FFFFFF; 
+	padding: 5px;
+	height: 100%;
+	position: absolute;
+    right: 0;
+    top: 0;
+    width: 75%;
+    margin-right: 20px;
+}
+
+
+.hrDivider{
+	border: 0; 
+	height: 1px; 
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	margin: 25px;
+	position: relative;
+}
+
+
+

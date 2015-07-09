@@ -256,6 +256,20 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 			
 			return c.promise;
 	 }
+	 
+	 var getSingleStatus = function(idScenario, idPost){
+		 var s = $q.defer();
+		 
+		 $http.get("/ThesisProject/api/v1/scenarios/"+idScenario+"/posts/"+idPost).then(
+			 function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		 );
+		 return s.promise;
+	 }
 	
 	
 //	var onSuccessGetScenario = function(response){
@@ -287,7 +301,8 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		removeUserFromCharacter: removeUserFromCharacter,
 		/*Gesitone post*/
 		sendStatus: sendStatus,
-		getPagedPosts : getPagedPosts
+		getPagedPosts : getPagedPosts,
+		getSingleStatus: getSingleStatus
 	}
 	
 	

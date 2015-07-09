@@ -15,5 +15,64 @@ angular.module("smiled.application").constant("CONSTANTS",{
 		 				  },
 	"urlMediaScenarioPost": function(idScenario){
 								return "api/v1/scenarios/"+idScenario+"/media";
+	},
+	"urlMedia" : function(id){
+		return "api/v1/media/"+id;
+	},
+	"urlPost" : function(idScenario, idPost){
+			return "api/v1/scenarios/"+idScenario+"/posts/"+idPost;
+	},
+	"monthString": function(month){
+		var m;
+		switch(month){
+			case '1': {
+				m = "gennaio";
+				break;
+			}
+			case '2': {
+				m = "febbraio";
+				break;
+			}
+			case '3': {
+				m = "marzo";
+				break;
+			}
+			case '4': {
+				m = "aprile";
+				break;
+			}
+			case '5': {
+				m = "maggio";
+				break;
+			}
+			case '6': {
+				m = "giugno";
+				break;
+			}
+			case '7': {
+				m = "luglio";
+				break;
+			}
+			case '8': {
+				m = "agosto";
+				break;
+			}
+			case '9': {
+				m = "settembre";
+				break;
+			}
+			case '10': {
+				m = "ottobre";
+				break;
+			}
+			case '11': {
+				m = "novembre";
+				break;
+			}case '12': {
+				m = "dicembre";
+				break;
+			}
+		}
+		return m;
 	}
 });

@@ -125,6 +125,8 @@ public class AsyncUpdater {
 		@Override
 		public void run(){
 			
+			boolean creatorOpen = false;
+			
 			usersId = new ArrayList<String>();
 			if(scenario.getAttendees()!=null)
 				for(Reference r : scenario.getAttendees())
@@ -153,6 +155,9 @@ public class AsyncUpdater {
 							userRepository.openScenarioToUser(userId, ref);
 						/*Nel caso il Character sia interpretato da un Collaborator invece devo solo aggiungere i riferimenti al Character 
 						 * allo User*/
+						}else if(scenario.getTeacherCreator().getId().equals(userRef.getId())){
+							userRepository.openScenarioToUser(userRef.getId(), ref);
+							creatorOpen=true;
 						}else{
 							Reference charRef = new Reference();
 							charRef.setId(character.getId());
@@ -177,7 +182,8 @@ public class AsyncUpdater {
 				for(Reference r : scenario.getCollaborators())
 					usersId.add(r.getId());
 			
-			usersId.add(scenario.getTeacherCreator().getId());
+			if(!creatorOpen)
+				usersId.add(scenario.getTeacherCreator().getId());
 			
 			userRepository.openScenarioToUsers(usersId, new ScenarioReference(scenario));
 		}

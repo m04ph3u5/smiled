@@ -50,14 +50,26 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 			toSendPost.text = self.newPost.content;
 			toSendPost.historicalDate = self.newPost.date;
 			toSendPost.status = "PUBLISHED";
+			if(self.newPost.image.id)
+				toSendPost.imageId = self.newPost.image.id;
+			if(self.newPost.file.id)
+				toSendPost.imageId = self.newPost.file.id;
 			apiService.sendStatus($scope.scenario.scen.id, $scope.scenario.currentCharacter.id, toSendPost).then(
 					function(data){
 						console.log("sended: "+data);
 						self.newPost.content="";
-						self.newPost.image=null;
-						self.newPost.file=null;
+						self.newPost.image={};
+						self.newPost.file={};
 						self.newPost.date={afterChrist : true};
 						self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+						apiService.getSingleStatus(self.scen.id, data.id).then(
+								function(data){
+									self.posts.unshift(data);
+								},
+								function(reason){
+									console.log("error in insert new post in array");
+								}
+						);
 					},
 					function(reason){
 						console.log("error in send status: "+reason);
@@ -114,12 +126,31 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		}
 	}
 	
-//	apiService.getPagedPosts(self.scen.id, 0, 5, false).then(
-//			function(data){
-//				
-//			
-//			}, function(reason){
-//				console.log("errore");
-//			}
-//	);
+	self.getUrlCoverCharacter = function(id){
+		return CONSTANTS.urlCoverCharacter(self.scen.id,id);
+	}
+	
+	self.getUrlMedia = function(id){
+		console.log(CONSTANTS.urlMedia(id));
+		return CONSTANTS.urlMedia(id);
+	}
+	
+	self.formatDate = function(date){
+		if(date.afterChrist)
+			era="D.C.";
+		else
+			era="A.C.";
+		
+		return date.day+" / "+date.month+" / "+date.year+" "+era;
+	}
+	
+	apiService.getPagedPosts(self.scen.id, 0, 30, false).then(
+			function(data){
+				self.posts = data.content;
+			}, function(reason){
+				console.log("errore");
+			}
+	);
+	
+	
 }]);
