@@ -80,18 +80,18 @@
 		.btn-danger{
 			background-color:#cb654f;
 		}
-		.generalButton{
+		.generalButton, .generalButton1{
 			background:transparent;
 			border-color:#5b5955;
 			margin-top:1%;			
 		}
-		.generalButton2,.generalButton2:hover{
-			background:transparent;
-			border-color:#404b41;
-			color:#404b41;		
-			
-			margin-bottom:20px;
+		.generalButton:focus,.generalButton:hover{
+			background:#cdc08c;
 		}
+		.generalButton1:focus,.generalButton1:hover{
+			background:#abbe90;
+		}
+		
 		.positiveButton{
 			background:transparent;
 			border-color:#89b151;
@@ -424,6 +424,9 @@
 		.panel-title>a, .panel-title>a:hover, .panel-title>a:focus{
 			color:#5B5955;
 			text-decoration:none;
+		}
+		.linkImg{
+			margin-top:25%;
 		}
 
 /*Non ancora classificato*/

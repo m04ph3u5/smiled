@@ -721,7 +721,11 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.showPopUpSetDate = function(flagFirst){
 			modalService.showPopUpSetDate(self.scenario, flagFirst);
 		}
-		
+		self.isStudent = function(s){
+			if(s.type== 'Student')
+				return true;
+			else return false;
+		}
 		
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/

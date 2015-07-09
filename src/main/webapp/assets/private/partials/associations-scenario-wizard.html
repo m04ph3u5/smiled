@@ -13,8 +13,15 @@
 				ng-repeat="a in scenarioWizard.notAssociatedAttendees track by $index">
 				<div class="row">	
 					<div class="col-sm-3 col-xs-12"></div>
-					<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{a.cover}}" 
-								data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} 
+					<div ng-if=" scenarioWizard.isStudent(a)">
+						<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{a.cover}}" 
+									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}}
+						</div>
+					</div>
+					<div ng-if="!scenarioWizard.isStudent(a)">
+						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
+										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (docente)
+						</div>
 					</div>
 					<div class="col-sm-3 col-xs-12"></div>
 				</div>
@@ -37,7 +44,7 @@
 				
 				</div>
 	</div>
-	
+	</div>
 	<div class="container form-inline" style="text-align: center;">
           <div class="btn btn-droppable" ng-repeat="item in list5" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
             <div class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true, onStart: 'dragCallback($index)'}" ng-hide="!item.title">{{item.title}}</div>
@@ -48,18 +55,22 @@
 	<div class="text-center">
 		<label>ASSOCIAZIONI</label>
 <!-- 			Mettere qualcosa se non ci sono associazioni -->
-		<div class="row" data-ng-repeat="a in scenarioWizard.associations">
-			<div class="col-xs-6 col-xs-offset-3">				
-				<div class="btn generalButton">
-					<img data-ng-src="{{a.attendee.cover}}/" 
-									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
-				</div>
-				<img hide-on-hover-parent data-ng-src="assets/public/img/red.png" class="img-circle imgPreviewM">
-				<img show-on-hover-parent style="display:none" data-ng-src="assets/public/img/logo.png" class="img-circle imgPreviewM" data-ng-click="scenarioWizard.removeAssociation(a)">
-				<div class="btn generalButton">
-					<img data-ng-src="{{a.character.cover}}" 
-										data-err-src="assets/public/img/napoleone.png" class="img-circle imgPreviewL"> {{a.character.name}}
-				</div>
+		<div data-ng-repeat="a in scenarioWizard.associations">
+		<div class="row">
+			<div class="col-sm-1"></div>					
+			<div class="col-xs-4 btn generalButton">
+				<img data-ng-src="{{a.attendee.cover}}/" 
+					 data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
+			</div>
+			<div class="col-sm-2">
+				<img hide-on-hover-parent data-ng-src="assets/public/img/red.png" class="linkImg img-circle imgPreviewM">
+				<img show-on-hover-parent style="display:none" data-ng-src="assets/public/img/logo.png" class="linkImg img-circle imgPreviewM" data-ng-click="scenarioWizard.removeAssociation(a)">
+			</div>
+			<div class="col-xs-4 btn generalButton">
+				<img data-ng-src="{{a.character.cover}}" 
+					data-err-src="assets/public/img/napoleone.png" class="img-circle imgPreviewL"> {{a.character.name}}
+			</div>
+			<div class="col-sm-1"></div>
 			</div>
 		</div>
 	</div>
