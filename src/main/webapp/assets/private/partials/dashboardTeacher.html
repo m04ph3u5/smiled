@@ -18,7 +18,7 @@
 					<div class="row marginMTop">
 						<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
 <!-- 						ng-click="dashboard.showPopUpCreationScenario()" -->
-							<img href="" src="assets/public/img/Icon_WriteArticles.png"
+							<img href="" src="assets/public/img/ic_newscenario.png"
 								class="img-circle imgPreviewL">
 							<h4>
 								<i>Crea scenario</i>
@@ -29,7 +29,7 @@
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios | limitTo:4">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/logo.png"
+								data-err-src="assets/public/img/ic_creatingscenario.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
@@ -41,7 +41,7 @@
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/logo.png"
+								data-err-src="assets/public/img/ic_creatingscenario.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
@@ -50,7 +50,7 @@
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios | limitTo:4-dashboard.user.creatingScenarios.length">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/logo.png"
+								data-err-src="assets/public/img/ic_openscenario.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
@@ -62,7 +62,7 @@
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/logo.png"
+								data-err-src="assets/public/img/ic_creatingscenario.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
@@ -71,7 +71,7 @@
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios">
 							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/logo.png"
+								data-err-src="assets/public/img/ic_openscenario.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle"
 								src="assets/public/img/100-719.jpg">
@@ -80,7 +80,7 @@
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.closedScenarios | limitTo: 4-dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length">
 							<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
-								data-err-src="assets/public/img/logo.png"
+								data-err-src="assets/public/img/ic_closedscenario.png"
 								class="img-circle imgPreviewL"> <img
 								class="overlapImg img-circle" src="assets/public/img/red.png">
 							<h4>{{s.name}}</h4>
@@ -90,7 +90,12 @@
 						
 						
 						<div class="col-sm-2">
-							<div ui-sref="expandScenarios">Vedi altri</div>
+						<div ui-sref="logged.dashboard.scenariosList">
+						<img data-ng-src="assets/public/img/ic_viewmore.png"								
+								class="imgPreviewL">
+							
+							<h4>Vedi altri</h4>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -101,7 +106,7 @@
 						<tbody>
 							<tr data-ng-repeat="a in dashboard.user.students | limitTo:3">
 								<td><img data-ng-src="api/v1/users/{{a.id}}/cover"
-									data-err-src="assets/public/img/user_ico.png"
+									data-err-src="assets/public/img/ic_student.png"
 									class="img-circle imgPreviewM tableMargin"></td>
 								<td><span>{{a.lastname}} {{a.firstname}}</span></td>
 							</tr>
@@ -114,7 +119,7 @@
 						<tbody>
 							<tr data-ng-repeat="c in dashboard.user.colleagues | limitTo:3">
 								<td><img data-ng-src="/media/img/cover/users/{{c.id}}"
-									data-err-src="assets/public/img/user_ico.png"
+									data-err-src="assets/public/img/ic_teacher.png"
 									class="img-circle imgPreviewM tableMargin"></td>
 								<td><span>{{c.lastname}} {{c.firstname}}</span></td>
 							</tr>

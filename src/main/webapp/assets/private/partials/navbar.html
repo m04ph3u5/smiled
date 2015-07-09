@@ -10,7 +10,7 @@
 			<span class="icon-bar"></span>
 		</button>
 		 <a data-ui-sref="logged.dashboard" href="">
-		 	<img width="35px" height="35px" src="assets/public/img/logo.png">Smiled</img>
+		 	<img width="35px" height="35px" src="assets/public/img/logo.png">SMILED</img>
 		 </a>
 		
 	</div>
@@ -22,12 +22,12 @@
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li class="dropdown">
+			<li class="dropdown" style="margin-top:5%">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 					<span class="glyphicon glyphicon-bullhorn"></span>
 					<span class="caret"></span>
 				</a>
-				<ul class="dropdown-menu" role="menu">
+				<ul class="dropdown-menu"  style="margin-top:5%"role="menu">
 					<li><a href="#">Guidi Marco ha inserito un nuovo post</a></li>
 					<li><a href="#">A Rea Anna piace il post di Renzo</a></li>
 					<li><a href="#">Rea Anna ha completato un compito</a></li>
@@ -36,7 +36,7 @@
 					<li class="divider"></li>
 					<li><a href="#">Vedi tutte</a></li>
 				</ul></li>
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
+			<li class="dropdown"  style="margin-top:5%"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-envelope"></span><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
@@ -48,9 +48,14 @@
 				</ul></li>
 			<li>
 <!-- 				<a href=""><img src="assets/public/img/user_ico.png" class="img-circle" width="20" height="20"> Utente </a> -->
-				<a data-ui-sref="logged.userProfile" href=""><img data-ng-src="{{navbar.cover}}" class="img-circle" width="30" height="30"> {{navbar.user.firstName}} {{navbar.user.lastName}}</a>
+				<a data-ui-sref="logged.userProfile" href="">
+					<img data-ng-src="{{navbar.cover}}" 
+					data-err-src="assets/public/img/ic_teacher.png"
+					class="img-circle imgPreviewM"> 
+					{{navbar.user.firstName}} {{navbar.user.lastName}}
+				</a>
 			</li>
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
+			<li class="dropdown"  style="margin-top:5%"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-cog"><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
