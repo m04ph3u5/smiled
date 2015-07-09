@@ -99,7 +99,7 @@
 					<h3 data-ui-sref="logged.dashboard.studentsList">Alunni</h3>
 					<table>
 						<tbody>
-							<tr data-ng-repeat="a in dashboard.user.students">
+							<tr data-ng-repeat="a in dashboard.user.students | limitTo:3">
 								<td><img data-ng-src="api/v1/users/{{a.id}}/cover"
 									data-err-src="assets/public/img/user_ico.png"
 									class="img-circle imgPreviewM tableMargin"></td>
@@ -112,7 +112,7 @@
 					<h3 data-ui-sref="logged.dashboard.colleaguesList">Colleghi</h3>
 					<table>
 						<tbody>
-							<tr data-ng-repeat="c in dashboard.user.colleagues">
+							<tr data-ng-repeat="c in dashboard.user.colleagues | limitTo:3">
 								<td><img data-ng-src="/media/img/cover/users/{{c.id}}"
 									data-err-src="assets/public/img/user_ico.png"
 									class="img-circle imgPreviewM tableMargin"></td>
