@@ -3,12 +3,12 @@ angular.module("smiled.application").directive("historicalDatePicker",[ function
 		restrict: "AE",
         templateUrl: "assets/public/partials/historicalDatePicker.html",
         scope: {
-        	year: "=",
-        	month: "=",
-        	day: "=",
-//        	hour: "=",
-//        	minute: "=",
-        	afterChrist: "="
+        	date: "="
+        },
+        link: function(scope,element,attr){
+        	scope.$watch('date', function(newValue,oldValue){
+        		newValue.formatted=newValue.day+"/"+newValue.month+"/"+newValue.year;
+        	},true);
         }
-	};
+    };
 }]);

@@ -3,14 +3,10 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	var self = this;
 	self.scen = $scope.scenario.scen;
 	self.posts = [];
-	self.newPost = {
-			year: "",
-			month: "",
-			day: "",
-			hour: "",
-			minute: "",
-			afterChist: ""
-	};
+	self.newPost = {};
+	self.newPost.date = {};
+	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+	
 	self.showDatePicker=false;
 	
 	self.addImageToNewPost = function(){
