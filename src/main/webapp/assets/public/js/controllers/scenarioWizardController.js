@@ -53,7 +53,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						updateCover();
 						updateSelectableCollaborators();
 						
-						updateAssociated();
 
 						retrieveCharacterAndOrder();
 					
@@ -693,7 +692,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								self.associations.splice(i,1);
 							},
 							function(reason){
-								console.log("Removing asssociation failed:" +reason);
+								console.log("Removing association failed:" +reason);
 							}
 					);
 					break;
