@@ -53,6 +53,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						updateCover();
 						updateSelectableCollaborators();
 						
+						updateAssociated();
 
 						retrieveCharacterAndOrder();
 					
@@ -105,7 +106,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var updateAssociated = function(){
 			var teacherPlay=false;
-			if(self.scenario.attendees){
+			if(self.scenario.attendees){ //TODO Sistemare il fatto che se non hai attendees non vedi nemmeno i characters
 				var attendees = angular.copy(self.scenario.attendees);
 				if(self.scenario.characters){
 					for(var i=0; i<self.scenario.characters.length; i++){
@@ -692,7 +693,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								self.associations.splice(i,1);
 							},
 							function(reason){
-								console.log("Removing association failed:" +reason);
+								console.log("Removing asssociation failed:" +reason);
 							}
 					);
 					break;
