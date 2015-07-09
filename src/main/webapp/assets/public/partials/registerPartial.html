@@ -16,15 +16,15 @@
 			<form role="form" novalidate>
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="NOME"
-						data-ng-model="register.user.firstName" required></input>
+						data-ng-model="register.user.firstName" ></input>
 					<div class="form-group"></div>
 					<input type="text" class="form-control" placeholder="COGNOME"
-						data-ng-model="register.user.lastName" required></input>
+						data-ng-model="register.user.lastName" ></input>
 				</div>
 				<div class="form-group">
 					<form class="form-inline">
 						<div class="form-group">
-							<input ui-date="dateOptions" class="form-control" required
+							<input ui-date="dateOptions" class="form-control" 
 								data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
 						</div>
 				</div>
@@ -32,16 +32,16 @@
 
 				<div class="form-group">
 					<label>Account</label> <input type="text" class="form-control"
-						placeholder="EMAIL" data-ng-model="register.user.email" required></input>
+						placeholder="EMAIL" data-ng-model="register.user.email" ></input>
 				</div>
 				<div class="form-group">
 					<input type="password" class="form-control" placeholder="PASSWORD"
-						data-ng-model="register.user.password" required></input>
+						data-ng-model="register.user.password" ></input>
 				</div>
 				<div class="form-group">
 					<input type="password" class="form-control"
 						placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"
-						required></input>
+						></input>
 				</div>
 				
 				<button data-ng-click="register.postRegister()"
