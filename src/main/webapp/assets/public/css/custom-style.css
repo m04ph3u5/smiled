@@ -75,10 +75,22 @@
 		*::-ms-input-placeholder { color: #5B5955; }
 		
 		.btn-success{
+			margin-top:1%;
 			background-color:#89b151;
 		}
 		.btn-danger{
+			margin-top:1%;
 			background-color:#cb654f;
+		}
+		.btn-warning{
+			margin-top:1%;	
+			background-color:#fd8467;
+			border-color:#cb654f;
+		}
+		.btn-warning:hover, .btn-warning:focus{
+			margin-top:1%;
+			background-color:#e06042;
+			border-color:#cb654f;
 		}
 		.generalButton, .generalButton1{
 			background:transparent;
@@ -368,7 +380,7 @@
 		}
 		.stepTitle,.stepTitle:hover{
 			margin-top:3%;
-			color:#404b41;
+			color:#777;
 		}
 		.wizard a {
 		    display: inline-block;
@@ -381,7 +393,7 @@
 		    text-align: center;
 		}
 		.wizard .active {
-			background: #abbe90;
+			background: #cbdbb4;
 		}
 		.textLeft{
 			text-align: left;
@@ -426,7 +438,7 @@
 			text-decoration:none;
 		}
 		.linkImg{
-			margin-top:25%;
+			margin-top:35%;
 		}
 
 /*Non ancora classificato*/
