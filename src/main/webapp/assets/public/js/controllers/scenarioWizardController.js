@@ -65,6 +65,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 		}
 		
+		self.isScenarioActive = function(){
+			if (self.scenarioServer.status == 'ACTIVE')
+				return true;
+			else 
+				return false;
+		}
+		
 		var retrieveCharacterAndOrder = function(){
 			
 			apiService.getAllCharactersFromScen(id).then(
@@ -715,6 +722,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			);
 		}
 		
+		self.closeScenario = function(){
+			console.log("chiusura scenario da implementare");
+		}
+		
+		self.suspendScenario = function(){
+			console.log("sospensione scenario da implementare");
+		}
 		
 		
 		
