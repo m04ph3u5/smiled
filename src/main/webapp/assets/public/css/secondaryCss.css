@@ -1,0 +1,4 @@
+tooltips:before{ content:attr(title); display:none; }
+
+tooltips:hover::before{ width:200px; display:block; background:yellow; border:1px solid black; padding:8px; margin:25px 0 0 10px; }
+

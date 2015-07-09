@@ -1,22 +1,6 @@
 <div class="box">
 
-		<select class="selectpicker" data-ng-model="month" >
-		    <option value="" disabled selected style="display:none;">Mese</option>
-		    <option value="1">Gennaio</option>
-		    <option value="2">Febbraio</option>
-		    <option value="3">Marzo</option>
-		    <option value="4">Aprile</option>
-		    <option value="5">Maggio</option>
-		    <option value="6">Giugno</option>
-		    <option value="7">Luglio</option>
-		    <option value="8">Agosto</option>
-		    <option value="9">Settembre</option>
-		    <option value="10">Ottobre</option>
-		    <option value="11">Novembre</option>
-		    <option value="12">Dicembre</option>
- 		</select>
- 		
-		<select class="selectpicker"  data-ng-model="day">
+		<select class="selectpicker customInput2"  data-ng-model="date.day">
 		    <option value="" disabled selected style="display:none;">Giorno</option>
 		    <option>1</option>
 		    <option>2</option>
@@ -50,11 +34,25 @@
 		    <option>30</option>
 		    <option>31</option>
  		</select>
- 		
-		<input style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="year"  placeholder="Anno"/>
+ 		<select class="selectpicker customInput2" data-ng-model="date.month" >
+		    <option value="" disabled selected style="display:none;">Mese</option>
+		    <option value="1">Gennaio</option>
+		    <option value="2">Febbraio</option>
+		    <option value="3">Marzo</option>
+		    <option value="4">Aprile</option>
+		    <option value="5">Maggio</option>
+		    <option value="6">Giugno</option>
+		    <option value="7">Luglio</option>
+		    <option value="8">Agosto</option>
+		    <option value="9">Settembre</option>
+		    <option value="10">Ottobre</option>
+		    <option value="11">Novembre</option>
+		    <option value="12">Dicembre</option>
+ 		</select>
+		<input class="customInput" style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="date.year"  placeholder="Anno"/>
 
 		<span class="btn-group">
-			<label class="btn-primary btn-sm" data-ng-model="afterChrist" btn-radio="false">A.C.</label>
-			<label class="btn-primary btn-sm" data-ng-model="afterChrist" btn-radio="true">D.C.</label>
+			<label class="btn buttonDC" data-ng-model="date.afterChrist" btn-radio="false">A.C.</label>
+			<label class="btn buttonDC" data-ng-model="date.afterChrist" btn-radio="true">D.C.</label>
 		</span>
 </div>

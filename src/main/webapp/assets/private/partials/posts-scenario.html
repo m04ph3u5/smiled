@@ -1,36 +1,49 @@
 <div class="container-fluid">
 	<div ng-if="scenario.hasCharacter">
-		<div>	
-			<div class="row col-md-10 col-md-offset-1 box">	
-				<div class="text-center">	
+		<div>
+			<div class="row col-md-10 col-md-offset-1 box">
+				<div class="text-center">
 					<div class="row">
 						<div class="pull-left">
-							<img style="margin: 5px; margin-left:20px;" class="img-thumbnail imgPreviewL" data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/cesar.png"></img><i>{{scenario.currentCharacter.name}}</i>
+							<img style="margin: 5px; margin-left: 20px;"
+								class="img-thumbnail imgPreviewL"
+								data-ng-src="{{scenario.currentCharacter.cover}}"
+								data-err-src="assets/public/img/cesar.png"></img><i>{{scenario.currentCharacter.name}}</i>
 						</div>
-					</div>			
-					<textarea placeholder="A cosa stavi pensando?" class="col-md-12" rows="5" data-ng-model="scenarioPost.newPost.content"></textarea>
+						<div style="margin-right:15px;" class="pull-right">
+							<label data-ng-click="scenarioPost.setDateNewPost()">{{scenarioPost.newPost.date.formatted}}</label>
+							<div data-ng-click="scenarioPost.setDateNewPost()"
+								class="glyphicon glyphicon-calendar"></div>
+								<div data-ng-show="scenarioPost.showDatePicker"
+									historical-date-picker date="scenarioPost.newPost.date"></div>
+						</div>
+					</div>
+					<textarea placeholder="A cosa stavi pensando?" class="col-md-12"
+						rows="5" data-ng-model="scenarioPost.newPost.content"></textarea>
 				</div>
 				<div class="pull-left">
-					<span data-ng-click="scenarioPost.addImageToNewPost()" class="glyphicon glyphicon-camera"></span><label>{{scenarioPost.newPost.image}}</label>
-					<span data-ng-click="scenarioPost.addFileToNewPost()" class="glyphicon glyphicon-file"></span><label>{{scenarioPost.newPost.file}}</label>
-					<span data-ng-click="scenarioPost.setPositionNewPost()" class="glyphicon glyphicon-map-marker"></span><label></label>
-				</div> 
-				<div class="pull-right">
-					<div data-ng-click="scenarioPost.setDateNewPost()" class="glyphicon glyphicon-calendar">
-						<div data-ng-show="scenarioPost.showDatePicker" historical-date-picker year="scenarioPost.newDate.year" month="scenarioPost.newDate.month"
-							day="scenarioPost.newDate.day" afterChrist="scenarioPost.newDate.afterChrist"></div>
-					</div><label>{{scenarioPost.newDate.year}} {{scenarioPost.newDate.month}} </label>
+					<span title="Aggiungi un'immagine al post" data-ng-click="scenarioPost.addImageToNewPost()"
+						class="tooltips glyphicon glyphicon-camera" style="margin-right:5px;"></span><label>{{scenarioPost.newPost.image}}</label>
+					<span title="Allega un file al post" data-ng-click="scenarioPost.addFileToNewPost()"
+						class="tooltips glyphicon glyphicon-file" style="margin-right:5px;"></span><label>{{scenarioPost.newPost.file}}</label>
+					<span title="Aggiungi una posizione al post" data-ng-click="scenarioPost.setPositionNewPost()"
+						class="tooltips glyphicon glyphicon-map-marker" style="margin-right:5px;"></span><label></label>
+					<span title="Tagga personaggi al post" data-ng-click="scenarioPost.tagToNewPost()"
+						class="tooltips glyphicon glyphicon-tags" style="margin-right:5px;"></span><label></label>
+					<span title="Indica le tue fonti" data-ng-click="scenarioPost.addSourceToNewPost()"
+						class="tooltips glyphicon glyphicon-book" style="margin-right:5px;"></span><label></label>
 				</div>
 			</div>
 			<div class="row col-md-10 col-md-offset-1">
 				<div class="pull-right">
-					<div data-ng-click="scenarioPost.draftNewPost()" class="btn btn-warning">Salva bozza</div>
-					<div data-ng-click="scenarioPost.saveNewPost()" class="btn btn-primary">Pubblica</div>
+					<div data-ng-click="scenarioPost.draftNewPost()"
+						class="btn btn-warning">Salva bozza</div>
+					<div data-ng-click="scenarioPost.saveNewPost()"
+						class="btn btn-primary">Pubblica</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 box" ng-if="!scenario.hasCharacter">							
-			Non puoi creare un nuovo post
-	</div>
+	<div class="col-xs-12 box" ng-if="!scenario.hasCharacter">Non
+		puoi creare un nuovo post</div>
 </div>
