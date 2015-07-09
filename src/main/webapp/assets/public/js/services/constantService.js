@@ -2,7 +2,7 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"realDateFormatWithHour": "d-M-yyyy H:mm",
 	"realDateFormatWithoutHour": "d-M-yyyy",
 	"baseUrl" : "https://localhost:8443/ThesisProject",
-	"insertHistoricalDate" : "Inserisci la data del post", 
+	"insertHistoricalDate" : "Data il post", 
 	"urlMeCover" : "api/v1/me/cover",
 	"urlUserCover" : function(id){
 							return "api/v1/users/"+id+"/cover"
