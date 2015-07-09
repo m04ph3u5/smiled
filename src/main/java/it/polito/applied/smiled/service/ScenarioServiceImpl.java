@@ -36,6 +36,7 @@ import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.repository.CharacterRepository;
+import it.polito.applied.smiled.repository.FileMetadataRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
@@ -85,6 +86,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Autowired 
 	private UserService userService;
+	
+	@Autowired
+	private FileMetadataRepository fileMetadataRepository;
 
 	@Autowired 
 	private BCryptPasswordEncoder passwordEncoder;
@@ -1038,13 +1042,15 @@ public class ScenarioServiceImpl implements ScenarioService{
 		status.setScenarioId(scenarioId);
 		status.setPlace(statusDTO.getPlace());
 		status.setHistoricalDate(statusDTO.getHistoricalDate());
-		status.setMedia(statusDTO.getMedia());
 		status.setSources(statusDTO.getSources());
+		status.setImageId(statusDTO.getImageId());
+		status.setFileId(statusDTO.getFileId());
 		if(statusDTO.getStatus()==null)
 			status.setStatus(PostStatus.PUBLISHED);
 		else
 			status.setStatus(statusDTO.getStatus());
 	
+		
 		
 		status = postRepository.save(status);
 		
@@ -1054,6 +1060,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 			characterRepository.addPostToCharacter(character.getId(), postReference);
 		}else{
 			userRepository.addDraftPost(user.getId(), status.getId());
+		}
+		
+		if(status.getImageId()!=null){
+			fileMetadataRepository.addImageToPost(status.getImageId());
+		}
+		if(status.getFileId()!=null){
+			fileMetadataRepository.addFileToPost(status.getFileId());
 		}
 		
 		return new Id(status.getId());
@@ -1279,8 +1292,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getSources()!=null){
 			u.set("sources", statusDTO.getSources());
 		}
-		if(statusDTO.getMedia()!=null){
-			u.set("media",statusDTO.getMedia());
+		if(statusDTO.getImageId()!=null){
+			u.set("imageId",statusDTO.getImageId());
+			fileMetadataRepository.addImageToPost(statusDTO.getImageId());
+		}
+		if(statusDTO.getFileId()!=null){
+			u.set("fileId",statusDTO.getFileId());
+			fileMetadataRepository.addFileToPost(statusDTO.getFileId());
 		}
 		
 		u.set("lastChangeDate", new Date());

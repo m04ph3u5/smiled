@@ -14,7 +14,8 @@ public class StatusDTO {
 	private String text;
 	private String characterId;
 	private List<Tag> tags;
-	private Media media;
+	private String imageId;
+	private String fileId;
 	private List<Source> sources;
 	private PostStatus status;
 	private HistoricalDate historicalDate;
@@ -38,12 +39,7 @@ public class StatusDTO {
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
-	public Media getMedia() {
-		return media;
-	}
-	public void setMedia(Media media) {
-		this.media = media;
-	}
+	
 	public List<Source> getSources() {
 		return sources;
 	}
@@ -67,6 +63,18 @@ public class StatusDTO {
 	}
 	public void setPlace(Place place) {
 		this.place = place;
+	}
+	public String getImageId() {
+		return imageId;
+	}
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
+	public String getFileId() {
+		return fileId;
+	}
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
 	}
 	
 	

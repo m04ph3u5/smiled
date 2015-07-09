@@ -23,7 +23,8 @@
 				</div>
 				<div class="pull-left">
 					<div title="Aggiungi un'immagine al post" ngf-select ngf-change="scenarioPost.addImageToNewPost($files)"
-						class="tooltips glyphicon glyphicon-camera" style="margin-right:5px;"></div><div data-ng-show="scenarioPost.newPost.image.name">{{scenarioPost.newPost.image.name}}<span class="pull-right glyphicon glyphicon-remove" data-ng-click="scenarioPost.removeImage()"></span></div>
+						class="tooltips glyphicon glyphicon-camera" style="margin-right:5px;"></div>
+						{{scenarioPost.newPost.image.name}} <span data-ng-show="scenarioPost.newPost.image.name" show-on-hover-parent class="glyphicon glyphicon-remove" data-ng-click="scenarioPost.removeImage()"></span>
 					<div title="Allega un file al post" data-ng-click="scenarioPost.addFileToNewPost()"
 						class="tooltips glyphicon glyphicon-file" style="margin-right:5px;"></div><label>{{scenarioPost.newPost.file.name}}</label>
 					<div title="Aggiungi una posizione al post" data-ng-click="scenarioPost.setPositionNewPost()"

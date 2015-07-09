@@ -65,6 +65,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 		}
 		
+		self.isScenarioActive = function(){
+			if (self.scenarioServer.status == 'ACTIVE')
+				return true;
+			else 
+				return false;
+		}
+		
 		var retrieveCharacterAndOrder = function(){
 			
 			apiService.getAllCharactersFromScen(id).then(
@@ -106,7 +113,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var updateAssociated = function(){
 			var teacherPlay=false;
-			if(self.scenario.attendees){
+			if(self.scenario.attendees){ //TODO Sistemare il fatto che se non hai attendees non vedi nemmeno i characters
 				var attendees = angular.copy(self.scenario.attendees);
 				if(self.scenario.characters){
 					for(var i=0; i<self.scenario.characters.length; i++){
@@ -715,6 +722,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			);
 		}
 		
+		self.closeScenario = function(){
+			console.log("chiusura scenario da implementare");
+		}
+		
+		self.suspendScenario = function(){
+			console.log("sospensione scenario da implementare");
+		}
 		
 		
 		
