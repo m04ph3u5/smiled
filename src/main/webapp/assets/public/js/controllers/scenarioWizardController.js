@@ -3,7 +3,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
                                                                        'Upload', 'CONSTANTS', '$q','modalService',
                                                                        '$timeout',
    function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS, $q, modalService, $timeout){
-	/*to*/
+	
 	 	var self = this;
 		/*Variabile che contiene lo scenario prelevato dalla getScenario
 		 * self.scenario.characters è l'array di Reference a Character contenuto in scenario*/
@@ -53,6 +53,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						updateCover();
 						updateSelectableCollaborators();
 						
+						updateAssociated();
 
 						retrieveCharacterAndOrder();
 					
@@ -692,7 +693,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								self.associations.splice(i,1);
 							},
 							function(reason){
-								console.log("Removing association failed:" +reason);
+								console.log("Removing asssociation failed:" +reason);
 							}
 					);
 					break;
