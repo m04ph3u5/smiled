@@ -1,14 +1,14 @@
-angular.module('smiled.application').factory('apiService', ['$http', '$q',
-              function apiService($http,$q){
+angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Restangular',
+              function apiService($http,$q, Restangular){
 	
 	/*TODO Da riscrivere utilizzando il pattern giusto $http*/
 	
-//	var register = Restangular.one('register');
-//	
-//	function postRegister(registerObject){
-//		console.log(registerObject);
-//		return register.post("",registerObject);
-//	}
+	var register = Restangular.one('register');
+	
+	function postRegister(registerObject){
+		console.log(registerObject);
+		return register.post("",registerObject);
+	}
 	
 //	function createScenario(scenarioDTO){
 //		var scenario = Restangular.one("scenarios");
@@ -227,6 +227,20 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q',
 	}
 	
 /*      -------------- GESTIONE DEI POST-----------------*/	
+	
+	var sendStatus = function(id, idCharacter, status){
+		var s = $q.defer();
+		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+idCharacter+"/status", status).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
 	 var getPagedPosts = function(id, nPag, nItem, historicalOrder){
 			var c = $q.defer();
 			
@@ -271,7 +285,8 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q',
 		getAllCharactersFromScen : getAllCharactersFromScen,
 		addUserToCharacter: addUserToCharacter,
 		removeUserFromCharacter: removeUserFromCharacter,
-		
+		/*Gesitone post*/
+		sendStatus: sendStatus,
 		getPagedPosts : getPagedPosts
 	}
 	

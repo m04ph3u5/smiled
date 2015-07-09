@@ -4,6 +4,7 @@ import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
+import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.FileManagerService;
 
@@ -105,8 +106,8 @@ public class FileUploadController extends BaseController{
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@RequestMapping(value="scenarios/{idScenario}/media", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'WRITE')")
-	public String postMedia(@PathVariable String idScenario, @RequestPart("file") MultipartFile media, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
-		return fileManagerService.postMedia(media, user, idScenario);
+	public Id postMedia(@PathVariable String idScenario, @RequestPart("file") MultipartFile media, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
+		return new Id(fileManagerService.postMedia(media, user, idScenario));
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
