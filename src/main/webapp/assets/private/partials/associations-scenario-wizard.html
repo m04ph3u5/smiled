@@ -18,12 +18,12 @@
 									data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}}
 						</div>
 					</div>
-					<div ng-if="!scenarioWizard.isStudent(a) && !a==scenarioWizard.scenario.teacherCreator">
+					<div ng-if="!scenarioWizard.isStudent(a) && !a.id==scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
 										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (docente)
 						</div>
 					</div>
-					<div ng-if="!scenarioWizard.isStudent(a) && a==scenarioWizard.scenario.teacherCreator">
+					<div ng-if="!scenarioWizard.isStudent(a) && a.id==scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
 										data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (creatore)
 						</div>
@@ -62,10 +62,24 @@
 <!-- 			Mettere qualcosa se non ci sono associazioni -->
 		<div data-ng-repeat="a in scenarioWizard.associations">
 		<div class="row">
-			<div class="col-sm-1"></div>					
-			<div class="col-xs-4 btn generalButton">
+			<div class="col-sm-1"></div>
+			<div ng-if=" scenarioWizard.isStudent(a.attendee)">
+				<div class="col-xs-4 btn generalButton">
 				<img data-ng-src="{{a.attendee.cover}}/" 
 					 data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
+				</div>
+			</div>								
+			<div ng-if="!scenarioWizard.isStudent(a.attendee) && !a.attendee.id==scenarioWizard.scenario.teacherCreator.id">
+				<div class="col-xs-4 btn generalButton1">
+				<img data-ng-src="{{a.attendee.cover}}/" 
+					 data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (docente)
+				</div>
+			</div>
+			<div ng-if="!scenarioWizard.isStudent(a.attendee) && a.attendee.id==scenarioWizard.scenario.teacherCreator.id">
+				<div class="col-xs-4 btn generalButton1">
+					<img data-ng-src="{{a.attendee.cover}}/" 
+						 data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (creatore)
+				</div>
 			</div>
 			<div class="col-sm-2">
 				<img hide-on-hover-parent data-ng-src="assets/public/img/red.png" class="linkImg img-circle imgPreviewM">
