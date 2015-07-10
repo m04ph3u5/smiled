@@ -312,6 +312,20 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		);
 		return s.promise;
 	}
+	
+	var sendEvent = function(idScenario, event){
+		var s = $q.defer();
+
+		$http.post("/ThesisProject/api/v1/scenarios/"+idScenario+"/events",event).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
 
 
 //	var onSuccessGetScenario = function(response){
@@ -347,7 +361,8 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		getSingleStatus: getSingleStatus,
 		addLikeToPost: addLikeToPost,
 		sendCommentToPost: sendCommentToPost,
-		sendMetaCommentToPost: sendMetaCommentToPost
+		sendMetaCommentToPost: sendMetaCommentToPost,
+		sendEvent: sendEvent
 	}
 
 

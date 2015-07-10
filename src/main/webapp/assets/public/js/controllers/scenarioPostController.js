@@ -4,15 +4,28 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.scen = $scope.scenario.scen;
 	self.currentCharacter = $scope.scenario.currentCharacter;
 	self.posts = [];
+	
 	self.newPost = {};
 	self.newPost.date = {
 			afterChrist : true
 	};
+	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+	
+	self.newEvent = {};
+	self.newEvent.date = {
+			afterChrist : true
+	};
+	self.newEvent.date.formatted=CONSTANTS.insertHistoricalDateEvent;
+	
 	self.newPost.image = {};
 	self.newPost.file  = {};
-	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 	self.showDatePicker=false;
-	self.commentTab=true;
+	self.showDatePickerEvent=false;
+
+	if($scope.scenario.hasCharacter)
+		self.commentTab=true;
+	else
+		self.commentTab=false;
 	
 	self.realDateFormat = CONSTANTS.realDateFormatWithHour;
 	
@@ -37,6 +50,10 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.setDateNewPost = function(){
 		console.log("setDateNewPost");
 		self.showDatePicker = !self.showDatePicker;
+	}
+	
+	self.setDateNewEvent = function(){
+		self.showDatePickerEvent = !self.showDatePickerEvent;
 	}
 	
 	self.tagToNewPost = function(){
@@ -72,6 +89,46 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 									if(self.posts[0].imageId)
 										self.posts[0].imageUrl = CONSTANTS.urlMedia(self.posts[0].imageId);
 									self.posts[0].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[0].character.id);
+								},
+								function(reason){
+									console.log("error in insert new post in array");
+								}
+						);
+					},
+					function(reason){
+						console.log("error in send status: "+reason);
+					}
+			);
+		}else{
+			//TODO gestione alert errore
+		}
+	
+	}
+	
+	self.saveNewEvent = function(){
+		if(self.newEvent.content && (self.newEvent.date.formatted!=CONSTANTS.insertHistoricalDate)){
+			console.log("saveNewEvent");
+			var toSendEvent = {};
+			toSendEvent.text = self.newEvent.content;
+			toSendEvent.historicalDate = self.newEvent.date;
+			toSendEvent.status = "PUBLISHED";
+			if(self.newPost.image.id)
+				toSendPost.imageId = self.newPost.image.id;
+			if(self.newPost.file.id)
+				toSendPost.imageId = self.newPost.file.id;
+			apiService.sendEvent($scope.scenario.scen.id, toSendEvent).then(
+					function(data){
+						console.log("sended: "+data);
+						self.newEvent.content="";
+						self.newEvent.image={};
+						self.newEvent.file={};
+						self.newEvent.date={afterChrist : true};
+						self.newEvent.date.formatted=CONSTANTS.insertHistoricalDateEvent;
+						apiService.getSingleStatus(self.scen.id, data.id).then(
+								function(data){
+									self.posts.unshift(data);
+									if(self.posts[0].imageId)
+										self.posts[0].imageUrl = CONSTANTS.urlMedia(self.posts[0].imageId);
 								},
 								function(reason){
 									console.log("error in insert new post in array");
@@ -158,13 +215,15 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 					if(self.posts[i].imageId){
 						self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
 					}
-					self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
+					if(self.posts[i].character)
+						self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
 					for(var j=0; j<self.posts[i].likes.length; j++){
 						if(self.posts[i].likes[j].id==self.posts[i].character.id){
 							self.posts[i].youLike=true;
 							break;
 						}
 					}
+					console.log(self.posts[i].historicalDate);
 				}
 			}, function(reason){
 				console.log("errore");
@@ -193,7 +252,10 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	self.switchCommentTab = function(c){
-		self.commentTab = c;
+		if($scope.scenario.hasCharacter)
+			self.commentTab = c;
+		else
+			self.commentTab = false;
 	}
 	
 	self.addCommentToPost = function(s){
