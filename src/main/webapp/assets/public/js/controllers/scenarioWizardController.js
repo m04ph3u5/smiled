@@ -527,6 +527,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 		}
 		
+		self.enterInScenario = function(){
+			$state.go("logged.scenario.posts", {id : id});
+		}
 		
 		self.deleteAttendee = function(s){
 			apiService.removeUserFromScenario(id, s.id).then(
