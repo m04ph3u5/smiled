@@ -15,7 +15,7 @@
 							historical-date-picker date="scenarioPost.newEvent.date"></div>
 					</div>
 				</div>
-				<textarea placeholder="Racconta un evento" class="col-md-12"
+				<textarea placeholder="RACCONTA UN EVENTO" class="col-md-12"
 					rows="5" data-ng-model="scenarioPost.newEvent.content"></textarea>
 			</div>
 			<!-- 				<div class="pull-left"> -->
@@ -52,9 +52,9 @@
 		<div class="row col-md-10 col-md-offset-1">
 			<div class="pull-right">
 				<div data-ng-click="scenarioPost.draftNewEvent()"
-					class="btn btn-warning">Salva bozza</div>
+					class="btn generalButton">SALVA COME BOZZA</div>
 				<div data-ng-click="scenarioPost.saveNewEvent()"
-					class="btn btn-primary">Pubblica</div>
+					class="btn generalButton">PUBBLICA</div>
 			</div>
 		</div>
 		
@@ -77,7 +77,7 @@
 								historical-date-picker date="scenarioPost.newPost.date"></div>
 						</div>
 					</div>
-					<textarea placeholder="A cosa stavi pensando?" class="col-md-12"
+					<textarea placeholder="A COSA STAVI PENSANDO?" class="col-md-12"
 						rows="5" data-ng-model="scenarioPost.newPost.content"></textarea>
 				</div>
 				<div class="pull-left">
@@ -114,9 +114,9 @@
 			<div class="row col-md-10 col-md-offset-1">
 				<div class="pull-right">
 					<div data-ng-click="scenarioPost.draftNewPost()"
-						class="btn btn-warning">Salva bozza</div>
+						class="btn generalButton">SALVA COME BOZZA</div>
 					<div data-ng-click="scenarioPost.saveNewPost()"
-						class="btn btn-primary">Pubblica</div>
+						class="btn generalButton">PUBBLICA</div>
 				</div>
 			</div>
 		</div>
@@ -179,10 +179,10 @@
 					<div class="col-md-2"></div>
 					<div class="col-md-10" style="text-align: center;">
 						<div class="tabComment"
-							data-ng-click="scenarioPost.switchCommentTab(true)">Commenta</div>
+							data-ng-click="scenarioPost.switchCommentTab(true)">COMMENTA</div>
 						<div class="tabComment pull-right"
 							data-ng-click="scenarioPost.switchCommentTab(false)"
-							style="margin-right: 5px;">Dietro le quinte</div>
+							style="margin-right: 5px;">DIETRO LE QUINTE</div>
 					</div>
 					<div class="col-md-2"></div>
 					<div data-ng-if="scenarioPost.commentTab" class="col-md-10"
@@ -197,8 +197,8 @@
 							<textarea data-ng-model="s.newComment" rows="2"
 								style="margin: 5px;" class="col-md-12"
 								placeholder="Inserisci un commento"></textarea>
-							<div class="btn btn-primary btn-sm pull-right"
-								data-ng-click="scenarioPost.addCommentToPost(s)">Commenta</div>
+							<div class="btn generalButton btn-sm pull-right"
+								data-ng-click="scenarioPost.addCommentToPost(s)">COMMENTA</div>
 						</div>
 						<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 						</div>
@@ -211,7 +211,7 @@
 							</div>
 							<div class="col-md-10">
 								<div style="margin: 5px;" class="col-md-10">
-									<p class="pull-left">{{c.text}}</p>
+									<p class="pull-left"><label>{{c.character.firstname}}</label>: {{c.text}}</p>
 								</div>
 								<div class="col-md-1">
 									<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}}
@@ -232,8 +232,8 @@
 							<textarea data-ng-model="s.newMetaComment" rows="2"
 								style="margin: 5px;" class="col-md-12"
 								placeholder="Dai un suggerimento ai tuoi amici"></textarea>
-							<div class="btn btn-primary btn-sm pull-right"
-								data-ng-click="scenarioPost.addMetaCommentToPost(s)">Commenta</div>
+							<div class="btn generalButton btn-sm pull-right"
+								data-ng-click="scenarioPost.addMetaCommentToPost(s)">COMMENTA</div>
 						</div>
 						<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 						</div>
@@ -246,7 +246,8 @@
 							</div>
 							<div class="col-md-10">
 								<div style="margin: 5px;" class="col-md-10">
-									<p class="pull-left">{{c.text}}</p>
+									
+									<p class="pull-left"> {{c.text}}</p>
 								</div>
 							</div>
 						</div>
@@ -305,10 +306,10 @@
 					<div class="col-md-2"></div>
 					<div class="col-md-10" style="text-align: center;">
 						<div class="tabComment"
-							data-ng-click="scenarioPost.switchCommentTab(true)">Commenta</div>
+							data-ng-click="scenarioPost.switchCommentTab(true)">COMMENTA</div>
 						<div class="tabComment pull-right"
 							data-ng-click="scenarioPost.switchCommentTab(false)"
-							style="margin-right: 5px;">Dietro le quinte</div>
+							style="margin-right: 5px;">DIETRO LE QUINTE</div>
 					</div>
 					<div class="col-md-2"></div>
 					<div data-ng-if="scenarioPost.commentTab" class="col-md-10"
@@ -324,7 +325,7 @@
 								style="margin: 5px;" class="col-md-12"
 								placeholder="Inserisci un commento"></textarea>
 							<div class="btn btn-primary btn-sm pull-right"
-								data-ng-click="scenarioPost.addCommentToPost(s)">Commenta</div>
+								data-ng-click="scenarioPost.addCommentToPost(s)">COMMENTA</div>
 						</div>
 						<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 						</div>
@@ -359,7 +360,7 @@
 								style="margin: 5px;" class="col-md-12"
 								placeholder="Dai un suggerimento ai tuoi amici"></textarea>
 							<div class="btn btn-primary btn-sm pull-right"
-								data-ng-click="scenarioPost.addMetaCommentToPost(s)">Commenta</div>
+								data-ng-click="scenarioPost.addMetaCommentToPost(s)">COMMENTA</div>
 						</div>
 						<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 						</div>

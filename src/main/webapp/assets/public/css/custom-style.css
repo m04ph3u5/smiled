@@ -22,7 +22,7 @@
     		border-bottom-color: #5B5955;
 		}
 		
-		.form-control, .generalInput{
+		.form-control, .generalInput, textarea{
 			background-color:transparent;
 			border-top: none;
 			border-left:none;

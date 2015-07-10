@@ -1,7 +1,7 @@
-<div class="box">
+<div class="box row" style="border:1px; margin-right:1%; border-color:#5B5955">
 
-		<select class="selectpicker customInput2"  data-ng-model="date.day">
-		    <option value="" disabled selected style="display:none;">Giorno</option>
+		<select class="selectpicker customInput2 col-xs-2"  data-ng-model="date.day">
+		    <option value="" disabled selected style="display:none;">GIORNO</option>
 		    <option>1</option>
 		    <option>2</option>
 		    <option>3</option>
@@ -34,8 +34,8 @@
 		    <option>30</option>
 		    <option>31</option>
  		</select>
- 		<select class="selectpicker customInput2" data-ng-model="date.month" >
-		    <option value="" disabled selected style="display:none;">Mese</option>
+ 		<select class="selectpicker customInput2  col-xs-2" data-ng-model="date.month" >
+		    <option value="" disabled selected style="display:none;">MESE</option>
 		    <option value="1">Gennaio</option>
 		    <option value="2">Febbraio</option>
 		    <option value="3">Marzo</option>
@@ -49,9 +49,9 @@
 		    <option value="11">Novembre</option>
 		    <option value="12">Dicembre</option>
  		</select>
-		<input class="customInput" style="margin:3px;" class="col-xs-3 " type="text" data-ng-model="date.year"  placeholder="Anno"/>
+		<input class="generalInput" class="col-xs-2 " type="text" data-ng-model="date.year"  placeholder="Anno"/>
 
-		<span class="btn-group">
+		<span class="btn-group col-xs-4">
 			<label class="btn buttonDC" data-ng-model="date.afterChrist" btn-radio="false">A.C.</label>
 			<label class="btn buttonDC" data-ng-model="date.afterChrist" btn-radio="true">D.C.</label>
 		</span>
