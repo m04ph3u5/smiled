@@ -1,5 +1,5 @@
 <div class="container-fluid">
-	<div ng-if="scenario.hasCharacter">
+	<div class="row" ng-if="scenario.hasCharacter">
 		<div>
 			<div class="row col-md-10 col-md-offset-1 box">
 				<div class="text-center">
@@ -10,29 +10,46 @@
 								data-ng-src="{{scenario.currentCharacter.cover}}"
 								data-err-src="assets/public/img/cesar.png"></img><i>{{scenario.currentCharacter.name}}</i>
 						</div>
-						<div style="margin-right:15px;" class="pull-right">
+						<div style="margin-right: 15px;" class="pull-right">
 							<label data-ng-click="scenarioPost.setDateNewPost()">{{scenarioPost.newPost.date.formatted}}</label>
 							<div data-ng-click="scenarioPost.setDateNewPost()"
 								class="glyphicon glyphicon-calendar"></div>
-								<div data-ng-show="scenarioPost.showDatePicker"
-									historical-date-picker date="scenarioPost.newPost.date"></div>
+							<div data-ng-show="scenarioPost.showDatePicker"
+								historical-date-picker date="scenarioPost.newPost.date"></div>
 						</div>
 					</div>
 					<textarea placeholder="A cosa stavi pensando?" class="col-md-12"
 						rows="5" data-ng-model="scenarioPost.newPost.content"></textarea>
 				</div>
 				<div class="pull-left">
-					<div title="Aggiungi un'immagine al post" ngf-select ngf-change="scenarioPost.addImageToNewPost($files)"
-						class="tooltips glyphicon glyphicon-camera" style="margin-right:5px;"></div>
-						{{scenarioPost.newPost.image.name}} <span data-ng-show="scenarioPost.newPost.image.name" show-on-hover-parent class="glyphicon glyphicon-remove" data-ng-click="scenarioPost.removeImage()"></span>
-					<div title="Allega un file al post" data-ng-click="scenarioPost.addFileToNewPost()"
-						class="tooltips glyphicon glyphicon-file" style="margin-right:5px;"></div><label>{{scenarioPost.newPost.file.name}}</label>
-					<div title="Aggiungi una posizione al post" data-ng-click="scenarioPost.setPositionNewPost()"
-						class="tooltips glyphicon glyphicon-map-marker" style="margin-right:5px;"></div><label></label>
-					<div title="Tagga personaggi al post" data-ng-click="scenarioPost.tagToNewPost()"
-						class="tooltips glyphicon glyphicon-tags" style="margin-right:5px;"></div><label></label>
-					<div title="Indica le tue fonti" data-ng-click="scenarioPost.addSourceToNewPost()"
-						class="tooltips glyphicon glyphicon-book" style="margin-right:5px;"></div><label></label>
+					<div title="Aggiungi un'immagine al post" ngf-select
+						ngf-change="scenarioPost.addImageToNewPost($files)"
+						class="tooltips glyphicon glyphicon-camera"
+						style="margin-right: 5px;"></div>
+					{{scenarioPost.newPost.image.name}} <span
+						data-ng-show="scenarioPost.newPost.image.name"
+						show-on-hover-parent class="glyphicon glyphicon-remove"
+						data-ng-click="scenarioPost.removeImage()"></span>
+					<div title="Allega un file al post"
+						data-ng-click="scenarioPost.addFileToNewPost()"
+						class="tooltips glyphicon glyphicon-file"
+						style="margin-right: 5px;"></div>
+					<label>{{scenarioPost.newPost.file.name}}</label>
+					<div title="Aggiungi una posizione al post"
+						data-ng-click="scenarioPost.setPositionNewPost()"
+						class="tooltips glyphicon glyphicon-map-marker"
+						style="margin-right: 5px;"></div>
+					<label></label>
+					<div title="Tagga personaggi al post"
+						data-ng-click="scenarioPost.tagToNewPost()"
+						class="tooltips glyphicon glyphicon-tags"
+						style="margin-right: 5px;"></div>
+					<label></label>
+					<div title="Indica le tue fonti"
+						data-ng-click="scenarioPost.addSourceToNewPost()"
+						class="tooltips glyphicon glyphicon-book"
+						style="margin-right: 5px;"></div>
+					<label></label>
 				</div>
 			</div>
 			<div class="row col-md-10 col-md-offset-1">
@@ -45,44 +62,130 @@
 			</div>
 		</div>
 	</div>
-	
-	<hr class="hrDivider">
 
-	<div data-ng-repeat="s in scenarioPost.posts"> 	
 	<div class="row">
-		<div class="col-md-10 col-md-offset-1 box">
-			<div class="row">
-				<div class="pull-left col-md-8">
-					<b class="pull-left">{{s.character.name}}</b>
-				</div>
-				<div class="pull-right col-md-4">
-					<label class="pull-right">{{scenarioPost.formatDate(s.historicalDate)}}</label>
-				</div>
-			</div>
-			<div class="row rowPost">
-				<div class="col-md-2">
-					<img style="margin: 5px;"
-						class="pull-left img-thumbnail imgPreviewL"
-						data-ng-src="scenarioPost.getUrlCoverCharacter({{s.character.id}})"
-						data-err-src="assets/public/img/cesar.png"></img>
-				</div>
-				
-				<div class="col-md-10 postStatus">
-				<div class="row">
-					<div class="col-md-12">
-						<label class="pull-left">{{s.text}}</label>
-					</div>
-					<div data-ng-show="s.imageId">
-						<img class="imgPreviewXL" data-ng-src="{{scenarioPost.getUrlMedia(s.imageId)}}">
-					</div>
-				</div>
-				</div>
-			</div>
-			
-			
-			
-			
-		</div>
+		<hr class="hrDivider">
 	</div>
+	<div class="row">
+		<div data-ng-repeat="s in scenarioPost.posts">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1 box">
+					<div class="row">
+						<div class="pull-left col-md-8">
+							<b class="pull-left">{{s.character.name}}</b>
+						</div>
+						<div class="pull-right col-md-4">
+							<label class="pull-right">{{scenarioPost.formatDate(s.historicalDate)}}</label>
+						</div>
+					</div>
+					<div class="row rowPost">
+						<div class="col-md-2">
+							<img style="margin: 5px;"
+								class="pull-left img-thumbnail imgPreviewL"
+								data-ng-src="{{s.character.cover}}"
+								data-err-src="assets/public/img/cesar.png"></img>
+							<div class="pull-left box box-info">
+								{{s.creationDate | date: scenarioPost.realDateFormat}} <br>
+								{{s.user.firstname}} {{s.user.lastname}}
+							</div>
+						</div>
+
+						<div class="col-md-10 postStatus">
+							<div class="row">
+								<div class="col-md-12">
+									<label class="pull-left">{{s.text}}</label>
+								</div>
+								<div data-ng-show="s.imageId">
+									<img class="imgPreviewXL" data-ng-src="{{s.imageUrl}}">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-10 col-md-offset-2">
+						<div data-ng-show="scenario.hasCharacter" class="row"
+							style="margin-left: 25px; margin-top: 7px; margin-bottom: 7px;">
+							<div data-ng-if="s.youLike"
+								data-ng-click="scenarioPost.likePost(s)"
+								title="Non mi piace più"
+								class="tooltips glyphicon glyphicon-thumbs-up pull-left">Ti
+								piace</div>
+							<div data-ng-if="!s.youLike"
+								data-ng-click="scenarioPost.likePost(s)" title="Mi piace!"
+								class="tooltips glyphicon glyphicon-thumbs-up pull-left"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2"></div>
+						<div class="col-md-10" style="text-align: center;">
+							<div class="tabComment"
+								data-ng-click="scenarioPost.switchCommentTab(true)">Commenta</div>
+							<div class="tabComment pull-right"
+								data-ng-click="scenarioPost.switchCommentTab(false)"
+								style="margin-right: 5px;">Dietro le quinte</div>
+						</div>
+						<div class="col-md-2"></div>
+						<div data-ng-if="scenarioPost.commentTab" class="col-md-10"
+							style="text-align: center;">
+							<div class="col-md-2">
+								<img style="margin: 5px; margin-left: 10px;"
+									class="pull-right img-thumbnail imgPreviewM"
+									data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{scenario.currentCharacter.id}}/cover"
+									data-err-src="assets/public/img/cesar.png"></img>
+							</div>
+							<div class="col-md-10">
+								<textarea data-ng-model="s.newComment" rows="2"
+									style="margin: 5px;" class="col-md-12"
+									placeholder="Inserisci un commento"></textarea>
+								<div class="btn btn-primary pull-right"
+									data-ng-click="scenarioPost.addCommentToPost(s)">Commenta</div>
+							</div>
+							<div class="row" style="margin-top:20px; margin-bottom: 20px;">
+							</div>
+							<div data-ng-repeat="c in s.comments" class="row">
+								<div class="col-md-2">
+									<img style="margin: 5px; margin-left: 10px;"
+										class="pull-right img-thumbnail imgPreviewM"
+										data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{c.character.id}}/cover"
+										data-err-src="assets/public/img/cesar.png"></img>
+								</div>
+								<div class="col-md-10">
+									<div style="margin: 5px;" class="col-md-10"><p class="pull-left">{{c.text}}</p></div>
+									<div class="col-md-1"><p class="pull-right" style="font-size: x-small;">{{c.user.firstname}} {{c.user.lastname}}</p></div>
+								</div>
+							</div>
+						</div>
+						<div data-ng-if="!scenarioPost.commentTab" class="col-md-10"
+							style="text-align: center;">
+							<div class="col-md-2">
+								<img style="margin: 5px; margin-left: 10px;"
+									class="pull-right img-thumbnail imgPreviewM"
+									data-ng-src="api/v1/users/{{scenario.loggedUser.id}}/cover"
+									data-err-src="assets/public/img/user_ico.png"></img>
+							</div>
+							<div class="col-md-10">
+								<textarea data-ng-model="s.newMetaComment" rows="2"
+									style="margin: 5px;" class="col-md-12"
+									placeholder="Dai un suggerimento ai tuoi amici"></textarea>
+								<div class="btn btn-primary pull-right"
+									data-ng-click="scenarioPost.addMetaCommentToPost(s)">Commenta</div>
+							</div>
+							<div class="row" style="margin-top:20px; margin-bottom: 20px;">
+							</div>
+							<div data-ng-repeat="c in s.metaComments" class="row">
+								<div class="col-md-2">
+									<img style="margin: 5px; margin-left: 10px;"
+										class="pull-right img-thumbnail imgPreviewM"
+										data-ng-src="api/v1/users/{{c.user.id}}/cover"
+										data-err-src="assets/public/img/user_ico.png"></img>
+								</div>
+								<div class="col-md-10">
+									<div style="margin: 5px;" class="col-md-10"><p class="pull-left">{{c.text}}</p></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

@@ -1773,7 +1773,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		if(scenario.getCharacters()!=null){
 			for(CharacterReference c : scenario.getCharacters()){
-				if(c.getUserId().equals(user.getId())){
+				
+				if(c.getUserId()!=null && c.getUserId().equals(user.getId())){
 					charRef=c;
 					break;
 				}

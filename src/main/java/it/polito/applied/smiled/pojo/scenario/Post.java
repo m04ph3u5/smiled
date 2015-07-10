@@ -92,6 +92,12 @@ public abstract class Post {
 	}
 	
 	public void addLike(CharacterReference charRef){
+		for(int i=0; i<likes.size(); i++){
+			if(likes.get(i).getId().equals(charRef.getId())){
+				likes.remove(i);
+				return;
+			}
+		}
 		this.likes.add(charRef);
 	}
 		

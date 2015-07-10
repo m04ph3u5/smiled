@@ -385,6 +385,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	
 	/*--------------------------------------------------------UTILS FUNCTIONS-----------------------------------------------------------------*/
 	private String getFolderPath(String filename){
+		System.out.println(filename);
 		String folderPath=filename.substring(12, 14)+"/"+filename.substring(14, 16)+"/"+filename.substring(16, 18)+"/"+filename.substring(18,20)+"/";
 		System.out.println("folderPath: "+folderPath+filename);
 		return folderPath;

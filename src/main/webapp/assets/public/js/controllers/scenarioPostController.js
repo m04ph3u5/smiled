@@ -2,6 +2,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
               function scenarioPostCtrl(CONSTANTS,$scope, apiService,Upload){
 	var self = this;
 	self.scen = $scope.scenario.scen;
+	self.currentCharacter = $scope.scenario.currentCharacter;
 	self.posts = [];
 	self.newPost = {};
 	self.newPost.date = {
@@ -11,6 +12,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.newPost.file  = {};
 	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 	self.showDatePicker=false;
+	self.commentTab=true;
+	
+	self.realDateFormat = CONSTANTS.realDateFormatWithHour;
 	
 	self.addImageToNewPost = function(file){
 		uploadMediaToPost(file,true);
@@ -65,6 +69,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 						apiService.getSingleStatus(self.scen.id, data.id).then(
 								function(data){
 									self.posts.unshift(data);
+									if(self.posts[0].imageId)
+										self.posts[0].imageUrl = CONSTANTS.urlMedia(self.posts[0].imageId);
+									self.posts[0].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[0].character.id);
 								},
 								function(reason){
 									console.log("error in insert new post in array");
@@ -127,7 +134,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	self.getUrlCoverCharacter = function(id){
-		return CONSTANTS.urlCoverCharacter(self.scen.id,id);
+		return CONSTANTS.urlCharacterCover(self.scen.id,id);
 	}
 	
 	self.getUrlMedia = function(id){
@@ -147,10 +154,109 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	apiService.getPagedPosts(self.scen.id, 0, 30, false).then(
 			function(data){
 				self.posts = data.content;
+				for(var i=0; i<self.posts.length;i++){
+					if(self.posts[i].imageId){
+						self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
+					}
+					self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
+					for(var j=0; j<self.posts[i].likes.length; j++){
+						if(self.posts[i].likes[j].id==self.posts[i].character.id){
+							self.posts[i].youLike=true;
+							break;
+						}
+					}
+				}
 			}, function(reason){
 				console.log("errore");
 			}
 	);
 	
+	self.likePost = function(s){
+		apiService.addLikeToPost(self.scen.id, s.id).then(
+				function(data){
+					for(var i=0; i<self.posts.length; i++){
+						if(self.posts[i].id=s.id){
+							for(var j=0; j<self.posts[i].likes.length; j++){
+								if(!s.youLike)
+									self.posts[i].likes.push(self.currentCharacter);
+								else
+									self.posts[i].likes.splice(j,1);
+							}
+						}
+					}
+					s.youLike = !s.youLike;
+				},
+				function(reason){
+					console.log("Error in like");
+				}
+		);
+	}
 	
+	self.switchCommentTab = function(c){
+		self.commentTab = c;
+	}
+	
+	self.addCommentToPost = function(s){
+		console.log(s.newComment);
+		if(s.newComment){
+			var comment = {};
+			comment.text=s.newComment;
+			apiService.sendCommentToPost(self.scen.id, s.id, comment).then(
+					function(data){
+						apiService.getSingleStatus(self.scen.id, s.id).then(
+								function(data){
+									for(var i=0; i<self.posts.length; i++){
+										if(self.posts[i].id==data.id){
+											data.newComment="";
+											if(data.imageId)
+												data.imageUrl = CONSTANTS.urlMedia(data.imageId);
+											data.character.cover = CONSTANTS.urlCharacterCover(self.scen.id,data.character.id);
+											self.posts.splice(i,1,data);
+										}
+									}
+									
+								},
+								function(reason){
+									console.log("error in insert new post in array");
+								}
+						);
+					},
+					function(reason){
+						console.log("fail to send comment: "+reason);
+					}
+			);
+		}
+	}
+	
+	self.addMetaCommentToPost = function(s){
+		console.log(s.newMetaComment);
+		if(s.newMetaComment){
+			var comment = {};
+			comment.text=s.newMetaComment;
+			apiService.sendMetaCommentToPost(self.scen.id, s.id, comment).then(
+					function(data){
+						apiService.getSingleStatus(self.scen.id, s.id).then(
+								function(data){
+									s.newMetaComment="";
+									for(var i=0; i<self.posts.length; i++){
+										if(self.posts[i].id==data.id){
+											data.newComment="";
+											if(data.imageId)
+												data.imageUrl = CONSTANTS.urlMedia(data.imageId);
+											data.character.cover = CONSTANTS.urlCharacterCover(self.scen.id,data.character.id);
+											self.posts.splice(i,1,data);
+										}
+									}
+								},
+								function(reason){
+									console.log("error in insert new post in array");
+								}
+						);
+					},
+					function(reason){
+						console.log("fail to send comment: "+reason);
+					}
+			);
+		}
+	}
 }]);
