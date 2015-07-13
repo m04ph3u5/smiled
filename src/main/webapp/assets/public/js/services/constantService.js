@@ -25,6 +25,7 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	},
 	"monthString": function(month){
 		var m;
+		console.log(month);
 		switch(month){
 			case '1': {
 				m = "gennaio";
@@ -74,6 +75,7 @@ angular.module("smiled.application").constant("CONSTANTS",{
 				break;
 			}
 		}
+		console.log(m);
 		return m;
 	}
 });

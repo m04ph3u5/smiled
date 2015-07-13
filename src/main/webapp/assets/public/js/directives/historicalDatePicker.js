@@ -1,4 +1,4 @@
-angular.module("smiled.application").directive("historicalDatePicker",[ function(){
+angular.module("smiled.application").directive("historicalDatePicker",[ 'CONSTANTS', function(CONSTANTS){
 	return {
 		restrict: "AE",
         templateUrl: "assets/public/partials/historicalDatePicker.html",
@@ -11,59 +11,7 @@ angular.module("smiled.application").directive("historicalDatePicker",[ function
         controllerAs: 'vm',
         bindToController: true,
         link: function(scope,element,attr){
-        	var monthString = function(month){
-        		var m;
-        		switch(month){
-        			case '1': {
-        				m = "gennaio";
-        				break;
-        			}
-        			case '2': {
-        				m = "febbraio";
-        				break;
-        			}
-        			case '3': {
-        				m = "marzo";
-        				break;
-        			}
-        			case '4': {
-        				m = "aprile";
-        				break;
-        			}
-        			case '5': {
-        				m = "maggio";
-        				break;
-        			}
-        			case '6': {
-        				m = "giugno";
-        				break;
-        			}
-        			case '7': {
-        				m = "luglio";
-        				break;
-        			}
-        			case '8': {
-        				m = "agosto";
-        				break;
-        			}
-        			case '9': {
-        				m = "settembre";
-        				break;
-        			}
-        			case '10': {
-        				m = "ottobre";
-        				break;
-        			}
-        			case '11': {
-        				m = "novembre";
-        				break;
-        			}case '12': {
-        				m = "dicembre";
-        				break;
-        			}
-        		}
-        		return m;
-        	}
+        	
         	scope.$watch('vm.date', function(newValue,oldValue){
         		if(newValue.year && newValue.month && newValue.day){
         			var era;
@@ -72,7 +20,7 @@ angular.module("smiled.application").directive("historicalDatePicker",[ function
         			else
         				era="A.C.";
         			
-        			newValue.formatted=newValue.day+" "+monthString(newValue.month)+" "+newValue.year+" "+era;
+        			newValue.formatted=newValue.day+" "+CONSTANTS.monthString(newValue.month)+" "+newValue.year+" "+era;
         		}
         	},true);
         }
