@@ -5,6 +5,11 @@ angular.module("smiled.application").directive("historicalDatePicker",[ function
         scope: {
         	date: "="
         },
+        controller : function (){
+        	
+        },
+        controllerAs: 'vm',
+        bindToController: true,
         link: function(scope,element,attr){
         	var monthString = function(month){
         		var m;
