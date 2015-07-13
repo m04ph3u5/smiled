@@ -64,7 +64,7 @@ angular.module("smiled.application").directive("historicalDatePicker",[ function
         		}
         		return m;
         	}
-        	scope.$watch('date', function(newValue,oldValue){
+        	scope.$watch('vm.date', function(newValue,oldValue){
         		if(newValue.year && newValue.month && newValue.day){
         			var era;
         			if(newValue.afterChrist)
