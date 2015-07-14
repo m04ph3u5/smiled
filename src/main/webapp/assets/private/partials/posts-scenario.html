@@ -59,67 +59,67 @@
 
 
 		<!-- STATUS -->
-		<div ng-if="scenario.hasCharacter">
-			<div class="row col-md-10 col-md-offset-1 box">
-				<div class="text-center">
-					<div class="row">
-						<div class="pull-left">
-							<img style="margin: 5px; margin-left: 20px;"
-								class="img-thumbnail imgPreviewL"
-								data-ng-src="{{scenario.currentCharacter.cover}}"
-								data-err-src="assets/public/img/cesar.png"></img><i>{{scenario.currentCharacter.name}}</i>
-						</div>
-						<div style="margin-right: 15px;" class="pull-right">
-							<label data-ng-click="scenarioPost.setDateNewPost()">{{scenarioPost.newPost.date.formatted}}</label>
-							<div data-ng-click="scenarioPost.setDateNewPost()"
-								class="glyphicon glyphicon-calendar"></div>
-							<div data-ng-show="scenarioPost.showDatePicker"
-								historical-date-picker date="scenarioPost.newPost.date"></div>
-						</div>
-					</div>
-					<textarea placeholder="A COSA STAVI PENSANDO?" class="col-md-12"
-						rows="5" data-ng-model="scenarioPost.newPost.content"></textarea>
-				</div>
-				<div class="pull-left">
-					<div title="Aggiungi un'immagine al post" ngf-select
-						ngf-change="scenarioPost.addImageToNewPost($files)"
-						class="tooltips glyphicon glyphicon-camera"
-						style="margin-right: 5px;"></div>
-					{{scenarioPost.newPost.image.name}} <span
-						data-ng-show="scenarioPost.newPost.image.name"
-						show-on-hover-parent class="glyphicon glyphicon-remove"
-						data-ng-click="scenarioPost.removeImage()"></span>
-					<div title="Allega un file al post"
-						data-ng-click="scenarioPost.addFileToNewPost()"
-						class="tooltips glyphicon glyphicon-file"
-						style="margin-right: 5px;"></div>
-					<label>{{scenarioPost.newPost.file.name}}</label>
-					<div title="Aggiungi una posizione al post"
-						data-ng-click="scenarioPost.setPositionNewPost()"
-						class="tooltips glyphicon glyphicon-map-marker"
-						style="margin-right: 5px;"></div>
-					<label></label>
-					<div title="Tagga personaggi al post"
-						data-ng-click="scenarioPost.tagToNewPost()"
-						class="tooltips glyphicon glyphicon-tags"
-						style="margin-right: 5px;"></div>
-					<label></label>
-					<div title="Indica le tue fonti"
-						data-ng-click="scenarioPost.addSourceToNewPost()"
-						class="tooltips glyphicon glyphicon-book"
-						style="margin-right: 5px;"></div>
-					<label></label>
-				</div>
-			</div>
-			<div class="row col-md-10 col-md-offset-1">
-				<div class="pull-right">
-					<div data-ng-click="scenarioPost.draftNewPost()"
-						class="btn generalButton">SALVA COME BOZZA</div>
-					<div data-ng-click="scenarioPost.saveNewPost()"
-						class="btn generalButton">PUBBLICA</div>
-				</div>
-			</div>
-		</div>
+<!-- 		<div ng-if="scenario.hasCharacter"> -->
+<!-- 			<div class="row col-md-10 col-md-offset-1 box"> -->
+<!-- 				<div class="text-center"> -->
+<!-- 					<div class="row"> -->
+<!-- 						<div class="pull-left"> -->
+<!-- 							<img style="margin: 5px; margin-left: 20px;" -->
+<!-- 								class="img-thumbnail imgPreviewL" -->
+<!-- 								data-ng-src="{{scenario.currentCharacter.cover}}" -->
+<!-- 								data-err-src="assets/public/img/cesar.png"></img><i>{{scenario.currentCharacter.name}}</i> -->
+<!-- 						</div> -->
+<!-- 						<div style="margin-right: 15px;" class="pull-right"> -->
+<!-- 							<label data-ng-click="scenarioPost.setDateNewPost()">{{scenarioPost.newPost.date.formatted}}</label> -->
+<!-- 							<div data-ng-click="scenarioPost.setDateNewPost()" -->
+<!-- 								class="glyphicon glyphicon-calendar"></div> -->
+<!-- 							<div data-ng-show="scenarioPost.showDatePicker" -->
+<!-- 								historical-date-picker date="scenarioPost.newPost.date"></div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<textarea placeholder="A COSA STAVI PENSANDO?" class="col-md-12" -->
+<!-- 						rows="5" data-ng-model="scenarioPost.newPost.content"></textarea> -->
+<!-- 				</div> -->
+<!-- 				<div class="pull-left"> -->
+<!-- 					<div title="Aggiungi un'immagine al post" ngf-select -->
+<!-- 						ngf-change="scenarioPost.addImageToNewPost($files)" -->
+<!-- 						class="tooltips glyphicon glyphicon-camera" -->
+<!-- 						style="margin-right: 5px;"></div> -->
+<!-- 					{{scenarioPost.newPost.image.name}} <span -->
+<!-- 						data-ng-show="scenarioPost.newPost.image.name" -->
+<!-- 						show-on-hover-parent class="glyphicon glyphicon-remove" -->
+<!-- 						data-ng-click="scenarioPost.removeImage()"></span> -->
+<!-- 					<div title="Allega un file al post" -->
+<!-- 						data-ng-click="scenarioPost.addFileToNewPost()" -->
+<!-- 						class="tooltips glyphicon glyphicon-file" -->
+<!-- 						style="margin-right: 5px;"></div> -->
+<!-- 					<label>{{scenarioPost.newPost.file.name}}</label> -->
+<!-- 					<div title="Aggiungi una posizione al post" -->
+<!-- 						data-ng-click="scenarioPost.setPositionNewPost()" -->
+<!-- 						class="tooltips glyphicon glyphicon-map-marker" -->
+<!-- 						style="margin-right: 5px;"></div> -->
+<!-- 					<label></label> -->
+<!-- 					<div title="Tagga personaggi al post" -->
+<!-- 						data-ng-click="scenarioPost.tagToNewPost()" -->
+<!-- 						class="tooltips glyphicon glyphicon-tags" -->
+<!-- 						style="margin-right: 5px;"></div> -->
+<!-- 					<label></label> -->
+<!-- 					<div title="Indica le tue fonti" -->
+<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
+<!-- 						class="tooltips glyphicon glyphicon-book" -->
+<!-- 						style="margin-right: 5px;"></div> -->
+<!-- 					<label></label> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="row col-md-10 col-md-offset-1"> -->
+<!-- 				<div class="pull-right"> -->
+<!-- 					<div data-ng-click="scenarioPost.draftNewPost()" -->
+<!-- 						class="btn generalButton">SALVA COME BOZZA</div> -->
+<!-- 					<div data-ng-click="scenarioPost.saveNewPost()" -->
+<!-- 						class="btn generalButton">PUBBLICA</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 	</div>
 </div>
 
@@ -131,7 +131,7 @@
 <div class="row">
 
 	<div data-insert-status character="scenario.currentCharacter"
-		status="scenarioPost.newPost" save="scenarioPost.saveNewPost()"></div>
+		posts="scenarioPost.posts" scenario="scenarioPost.scen"></div>
 </div>
 
 
@@ -139,7 +139,6 @@
 <div class="row">
 	<div data-ng-repeat="s in scenarioPost.posts">
 
-		<smiled-post post="s"> </smiled-post>
 
 		<div data-ng-if="s.character" class="row">
 			<div class="col-md-10 col-md-offset-1 box">
@@ -168,8 +167,11 @@
 							<div class="col-md-12">
 								<label class="pull-left">{{s.text}}</label>
 							</div>
-							<div data-ng-show="s.imageId">
-								<img class="imgPreviewXL" data-ng-src="{{s.imageUrl}}">
+							<div data-ng-repeat="image in s.imagesMetadata">
+								<p>{{image.originalName}}</p>
+							</div>
+							<div data-ng-repeat="file in s.filesMetadata">
+								<p>{{file.originalName}}</p>
 							</div>
 						</div>
 					</div>

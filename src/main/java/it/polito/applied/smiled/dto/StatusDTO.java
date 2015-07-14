@@ -1,12 +1,12 @@
 package it.polito.applied.smiled.dto;
 
 import it.polito.applied.smiled.pojo.HistoricalDate;
-import it.polito.applied.smiled.pojo.Media;
 import it.polito.applied.smiled.pojo.scenario.Place;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
 import it.polito.applied.smiled.pojo.scenario.Source;
 import it.polito.applied.smiled.pojo.scenario.Tag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StatusDTO {
@@ -14,8 +14,10 @@ public class StatusDTO {
 	private String text;
 	private String characterId;
 	private List<Tag> tags;
-	private String imageId;
-	private String fileId;
+	private ArrayList<String> imageMetaId;
+	private ArrayList<String> fileMetaId;
+	private ArrayList<String> imageMetaIdToDelete;
+	private ArrayList<String> fileMetaIdToDelete;
 	private List<Source> sources;
 	private PostStatus status;
 	private HistoricalDate historicalDate;
@@ -64,19 +66,30 @@ public class StatusDTO {
 	public void setPlace(Place place) {
 		this.place = place;
 	}
-	public String getImageId() {
-		return imageId;
+	public ArrayList<String> getImageMetaId() {
+		return imageMetaId;
 	}
-	public void setImageId(String imageId) {
-		this.imageId = imageId;
+	public void setImageMetaId(ArrayList<String> imageMetaId) {
+		this.imageMetaId = imageMetaId;
 	}
-	public String getFileId() {
-		return fileId;
+	public ArrayList<String> getFileMetaId() {
+		return fileMetaId;
 	}
-	public void setFileId(String fileId) {
-		this.fileId = fileId;
+	public void setFileMetaId(ArrayList<String> fileMetaId) {
+		this.fileMetaId = fileMetaId;
 	}
-	
-	
+	public ArrayList<String> getImageMetaIdToDelete() {
+		return imageMetaIdToDelete;
+	}
+	public void setImageMetaIdToDelete(ArrayList<String> imageMetaIdToDelete) {
+		this.imageMetaIdToDelete = imageMetaIdToDelete;
+	}
+	public ArrayList<String> getFileMetaIdToDelete() {
+		return fileMetaIdToDelete;
+	}
+	public void setFileMetaIdToDelete(ArrayList<String> fileMetaIdToDelete) {
+		this.fileMetaIdToDelete = fileMetaIdToDelete;
+	}
+		
 
 }

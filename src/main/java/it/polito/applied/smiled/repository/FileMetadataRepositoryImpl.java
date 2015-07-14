@@ -82,31 +82,44 @@ public class FileMetadataRepositoryImpl implements CustomFileMetadataRepository{
 	}
 
 	@Override
-	public boolean addImageToPost(String imageId) {
+	public FileMetadata confirmImage(String imageId) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").is(imageId));
 		Update u = new Update();
 		u.set("type", ResourceType.IMAGE);
 		
-		WriteResult w = mongoOp.updateFirst(q, u, FileMetadata.class);
-		if(w.isUpdateOfExisting())
-			return true;
-		else
-			return false;	
+		return mongoOp.findAndModify(q, u, FileMetadata.class);
 	}
 
 	@Override
-	public boolean addFileToPost(String fileId) {
+	public FileMetadata confirmFile(String fileId) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").is(fileId));
 		Update u = new Update();
 		u.set("type", ResourceType.DOCUMENT);
 		
-		WriteResult w = mongoOp.updateFirst(q, u, FileMetadata.class);
-		if(w.isUpdateOfExisting())
-			return true;
-		else
-			return false;	
+		return mongoOp.findAndModify(q, u, FileMetadata.class);
+	}
+
+	@Override
+	public FileMetadata putImageInDeleteStatus(String id) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(id).andOperator(Criteria.where("type").is("IMAGE")));
+		
+		Update u = new Update();
+		u.set("type", ResourceType.DELETED_IMG);
+	
+		return mongoOp.findAndModify(q, u, FileMetadata.class);
+	}
+
+	@Override
+	public FileMetadata putFileInDeleteStatus(String id) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(id).andOperator(Criteria.where("type").is("DOCUMENT")));
+		Update u = new Update();
+		u.set("type", ResourceType.DELETED_DOC);
+		
+		return mongoOp.findAndModify(q, u, FileMetadata.class);
 	}
 	
 	

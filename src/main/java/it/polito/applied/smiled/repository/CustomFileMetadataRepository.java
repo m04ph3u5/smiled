@@ -14,7 +14,10 @@ public interface CustomFileMetadataRepository {
 	public List<FileMetadata> findUserFile(String userId,Pageable p);
 	public List<FileMetadata> findScenarioImage(String idScenario, Pageable p);
 	public List<FileMetadata> findScenarioFile(String idScenario, Pageable p);
-	public boolean addImageToPost(String imageId);
-	public boolean addFileToPost(String fileId);
+	public FileMetadata confirmImage(String imageId);
+	public FileMetadata confirmFile(String fileId);
+	public FileMetadata putImageInDeleteStatus(String string);
+	public FileMetadata putFileInDeleteStatus(String string);
+
 
 }

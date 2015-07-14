@@ -1,0 +1,16 @@
+<div class="tags-wrapper">
+    <div id="tagsList" class="tags-cloud">
+        <div ng-repeat="selectedTag in tagBox.selectedTags" class="tag">
+            <span data-ng-show="tagBox.type=='user'" class="tagName">{{selectedTag.lastname}} {{selectedTag.firstname}}</span>
+            <span data-ng-show="tagBox.type=='character'" class="tagName">{{selectedTag.name}}</span>
+            <span>&nbsp;<b ng-click="tagBox.removeTag($index)" class="fa fa-times cross"></b></span>
+        </div>
+        <input type="text" placeholder="Tagga i tuoi amici" id="searchInput" ng-keydown="tagBox.checkKeyDown($event)" class="form-control" ng-model="tagBox.searchText" ng-change="tagBox.search()"/>
+    </div>
+    <ul id="suggestions" class="suggestions-list">
+       <li ng-repeat="suggestion in tagBox.suggestions" class="blockSpan" ng-click="tagBox.addToSelectedTags($index)" 
+       		ng-mouseover="$parent.selectedIndex=$index" ng-class="{active : selectedIndex===$index}">
+       		<img data-ng-src="suggestion.cover" 
+						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM">{{suggestion.name}}</li>
+     </ul>
+</div> 

@@ -5,11 +5,11 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.currentCharacter = $scope.scenario.currentCharacter;
 	self.posts = [];
 	
-	self.newPost = {};
-	self.newPost.date = {
-			afterChrist : true
-	};
-	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+//	self.newPost = {};
+//	self.newPost.date = {
+//			afterChrist : true
+//	};
+//	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 	
 	self.newEvent = {};
 	self.newEvent.date = {
@@ -17,8 +17,8 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	};
 	self.newEvent.date.formatted=CONSTANTS.insertHistoricalDateEvent;
 	
-	self.newPost.image = {};
-	self.newPost.file  = {};
+//	self.newPost.image = {};
+//	self.newPost.file  = {};
 	self.showDatePicker=false;
 	self.showDatePickerEvent=false;
 
@@ -29,9 +29,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	
 	self.realDateFormat = CONSTANTS.realDateFormatWithHour;
 	
-	self.addImageToNewPost = function(file){
-		uploadMediaToPost(file,true);
-	}
+//	self.addImageToNewPost = function(file){
+//		uploadMediaToPost(file,true);
+//	}
 	
 	self.removeImage = function(){
 		self.newPost.image.name = "";
@@ -64,46 +64,46 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		console.log("addSourceToNewPost");
 	}
 	
-	self.saveNewPost = function(){
-		if(self.newPost.content && (self.newPost.date.formatted!=CONSTANTS.insertHistoricalDate)){
-			console.log("saveNewPost");
-			var toSendPost = {};
-			toSendPost.text = self.newPost.content;
-			toSendPost.historicalDate = self.newPost.date;
-			toSendPost.status = "PUBLISHED";
-			if(self.newPost.image.id)
-				toSendPost.imageId = self.newPost.image.id;
-			if(self.newPost.file.id)
-				toSendPost.imageId = self.newPost.file.id;
-			apiService.sendStatus($scope.scenario.scen.id, $scope.scenario.currentCharacter.id, toSendPost).then(
-					function(data){
-						console.log("sended: "+data);
-						self.newPost.content="";
-						self.newPost.image={};
-						self.newPost.file={};
-						self.newPost.date={afterChrist : true};
-						self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
-						apiService.getSingleStatus(self.scen.id, data.id).then(
-								function(data){
-									self.posts.unshift(data);
-									if(self.posts[0].imageId)
-										self.posts[0].imageUrl = CONSTANTS.urlMedia(self.posts[0].imageId);
-									self.posts[0].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[0].character.id);
-								},
-								function(reason){
-									console.log("error in insert new post in array");
-								}
-						);
-					},
-					function(reason){
-						console.log("error in send status: "+reason);
-					}
-			);
-		}else{
-			//TODO gestione alert errore
-		}
-	
-	}
+//	self.saveNewPost = function(){
+//		if(self.newPost.content && (self.newPost.date.formatted!=CONSTANTS.insertHistoricalDate)){
+//			console.log("saveNewPost");
+//			var toSendPost = {};
+//			toSendPost.text = self.newPost.content;
+//			toSendPost.historicalDate = self.newPost.date;
+//			toSendPost.status = "PUBLISHED";
+//			if(self.newPost.image.id)
+//				toSendPost.imageId = self.newPost.image.id;
+//			if(self.newPost.file.id)
+//				toSendPost.imageId = self.newPost.file.id;
+//			apiService.sendStatus($scope.scenario.scen.id, $scope.scenario.currentCharacter.id, toSendPost).then(
+//					function(data){
+//						console.log("sended: "+data);
+//						self.newPost.content="";
+//						self.newPost.image={};
+//						self.newPost.file={};
+//						self.newPost.date={afterChrist : true};
+//						self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+//						apiService.getSingleStatus(self.scen.id, data.id).then(
+//								function(data){
+//									self.posts.unshift(data);
+//									if(self.posts[0].imageId)
+//										self.posts[0].imageUrl = CONSTANTS.urlMedia(self.posts[0].imageId);
+//									self.posts[0].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[0].character.id);
+//								},
+//								function(reason){
+//									console.log("error in insert new post in array");
+//								}
+//						);
+//					},
+//					function(reason){
+//						console.log("error in send status: "+reason);
+//					}
+//			);
+//		}else{
+//			//TODO gestione alert errore
+//		}
+//	
+//	}
 	
 	self.saveNewEvent = function(){
 		if(self.newEvent.content && (self.newEvent.date.formatted!=CONSTANTS.insertHistoricalDate)){
@@ -162,33 +162,33 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		}	
 	}
 	
-	var uploadMediaToPost = function(file,isImage){
-		if(file && file.length){
-			Upload.upload({
-	            url: CONSTANTS.urlMediaScenarioPost(self.scen.id),
-	            headers : {
-	                'Content-Type': file.type
-	            },
-	            file: file
-	        })
-//	            .progress(function (evt) {
-//	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//	var uploadMediaToPost = function(file,isImage){
+//		if(file && file.length){
+//			Upload.upload({
+//	            url: CONSTANTS.urlMediaScenarioPost(self.scen.id),
+//	            headers : {
+//	                'Content-Type': file.type
+//	            },
+//	            file: file
 //	        })
-	        .success(function (data, status, headers, config) {
-	           console.log("SUCCESS UPLOAD");
-	           console.log(data);
-	           if(isImage){
-	        	   self.newPost.image.id = data.id;
-	        	   self.newPost.image.name = config.file[0].name;
-	        	   console.log(self.newPost.image.name);
-	           }else{
-	        	   self.newPost.file.id = data.id;
-	        	   self.newPost.file.name = config.file.name;
-	           }
-	        });
-		}
-	}
+////	            .progress(function (evt) {
+////	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+////	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+////	        })
+//	        .success(function (data, status, headers, config) {
+//	           console.log("SUCCESS UPLOAD");
+//	           console.log(data);
+//	           if(isImage){
+//	        	   self.newPost.image.id = data.id;
+//	        	   self.newPost.image.name = config.file[0].name;
+//	        	   console.log(self.newPost.image.name);
+//	           }else{
+//	        	   self.newPost.file.id = data.id;
+//	        	   self.newPost.file.name = config.file.name;
+//	           }
+//	        });
+//		}
+//	}
 	
 	self.getUrlCoverCharacter = function(id){
 		return CONSTANTS.urlCharacterCover(self.scen.id,id);

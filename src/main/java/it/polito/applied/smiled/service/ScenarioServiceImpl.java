@@ -11,10 +11,12 @@ import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.mailMessage.EmailMessageService;
 import it.polito.applied.smiled.pojo.CharacterReference;
+import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.PostReferenceHistoricalDateComparator;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.ResourceType;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Character;
@@ -1043,8 +1045,30 @@ public class ScenarioServiceImpl implements ScenarioService{
 		status.setPlace(statusDTO.getPlace());
 		status.setHistoricalDate(statusDTO.getHistoricalDate());
 		status.setSources(statusDTO.getSources());
-		status.setImageId(statusDTO.getImageId());
-		status.setFileId(statusDTO.getFileId());
+		
+		if(statusDTO.getImageMetaId()!=null){
+			for(int i=0; i<statusDTO.getImageMetaId().size(); i++){
+				FileMetadata f = fileMetadataRepository.findById(statusDTO.getImageMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				if(!f.getUserId().equals(user.getId()))
+					throw new ForbiddenException();
+				status.addImageMetadata(f);
+				fileMetadataRepository.confirmImage(status.getImagesMetadata().get(i).getId());
+			}
+		}
+		
+		if(statusDTO.getFileMetaId()!=null){
+			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
+				FileMetadata f = fileMetadataRepository.findById(statusDTO.getFileMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				if(!f.getUserId().equals(user.getId()))
+					throw new ForbiddenException();
+				status.addFileMetadata(f);
+				fileMetadataRepository.confirmFile(status.getFilesMetadata().get(i).getId());
+			}
+		}
 		if(statusDTO.getStatus()==null)
 			status.setStatus(PostStatus.PUBLISHED);
 		else
@@ -1062,12 +1086,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			userRepository.addDraftPost(user.getId(), status.getId());
 		}
 		
-		if(status.getImageId()!=null){
-			fileMetadataRepository.addImageToPost(status.getImageId());
-		}
-		if(status.getFileId()!=null){
-			fileMetadataRepository.addFileToPost(status.getFileId());
-		}
+
 		
 		return new Id(status.getId());
 	}
@@ -1212,7 +1231,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		List<Role> roles = (List<Role>) user.getAuthorities();
 		Status status = (Status) post;
-		Scenario scenario;
+		Scenario scenario = null;
 		boolean permit=false;
 		Date now=null;
 		
@@ -1292,13 +1311,64 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getSources()!=null){
 			u.set("sources", statusDTO.getSources());
 		}
-		if(statusDTO.getImageId()!=null){
-			u.set("imageId",statusDTO.getImageId());
-			fileMetadataRepository.addImageToPost(statusDTO.getImageId());
+		
+		if(statusDTO.getImageMetaId()!=null){
+			for(int i=0; i<statusDTO.getImageMetaId().size();i++){
+				FileMetadata f = fileMetadataRepository.confirmImage(statusDTO.getImageMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference fileMetaUserRef = new Reference();
+				fileMetaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				u.addToSet("imagesMetadata",f);
+			}
 		}
-		if(statusDTO.getFileId()!=null){
-			u.set("fileId",statusDTO.getFileId());
-			fileMetadataRepository.addFileToPost(statusDTO.getFileId());
+		if(statusDTO.getFileMetaId()!=null){
+			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
+				FileMetadata f = fileMetadataRepository.confirmFile(statusDTO.getFileMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference fileMetaUserRef = new Reference();
+				fileMetaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				u.addToSet("filesMetadata",f);
+			}
+		}
+		
+		if(statusDTO.getImageMetaIdToDelete()!=null){
+			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
+				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(statusDTO.getImageMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference metaUserRef = new Reference();
+				metaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				u.pull("imagesMetadata",f);
+			}
+		}
+		
+		if(statusDTO.getFileMetaIdToDelete()!=null){
+			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
+				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(statusDTO.getFileMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference metaUserRef = new Reference();
+				metaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				u.pull("filesMetadata",f);
+			}
 		}
 		
 		u.set("lastChangeDate", new Date());

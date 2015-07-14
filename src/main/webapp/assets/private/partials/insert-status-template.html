@@ -9,44 +9,51 @@
 						data-err-src="assets/public/img/cesar.png"></img><i>{{insertStatus.character.name}}</i>
 				</div>
 				<div style="margin-right: 15px;" class="pull-right">
-					<label data-ng-click="insertStatus.setDateNewPost()">{{insertStatus.status.date.formatted}}</label>
+					<label data-ng-click="insertStatus.setDateNewPost()">{{insertStatus.newPost.date.formatted}}</label>
 					<div data-ng-click="insertStatus.setDateNewPost()"
 						class="glyphicon glyphicon-calendar"></div>
 					<div data-ng-show="insertStatus.showDatePicker"
-						historical-date-picker date="insertStatus.status.date"></div>
+						historical-date-picker date="insertStatus.newPost.date"></div>
 				</div>
 			</div>
 			<textarea placeholder="A COSA STAVI PENSANDO?" class="col-md-12"
-				rows="5" data-ng-model="insertStatus.status.content"></textarea>
+				rows="5" data-ng-model="insertStatus.newPost.content"></textarea>
 		</div>
-		<!-- 		<div class="pull-left"> -->
-		<!-- 			<div title="Aggiungi un'immagine al post" ngf-select -->
-		<!-- 				ngf-change="scenarioPost.addImageToNewPost($files)" -->
-		<!-- 				class="tooltips glyphicon glyphicon-camera" -->
-		<!-- 				style="margin-right: 5px;"></div> -->
-		<!-- 			{{scenarioPost.newPost.image.name}} <span -->
-		<!-- 				data-ng-show="scenarioPost.newPost.image.name" show-on-hover-parent -->
-		<!-- 				class="glyphicon glyphicon-remove" -->
-		<!-- 				data-ng-click="scenarioPost.removeImage()"></span> -->
-		<!-- 			<div title="Allega un file al post" -->
-		<!-- 				data-ng-click="scenarioPost.addFileToNewPost()" -->
-		<!-- 				class="tooltips glyphicon glyphicon-file" style="margin-right: 5px;"></div> -->
-		<!-- 			<label>{{scenarioPost.newPost.file.name}}</label> -->
-		<!-- 			<div title="Aggiungi una posizione al post" -->
-		<!-- 				data-ng-click="scenarioPost.setPositionNewPost()" -->
-		<!-- 				class="tooltips glyphicon glyphicon-map-marker" -->
-		<!-- 				style="margin-right: 5px;"></div> -->
-		<!-- 			<label></label> -->
-		<!-- 			<div title="Tagga personaggi al post" -->
-		<!-- 				data-ng-click="scenarioPost.tagToNewPost()" -->
-		<!-- 				class="tooltips glyphicon glyphicon-tags" style="margin-right: 5px;"></div> -->
-		<!-- 			<label></label> -->
-		<!-- 			<div title="Indica le tue fonti" -->
-		<!-- 				data-ng-click="scenarioPost.addSourceToNewPost()" -->
-		<!-- 				class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
-		<!-- 			<label></label> -->
-		<!-- 		</div> -->
-		<!-- 	</div> -->
+		<div class="pull-left">
+			<div title="Aggiungi un'immagine al post" ngf-select
+				ngf-change="insertStatus.addImageToNewPost($files)"
+				class="tooltips glyphicon glyphicon-camera"
+				style="margin-right: 5px;"></div>
+			
+			<div data-ng-repeat="image in insertStatus.newPost.image">{{image.name}} 
+				<span data-ng-show="image.name" show-on-hover-parent
+					class="glyphicon glyphicon-remove"
+					data-ng-click="insertStatus.removeImage(image)"></span>
+			</div>
+			<div title="Allega un file al post"
+				ngf-select	ngf-change="insertStatus.addFileToNewPost($files)"
+				class="tooltips glyphicon glyphicon-file" style="margin-right: 5px;"></div>
+			<div data-ng-repeat="file in insertStatus.newPost.file">{{file.name}} 
+				<span data-ng-show="file.name" show-on-hover-parent
+					class="glyphicon glyphicon-remove"
+					data-ng-click="insertStatus.removeFile(file)"></span>
+			</div>
+					
+<!-- 					<div title="Aggiungi una posizione al post" -->
+<!-- 						data-ng-click="scenarioPost.setPositionNewPost()" -->
+<!-- 						class="tooltips glyphicon glyphicon-map-marker" -->
+<!-- 						style="margin-right: 5px;"></div> -->
+<!-- 					<label></label> -->
+			<div title="Tagga personaggi al post
+				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertStatus.newPost.tags" selectable="insertStatus.scenario.characters" 
+					type="character" scenario="{{insertStatus.scenario.id}}" style="margin-right: 5px;"></div>
+			<label></label>
+<!-- 					<div title="Indica le tue fonti" -->
+<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
+<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
+<!-- 					<label></label> -->
+<!-- 				</div> -->
+		</div>
 		<div class="row col-md-10 col-md-offset-1">
 			<div class="pull-right">
 				<div data-ng-click="insertStatus.draftNewPost()"

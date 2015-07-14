@@ -83,6 +83,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/hideOnHoverParent.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/insertStatus.js"></script> 
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/tagBox.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertRegistration.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/workSpinner.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/historicalDatePicker.js"></script>
