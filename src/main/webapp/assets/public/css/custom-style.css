@@ -170,6 +170,9 @@
 		.marginSBottom{
 			margin-bottom: 1%;
 		}
+		.marginSBottom{
+			margin-bottom: 1%;
+		}
 		.form-control[readonly]{
 			background-color:transparent;
 		}
