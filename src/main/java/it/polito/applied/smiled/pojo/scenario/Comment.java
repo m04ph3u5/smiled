@@ -3,6 +3,7 @@ package it.polito.applied.smiled.pojo.scenario;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Comment implements CommentInterface{
 		
 	}
 	
-	public Comment(Reference character, CommentDTO commentDTO, Reference userReference){
+	public Comment(Reference character, CommentDTO commentDTO, Reference userReference, Scenario scenario){
 		this.character=character;
 		this.creationDate=new Date();
 		this.lastChangeDate=creationDate;
@@ -34,7 +35,19 @@ public class Comment implements CommentInterface{
 		 * multithreading*/
 		this.id=creationDate.getTime()+character.getId();
 		this.text=commentDTO.getText();
-		this.tags=commentDTO.getTags();
+		
+		tags = new ArrayList<Reference>();
+		for(int i=0; i<commentDTO.getTags().size();i++){
+			Reference r = new Reference();
+			for(int j=0; j<scenario.getCharacters().size();j++){
+				if(scenario.getCharacters().get(j).getId().equals(commentDTO.getTags().get(i))){
+					r.setId(commentDTO.getTags().get(i));
+					r.setFirstname(scenario.getCharacters().get(j).getName());
+					tags.add(r);
+					break;
+				}
+			}
+		}
 		this.user=userReference;
 	}
 

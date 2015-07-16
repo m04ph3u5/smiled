@@ -1398,7 +1398,26 @@ public class ScenarioServiceImpl implements ScenarioService{
 				u.pull("filesMetadata",f);
 			}
 		}
-		
+		if(statusDTO.getTags()!=null){
+			List<Reference> tagsCharacter = new ArrayList<Reference>();
+			for(int i=0;i<statusDTO.getTags().size(); i++){
+
+				Reference r = new Reference();
+				for(int j=0; j<scenario.getCharacters().size();j++){
+					if(scenario.getCharacters().get(j).getId().equals(statusDTO.getTags().get(i))){
+						r.setId(statusDTO.getTags().get(i));
+						r.setFirstname(scenario.getCharacters().get(j).getName());
+						tagsCharacter.add(r);
+						break;
+					}
+				}
+				
+			}
+			
+			//adesso in tagsCharacter c'è la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
+			//TODO da testare se effettivamente eventuali tag già presenti non vengono duplicati nella lista di tags
+			u.addToSet("tags").each(tagsCharacter);
+		}
 		u.set("lastChangeDate", new Date());
 
 		
@@ -1584,6 +1603,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		User user = userRepository.findById(activeUser.getId());
+		Scenario scenario = scenarioRepository.findById(idScenario);
+		if(scenario == null)
+			throw new BadRequestException();
 		
 		boolean hasPermission = false;
 		Reference charRef = null;
@@ -1610,7 +1632,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		Reference userReference = new Reference(user);
 		
-		Comment comment = new Comment(charRef, commentDTO, userReference);
+		Comment comment = new Comment(charRef, commentDTO, userReference, scenario);
 		if(!postRepository.addComment(idScenario, postId, comment))
 			throw new BadRequestException();
 		
@@ -1623,10 +1645,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		User user = userRepository.findById(activeUser.getId());
+		Scenario scenario = scenarioRepository.findById(idScenario);
+		if(scenario == null)
+			throw new BadRequestException();
 		
 		Reference userReference = new Reference(user);
 		
-		MetaComment metaComment = new MetaComment(commentDTO, userReference);
+		MetaComment metaComment = new MetaComment(commentDTO, userReference, scenario);
 		if(!postRepository.addComment(idScenario, postId, metaComment))
 			throw new BadRequestException();
 		
@@ -1634,6 +1659,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 	}
 
 
+	/*
+	 * Si è scelto di non poter aggiungere/rimuovere tag ai commenti già fatti. E' possibile invece modificare il testo e rimuovere il commento*/
 	@Override
 	public CommentInterface updateComment(String idScenario, String postId,
 			String commentId, CommentDTO commentDTO, Authentication auth, boolean isMetaComment) throws NotFoundException, ForbiddenException {
@@ -1733,9 +1760,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(commentDTO.getText()!=null){
 			commentInterface.setText(commentDTO.getText());
 		}
-		if(commentDTO.getTags()!=null){
-			commentInterface.setTags(commentDTO.getTags());
-		}
+		
+		
+		
 		commentInterface.setLastChangeDate(new Date());
 		
 		if(isMetaComment){

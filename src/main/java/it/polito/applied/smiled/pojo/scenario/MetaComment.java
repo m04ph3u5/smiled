@@ -2,6 +2,7 @@ package it.polito.applied.smiled.pojo.scenario;
 
 import it.polito.applied.smiled.pojo.Reference;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class MetaComment implements CommentInterface{
 		
 	}
 	
-	public MetaComment(CommentDTO commentDTO, Reference userReference) {
+	public MetaComment(CommentDTO commentDTO, Reference userReference, Scenario scenario) {
 		this.creationDate=new Date();
 		this.lastChangeDate=creationDate;
 		
@@ -30,7 +31,27 @@ public class MetaComment implements CommentInterface{
 		 * multithreading*/
 		this.id=creationDate.getTime()+userReference.getId();
 		this.text=commentDTO.getText();
-		this.tags=commentDTO.getTags();
+		
+		tags = new ArrayList<Reference>();
+		for(int i=0; i<commentDTO.getTags().size();i++){
+			Reference r = new Reference();
+			List <Reference> allPartecipants = new ArrayList<Reference>();
+			allPartecipants.addAll(scenario.getAttendees());
+			allPartecipants.addAll(scenario.getCollaborators());
+			allPartecipants.add(scenario.getTeacherCreator());
+			
+			for(int j=0; j<allPartecipants.size();j++){
+				if(scenario.getCharacters().get(j).getId().equals(commentDTO.getTags().get(i))){
+					r.setId(commentDTO.getTags().get(i));
+					r.setFirstname(allPartecipants.get(j).getFirstname());
+					r.setLastname(allPartecipants.get(j).getLastname());
+					tags.add(r);
+					break;
+				}
+			}
+		}
+		
+		
 		this.user=userReference;
 	}
 
