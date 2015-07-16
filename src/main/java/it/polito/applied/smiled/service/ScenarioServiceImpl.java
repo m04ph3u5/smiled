@@ -1045,6 +1045,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		status.setPlace(statusDTO.getPlace());
 		status.setHistoricalDate(statusDTO.getHistoricalDate());
 		status.setSources(statusDTO.getSources());
+		status.setTags(statusDTO.getTags());
 		
 		if(statusDTO.getImageMetaId()!=null){
 			for(int i=0; i<statusDTO.getImageMetaId().size(); i++){
