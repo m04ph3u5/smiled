@@ -51,6 +51,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					toSendPost.status = "PUBLISHED";
 					toSendPost.imageMetaId = new Array();
 					toSendPost.fileMetaId = new Array();
+					toSendPost.tags = new Array();
 					for(var i=0; i<self.newPost.image.length; i++){
 						toSendPost.imageMetaId.push(self.newPost.image[i].id);
 					}
@@ -59,7 +60,9 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 						toSendPost.fileMetaId.push(self.newPost.file[i].id);
 					}
 					
-					toSendPost.tags = self.newPost.tags;
+					for(var i=0; i<self.newPost.tags.length; i++){
+						toSendPost.tags.push(self.newPost.tags[i].id);
+					}
 					
 					apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
 							function(data){
