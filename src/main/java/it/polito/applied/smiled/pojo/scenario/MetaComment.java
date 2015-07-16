@@ -13,7 +13,7 @@ public class MetaComment implements CommentInterface{
 	private Date creationDate;
 	private Date lastChangeDate;
 	private List<Reference> likes;
-	private List<Tag> tags;
+	private List<Reference> tags;
 	
 	private String text;
 	
@@ -66,11 +66,11 @@ public class MetaComment implements CommentInterface{
 		this.likes = likes;
 	}
 
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 

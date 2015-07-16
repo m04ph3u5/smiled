@@ -3,7 +3,6 @@ package it.polito.applied.smiled.pojo;
 import java.util.List;
 
 import it.polito.applied.smiled.pojo.scenario.Place;
-import it.polito.applied.smiled.pojo.scenario.Tag;
 
 public class Media {
 	
@@ -11,7 +10,7 @@ public class Media {
 	private String alt;
 	private MediaType type;
 	private Place place;
-	private List<Tag> tags;
+	private List<Reference> tags;
 	
 	public String getUrl() {
 		return url;
@@ -37,10 +36,10 @@ public class Media {
 	public void setPlace(Place place) {
 		this.place = place;
 	}
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 	

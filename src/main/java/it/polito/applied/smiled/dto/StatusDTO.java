@@ -1,10 +1,10 @@
 package it.polito.applied.smiled.dto;
 
 import it.polito.applied.smiled.pojo.HistoricalDate;
+import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Place;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
 import it.polito.applied.smiled.pojo.scenario.Source;
-import it.polito.applied.smiled.pojo.scenario.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class StatusDTO {
 	
 	private String text;
 	private String characterId;
-	private List<Tag> tags;
+	private List<Reference> tags;
 	private ArrayList<String> imageMetaId;
 	private ArrayList<String> fileMetaId;
 	private ArrayList<String> imageMetaIdToDelete;
@@ -35,10 +35,10 @@ public class StatusDTO {
 	public void setCharacterId(String characterId) {
 		this.characterId = characterId;
 	}
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 	

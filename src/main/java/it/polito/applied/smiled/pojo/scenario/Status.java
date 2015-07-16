@@ -14,7 +14,7 @@ import it.polito.applied.smiled.pojo.Reference;
 public class Status extends Post{
 
 	private CharacterReference character;
-	private List<Tag> tags;
+	private List<Reference> tags;
 	private String text;
 	
 	@DBRef
@@ -34,7 +34,7 @@ public class Status extends Post{
 		this.setComments(new ArrayList<Comment>());
 		this.setMetaComments(new ArrayList<MetaComment>());
 		this.setRevision(new Revision());
-		this.tags=new ArrayList<Tag>();
+		this.tags=new ArrayList<Reference>();
 		this.sources=new ArrayList<Source>();
 		this.imagesMetadata = new ArrayList<FileMetadata>();
 		this.filesMetadata = new ArrayList<FileMetadata>();
@@ -49,10 +49,10 @@ public class Status extends Post{
 		this.character = character;
 	}
 
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 	public String getText() {

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Event extends Post{
 
-	private List<Tag> tags;
+	private List<Reference> tags;
 	private String text;
 	private EventType type;
 	private Media media;
@@ -24,13 +24,13 @@ public class Event extends Post{
 		this.setComments(new ArrayList<Comment>());
 		this.setMetaComments(new ArrayList<MetaComment>());
 		this.setRevision(new Revision());
-		this.tags=new ArrayList<Tag>();
+		this.tags=new ArrayList<Reference>();
 	}
 	
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 	public String getText() {

@@ -1,7 +1,6 @@
 package it.polito.applied.smiled.pojo;
 
 import it.polito.applied.smiled.pojo.scenario.Place;
-import it.polito.applied.smiled.pojo.scenario.Tag;
 
 import java.util.Date;
 import java.util.List;
@@ -21,7 +20,7 @@ public class FileMetadata {
 	private String scenarioId;
 	private String characterId;
 	private String coverId;
-	private List<Tag> tags;
+	private List<Reference> tags;
 	private String description;
 	private Place place;	
 	private SupportedMedia format;
@@ -85,10 +84,10 @@ public class FileMetadata {
 	public void setFormat(SupportedMedia format) {
 		this.format = format;
 	}
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 	public String getDescription() {
