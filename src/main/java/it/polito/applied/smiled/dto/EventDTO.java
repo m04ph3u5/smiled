@@ -16,7 +16,7 @@ public class EventDTO {
 	private String scenarioId;
 	private Place place;
 	
-	private List<Reference> tags;
+	private List<String> tags;
 	private String text;
 	private EventType type;
 	private Media media;
@@ -50,10 +50,10 @@ public class EventDTO {
 	public void setPlace(Place place) {
 		this.place = place;
 	}
-	public List<Reference> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
-	public void setTags(List<Reference> tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 	public String getText() {
