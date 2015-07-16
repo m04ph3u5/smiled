@@ -4,11 +4,45 @@
 		Attività moderatore
 	</div>
 	<div class="box" data-ng-show="scenario.isCreator">
-		Attività creatore
+		<h3>Nuovo compito</h3>
+					<div class="marginMTop">
+					<label>{{scenario.scen.name}}</label>
+						<form role="form ">
+							<div class="form-group">
+								<input type="text" class="form-control" id="email"
+									placeholder="TITOLO DEL COMPITO">
+							</div>							
+							<div class="form-group">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<form class="form-inline">
+											<div class="form-group">
+												<input ui-date="dateOptions" class="form-control" required
+													data-ng-model="register.bornDate"
+													placeholder="DATA CONSEGNA COMPITO"></input>
+											</div>
+										</form>
+									</div>
+								</form>
+							</div>
+							<button type="submit" class="btn generalButton marginSBottom">Crea</button>
+						</form>
+
+					</div>
 	</div>
 	<div class="box" data-ng-show="scenario.hasCharacter">
-			<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/cesar.png" 
-			class="img-circle imgPreviewM">{{scenario.currentCharacter.name}}
+	<div class ="row sideMarginThree marginMTop marginSBottom">
+	<label>Stai interpretando:</label>
+	<div class="row marginMTop">
+		<div class="col-sm-6">
+			<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/ic_characters.png" 
+			class="img-circle imgPreviewL">
+		</div>
+		<div class="col-sm-6 marginMTop">
+			<label class="highlightText sideMarginThree">{{scenario.currentCharacter.name}}</label>
+		</div>
+	</div>
+	</div>
 	</div>
 	</div>
 	
@@ -20,9 +54,9 @@
 		</div>
 		<div class="container-fluid wizard">
 		<div class="row">
-			<a href="" style="width: 33%;" data-ui-sref=".posts" data-ui-sref-active="active">POST</a>
-			<a href="" style="width: 33%;" data-ui-sref=".characters" data-ui-sref-active="active">PERSONAGGI</a>
-			<a href="" style="width: 33%;" data-ui-sref=".map" data-ui-sref-active="active">MAPPA</a>
+			<a href="" style="width: 33%;" data-ui-sref=".posts" data-ui-sref-active="active"><label>POST</label></a>
+			<a href="" style="width: 33%;" data-ui-sref=".characters" data-ui-sref-active="active"><label>PERSONAGGI</label></a>
+			<a href="" style="width: 33%;" data-ui-sref=".map" data-ui-sref-active="active"><label>MAPPA</label></a>
 			</div>
 		</div>
 <!-- 		<ul class="wizard nav nav-pills nav-justified menu"> -->
@@ -37,25 +71,29 @@
 		<div class="box input-group marginM">
 			<input type="text" class="form-control" placeholder="Cerca nello scenario...">
 			<span class="input-group-btn">
-				<button class="btn btn-default confirm" type="button"><span class="glyphicon glyphicon-search"></span></button>
+				<button class="btn generalButton" type="button"><span class="glyphicon glyphicon-search"></span></button>
 			</span>
 		</div>
 		<div class="box">
-			<p class="marginMTop">
-				Creato da<b> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</b><br>
-				<span data-ng-if="scenario.scen.attendees"><b>{{scenario.scen.attendees.length}}</b> partecipanti<br></span>
-				<span data-ng-if="!scenario.scen.attendees"><b>0</b> partecipanti<br></span>
-				<span data-ng-if="scenario.scen.characters"><b>{{scenario.scen.characters.length}}</b> personaggi<br></span>
-				<span data-ng-if="!scenario.scen.characters"><b>0</b> personaggi<br></span>
-				<span data-ng-if="scenario.scen.collaborators"><b>{{scenario.scen.collaborators.length}}</b> collaboratori<br></span>
-				<span data-ng-if="!scenario.scen.collaborators"><b>0</b> collaboratori<br></span>
+			<p class="marginMTop subtitle">
+			<label>Descrizione</label></br>
+				Creato da <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
+				<span data-ng-if="scenario.scen.attendees"><label>{{scenario.scen.attendees.length}}</label> partecipanti<br></span>
+				<span data-ng-if="!scenario.scen.attendees"><label>0</label> partecipanti<br></span>
+				<span data-ng-if="scenario.scen.characters"><label>{{scenario.scen.characters.length}}</label> personaggi<br></span>
+				<span data-ng-if="!scenario.scen.characters"><label>0</label> personaggi<br></span>
+				<span data-ng-if="scenario.scen.collaborators"><label>{{scenario.scen.collaborators.length}}</label> collaboratori<br></span>
+				<span data-ng-if="!scenario.scen.collaborators"><label>0</label> collaboratori<br></span>
 			</p>
-		</div>
-		<div data-ng-if="scenario.isModerator" class="box" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
+			
+			<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
+			<hr>
 			<a href=""><p class="marginMTop">
 				<span class="glyphicon glyphicon-cog"></span>
 				Gestisci scenario		
 			</p></a>
 		</div>
+		</div>
+		
 	</div>
 </div>

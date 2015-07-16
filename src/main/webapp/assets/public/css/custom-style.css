@@ -158,6 +158,9 @@
 		.marginMTop{
 			margin-top: 3%;
 		}
+		.marginSBottom{
+			margin-bottom: 1%;
+		}
 		.form-control[readonly]{
 			background-color:transparent;
 		}
@@ -184,6 +187,14 @@
 		}
 		.pickRow{
     		margin-left: 1%;
+    	}
+    	
+    	hr{
+    		border:0px;
+    		color:#5B5955;
+    		background-color:#5B5955;
+    		height: 1px;
+    		
     	}
 
 /* Index */
@@ -362,7 +373,13 @@
 			    background-position: center center;
 						
 		}
-		
+		.highlightText{
+			font-size:20px;
+		}
+		.subtitle{
+			font-size:16px;
+			color: #6e7f70;
+		}
 
 /* Elenco scenari */
 		.sideMarginThree{
