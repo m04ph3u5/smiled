@@ -99,7 +99,7 @@ tooltips:hover::before{ width:200px; display:block; background:yellow; border:1p
     cursor: pointer;
 }
 .suggestions-list {
-    position: absolute;
+/*     position: absolute; */
     list-style-type: none;
     margin: 0;
     padding: 0;

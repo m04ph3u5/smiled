@@ -13,7 +13,7 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$time
 			self.selectedIndex=-1;
 			self.suggestions = new Array();
 			self.searchText = "";
-			self.showSuggestions=false;
+			self.showSuggestions=true;
 			
 			self.search = function(){
 				self.suggestions = [];
@@ -87,18 +87,15 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$time
 				}
 			}
 			
-			self.blur = function(){
-				console.log("BLUR");
-				$timeout(function(){
-					self.showSuggestions=false;
-				},100);
-				
-			}
-			
-			self.focus = function(){
-				console.log("FOCUS");
-				self.showSuggestions=true;
-			}
+//			self.onFocusOut = function(){
+//				console.log("FOCUSOUT");
+//				self.showSuggestions=false;
+//			}
+//			
+//			self.onFocusIn = function(){
+//				console.log("FOCUSIN");
+//				self.showSuggestions=true;
+//			}
 		},
 		controllerAs: 'tagBox',
 		bindToController : true,
@@ -110,13 +107,25 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$time
 				}
 			});
 			
-			elem.on('focusout', function(){
+			
+			elem.on('focusout', function($event){
+				console.log("focusout: "+ controller.showSuggestions);
 				controller.showSuggestions=false;
+				console.log($event.target);
+				console.log(elem);
+				scope.$apply();
 			});
-			elem.on('focusin', function(){
+			elem.on('focusin', function($event){
+				console.log("focusin: "+ controller.showSuggestions);
+				console.log(scope);
+
 				controller.search();
 				controller.showSuggestions=true;
+				console.log($event.target);
+				scope.$apply();
 			});
+			
+			
 		}
 	}
 }]);
