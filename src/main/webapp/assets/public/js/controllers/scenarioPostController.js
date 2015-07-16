@@ -216,12 +216,14 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 					if(self.posts[i].imageId){
 						self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
 					}
-					if(self.posts[i].character)
+					if(self.posts[i].character){
 						self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
-					for(var j=0; j<self.posts[i].likes.length; j++){
-						if(self.posts[i].likes[j].id==self.posts[i].character.id){
-							self.posts[i].youLike=true;
-							break;
+					
+						for(var j=0; j<self.posts[i].likes.length; j++){
+							if(self.posts[i].likes[j].id==self.posts[i].character.id){
+								self.posts[i].youLike=true;
+								break;
+							}
 						}
 					}
 					console.log(self.posts[i].historicalDate);

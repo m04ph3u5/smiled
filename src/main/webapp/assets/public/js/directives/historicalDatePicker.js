@@ -13,7 +13,7 @@ angular.module("smiled.application").directive("historicalDatePicker",[ 'CONSTAN
         link: function(scope,element,attr){
         	
         	scope.$watch('vm.date', function(newValue,oldValue){
-        		if(newValue && newValue.year && newValue.month && newValue.day){
+        		if(newValue.year && newValue.month && newValue.day){
         			var era;
         			if(newValue.afterChrist)
         				era="D.C.";

@@ -13,10 +13,10 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 		
 			/*Initialize newPost variable*/
 			self.newPost = {};
-			self.newPost.date = {
-					afterChrist : true
-			};
+			self.newPost.date = {};
+			self.newPost.date.afterChrist = true;
 			self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+
 			self.newPost.image = new Array();
 			self.newPost.file  = new Array();
 			self.newPost.tags = new Array();
