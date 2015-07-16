@@ -59,6 +59,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 						toSendPost.fileMetaId.push(self.newPost.file[i].id);
 					}
 					
+					toSendPost.tags = self.newPost.tags;
+					
 					apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
 							function(data){
 								console.log("sended: "+data);
