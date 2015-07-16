@@ -1,8 +1,8 @@
 package it.polito.applied.smiled.dto;
 
 import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Place;
-import it.polito.applied.smiled.pojo.scenario.Tag;
 
 import java.util.Date;
 import java.util.List;
@@ -14,7 +14,7 @@ public class FileMetadataDTO {
 	
 	private String name;
 	private String characterId;
-	private List<Tag> tags;
+	private List<Reference> tags;
 	private String description;
 	private Place place;
 	
@@ -50,10 +50,10 @@ public class FileMetadataDTO {
 	public void setCharacterId(String characterId) {
 		this.characterId = characterId;
 	}
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 	public String getDescription() {

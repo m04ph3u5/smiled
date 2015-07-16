@@ -16,7 +16,7 @@ public class Comment implements CommentInterface{
 	private Date lastChangeDate;
 	private Revision revision;
 	private List<CharacterReference> likes;
-	private List<Tag> tags;
+	private List<Reference> tags;
 	
 	private String text;
 	
@@ -86,11 +86,11 @@ public class Comment implements CommentInterface{
 		this.likes = likes;
 	}
 
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 

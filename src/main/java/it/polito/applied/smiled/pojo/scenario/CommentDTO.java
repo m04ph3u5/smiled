@@ -1,16 +1,18 @@
 package it.polito.applied.smiled.pojo.scenario;
 
+import it.polito.applied.smiled.pojo.Reference;
+
 import java.util.List;
 
 public class CommentDTO {
-	private List<Tag> tags; 
+	private List<Reference> tags; 
 	private String text; 
 	
-	public List<Tag> getTags() { 
+	public List<Reference> getTags() { 
 		return tags; 
 	} 
 	
-	public void setTags(List<Tag> tags) { 
+	public void setTags(List<Reference> tags) { 
 		this.tags = tags; 
 	} 
 	

@@ -8,7 +8,6 @@ import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.EventType;
 import it.polito.applied.smiled.pojo.scenario.Place;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
-import it.polito.applied.smiled.pojo.scenario.Tag;
 
 public class EventDTO {
 	private PostStatus status;
@@ -17,7 +16,7 @@ public class EventDTO {
 	private String scenarioId;
 	private Place place;
 	
-	private List<Tag> tags;
+	private List<Reference> tags;
 	private String text;
 	private EventType type;
 	private Media media;
@@ -51,10 +50,10 @@ public class EventDTO {
 	public void setPlace(Place place) {
 		this.place = place;
 	}
-	public List<Tag> getTags() {
+	public List<Reference> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<Reference> tags) {
 		this.tags = tags;
 	}
 	public String getText() {

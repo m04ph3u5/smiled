@@ -13,8 +13,8 @@ public interface CommentInterface {
 	public void setCreationDate(Date creationDate);
 	public Date getLastChangeDate();
 	public void setLastChangeDate(Date lastChangeDate);
-	public List<Tag> getTags();
-	public void setTags(List<Tag> tags);
+	public List<Reference> getTags();
+	public void setTags(List<Reference> tags);
 	public String getText();
 	public void setText(String text);
 	public String getId();

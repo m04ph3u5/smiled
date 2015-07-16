@@ -17,6 +17,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	};
 	self.newEvent.date.formatted=CONSTANTS.insertHistoricalDateEvent;
 	
+	
 //	self.newPost.image = {};
 //	self.newPost.file  = {};
 	self.showDatePicker=false;
