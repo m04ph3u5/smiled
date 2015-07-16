@@ -1045,7 +1045,20 @@ public class ScenarioServiceImpl implements ScenarioService{
 		status.setPlace(statusDTO.getPlace());
 		status.setHistoricalDate(statusDTO.getHistoricalDate());
 		status.setSources(statusDTO.getSources());
-		status.setTags(statusDTO.getTags());
+		List<Reference> tagsCharacter = new ArrayList<Reference>();
+		for(int i=0; i<statusDTO.getTags().size();i++){
+			Reference r = new Reference();
+			for(int j=0; j<scenario.getCharacters().size();j++){
+				if(scenario.getCharacters().get(j).getId().equals(statusDTO.getTags().get(i))){
+					r.setId(statusDTO.getTags().get(i));
+					r.setFirstname(scenario.getCharacters().get(j).getName());
+					tagsCharacter.add(r);
+					break;
+				}
+			}
+		}
+		status.setTags(tagsCharacter);
+		
 		
 		if(statusDTO.getImageMetaId()!=null){
 			for(int i=0; i<statusDTO.getImageMetaId().size(); i++){
@@ -1197,7 +1210,21 @@ public class ScenarioServiceImpl implements ScenarioService{
 		event.setPlace(eventDTO.getPlace());
 		event.setScenarioId(scenarioId);
 		event.setHistoricalDate(eventDTO.getHistoricalDate());
-		event.setTags(eventDTO.getTags());
+
+		List<Reference> tagsCharacter = new ArrayList<Reference>();
+		for(int i=0; i<eventDTO.getTags().size();i++){
+			Reference r = new Reference();
+			for(int j=0; j<scenario.getCharacters().size();j++){
+				if(scenario.getCharacters().get(j).getId().equals(eventDTO.getTags().get(i))){
+					r.setId(eventDTO.getTags().get(i));
+					r.setFirstname(scenario.getCharacters().get(j).getName());
+					tagsCharacter.add(r);
+					break;
+				}
+			}
+		}
+		event.setTags(tagsCharacter);
+		
 		if(eventDTO.getStatus()==null)
 			event.setStatus(PostStatus.PUBLISHED);
 		else
