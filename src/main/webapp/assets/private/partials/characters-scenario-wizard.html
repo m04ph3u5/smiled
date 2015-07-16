@@ -3,7 +3,7 @@
 		<label for="characterName">INSERISCI IL NOME DEL NUOVO PERSONAGGIO</label>
 		<input type="text" id="characterName" class="form-control" placeholder="ES: GIULIO CESARE"
 			data-ng-model="scenarioWizard.newCharacter.name">
-		<div class="pull-right btn generalButton" data-ng-click="scenarioWizard.addCharacter()">CREA PERSONAGGIO</div>
+		<div class="pull-right btn generalButton" data-ng-click="scenarioWizard.addCharacter()"><span class="glyphicon glyphicon-floppy-save"></span> CREA PERSONAGGIO</div>
 	</div>
 </div>
 <br>
@@ -71,5 +71,5 @@
 	</accordion>
 	</div>
 </div>
-<div class="btn generalButton pull-left" data-ui-sref="logged.scenarioWizard.attendees">INDIETRO</div>
-<div class="btn positiveButton pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.associations">AVANTI</div>
+<div class="btn positiveButton pull-left" data-ui-sref="logged.scenarioWizard.attendees"><span class="glyphicon glyphicon-arrow-left"></span> INDIETRO</div>
+<div class="btn positiveButton pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.associations">AVANTI <span class="glyphicon glyphicon-arrow-right"></span></div>

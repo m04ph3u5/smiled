@@ -11,7 +11,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	self.scenario.endDate.afterChrist = true;
 	
 	self.createScenario = function (){
-		
+		console.log("aaaasssdddffggg");
 		if(self.scenario.title=="" || self.scenario.title==null || self.scenario.startDate==null || self.scenario.endDate==null){
 			alertingGeneric.addWarning("Inserire tutti i dati richiesti");
 		}
@@ -38,10 +38,11 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 		
 	}
 	self.deleteScenario = function(){
+		
 		if(self.scenToDelete!=null && self.scenToDelete!=""){
 			modalService.deleteScenario();
 			modalService.closeModalDeleteScen();
-			 $state.go("logged.dashboard");
+			$state.go("logged.dashboard");
 			
 		}
 		console.log("delete  aaaaaaaaaaaaaaaaaaaa");

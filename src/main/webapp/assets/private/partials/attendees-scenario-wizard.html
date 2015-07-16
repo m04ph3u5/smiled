@@ -15,7 +15,7 @@
 	<textarea data-ng-model="scenarioWizard.emailList" class="form-control" rows="3" placeholder="ES: studente1@email.it studente2@email.it ..."></textarea>
 	<br>
 	<div class="pull-right">
-	<button class="btn generalButton" data-ng-click="scenarioWizard.inviteStudents()">INVITA</button>
+	<button class="btn generalButton" data-ng-click="scenarioWizard.inviteStudents()"><span class="glyphicon glyphicon-send"></span> INVITA</button>
 	</div>
 </div>
 	<div class="row">
@@ -39,8 +39,8 @@
 	</div>
 </div>
 </div>
-<div class="btn generalButton pull-left" data-ui-sref="logged.scenarioWizard.info">INDIETRO</div>
-<div class="btn positiveButton pull-right" data-ui-sref="logged.scenarioWizard.characters">AVANTI</div>
+<div class="btn positiveButton pull-left" data-ui-sref="logged.scenarioWizard.info"><span class="glyphicon glyphicon-arrow-left"></span> INDIETRO</div>
+<div class="btn positiveButton pull-right" data-ui-sref="logged.scenarioWizard.characters">AVANTI <span class="glyphicon glyphicon-arrow-right"></span></div>
 
 
 <script type="text/ng-template" id="customTemplate.html">

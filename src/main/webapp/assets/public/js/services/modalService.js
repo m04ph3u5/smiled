@@ -68,6 +68,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		}
 		
 		var closeModalDeleteScen = function(){
+			console.log("DELETE SCENARIO");
 			modalInstanceDeleteScen.close();
 		}
 		
