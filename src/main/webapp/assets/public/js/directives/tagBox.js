@@ -1,4 +1,4 @@
-angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$timeout', function(CONSTANTS, $timeout){
+angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$document', function(CONSTANTS, $document){
 	return {
 		restrict: 'EA',
 		templateUrl: 'assets/private/partials/tag-box-template.html',
@@ -89,6 +89,7 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$time
 			
 //			self.onFocusOut = function(){
 //				console.log("FOCUSOUT");
+//				
 //				self.showSuggestions=false;
 //			}
 //			
@@ -100,6 +101,8 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$time
 		controllerAs: 'tagBox',
 		bindToController : true,
 		link : function(scope, elem, attrs, controller){
+			
+//			var clickedIn=false;
 		
 			scope.$watch('tagBox.selectedIndex',function(val){
 				if(val!==-1) {
@@ -110,21 +113,31 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$time
 			
 			elem.on('focusout', function($event){
 				console.log("focusout: "+ controller.showSuggestions);
-				controller.showSuggestions=false;
-				console.log($event.target);
-				console.log(elem);
-				scope.$apply();
+			
+					controller.showSuggestions=false;
+					scope.$apply();
+//					clickedIn=false;
+//					controller.suggestions=[];
+//					controller.selectedIndex=-1;
+//					controller.searchText="";
+
 			});
 			elem.on('focusin', function($event){
 				console.log("focusin: "+ controller.showSuggestions);
 				console.log(scope);
-
 				controller.search();
 				controller.showSuggestions=true;
 				console.log($event.target);
 				scope.$apply();
 			});
 			
+//			elem.bind('mousedown', function(e){
+//			    e.stopPropagation();
+//			    console.log('clicked on directive');
+//			    console.log(e);
+//			    clickedIn=true;
+//			});
+//			
 			
 		}
 	}

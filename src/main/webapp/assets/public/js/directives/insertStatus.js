@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload',
-                                     function(CONSTANTS, apiService, Upload){
+angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q',
+                                     function(CONSTANTS, apiService, Upload, $q){
 	return {
 		templateUrl: "assets/private/partials/insert-status-template.html",
 		scope : {
@@ -154,6 +154,69 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				}
 			}
 			/*-----------------------------------------------------*/
+			
+			
+			/*Function to pass to autocomplete of tag-input-directive*/
+			self.search = function($query,isChar){
+				console.log("SEARCH");
+				var selectable;
+				self.suggestions = new Array();
+				if(isChar)
+					selectable=self.scenario.characters;
+				else{
+					if(self.scenario.attendees)
+						selectable=self.scenario.attendees;
+					if(self.scenario.collaborators)
+						selectable.push.apply(self.scenario.collaborators);
+					selectable.push(self.scenario.teacherCreator);
+				}
+				var regex = new RegExp("(^|\\s|-|'|,|\.)"+$query,"gi");
+				if(selectable){
+					if(!isChar){
+						for(var i=0; i<selectable.length; i++){
+							if(regex.test(selectable[i].firstname) || regex.test(selectable[i].lastname)){
+								var suggestion = {};
+								suggestion.name=selectable[i].lastname+" "+selectable[i].firstname;
+								suggestion.id=selectable[i].id;
+								suggestion.cover=CONSTANTS.urlUserCover(selectable[i].id);
+								self.suggestions.push(suggestion);
+							}
+						}
+					}else if(isChar){
+						console.log("search->character");
+						console.log(regex.source);
+
+						if(!self.scenario.id){
+							throw new Error("Unsupported type");
+						}
+						for(var i=0; i<selectable.length; i++){
+						
+							if(regex.test(selectable[i].name)){
+								var suggestion = {};
+								suggestion.name=selectable[i].name;
+								suggestion.id=selectable[i].id;
+								suggestion.cover=CONSTANTS.urlCharacterCover(self.scenario.id,selectable[i].id);
+								self.suggestions.push(suggestion);
+								console.log("search->addSuggestion "+i);
+							}
+
+						}
+					}else
+						throw new Error("Unsupported type");
+				}
+				var result = $q.defer();
+				result.resolve(self.suggestions);
+				return result.promise;
+			}
+			/*-------------------------------------------------------*/
+			
+			/*Function to show/hide tag box*/
+			self.showTagBox=false;
+			self.switchShowTagBox =function(){
+				self.showTagBox=!self.showTagBox;
+			}
+			
+			/*-----------------------------*/
 
 		}],
 		controllerAs: "insertStatus"

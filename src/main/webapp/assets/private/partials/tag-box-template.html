@@ -12,16 +12,18 @@
 			data-ng-model="tagBox.searchText" data-ng-change="tagBox.search()" />
 	</div>
 	<div data-ng-show="tagBox.showSuggestions">
-		<ul id="suggestions" class="suggestions-list">
-			<li data-ng-repeat="suggestion in tagBox.suggestions"
-				class="blockSpan" data-ng-mouseover="tagBox.selectedIndex=$index"
-				data-ng-class="{active : tagBox.selectedIndex===$index}">
-				<a data-ng-click="tagBox.addToSelectedTags($index)">
-					<img data-ng-src="suggestion.cover"
-						data-err-src="assets/public/img/user_ico.png"
-						class="img-circle imgPreviewM">{{suggestion.name}}
-				</a>
-			</li>
-		</ul>
+		<a id="suggestions">
+			<ul  class="suggestions-list">
+				<li data-ng-repeat="suggestion in tagBox.suggestions"
+					class="blockSpan" data-ng-mouseover="tagBox.selectedIndex=$index"
+					data-ng-class="{active : tagBox.selectedIndex===$index}">
+					<a data-ng-click="tagBox.addToSelectedTags($index)">
+						<img data-ng-src="suggestion.cover"
+							data-err-src="assets/public/img/user_ico.png"
+							class="img-circle imgPreviewM">{{suggestion.name}}
+					</a>
+				</li>
+			</ul>
+		</a>
 	</div>
 </div>
