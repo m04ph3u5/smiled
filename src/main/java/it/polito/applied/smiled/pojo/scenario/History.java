@@ -15,7 +15,7 @@ public class History {
 	private HistoricalDate endDate;
 	
 	private String description;
-	private String mapURL;
+	private String mapId;
 	
 	public HistoricalDate getStartDate() {
 		return startDate;
@@ -35,11 +35,11 @@ public class History {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getMap() {
-		return mapURL;
+	public String getMapId() {
+		return mapId;
 	}
-	public void setMap(String map) {
-		this.mapURL = map;
+	public void setMapId(String map) {
+		this.mapId = map;
 	}
 	
 	

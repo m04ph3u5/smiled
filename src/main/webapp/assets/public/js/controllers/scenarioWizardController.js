@@ -21,6 +21,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.selectableCollaborators;
 		self.currentCharacters = []; //qui ci vanno le modifiche temporanee al character i-esimo. Questo ci permette di decidere se effettuare o meno la put sul server nel momento in cui andiamo a chiudere l'accordion
 		self.charactersServer = []; //array di character cosi come sono sul server
+		self.map;
 		var currentCharacterIndex = -1;
 		var getMePromise = $q.defer();
 		
@@ -109,6 +110,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					self.scenario.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
 				}
 			self.scenario.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
+			self.map = CONSTANTS.urlMedia(self.scenario.history.mapId);
 		}
 		
 		var updateAssociated = function(){
@@ -742,6 +744,29 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(s.type== 'Student')
 				return true;
 			else return false;
+		}
+		
+		self.uploadMap = function(file){
+			if(file && file.length){
+				Upload.upload({
+		            url: CONSTANTS.urlPostMedia(self.scenario.id),
+		            headers : {
+		                'Content-Type': file.type
+		            },
+		            file: file
+		        })
+//		            .progress(function (evt) {
+//		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//		            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//		        })
+		        .success(function (data, status, headers, config) {
+		            console.log('MAP ' + config.file.name + 'uploaded. Response: ' + data);
+		            self.scenario.history.mapId = data.id;
+		            var date = new Date();
+		            self.map = CONSTANTS.urlMedia(data.id)+"?"+date.toString() ;
+		            console.log(self.scenario.history.mapId);
+		        });
+			}
 		}
 		
 		

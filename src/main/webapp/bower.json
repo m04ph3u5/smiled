@@ -19,6 +19,7 @@
 		"bootstrap" : "3.3.4",
 		"angular-native-dragdrop" : "1.1.0",
 		"ngInfiniteScroll": "1.0.0",
-		"ng-tags-input" : "latest"
+		"ng-tags-input" : "latest",
+		"angular-bootstrap-lightbox": "latest"
 	}
 }

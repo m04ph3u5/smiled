@@ -1,4 +1,4 @@
-<div data-ng-show="insertStatus.showInsertStatus">
+<div data-ng-if="insertStatus.showInsertStatus">
 	<div class="row col-md-10 col-md-offset-1 box"
 		style="padding-bottom: 100px;">
 		<div class="text-center">
@@ -42,27 +42,27 @@
 					data-ng-click="insertStatus.removeFile(file)"></span>
 			</div>
 
-			<!-- 					<div title="Aggiungi una posizione al post" -->
-			<!-- 						data-ng-click="scenarioPost.setPositionNewPost()" -->
-			<!-- 						class="tooltips glyphicon glyphicon-map-marker" -->
-			<!-- 						style="margin-right: 5px;"></div> -->
+			<div title="Aggiungi una posizione al post"
+				data-ng-click="insertStatus.setPositionNewPost()"
+				class="tooltips glyphicon glyphicon-map-marker"
+				style="margin-right: 5px;"></div>
 			<!-- 					<label></label> -->
 			<!-- 			<div title="Tagga personaggi al post" -->
 			<!-- 				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertStatus.newPost.tags" selectable="insertStatus.scenario.characters"  -->
 			<!-- 					type="character" scenario="{{insertStatus.scenario.id}}" style="margin-right: 5px;"></div> -->
 			<!-- 			<label></label> -->
 
-			<div>
-				<div class="tooltips glyphicon glyphicon-tags" title="Tagga personaggi al post"
-					data-ng-click="insertStatus.switchShowTagBox()"></div>
-				<tags-input data-ng-show="insertStatus.showTagBox" data-ng-model="insertStatus.newPost.tags"
-					display-property="name" placeholder="Tagga un amico"
-					replace-spaces-with-dashes="false" template="tag-template"
-					add-from-autocomplete-only="true"> <auto-complete
-					source="insertStatus.search($query,true)" min-length="0"
-					load-on-focus="true" load-on-empty="true" max-results-to-show="32"
-					template="autocomplete-template"> </auto-complete> </tags-input>
-			</div>
+			<div class="tooltips glyphicon glyphicon-tags"
+				title="Tagga personaggi al post"
+				data-ng-click="insertStatus.switchShowTagBox()"></div>
+			<tags-input data-ng-show="insertStatus.showTagBox"
+				data-ng-model="insertStatus.newPost.tags" display-property="name"
+				placeholder="Tagga un amico" replace-spaces-with-dashes="false"
+				template="tag-template" add-from-autocomplete-only="true">
+			<auto-complete source="insertStatus.search($query,true)"
+				min-length="0" load-on-focus="true" load-on-empty="true"
+				max-results-to-show="32" template="autocomplete-template">
+			</auto-complete> </tags-input>
 			<!-- 					<div title="Indica le tue fonti" -->
 			<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
 			<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
@@ -70,7 +70,9 @@
 			<!-- 				</div> -->
 		</div>
 
-		<div class="row col-md-10 col-md-offset-1">
+		
+	</div>
+	<div class="row col-md-10 col-md-offset-1">
 			<div class="pull-right">
 				<div data-ng-click="insertStatus.draftNewPost()"
 					class="btn generalButton">SALVA COME BOZZA</div>
@@ -78,7 +80,6 @@
 					class="btn generalButton">PUBBLICA</div>
 			</div>
 		</div>
-	</div>
 </div>
 
 

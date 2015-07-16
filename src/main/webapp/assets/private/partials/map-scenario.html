@@ -1,1 +1,14 @@
-MAP
+<div style="margin-top: 20px;" data-ng-show="!scenarioMap.map">
+	<b>Ci dispiace, ancora non è stata inserita alcuna mappa per questo
+		scenario</b>
+</div>
+<div class="box" data-ng-show="scenarioMap.map">
+	<img data-ng-src="{{scenarioMap.map}}">
+</div>
+<div id="slider"></div>
+
+<script>
+	$(function() {
+		$("#slider").slider();
+	});
+</script>

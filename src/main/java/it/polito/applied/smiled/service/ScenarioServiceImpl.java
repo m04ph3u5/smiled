@@ -150,8 +150,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(scenario.getHistory().getEndDate()!=null){
 					u.set("history.endDate", scenario.getHistory().getEndDate());
 				}
-				if(scenario.getHistory().getMap()!=null){
-					u.set("history.map", scenario.getHistory().getMap());
+				if(scenario.getHistory().getMapId()!=null){
+					u.set("history.mapId", scenario.getHistory().getMapId());
 				}
 
 			}

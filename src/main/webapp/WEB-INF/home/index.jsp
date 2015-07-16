@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/validation-form.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngDialog/css/ngDialog.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-tags-input/ng-tags-input.css">
+<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
 </head>
 <base href="/ThesisProject/">
 <body data-ng-cloak>
@@ -52,6 +53,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-native-dragdrop/draganddrop.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-tags-input/ng-tags-input.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
 	<!-- CUSTOM SCRIPT -->

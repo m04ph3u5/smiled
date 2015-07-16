@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q',
-                                     function(CONSTANTS, apiService, Upload, $q){
+angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'Lightbox',
+                                     function(CONSTANTS, apiService, Upload, $q, Lightbox){
 	return {
 		templateUrl: "assets/private/partials/insert-status-template.html",
 		scope : {
@@ -24,7 +24,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			
 			/*Check character presence. If absent don't show template*/
-			if(self.character){
+			if(self.character && self.character.id){
 				self.showInsertStatus = true;
 				console.log(self.character);
 			}else{
@@ -222,6 +222,17 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			}
 			
 			/*-----------------------------*/
+			
+			/*Function to open map*/
+			self.setPositionNewPost = function(){
+				console.log("setPositionNewMap");
+				var mapsArray = [];
+				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
+				var map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)};
+				mapsArray.push(map);
+				Lightbox.openModal(mapsArray,0);
+			}
+			/*--------------------*/
 
 		}],
 		controllerAs: "insertStatus"

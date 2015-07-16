@@ -21,6 +21,9 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"urlMedia" : function(id){
 		return "api/v1/media/"+id;
 	},
+	"urlPostMedia" : function(idScenario){
+		return "api/v1/scenarios/"+idScenario+"/media";
+	},
 	"urlPost" : function(idScenario, idPost){
 			return "api/v1/scenarios/"+idScenario+"/posts/"+idPost;
 	},
