@@ -1,4 +1,4 @@
-<div class="tags-wrapper">
+<div id="tagBox" class="tags-wrapper">
 	<div id="tagsList" class="tags-cloud">
 		<div data-ng-repeat="selectedTag in tagBox.selectedTags" class="tag">
 			<span data-ng-show="tagBox.type=='user'" class="tagName">{{selectedTag.lastname}}
@@ -11,17 +11,17 @@
 			data-ng-keydown="tagBox.checkKeyDown($event)" class="form-control"
 			data-ng-model="tagBox.searchText" data-ng-change="tagBox.search()" />
 	</div>
-	<ul data-ng-show="tagBox.showSuggestions" id="suggestions"
-		class="suggestions-list">
-		<li data-ng-repeat="suggestion in tagBox.suggestions"
-			class="blockSpan" data-ng-mouseover="$parent.selectedIndex=$index"
-			data-ng-class="{active : tagBox.selectedIndex===$index}">
-			<div data-ng-click="tagBox.addToSelectedTags($index)">
-				<img data-ng-src="suggestion.cover"
-					data-err-src="assets/public/img/user_ico.png"
-					class="img-circle imgPreviewM">{{suggestion.name}}
-			</div>
-		</li>
-
-	</ul>
+	<div data-ng-show="tagBox.showSuggestions">
+		<ul id="suggestions" class="suggestions-list">
+			<li data-ng-repeat="suggestion in tagBox.suggestions"
+				class="blockSpan" data-ng-mouseover="tagBox.selectedIndex=$index"
+				data-ng-class="{active : tagBox.selectedIndex===$index}">
+				<a data-ng-click="tagBox.addToSelectedTags($index)">
+					<img data-ng-src="suggestion.cover"
+						data-err-src="assets/public/img/user_ico.png"
+						class="img-circle imgPreviewM">{{suggestion.name}}
+				</a>
+			</li>
+		</ul>
+	</div>
 </div>
