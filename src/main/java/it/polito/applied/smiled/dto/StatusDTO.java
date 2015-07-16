@@ -13,7 +13,7 @@ public class StatusDTO {
 	
 	private String text;
 	private String characterId;
-	private List<Reference> tags;
+	private List<String> tags;
 	private ArrayList<String> imageMetaId;
 	private ArrayList<String> fileMetaId;
 	private ArrayList<String> imageMetaIdToDelete;
@@ -35,10 +35,10 @@ public class StatusDTO {
 	public void setCharacterId(String characterId) {
 		this.characterId = characterId;
 	}
-	public List<Reference> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
-	public void setTags(List<Reference> tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 	
