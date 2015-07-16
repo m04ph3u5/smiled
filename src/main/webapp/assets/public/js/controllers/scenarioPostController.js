@@ -226,7 +226,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 							}
 						}
 					}
-					console.log(self.posts[i].historicalDate);
 				}
 			}, function(reason){
 				console.log("errore");

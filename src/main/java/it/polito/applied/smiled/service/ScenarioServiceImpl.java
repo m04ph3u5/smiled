@@ -1259,7 +1259,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		List<Role> roles = (List<Role>) user.getAuthorities();
 		Status status = (Status) post;
-		Scenario scenario = null;
+		Scenario scenario = scenarioRepository.findById(id);
+		if(scenario==null)
+			throw new BadRequestException();
+		
 		boolean permit=false;
 		Date now=null;
 		
@@ -1282,7 +1285,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 		 * Ã¨ modificabile dal solo creatore del post)*/
 		if(!permit && status.getStatus().equals(PostStatus.PUBLISHED)){
 			/*Se uno dei due controlli fallisce valuto la possibilitÃ  che a fare l'operazione voglia essere il creator dello Scenario*/
-			scenario = scenarioRepository.findById(id);
 			if(scenario.getTeacherCreator().getId().equals(user.getId())){
 				permit=true;
 			}
@@ -1341,6 +1343,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 		
 		if(statusDTO.getImageMetaId()!=null){
+			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<statusDTO.getImageMetaId().size();i++){
 				FileMetadata f = fileMetadataRepository.confirmImage(statusDTO.getImageMetaId().get(i));
 				if(f==null)
@@ -1351,10 +1354,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				u.addToSet("imagesMetadata",f);
+				newImageMeta.add(f);
 			}
+			u.addToSet("imagesMetadata").each(newImageMeta);
 		}
+		
 		if(statusDTO.getFileMetaId()!=null){
+			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
 				FileMetadata f = fileMetadataRepository.confirmFile(statusDTO.getFileMetaId().get(i));
 				if(f==null)
@@ -1365,13 +1371,15 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				u.addToSet("filesMetadata",f);
+				newFileMeta.add(f);
 			}
+			u.addToSet("filesMetadata").each(newFileMeta);
 		}
 		
 		if(statusDTO.getImageMetaIdToDelete()!=null){
+			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
 			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
-				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(statusDTO.getImageMetaId().get(i));
+				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference metaUserRef = new Reference();
@@ -1380,13 +1388,15 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				u.pull("imagesMetadata",f);
+				newMetadata[i]=f;
 			}
+			u.pullAll("imagesMetadata",newMetadata);
 		}
 		
 		if(statusDTO.getFileMetaIdToDelete()!=null){
+			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
 			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
-				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(statusDTO.getFileMetaId().get(i));
+				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference metaUserRef = new Reference();
@@ -1395,8 +1405,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				u.pull("filesMetadata",f);
+				newMetadata[i]=f;
 			}
+			u.pullAll("filesMetadata",newMetadata);
 		}
 		if(statusDTO.getTags()!=null){
 			List<Reference> tagsCharacter = new ArrayList<Reference>();
@@ -1414,8 +1425,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				
 			}
 			
-			//adesso in tagsCharacter c'è la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
-			//TODO da testare se effettivamente eventuali tag già presenti non vengono duplicati nella lista di tags
+			//adesso in tagsCharacter c'ï¿½ la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
+			//TODO da testare se effettivamente eventuali tag giï¿½ presenti non vengono duplicati nella lista di tags
 			u.addToSet("tags").each(tagsCharacter);
 		}
 		u.set("lastChangeDate", new Date());
@@ -1660,7 +1671,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	/*
-	 * Si è scelto di non poter aggiungere/rimuovere tag ai commenti già fatti. E' possibile invece modificare il testo e rimuovere il commento*/
+	 * Si ï¿½ scelto di non poter aggiungere/rimuovere tag ai commenti giï¿½ fatti. E' possibile invece modificare il testo e rimuovere il commento*/
 	@Override
 	public CommentInterface updateComment(String idScenario, String postId,
 			String commentId, CommentDTO commentDTO, Authentication auth, boolean isMetaComment) throws NotFoundException, ForbiddenException {
