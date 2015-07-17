@@ -6,7 +6,12 @@ angular.module("smiled.application").directive("historicalDatePicker",[ 'CONSTAN
         	date: "="
         },
         controller : function (){
-        	
+        	var self = this;
+        	self.months = CONSTANTS.getMonths("it");
+        	self.days = CONSTANTS.getDays(self.date.month);
+        	self.getDays = function(){
+            	self.days = CONSTANTS.getDays(self.date.month);
+        	}
         },
         controllerAs: 'vm',
         bindToController: true,
