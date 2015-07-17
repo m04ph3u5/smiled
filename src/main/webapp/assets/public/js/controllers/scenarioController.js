@@ -13,10 +13,12 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.isCreator = false;
 	self.hasCharacter = false;
 	self.currentCharacter = {};
-	
+	self.showBoxEvent = false;
 
 	
-	
+	self.openBoxEvent = function(){
+		self.showBoxEvent = !self.showBoxEvent;
+	}
 	
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/

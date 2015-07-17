@@ -1,23 +1,23 @@
 <div class="container-fluid">
 	<div class="row">
 		<!-- EVENTO -->
-		<div class="row col-md-10 col-md-offset-1 box">
-			<div class="text-center">
-				<div class="row">
-					<div class="pull-left">
-						<label style="margin-left: 25px;">NARRATORE</label>
-					</div>
-					<div style="margin-right: 15px;" class="pull-right">
-						<label data-ng-click="scenarioPost.setDateNewEvent()">{{scenarioPost.newEvent.date.formatted}}</label>
-						<div data-ng-click="scenarioPost.setDateNewEvent()"
-							class="glyphicon glyphicon-calendar"></div>
-						<div data-ng-show="scenarioPost.showDatePickerEvent"
-							historical-date-picker date="scenarioPost.newEvent.date"></div>
-					</div>
-				</div>
-				<textarea placeholder="RACCONTA UN EVENTO" class="col-md-12"
-					rows="5" data-ng-model="scenarioPost.newEvent.content"></textarea>
-			</div>
+<!-- 		<div class="row col-md-10 col-md-offset-1 box"> -->
+<!-- 			<div class="text-center"> -->
+<!-- 				<div class="row"> -->
+<!-- 					<div class="pull-left"> -->
+<!-- 						<label style="margin-left: 25px;">NARRATORE</label> -->
+<!-- 					</div> -->
+<!-- 					<div style="margin-right: 15px;" class="pull-right"> -->
+<!-- 						<label data-ng-click="scenarioPost.setDateNewEvent()">{{scenarioPost.newEvent.date.formatted}}</label> -->
+<!-- 						<div data-ng-click="scenarioPost.setDateNewEvent()" -->
+<!-- 							class="glyphicon glyphicon-calendar"></div> -->
+<!-- 						<div data-ng-show="scenarioPost.showDatePickerEvent" -->
+<!-- 							historical-date-picker date="scenarioPost.newEvent.date"></div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<textarea placeholder="RACCONTA UN EVENTO" class="col-md-12" -->
+<!-- 					rows="5" data-ng-model="scenarioPost.newEvent.content"></textarea> -->
+<!-- 			</div> -->
 			<!-- 					<div title="Aggiungi un'immagine" ngf-select -->
 			<!-- 						ngf-change="scenarioPost.addImageToNewPost($files)" -->
 			<!-- 						class="tooltips glyphicon glyphicon-camera" -->
@@ -47,18 +47,22 @@
 			<!-- 						style="margin-right: 5px;"></div> -->
 			<!-- 					<label></label> -->
 			<!-- 				</div> -->
+<!-- 		</div> -->
+<!-- 		<div class="row col-md-10 col-md-offset-1"> -->
+<!-- 			<div class="pull-right"> -->
+<!-- 				<div data-ng-click="scenarioPost.draftNewEvent()" -->
+<!-- 					class="btn generalButton">SALVA COME BOZZA</div> -->
+<!-- 				<div data-ng-click="scenarioPost.saveNewEvent()" -->
+<!-- 					class="btn generalButton">PUBBLICA</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+		
+		<div class="row" data-ng-show="scenario.showBoxEvent">
+			<div data-insert-status character="scenario.currentCharacter"
+				posts="scenarioPost.posts" scenario="scenarioPost.scen"></div>
 		</div>
-		<div class="row col-md-10 col-md-offset-1">
-			<div class="pull-right">
-				<div data-ng-click="scenarioPost.draftNewEvent()"
-					class="btn generalButton">SALVA COME BOZZA</div>
-				<div data-ng-click="scenarioPost.saveNewEvent()"
-					class="btn generalButton">PUBBLICA</div>
-			</div>
-		</div>
-
+		
 		<div class="row">
-
 			<div data-insert-status character="scenario.currentCharacter"
 				posts="scenarioPost.posts" scenario="scenarioPost.scen"></div>
 		</div>
