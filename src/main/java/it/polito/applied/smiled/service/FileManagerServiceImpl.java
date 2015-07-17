@@ -16,6 +16,7 @@ import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -443,6 +444,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	}
 	
 	private void saveThumbnail(File file, String id) throws IOException{
+		System.out.println("saveThumb");
 		BufferedImage sourceImage = ImageIO.read(file);
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
@@ -451,33 +453,35 @@ public class FileManagerServiceImpl implements FileManagerService {
             float extraSize=    height-100;
             float percentHight = (extraSize/height)*100;
             float percentWidth = width - ((width/100)*percentHight);
-            BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_INT_RGB);
+            BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_4BYTE_ABGR);
             Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
             Graphics2D g2 = img.createGraphics();
-            g2.setBackground(Color.WHITE);
+            //g2.setBackground(Color.WHITE);
             g2.clearRect(0,0,(int)percentWidth, 100);
+            g2.setComposite(AlphaComposite.Src);
             g2.drawImage(scaledImage, 0, 0, null);
-            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
+            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
             img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
 
         }else{
             float extraSize=    width-100;
             float percentWidth = (extraSize/width)*100;
             float  percentHight = height - ((height/100)*percentWidth);
-            BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_INT_RGB);
+            BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_4BYTE_ABGR);
             Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
             Graphics2D g2 = img.createGraphics();
-            g2.setBackground(Color.WHITE);
+            //g2.setBackground(Color.WHITE);
             g2.clearRect(0,0,100, (int)percentHight);
+            g2.setComposite(AlphaComposite.Src);
             g2.drawImage(scaledImage, 0, 0, null);
-            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
+            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
             img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
 
         }
 		  File dir = new File(path+"thumb/"+getFolderPath(id));
 		  dir.mkdirs();
-		  File f = new File(dir,id+"."+SupportedMedia.jpg); 
-		  ImageIO.write(img2,"jpg",f);
+		  File f = new File(dir,id+"."+SupportedMedia.png); 
+		  ImageIO.write(img2,"png",f);
 	}
 	
 }
