@@ -530,6 +530,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.enterInScenario = function(){
+			self.saveInfo();
+
 			$state.go("logged.scenario.posts", {id : id});
 		}
 		
