@@ -239,7 +239,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		apiService.addLikeToPost(self.scen.id, s.id).then(
 				function(data){
 					for(var i=0; i<self.posts.length; i++){
-						if(self.posts[i].id=s.id){
+						if(self.posts[i].id==s.id){
 							for(var j=0; j<self.posts[i].likes.length; j++){
 								if(!s.youLike)
 									self.posts[i].likes.push(self.currentCharacter);

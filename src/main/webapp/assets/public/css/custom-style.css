@@ -133,6 +133,15 @@
 			text-align: center;
 			padding: 1%;
 		}
+		.box-event {			
+			border-style: solid;
+			border-width: 5px;
+			border-color:white;
+			background-color: rgba(96, 168, 77, 1);
+
+			text-align: center;
+			padding: 1%;
+		}
 		.list-group-item {
 			background-color: transparent;
 			border: none;

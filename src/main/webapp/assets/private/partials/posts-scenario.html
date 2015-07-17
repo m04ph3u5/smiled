@@ -58,7 +58,8 @@
 <!-- 		</div> -->
 		
 		<div class="row" data-ng-show="scenario.showBoxEvent">
-			<div data-insert-status character="scenario.currentCharacter"
+		
+			<div data-insert-event
 				posts="scenarioPost.posts" scenario="scenarioPost.scen"></div>
 		</div>
 		
@@ -294,7 +295,7 @@
 					<div class="col-md-2">
 						<img style="margin: 5px;"
 							class="pull-left img-thumbnail imgPreviewL"
-							data-ng-src="assets/public/img/bookImage.png"></img>
+							src="assets/public/img/bookImage.png"></img>
 						<div class="pull-left box box-info">
 							{{s.creationDate | date: scenarioPost.realDateFormat}} <br>
 							{{s.user.firstname}} {{s.user.lastname}}
@@ -302,6 +303,7 @@
 					</div>
 
 					<div class="col-md-10 postStatus">
+						<div class="row"><p><b>TIPOLOGIA EVENTO: </b>{{s.type}}</p></div>
 						<div class="row">
 							<div class="col-md-12">
 								<label class="pull-left">{{s.text}}</label>
@@ -313,6 +315,11 @@
 					</div>
 				</div>
 				<div class="col-md-10 col-md-offset-2">
+					<div data-ng-show="s.tags.length>0" class="row">
+						<div style="margin-left: 35px;" class="pull-left">
+							<b>Con: </b><i><span data-ng-repeat="t in s.tags"> <a href="">{{t.firstname}}</a> </span></i>
+						</div>	
+					</div>
 					<div data-ng-show="scenario.hasCharacter" class="row"
 						style="margin-left: 25px; margin-top: 7px; margin-bottom: 7px;">
 						<div data-ng-if="s.youLike"
@@ -324,6 +331,7 @@
 							class="tooltips glyphicon glyphicon-thumbs-up pull-left"></div>
 					</div>
 				</div>
+				
 				<div class="row">
 					<div class="col-md-2"></div>
 					<div class="col-md-10" style="text-align: center;">
