@@ -37,14 +37,16 @@ public class Comment implements CommentInterface{
 		this.text=commentDTO.getText();
 		
 		tags = new ArrayList<Reference>();
-		for(int i=0; i<commentDTO.getTags().size();i++){
-			Reference r = new Reference();
-			for(int j=0; j<scenario.getCharacters().size();j++){
-				if(scenario.getCharacters().get(j).getId().equals(commentDTO.getTags().get(i))){
-					r.setId(commentDTO.getTags().get(i));
-					r.setFirstname(scenario.getCharacters().get(j).getName());
-					tags.add(r);
-					break;
+		if(commentDTO.getTags()!=null){
+			for(int i=0; i<commentDTO.getTags().size();i++){
+				Reference r = new Reference();
+				for(int j=0; j<scenario.getCharacters().size();j++){
+					if(scenario.getCharacters().get(j).getId().equals(commentDTO.getTags().get(i))){
+						r.setId(commentDTO.getTags().get(i));
+						r.setFirstname(scenario.getCharacters().get(j).getName());
+						tags.add(r);
+						break;
+					}
 				}
 			}
 		}

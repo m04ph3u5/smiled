@@ -228,7 +228,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				console.log("setPositionNewMap");
 				var mapsArray = [];
 				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
-				var map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)};
+				var map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
 				mapsArray.push(map);
 				Lightbox.openModal(mapsArray,0);
 			}

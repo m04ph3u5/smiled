@@ -142,7 +142,7 @@
 			<div class="col-md-10 col-md-offset-1 box">
 				<div class="row">
 					<div class="pull-left col-md-8">
-						<b class="pull-left">{{s.character.name}}</b>
+						<b class="pull-left"><a href="">{{s.character.name}}</a></b>
 					</div>
 					<div class="pull-right col-md-4">
 						<label class="pull-right">{{scenarioPost.formatDate(s.historicalDate)}}</label>
@@ -166,7 +166,7 @@
 								<label class="pull-left">{{s.text}}</label>
 							</div>
 							<div data-ng-repeat="image in s.imagesMetadata">
-								<p>{{image.originalName}}</p>
+								<img class="imgPreviewXL" alt={{image.name}} data-ng-src="api/v1/media/{{image.id}}">
 							</div>
 							<div data-ng-repeat="file in s.filesMetadata">
 								<p>{{file.originalName}}</p>
@@ -175,6 +175,11 @@
 					</div>
 				</div>
 				<div class="col-md-10 col-md-offset-2">
+					<div data-ng-show="s.tags.length>0" class="row">
+						<div style="margin-left: 35px;" class="pull-left">
+							<b>Con: </b><i><span data-ng-repeat="t in s.tags"> <a href="">{{t.firstname}}</a> </span></i>
+						</div>	
+					</div>
 					<div data-ng-show="scenario.hasCharacter" class="row"
 						style="margin-left: 25px; margin-top: 7px; margin-bottom: 7px;">
 						<div data-ng-if="s.youLike"
@@ -221,8 +226,8 @@
 									data-err-src="assets/public/img/cesar.png"></img>
 							</div>
 							<div class="col-md-10">
-								<div style="margin: 5px;" class="col-md-10">
-									<p class="pull-left">
+								<div style="margin: 5px;" class="col-md-10 pull-left">
+									<p>
 										<label>{{c.character.firstname}}</label>: {{c.text}}
 									</p>
 								</div>

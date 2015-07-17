@@ -226,6 +226,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 							}
 						}
 					}
+					if(self.posts[i].tags){
+						console.log(self.posts[i].tags);
+					}
 				}
 			}, function(reason){
 				console.log("errore");
