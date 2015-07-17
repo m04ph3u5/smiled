@@ -31,50 +31,50 @@ angular.module("smiled.application").constant("CONSTANTS",{
 		var m;
 		console.log(month);
 		switch(month){
-			case '1': {
+			case 1: {
 				m = "gennaio";
 				break;
 			}
-			case '2': {
+			case 2: {
 				m = "febbraio";
 				break;
 			}
-			case '3': {
+			case 3: {
 				m = "marzo";
 				break;
 			}
-			case '4': {
+			case 4: {
 				m = "aprile";
 				break;
 			}
-			case '5': {
+			case 5: {
 				m = "maggio";
 				break;
 			}
-			case '6': {
+			case 6: {
 				m = "giugno";
 				break;
 			}
-			case '7': {
+			case 7: {
 				m = "luglio";
 				break;
 			}
-			case '8': {
+			case 8: {
 				m = "agosto";
 				break;
 			}
-			case '9': {
+			case 9: {
 				m = "settembre";
 				break;
 			}
-			case '10': {
+			case 10: {
 				m = "ottobre";
 				break;
 			}
-			case '11': {
+			case 11: {
 				m = "novembre";
 				break;
-			}case '12': {
+			}case 12: {
 				m = "dicembre";
 				break;
 			}

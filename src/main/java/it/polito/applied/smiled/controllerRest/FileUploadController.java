@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import javax.validation.Valid;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,10 @@ public class FileUploadController extends BaseController{
 	@Autowired
 	private FileManagerService fileManagerService;
 
+	private void validateIdPathVariable(String pathVariable) throws BadRequestException{
+		if(!ObjectId.isValid(pathVariable))
+			throw new BadRequestException();
+	}
 	/*----------------------------------------------------COVER-----------------------------------------------------------*/
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -99,7 +104,7 @@ public class FileUploadController extends BaseController{
 	@RequestMapping(value="media/{id}", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public FileSystemResource getMedia(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
-		
+		validateIdPathVariable(id);
 		return new FileSystemResource(fileManagerService.getMedia(id));
 	}
 	
@@ -114,6 +119,7 @@ public class FileUploadController extends BaseController{
 	@RequestMapping(value="scenarios/{idScenario}/media/{idMedia}/meta", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'WRITE')")
 	public void postMediaMetadata(@PathVariable String idScenario, @PathVariable String idMedia, @RequestBody @Valid FileMetadataDTO mediaMeta, BindingResult result) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException, ForbiddenException{
+		validateIdPathVariable(idMedia);
 		if(result.hasErrors())
 			throw new BadRequestException();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
