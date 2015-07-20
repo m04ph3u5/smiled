@@ -6,9 +6,14 @@ angular.module("smiled.application").directive('bsSwitch', function() {
     	onCustomText : "@",
     	offCustomText : "@"
     },
+    controller : function($scope) {
+    	$scope.state;
+    },
+    controllerAs: "bsSwitch",
     link: function(scope, element, attrs, ngModelCtrl) {
       $(element).bootstrapSwitch({
         onSwitchChange: function(event, state) {
+          scope.state = state;
           scope.$apply(function() {
         	 console.log("on switch change");
         	 console.log(state);
@@ -18,6 +23,8 @@ angular.module("smiled.application").directive('bsSwitch', function() {
       });
       $(element).bootstrapSwitch("onText", scope.onCustomText);
       $(element).bootstrapSwitch("offText", scope.offCustomText);
+      $(element).bootstrapSwitch("labelText", "<span class='glyphicon glyphicon-resize-horizontal'></span>");
+
  }
   }
 });
