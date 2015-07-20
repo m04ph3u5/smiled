@@ -169,6 +169,18 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('logged.scenario.charprofile',{
+			url: '/personaggi/{idCharacter}',
+			views: {
+				'body': {
+					templateUrl: "assets/private/partials/character-scenario-profile.html",
+					controller: "characterProfileCtrl",
+					controllerAs: "characterProfile"
+				}
+			},params: {
+				idCharacter: null
+			}
+		})
 		.state('logged.scenarioWizard',{
 			abstract: true,
 			url : "/scenarioWizard",

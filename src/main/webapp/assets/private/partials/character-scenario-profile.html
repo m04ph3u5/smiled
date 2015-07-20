@@ -1,0 +1,27 @@
+<aside></aside>
+<section>
+		<div class="box row textLeft">
+			<div class="col-sm-2">
+				<img data-ng-src="" data-err-src="assets/public/img/ic_characters.png" class="imgPreviewXL">
+			</div>
+				<h1>{{characterProfile.character.name}}</h1>
+				<span ng-if="characterProfile.character.birthDate!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
+				<span>{{characterProfile.character.birthDate}}</span>
+				<span>, {{characterProfile.character.birthTown}}</span>
+				<span ng-if="characterProfile.character.deadDate!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+				<span>{{characterProfile.character.deadDate}}</span>
+				<span>, {{characterProfile.character.deadTown}}</span>
+				<p>{{characterProfile.character.description}}</p>
+			
+		</div>
+		<div class="row">
+			<div class="col-sm-7 box">Citazione: {{characterProfile.character.quote}}</div>
+			<div class="col-sm-5 box"><label>Interpretata da</label>
+				<div>
+				<!-- ng-repeat -->
+					<img data-ng-src="" class="imgPreviewM img-circle">
+				</div>
+			</div>		
+		</div>
+</section>
+<aside></aside>
