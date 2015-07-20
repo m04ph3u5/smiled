@@ -2,7 +2,6 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
                                                               function scenarioCtrl(scenario, loggedUser, CONSTANTS){
 	
 	console.log("controller");
-	console.log(scenario);
 	
 	var self = this;
 	self.scen = scenario;

@@ -149,6 +149,16 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('logged.scenario.storyfy',{
+			url: '/storyfy',
+			views: {
+				'body': {
+					templateUrl: "assets/private/partials/storify-scenario.html",
+					controller: "scenarioStoryfyCtrl",
+					controllerAs: "scenarioStoryfy"
+				}
+			}
+		})
 		.state('logged.scenario.characters',{
 			url: '/personaggi',
 			views: {
