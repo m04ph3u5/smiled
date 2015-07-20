@@ -67,7 +67,7 @@ angular.module('smiled.application')
 		.state('logged.dashboard.student',{
 			views: {
 				'content@logged': {
-					templateUrl: 'assets/private/partials/dashboardTeacher.html',
+					templateUrl: 'assets/private/partials/dashboardStudent.html',
 					controller: "dashboardCtrl",
 					controllerAs: "dashboard"
 				}
@@ -146,6 +146,16 @@ angular.module('smiled.application')
 					templateUrl: "assets/private/partials/posts-scenario.html",
 					controller: "scenarioPostCtrl",
 					controllerAs: "scenarioPost"
+				}
+			}
+		})
+		.state('logged.scenario.storyfy',{
+			url: '/storyfy',
+			views: {
+				'body': {
+					templateUrl: "assets/private/partials/storify-scenario.html",
+					controller: "scenarioStoryfyCtrl",
+					controllerAs: "scenarioStoryfy"
 				}
 			}
 		})
