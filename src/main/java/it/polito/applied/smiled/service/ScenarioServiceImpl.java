@@ -1046,17 +1046,20 @@ public class ScenarioServiceImpl implements ScenarioService{
 		status.setHistoricalDate(statusDTO.getHistoricalDate());
 		status.setSources(statusDTO.getSources());
 		List<Reference> tagsCharacter = new ArrayList<Reference>();
-		for(int i=0; i<statusDTO.getTags().size();i++){
-			Reference r = new Reference();
-			for(int j=0; j<scenario.getCharacters().size();j++){
-				if(scenario.getCharacters().get(j).getId().equals(statusDTO.getTags().get(i))){
-					r.setId(statusDTO.getTags().get(i));
-					r.setFirstname(scenario.getCharacters().get(j).getName());
-					tagsCharacter.add(r);
-					break;
+		if(statusDTO.getTags()!=null){
+			for(int i=0; i<statusDTO.getTags().size();i++){
+				Reference r = new Reference();
+				for(int j=0; j<scenario.getCharacters().size();j++){
+					if(scenario.getCharacters().get(j).getId().equals(statusDTO.getTags().get(i))){
+						r.setId(statusDTO.getTags().get(i));
+						r.setFirstname(scenario.getCharacters().get(j).getName());
+						tagsCharacter.add(r);
+						break;
+					}
 				}
 			}
 		}
+		
 		status.setTags(tagsCharacter);
 		
 		
@@ -1212,14 +1215,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 		event.setHistoricalDate(eventDTO.getHistoricalDate());
 
 		List<Reference> tagsCharacter = new ArrayList<Reference>();
-		for(int i=0; i<eventDTO.getTags().size();i++){
-			Reference r = new Reference();
-			for(int j=0; j<scenario.getCharacters().size();j++){
-				if(scenario.getCharacters().get(j).getId().equals(eventDTO.getTags().get(i))){
-					r.setId(eventDTO.getTags().get(i));
-					r.setFirstname(scenario.getCharacters().get(j).getName());
-					tagsCharacter.add(r);
-					break;
+		if(eventDTO.getTags()!=null){
+			for(int i=0; i<eventDTO.getTags().size();i++){
+				Reference r = new Reference();
+				for(int j=0; j<scenario.getCharacters().size();j++){
+					if(scenario.getCharacters().get(j).getId().equals(eventDTO.getTags().get(i))){
+						r.setId(eventDTO.getTags().get(i));
+						r.setFirstname(scenario.getCharacters().get(j).getName());
+						tagsCharacter.add(r);
+						break;
+					}
 				}
 			}
 		}

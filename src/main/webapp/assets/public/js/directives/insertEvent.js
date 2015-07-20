@@ -21,6 +21,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			self.newPost.tags = new Array();
 			self.showViewToSelectType = false;
 			self.newPost.type = null;
+			self.sendPostEnable = true;
 			/*--------------------------*/
 			
 			
@@ -36,7 +37,8 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*Create new Event*/
 			self.savePost = function(){
 				self.setDateNewPost();
-				if(self.newPost.content && (self.newPost.date.formatted!=CONSTANTS.insertHistoricalDate)){
+				if(self.sendPostEnable && self.newPost.content && (self.newPost.date.formatted!=CONSTANTS.insertHistoricalDate)){
+					self.sendPostEnable = false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
 					toSendPost.historicalDate = self.newPost.date;
@@ -65,6 +67,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								self.newPost.file=[];
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.sendPostEnable = true;
 								//getSingleStatus in realtà ritorna un singolo post non un singolo status (ricorda che status è una specializzazione di post, come anche event)
 								apiService.getSingleStatus(self.scenario.id, data.id).then(
 										function(data){
@@ -82,6 +85,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								);
 							},
 							function(reason){
+								self.sendPostEnable = true;
 								console.log("error in send event: "+reason);
 							}
 					);
@@ -92,6 +96,37 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			}
 			/*----------------------------------------------------------------*/
 
+			/*--------------Create draft post start------------------------------------------*/
+			self.draftNewPost = function(){
+				if(self.sendPostEnable && self.newPost.content){
+					self.sendPostEnable = false;
+					var toSendPost = {};
+					toSendPost.text = self.newPost.content;
+					toSendPost.historicalDate = self.newPost.date;
+					toSendPost.status = "DRAFT";
+					apiService.sendStatus(self.scenario.id, toSendPost).then(
+							
+							function(data){
+								console.log("drafted: "+data);
+								self.newPost.content="";
+								self.newPost.image=[];
+								self.newPost.file=[];
+								self.newPost.date={afterChrist : true};
+								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.sendPostEnable = true;
+							},
+							function(reason){
+								self.sendPostEnable = true;
+								console.log("error in send status: "+reason);
+							}
+					);
+				}else{
+					//TODO gestione alert errore
+				}	
+			}
+			/*--------------Create draft post end------------------------------------------*/
+			
+			
 			/*Public function to add/remove new image to status*/
 			self.addImageToNewPost = function(file){
 				uploadMediaToPost(file,true);
