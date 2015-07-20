@@ -1,0 +1,36 @@
+<div class="row">
+	<div data-ng-if="insertPost.hasCharacter && insertPost.isModerator">
+		<div class="row col-md-10 col-md-offset-1">
+			<input type="checkbox"  checked  
+				data-size='small' bs-switch data-ng-model="insertPost.showBoxEvent"  data-on-custom-text="NARRATORE" 
+				data-off-custom-text="{{insertPost.character.name}}" >
+			</input>
+		</div>
+		<div class="" data-ng-if="!insertPost.showBoxEvent">
+				<div data-insert-status character="insertPost.character"
+					posts="insertPost.posts" scenario="insertPost.scen"></div>
+		</div>
+		<div class="" data-ng-if="insertPost.showBoxEvent">
+				<div data-insert-event 
+					posts="insertPost.posts" scenario="insertPost.scen"></div>
+		</div>
+	</div>
+			
+			
+	<div data-ng-if="insertPost.hasCharacter && !insertPost.isModerator">
+		<div class="">
+				<div data-insert-status character="insertPost.character"
+					posts="insertPost.posts" scenario="insertPost.scen"></div>
+		</div>
+	</div>
+	
+	<div data-ng-if="!insertPost.hasCharacter && insertPost.isModerator">
+		<div class="">
+				<div data-insert-event 
+					posts="insertPost.posts" scenario="insertPost.scen"></div>
+		</div>
+	</div>
+</div>
+<div class="row" data-ng-show="insertPost.hasCharacter || insertPost.isModerator">
+		<hr class="hrDivider">
+</div>	

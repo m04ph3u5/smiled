@@ -1,5 +1,8 @@
 
-# SockJS-client [![Build Status][travis-image]][travis-url] [![Sauce Test Status](https://saucelabs.com/buildstatus/brycekahle)](https://saucelabs.com/u/brycekahle)
+# SockJS-client
+
+[![npm version](https://img.shields.io/npm/v/sockjs-client.svg?style=flat-square)](https://www.npmjs.com/package/sockjs-client)[![Build Status](https://img.shields.io/travis/sockjs/sockjs-client/master.svg?style=flat-square)](https://travis-ci.org/sockjs/sockjs-client)[![Dependencies](https://img.shields.io/david/sockjs/sockjs-client.svg?style=flat-square)](https://david-dm.org/sockjs/sockjs-client)[![Chat](https://img.shields.io/badge/Chat-gitter.im-blue.svg?style=flat-square)](https://gitter.im/sockjs/sockjs-client)
+[![Sauce Test Status](https://saucelabs.com/buildstatus/brycekahle)](https://saucelabs.com/u/brycekahle)
 
 SockJS is a browser JavaScript library that provides a WebSocket-like
 object. SockJS gives you a coherent, cross-browser, Javascript API
@@ -79,7 +82,7 @@ First, you need to load the SockJS JavaScript library. For example, you can
 put that in your HTML head:
 
 ```html
-<script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+<script src="//cdn.jsdelivr.net/sockjs/1.0.0/sockjs.min.js"></script>
 ```
 
 After the script is loaded you can establish a connection with the
@@ -124,6 +127,17 @@ Where `options` is a hash which can contain:
     option allows you to supply a list transports that may be used by
     SockJS. By default all available transports will be used.
 
+ *  **sessionId (number OR function)**
+
+    Both client and server use session identifiers to distinguish connections.
+    If you specify this option as a number, SockJS will use its random string
+    generator function to generate session ids that are N-character long
+    (where N corresponds to the number specified by **sessionId**).
+    When you specify this option as a function, the function must return a
+    randomly generated string. Every time SockJS needs to generate a session
+    id it will call this function and use the returned string directly.
+    If you don't specify this option, the default is to use the default random
+    string generator to generate 8-character long session ids.
 
 Although the 'SockJS' object tries to emulate the 'WebSocket'
 behaviour, it's impossible to support all of its features. An
@@ -320,5 +334,3 @@ There are various browser quirks which we don't intend to address:
    you're a serious SockJS user then consider using SSL
    ([more info](http://www.ietf.org/mail-archive/web/hybi/current/msg01605.html)).
 
-[travis-url]: https://travis-ci.org/sockjs/sockjs-client?branch=master
-[travis-image]: http://img.shields.io/travis/sockjs/sockjs-client/master.svg

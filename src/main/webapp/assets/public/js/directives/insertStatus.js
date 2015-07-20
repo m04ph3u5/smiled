@@ -10,7 +10,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 		bindToController: true,
 		controller: ['$scope', function(){
 			var self = this;
-		
 			/*Initialize newPost variable*/
 			self.newPost = {};
 			self.newPost.date = {};

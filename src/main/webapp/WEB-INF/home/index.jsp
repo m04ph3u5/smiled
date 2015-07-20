@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngDialog/css/ngDialog.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-tags-input/ng-tags-input.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
+<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css">
+
 </head>
 <base href="/ThesisProject/">
 <body data-ng-cloak>
@@ -54,6 +56,8 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-tags-input/ng-tags-input.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+	
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
 	<!-- CUSTOM SCRIPT -->
@@ -88,12 +92,14 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/hideOnHoverParent.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/insertStatus.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/insertEvent.js"></script> 
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/insertPost.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/tagBox.js"></script> 
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertRegistration.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertGeneric.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/workSpinner.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/historicalDatePicker.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/errSrc.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/bsSwitch.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/support/jqSupport.js"></script>
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->

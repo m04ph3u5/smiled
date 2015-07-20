@@ -22,6 +22,15 @@
     		border-bottom-color: #5B5955;
 		}
 		
+		textarea#textarea-event:focus{
+		    background-color:rgba(204, 255, 204, 1);
+		    outline:none;
+		    -webkit-box-shadow: none;
+    		box-shadow: none;
+    		border: 0px 0px 0px 2px;
+    		border-bottom-color: #5B5955;
+		}
+		
 		.form-control, .generalInput, textarea{
 			background-color:transparent;
 			border-top: none;
@@ -137,8 +146,7 @@
 			border-style: solid;
 			border-width: 5px;
 			border-color:white;
-			background-color: rgba(96, 168, 77, 1);
-
+			background-color: rgba(204, 255, 204, 1);
 			text-align: center;
 			padding: 1%;
 		}
