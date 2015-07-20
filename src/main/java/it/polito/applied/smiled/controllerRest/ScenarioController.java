@@ -302,13 +302,16 @@ public class ScenarioController extends BaseController{
 	@RequestMapping(value="/v1/scenarios/{id}/posts", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
 	public Page<Post> getPagedPosts(@PathVariable String id, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "historicOrder", required=false) Boolean historicOrder) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
-	
+		System.out.println(""+historicOrder);
+
 		if(nPag==null || nPag<0)
 			nPag=0;
 		if(nItem==null || nItem<=0)
 			nItem=5;
-		if(historicOrder==null)
+		if(historicOrder==null){
 			historicOrder=false;
+		}
+		System.out.println(""+historicOrder);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		return scenarioService.getPagedPosts(id, null, nPag, nItem, historicOrder, auth);

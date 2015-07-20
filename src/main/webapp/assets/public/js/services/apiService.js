@@ -245,7 +245,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		var c = $q.defer();
 
 		$http.get("/ThesisProject/api/v1/scenarios/"+id+"/posts", {
-			params: { "nPag": nPag, "nItem": nItem, "historicalOrder": historicalOrder }}).then(
+			params: { "nPag": nPag, "nItem": nItem, "historicOrder": historicalOrder }}).then(
 					function(response){
 						c.resolve(response.data);
 					},
