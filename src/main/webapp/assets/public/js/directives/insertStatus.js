@@ -19,6 +19,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			self.newPost.image = new Array();
 			self.newPost.file  = new Array();
 			self.newPost.tags = new Array();
+			self.sendPostEnable = true;
 			/*--------------------------*/
 			
 			
@@ -43,7 +44,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*Create new Status*/
 			self.savePost = function(){
 				self.setDateNewPost();
-				if(self.newPost.content && (self.newPost.date.formatted!=CONSTANTS.insertHistoricalDate)){
+				if(self.sendPostEnable && self.newPost.content && (self.newPost.date.formatted!=CONSTANTS.insertHistoricalDate)){
+					self.sendPostEnable=false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
 					toSendPost.historicalDate = self.newPost.date;
@@ -71,6 +73,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.file=[];
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.sendPostEnable= true;
 								apiService.getSingleStatus(self.scenario.id, data.id).then(
 										function(data){
 											self.posts.unshift(data);
@@ -83,11 +86,12 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 											self.posts[0].character.cover = CONSTANTS.urlCharacterCover(self.scenario.id,self.posts[0].character.id);
 										},
 										function(reason){
-											console.log("error in insert new post in array");
+											console.log("error in insert new post in array"+reason);
 										}
 								);
 							},
 							function(reason){
+								self.sendPostEnable=true;
 								console.log("error in send status: "+reason);
 							}
 					);
@@ -96,8 +100,39 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				}
 			
 			}
-			/*----------------------------------------------------------------*/
-
+			/*--------------Create new post end------------------------------------------*/
+			
+			/*--------------Create draft post start------------------------------------------*/
+			self.draftNewPost = function(){
+				if(self.sendPostEnable && self.newPost.content){
+					self.sendPostEnable = false;
+					var toSendPost = {};
+					toSendPost.text = self.newPost.content;
+					toSendPost.historicalDate = self.newPost.date;
+					toSendPost.status = "DRAFT";
+					apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
+							
+							function(data){
+								
+								console.log("drafted: "+data);
+								self.newPost.content="";
+								self.newPost.image=[];
+								self.newPost.file=[];
+								self.newPost.date={afterChrist : true};
+								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.sendPostEnable = true;
+							},
+							function(reason){
+								self.sendPostEnable = true;
+								console.log("error in send status: "+reason);
+							}
+					);
+				}else{
+					//TODO gestione alert errore
+				}	
+			}
+			/*--------------Create draft post end------------------------------------------*/
+			
 			/*Public function to add/remove new image to status*/
 			self.addImageToNewPost = function(file){
 				uploadMediaToPost(file,true);
