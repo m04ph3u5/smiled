@@ -738,7 +738,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(character.getDescription()!=null)
 				u.set("description",character.getDescription());
 			if(character.getBornDate()!=null)
-				u.set("birthDate",character.getBornDate());
+				u.set("bornDate",character.getBornDate());
 			if(character.getDeadDate()!=null)
 				u.set("deadDate",character.getDeadDate());
 			if(character.getBornTown()!=null)
