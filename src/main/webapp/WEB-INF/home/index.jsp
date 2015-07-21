@@ -100,6 +100,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/alertGeneric.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/workSpinner.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/historicalDatePicker.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/showNewsPost.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/errSrc.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/bsSwitch.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/support/jqSupport.js"></script>

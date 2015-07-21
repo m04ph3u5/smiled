@@ -47,7 +47,6 @@ public class HistoricalDate {
 		return year;
 	}
 	public void setYear(int year) {
-		System.out.println("setter year "+year);
 		this.year = year;
 		dateMillis=calculateDateMillis();
 	}
@@ -55,8 +54,6 @@ public class HistoricalDate {
 		return month;
 	}
 	public void setMonth(int month) {
-		System.out.println("setter month "+month);
-
 		this.month = month;
 		dateMillis=calculateDateMillis();
 	}
@@ -64,8 +61,6 @@ public class HistoricalDate {
 		return day;
 	}
 	public void setDay(int day) {
-		System.out.println("setter day "+day);
-
 		this.day = day;
 		dateMillis=calculateDateMillis();
 	}
@@ -87,8 +82,6 @@ public class HistoricalDate {
 		return afterChrist;
 	}
 	public void setAfterChrist(boolean afterChrist) {
-		System.out.println("setter ac "+afterChrist);
-
 		this.afterChrist = afterChrist;
 		dateMillis=calculateDateMillis();
 	}
