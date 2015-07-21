@@ -398,6 +398,9 @@
 			font-size:16px;
 			color: #6e7f70;
 		}
+		.hiddenOverflow{
+			overflow:hidden;
+		}
 
 /* Elenco scenari */
 		.sideMarginThree{

@@ -1,27 +1,45 @@
 <aside></aside>
 <section>
-		<div class="box row textLeft">
+		<div class="row textLeft">
 			<div class="col-sm-2">
 				<img data-ng-src="" data-err-src="assets/public/img/ic_characters.png" class="imgPreviewXL">
 			</div>
+			<div class="col-sm-5">
 				<h1>{{characterProfile.character.name}}</h1>
+				<div class="highlightText">
 				<span ng-if="characterProfile.character.birthDate!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
 				<span>{{characterProfile.character.birthDate}}</span>
-				<span>, {{characterProfile.character.birthTown}}</span>
+				<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.birthTown}}</span>
 				<span ng-if="characterProfile.character.deadDate!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 				<span>{{characterProfile.character.deadDate}}</span>
-				<span>, {{characterProfile.character.deadTown}}</span>
-				<p>{{characterProfile.character.description}}</p>
+				<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.deadTown}}</span>
+				</div>
+				<p class="pickRow">{{characterProfile.character.description}}</p>
+			</div>
+			<div class="col-sm-5">
+			<div class="box hiddenOverflow">
+			<label>Interpretato da</label>
+			<div ng-if="characterProfile.character.pastUserId==null && characterProfile.character.actualUser==null">
+				Questo personaggio non è assegnato a nessun utente
+			</div>
+			<div ng-if="characterProfile.character.pastUserId!=null && characterProfile.character.actualUser!=null">
+				<div class="col-sm-2 marginSBottom"><img data-ng-src="characterProfile.character.actualUser.cover" data-err-src="assets/public/img/ic_student.png" class="imgPreviewM img-circle">
+				</div>
+				<div ng-repeat="u in characterProfile.character.pastUserId" class="col-sm-2 marginSBottom">
+					<img data-ng-src="api/v1/users/{{u}}/cover" data-err-src="assets/public/img/ic_student.png" class="imgPreviewM img-circle">
+				</div>
+			</div>
+			</div>	
+			<div class="box"><blockquote>{{characterProfile.character.quote}}
+				<footer>{{characterProfile.character.name}}</footer>
+			</blockquote>
+			</div>
+						</div>
 			
 		</div>
 		<div class="row">
-			<div class="col-sm-7 box">Citazione: {{characterProfile.character.quote}}</div>
-			<div class="col-sm-5 box"><label>Interpretata da</label>
-				<div>
-				<!-- ng-repeat -->
-					<img data-ng-src="" class="imgPreviewM img-circle">
-				</div>
-			</div>		
+			
+				
 		</div>
 </section>
 <aside></aside>

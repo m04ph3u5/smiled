@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTANTS', '$scope', '$stateParams', 'apiService',
-              function characterProfileCtrl(CONSTANTS,$scope,$stateParams, apiService){
+angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTANTS', '$scope', '$stateParams', 'apiService', 'userService',
+              function characterProfileCtrl(CONSTANTS,$scope,$stateParams, apiService, userService){
 	
 	var self = this;
 	self.character = {};
@@ -15,4 +15,8 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 				console.log(reason);
 			}
 	);
+	function getCover(id){
+		userService.getUser(id).coverPhoto;
+		
+	}
 }]);
