@@ -354,6 +354,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.scenario.characters.push(angular.copy(self.newCharacter));
 							self.newCharacter.isOpen=null;
 							self.newCharacter.isSync=null;
+							self.newCharacter.bornDate = {};
+							self.newCharacter.bornDate.afterChrist = true;
+							self.newCharacter.deadDate = {};
+							self.newCharacter.deadDate.afterChrist = true;
 							self.charactersServer.push(angular.copy(self.newCharacter));
 							self.currentCharacters.push(angular.copy(self.newCharacter));
 							console.log(self.newCharater);
