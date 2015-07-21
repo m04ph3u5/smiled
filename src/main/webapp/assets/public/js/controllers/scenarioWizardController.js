@@ -407,6 +407,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			self.currentCharacters[i].quote = current.quote;
 			self.currentCharacters[i].gender = current.gender;
 			self.currentCharacters[i].role = current.role;
+			
 		}
 		
 		self.openAccordion = function(i){
