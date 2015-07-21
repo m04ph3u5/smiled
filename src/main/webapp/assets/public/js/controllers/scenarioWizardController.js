@@ -400,7 +400,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var syncCurrentCharacter = function(i, c){
 			current = angular.copy(c);
-			console.log("syncCurrentCharacter");
+
 			self.currentCharacters[i].name = current.name;
 			self.currentCharacters[i].nickname = current.nickname;
 			self.currentCharacters[i].bornDate = current.bornDate;
@@ -429,7 +429,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						if(i!=currentCharacterIndex){
 							syncCurrentCharacter(i, self.charactersServer[i]);
 						}
-						apiService.updateCharacter(id, self.currentCharacters[currentCharacterIndex], self.charactersServer[currentCharacterIndex].id).then(
+						var charDTO = angular.copy(self.currentCharacters[currentCharacterIndex]);
+						checkHistoricalDate(charDTO);
+						apiService.updateCharacter(id, charDTO , self.charactersServer[currentCharacterIndex].id).then(
 								function(data){
 									self.charactersServer[currentCharacterIndex] = data;
 									self.scenario.characters[currentCharacterIndex].name = data.name;
@@ -477,6 +479,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				//si tratta della prima apertura dell'accordion in questa istanza dello state
 				currentCharacterIndex=i;
 			}
+		}
+		
+		var checkHistoricalDate = function(charDTO){
+			if(!charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
+				charDTO.bornDate = null;
+			if(!charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
+				charDTO.deadDate = null;
 		}
 		
 		self.addCollaborator = function(collaborator){
