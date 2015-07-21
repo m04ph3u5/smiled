@@ -33,15 +33,15 @@
 										<form class="form-inline">
 											<div class="form-group">
 												<input ui-date="dateOptions" class="form-control" required
-													data-ng-model=""
-													placeholder="DATA CONSEGNA "></input>
+													
+													placeholder="DATA CONSEGNA"></input>
 											</div>
 										</form>
 									</div>
 								</form>
 							</div>
 							<div class="form-group">
-								<select id="" class="" data-ng-model="">
+								<select id="" class="" >
 									<option value="" disabled selected style="display:none;">SELEZIONA ALUNNO</option>
 									<option>TUTTI</option>
 								    <option>ALUNNO 1</option>
@@ -102,7 +102,7 @@
 			</span>
 		</div>
 		<div class="box">
-			<p class="marginMTop subtitle">
+			
 			<label> {{scenario.scen.name}}</label><br>
 				Creato da: <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
 				<hr>
@@ -112,7 +112,7 @@
 				<span data-ng-if="!scenario.scen.characters"><label>0</label> personaggi<br></span>
 				<span data-ng-if="scenario.scen.collaborators"><label>{{scenario.scen.collaborators.length}}</label> collaboratori<br></span>
 				<span data-ng-if="!scenario.scen.collaborators"><label>0</label> collaboratori<br></span>
-			</p>
+			
 			
 			<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
 				<hr>
@@ -124,6 +124,12 @@
 				</a>
 			</div>
 		</div>
+		
+		<div class="container">
+ 
+  
+ </div>
+		
 		
 	</div>
 </div>
