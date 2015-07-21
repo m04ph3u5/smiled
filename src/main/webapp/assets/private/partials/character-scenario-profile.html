@@ -7,10 +7,10 @@
 				<h1>{{characterProfile.character.name}}</h1>
 				<span ng-if="characterProfile.character.birthDate!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
 				<span>{{characterProfile.character.birthDate}}</span>
-				<span>, {{characterProfile.character.birthTown}}</span>
+				<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.birthTown}}</span>
 				<span ng-if="characterProfile.character.deadDate!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 				<span>{{characterProfile.character.deadDate}}</span>
-				<span>, {{characterProfile.character.deadTown}}</span>
+				<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.deadTown}}</span>
 				<p>{{characterProfile.character.description}}</p>
 			
 		</div>
