@@ -1,0 +1,9 @@
+<div class="pull-left">
+	<span data-ng-if="summarizeInfoPost.post.likes.length==1 && !summarizeInfoPost.post.youLike">Piace a <a href="">{{summarizeInfoPost.post.likes.length}} persona</a></span>
+	<span data-ng-if="summarizeInfoPost.post.likes.length>1 && !summarizeInfoPost.post.youLike">Piace a <a href="">{{summarizeInfoPost.post.likes.length}} persone</a></span>
+	<span data-ng-if="summarizeInfoPost.post.likes.length==1 && summarizeInfoPost.post.youLike">Ti piace</span>
+	<span data-ng-if="summarizeInfoPost.post.likes.length==2 && summarizeInfoPost.post.youLike">Piace a te e ad <a href="">un'altra persona</a></span>
+	<span data-ng-if="summarizeInfoPost.post.likes.length>2 && summarizeInfoPost.post.youLike">Piace a te e ad altre <a href="">{{summarizeInfoPost.post.likes.length-1}}  persone</a></span>
+	<span data-ng-if="summarizeInfoPost.post.comments.length>0">{{summarizeInfoPost.post.comments.length}} commenti</span>
+	<span data-ng-if="summarizeInfoPost.post.metaComments.length>0">{{summarizeInfoPost.post.metaComments.length}} suggerimenti</span>
+</div>

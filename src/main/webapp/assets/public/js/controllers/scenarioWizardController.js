@@ -787,6 +787,17 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		        .success(function (data, status, headers, config) {
 		            console.log('MAP ' + config.file.name + 'uploaded. Response: ' + data);
 		            self.scenario.history.mapId = data.id;
+		            var scenarioDTO = {};
+		            scenarioDTO.history = {};
+		            scenarioDTO.history.mapId = data.id;
+		            apiService.updateScenario(scenarioDTO, self.scenario.id).then(
+		            		function(data){
+		            			self.scenarioServer = data;
+		            		},
+		            		function(reason){
+		            			console.log("ERROR UPLOAD MAP");
+		            		}
+		            );
 		            var date = new Date();
 		            self.map = CONSTANTS.urlMedia(data.id)+"?"+date.toString() ;
 		            console.log(self.scenario.history.mapId);
