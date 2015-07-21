@@ -1,5 +1,7 @@
 package it.polito.applied.smiled.dto;
 
+import it.polito.applied.smiled.pojo.HistoricalDate;
+
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -15,8 +17,8 @@ public class CharacterDTO {
 	private String name;
 	private String nickname;
 	private String description;
-	private Date birthDate;
-	private Date deadDate;
+	private HistoricalDate bornDate;
+	private HistoricalDate deadDate;
 	private String cover;
 	private String quote;
 	private String gender;
@@ -38,16 +40,16 @@ public class CharacterDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getBirthDate() {
-		return birthDate;
+	public HistoricalDate getBornDate() {
+		return bornDate;
 	}
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBornDate(HistoricalDate bornDate) {
+		this.bornDate = bornDate;
 	}
-	public Date getDeadDate() {
+	public HistoricalDate getDeadDate() {
 		return deadDate;
 	}
-	public void setDeadDate(Date deadDate) {
+	public void setDeadDate(HistoricalDate deadDate) {
 		this.deadDate = deadDate;
 	}
 	public String getId() {

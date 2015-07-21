@@ -2,31 +2,56 @@
 	<div class="col-md-2 pull-left">
 	<div class="box" data-ng-show="scenario.isModerator">
 		<p><b>ATTIVITA' MODERATORE:</b></p>
+		<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
+				<hr>
+				<a href="">
+					<p class="marginMTop">
+						<span class="glyphicon glyphicon-cog"></span>
+						Gestisci scenario		
+					</p>
+				</a>
+		</div>
 	</div>
 	<div class="box" data-ng-show="scenario.isCreator">
 		<p><b>ATTIVITA' CREATORE:</b></p>
-		<h3>Nuovo compito</h3>
+		<hr>
+		<h5>Assegna compito</h5>
 					<div class="marginMTop">
-					<label>{{scenario.scen.name}}</label>
 						<form role="form ">
 							<div class="form-group">
-								<input type="text" class="form-control" id="email"
-									placeholder="TITOLO DEL COMPITO">
-							</div>							
+								<input type="text" class="form-control" 
+									placeholder="TITOLO ">
+							</div>		
+							<div class="form-group">
+								<input type="text" class="form-control" 
+									placeholder="DESCRIZIONE ">
+							</div>
+										
 							<div class="form-group">
 								<form class="form-horizontal" role="form">
 									<div class="form-group">
 										<form class="form-inline">
 											<div class="form-group">
 												<input ui-date="dateOptions" class="form-control" required
-													data-ng-model="register.bornDate"
-													placeholder="DATA CONSEGNA COMPITO"></input>
+													
+													placeholder="DATA CONSEGNA"></input>
 											</div>
 										</form>
 									</div>
 								</form>
 							</div>
-							<button type="submit" class="btn generalButton marginSBottom">Crea</button>
+							<div class="form-group">
+								<select id="" class="" >
+									<option value="" disabled selected style="display:none;">SELEZIONA ALUNNO</option>
+									<option>TUTTI</option>
+								    <option>ALUNNO 1</option>
+								    <option>ALUNNO 2</option>
+								    <option>ALUNNO 3</option>
+								    <option>ALUNNO 4</option>
+				
+								</select>
+							</div>			
+							<button type="submit" class="btn generalButton marginSBottom">Assegna</button>
 						</form>
 
 					</div>
@@ -77,25 +102,34 @@
 			</span>
 		</div>
 		<div class="box">
-			<p class="marginMTop subtitle">
-			<label>Descrizione</label></br>
-				Creato da <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
+			
+			<label> {{scenario.scen.name}}</label><br>
+				Creato da: <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
+				<hr>
 				<span data-ng-if="scenario.scen.attendees"><label>{{scenario.scen.attendees.length}}</label> partecipanti<br></span>
 				<span data-ng-if="!scenario.scen.attendees"><label>0</label> partecipanti<br></span>
 				<span data-ng-if="scenario.scen.characters"><label>{{scenario.scen.characters.length}}</label> personaggi<br></span>
 				<span data-ng-if="!scenario.scen.characters"><label>0</label> personaggi<br></span>
 				<span data-ng-if="scenario.scen.collaborators"><label>{{scenario.scen.collaborators.length}}</label> collaboratori<br></span>
 				<span data-ng-if="!scenario.scen.collaborators"><label>0</label> collaboratori<br></span>
-			</p>
+			
 			
 			<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
-			<hr>
-			<a href=""><p class="marginMTop">
-				<span class="glyphicon glyphicon-cog"></span>
-				Gestisci scenario		
-			</p></a>
+				<hr>
+				<a href="">
+					<p class="marginMTop">
+						<span class="glyphicon glyphicon-cog"></span>
+						Gestisci scenario		
+					</p>
+				</a>
+			</div>
 		</div>
-		</div>
+		
+		<div class="container">
+ 
+  
+ </div>
+		
 		
 	</div>
 </div>

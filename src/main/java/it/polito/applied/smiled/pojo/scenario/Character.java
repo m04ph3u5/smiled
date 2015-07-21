@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.pojo.scenario;
 
 import it.polito.applied.smiled.dto.CharacterDTO;
+import it.polito.applied.smiled.pojo.HistoricalDate;
 import it.polito.applied.smiled.pojo.IntervalDate;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.Reference;
@@ -25,8 +26,8 @@ public class Character {
 	private String name;
 	private String nickname;
 	private String description;
-	private Date birthDate;
-	private Date deadDate;
+	private HistoricalDate bornDate;
+	private HistoricalDate deadDate;
 	private String cover;
 	private String quote;
 	private String gender;
@@ -52,7 +53,7 @@ public class Character {
 	public Character(CharacterDTO c, String idScenario, String creatorId){
 		this.name = c.getName();
 		this.description = c.getDescription();
-		this.birthDate = c.getBirthDate();
+		this.bornDate = c.getBornDate();
 		this.deadDate = c.getDeadDate();
 		this.idScenario = idScenario;
 		this.createdBy=creatorId;
@@ -76,16 +77,16 @@ public class Character {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getBirthDate() {
-		return birthDate;
+	public HistoricalDate getBornDate() {
+		return bornDate;
 	}
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBornDate(HistoricalDate bornDate) {
+		this.bornDate = bornDate;
 	}
-	public Date getDeadDate() {
+	public HistoricalDate getDeadDate() {
 		return deadDate;
 	}
-	public void setDeadDate(Date deadDate) {
+	public void setDeadDate(HistoricalDate deadDate) {
 		this.deadDate = deadDate;
 	}
 	public String getCover() {

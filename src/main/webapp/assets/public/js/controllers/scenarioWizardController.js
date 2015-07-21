@@ -81,8 +81,16 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							for(var i=0; i<self.scenario.characters.length;i++){
 								for(var j=0; j<data.length;j++){
 									if(data[j].id==self.scenario.characters[i].id){
+										if(!data[j].bornDate){
+											data[j].bornDate = {};
+											data[j].bornDate.afterChrist = true;
+										}
+										if(!data[j].deadDate){
+											data[j].deadDate = {};
+											data[j].deadDate.afterChrist = true;
+										}
 										self.charactersServer[i]=data[j];
-										self.currentCharacters[i] = angular.copy(data[j])
+										self.currentCharacters[i] = angular.copy(data[j]);
 										data.splice(j,1);
 										break;
 									}
@@ -346,6 +354,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.scenario.characters.push(angular.copy(self.newCharacter));
 							self.newCharacter.isOpen=null;
 							self.newCharacter.isSync=null;
+							self.newCharacter.bornDate = {};
+							self.newCharacter.bornDate.afterChrist = true;
+							self.newCharacter.deadDate = {};
+							self.newCharacter.deadDate.afterChrist = true;
 							self.charactersServer.push(angular.copy(self.newCharacter));
 							self.currentCharacters.push(angular.copy(self.newCharacter));
 							console.log(self.newCharater);
@@ -388,9 +400,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var syncCurrentCharacter = function(i, c){
 			current = angular.copy(c);
-			console.log("syncCurrentCharacter");
+
 			self.currentCharacters[i].name = current.name;
-			self.currentCharacters[i].birthDate = current.birthDate;
+			self.currentCharacters[i].nickname = current.nickname;
+			self.currentCharacters[i].bornDate = current.bornDate;
 			self.currentCharacters[i].deadDate = current.deadDate;
 			self.currentCharacters[i].bornTown = current.bornTown;
 			self.currentCharacters[i].deadTown = current.deadTown;
@@ -398,6 +411,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			self.currentCharacters[i].quote = current.quote;
 			self.currentCharacters[i].gender = current.gender;
 			self.currentCharacters[i].role = current.role;
+			
 		}
 		
 		self.openAccordion = function(i){
@@ -415,7 +429,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						if(i!=currentCharacterIndex){
 							syncCurrentCharacter(i, self.charactersServer[i]);
 						}
-						apiService.updateCharacter(id, self.currentCharacters[currentCharacterIndex], self.charactersServer[currentCharacterIndex].id).then(
+						var charDTO = angular.copy(self.currentCharacters[currentCharacterIndex]);
+						checkHistoricalDate(charDTO);
+						apiService.updateCharacter(id, charDTO , self.charactersServer[currentCharacterIndex].id).then(
 								function(data){
 									self.charactersServer[currentCharacterIndex] = data;
 									self.scenario.characters[currentCharacterIndex].name = data.name;
@@ -463,6 +479,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				//si tratta della prima apertura dell'accordion in questa istanza dello state
 				currentCharacterIndex=i;
 			}
+		}
+		
+		var checkHistoricalDate = function(charDTO){
+			if(!charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
+				charDTO.bornDate = null;
+			if(!charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
+				charDTO.deadDate = null;
 		}
 		
 		self.addCollaborator = function(collaborator){
@@ -771,6 +794,27 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		self.showDeadDatePicker = false;
+		self.switchShowDeadDate = function(){
+			if(!self.showDeadDatePicker && self.showBornDatePicker){
+				self.showBornDatePicker = false;
+			}
+			self.showDeadDatePicker = !self.showDeadDatePicker;
+		}
+		
+		self.showBornDatePicker = false;
+		self.switchShowBornDate = function(){
+			if(!self.showBornDatePicker && self.showDeadDatePicker){
+				self.showDeadDatePicker = false;
+			}
+			self.showBornDatePicker = !self.showBornDatePicker;
+		}
+		
+		self.hideDatePicker = function(){
+			self.showDeadDatePicker = false;
+			self.showBornDatePicker = false;
+		}
+		
 		
 /*--------------------------------------UTILITY----------------------------------------------------*/
 		
@@ -936,7 +980,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var isUpdatedCharacter = function(newChar, oldChar){
 			if(newChar.name!=oldChar.name)
 				return true;
-			if(newChar.birthDate!=oldChar.birthDate)
+			if(newChar.nickname!=oldChar.nickname)
+				return true;
+			if(newChar.bornDate!=oldChar.bornDate)
 				return true;
 			if(newChar.deadDate!=oldChar.deadDate)
 				return true;
