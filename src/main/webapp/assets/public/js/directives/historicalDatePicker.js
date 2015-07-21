@@ -8,9 +8,13 @@ angular.module("smiled.application").directive("historicalDatePicker",[ 'CONSTAN
         controller : function (){
         	var self = this;
         	self.months = CONSTANTS.getMonths("it");
-        	self.days = CONSTANTS.getDays(self.date.month);
         	self.getDays = function(){
             	self.days = CONSTANTS.getDays(self.date.month);
+        	}
+        	if(self.date && self.date.month){
+	        	self.days = CONSTANTS.getDays(self.date.month);
+        	}else{
+        		self.days = CONSTANTS.getDays(1);
         	}
         },
         controllerAs: 'vm',
@@ -18,7 +22,7 @@ angular.module("smiled.application").directive("historicalDatePicker",[ 'CONSTAN
         link: function(scope,element,attr){
         	
         	scope.$watch('vm.date', function(newValue,oldValue){
-        		if(newValue.year && newValue.month && newValue.day){
+        		if(newValue && newValue.year && newValue.month && newValue.day){
         			var era;
         			if(newValue.afterChrist)
         				era="D.C.";

@@ -28,38 +28,48 @@
 						<div><a href=""><span class="glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCharacter(c)" style="margin-right: 15px;"></span></a></div>
 					</div>
 					<div class="row">
+						<label class="col-md-4">Soprannome</label>
+						<input class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].nickname">
+					</div>
+					<div class="row">
 						<label class="col-md-4">Biografia</label>
-						<textarea class="col-md-5 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
+						<textarea data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
 						<img data-ng-src="{{c.cover}}"
 						data-err-src="assets/public/img/ic_characters.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
 					</div>
 					<div class="row">
 						<label class="col-md-4">Data di nascita</label>
-						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].birthDate">
+						<span  class="col-md-5  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowBornDate()">{{scenarioWizard.currentCharacters[$index].bornDate.formatted}}</span>
+					</div>
+					<div class="row" data-ng-show="scenarioWizard.showBornDatePicker">
+						<historical-date-picker date="scenarioWizard.currentCharacters[$index].bornDate"></historical-date-picker>
 					</div>
 					<div class="row">
 						<label class="col-md-4">Data di morte</label>
-						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].deadDate">
+						<span  class="col-md-5  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowDeadDate()">{{scenarioWizard.currentCharacters[$index].deadDate.formatted}}</span>
+					</div>
+					<div class="row" data-ng-show="scenarioWizard.showDeadDatePicker">
+						<historical-date-picker date="scenarioWizard.currentCharacters[$index].deadDate"></historical-date-picker>
 					</div>
 					<div class="row">
 						<label class="col-md-4">Luogo di nascita</label>
-						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
 					</div>
 					<div class="row">
 						<label class="col-md-4">Luogo di morte</label>
-						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].deadTown">
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].deadTown">
 					</div>
 					<div class="row">
 						<label class="col-md-4">Genere</label>
-						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].gender">
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].gender">
 					</div>
 					<div class="row">
 						<label class="col-md-4">Citazione</label>
-						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].quote">
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].quote">
 					</div>
 					<div class="row">
 						<label class="col-md-4 ">Ruolo</label>
-						<input  class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
+						<input data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
 					</div>
 					<div class="row">
 						<div class="pickRow col-md-9 uploadSpan btn generalButton btn-file"
