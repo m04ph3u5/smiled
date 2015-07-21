@@ -149,13 +149,13 @@ angular.module('smiled.application')
 				}
 			}
 		})
-		.state('logged.scenario.storyfy',{
-			url: '/storyfy',
+		.state('logged.scenario.storyline',{
+			url: '/storyline',
 			views: {
 				'body': {
-					templateUrl: "assets/private/partials/storify-scenario.html",
-					controller: "scenarioStoryfyCtrl",
-					controllerAs: "scenarioStoryfy"
+					templateUrl: "assets/private/partials/storyline-scenario.html",
+					controller: "scenarioStorylineCtrl",
+					controllerAs: "scenarioStoryline"
 				}
 			}
 		})
