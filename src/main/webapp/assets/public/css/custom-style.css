@@ -482,7 +482,18 @@
 		.linkImg{
 			margin-top:35%;
 		}
+/*Profilo pg*/
 
+		.marginTwenty{
+			margin-top:20px;
+		}
+		.textJustify{
+			text-align: justify;
+		}
+		.QuoteDescription{
+			width:100%;
+			height:150px;
+		}
 /*Non ancora classificato*/
 		
 		

@@ -1,10 +1,31 @@
 <aside></aside>
 <section>
+
 		<div class="row textLeft">
+		<!-- else -->
 			<div class="col-sm-2">
-				<img data-ng-src="" data-err-src="assets/public/img/ic_characters.png" class="imgPreviewXL">
+				<img data-ng-src="{{characterProfile.character.cover}}" 
+				data-err-src="assets/public/img/ic_characters.png"
+				class="imgPreviewXL marginTwenty">
 			</div>
-			<div class="col-sm-5">
+			<div class="col-sm-5" ng-show="!isOwner">
+					<h1>{{characterProfile.character.name}}</h1>
+					<div class="highlightText">
+					<span ng-if="characterProfile.character.birthDate!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
+					<span>{{characterProfile.character.birthDate}}</span>
+					<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.birthTown}}</span>
+					<span ng-if="characterProfile.character.deadDate!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+					<span>{{characterProfile.character.deadDate}}</span>
+					<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.deadTown}}</span>
+					</div>
+			<p>
+				<span class="textJustify" ng-show="!editDescription">{{characterProfile.character.description}}</span>
+				<textarea class="QuoteDescription" ng-show="editDescription">{{characterProfile.character.description}}</textarea>				
+				<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editDescription =! editDescription" ng-show="!editDescription"></span>
+				<div class="btn generalButton" ng-click="editDescription =! editDescription" ng-show="editDescription">OK</div>
+			</p>
+			</div>
+			<div class="col-sm-5" ng-show="isOwner">
 				<h1>{{characterProfile.character.name}}</h1>
 				<div class="highlightText">
 				<span ng-if="characterProfile.character.birthDate!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
@@ -14,7 +35,7 @@
 				<span>{{characterProfile.character.deadDate}}</span>
 				<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.deadTown}}</span>
 				</div>
-				<p class="pickRow">{{characterProfile.character.description}}</p>
+				<p class="textJustify">{{characterProfile.character.description}}</p>
 			</div>
 			<div class="col-sm-5">
 			<div class="box hiddenOverflow">
@@ -30,16 +51,31 @@
 				</div>
 			</div>
 			</div>	
-			<div class="box"><blockquote>{{characterProfile.character.quote}}
-				<footer>{{characterProfile.character.name}}</footer>
-			</blockquote>
+			<div class="box" ng-show="characterProfile.character.quote!=null  && isOwner">			
+				<blockquote>{{characterProfile.character.quote}}
+					<footer>{{characterProfile.character.name}}</footer>
+				</blockquote>
 			</div>
-						</div>
-			
-		</div>
-		<div class="row">
-			
+			<div class="box" ng-show="!isOwner">	
+				<div>					
+				<blockquote ng-show="characterProfile.character.quote!=null && !editQuote">{{characterProfile.character.quote}}
+				<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editQuote =! editQuote" ng-show="!editQuote"></span>
+					<footer>{{characterProfile.character.name}}</footer>					
+				</blockquote>
 				
+				<blockquote ng-show="editQuote">
+					<textarea class="QuoteDescription" ng-show="editQuote">{{characterProfile.character.quote}}</textarea>				
+					
+					<footer>{{characterProfile.character.name}}</footer>					
+				</blockquote>
+				<div class="btn generalButton" ng-click="editQuote =! editQuote" ng-show="editQuote">OK</div>
+				
+				</div>	
+				<p ng-show="characterProfile.character.quote==null">Inserisci la citazione del personaggio</p>
+				
+			</div>
+			</div>
+			
 		</div>
 </section>
 <aside></aside>
