@@ -57,6 +57,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-tags-input/ng-tags-input.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-sanitize/angular-sanitize.js"></script>
 	
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
