@@ -459,6 +459,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 										currentCharacterIndex=-1;
 									console.log("Character aggiornato");
 								}
+						,function(reason){
+							//TODO
+							console.log("failed update character: "+reason);
+						}
 						);
 					}else{ //il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
 						/*TO CONTINUE*/
