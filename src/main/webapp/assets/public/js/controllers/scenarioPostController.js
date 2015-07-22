@@ -60,7 +60,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 						self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
 					
 						for(var j=0; j<self.posts[i].likes.length; j++){
-							if(self.posts[i].likes[j].id==self.posts[i].character.id){
+							if(self.posts[i].likes[j].id==self.currentCharacter.id){
 								self.posts[i].youLike=true;
 								break;
 							}
@@ -72,26 +72,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 			}
 	);
 	
-	self.likePost = function(s){
-		apiService.addLikeToPost(self.scen.id, s.id).then(
-				function(data){
-					for(var i=0; i<self.posts.length; i++){
-						if(self.posts[i].id==s.id){
-							for(var j=0; j<self.posts[i].likes.length; j++){
-								if(!s.youLike)
-									self.posts[i].likes.push(self.currentCharacter);
-								else
-									self.posts[i].likes.splice(j,1);
-							}
-						}
-					}
-					s.youLike = !s.youLike;
-				},
-				function(reason){
-					console.log("Error in like");
-				}
-		);
-	}
+	
 	
 	self.switchCommentTab = function(c){
 		if($scope.scenario.hasCharacter)

@@ -63,6 +63,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		);
 		return s.promise;
 	}
+	
 
 	var deleteScenario = function(id){
 		var s = $q.defer();
