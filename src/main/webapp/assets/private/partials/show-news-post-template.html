@@ -44,7 +44,7 @@
 		</div>
 		<div class="col-md-10 col-md-offset-2">
 			<div class="row">
-				<summarize-info-post post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post>
+				<summarize-info-post data-ng-click="showNewsPost.switchShowGeneralComment()" post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post>
 			</div>
 			<div class="row">
 				<hr style="margin-right: 0px;" class="hrDivider">
@@ -52,8 +52,18 @@
 			<div class="row"> 
 				<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
 					scenario-id="{{showNewsPost.scenarioId}}"></like-to>
+				<div data-ng-class="showNewsPost.classCommentButton" data-ng-click="showNewsPost.switchShowComment()" style="margin-left: 20px;" class="glyphicon glyphicon-comment pull-left">Commenta</div>
+				<div data-ng-click="showNewsPost.switchShowMetaComment()" style="margin-left: 20px;" class="glyphicon glyphicon-exclamation-sign pull-left">Suggerisci</div>
+			</div>
+			<div data-ng-if="showNewsPost.showComment" class="row">
+				COMMENTI
 				<comment-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
 					scenario-id="{{showNewsPost.scenarioId}}"></comment-to>
+			</div>
+			<div data-ng-if="showNewsPost.showMetaComment" class="row">
+				METACOMMENTI
+				<meta-comment-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+					scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
 			</div>
 		</div>
 		<div class="row">
@@ -157,7 +167,7 @@
 					class="pull-left img-thumbnail imgPreviewL"
 					src="assets/public/img/bookImage.png"></img>
 				<div class="pull-left box box-info">
-					{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
+					{{showNewsPost.post.creationDate | date: scenarioPost.realDateFormat}} <br>
 					{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
 				</div>
 			</div>
