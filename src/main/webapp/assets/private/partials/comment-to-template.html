@@ -1,0 +1,37 @@
+<div class="col-md-10"
+	style="text-align: center; margin-top: 20px;">
+	<div class="col-md-2">
+		<img style="margin: 5px; margin-left: 10px;"
+			class="pull-right img-thumbnail imgPreviewM"
+			data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
+			data-err-src="assets/public/img/cesar.png"></img>
+	</div>
+	<div class="col-md-10">
+		<textarea data-ng-model="showNewsPost.post.newComment" rows="2"
+			style="margin: 5px;" class="col-md-12"
+			placeholder="Inserisci un commento"></textarea>
+		<div class="btn generalButton btn-sm pull-right"
+			data-ng-click="scenarioPost.addCommentToPost(showNewsPost.post)">COMMENTA</div>
+	</div>
+	<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+	</div>
+	<div data-ng-repeat="c in commentTo.post.comments" class="row">
+		<div class="col-md-2">
+			<img style="margin: 5px; margin-left: 10px;"
+				class="pull-right img-thumbnail imgPreviewM"
+				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{c.character.id}}/cover"
+				data-err-src="assets/public/img/cesar.png"></img>
+		</div>
+		<div class="col-md-10">
+			<div style="margin: 5px;" class="col-md-10 pull-left">
+				<p>
+					<label>{{c.character.firstname}}</label>: {{c.text}}
+				</p>
+			</div>
+			<div class="col-md-1">
+				<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}}
+					{{c.user.lastname}}</p>
+			</div>
+		</div>
+	</div>
+</div>

@@ -104,6 +104,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/showNewsPost.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/summarizeInfoPost.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/likeTo.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/commentTo.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/errSrc.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/bsSwitch.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/support/jqSupport.js"></script>

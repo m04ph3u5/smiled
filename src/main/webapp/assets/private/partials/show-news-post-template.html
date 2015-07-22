@@ -56,94 +56,13 @@
 				<div data-ng-click="showNewsPost.switchShowMetaComment()" style="margin-left: 20px;" class="glyphicon glyphicon-exclamation-sign pull-left">Suggerisci</div>
 			</div>
 			<div data-ng-if="showNewsPost.showComment" class="row">
-				COMMENTI
-				<comment-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-					scenario-id="{{showNewsPost.scenarioId}}"></comment-to>
+				<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
+					scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
 			</div>
 			<div data-ng-if="showNewsPost.showMetaComment" class="row">
 				METACOMMENTI
-				<meta-comment-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+				<meta-comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
 					scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-10" style="text-align: center;">
-				<div class="tabComment"
-					data-ng-click="scenarioPost.switchCommentTab(true)">COMMENTA</div>
-				<div class="tabComment pull-right"
-					data-ng-click="scenarioPost.switchCommentTab(false)"
-					style="margin-right: 5px;">DIETRO LE QUINTE</div>
-			</div>
-			<div class="col-md-2"></div>
-			<div data-ng-if="scenarioPost.commentTab" class="col-md-10"
-				style="text-align: center;">
-				<div class="col-md-2">
-					<img style="margin: 5px; margin-left: 10px;"
-						class="pull-right img-thumbnail imgPreviewM"
-						data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{scenario.currentCharacter.id}}/cover"
-						data-err-src="assets/public/img/cesar.png"></img>
-				</div>
-				<div class="col-md-10">
-					<textarea data-ng-model="showNewsPost.post.newComment" rows="2"
-						style="margin: 5px;" class="col-md-12"
-						placeholder="Inserisci un commento"></textarea>
-					<div class="btn generalButton btn-sm pull-right"
-						data-ng-click="scenarioPost.addCommentToPost(showNewsPost.post)">COMMENTA</div>
-				</div>
-				<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-				</div>
-				<div data-ng-repeat="c in showNewsPost.post.comments" class="row">
-					<div class="col-md-2">
-						<img style="margin: 5px; margin-left: 10px;"
-							class="pull-right img-thumbnail imgPreviewM"
-							data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{c.character.id}}/cover"
-							data-err-src="assets/public/img/cesar.png"></img>
-					</div>
-					<div class="col-md-10">
-						<div style="margin: 5px;" class="col-md-10 pull-left">
-							<p>
-								<label>{{c.character.firstname}}</label>: {{c.text}}
-							</p>
-						</div>
-						<div class="col-md-1">
-							<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}}
-								{{c.user.lastname}}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div data-ng-if="!scenarioPost.commentTab" class="col-md-10"
-				style="text-align: center;">
-				<div class="col-md-2">
-					<img style="margin: 5px; margin-left: 10px;"
-						class="pull-right img-thumbnail imgPreviewM"
-						data-ng-src="api/v1/users/{{scenario.loggedUser.id}}/cover"
-						data-err-src="assets/public/img/user_ico.png"></img>
-				</div>
-				<div class="col-md-10">
-					<textarea data-ng-model="showNewsPost.post.newMetaComment" rows="2"
-						style="margin: 5px;" class="col-md-12"
-						placeholder="Dai un suggerimento ai tuoi amici"></textarea>
-					<div class="btn generalButton btn-sm pull-right"
-						data-ng-click="scenarioPost.addMetaCommentToPost(showNewsPost.post)">COMMENTA</div>
-				</div>
-				<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-				</div>
-				<div data-ng-repeat="c in showNewsPost.post.metaComments" class="row">
-					<div class="col-md-2">
-						<img style="margin: 5px; margin-left: 10px;"
-							class="pull-right img-thumbnail imgPreviewM"
-							data-ng-src="api/v1/users/{{c.user.id}}/cover"
-							data-err-src="assets/public/img/user_ico.png"></img>
-					</div>
-					<div class="col-md-10">
-						<div style="margin: 5px;" class="col-md-10">
-
-							<p class="pull-left">{{c.text}}</p>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
