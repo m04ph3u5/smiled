@@ -16,5 +16,13 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	);
 	var currentCharacter = $scope.scenario.currentCharacter;
 	var isOwner = currentCharacter.id==idChar;
+	//prendere la roba dalla vista e salvarla
+	/*self.updateDescription(){
+		character.quote=;
+		apiService.updateCharacter(self.id, character,idChar).then{
+			
+		}
+		
+	}*/
 
 }]);

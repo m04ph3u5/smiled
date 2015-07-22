@@ -22,7 +22,7 @@
 				<span class="textJustify" ng-show="!editDescription">{{characterProfile.character.description}}</span>
 				<textarea class="QuoteDescription" ng-show="editDescription">{{characterProfile.character.description}}</textarea>				
 				<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editDescription =! editDescription" ng-show="!editDescription"></span>
-				<div class="btn generalButton" ng-click="editDescription =! editDescription" ng-show="editDescription">OK</div>
+				<div class="btn generalButton" ng-click="editDescription =! editDescription updateDescription()" ng-show="editDescription">OK</div>
 			</p>
 			</div>
 			<div class="col-sm-5" ng-show="isOwner">
