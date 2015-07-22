@@ -8,6 +8,7 @@
 		"angular-ui-bootstrap-bower": "latest",
 		"angular-permission": "latest",
 		"angular-cookies": "latest",
+		"angular-sanitize" : "latest",
 		"ngstorage" : "latest",
 		"restangular": "latest",
 		"stomp-websocket": "latest",

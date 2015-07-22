@@ -44,7 +44,7 @@
 		</div>
 		<div class="col-md-10 col-md-offset-2">
 			<div class="row">
-				<summarize-info-post post="showNewsPost.post"></summarize-info-post>
+				<summarize-info-post post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post>
 			</div>
 			<div class="row">
 				<hr style="margin-right: 0px;" class="hrDivider">
@@ -157,7 +157,7 @@
 					class="pull-left img-thumbnail imgPreviewL"
 					src="assets/public/img/bookImage.png"></img>
 				<div class="pull-left box box-info">
-					{{showNewsPost.post.creationDate | date: scenarioPost.realDateFormat}} <br>
+					{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
 					{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
 				</div>
 			</div>
