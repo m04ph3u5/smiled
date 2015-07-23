@@ -44,7 +44,7 @@
 		</div>
 		<div class="col-md-10 col-md-offset-2">
 			<div class="row">
-				<summarize-info-post data-ng-click="showNewsPost.switchShowGeneralComment()" post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post>
+				<summarize-info-post data-ng-click="showNewsPost.switchShowComment()" post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post>
 			</div>
 			<div class="row">
 				<hr style="margin-right: 0px;" class="hrDivider">
@@ -60,8 +60,7 @@
 					scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
 			</div>
 			<div data-ng-if="showNewsPost.showMetaComment" class="row">
-				METACOMMENTI
-				<meta-comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
+				<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
 					scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
 			</div>
 		</div>

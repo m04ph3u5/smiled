@@ -5,6 +5,7 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"insertHistoricalDate" : "Data il post", 
 	"insertHistoricalDateEvent" : "Data l'evento", 
 	"lengthOfTooltipLikesList" : 10,
+	"visibleComment": 3,
 //	"regexForSearchTag" : "/\b[A-Z][-'a-zA-Z]+,?\s[A-Z][-'a-zA-Z]{0-19}\b/",
 	"urlMeCover" : "api/v1/me/cover",
 	"urlUserCover" : function(id){

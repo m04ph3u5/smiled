@@ -1,6 +1,5 @@
-angular.module("smiled.application").directive('commentTo',[ 'apiService',
-
-	function(apiService){
+angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONSTANTS',
+    function(apiService, CONSTANTS){
 		return {
 			templateUrl: "assets/private/partials/comment-to-template.html",
 			scope : {
@@ -10,7 +9,29 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService',
 				scenarioId : "@" 
 			},
 			controller : function(){
+				var numVisibleComment = CONSTANTS.visibleComment;
 				var self = this;
+				self.showViewOthers = false;
+				self.showInsert = true;
+				if(!self.currentCharacter || !self.currentCharacter.id)
+					self.showInsert = false;
+				
+				self.visibleComments = new Array();
+				self.post.comments.reverse();
+				var i=0;
+				while(i<self.post.comments.length && i<numVisibleComment){
+					self.visibleComments.unshift(self.post.comments[i]);
+					i++;
+				}
+				if(self.post.comments.length>numVisibleComment)
+					self.showViewOthers = true;
+				
+				self.openViewOthers = function(){
+					for(var j=i; j<self.post.comments.length; j++){
+						self.visibleComments.unshift(self.post.comments[i]);
+					}
+					self.showViewOthers = false;
+				}
 				
 				self.addCommentToPost = function(){
 					console.log(self.post.newComment);

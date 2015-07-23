@@ -33,20 +33,22 @@ public class MetaComment implements CommentInterface{
 		this.text=commentDTO.getText();
 		
 		tags = new ArrayList<Reference>();
-		for(int i=0; i<commentDTO.getTags().size();i++){
-			Reference r = new Reference();
-			List <Reference> allPartecipants = new ArrayList<Reference>();
-			allPartecipants.addAll(scenario.getAttendees());
-			allPartecipants.addAll(scenario.getCollaborators());
-			allPartecipants.add(scenario.getTeacherCreator());
-			
-			for(int j=0; j<allPartecipants.size();j++){
-				if(scenario.getCharacters().get(j).getId().equals(commentDTO.getTags().get(i))){
-					r.setId(commentDTO.getTags().get(i));
-					r.setFirstname(allPartecipants.get(j).getFirstname());
-					r.setLastname(allPartecipants.get(j).getLastname());
-					tags.add(r);
-					break;
+		if(commentDTO.getTags()!=null){
+			for(int i=0; i<commentDTO.getTags().size();i++){
+				Reference r = new Reference();
+				List <Reference> allPartecipants = new ArrayList<Reference>();
+				allPartecipants.addAll(scenario.getAttendees());
+				allPartecipants.addAll(scenario.getCollaborators());
+				allPartecipants.add(scenario.getTeacherCreator());
+				
+				for(int j=0; j<allPartecipants.size();j++){
+					if(scenario.getCharacters().get(j).getId().equals(commentDTO.getTags().get(i))){
+						r.setId(commentDTO.getTags().get(i));
+						r.setFirstname(allPartecipants.get(j).getFirstname());
+						r.setLastname(allPartecipants.get(j).getLastname());
+						tags.add(r);
+						break;
+					}
 				}
 			}
 		}

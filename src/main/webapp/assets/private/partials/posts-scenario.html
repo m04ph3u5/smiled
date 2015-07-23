@@ -18,6 +18,6 @@
 <!-- ELENCO POST -->
 <div class="row">
 	<div data-ng-repeat="s in scenarioPost.posts">
-		<show-news-post post="s" scenario-id="{{scenarioPost.scen.id}}" current-character="scenario.currentCharacter"></show-news-post>
+		<show-news-post post="s" scenario-id="{{scenarioPost.scen.id}}" logged-user= "scenario.loggedUser" current-character="scenario.currentCharacter"></show-news-post>
 	</div>
 </div>

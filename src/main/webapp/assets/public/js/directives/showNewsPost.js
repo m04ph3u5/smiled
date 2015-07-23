@@ -6,7 +6,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			scope : {
 				post: "=",
 				scenarioId : "@",
-				currentCharacter : "="
+				currentCharacter : "=",
+				loggedUser : "="
 			},
 			controller : function(){
 				var self = this;
@@ -24,26 +25,24 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				
 				self.showComment=false;
 				self.showMetaComment=false;
-				self.switchShowGeneralComment = function(){
-					if(!self.currentCharacter || !self.currentCharacter.id){
-						self.switchShowMetaComment();
-						return;
-					}
-					self.showComment = !self.showComment;
-					if(self.showComment)
-						self.showMetaComment = false;
-				}
+//				self.switchShowGeneralComment = function(){
+//					if(!self.currentCharacter || !self.currentCharacter.id){
+//						self.switchShowMetaComment();
+//						return;
+//					}
+//					self.showComment = !self.showComment;
+//					if(self.showComment)
+//						self.showMetaComment = false;
+//				}
 				self.switchShowMetaComment = function(){
 					self.showMetaComment = !self.showMetaComment;
 					if(self.showMetaComment)
 						self.showComment = false;
 				}
 				self.switchShowComment = function(){
-					if(self.currentCharacter && self.currentCharacter.id){
 						self.showComment = !self.showComment;
 						if(self.showComment)
 							self.showMetaComment = false;
-					}
 				}
 				
 			},

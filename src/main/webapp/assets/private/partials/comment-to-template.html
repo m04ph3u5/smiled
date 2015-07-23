@@ -1,21 +1,7 @@
+<div class="pull-left" data-ng-show="commentTo.showViewOthers" data-ng-click="commentTo.openViewOthers()"><br><span class="clickable">Visualizza altri commenti</span></div>
 <div class="col-md-10"
 	style="text-align: center; margin-top: 20px;">
-	<div class="col-md-2">
-		<img style="margin: 5px; margin-left: 10px;"
-			class="pull-right img-thumbnail imgPreviewM"
-			data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
-			data-err-src="assets/public/img/cesar.png"></img>
-	</div>
-	<div class="col-md-10">
-		<textarea data-ng-model="commentTo.post.newComment" rows="2"
-			style="margin: 5px;" class="col-md-12"
-			placeholder="Inserisci un commento"></textarea>
-		<div class="btn generalButton btn-sm pull-right"
-			data-ng-click="commentTo.addCommentToPost()">COMMENTA</div>
-	</div>
-	<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-	</div>
-	<div data-ng-repeat="c in commentTo.post.comments" class="row">
+	<div data-ng-repeat="c in commentTo.visibleComments" class="row">
 		<div class="col-md-2">
 			<img style="margin: 5px; margin-left: 10px;"
 				class="pull-right img-thumbnail imgPreviewM"
@@ -32,6 +18,22 @@
 				<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}}
 					{{c.user.lastname}}</p>
 			</div>
+		</div>
+	</div>
+	<div data-ng-show="commentTo.showInsert">
+		<div class="row" style="margin-top: 20px; margin-bottom: 20px;"></div>
+		<div class="col-md-2">
+			<img style="margin: 5px; margin-left: 10px;"
+				class="pull-right img-thumbnail imgPreviewM"
+				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
+				data-err-src="assets/public/img/cesar.png"></img>
+		</div>
+		<div class="col-md-10">
+			<textarea data-ng-model="commentTo.post.newComment" rows="2"
+				style="margin: 5px;" class="col-md-12"
+				placeholder="Inserisci un commento"></textarea>
+			<div class="btn generalButton btn-sm pull-right"
+				data-ng-click="commentTo.addCommentToPost()">COMMENTA</div>
 		</div>
 	</div>
 </div>
