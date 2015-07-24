@@ -76,7 +76,7 @@ public interface ScenarioService {
 	public Page<Post> getPagedPosts(String scenarioId, String characterId, Integer nPag,
 			Integer nItem, Boolean historicOrder, Authentication auth) throws NotFoundException;
 
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException;
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException;
 
 	public Post updateStatus(String id, String statusId, StatusDTO status, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException;
 

@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.pojo.scenario;
 
 import it.polito.applied.smiled.pojo.CharacterReference;
+import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.Media;
 import it.polito.applied.smiled.pojo.Reference;
 
@@ -8,12 +9,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 public class Event extends Post{
 
 	private List<Reference> tags;
 	private String text;
 	private EventType type;
-	private Media media;
+	
+	@DBRef
+	private ArrayList<FileMetadata> imagesMetadata;
+	@DBRef
+	private ArrayList<FileMetadata> filesMetadata;
+	
+	private List<Source> sources;
 	private Place place;
 
 	
@@ -25,6 +34,9 @@ public class Event extends Post{
 		this.setMetaComments(new ArrayList<MetaComment>());
 		this.setRevision(new Revision());
 		this.tags=new ArrayList<Reference>();
+		this.sources=new ArrayList<Source>();
+		this.imagesMetadata = new ArrayList<FileMetadata>();
+		this.filesMetadata = new ArrayList<FileMetadata>();
 	}
 	
 	public List<Reference> getTags() {
@@ -45,12 +57,7 @@ public class Event extends Post{
 	public void setType(EventType type) {
 		this.type = type;
 	}
-	public Media getMedia() {
-		return media;
-	}
-	public void setMedia(Media media) {
-		this.media = media;
-	}
+	
 
 	public Place getPlace() {
 		return place;
@@ -58,6 +65,37 @@ public class Event extends Post{
 
 	public void setPlace(Place place) {
 		this.place = place;
+	}
+
+	public ArrayList<FileMetadata> getImagesMetadata() {
+		return imagesMetadata;
+	}
+
+	public void setImagesMetadata(ArrayList<FileMetadata> imagesMetadata) {
+		this.imagesMetadata = imagesMetadata;
+	}
+	public void addImageMetadata(FileMetadata f){
+		this.imagesMetadata.add(f);
+	}
+	
+	public ArrayList<FileMetadata> getFilesMetadata() {
+		return filesMetadata;
+	}
+
+	public void setFilesMetadata(ArrayList<FileMetadata> filesMetadata) {
+		this.filesMetadata = filesMetadata;
+	}
+
+	public void addFileMetadata(FileMetadata f){
+		this.filesMetadata.add(f);
+	}
+	
+	public List<Source> getSources() {
+		return sources;
+	}
+
+	public void setSources(List<Source> sources) {
+		this.sources = sources;
 	}
 	
 	

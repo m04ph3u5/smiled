@@ -1,4 +1,80 @@
 <div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<ul class="timeline">
+			<li data-ng-class="scenarioStoryline.getPosition($index)"
+				data-ng-repeat="post in scenarioStoryline.posts track by $index">
+				<div class="timeline-badge primary">
+					<a href=""
+						title="{{post.user.firstname}} {{post.user.lastname}} - {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}"><i
+						class="glyphicon glyphicon-time invert" id=""></i></a> 
+				</div>
+				<div class="timeline-panel">
+					<div class="timeline-header">
+						<div class="row">
+							<div class="col-xs-2">
+								<img class="imgPreviewM" data-ng-src="{{post.character.cover}}"
+									data-err-src="assets/public/img/ic_characters.png">
+							</div>
+							<div class="col-xs-8">
+								<a><i>{{post.character.name}}</i></a> -
+								{{scenarioStoryline.formatDate(post.historicalDate)}}
+							</div>
+						</div>
+					</div>
+					<div class="timeline-heading">
+						<!-- 						<div class="videowrapper"> -->
+						<!-- 							<iframe height="300" -->
+						<!-- 								src="https://www.youtube.com/embed/IuLG6WqjOEo" frameborder="0" -->
+						<!-- 								allowfullscreen=""></iframe> -->
+						<!-- 						</div> -->
+						<div data-ng-repeat="row in post.media">
+							<div class="timeline-images row">
+								<div data-ng-click="scenarioStoryline.openPostGallery(post)"
+									data-ng-repeat="col in row" class="col-xs-4">
+									<img data-ng-src="{{col}}" class="img-thumbnail img-responsive" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="timeline-body">
+						<p>
+							<b><span data-ng-bind-html="post.text | linky:'_blank'"></span></b>
+						</p>
+					</div>
+
+					<div class="timeline-footer">
+						<div data-ng-repeat="comment in post.comments">
+							<div class="media">
+								<a class="pull-left" href="#"> <img class="imgPreviewM"
+									data-ng-src="{{comment.character.cover}}"
+									data-err-src="assets/public/img/ic_characters.png" />
+								</a> <span class="clickable" style="margin-bottom: 15px;"><i>{{comment.character.firstname}}</i></span>
+								<div class="media-body">
+									<p>{{comment.text}}</p>
+								</div>
+							</div>
+							<hr>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  <div class="row">
 	<div data-ng-repeat="s in scenarioStoryline.posts">
 
 
@@ -136,10 +212,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 
-		<!-- EVENTO -->
+<!-- EVENTO 
 		<div data-ng-if="!s.character" class="row">
 			<div class="col-md-10 col-md-offset-1 box">
 				<div class="row">
@@ -274,4 +350,4 @@
 
 
 	</div>
-</div>
+</div> -->

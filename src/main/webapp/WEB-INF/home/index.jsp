@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/ng-tags-input/ng-tags-input.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css">
+<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/storyline.css">
+
 
 </head>
 <base href="/ThesisProject/">

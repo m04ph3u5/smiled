@@ -1197,7 +1197,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException {
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException {
 		
 
 		Scenario scenario = scenarioRepository.findById(scenarioId);
@@ -1207,13 +1207,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 		Event event = new Event();
-		event.setText(eventDTO.getText());
-		event.setType(eventDTO.getType());
-		event.setMedia(eventDTO.getMedia());
-		event.setPlace(eventDTO.getPlace());
 		event.setScenarioId(scenarioId);
+		event.setPlace(eventDTO.getPlace());
 		event.setHistoricalDate(eventDTO.getHistoricalDate());
-
+		event.setSources(eventDTO.getSources());
 		List<Reference> tagsCharacter = new ArrayList<Reference>();
 		if(eventDTO.getTags()!=null){
 			for(int i=0; i<eventDTO.getTags().size();i++){
@@ -1228,7 +1225,33 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
+		
 		event.setTags(tagsCharacter);
+		
+		
+		if(eventDTO.getImageMetaId()!=null){
+			for(int i=0; i<eventDTO.getImageMetaId().size(); i++){
+				FileMetadata f = fileMetadataRepository.findById(eventDTO.getImageMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				if(!f.getUserId().equals(u.getId()))
+					throw new ForbiddenException();
+				event.addImageMetadata(f);
+				fileMetadataRepository.confirmImage(event.getImagesMetadata().get(i).getId());
+			}
+		}
+		
+		if(eventDTO.getFileMetaId()!=null){
+			for(int i=0; i<eventDTO.getFileMetaId().size(); i++){
+				FileMetadata f = fileMetadataRepository.findById(eventDTO.getFileMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				if(!f.getUserId().equals(u.getId()))
+					throw new ForbiddenException();
+				event.addFileMetadata(f);
+				fileMetadataRepository.confirmFile(event.getFilesMetadata().get(i).getId());
+			}
+		}
 		
 		if(eventDTO.getStatus()==null)
 			event.setStatus(PostStatus.PUBLISHED);
@@ -1457,35 +1480,70 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Override
 	public Post updateEvent(String id, String eventId, EventDTO eventDTO,
-			CustomUserDetails activeUser) throws NotFoundException, ForbiddenException, BadRequestException {
+			CustomUserDetails user) throws NotFoundException, ForbiddenException, BadRequestException {
 		/*Prelevo il post dal database e controllo che esso esista e sia di tipo Event */
-		
 		Post post =  postRepository.findById(eventId);
-				
-		if(post==null || !post.getClass().equals(Event.class))
+		if(post==null || !post.getClass().equals(Status.class))
 			throw new NotFoundException();
 		
 		if(post.getStatus().equals(PostStatus.DELETED))
 			throw new NotFoundException();
 		
+		List<Role> roles = (List<Role>) user.getAuthorities();
 		Event event = (Event) post;
+		Scenario scenario = scenarioRepository.findById(id);
+		if(scenario==null)
+			throw new BadRequestException();
 		
 		boolean permit=false;
 		Date now=null;
 		
-		if(!event.getUser().getId().equals(activeUser.getId())){
+		/*START PERMISSION CHECK*/
+		for(Role role : roles){
+			if(role.getAuthority().equals("ROLE_ADMIN"))
+				permit=true;
+		}
+		/*Check user is SYSTEM ADMIN*/
+			
+		/**/
 		
-			List<Role> roles = (List<Role>) activeUser.getAuthorities();
-			for(Role role : roles){
-				if(role.getAuthority().equals("ROLE_TEACHER"))
-					permit=true;
-			}
-		}else
+		/*Controllo se l'utente che chiede di fare la modifica è il creatore del post*/
+		if(event.getUser().getId().equals(user.getId())){
 			permit=true;
+		}
+		/*Se il richiedente non è il creatore, valuto la possibilità di altri permessi a condizione che lo Status sia PUBLISHED (una bozza
+		 * è modificabile dal solo creatore del post)*/
+		if(!permit && event.getStatus().equals(PostStatus.PUBLISHED)){
+			/*Se uno dei due controlli fallisce valuto la possibilità che a fare l'operazione voglia essere il creator dello Scenario*/
+			if(scenario.getTeacherCreator().getId().equals(user.getId())){
+				permit=true;
+			}
+			/*Se non si tratta del creatore controllo che l'utente che ha fatto richiesta di update sia presente nella lista di collaborators
+			 * dello scenario e che sia un Teacher (questo lo posso controllare guardando il ruolo presente nelle Authorities dell'oggetto
+			 * di security).*/
+			if(!permit){
+				/*S*/
+				if(scenario.getCollaborators()!=null){
+					for(Reference r : scenario.getCollaborators()){
+						if(r.getId().equals(user.getId())){
+							for(Role role : roles){
+								if(role.getAuthority().equals("ROLE_TEACHER"))
+									permit=true;
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
 		
+		/*Se dopo tutti i controlli effettuati permit è ancora a false rilancio una ForbiddenException*/
 		if(!permit)
 			throw new ForbiddenException();
 		
+		/*END PERMISSION CHECK*/
+		
+		/*TODO da continuare*/
 		Update u = new Update();
 		boolean toPublish=false;
 		boolean updateHistoricalDate=false;
@@ -1504,20 +1562,106 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(eventDTO.getStatus()!=null){
 			if(event.getStatus().equals(PostStatus.DRAFT) && eventDTO.getStatus().equals(PostStatus.PUBLISHED)){
 				toPublish=true;
-				u.set("status", eventDTO.getStatus());
+				u.set("event", eventDTO.getStatus());
 				now = new Date();
 				u.set("creationDate", now);
-				userRepository.removeDraftPost(activeUser.getId(), post.getId());
+				userRepository.removeDraftPost(user.getId(), post.getId());
 			}
 		}
-		
-		if(eventDTO.getMedia()!=null){
-			u.set("media",eventDTO.getMedia());
+		if(eventDTO.getSources()!=null){
+			u.set("sources", eventDTO.getSources());
 		}
 		
-		u.set("lastChangeDate", new Date());
+		if(eventDTO.getImageMetaId()!=null){
+			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
+			for(int i=0; i<eventDTO.getImageMetaId().size();i++){
+				FileMetadata f = fileMetadataRepository.confirmImage(eventDTO.getImageMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference fileMetaUserRef = new Reference();
+				fileMetaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				newImageMeta.add(f);
+			}
+			u.addToSet("imagesMetadata").each(newImageMeta);
+		}
 		
+		if(eventDTO.getFileMetaId()!=null){
+			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
+			for(int i=0; i<eventDTO.getFileMetaId().size(); i++){
+				FileMetadata f = fileMetadataRepository.confirmFile(eventDTO.getFileMetaId().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference fileMetaUserRef = new Reference();
+				fileMetaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				newFileMeta.add(f);
+			}
+			u.addToSet("filesMetadata").each(newFileMeta);
+		}
+		
+		if(eventDTO.getImageMetaIdToDelete()!=null){
+			FileMetadata[] newMetadata = new FileMetadata[eventDTO.getImageMetaIdToDelete().size()];
+			for(int i=0; i<eventDTO.getImageMetaIdToDelete().size(); i++){
+				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(eventDTO.getImageMetaIdToDelete().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference metaUserRef = new Reference();
+				metaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				newMetadata[i]=f;
+			}
+			u.pullAll("imagesMetadata",newMetadata);
+		}
+		
+		if(eventDTO.getFileMetaIdToDelete()!=null){
+			FileMetadata[] newMetadata = new FileMetadata[eventDTO.getFileMetaIdToDelete().size()];
+			for(int i=0; i<eventDTO.getFileMetaIdToDelete().size(); i++){
+				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(eventDTO.getFileMetaIdToDelete().get(i));
+				if(f==null)
+					throw new BadRequestException();
+				Reference metaUserRef = new Reference();
+				metaUserRef.setId(f.getUserId());
+				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+					//TODO fare undo di confirmImage
+					throw new ForbiddenException();
+				}
+				newMetadata[i]=f;
+			}
+			u.pullAll("filesMetadata",newMetadata);
+		}
+		if(eventDTO.getTags()!=null){
+			List<Reference> tagsCharacter = new ArrayList<Reference>();
+			for(int i=0;i<eventDTO.getTags().size(); i++){
 
+				Reference r = new Reference();
+				for(int j=0; j<scenario.getCharacters().size();j++){
+					if(scenario.getCharacters().get(j).getId().equals(eventDTO.getTags().get(i))){
+						r.setId(eventDTO.getTags().get(i));
+						r.setFirstname(scenario.getCharacters().get(j).getName());
+						tagsCharacter.add(r);
+						break;
+					}
+				}
+				
+			}
+			
+			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello event
+			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
+			u.addToSet("tags").each(tagsCharacter);
+		}
+		u.set("lastChangeDate", new Date());
+
+		
 		Event newEvent = (Event) postRepository.updatePost(eventId,u);
 		
 		if (newEvent == null)
@@ -1533,6 +1677,167 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 		return newEvent;
 	}
+//		Post post =  postRepository.findById(eventId);
+//				
+//		if(post==null || !post.getClass().equals(Event.class))
+//			throw new NotFoundException();
+//		
+//		if(post.getStatus().equals(PostStatus.DELETED))
+//			throw new NotFoundException();
+//		
+//		Event event = (Event) post;
+//		
+//		boolean permit=false;
+//		Date now=null;
+//		
+//		if(!event.getUser().getId().equals(activeUser.getId())){
+//		
+//			List<Role> roles = (List<Role>) activeUser.getAuthorities();
+//			for(Role role : roles){
+//				if(role.getAuthority().equals("ROLE_TEACHER"))
+//					permit=true;
+//			}
+//		}else
+//			permit=true;
+//		
+//		if(!permit)
+//			throw new ForbiddenException();
+//		
+//		Update u = new Update();
+//		boolean toPublish=false;
+//		boolean updateHistoricalDate=false;
+//		
+//		if(eventDTO.getText()!=null){
+//			u.set("text", eventDTO.getText());
+//		}
+//		if(eventDTO.getHistoricalDate()!=null){
+//			u.set("historicalDate", eventDTO.getHistoricalDate());
+//			if(event.getStatus().equals(PostStatus.PUBLISHED))
+//				updateHistoricalDate=true;
+//		}
+//		if(eventDTO.getPlace()!=null){
+//			u.set("place", eventDTO.getPlace());
+//		}
+//		if(eventDTO.getStatus()!=null){
+//			if(event.getStatus().equals(PostStatus.DRAFT) && eventDTO.getStatus().equals(PostStatus.PUBLISHED)){
+//				toPublish=true;
+//				u.set("status", eventDTO.getStatus());
+//				now = new Date();
+//				u.set("creationDate", now);
+//				userRepository.removeDraftPost(activeUser.getId(), post.getId());
+//			}
+//		}
+//		
+//		if(eventDTO.getSources()!=null){
+//			u.set("sources", eventDTO.getSources());
+//		}
+//		
+//		if(eventDTO.getImageMetaId()!=null){
+//			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
+//			for(int i=0; i<eventDTO.getImageMetaId().size();i++){
+//				FileMetadata f = fileMetadataRepository.confirmImage(eventDTO.getImageMetaId().get(i));
+//				if(f==null)
+//					throw new BadRequestException();
+//				Reference fileMetaUserRef = new Reference();
+//				fileMetaUserRef.setId(f.getUserId());
+//				if(!f.getUserId().equals(activeUser.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+//					//TODO fare undo di confirmImage
+//					throw new ForbiddenException();
+//				}
+//				newImageMeta.add(f);
+//			}
+//			u.addToSet("imagesMetadata").each(newImageMeta);
+//		}
+//		
+//		if(statusDTO.getFileMetaId()!=null){
+//			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
+//			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
+//				FileMetadata f = fileMetadataRepository.confirmFile(statusDTO.getFileMetaId().get(i));
+//				if(f==null)
+//					throw new BadRequestException();
+//				Reference fileMetaUserRef = new Reference();
+//				fileMetaUserRef.setId(f.getUserId());
+//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+//					//TODO fare undo di confirmImage
+//					throw new ForbiddenException();
+//				}
+//				newFileMeta.add(f);
+//			}
+//			u.addToSet("filesMetadata").each(newFileMeta);
+//		}
+//		
+//		if(statusDTO.getImageMetaIdToDelete()!=null){
+//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
+//			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
+//				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
+//				if(f==null)
+//					throw new BadRequestException();
+//				Reference metaUserRef = new Reference();
+//				metaUserRef.setId(f.getUserId());
+//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+//					//TODO fare undo di confirmImage
+//					throw new ForbiddenException();
+//				}
+//				newMetadata[i]=f;
+//			}
+//			u.pullAll("imagesMetadata",newMetadata);
+//		}
+//		
+//		if(statusDTO.getFileMetaIdToDelete()!=null){
+//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
+//			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
+//				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
+//				if(f==null)
+//					throw new BadRequestException();
+//				Reference metaUserRef = new Reference();
+//				metaUserRef.setId(f.getUserId());
+//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+//					//TODO fare undo di confirmImage
+//					throw new ForbiddenException();
+//				}
+//				newMetadata[i]=f;
+//			}
+//			u.pullAll("filesMetadata",newMetadata);
+//		}
+//		if(statusDTO.getTags()!=null){
+//			List<Reference> tagsCharacter = new ArrayList<Reference>();
+//			for(int i=0;i<statusDTO.getTags().size(); i++){
+//
+//				Reference r = new Reference();
+//				for(int j=0; j<scenario.getCharacters().size();j++){
+//					if(scenario.getCharacters().get(j).getId().equals(statusDTO.getTags().get(i))){
+//						r.setId(statusDTO.getTags().get(i));
+//						r.setFirstname(scenario.getCharacters().get(j).getName());
+//						tagsCharacter.add(r);
+//						break;
+//					}
+//				}
+//				
+//			}
+//			
+//			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
+//			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
+//			u.addToSet("tags").each(tagsCharacter);
+//		}
+//		
+//		u.set("lastChangeDate", new Date());
+//		
+//
+//		Event newEvent = (Event) postRepository.updatePost(eventId,u);
+//		
+//		if (newEvent == null)
+//			throw new BadRequestException();
+//		
+//		if(toPublish){
+//			PostReference postRef = new PostReference(newEvent);
+//			scenarioRepository.addPostToScenario(newEvent.getScenarioId(), postRef);
+//		}
+//		if(!toPublish && updateHistoricalDate){
+//			PostReference postRef = new PostReference(newEvent);
+//			scenarioRepository.updatePostDateInScenario(newEvent.getScenarioId(), postRef);
+//		}
+//		return newEvent;
+//	}
 
 
 	@Override
