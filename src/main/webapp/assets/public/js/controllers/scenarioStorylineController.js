@@ -23,6 +23,7 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         					}else{
         						self.posts[i].character = {};
         						self.posts[i].character.name="Narratore";
+        						self.posts[i].character.cover="assets/public/img/bookImage.png";
         						self.posts[i].isEvent = true;
         					}
         					if(self.posts[i].comments){
@@ -77,7 +78,9 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         		return CONSNTANTS.urlMedia(id);
         	}
         	
-        	self.openPostGallery = function(post){
-        		Lightbox.openModal(post.imagesMetadata,0);
+        	self.openPostGallery = function(post, row, col){
+				var index = (row*numMediaPerRow)+col;
+				if(post.media)
+					Lightbox.openModal(post.imagesMetadata,index);
         	}
 }]);

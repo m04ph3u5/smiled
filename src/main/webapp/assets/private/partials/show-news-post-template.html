@@ -25,9 +25,13 @@
 					<div class="col-md-12">
 						<label class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></label>
 					</div>
-					<div data-ng-repeat="image in showNewsPost.post.imagesMetadata">
-						<img class="imgPreviewXL" alt={{image.name}}
-							data-ng-src="api/v1/media/{{image.id}}">
+					<div data-ng-repeat="row in showNewsPost.post.media track by $index">
+						<div class="timeline-images row">
+							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
+								data-ng-repeat="col in row track by $index" class="col-xs-4">
+								<img data-ng-src="{{col}}" class="imgPreviewL" />
+							</div>
+						</div>
 					</div>
 					<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
 						<p>{{file.originalName}}</p>
@@ -94,9 +98,13 @@
 					<div class="col-md-12">
 						<label class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></label>
 					</div>
-					<div data-ng-repeat="image in showNewsPost.post.imagesMetadata">
-						<img class="imgPreviewXL" alt={{image.name}}
-							data-ng-src="api/v1/media/{{image.id}}">
+					<div data-ng-repeat="row in showNewsPost.post.media track by $index">
+						<div class="timeline-images row">
+							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
+								data-ng-repeat="col in row track by $index" class="col-xs-4">
+								<img data-ng-src="{{col}}" class="imgPreviewL" />
+							</div>
+						</div>
 					</div>
 					<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
 						<p>{{file.originalName}}</p>

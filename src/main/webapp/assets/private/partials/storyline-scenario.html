@@ -27,10 +27,10 @@
 						<!-- 								src="https://www.youtube.com/embed/IuLG6WqjOEo" frameborder="0" -->
 						<!-- 								allowfullscreen=""></iframe> -->
 						<!-- 						</div> -->
-						<div data-ng-repeat="row in post.media">
+						<div data-ng-repeat="row in post.media track by $index">
 							<div class="timeline-images row">
-								<div data-ng-click="scenarioStoryline.openPostGallery(post)"
-									data-ng-repeat="col in row" class="col-xs-4">
+								<div data-ng-click="scenarioStoryline.openPostGallery(post, $parent.$index, $index)"
+									data-ng-repeat="col in row track by $index" class="col-xs-4">
 									<img data-ng-src="{{col}}" class="img-thumbnail img-responsive" />
 								</div>
 							</div>

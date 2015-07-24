@@ -1,21 +1,7 @@
+<div class="pull-left" data-ng-if="metaCommentTo.showViewOthers" data-ng-click="metaCommentTo.openViewOthers()"><br><span class="clickable">Visualizza altri commenti</span></div>
 <div class="col-md-10"
 	style="text-align: center; margin-top: 20px;">
-	<div class="col-md-2">
-		<img style="margin: 5px; margin-left: 10px;"
-			class="pull-right img-thumbnail imgPreviewM"
-			data-ng-src="api/v1/users/{{metaCommentTo.writer.id}}/cover"
-			data-err-src="assets/public/img/ic_student.png"></img>
-	</div>
-	<div class="col-md-10">
-		<textarea data-ng-model="metaCommentTo.post.newMetaComment" rows="2"
-			style="margin: 5px;" class="col-md-12"
-			placeholder="Inserisci un suggerimento"></textarea>
-		<div class="btn generalButton btn-sm pull-right"
-			data-ng-click="metaCommentTo.addMetaCommentToPost()">SUGGERISCI</div>
-	</div>
-	<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-	</div>
-	<div data-ng-repeat="m in metaCommentTo.post.metaComments" class="row">
+	<div data-ng-repeat="m in metaCommentTo.visibleComments" class="row">
 		<div class="col-md-2">
 			<img style="margin: 5px; margin-left: 10px;"
 				class="pull-right img-thumbnail imgPreviewM"
@@ -30,5 +16,18 @@
 			</div>
 			
 		</div>
+	</div>
+	<div class="col-md-2">
+		<img style="margin: 5px; margin-left: 10px;"
+			class="pull-right img-thumbnail imgPreviewM"
+			data-ng-src="api/v1/users/{{metaCommentTo.writer.id}}/cover"
+			data-err-src="assets/public/img/ic_student.png"></img>
+	</div>
+	<div class="col-md-10">
+		<textarea data-ng-model="metaCommentTo.post.newMetaComment" rows="2"
+			style="margin: 5px;" class="col-md-12"
+			placeholder="Inserisci un suggerimento"></textarea>
+		<div class="btn generalButton btn-sm pull-right"
+			data-ng-click="metaCommentTo.addMetaCommentToPost()">SUGGERISCI</div>
 	</div>
 </div>

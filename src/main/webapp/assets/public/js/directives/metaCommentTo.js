@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('metaCommentTo', [ 'apiService',
-	function(apiService){
+angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 'CONSTANTS',
+	function(apiService, CONSTANTS){
 		return {
 			templateUrl : "assets/private/partials/meta-comment-to-template.html",
 			scope : {
@@ -9,6 +9,26 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService',
 			},
 			controller : function(){
 				var self = this;
+				var numVisibleComment = CONSTANTS.visibleComment;
+				var self = this;
+				self.showViewOthers = false;
+				
+				self.visibleComments = new Array();
+				self.post.metaComments.reverse();
+				var i=0;
+				while(i<self.post.metaComments.length && i<numVisibleComment){
+					self.visibleComments.unshift(self.post.metaComments[i]);
+					i++;
+				}
+				if(self.post.metaComments.length>numVisibleComment)
+					self.showViewOthers = true;
+				
+				self.openViewOthers = function(){
+					for(var j=i; j<self.post.metaComments.length; j++){
+						self.visibleComments.unshift(self.post.metaComments[i]);
+					}
+					self.showViewOthers = false;
+				}
 				
 				self.addMetaCommentToPost = function(){
 					if(self.post.newMetaComment){

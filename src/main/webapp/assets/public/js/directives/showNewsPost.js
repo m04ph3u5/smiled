@@ -1,6 +1,6 @@
-angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService',
+angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox',
                                                                  
-	function(CONSTANTS, apiService){
+	function(CONSTANTS, apiService, Lightbox){
 		return {
 			templateUrl: "assets/private/partials/show-news-post-template.html",
 			scope : {
@@ -43,6 +43,32 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 						self.showComment = !self.showComment;
 						if(self.showComment)
 							self.showMetaComment = false;
+				}
+				
+				var numMediaPerRow = 3;
+				if(self.post.imagesMetadata){
+					self.post.media = new Array();
+					self.post.media[0] = new Array();
+					var col = -1;
+					var row = 0;
+					for(var j=0; j<self.post.imagesMetadata.length;j++){
+						if(j!=0 && j%numMediaPerRow==0){
+							col=0;
+							row++;
+							self.post.media[row] = new Array();
+						}else{
+							col++;
+						}
+						self.post.media[row][col] = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
+						self.post.imagesMetadata[j].url = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
+					}
+				}
+				
+				self.openPostGallery =function(row, col){
+					var index = (row*numMediaPerRow)+col;
+					if(self.post.media){
+						Lightbox.openModal(self.post.imagesMetadata, index);
+					}
 				}
 				
 			},

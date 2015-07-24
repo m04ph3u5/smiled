@@ -1,4 +1,4 @@
-<div class="pull-left" data-ng-show="commentTo.showViewOthers" data-ng-click="commentTo.openViewOthers()"><br><span class="clickable">Visualizza altri commenti</span></div>
+<div class="pull-left" data-ng-if="commentTo.showViewOthers" data-ng-click="commentTo.openViewOthers()"><br><span class="clickable">Visualizza altri commenti</span></div>
 <div class="col-md-10"
 	style="text-align: center; margin-top: 20px;">
 	<div data-ng-repeat="c in commentTo.visibleComments" class="row">
@@ -21,7 +21,6 @@
 		</div>
 	</div>
 	<div data-ng-show="commentTo.showInsert">
-		<div class="row" style="margin-top: 20px; margin-bottom: 20px;"></div>
 		<div class="col-md-2">
 			<img style="margin: 5px; margin-left: 10px;"
 				class="pull-right img-thumbnail imgPreviewM"
