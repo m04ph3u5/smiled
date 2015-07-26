@@ -2,21 +2,31 @@
 	<div class="col-md-10 col-md-offset-1 box">
 		<div class="row">
 			<div class="pull-left col-md-8">
-				<b class="pull-left"><a href="">{{showNewsPost.post.character.name}}</a></b>
+				<b class="pull-left"><a href=""
+										data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })">
+											{{showNewsPost.post.character.name}}</a></b>
 			</div>
-			<div class="pull-right col-md-4">
-				<label class="pull-right">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+			<div class="col-md-4">			
+				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+				<a class="pull-right" href="">
+					<div data-ng-if="showNewsPost.isOwner" >
+						<span class="glyphicon glyphicon-cog">Modifica</span>
+					</div>
+				</a>
 			</div>
 		</div>
 		<div class="row rowPost">
 			<div class="col-md-2">
-				<img style="margin: 5px;"
+				<a href="" ><img style="margin: 5px;"
+					data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
 					class="pull-left img-thumbnail imgPreviewL"
 					data-ng-src="{{showNewsPost.post.character.cover}}"
-					data-err-src="assets/public/img/cesar.png"></img>
+					data-err-src="assets/public/img/cesar.png"></img></a>
 				<div class="pull-left box box-info">
-					{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
-					{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
+					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
+						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
+					</a>
 				</div>
 			</div>
 
@@ -78,9 +88,17 @@
 			<div class="pull-left col-md-8">
 				<b class="pull-left"><a href="">NARRATORE</a></b>
 			</div>
-			<div class="pull-right col-md-4">
-				<label class="pull-right">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+			
+			
+			<div class="col-md-4">			
+				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+				<a class="pull-right" href="">
+					<div data-ng-if="showNewsPost.isOwner" >
+						<span class="glyphicon glyphicon-cog">Modifica</span>
+					</div>
+				</a>
 			</div>
+			
 		</div>
 		<div class="row rowPost">
 			<div class="col-md-2">
@@ -88,13 +106,16 @@
 					class="pull-left img-thumbnail imgPreviewL"
 					data-ng-src="assets/public/img/bookImage.png"></img>
 				<div class="pull-left box box-info">
-					{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
-					{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
+					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
+						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
+					</a>
 				</div>
 			</div>
 
 			<div class="col-md-10 postStatus">
-				<div class="row">
+				<div class="row">				
+				
 					<div class="col-md-12">
 						<label class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></label>
 					</div>

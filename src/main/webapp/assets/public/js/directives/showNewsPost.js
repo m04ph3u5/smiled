@@ -11,6 +11,13 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			},
 			controller : function(){
 				var self = this;
+				self.isOwner = false;
+				if(self.post.user.id == self.loggedUser.id){
+					self.isOwner = true;
+					//console.log("SEI IL PROPRIETARIO DI QUESTO POST");
+				}
+					
+				
 				self.realDateFormat = CONSTANTS.realDateFormatWithHour;
 				self.formatDate = function(date){
 					if(date.afterChrist)
