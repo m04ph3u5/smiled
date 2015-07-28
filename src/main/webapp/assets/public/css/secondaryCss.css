@@ -1,56 +1,67 @@
-tooltips:before{ content:attr(title); display:none; }
+tooltips:before {
+	content: attr(title);
+	display: none;
+}
 
-tooltips:hover::before{ width:200px; display:block; background:yellow; border:1px solid black; padding:8px; margin:25px 0 0 10px; }
+tooltips:hover::before {
+	width: 200px;
+	display: block;
+	background: yellow;
+	border: 1px solid black;
+	padding: 8px;
+	margin: 25px 0 0 10px;
+}
 
-.disabled-div{
+.disabled-div {
 	opacity: 0.5;
 }
 
-.rowPost{
+.rowPost {
 	/*overflow:hidden;*/
 	position: relative;
-	height: 250px;	
+	height: 250px;
 }
 
-.postStatus{
-	border-top: 2px solid #5B5955; 
-	border-bottom: 2px solid #5B5955; 
+.postStatus {
+	border-top: 2px solid #5B5955;
+	border-bottom: 2px solid #5B5955;
 	height: 100%;
 	position: absolute;
-    right: 0;
-    top: 0;
-    width: 75%;
-    margin-right: 20px;
+	right: 0;
+	top: 0;
+	width: 75%;
+	margin-right: 20px;
 }
 
-.tabComment{
-	border-radius: 5px; 
-	border: 1px solid #5B5955; 
+.tabComment {
+	border-radius: 5px;
+	border: 1px solid #5B5955;
 	padding: 5px;
 	width: 45%;
 	display: inline-block;
 }
 
-.hrDivider{
-	border: 0; 
-	height: 1px; 
-	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+.hrDivider {
+	border: 0;
+	height: 1px;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0),
+		rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 	margin: 25px;
 	position: relative;
 }
 
 .col-right-line:before {
-  position: absolute;
-  content: " ";
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 1px;
-  background-color: @color-neutral;
+	position: absolute;
+	content: " ";
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 1px;
+	background-color: @color-neutral;
 }
 
-.box-info{
-	border-radius: 5px; 
+.box-info {
+	border-radius: 5px;
 	width: 120px;
 	height: 100%;
 	border: 1px solid #FFF;
@@ -59,91 +70,134 @@ tooltips:hover::before{ width:200px; display:block; background:yellow; border:1p
 	margin-top: 15px;
 }
 
-.button-disabled{
+.button-disabled {
 	pointer-events: none;
 	opacity: 0.5;
 	background: #CCC;
 }
 
 /*TAG BOX CSS START*/
-.top-buffer{
-    padding-top:20px;
+.top-buffer {
+	padding-top: 20px;
 }
+
 .tags-wrapper {
-    position: relative;
+	position: relative;
 }
+
 .tags-cloud .tag {
-    float: left;
-    padding: 4px 6px;
-    font-size: 1em;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    background: #f2f2f2;
-    font-weight: 600;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #dddddd;
+	float: left;
+	padding: 4px 6px;
+	font-size: 1em;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	background: #f2f2f2;
+	font-weight: 600;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	border: 1px solid #dddddd;
 }
+
 .tags-cloud .tag:hover {
-    border: 1px solid #cccccc;
+	border: 1px solid #cccccc;
 }
+
 .tags-cloud .tag:hover .cross {
-    opacity: 1;
+	opacity: 1;
 }
+
 .tags-cloud .tag .cross {
-    margin-left: 5px;
-    margin-right: 3px;
-    font-size: 1em;
-    color: #20a28e;
-    opacity: .7;
-    cursor: pointer;
+	margin-left: 5px;
+	margin-right: 3px;
+	font-size: 1em;
+	color: #20a28e;
+	opacity: .7;
+	cursor: pointer;
 }
+
 .suggestions-list {
-/*     position: absolute; */
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: auto;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    font-size: 14px;
+	/*     position: absolute; */
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	font-size: 14px;
 }
+
 .suggestions-list li {
-    color: #333333;
-    font-weight: 600;
-    padding: 4px 25px;
-    font-size: 1em;
-    cursor: pointer;
-    background: #f2f2f2;
-    border-bottom: 1px solid #dddddd;
+	color: #333333;
+	font-weight: 600;
+	padding: 4px 25px;
+	font-size: 1em;
+	cursor: pointer;
+	background: #f2f2f2;
+	border-bottom: 1px solid #dddddd;
 }
+
 .suggestions-list li:hover {
-    background: #dddddd;
+	background: #dddddd;
 }
-.suggestions-list li:active,
-.suggestions-list li.active {
-    color: #20a28e;
-    background: #dddddd;
+
+.suggestions-list li:active, .suggestions-list li.active {
+	color: #20a28e;
+	background: #dddddd;
 }
-.suggestions-list:focus{
-    outline:none;
+
+.suggestions-list:focus {
+	outline: none;
 }
 
 /*TAG BOX CSS END*/
-
-
 span.clickable {
-	cursor:pointer;
+	cursor: pointer;
 }
 
 span.clickable:hover {
-     text-decoration:underline;
-     color:#686868;
+	text-decoration: underline;
+	color: #686868;
+}
+
+.overlay {
+	position: relative;
+	display: inline-block;
+}
+
+.overlay .base-layer {
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 20;
+	/*position: absolute;*/
+}
+
+.overlay .top-layer {
+	/*position: absolute;*/
+	
+}
+
+.marker {
+	width: 40px;
+	height: 40px;
+}
+
+.map-canvas {
+	position: relative;
+	background-size : cover;
+}
+
+/*CUSTOM MODAL BODY FOR MAP*/
+.modal-map-body {
+	padding-left: 15px;
+	padding-right: 15px;
+	overflow: auto;
+}

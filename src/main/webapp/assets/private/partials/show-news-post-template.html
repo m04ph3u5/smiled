@@ -5,7 +5,9 @@
 				<b class="pull-left"><a href="">{{showNewsPost.post.character.name}}</a></b>
 			</div>
 			<div class="pull-right col-md-4">
-				<label class="pull-right">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+				<label class="pull-right">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+				</label>
 			</div>
 		</div>
 		<div class="row rowPost">
@@ -79,7 +81,9 @@
 				<b class="pull-left"><a href="">NARRATORE</a></b>
 			</div>
 			<div class="pull-right col-md-4">
-				<label class="pull-right">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+				<label class="pull-right">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+				</label>
 			</div>
 		</div>
 		<div class="row rowPost">

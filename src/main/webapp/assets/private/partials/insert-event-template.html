@@ -45,7 +45,7 @@
 			<div title="Aggiungi una posizione all'evento"
 				data-ng-click="insertEvent.setPositionNewPost()"
 				class="tooltips glyphicon glyphicon-map-marker"
-				style="margin-right: 5px;"></div>
+				style="margin-right: 5px;" data-ng-style="insertEvent.colorMapMarker"></div>
 			<!-- 					<label></label> -->
 			<!-- 			<div title="Tagga personaggi al post" -->
 			<!-- 				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertEvent.newPost.tags" selectable="insertEvent.scenario.characters"  -->
@@ -54,7 +54,8 @@
 
 			<div class="tooltips glyphicon glyphicon-tags"
 				title="Tagga personaggi all'evento"
-				data-ng-click="insertEvent.switchShowTagBox()" style="margin-right: 5px;"></div>
+				data-ng-click="insertEvent.switchShowTagBox()" 
+				style="margin-right: 5px;" data-ng-style="insertEvent.colorTagsMarker"></div>
 				
 			<tags-input data-ng-show="insertEvent.showTagBox"
 				data-ng-model="insertEvent.newPost.tags" display-property="name"

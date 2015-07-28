@@ -4,6 +4,7 @@
 <!-- <meta charset="UTF-8"> -->
 <link rel="stylesheet"
 	href="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/angular-bootstrap/ui-bootstrap-csp.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/custom-style.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/secondaryCss.css">
 <link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.css">
@@ -85,6 +86,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/dialogScenarioController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/dialogSetDateController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/scenarioStorylineController.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/controllers/openMapController.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/userService.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/apiService.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/services/modalService.js"></script>
@@ -109,6 +111,7 @@
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/commentTo.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/metaCommentTo.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/errSrc.js"></script>
+	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/pin-point-canvas.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/directives/bsSwitch.js"></script>
 	<script src="https://localhost:8443/ThesisProject/assets/public/js/support/jqSupport.js"></script>
 	

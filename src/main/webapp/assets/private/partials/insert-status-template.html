@@ -48,14 +48,14 @@
 			<div title="Aggiungi una posizione al post"
 				data-ng-click="insertStatus.setPositionNewPost()"
 				class="tooltips glyphicon glyphicon-map-marker"
-				style="margin-right: 5px;"></div>
+				style="margin-right: 5px;" data-ng-style="insertStatus.colorMapMarker"></div>
 			<!-- 					<label></label> -->
 			<!-- 			<div title="Tagga personaggi al post" -->
 			<!-- 				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertStatus.newPost.tags" selectable="insertStatus.scenario.characters"  -->
 			<!-- 					type="character" scenario="{{insertStatus.scenario.id}}" style="margin-right: 5px;"></div> -->
 			<!-- 			<label></label> -->
 
-			<div class="tooltips glyphicon glyphicon-tags"
+			<div class="tooltips glyphicon glyphicon-tags" data-ng-style="insertStatus.colorTagsMarker"
 				title="Tagga personaggi al post"
 				data-ng-click="insertStatus.switchShowTagBox()"></div>
 			<tags-input data-ng-show="insertStatus.showTagBox"
