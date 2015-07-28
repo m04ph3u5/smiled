@@ -4,13 +4,25 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 			templateUrl : "assets/private/partials/summarize-info-post-template.html",
 			scope : {
 				post : "=",
-				currentCharacter : "="
+				currentCharacter : "=",
+				showComment : "=",
+				showMetaComment : "="
 			},
 			controller: function(){
 				var self = this;
 				self.likesLabel = "";
 				self.commentsLabel = "";
 				self.metaCommentsLabel = "";
+				
+				self.switchShowComments = function(){
+					self.showMetaComment = false;
+					self.showComment = !self.showComment;
+				}
+				
+				self.switchShowMetaComments = function(){
+					self.showComment = false;
+					self.showMetaComment = !self.showMetaComment;
+				}
 				
 				self.tooltipLikes = "";
 				var i=0;
