@@ -47,6 +47,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 					toSendPost.imageMetaId = new Array();
 					toSendPost.fileMetaId = new Array();
 					toSendPost.tags = new Array();
+					toSendPost.place = self.newPost.place;
 					for(var i=0; i<self.newPost.image.length; i++){
 						toSendPost.imageMetaId.push(self.newPost.image[i].id);
 					}
@@ -65,6 +66,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								self.newPost.content="";
 								self.newPost.image=[];
 								self.newPost.file=[];
+								self.newPost.place="";
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable = true;

@@ -3,6 +3,7 @@ package it.polito.applied.smiled.service;
 import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.security.CustomUserDetails;
 
 import java.io.File;
@@ -17,9 +18,9 @@ public interface FileManagerService {
 
 	public void postCoverScenario(String id, MultipartFile scenarioCover, CustomUserDetails user) throws IllegalStateException, IOException, BadRequestException, HttpMediaTypeNotAcceptableException;
 
-	public File getScenarioCover(String id);
+	public byte[] getScenarioCover(String id) throws IOException, NotFoundException;
 
-	public File getUserCover(String id);
+	public byte[] getUserCover(String id) throws NotFoundException, IOException;
 
 	public void postCoverUser(MultipartFile userCover,
 			CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException;
@@ -27,7 +28,7 @@ public interface FileManagerService {
 	public void postCoverCharacter(MultipartFile characterCover, String id, String characterId,
 			CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException;
 
-	public File getCharacterCover(String characterId);
+	public byte[] getCharacterCover(String characterId) throws NotFoundException, IOException;
 
 	public File getMedia(String id);
 

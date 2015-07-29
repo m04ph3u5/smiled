@@ -10,10 +10,13 @@ import it.polito.applied.smiled.service.FileManagerService;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -59,8 +62,8 @@ public class FileUploadController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="scenarios/{id}/cover", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
-	public FileSystemResource getCoverScenario(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException{
-		return new FileSystemResource(fileManagerService.getScenarioCover(id));
+	public ByteArrayResource getCoverScenario(HttpServletRequest request, HttpServletResponse response, @PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		  return new ByteArrayResource(fileManagerService.getScenarioCover(id));
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -73,15 +76,15 @@ public class FileUploadController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="me/cover", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public FileSystemResource getMeCover(@AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException{
-		return new FileSystemResource(fileManagerService.getUserCover(user.getId()));
+	public ByteArrayResource getMeCover(@AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		return new ByteArrayResource(fileManagerService.getUserCover(user.getId()));
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="users/{id}/cover", method=RequestMethod.GET)
 	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
-	public FileSystemResource getUserCover(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException{
-		return new FileSystemResource(fileManagerService.getUserCover(id));
+	public ByteArrayResource getUserCover(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		return new ByteArrayResource(fileManagerService.getUserCover(id));
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -94,8 +97,8 @@ public class FileUploadController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="scenarios/{id}/characters/{characterId}/cover", method=RequestMethod.GET)
 	@PreAuthorize("(hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ'))")
-	public FileSystemResource getCharacterCover(@PathVariable String id, @PathVariable String characterId) throws BadRequestException, IllegalStateException, IOException{
-		return new FileSystemResource(fileManagerService.getCharacterCover(characterId));
+	public ByteArrayResource getCharacterCover(@PathVariable String id, @PathVariable String characterId) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		return new ByteArrayResource(fileManagerService.getCharacterCover(characterId));
 	}
 	
 	/*----------------------------------------------------MEDIA-----------------------------------------------------------*/
