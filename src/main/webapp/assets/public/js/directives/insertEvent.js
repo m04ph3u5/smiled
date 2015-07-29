@@ -242,12 +242,21 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 				return result.promise;
 			}
 			/*-------------------------------------------------------*/
+			/*Function to show images*/
+			self.getMedia = function(id){
+				return CONSTANTS.urlMedia(id);
+			}
 			
 			/*Function to show/hide tag box*/
 			self.colorTagsMarker = {};
+			self.stringTags="";
+			self.tagIsSet = false;
 			self.showTagBox=false;
 			self.switchShowTagBox =function(){
 				self.showTagBox=!self.showTagBox;
+			}
+			self.hideTagBox =function(){
+				self.showTagBox=false;
 			}
 			
 			/*-----------------------------*/
@@ -264,17 +273,34 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 				modalService.showModalOpenMap(self.newPost,map);
 			}
 			/*--------------------*/
-			
+			/*Function to show/hide type box*/
 			self.showSelectType = function(){
 				self.showViewToSelectType = !self.showViewToSelectType;
+			}
+			self.hideType = function(){
+				self.showViewToSelectType = false;
 			}
 
 		}],
 		controllerAs: "insertEvent",
 		link : function(scope,elem,attrs,ctrl){
+			scope.$watch('insertEvent.newPost.image.length', function(val){
+				if(val>0){
+					ctrl.colorImageMarker = {'color': '#89b151'};
+				}else{
+					ctrl.colorImageMarker = {'color': 'dark grey'};
+				}
+			});
+			scope.$watch('insertEvent.newPost.file.length', function(val){
+				if(val>0){
+					ctrl.colorFileMarker = {'color': '#89b151'};
+				}else{
+					ctrl.colorFileMarker = {'color': 'dark grey'};
+				}
+			});
 			scope.$watch('insertEvent.newPost.place', function(val){
 				if(val && val.x && val.y){
-					ctrl.colorMapMarker = {'color': 'red'};
+					ctrl.colorMapMarker = {'color': '#89b151'};
 				}else{
 					ctrl.colorMapMarker = {'color': 'dark grey'};
 				}
@@ -282,9 +308,26 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			
 			scope.$watch('insertEvent.newPost.tags.length', function(val){
 				if(val>0){
-					ctrl.colorTagsMarker = {'color': 'orange'};
+					ctrl.colorTagsMarker = {'color': '#89b151'};
+					ctrl.tagIsSet=true;
+					ctrl.stringTags="";
+					for(var i=0;i<val;i++){
+						if(i<val-1)
+							ctrl.stringTags+=""+ctrl.newPost.tags[i].name+", ";
+						else
+							ctrl.stringTags+=""+ctrl.newPost.tags[i].name;
+					}
 				}else{
 					ctrl.colorTagsMarker = {'color': 'dark grey'};
+					ctrl.tagIsSet=false;
+					ctrl.stringTags="";
+				}
+			});
+			scope.$watch('insertEvent.newPost.type.length', function(val){
+				if(val>0){
+					ctrl.colorTypeMarker = {'color': '#89b151'};					
+				}else{
+					ctrl.colorTypeMarker = {'color': 'dark grey'};					
 				}
 			});
 		}

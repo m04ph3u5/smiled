@@ -16,7 +16,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				templateUrl:'assets/private/partials/createScenario.html',
 				controller: 'dialogScenarioCtrl',
 				controllerAs: 'dialogScenario',
-				size: 'modal-lg'  //TODO non funziona
+				size: 'lg'  //TODO non funziona
 				
 		};
 		
