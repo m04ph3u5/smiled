@@ -13,6 +13,7 @@ public class Teacher extends User{
 	private List<Reference> students;
 	private List<Reference> colleagues;
 	private List<String> myDeletedScenarios;
+
 	
 	public Teacher(){
 //		this.students = new ArrayList<Reference>();

@@ -3,6 +3,7 @@ package it.polito.applied.smiled.controllerRest;
 import it.polito.applied.smiled.dto.CharacterDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.EventDTO;
+import it.polito.applied.smiled.dto.MissionDTO;
 import it.polito.applied.smiled.dto.RevisionDTO;
 import it.polito.applied.smiled.dto.ScenarioDTO;
 import it.polito.applied.smiled.dto.StatusDTO;
@@ -430,5 +431,33 @@ public class ScenarioController extends BaseController{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.addLikeToPost(id, postId, auth);
+	}
+	
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/{id}/missions/{missionId}", method=RequestMethod.PUT)
+	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
+	public Post updateMission(@PathVariable String id, @RequestBody MissionDTO mission) throws MongoException, NotFoundException, BadRequestException{
+
+		return null;
+	}
+	
+	@ResponseStatus(value = HttpStatus.CREATED)
+	@RequestMapping(value="/v1/scenarios/{id}/missions", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
+	public Id insertMission(@PathVariable String id, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
+		//TODO - Validate MissionDTO
+		String idS =scenarioService.addMissionToScenario(id, mission, activeUser);
+		return new Id(idS);
+	}
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/{id}/missions/{missionId}", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
+	public Post getMission(@PathVariable String id, @PathVariable String postId) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+		
+		//TODO gestione dei permessi da completare
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return null;
 	}
 }

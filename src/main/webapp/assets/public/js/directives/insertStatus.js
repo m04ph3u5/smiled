@@ -299,7 +299,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				modalService.showModalOpenMap(self.newPost,map);
 			}
 			/*--------------------*/
-				
+
 
 		}],
 		controllerAs: "insertStatus",

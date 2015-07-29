@@ -46,14 +46,14 @@
 		
 			<div title="Aggiungi una posizione al post"
 				class="tooltips glyphicon glyphicon-map-marker iconsMargin"
-				data-ng-click="insertStatus.setPositionNewPost(); insertStatus.hideTagBox()"
-				data-ng-style="insertStatus.colorMapMarker"></div>
+				data-ng-click="insertStatus.setPositionNewPost(); insertStatus.hideTagBox()"></div>
 			<!-- 					<label></label> -->
-		<!-- 			<div title="Tagga personaggi al post" -->
-		<!-- 				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertStatus.newPost.tags" selectable="insertStatus.scenario.characters"  -->
-		<!-- 					type="character" scenario="{{insertStatus.scenario.id}}" style="margin-right: 5px;"></div> -->
-		<!-- 			<label></label> -->
-		
+
+			<!-- 			<div title="Tagga personaggi al post" -->
+			<!-- 				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertStatus.newPost.tags" selectable="insertStatus.scenario.characters"  -->
+			<!-- 					type="character" scenario="{{insertStatus.scenario.id}}" style="margin-right: 5px;"></div> -->
+			<!-- 			<label></label> -->
+
 			<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="insertStatus.colorTagsMarker"
 				title="Tagga personaggi al post"
 				data-ng-click="insertStatus.switchShowTagBox()">
@@ -77,6 +77,7 @@
 				min-length="0" load-on-focus="true" load-on-empty="true"
 				max-results-to-show="32" template="autocomplete-template">
 			</auto-complete> </tags-input>
+
 	
 		<div class="row">
 			<div data-ng-repeat="image in insertStatus.newPost.image">
@@ -85,6 +86,24 @@
 					<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
 						data-ng-click="insertStatus.removeImage(image)"></span></div>
 					
+			<!-- 					<div title="Indica le tue fonti" -->
+			<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
+			<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
+			<!-- 					<label></label> -->
+			<!-- 				</div> -->
+		
+				</div>
+		</div>
+		<div class="col-md-12 extraContent text-left">		
+			<div class="row">
+				<div data-ng-repeat="image in insertStatus.newPost.image">
+					<div class="col-lg-2 col-md-3">
+						<img class="img imgPreviewL" ng-src="{{insertStatus.getMedia(image.id)}}">
+						<span data-ng-show="image.name" show-on-hover-parent
+							class="glyphicon glyphicon-remove iconsMargin"
+							data-ng-click="insertStatus.removeImage(image)"></span>
+					</div>
+
 				</div>
 			</div>
 		</div>

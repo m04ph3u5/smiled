@@ -6,6 +6,7 @@ import java.util.List;
 import it.polito.applied.smiled.dto.CharacterDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.EventDTO;
+import it.polito.applied.smiled.dto.MissionDTO;
 import it.polito.applied.smiled.dto.RevisionDTO;
 import it.polito.applied.smiled.dto.ScenarioDTO;
 import it.polito.applied.smiled.dto.StatusDTO;
@@ -99,5 +100,7 @@ public interface ScenarioService {
 	public void addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException;
 
 	public List<Character> getAllCharacters(String scenarioId);
+
+	public String addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
 	
 }
