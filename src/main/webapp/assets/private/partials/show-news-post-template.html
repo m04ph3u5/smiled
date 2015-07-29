@@ -6,8 +6,11 @@
 										data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })">
 											{{showNewsPost.post.character.name}}</a></b>
 			</div>
+
 			<div class="col-md-4">			
-				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+				</label>
 				<a class="pull-right" href="">
 					<div data-ng-if="showNewsPost.isOwner" >
 						<span class="glyphicon glyphicon-cog">Modifica</span>
@@ -88,10 +91,12 @@
 			<div class="pull-left col-md-8">
 				<b class="pull-left"><a href="">NARRATORE</a></b>
 			</div>
-			
+		
 			
 			<div class="col-md-4">			
-				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+				</label>
 				<a class="pull-right" href="">
 					<div data-ng-if="showNewsPost.isOwner" >
 						<span class="glyphicon glyphicon-cog">Modifica</span>

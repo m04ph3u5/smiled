@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'Lightbox',
-                                     function(CONSTANTS, apiService, Upload, $q, Lightbox){
+angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService',
+                                     function(CONSTANTS, apiService, Upload, $q, modalService){
 	return {
 		templateUrl: "assets/private/partials/insert-status-template.html",
 		scope : {
@@ -50,6 +50,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					toSendPost.text = self.newPost.content;
 					toSendPost.historicalDate = self.newPost.date;
 					toSendPost.status = "PUBLISHED";
+					toSendPost.place = self.newPost.place;
 					toSendPost.imageMetaId = new Array();
 					toSendPost.fileMetaId = new Array();
 					toSendPost.tags = new Array();
@@ -74,6 +75,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable= true;
+								self.newPost.place = "";
 								apiService.getSingleStatus(self.scenario.id, data.id).then(
 										function(data){
 											self.posts.unshift(data);
@@ -110,6 +112,21 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					toSendPost.text = self.newPost.content;
 					toSendPost.historicalDate = self.newPost.date;
 					toSendPost.status = "DRAFT";
+					toSendPost.place = self.newPost.place;
+					toSendPost.imageMetaId = new Array();
+					toSendPost.fileMetaId = new Array();
+					toSendPost.tags = new Array();
+					for(var i=0; i<self.newPost.image.length; i++){
+						toSendPost.imageMetaId.push(self.newPost.image[i].id);
+					}
+						
+					for(var i=0; i<self.newPost.file.length; i++){
+						toSendPost.fileMetaId.push(self.newPost.file[i].id);
+					}
+					
+					for(var i=0; i<self.newPost.tags.length; i++){
+						toSendPost.tags.push(self.newPost.tags[i].id);
+					}
 					apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
 							
 							function(data){
@@ -120,6 +137,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.file=[];
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.newPost.place = "";
 								self.sendPostEnable = true;
 							},
 							function(reason){
@@ -250,6 +268,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*-------------------------------------------------------*/
 			
 			/*Function to show/hide tag box*/
+			self.colorTagsMarker = {};
 			self.showTagBox=false;
 			self.switchShowTagBox =function(){
 				self.showTagBox=!self.showTagBox;
@@ -258,22 +277,37 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*-----------------------------*/
 			
 			/*Function to open map*/
+			self.colorMapMarker = {};
 			self.setPositionNewPost = function(){
-				console.log("setPositionNewMap");
-				var mapsArray = [];
-				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
+//				console.log("setPositionNewMap");
+//				var mapsArray = [];
+//				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
+//				mapsArray.push(map);
+//				Lightbox.openModal(mapsArray,0);
 				var map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
-				mapsArray.push(map);
-				Lightbox.openModal(mapsArray,0);
+				modalService.showModalOpenMap(self.newPost,map);
 			}
 			/*--------------------*/
-			/*function to get images*/
-			self.getMedia = function(idImg){
-				console.log("ECCO L'ID: "+idImg);
-				return CONSTANTS.urlMedia(idImg);
-			}
+
 		}],
-		controllerAs: "insertStatus"
+		controllerAs: "insertStatus",
+		link : function(scope,elem,attrs,ctrl){
+			scope.$watch('insertStatus.newPost.place', function(val){
+				if(val && val.x && val.y){
+					ctrl.colorMapMarker = {'color': 'red'};
+				}else{
+					ctrl.colorMapMarker = {'color': 'dark grey'};
+				}
+			});
+			
+			scope.$watch('insertStatus.newPost.tags.length', function(val){
+				if(val>0){
+					ctrl.colorTagsMarker = {'color': 'orange'};
+				}else{
+					ctrl.colorTagsMarker = {'color': 'dark grey'};
+				}
+			});
+		}
 	}
 }]);
 
