@@ -3,20 +3,19 @@ package it.polito.applied.smiled.service;
 import it.polito.applied.smiled.dto.CharacterDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.EventDTO;
+import it.polito.applied.smiled.dto.MissionDTO;
 import it.polito.applied.smiled.dto.RevisionDTO;
 import it.polito.applied.smiled.dto.ScenarioDTO;
 import it.polito.applied.smiled.dto.StatusDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
-import it.polito.applied.smiled.mailMessage.EmailMessageService;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.PostReferenceHistoricalDateComparator;
 import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.ResourceType;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Character;
@@ -25,6 +24,8 @@ import it.polito.applied.smiled.pojo.scenario.CommentDTO;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
+import it.polito.applied.smiled.pojo.scenario.Mission;
+import it.polito.applied.smiled.pojo.scenario.MissionStatus;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
 import it.polito.applied.smiled.pojo.scenario.Relation;
@@ -51,11 +52,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -65,7 +64,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -2239,5 +2237,37 @@ public class ScenarioServiceImpl implements ScenarioService{
 	public List<Character> getAllCharacters(String scenarioId) {
 		return characterRepository.getAllCharactersFromScenario(scenarioId);
 		
+	}
+
+
+	@Override
+	public String addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser)throws BadRequestException {
+		Scenario scenario = scenarioRepository.findById(id);
+		User t = userRepository.findById(activeUser.getId());
+		User s = userRepository.findById(mission.getStudentId());
+		if(scenario==null || t==null || s==null)
+			throw new BadRequestException();
+		
+		Reference studentRef = new Reference (s);
+		Reference teacherRef = new Reference (t);
+		
+		Mission m = new Mission();
+		m.setTeacher(teacherRef);
+		m.setStudent(studentRef);
+		
+		Date creation = new Date();
+		m.setCreationDate(creation);
+		m.setLastChangeDate(creation);
+		m.setDeliveryDate(mission.getDeliveryDate());
+		m.setScenarioId(id);
+		
+		m.setTitle(mission.getTitle());
+		m.setDescription(mission.getDescription());
+		m.setStatus(MissionStatus.STARTED);
+		
+		//missionRepository.addMission();
+		
+		
+		return null;
 	}
 }
