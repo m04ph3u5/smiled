@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'Lightbox',
-                                     function(CONSTANTS, apiService, Upload, $q, Lightbox){
+angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService',
+                                     function(CONSTANTS, apiService, Upload, $q, modalService){
 	return {
 		templateUrl: "assets/private/partials/insert-event-template.html",
 		scope : {
@@ -244,6 +244,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*-------------------------------------------------------*/
 			
 			/*Function to show/hide tag box*/
+			self.colorTagsMarker = {};
 			self.showTagBox=false;
 			self.switchShowTagBox =function(){
 				self.showTagBox=!self.showTagBox;
@@ -252,13 +253,15 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*-----------------------------*/
 			
 			/*Function to open map*/
+			self.colorMapMarker = {};
 			self.setPositionNewPost = function(){
-				console.log("setPositionNewMap");
-				var mapsArray = [];
-				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
+//				console.log("setPositionNewMap");
+//				var mapsArray = [];
+//				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
+//				mapsArray.push(map);
+//				Lightbox.openModal(mapsArray,0);
 				var map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
-				mapsArray.push(map);
-				Lightbox.openModal(mapsArray,0);
+				modalService.showModalOpenMap(self.newPost,map);
 			}
 			/*--------------------*/
 			
@@ -267,7 +270,24 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			}
 
 		}],
-		controllerAs: "insertEvent"
+		controllerAs: "insertEvent",
+		link : function(scope,elem,attrs,ctrl){
+			scope.$watch('insertEvent.newPost.place', function(val){
+				if(val && val.x && val.y){
+					ctrl.colorMapMarker = {'color': 'red'};
+				}else{
+					ctrl.colorMapMarker = {'color': 'dark grey'};
+				}
+			});
+			
+			scope.$watch('insertEvent.newPost.tags.length', function(val){
+				if(val>0){
+					ctrl.colorTagsMarker = {'color': 'orange'};
+				}else{
+					ctrl.colorTagsMarker = {'color': 'dark grey'};
+				}
+			});
+		}
 	}
 }]);
 
