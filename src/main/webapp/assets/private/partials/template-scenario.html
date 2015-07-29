@@ -1,4 +1,6 @@
+<div class="container-fluid">
 <div class="row">
+<div class="col-md-1"></div>
 	<div class="col-md-2 pull-left">
 	<div class="box" data-ng-show="scenario.isModerator">
 		<p><b>ATTIVITA' MODERATORE:</b></p>
@@ -13,9 +15,7 @@
 		</div>
 	</div>
 	<div class="box" data-ng-show="scenario.isCreator">
-		<p><b>ATTIVITA' CREATORE:</b></p>
-		<hr>
-		<h5>Assegna compito</h5>
+		<h5>CREA NUOVO COMPITO</h5>
 					<div class="marginMTop">
 						<form role="form ">
 							<div class="form-group">
@@ -72,18 +72,18 @@
 	</div>
 	</div>
 	
-	<div class="col-md-8">
+	<div class="col-md-6">
 		<div class="jumbotron" style="background-image: url('{{scenario.scen.cover}}')">		
 			<h1 class="text-center">{{scenario.scen.name}}</h1>
 			<!-- p da mostrare solo per moderator -->
 <!-- 			<p id="uploadSpan" ngf-select ngf-change="uploadCover($files)"><span class="glyphicon glyphicon-camera"></span></p> -->
 		</div>
 		<div class="container-fluid wizard">
-		<div class="row text-center">
-			<a href="" style="width: 24%;" data-ui-sref=".posts" data-ui-sref-active="active"><label>POST</label></a>
-			<a href="" style="width: 24%;" data-ui-sref=".storyline" data-ui-sref-active="active"><label>STORYLINE</label></a>
-			<a href="" style="width: 24%;" data-ui-sref=".characters" data-ui-sref-active="active"><label>PERSONAGGI</label></a>
-			<a href="" style="width: 24%;" data-ui-sref=".map" data-ui-sref-active="active"><label>MAPPA</label></a>
+			<div class="row text-center">
+				<a href="" class="col-md-3" data-ui-sref=".posts" data-ui-sref-active="active"><label>POST</label></a>
+				<a href="" class="col-md-3" data-ui-sref=".storyline" data-ui-sref-active="active"><label>STORYLINE</label></a>
+				<a href="" class="col-md-3" data-ui-sref=".characters" data-ui-sref-active="active"><label>PERSONAGGI</label></a>
+				<a href="" class="col-md-3" data-ui-sref=".map" data-ui-sref-active="active"><label>MAPPA</label></a>
 			</div>
 		</div>
 <!-- 		<ul class="wizard nav nav-pills nav-justified menu"> -->
@@ -94,8 +94,8 @@
 		<div data-ui-view="body"></div>
 	</div>
 	
-	<div class="col-md-2 pull-right">
-		<div class="box input-group marginM">
+	<div class="col-md-2">
+		<div class="box input-group">
 			<input type="text" class="form-control" placeholder="Cerca nello scenario...">
 			<span class="input-group-btn">
 				<button class="btn generalButton" type="button"><span class="glyphicon glyphicon-search"></span></button>
@@ -123,13 +123,7 @@
 					</p>
 				</a>
 			</div>
+		</div>		
 		</div>
-		
-		<div class="container">
- 
-  
- </div>
-		
-		
 	</div>
 </div>

@@ -1,6 +1,7 @@
 <div class="row">
 	<div data-ng-if="insertPost.hasCharacter && insertPost.isModerator">
-		<div class="row col-md-10 col-md-offset-1">
+	<div class="col-md-12 box">
+		<div class="pull-left">
 		<label>Scrivi come:&nbsp&nbsp</label><input type="checkbox"  checked  
 				data-size='small' bs-switch data-ng-model="insertPost.showBoxEvent"  data-on-custom-text="NARRATORE" 
 				data-off-custom-text="{{insertPost.character.name}}" >
@@ -15,7 +16,7 @@
 					posts="insertPost.posts" scenario="insertPost.scenario"></div>
 		</div>
 	</div>
-			
+	</div>		
 			
 	<div data-ng-if="insertPost.hasCharacter && !insertPost.isModerator">
 		<div class="">

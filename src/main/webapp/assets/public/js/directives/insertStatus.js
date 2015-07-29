@@ -267,7 +267,11 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				Lightbox.openModal(mapsArray,0);
 			}
 			/*--------------------*/
-
+			/*function to get images*/
+			self.getMedia = function(idImg){
+				console.log("ECCO L'ID: "+idImg);
+				return CONSTANTS.urlMedia(idImg);
+			}
 		}],
 		controllerAs: "insertStatus"
 	}
