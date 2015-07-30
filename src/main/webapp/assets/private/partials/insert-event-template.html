@@ -1,0 +1,148 @@
+<div class="text-right">
+	<label data-ng-click="insertEvent.setDateNewPost()">{{insertEvent.newPost.date.formatted}}</label>
+	<div data-ng-click="insertEvent.setDateNewPost()"
+		class="glyphicon glyphicon-calendar"></div>
+	<div class="pull-right">
+		<div data-ng-show="insertEvent.showDatePicker"
+			historical-date-picker date="insertEvent.newPost.date"></div>
+	</div>
+</div>
+<div class="col-md-12 marginMTop">
+		<img class="img-thumbnail imgPreviewL pull-left marginMRight"
+			src="assets/public/img/bookImage.png"></img>
+		<div class="row">
+			<h4 class="pull-left">Narratore
+				<span ng-if="insertEvent.tagIsSet || insertEvent.newPost.place.text">-</span> 
+				<span ng-if="insertEvent.tagIsSet" 
+					data-ng-click="insertEvent.switchShowTagBox()"> 
+					con <span class="linkPost">{{insertEvent.stringTags}}</span></span>
+				<span ng-if="insertEvent.tagIsSet && insertEvent.newPost.place.text">, </span> 
+				<span ng-if="insertEvent.newPost.place.text" 
+					data-ng-click="insertEvent.setPositionNewPost()"
+					class="linkPost">{{insertStatus.newPost.place.text}}</span>
+			</h4>
+			<textarea id="textarea-event" placeholder="COSA E' SUCCESSO?"  class="pull-left" style="width:80%"
+			rows="3" data-ng-model="insertEvent.newPost.content"></textarea>
+		</div>
+</div>
+<div class="col-md-12 extraContent marginSTop ">
+	<div class="pull-left marginSTop marginMRight">
+		<div title="Aggiungi un'immagine all'evento" ngf-select
+			ngf-change="insertEvent.addImageToNewPost($files)"
+			class="tooltips glyphicon glyphicon-camera iconsMargin"
+			data-ng-style="insertEvent.colorImageMarker"
+			data-ng-click="insertEvent.hideType(); insertEvent.hideTagBox()"></div>
+						
+		<div title="Allega un file all'evento" ngf-select
+			ngf-change="insertEvent.addFileToNewPost($files)"
+			class="tooltips glyphicon glyphicon-file"
+			data-ng-style="insertEvent.colorFileMarker"
+			data-ng-click="insertEvent.hideType(); insertEvent.hideTagBox()"></div>	
+		
+			<div title="Aggiungi una posizione all'evento"
+				data-ng-click="insertEvent.setPositionNewPost(); insertEvent.hideType(); insertEvent.hideTagBox()"
+				class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+				data-ng-style="insertEvent.colorMapMarker"></div>
+			
+			<!-- 					<label></label> -->
+			<!-- 			<div title="Tagga personaggi al post" -->
+			<!-- 				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertEvent.newPost.tags" selectable="insertEvent.scenario.characters"  -->
+			<!-- 					type="character" scenario="{{insertEvent.scenario.id}}" style="margin-right: 5px;"></div> -->
+			<!-- 			<label></label> -->
+
+			<div class="tooltips glyphicon glyphicon-tags iconsMargin"
+				title="Tagga personaggi all'evento"
+				data-ng-click="insertEvent.switchShowTagBox(); insertEvent.hideType()"
+				data-ng-style="insertEvent.colorTagsMarker"></div>
+
+				
+			
+			<!-- 					<div title="Indica le tue fonti" -->
+			<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
+			<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
+			<!-- 					<label></label> -->
+			<!-- 				</div> -->
+			<div class="tooltips glyphicon glyphicon-info-sign iconsMargin" 
+				title="Seleziona la tipologia dell'evento" 
+				data-ng-click="insertEvent.showSelectType(); insertEvent.hideTagBox()"
+				data-ng-style="insertEvent.colorTypeMarker">
+			</div>
+			
+	</div>
+</div>
+<div class="col-md-12 extraContent text-left">
+	<tags-input data-ng-show="insertEvent.showTagBox"
+				data-ng-model="insertEvent.newPost.tags" display-property="name"
+				placeholder="TAGGA UN PERSONAGGIO" replace-spaces-with-dashes="false"
+				template="tag-template" add-from-autocomplete-only="true">
+			<auto-complete source="insertEvent.search($query,true)"
+				min-length="0" load-on-focus="true" load-on-empty="true"
+				max-results-to-show="32" template="autocomplete-template">
+			</auto-complete>
+	</tags-input>
+	<div data-ng-show="insertEvent.showViewToSelectType">			
+		<select id="select-type" class="selectpicker marginSBottom" data-ng-model="insertEvent.newPost.type">
+			<option value="" disabled selected style="display:none;">TIPOLOGIA EVENTO</option>
+			<option>NASCITA</option>
+		    <option>MORTE</option>
+		    <option>MATRIMONIO</option>
+		    <option>BATTAGLIA</option>
+		    <option>INCORONAZIONE</option>
+		    <option>ALTRO</option>
+		</select>
+	</div>
+	<div class="row">
+		<div data-ng-repeat="image in insertEvent.newPost.image">
+			<div class="col-lg-2 col-md-3 imgToPost">
+				<img class="img imgPreviewL" ng-src="{{insertEvent.getMedia(image.id)}}">
+				<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
+					data-ng-click="insertEvent.removeImage(image)"></span></div>
+				
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div data-ng-repeat="file in insertEvent.newPost.file">
+			<div class="col-sm-2">
+				{{file.name}}
+				<span data-ng-show="file.name" show-on-hover-parent
+					class="glyphicon glyphicon-remove"
+					data-ng-click="insertEvent.removeFile(file)"></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<div class="row col-md-10 col-md-offset-1">
+			<div class="pull-right">
+				<div data-ng-click="insertEvent.draftNewPost()"
+					class="btn generalButton">SALVA COME BOZZA</div>
+				<div data-ng-click="insertEvent.savePost()"
+					class="btn generalButton">PUBBLICA</div>
+			</div>
+		</div>
+
+
+
+<script type="text/ng-template" id="tag-template">
+      <div class="tag-template">
+ <!--       <div class="left-panel">
+          <img class="imgPreviewM" data-ng-src="{{data.cover}}" data-err-src="assets/public/img/user_ico.png"/>
+        </div> -->
+        <div class="right-panel">
+          <span>{{$getDisplayText()}}</span>
+          <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
+        </div>
+      </div>
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+      <div class="autocomplete-template">
+        <div class="left-panel">
+          <img class="imgPreviewM" data-ng-src="{{data.cover}}" data-err-src="assets/public/img/user_ico.png"/>
+        </div>
+        <div class="right-panel">
+          <span ng-bind-html="$highlight($getDisplayText())"></span>
+        </div>
+      </div>
+</script>

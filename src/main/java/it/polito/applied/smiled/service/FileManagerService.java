@@ -30,11 +30,11 @@ public interface FileManagerService {
 
 	public byte[] getCharacterCover(String characterId) throws NotFoundException, IOException;
 
-	public File getMedia(String id);
+	public byte[] getMedia(String id, Authentication auth) throws NotFoundException, IOException, ForbiddenException;
 
 	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException;
 
-	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMeta, Authentication user) throws BadRequestException, ForbiddenException;
+	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMeta, Authentication user) throws BadRequestException, ForbiddenException, IOException;
 
 	public Page<FileMetadataDTO> getUserImageMetadata(CustomUserDetails user, int nPag, int nItem) throws IOException;
 

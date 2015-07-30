@@ -75,7 +75,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable= true;
-								self.newPost.place = "";
+								self.newPost.place = null;
 								apiService.getSingleStatus(self.scenario.id, data.id).then(
 										function(data){
 											self.posts.unshift(data);
@@ -137,7 +137,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.file=[];
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
-								self.newPost.place = "";
+								self.newPost.place = null;
 								self.sendPostEnable = true;
 							},
 							function(reason){

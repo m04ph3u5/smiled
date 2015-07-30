@@ -3,7 +3,6 @@ package it.polito.applied.smiled.service;
 import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
-import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.ResourceType;
 import it.polito.applied.smiled.pojo.SupportedMedia;
@@ -22,11 +21,13 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -41,8 +42,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
@@ -111,12 +110,12 @@ public class FileManagerServiceImpl implements FileManagerService {
 	}
 
 	@Override
-	public byte[] getScenarioCover(String id) throws IOException, NotFoundException {
+	public byte[] getScenarioCover(String id) throws IOException, FileNotFoundException {
 		String name = "s"+id;
 
 		GridFSDBFile file = gridFsManager.readOneByName(name);
 		if(file==null){
-			throw new NotFoundException();
+			throw new FileNotFoundException();
 		}
 
 		InputStream input = file.getInputStream();
@@ -157,14 +156,13 @@ public class FileManagerServiceImpl implements FileManagerService {
 	}
 
 	@Override
-	public byte[] getUserCover(String id) throws NotFoundException, IOException {
+	public byte[] getUserCover(String id) throws FileNotFoundException, IOException {
 		String name = "u"+id;
 		GridFSDBFile file = gridFsManager.readOneByName(name);
 		if(file==null){
-			throw new NotFoundException();
+			throw new FileNotFoundException();
 		}
 		InputStream input = file.getInputStream();
-
 		byte[] targetArray = new byte[(int)file.getLength()];
 		input.read(targetArray);
 		return targetArray;
@@ -205,11 +203,11 @@ public class FileManagerServiceImpl implements FileManagerService {
 	}
 
 	@Override
-	public byte[] getCharacterCover(String characterId) throws NotFoundException, IOException {
+	public byte[] getCharacterCover(String characterId) throws FileNotFoundException, IOException {
 		String name = "c"+characterId;
 		GridFSDBFile file = gridFsManager.readOneByName(name);
 		if(file==null){
-			throw new NotFoundException();
+			throw new FileNotFoundException();
 		}
 		InputStream input = file.getInputStream();
 
@@ -410,31 +408,39 @@ public class FileManagerServiceImpl implements FileManagerService {
 		meta.setScenarioId(scenarioId);
 		meta.setOriginalName(media.getOriginalFilename());
 		meta.setFormat(type);
-//		String filename = 
-//		gridFsManager.save(media.getInputStream(), , contentType, meta)
+		String filename = new SimpleDateFormat("yyyyMMddhhmmssSS").format(meta.getCreationDate());
+		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
 		
-		meta=fileMetadataRepository.save(meta);
-		File dir = new File(path+"media/"+getFolderPath(meta.getId()));
-		dir.mkdirs();
-		File file = new File(dir,meta.getId()+"."+meta.getFormat());
-		media.transferTo(file);
-		//	fileMetadataRepository.setFileMetadataPath(meta.getId(), path+"media/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
-
-
-		return meta.getId();
+		return file.getFilename().toString();
 	}
 
 	@Override
-	public File getMedia(String filename) {
-		FileMetadata meta=fileMetadataRepository.findById(filename);
-		return new File(path+"media/"+getFolderPath(filename)+"/"+filename+"."+meta.getFormat());
+	public byte[] getMedia(String filename, Authentication auth) throws FileNotFoundException, IOException, ForbiddenException {
+		System.out.println("------------------>"+filename);
+		GridFSDBFile file = gridFsManager.readOneByName(filename);
+		if(file==null){
+			throw new FileNotFoundException();
+		}
+		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
+		FileMetadata metadata = gridFsManager.getMetadata(file);
+		if(!metadata.getUserId().equals(((CustomUserDetails)auth.getPrincipal()).getId()) && !permissionEvaluator.hasPermission(auth, metadata.getUserId(), "User", "READ"))
+			throw new ForbiddenException();
+		
+		
+		InputStream input = file.getInputStream();
+
+		byte[] targetArray = new byte[(int)file.getLength()];
+		input.read(targetArray);
+		return targetArray;
 	}
 
 	
 	@Override
-	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMetaDTO,
-			Authentication auth) throws BadRequestException, ForbiddenException {
-		FileMetadata fileMeta = fileMetadataRepository.findById(idMedia);
+	public void postMediaMetadata(String filename, FileMetadataDTO fileMetaDTO,
+			Authentication auth) throws BadRequestException, ForbiddenException, IOException {
+		
+		FileMetadata fileMeta = gridFsManager.getMetadata(filename);
+		
 		if(fileMeta==null)
 			throw new BadRequestException();
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
@@ -446,12 +452,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 				throw new ForbiddenException();
 		}
 
-		fileMeta.setLastChange(new Date());
-		if(isImage(fileMeta.getFormat()))
-			fileMeta.setType(ResourceType.IMAGE);
-		else
-			fileMeta.setType(ResourceType.DOCUMENT);
-
+		
 		if(fileMetaDTO.getPlace()!=null)
 			fileMeta.setPlace(fileMetaDTO.getPlace());
 		if(fileMetaDTO.getTags()!=null)
@@ -460,22 +461,32 @@ public class FileManagerServiceImpl implements FileManagerService {
 			fileMeta.setDescription(fileMetaDTO.getDescription());
 		if(fileMetaDTO.getCharacterId()!=null)
 			fileMeta.setCharacterId(fileMetaDTO.getCharacterId());
-		fileMetadataRepository.save(fileMeta);
+		fileMeta.setLastChange(new Date());
+		if(isImage(fileMeta.getFormat())){
+			fileMeta.setType(ResourceType.IMAGE);
+		}
+		else
+			fileMeta.setType(ResourceType.DOCUMENT);
+
+		gridFsManager.updateMetadata(filename, fileMeta);
 	}
 
 	@Override
 	public Page<FileMetadataDTO> getUserImageMetadata(CustomUserDetails user, int nPag, int nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findUserImage(user.getId(),p);
+		List<FileMetadata>  list = gridFsManager.findUserImage(user.getId(),p);
+		
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+".jpg");
-			byte[] data = Files.readAllBytes(file);
-			metaDTO.setThumb(new String(Base64.encode(data)));
+			
+			
+//	TODO manage thumbnail		Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+".jpg");
+//			byte[] data = Files.readAllBytes(file);
+//			metaDTO.setThumb(new String(Base64.encode(data)));
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
@@ -485,14 +496,14 @@ public class FileManagerServiceImpl implements FileManagerService {
 	public Page<FileMetadataDTO> getUserFilesMetadata(CustomUserDetails user,
 			Integer nPag, Integer nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findUserFile(user.getId(),p);
+		List<FileMetadata>  list = gridFsManager.findUserFile(user.getId(),p);
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			metaDTO.setThumb(fileIcon);
+//			metaDTO.setThumb(fileIcon);
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
@@ -502,16 +513,16 @@ public class FileManagerServiceImpl implements FileManagerService {
 	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
 			Integer nPag, Integer nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findScenarioImage(idScenario,p);
+		List<FileMetadata>  list = gridFsManager.findScenarioImage(idScenario,p);
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
-			byte[] data = Files.readAllBytes(file);
-			metaDTO.setThumb(new String(Base64.encode(data)));
+//			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
+//			byte[] data = Files.readAllBytes(file);
+//			metaDTO.setThumb(new String(Base64.encode(data)));
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
@@ -521,14 +532,14 @@ public class FileManagerServiceImpl implements FileManagerService {
 	public Page<FileMetadataDTO> getScenarioFilesMetadata(String idScenario,
 			Integer nPag, Integer nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findScenarioFile(idScenario,p);
+		List<FileMetadata>  list = gridFsManager.findScenarioFile(idScenario,p);
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			metaDTO.setThumb(fileIcon);
+//			metaDTO.setThumb(fileIcon);
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
@@ -593,45 +604,6 @@ public class FileManagerServiceImpl implements FileManagerService {
 		return false;
 	}
 
-	private void saveThumbnail(File file, String id) throws IOException{
-		System.out.println("saveThumb");
-		BufferedImage sourceImage = ImageIO.read(file);
-		int width = sourceImage.getWidth();
-		int height = sourceImage.getHeight();
-		BufferedImage img2=null;
-		if(width>height){
-			float extraSize=    height-100;
-			float percentHight = (extraSize/height)*100;
-			float percentWidth = width - ((width/100)*percentHight);
-			BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_4BYTE_ABGR);
-			Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
-			Graphics2D g2 = img.createGraphics();
-			//g2.setBackground(Color.WHITE);
-			g2.clearRect(0,0,(int)percentWidth, 100);
-			g2.setComposite(AlphaComposite.Src);
-			g2.drawImage(scaledImage, 0, 0, null);
-			img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
-			img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
-
-		}else{
-			float extraSize=    width-100;
-			float percentWidth = (extraSize/width)*100;
-			float  percentHight = height - ((height/100)*percentWidth);
-			BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_4BYTE_ABGR);
-			Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
-			Graphics2D g2 = img.createGraphics();
-			//g2.setBackground(Color.WHITE);
-			g2.clearRect(0,0,100, (int)percentHight);
-			g2.setComposite(AlphaComposite.Src);
-			g2.drawImage(scaledImage, 0, 0, null);
-			img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
-			img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
-
-		}
-		File dir = new File(path+"thumb/"+getFolderPath(id));
-		dir.mkdirs();
-		File f = new File(dir,id+"."+SupportedMedia.png); 
-		ImageIO.write(img2,"png",f);
-	}
+	
 
 }

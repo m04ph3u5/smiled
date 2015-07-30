@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
+import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Media;
 import it.polito.applied.smiled.pojo.Reference;
 
@@ -17,10 +19,10 @@ public class Status extends Post{
 	private List<Reference> tags;
 	private String text;
 	
-	@DBRef
-	private ArrayList<FileMetadata> imagesMetadata;
-	@DBRef
-	private ArrayList<FileMetadata> filesMetadata;
+	
+	private ArrayList<FileReference> imagesMetadata;
+	
+	private ArrayList<FileReference> filesMetadata;
 	
 	private List<Source> sources;
 	private Place place;
@@ -36,8 +38,8 @@ public class Status extends Post{
 		this.setRevision(new Revision());
 		this.tags=new ArrayList<Reference>();
 		this.sources=new ArrayList<Source>();
-		this.imagesMetadata = new ArrayList<FileMetadata>();
-		this.filesMetadata = new ArrayList<FileMetadata>();
+		this.imagesMetadata = new ArrayList<FileReference>();
+		this.filesMetadata = new ArrayList<FileReference>();
 	}
 	
 	
@@ -80,23 +82,23 @@ public class Status extends Post{
 	}
 
 
-	public ArrayList<FileMetadata> getImagesMetadata() {
+	public ArrayList<FileReference> getImagesMetadata() {
 		return imagesMetadata;
 	}
-	public void setImagesMetadata(ArrayList<FileMetadata> imagesMetadata) {
+	public void setImagesMetadata(ArrayList<FileReference> imagesMetadata) {
 		this.imagesMetadata = imagesMetadata;
 	}
-	public void addImageMetadata(FileMetadata f){
+	public void addImageMetadata(FileReference f){
 		this.imagesMetadata.add(f);
 	}
 
-	public ArrayList<FileMetadata> getFilesMetadata() {
+	public ArrayList<FileReference> getFilesMetadata() {
 		return filesMetadata;
 	}
-	public void setFilesMetadata(ArrayList<FileMetadata> filesMetadata) {
+	public void setFilesMetadata(ArrayList<FileReference> filesMetadata) {
 		this.filesMetadata = filesMetadata;
 	}
-	public void addFileMetadata(FileMetadata f){
+	public void addFileMetadata(FileReference f){
 		this.filesMetadata.add(f);
 	}
 		
