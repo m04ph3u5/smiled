@@ -1,4 +1,6 @@
-angular.module('smiled.application').controller('scenariosListCtrl', ['loggedUser', 'CONSTANTS', function scenariosListCtrl(loggedUser,CONSTANTS){
+angular.module('smiled.application').controller('scenariosListCtrl', 
+		['loggedUser', 'CONSTANTS', 'modalService', 
+		 function scenariosListCtrl(loggedUser,CONSTANTS,modalService){
 	
 	var self = this;
 	self.user = loggedUser;
@@ -8,4 +10,8 @@ angular.module('smiled.application').controller('scenariosListCtrl', ['loggedUse
 	
 	console.log(self.realDateWithHour);
 	console.log(self.realDateWithoutHour);
+	
+	self.showPopUpCreationScenario = function (){
+		modalService.showModalCreateScen();
+	};
 }]);

@@ -70,19 +70,19 @@ public interface ScenarioService {
 	public void removeUserFromCharacter(String id, String characterId,
 			String userId) throws NotFoundException, BadRequestException;
 
-	public Id insertStatus(String idScenario, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException;
+	public Id insertStatus(String idScenario, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException;
 
 	public Post getPost(String id, String postId, Authentication auth) throws NotFoundException;
 
 	public Page<Post> getPagedPosts(String scenarioId, String characterId, Integer nPag,
 			Integer nItem, Boolean historicOrder, Authentication auth) throws NotFoundException;
 
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException;
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException;
 
-	public Post updateStatus(String id, String statusId, StatusDTO status, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException;
+	public Post updateStatus(String id, String statusId, StatusDTO status, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException, IOException;
 
 	public Post updateEvent(String id, String eventId, EventDTO event,
-			CustomUserDetails activeUser) throws NotFoundException, ForbiddenException, BadRequestException;
+			CustomUserDetails activeUser) throws NotFoundException, ForbiddenException, BadRequestException, IOException;
 
 	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException;
 

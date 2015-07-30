@@ -67,7 +67,7 @@ angular.module('smiled.application')
 		.state('logged.dashboard.student',{
 			views: {
 				'content@logged': {
-					templateUrl: 'assets/private/partials/dashboardStudent.html',
+					templateUrl: 'assets/private/partials/dashboardTeacher.html',
 					controller: "dashboardCtrl",
 					controllerAs: "dashboard"
 				}

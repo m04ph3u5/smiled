@@ -273,7 +273,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/status/{statusId}", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'WRITE')")
-	public Post updateStatus(@PathVariable String id, @PathVariable String statusId, @RequestBody StatusDTO status) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	public Post updateStatus(@PathVariable String id, @PathVariable String statusId, @RequestBody StatusDTO status) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		auth.setAuthenticated(false);
@@ -284,7 +284,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/status", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#characterId, 'Character', 'WRITE')")
-	public Id insertStatus(@PathVariable String id, @PathVariable String characterId, @RequestBody StatusDTO status) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	public Id insertStatus(@PathVariable String id, @PathVariable String characterId, @RequestBody StatusDTO status) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return scenarioService.insertStatus (id, characterId, status, auth);
@@ -338,7 +338,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@RequestMapping(value="/v1/scenarios/{id}/events", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public Id insertEvent(@PathVariable String id, @RequestBody EventDTO event, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	public Id insertEvent(@PathVariable String id, @RequestBody EventDTO event, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
 		return scenarioService.insertEvent (id, event, activeUser);
 	}
@@ -347,7 +347,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/events/{eventId}", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public Post updateEvent(@PathVariable String id, @PathVariable String eventId, @RequestBody EventDTO event, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	public Post updateEvent(@PathVariable String id, @PathVariable String eventId, @RequestBody EventDTO event, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
 		return scenarioService.updateEvent (id, eventId, event, activeUser);
 	}

@@ -444,11 +444,14 @@
 			margin-right:3%;
 			margin-left:3%;
 		}
+		.scenarioHover:hover, .scenarioHover:focus{
+			background-color:#cdc08c;
+		}
 		
 /* Creazione scenario */
 
 		.modal-dialog {
-			  width: 500px;
+/* 			  width: 500px; */
 			  background-color: rgba(224, 216, 169, 0.8);
 		}
 		.modal-content{
@@ -479,7 +482,6 @@
 		}
 		.textRight{
 			text-align: right;
-			padding-right:5%;
 		}
 		.block{
 			display:inline-block;
@@ -536,7 +538,7 @@
 
 	.iconsMargin{
 		margin-right:8px;
-		font-size:20px;
+		font-size:18px;
 	}
 	.extraContent{
 		background-color:#efeace;
@@ -547,6 +549,31 @@
 	tags-input .tags .tag-item{
 		background:transparent !important;
 		border-color:#5B5955 !important;
+		
+	}
+	tags-input .autocomplete .suggestion-item .suggestion-item.selected{
+		background-color: #e5e0c3 !important;
+	}
+
+	.remove-button:focus{
+		color:#cb654f;
+	}
+	.linkPost{
+		color:#89b151;
+	}
+	.imgToPost{
+		position:relative;
+	}
+	.imgToPost .hoverContent {
+	    position: absolute;
+	    top: 0;
+	    left: initial;
+	    display: none;
+	    color: #d6d6d6;	    
+	}
+	.imgToPost:hover .hoverContent {
+	    display: block;
+	    background: rgba(0, 0, 0, .6);
 	}
 
 /*Non ancora classificato*/

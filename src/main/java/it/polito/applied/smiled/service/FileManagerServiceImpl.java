@@ -17,15 +17,17 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -46,165 +48,139 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.gridfs.GridFSFile;
+
 @PropertySource(value={"classpath:application.properties"})
 @Service
 public class FileManagerServiceImpl implements FileManagerService {
-	
+
 	@Autowired
 	private FileMetadataRepository fileMetadataRepository;
-	
+
 	@Autowired
 	private ScenarioRepository scenarioRepository; 
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private CharacterRepository characterRepository;
-	
+
 	@Autowired
 	private SmiledPermissionEvaluator permissionEvaluator;
-	
+
+	@Autowired
+	private GridFsManager gridFsManager;
+
 	@Value("${media.path}")
 	private String path;
-	
-	
+
+
 	@Value("${file.icon}")
 	private String fileIcon;
-	
-	
+
 	@Override
 	public void postCoverScenario(String id, MultipartFile scenarioCover, CustomUserDetails user) throws IllegalStateException, IOException, BadRequestException, HttpMediaTypeNotAcceptableException {
-
 		SupportedMedia type = validateAsImage(scenarioCover);
 
 		Scenario scenario = scenarioRepository.findById(id);
 		if(scenario==null){
 			throw new BadRequestException();
 		}
-				
+
 		FileMetadata meta = new FileMetadata();
-		
+
 		meta.setUserId(user.getId());
 		meta.setScenarioId(id);
 		meta.setCreationDate(new Date());
 		meta.setType(ResourceType.ACTUAL_COVER);
 		meta.setOriginalName(scenarioCover.getOriginalFilename());
 		meta.setFormat(type);
-		
+		InputStream input = scenarioCover.getInputStream();
+		String coverName = "s"+id;
 		if(scenario.getCover()==null || scenario.getCover().isEmpty()){
-			//TODO modificare path
-			
-			File dir = new File(path+"cover/scenarios/"+getFolderPath(id));
-			dir.mkdirs();
-			File file = new File(dir,id);
-
-			
-			scenarioCover.transferTo(file);
-			//meta.setPath(path+"cover/scenarios/"+id);
-			meta=fileMetadataRepository.save(meta);
-			scenarioRepository.setCover(id,meta.getId());
+			gridFsManager.save(input, coverName, scenarioCover.getContentType(), meta);
+			scenarioRepository.setCover(id,coverName);
 		}else{
-			
-			FileMetadata oldMeta = fileMetadataRepository.findById(scenario.getCover());
-			File oldCover = new File(path+"cover/scenarios/"+getFolderPath(id)+id);
-			File dir = new File(path+"media/"+getFolderPath(oldMeta.getId()));
-			dir.mkdirs();
-			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
-			if(oldCover.renameTo(newPath)){
-				saveThumbnail(newPath, oldMeta.getId());
-				File f = new File(path+"cover/scenarios/"+getFolderPath(id)+"/"+id);
-				scenarioCover.transferTo(f);
-				//meta.setPath(path+"cover/scenarios/"+id);
-				meta=fileMetadataRepository.save(meta);
-				//oldMeta.setPath(path+"media/"+oldMeta.getId()+"."+oldMeta.getFormat());
-				oldMeta.setType(ResourceType.OLD_COVER);
-				oldMeta.setLastChange(new Date());
-				fileMetadataRepository.save(oldMeta);
-				scenarioRepository.setCover(id,meta.getId());
-			}else{
-				throw new IOException();
-			}
+			GridFSFile oldCover = gridFsManager.readOneByName(coverName);
+			gridFsManager.toOldCover(oldCover);
+			gridFsManager.save(input, coverName, scenarioCover.getContentType(), meta);
 		}
 	}
 
 	@Override
-	public File getScenarioCover(String id) {
-		return new File(path+"cover/scenarios/"+getFolderPath(id)+"/"+id);
+	public byte[] getScenarioCover(String id) throws IOException, FileNotFoundException {
+		String name = "s"+id;
+
+		GridFSDBFile file = gridFsManager.readOneByName(name);
+		if(file==null){
+			throw new FileNotFoundException();
+		}
+
+		InputStream input = file.getInputStream();
+
+		byte[] targetArray = new byte[(int)file.getLength()];
+		input.read(targetArray);
+		return targetArray;
 	}
 
-	@Override
-	public File getUserCover(String id) {
-		return new File(path+"cover/users/"+getFolderPath(id)+"/"+id);
-	}
 
 	@Override
-	public void postCoverUser(MultipartFile userCover,
-			CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException {
-	
+	public void postCoverUser(MultipartFile userCover, CustomUserDetails user) throws IllegalStateException, IOException, BadRequestException, HttpMediaTypeNotAcceptableException {
+
 		SupportedMedia type = validateAsImage(userCover);
 
 		User u = userRepository.findById(user.getId());
 		if(u==null)
 			throw new BadRequestException();
-				
+
 		FileMetadata meta = new FileMetadata();
-		
+
 		meta.setUserId(user.getId());
 		meta.setCreationDate(new Date());
 		meta.setType(ResourceType.ACTUAL_COVER);
 		meta.setOriginalName(userCover.getOriginalFilename());
 		meta.setFormat(type);
-		System.out.println("user profile");
-		if(u.getProfile()==null || u.getProfile().getCoverPhoto()==null || u.getProfile().getCoverPhoto().isEmpty()){
-			File dir = new File(path+"cover/users/"+getFolderPath(u.getId()));
-			dir.mkdirs();
-			File file = new File(dir,u.getId());
 
-			
-			userCover.transferTo(file);
-			//meta.setPath(path+"cover/scenarios/"+id);
-			meta=fileMetadataRepository.save(meta);
+		InputStream input = userCover.getInputStream();
+		String coverName = "u"+user.getId();
+		if(u.getProfile()==null || u.getProfile().getCoverPhoto()==null || u.getProfile().getCoverPhoto().isEmpty()){
+			gridFsManager.save(input, coverName, userCover.getContentType(), meta);
 			userRepository.setCover(u.getId(),meta.getId());
 		}else{
-			FileMetadata oldMeta = fileMetadataRepository.findById(u.getProfile().getCoverPhoto());
-			File oldCover = new File(path+"cover/users/"+getFolderPath(u.getId())+u.getId());
-			File dir = new File(path+"media/"+getFolderPath(oldMeta.getId()));
-			dir.mkdirs();
-			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
-			
-
-			if(oldCover.renameTo(newPath)){
-				userCover.transferTo(new File(path+"cover/users/"+getFolderPath(u.getId())+"/"+u.getId()));
-				saveThumbnail(newPath, oldMeta.getId());
-
-				//meta.setPath(path+"cover/scenarios/"+id);
-				meta=fileMetadataRepository.save(meta);
-				//oldMeta.setPath(path+"media/"+oldMeta.getId()+"."+oldMeta.getFormat());
-				oldMeta.setType(ResourceType.OLD_COVER);
-				oldMeta.setLastChange(new Date());
-				fileMetadataRepository.save(oldMeta);
-				userRepository.setCover(u.getId(),meta.getId());
-			}else{
-				throw new IOException();
-			}
-			
+			GridFSFile oldCover = gridFsManager.readOneByName(coverName);
+			gridFsManager.toOldCover(oldCover);
+			gridFsManager.save(input, coverName, userCover.getContentType(), meta);
 		}
+	}
+
+	@Override
+	public byte[] getUserCover(String id) throws FileNotFoundException, IOException {
+		String name = "u"+id;
+		GridFSDBFile file = gridFsManager.readOneByName(name);
+		if(file==null){
+			throw new FileNotFoundException();
+		}
+		InputStream input = file.getInputStream();
+		byte[] targetArray = new byte[(int)file.getLength()];
+		input.read(targetArray);
+		return targetArray;
 	}
 
 	@Override
 	public void postCoverCharacter(MultipartFile characterCover, String id, String characterId,
 			CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException {
-		
+
 		SupportedMedia type = validateAsImage(characterCover);
 
 		Character c = characterRepository.findById(characterId);
 		if(c==null)
 			throw new BadRequestException();
-		
-		
+
+
 		FileMetadata meta = new FileMetadata();
-		
+
 		meta.setUserId(user.getId());
 		meta.setCreationDate(new Date());
 		meta.setType(ResourceType.ACTUAL_COVER);
@@ -212,51 +188,213 @@ public class FileManagerServiceImpl implements FileManagerService {
 		meta.setCharacterId(characterId);
 		meta.setOriginalName(characterCover.getOriginalFilename());
 		meta.setFormat(type);
+		InputStream input = characterCover.getInputStream();
+		String coverName = "c"+c.getId();
 
 		if(c.getCover()==null || c.getCover().isEmpty() || c.getCover().equals("")){
-			File dir = new File(path+"cover/characters/"+getFolderPath(c.getId()));
-			dir.mkdirs();
-			File file = new File(dir,c.getId());
-
-			
-			characterCover.transferTo(file);
-			//meta.setPath(path+"cover/scenarios/"+id);
-			meta=fileMetadataRepository.save(meta);
+			gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
 			characterRepository.setCover(c.getId(),meta.getId());
 		}else{
-			FileMetadata oldMeta = fileMetadataRepository.findById(c.getCover());
-			File oldCover = new File(path+"cover/characters/"+getFolderPath(c.getId())+c.getId());
-			File dir = new File(path+"media/"+getFolderPath(oldMeta.getId()));
-			dir.mkdirs();
-			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
-			if(oldCover.renameTo(newPath)){
-				saveThumbnail(newPath, oldMeta.getId());
-				characterCover.transferTo(new File(path+"cover/users/"+getFolderPath(c.getId())+"/"+c.getId()));
-				//meta.setPath(path+"cover/scenarios/"+id);
-				meta=fileMetadataRepository.save(meta);
-				//oldMeta.setPath(path+"media/"+oldMeta.getId()+"."+oldMeta.getFormat());
-				oldMeta.setType(ResourceType.OLD_COVER);
-				oldMeta.setLastChange(new Date());
-				fileMetadataRepository.save(oldMeta);
-				characterRepository.setCover(c.getId(),meta.getId());
-			}else{
-				throw new IOException();
-			}
+			GridFSFile oldCover = gridFsManager.readOneByName(coverName);
+			gridFsManager.toOldCover(oldCover);
+			gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
 		}
-		
+
 	}
 
 	@Override
-	public File getCharacterCover(String characterId) {
-		return new File(path+"cover/characters/"+getFolderPath(characterId)+"/"+characterId);
+	public byte[] getCharacterCover(String characterId) throws FileNotFoundException, IOException {
+		String name = "c"+characterId;
+		GridFSDBFile file = gridFsManager.readOneByName(name);
+		if(file==null){
+			throw new FileNotFoundException();
+		}
+		InputStream input = file.getInputStream();
+
+		byte[] targetArray = new byte[(int)file.getLength()];
+		input.read(targetArray);
+		return targetArray;
 	}
 
-	@Override
-	public File getMedia(String filename) {
-		FileMetadata meta=fileMetadataRepository.findById(filename);
-		return new File(path+"media/"+getFolderPath(filename)+"/"+filename+"."+meta.getFormat());
-	}
+	//	@Override
+	//	public File getUserCoverFILESYSTEM(String id) {
+	//		return new File(path+"cover/users/"+getFolderPath(id)+"/"+id);
+	//	}
 
+	//		public void postCoverScenarioFILESYSTEM(String id, MultipartFile scenarioCover, CustomUserDetails user) throws IllegalStateException, IOException, BadRequestException, HttpMediaTypeNotAcceptableException {
+	//
+	//		SupportedMedia type = validateAsImage(scenarioCover);
+	//
+	//		Scenario scenario = scenarioRepository.findById(id);
+	//		if(scenario==null){
+	//			throw new BadRequestException();
+	//		}
+	//				
+	//		FileMetadata meta = new FileMetadata();
+	//		
+	//		meta.setUserId(user.getId());
+	//		meta.setScenarioId(id);
+	//		meta.setCreationDate(new Date());
+	//		meta.setType(ResourceType.ACTUAL_COVER);
+	//		meta.setOriginalName(scenarioCover.getOriginalFilename());
+	//		meta.setFormat(type);
+	//		
+	//		if(scenario.getCover()==null || scenario.getCover().isEmpty()){
+	//			//TODO modificare path
+	//			
+	//			File dir = new File(path+"cover/scenarios/"+getFolderPath(id));
+	//			dir.mkdirs();
+	//			File file = new File(dir,id);
+	//
+	//			
+	//			scenarioCover.transferTo(file);
+	//			//meta.setPath(path+"cover/scenarios/"+id);
+	//			meta=fileMetadataRepository.save(meta);
+	//			scenarioRepository.setCover(id,meta.getId());
+	//		}else{
+	//			
+	//			FileMetadata oldMeta = fileMetadataRepository.findById(scenario.getCover());
+	//			File oldCover = new File(path+"cover/scenarios/"+getFolderPath(id)+id);
+	//			File dir = new File(path+"media/"+getFolderPath(oldMeta.getId()));
+	//			dir.mkdirs();
+	//			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
+	//			if(oldCover.renameTo(newPath)){
+	//				saveThumbnail(newPath, oldMeta.getId());
+	//				File f = new File(path+"cover/scenarios/"+getFolderPath(id)+"/"+id);
+	//				scenarioCover.transferTo(f);
+	//				//meta.setPath(path+"cover/scenarios/"+id);
+	//				meta=fileMetadataRepository.save(meta);
+	//				//oldMeta.setPath(path+"media/"+oldMeta.getId()+"."+oldMeta.getFormat());
+	//				oldMeta.setType(ResourceType.OLD_COVER);
+	//				oldMeta.setLastChange(new Date());
+	//				fileMetadataRepository.save(oldMeta);
+	//				scenarioRepository.setCover(id,meta.getId());
+	//			}else{
+	//				throw new IOException();
+	//			}
+	//		}
+	//	}
+	//
+	//	
+	//	public File getScenarioCoverFILESYSTEM(String id) {
+	//		return new File(path+"cover/scenarios/"+getFolderPath(id)+"/"+id);
+	//	}
+
+
+	//	@Override
+	//	public void postCoverUserFILESYSTEM(MultipartFile userCover,
+	//			CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException {
+	//	
+	//		SupportedMedia type = validateAsImage(userCover);
+	//
+	//		User u = userRepository.findById(user.getId());
+	//		if(u==null)
+	//			throw new BadRequestException();
+	//				
+	//		FileMetadata meta = new FileMetadata();
+	//		
+	//		meta.setUserId(user.getId());
+	//		meta.setCreationDate(new Date());
+	//		meta.setType(ResourceType.ACTUAL_COVER);
+	//		meta.setOriginalName(userCover.getOriginalFilename());
+	//		meta.setFormat(type);
+	//		System.out.println("user profile");
+	//		if(u.getProfile()==null || u.getProfile().getCoverPhoto()==null || u.getProfile().getCoverPhoto().isEmpty()){
+	//			File dir = new File(path+"cover/users/"+getFolderPath(u.getId()));
+	//			dir.mkdirs();
+	//			File file = new File(dir,u.getId());
+	//
+	//			
+	//			userCover.transferTo(file);
+	//			//meta.setPath(path+"cover/scenarios/"+id);
+	//			meta=fileMetadataRepository.save(meta);
+	//			userRepository.setCover(u.getId(),meta.getId());
+	//		}else{
+	//			FileMetadata oldMeta = fileMetadataRepository.findById(u.getProfile().getCoverPhoto());
+	//			File oldCover = new File(path+"cover/users/"+getFolderPath(u.getId())+u.getId());
+	//			File dir = new File(path+"media/"+getFolderPath(oldMeta.getId()));
+	//			dir.mkdirs();
+	//			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
+	//			
+	//
+	//			if(oldCover.renameTo(newPath)){
+	//				userCover.transferTo(new File(path+"cover/users/"+getFolderPath(u.getId())+"/"+u.getId()));
+	//				saveThumbnail(newPath, oldMeta.getId());
+	//
+	//				//meta.setPath(path+"cover/scenarios/"+id);
+	//				meta=fileMetadataRepository.save(meta);
+	//				//oldMeta.setPath(path+"media/"+oldMeta.getId()+"."+oldMeta.getFormat());
+	//				oldMeta.setType(ResourceType.OLD_COVER);
+	//				oldMeta.setLastChange(new Date());
+	//				fileMetadataRepository.save(oldMeta);
+	//				userRepository.setCover(u.getId(),meta.getId());
+	//			}else{
+	//				throw new IOException();
+	//			}
+	//			
+	//		}
+	//	}
+
+	//	@Override
+	//	public void postCoverCharacterFILESYSTEM(MultipartFile characterCover, String id, String characterId,
+	//			CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException {
+	//		
+	//		SupportedMedia type = validateAsImage(characterCover);
+	//
+	//		Character c = characterRepository.findById(characterId);
+	//		if(c==null)
+	//			throw new BadRequestException();
+	//		
+	//		
+	//		FileMetadata meta = new FileMetadata();
+	//		
+	//		meta.setUserId(user.getId());
+	//		meta.setCreationDate(new Date());
+	//		meta.setType(ResourceType.ACTUAL_COVER);
+	//		meta.setScenarioId(id);
+	//		meta.setCharacterId(characterId);
+	//		meta.setOriginalName(characterCover.getOriginalFilename());
+	//		meta.setFormat(type);
+	//
+	//		if(c.getCover()==null || c.getCover().isEmpty() || c.getCover().equals("")){
+	//			File dir = new File(path+"cover/characters/"+getFolderPath(c.getId()));
+	//			dir.mkdirs();
+	//			File file = new File(dir,c.getId());
+	//
+	//			
+	//			characterCover.transferTo(file);
+	//			//meta.setPath(path+"cover/scenarios/"+id);
+	//			meta=fileMetadataRepository.save(meta);
+	//			characterRepository.setCover(c.getId(),meta.getId());
+	//		}else{
+	//			FileMetadata oldMeta = fileMetadataRepository.findById(c.getCover());
+	//			File oldCover = new File(path+"cover/characters/"+getFolderPath(c.getId())+c.getId());
+	//			File dir = new File(path+"media/"+getFolderPath(oldMeta.getId()));
+	//			dir.mkdirs();
+	//			File newPath = new File(dir,oldMeta.getId()+"."+oldMeta.getFormat());
+	//			if(oldCover.renameTo(newPath)){
+	//				saveThumbnail(newPath, oldMeta.getId());
+	//				characterCover.transferTo(new File(path+"cover/users/"+getFolderPath(c.getId())+"/"+c.getId()));
+	//				//meta.setPath(path+"cover/scenarios/"+id);
+	//				meta=fileMetadataRepository.save(meta);
+	//				//oldMeta.setPath(path+"media/"+oldMeta.getId()+"."+oldMeta.getFormat());
+	//				oldMeta.setType(ResourceType.OLD_COVER);
+	//				oldMeta.setLastChange(new Date());
+	//				fileMetadataRepository.save(oldMeta);
+	//				characterRepository.setCover(c.getId(),meta.getId());
+	//			}else{
+	//				throw new IOException();
+	//			}
+	//		}
+	//		
+	//	}
+
+	//	@Override
+	//	public File getCharacterCoverFILESYSTEM(String characterId) {
+	//		return new File(path+"cover/characters/"+getFolderPath(characterId)+"/"+characterId);
+	//	}
+	
+	
 	@Override
 	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException {
 		SupportedMedia type = validateAsMedia(media);
@@ -270,38 +408,51 @@ public class FileManagerServiceImpl implements FileManagerService {
 		meta.setScenarioId(scenarioId);
 		meta.setOriginalName(media.getOriginalFilename());
 		meta.setFormat(type);
-		meta=fileMetadataRepository.save(meta);
-		File dir = new File(path+"media/"+getFolderPath(meta.getId()));
-		dir.mkdirs();
-		File file = new File(dir,meta.getId()+"."+meta.getFormat());
-		media.transferTo(file);
-	//	fileMetadataRepository.setFileMetadataPath(meta.getId(), path+"media/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
+		String filename = new SimpleDateFormat("yyyyMMddhhmmssSS").format(meta.getCreationDate());
+		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
 		
-		
-		return meta.getId();
+		return file.getFilename().toString();
 	}
+
+	@Override
+	public byte[] getMedia(String filename, Authentication auth) throws FileNotFoundException, IOException, ForbiddenException {
+		System.out.println("------------------>"+filename);
+		GridFSDBFile file = gridFsManager.readOneByName(filename);
+		if(file==null){
+			throw new FileNotFoundException();
+		}
+		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
+		FileMetadata metadata = gridFsManager.getMetadata(file);
+		if(!metadata.getUserId().equals(((CustomUserDetails)auth.getPrincipal()).getId()) && !permissionEvaluator.hasPermission(auth, metadata.getUserId(), "User", "READ"))
+			throw new ForbiddenException();
+		
+		
+		InputStream input = file.getInputStream();
+
+		byte[] targetArray = new byte[(int)file.getLength()];
+		input.read(targetArray);
+		return targetArray;
+	}
+
 	
 	@Override
-	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMetaDTO,
-			Authentication auth) throws BadRequestException, ForbiddenException {
-		FileMetadata fileMeta = fileMetadataRepository.findById(idMedia);
+	public void postMediaMetadata(String filename, FileMetadataDTO fileMetaDTO,
+			Authentication auth) throws BadRequestException, ForbiddenException, IOException {
+		
+		FileMetadata fileMeta = gridFsManager.getMetadata(filename);
+		
 		if(fileMeta==null)
 			throw new BadRequestException();
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
 		if(!fileMeta.getUserId().equals(user.getId()))
 			throw new ForbiddenException();
-		
+
 		if(fileMetaDTO.getCharacterId()!=null){
 			if(!permissionEvaluator.hasPermission(auth, fileMetaDTO.getCharacterId(), "Character", "WRITE"))
 				throw new ForbiddenException();
 		}
-		
-		fileMeta.setLastChange(new Date());
-		if(isImage(fileMeta.getFormat()))
-			fileMeta.setType(ResourceType.IMAGE);
-		else
-			fileMeta.setType(ResourceType.DOCUMENT);
 
+		
 		if(fileMetaDTO.getPlace()!=null)
 			fileMeta.setPlace(fileMetaDTO.getPlace());
 		if(fileMetaDTO.getTags()!=null)
@@ -310,58 +461,68 @@ public class FileManagerServiceImpl implements FileManagerService {
 			fileMeta.setDescription(fileMetaDTO.getDescription());
 		if(fileMetaDTO.getCharacterId()!=null)
 			fileMeta.setCharacterId(fileMetaDTO.getCharacterId());
-		fileMetadataRepository.save(fileMeta);
+		fileMeta.setLastChange(new Date());
+		if(isImage(fileMeta.getFormat())){
+			fileMeta.setType(ResourceType.IMAGE);
+		}
+		else
+			fileMeta.setType(ResourceType.DOCUMENT);
+
+		gridFsManager.updateMetadata(filename, fileMeta);
 	}
-	
+
 	@Override
 	public Page<FileMetadataDTO> getUserImageMetadata(CustomUserDetails user, int nPag, int nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findUserImage(user.getId(),p);
+		List<FileMetadata>  list = gridFsManager.findUserImage(user.getId(),p);
+		
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+".jpg");
-			byte[] data = Files.readAllBytes(file);
-			metaDTO.setThumb(new String(Base64.encode(data)));
+			
+			
+//	TODO manage thumbnail		Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+".jpg");
+//			byte[] data = Files.readAllBytes(file);
+//			metaDTO.setThumb(new String(Base64.encode(data)));
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
 	}
-	
+
 	@Override
 	public Page<FileMetadataDTO> getUserFilesMetadata(CustomUserDetails user,
 			Integer nPag, Integer nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findUserFile(user.getId(),p);
+		List<FileMetadata>  list = gridFsManager.findUserFile(user.getId(),p);
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			metaDTO.setThumb(fileIcon);
+//			metaDTO.setThumb(fileIcon);
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
 	}
-	
+
 	@Override
 	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
 			Integer nPag, Integer nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findScenarioImage(idScenario,p);
+		List<FileMetadata>  list = gridFsManager.findScenarioImage(idScenario,p);
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
-			byte[] data = Files.readAllBytes(file);
-			metaDTO.setThumb(new String(Base64.encode(data)));
+//			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
+//			byte[] data = Files.readAllBytes(file);
+//			metaDTO.setThumb(new String(Base64.encode(data)));
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
@@ -371,19 +532,19 @@ public class FileManagerServiceImpl implements FileManagerService {
 	public Page<FileMetadataDTO> getScenarioFilesMetadata(String idScenario,
 			Integer nPag, Integer nItem) throws IOException {
 		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = fileMetadataRepository.findScenarioFile(idScenario,p);
+		List<FileMetadata>  list = gridFsManager.findScenarioFile(idScenario,p);
 		System.out.println("My media number: "+list.size());
 		Iterator<FileMetadata> it = list.iterator();
 		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
 		while(it.hasNext()){
 			FileMetadata meta = it.next(); 
 			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-			metaDTO.setThumb(fileIcon);
+//			metaDTO.setThumb(fileIcon);
 			fileMetaList.add(metaDTO);
 		}
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
 	}
-	
+
 	/*--------------------------------------------------------UTILS FUNCTIONS-----------------------------------------------------------------*/
 	private String getFolderPath(String filename){
 		System.out.println(filename);
@@ -391,7 +552,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		System.out.println("folderPath: "+folderPath+filename);
 		return folderPath;
 	}
-	
+
 	private SupportedMedia validateAsImage(MultipartFile file) throws HttpMediaTypeNotAcceptableException{
 		System.out.println(file.getContentType());
 		if(file.getContentType().equals("image/jpeg"))
@@ -401,7 +562,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		else
 			throw new HttpMediaTypeNotAcceptableException("Formato non supportato");
 	}
-	
+
 	private SupportedMedia validateAsMedia(MultipartFile file) throws HttpMediaTypeNotAcceptableException{
 		String contentType = file.getContentType();
 		if(contentType.equals("image/jpeg"))
@@ -433,55 +594,16 @@ public class FileManagerServiceImpl implements FileManagerService {
 		else
 			throw new HttpMediaTypeNotAcceptableException("Formato non supportato");
 	}
-	
+
 	private boolean isImage(SupportedMedia media){
 		if(media.equals(SupportedMedia.jpg))
 			return true;
 		if(media.equals(SupportedMedia.png))
 			return true;
-		
+
 		return false;
 	}
-	
-	private void saveThumbnail(File file, String id) throws IOException{
-		System.out.println("saveThumb");
-		BufferedImage sourceImage = ImageIO.read(file);
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
-        BufferedImage img2=null;
-        if(width>height){
-            float extraSize=    height-100;
-            float percentHight = (extraSize/height)*100;
-            float percentWidth = width - ((width/100)*percentHight);
-            BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_4BYTE_ABGR);
-            Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
-            Graphics2D g2 = img.createGraphics();
-            //g2.setBackground(Color.WHITE);
-            g2.clearRect(0,0,(int)percentWidth, 100);
-            g2.setComposite(AlphaComposite.Src);
-            g2.drawImage(scaledImage, 0, 0, null);
-            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
-            img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
 
-        }else{
-            float extraSize=    width-100;
-            float percentWidth = (extraSize/width)*100;
-            float  percentHight = height - ((height/100)*percentWidth);
-            BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_4BYTE_ABGR);
-            Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
-            Graphics2D g2 = img.createGraphics();
-            //g2.setBackground(Color.WHITE);
-            g2.clearRect(0,0,100, (int)percentHight);
-            g2.setComposite(AlphaComposite.Src);
-            g2.drawImage(scaledImage, 0, 0, null);
-            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
-            img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
-
-        }
-		  File dir = new File(path+"thumb/"+getFolderPath(id));
-		  dir.mkdirs();
-		  File f = new File(dir,id+"."+SupportedMedia.png); 
-		  ImageIO.write(img2,"png",f);
-	}
 	
+
 }

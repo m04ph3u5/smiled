@@ -12,6 +12,7 @@ import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.PostReferenceHistoricalDateComparator;
@@ -47,6 +48,7 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 import it.polito.applied.smiled.updater.AsyncUpdater;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -88,7 +90,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	private UserService userService;
 	
 	@Autowired
-	private FileMetadataRepository fileMetadataRepository;
+	private GridFsManager gridFsManager;
 
 	@Autowired 
 	private BCryptPasswordEncoder passwordEncoder;
@@ -981,7 +983,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Id insertStatus(String scenarioId, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException {
+	public Id insertStatus(String scenarioId, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException {
 		
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
 		
@@ -1063,25 +1065,25 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		if(statusDTO.getImageMetaId()!=null){
 			for(int i=0; i<statusDTO.getImageMetaId().size(); i++){
-				FileMetadata f = fileMetadataRepository.findById(statusDTO.getImageMetaId().get(i));
+				FileMetadata f = gridFsManager.getMetadata(statusDTO.getImageMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				if(!f.getUserId().equals(user.getId()))
 					throw new ForbiddenException();
-				status.addImageMetadata(f);
-				fileMetadataRepository.confirmImage(status.getImagesMetadata().get(i).getId());
+				status.addImageMetadata(new FileReference(statusDTO.getImageMetaId().get(i), f.getOriginalName()));
+				gridFsManager.confirmImage(statusDTO.getImageMetaId().get(i), f);
 			}
 		}
 		
 		if(statusDTO.getFileMetaId()!=null){
 			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
-				FileMetadata f = fileMetadataRepository.findById(statusDTO.getFileMetaId().get(i));
+				FileMetadata f = gridFsManager.getMetadata(statusDTO.getFileMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				if(!f.getUserId().equals(user.getId()))
 					throw new ForbiddenException();
-				status.addFileMetadata(f);
-				fileMetadataRepository.confirmFile(status.getFilesMetadata().get(i).getId());
+				status.addFileMetadata(new FileReference(statusDTO.getFileMetaId().get(i), f.getOriginalName()));
+				gridFsManager.confirmFile(status.getFilesMetadata().get(i).getId(), f);
 			}
 		}
 		if(statusDTO.getStatus()==null)
@@ -1195,7 +1197,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException {
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException {
 		
 
 		Scenario scenario = scenarioRepository.findById(scenarioId);
@@ -1229,25 +1231,25 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		if(eventDTO.getImageMetaId()!=null){
 			for(int i=0; i<eventDTO.getImageMetaId().size(); i++){
-				FileMetadata f = fileMetadataRepository.findById(eventDTO.getImageMetaId().get(i));
+				FileMetadata f = gridFsManager.getMetadata(eventDTO.getImageMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				if(!f.getUserId().equals(u.getId()))
 					throw new ForbiddenException();
 				event.addImageMetadata(f);
-				fileMetadataRepository.confirmImage(event.getImagesMetadata().get(i).getId());
+				gridFsManager.confirmImage(event.getImagesMetadata().get(i).getId(), f);
 			}
 		}
 		
 		if(eventDTO.getFileMetaId()!=null){
 			for(int i=0; i<eventDTO.getFileMetaId().size(); i++){
-				FileMetadata f = fileMetadataRepository.findById(eventDTO.getFileMetaId().get(i));
+				FileMetadata f = gridFsManager.getMetadata(eventDTO.getFileMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				if(!f.getUserId().equals(u.getId()))
 					throw new ForbiddenException();
 				event.addFileMetadata(f);
-				fileMetadataRepository.confirmFile(event.getFilesMetadata().get(i).getId());
+				gridFsManager.confirmFile(event.getFilesMetadata().get(i).getId(), f);
 			}
 		}
 		
@@ -1272,7 +1274,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Post updateStatus(String id, String statusId, StatusDTO statusDTO, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException {
+	public Post updateStatus(String id, String statusId, StatusDTO statusDTO, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException, IOException {
 		/*Prelevo il post dal database e controllo che esso esista e sia di tipo Status (per gli update di Event ci sarà un API apposita così
 		 * da controllare i permessi direttamente sul controller)*/
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
@@ -1371,7 +1373,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getImageMetaId()!=null){
 			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<statusDTO.getImageMetaId().size();i++){
-				FileMetadata f = fileMetadataRepository.confirmImage(statusDTO.getImageMetaId().get(i));
+				FileMetadata f = gridFsManager.confirmImage(statusDTO.getImageMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference fileMetaUserRef = new Reference();
@@ -1388,7 +1390,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getFileMetaId()!=null){
 			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
-				FileMetadata f = fileMetadataRepository.confirmFile(statusDTO.getFileMetaId().get(i));
+				FileMetadata f = gridFsManager.confirmFile(statusDTO.getFileMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference fileMetaUserRef = new Reference();
@@ -1405,7 +1407,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getImageMetaIdToDelete()!=null){
 			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
 			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
-				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
+				FileMetadata f = gridFsManager.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference metaUserRef = new Reference();
@@ -1422,7 +1424,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getFileMetaIdToDelete()!=null){
 			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
 			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
-				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
+				FileMetadata f = gridFsManager.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference metaUserRef = new Reference();
@@ -1478,7 +1480,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Override
 	public Post updateEvent(String id, String eventId, EventDTO eventDTO,
-			CustomUserDetails user) throws NotFoundException, ForbiddenException, BadRequestException {
+			CustomUserDetails user) throws NotFoundException, ForbiddenException, BadRequestException, IOException {
 		/*Prelevo il post dal database e controllo che esso esista e sia di tipo Event */
 		Post post =  postRepository.findById(eventId);
 		if(post==null || !post.getClass().equals(Status.class))
@@ -1573,7 +1575,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(eventDTO.getImageMetaId()!=null){
 			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<eventDTO.getImageMetaId().size();i++){
-				FileMetadata f = fileMetadataRepository.confirmImage(eventDTO.getImageMetaId().get(i));
+				FileMetadata f = gridFsManager.confirmImage(eventDTO.getImageMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference fileMetaUserRef = new Reference();
@@ -1590,7 +1592,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(eventDTO.getFileMetaId()!=null){
 			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<eventDTO.getFileMetaId().size(); i++){
-				FileMetadata f = fileMetadataRepository.confirmFile(eventDTO.getFileMetaId().get(i));
+				FileMetadata f = gridFsManager.confirmFile(eventDTO.getFileMetaId().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference fileMetaUserRef = new Reference();
@@ -1607,7 +1609,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(eventDTO.getImageMetaIdToDelete()!=null){
 			FileMetadata[] newMetadata = new FileMetadata[eventDTO.getImageMetaIdToDelete().size()];
 			for(int i=0; i<eventDTO.getImageMetaIdToDelete().size(); i++){
-				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(eventDTO.getImageMetaIdToDelete().get(i));
+				FileMetadata f = gridFsManager.putImageInDeleteStatus(eventDTO.getImageMetaIdToDelete().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference metaUserRef = new Reference();
@@ -1624,7 +1626,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(eventDTO.getFileMetaIdToDelete()!=null){
 			FileMetadata[] newMetadata = new FileMetadata[eventDTO.getFileMetaIdToDelete().size()];
 			for(int i=0; i<eventDTO.getFileMetaIdToDelete().size(); i++){
-				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(eventDTO.getFileMetaIdToDelete().get(i));
+				FileMetadata f = gridFsManager.putFileInDeleteStatus(eventDTO.getFileMetaIdToDelete().get(i));
 				if(f==null)
 					throw new BadRequestException();
 				Reference metaUserRef = new Reference();
