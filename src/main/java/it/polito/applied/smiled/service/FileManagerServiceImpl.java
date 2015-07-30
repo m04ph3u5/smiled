@@ -42,6 +42,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
@@ -115,7 +116,6 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 		GridFSDBFile file = gridFsManager.readOneByName(name);
 		if(file==null){
-			System.out.println("NULL FILE");
 			throw new NotFoundException();
 		}
 
@@ -161,7 +161,6 @@ public class FileManagerServiceImpl implements FileManagerService {
 		String name = "u"+id;
 		GridFSDBFile file = gridFsManager.readOneByName(name);
 		if(file==null){
-			System.out.println("NULL FILE");
 			throw new NotFoundException();
 		}
 		InputStream input = file.getInputStream();
@@ -210,7 +209,6 @@ public class FileManagerServiceImpl implements FileManagerService {
 		String name = "c"+characterId;
 		GridFSDBFile file = gridFsManager.readOneByName(name);
 		if(file==null){
-			System.out.println("NULL FILE");
 			throw new NotFoundException();
 		}
 		InputStream input = file.getInputStream();
@@ -397,13 +395,8 @@ public class FileManagerServiceImpl implements FileManagerService {
 	//	public File getCharacterCoverFILESYSTEM(String characterId) {
 	//		return new File(path+"cover/characters/"+getFolderPath(characterId)+"/"+characterId);
 	//	}
-
-	@Override
-	public File getMedia(String filename) {
-		FileMetadata meta=fileMetadataRepository.findById(filename);
-		return new File(path+"media/"+getFolderPath(filename)+"/"+filename+"."+meta.getFormat());
-	}
-
+	
+	
 	@Override
 	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException {
 		SupportedMedia type = validateAsMedia(media);
@@ -417,6 +410,9 @@ public class FileManagerServiceImpl implements FileManagerService {
 		meta.setScenarioId(scenarioId);
 		meta.setOriginalName(media.getOriginalFilename());
 		meta.setFormat(type);
+//		String filename = 
+//		gridFsManager.save(media.getInputStream(), , contentType, meta)
+		
 		meta=fileMetadataRepository.save(meta);
 		File dir = new File(path+"media/"+getFolderPath(meta.getId()));
 		dir.mkdirs();
@@ -428,6 +424,13 @@ public class FileManagerServiceImpl implements FileManagerService {
 		return meta.getId();
 	}
 
+	@Override
+	public File getMedia(String filename) {
+		FileMetadata meta=fileMetadataRepository.findById(filename);
+		return new File(path+"media/"+getFolderPath(filename)+"/"+filename+"."+meta.getFormat());
+	}
+
+	
 	@Override
 	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMetaDTO,
 			Authentication auth) throws BadRequestException, ForbiddenException {
