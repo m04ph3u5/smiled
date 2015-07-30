@@ -1,40 +1,54 @@
-<div data-ng-if="insertStatus.showInsertStatus">		
-
+<div data-ng-if="insertStatus.showInsertStatus">
+	<div class="textRight">
+			<label data-ng-click="insertStatus.setDateNewPost()">{{insertStatus.newPost.date.formatted}}</label>
+			<div data-ng-click="insertStatus.setDateNewPost()"
+				class="glyphicon glyphicon-calendar marginMRight"></div>
 			<div class="pull-right">
-					<label data-ng-click="insertStatus.setDateNewPost()">{{insertStatus.newPost.date.formatted}}</label>
-					<div data-ng-click="insertStatus.setDateNewPost()"
-						class="glyphicon glyphicon-calendar"></div>
-					<div data-ng-show="insertStatus.showDatePicker"
-						historical-date-picker date="insertStatus.newPost.date"></div>			
-			</div>
-			<div class="col-md-12 marginMTop">
-				<img class="img-thumbnail imgPreviewL pull-left marginMRight"
-					data-ng-src="{{insertStatus.character.cover}}"
-					data-err-src="assets/public/img/cesar.png"></img>
-				<div class="row">
-					<h4 class="pull-left">{{insertStatus.character.name}}</h4>
-					<textarea class="pull-left" style="width:80%" placeholder="A COSA STAVI PENSANDO?"
-					rows="3" data-ng-model="insertStatus.newPost.content"></textarea>				
-				</div>	
-			</div>
+				<div data-ng-show="insertStatus.showDatePicker"
+					historical-date-picker date="insertStatus.newPost.date"></div>	
+			</div>		
+	</div>
+	<div class="col-md-12 marginMTop">
+		<img class="img-thumbnail imgPreviewL pull-left marginMRight"
+			data-ng-src="{{insertStatus.character.cover}}"
+			data-err-src="assets/public/img/cesar.png"></img>
+		<div class="row">
+			<h4 class="pull-left">{{insertStatus.character.name}} 
+				<span ng-if="insertStatus.tagIsSet || insertStatus.newPost.place.text">-</span> 
+				<span ng-if="insertStatus.tagIsSet" 
+					data-ng-click="insertStatus.switchShowTagBox()"> 
+					con <span class="linkPost">{{insertStatus.stringTags}}</span></span>
+				<span ng-if="insertStatus.tagIsSet && insertStatus.newPost.place.text">, </span> 
+				<span ng-if="insertStatus.newPost.place.text" 
+					data-ng-click="insertStatus.setPositionNewPost()"
+					class="linkPost">{{insertStatus.newPost.place.text}}</span>
+			</h4>
+			<textarea class="pull-left" style="width:80%" placeholder="A COSA STAVI PENSANDO?"
+			rows="3" data-ng-model="insertStatus.newPost.content"></textarea>				
+		</div>	
+	</div>
 
 
-		<div class="col-md-12 extraContent marginSTop ">
+	<div class="col-md-12 extraContent marginSTop ">
 		<div class="pull-left marginSTop marginMRight">
 			<div title="Aggiungi un'immagine al post" ngf-select
 				ngf-change="insertStatus.addImageToNewPost($files)"
-				class="tooltips glyphicon glyphicon-camera iconsMargin"></div>
+				class="tooltips glyphicon glyphicon-camera iconsMargin"
+				data-ng-style="insertStatus.colorImageMarker"
+				data-ng-click="insertStatus.hideTagBox()"></div>
 			
 			<div title="Allega un file al post" ngf-select
 				ngf-change="insertStatus.addFileToNewPost($files)"
-				class="tooltips glyphicon glyphicon-file iconsMargin"></div>
+				class="tooltips glyphicon glyphicon-file iconsMargin"
+				data-ng-style="insertStatus.colorFileMarker"
+				data-ng-click="insertStatus.hideTagBox()"></div>
 			
-
+		
 			<div title="Aggiungi una posizione al post"
-			class="tooltips glyphicon glyphicon-map-marker iconsMargin"
-				data-ng-click="insertStatus.setPositionNewPost()"
-				data-ng-style="insertStatus.colorMapMarker"></div>
+				class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+				data-ng-click="insertStatus.setPositionNewPost(); insertStatus.hideTagBox()"></div>
 			<!-- 					<label></label> -->
+
 			<!-- 			<div title="Tagga personaggi al post" -->
 			<!-- 				class="tooltips glyphicon glyphicon-tags" my-tag-box tags="insertStatus.newPost.tags" selectable="insertStatus.scenario.characters"  -->
 			<!-- 					type="character" scenario="{{insertStatus.scenario.id}}" style="margin-right: 5px;"></div> -->
@@ -45,7 +59,16 @@
 				data-ng-click="insertStatus.switchShowTagBox()">
 			</div>
 		</div>
-		<div class="col-md-10">
+		
+			<!-- 					<div title="Indica le tue fonti" -->
+		<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
+		<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
+		<!-- 					<label></label> -->
+		<!-- 				</div> -->
+		
+	</div>
+	<div class="col-md-12 extraContent text-left">		
+	
 			<tags-input data-ng-show="insertStatus.showTagBox"
 				data-ng-model="insertStatus.newPost.tags" display-property="name"
 				placeholder="TAGGA UN AMICO" replace-spaces-with-dashes="false"
@@ -54,6 +77,15 @@
 				min-length="0" load-on-focus="true" load-on-empty="true"
 				max-results-to-show="32" template="autocomplete-template">
 			</auto-complete> </tags-input>
+
+	
+		<div class="row">
+			<div data-ng-repeat="image in insertStatus.newPost.image">
+				<div class="col-lg-2 col-md-3 imgToPost">
+					<img class="img imgPreviewL" ng-src="{{insertStatus.getMedia(image.id)}}">
+					<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
+						data-ng-click="insertStatus.removeImage(image)"></span></div>
+					
 			<!-- 					<div title="Indica le tue fonti" -->
 			<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
 			<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
@@ -71,31 +103,33 @@
 							class="glyphicon glyphicon-remove iconsMargin"
 							data-ng-click="insertStatus.removeImage(image)"></span>
 					</div>
+
 				</div>
 			</div>
-			<!-- Inserire icone -->
-			<div class="row">
-				<div data-ng-repeat="file in insertStatus.newPost.file">				
-						<div class="col-sm-2">
+		</div>
+		<!-- Inserire icone -->
+		<div class="row">
+			<div data-ng-repeat="file in insertStatus.newPost.file">				
+					<div class="col-sm-2">
 						{{file.name}} 
 						<span data-ng-show="file.name" show-on-hover-parent
 							class="glyphicon glyphicon-remove"
 							data-ng-click="insertStatus.removeFile(file)"></span>
-						</div>
-				</div>
+					</div>
 			</div>
 		</div>
-
 	</div>
-	<div class="row col-md-12">
-			<div class="pull-right">
-				<div data-ng-click="insertStatus.draftNewPost()"
-					class="btn generalButton">SALVA COME BOZZA</div>
-				<div data-ng-click="insertStatus.savePost()"
-					class="btn generalButton">PUBBLICA</div>
-			</div>
-		</div>
-
+	
+</div>
+<div class="row col-md-12">
+	<div class="pull-right">
+		<div data-ng-click="insertStatus.draftNewPost()"
+			class="btn generalButton">SALVA COME BOZZA</div>
+		<div data-ng-click="insertStatus.savePost()"
+			class="btn generalButton">PUBBLICA</div>
+</div>
+</div>
+	
 
 <script type="text/ng-template" id="tag-template">
       <div class="tag-template">

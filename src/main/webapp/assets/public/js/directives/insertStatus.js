@@ -163,6 +163,10 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					}
 				}
 			}
+			self.getMedia = function(id){
+				console.log("id dell'img:" + id);
+				return CONSTANTS.urlMedia(id);
+			}
 			/*------------------------------------------*/
 			
 			/*Public function to add/remove new file to status*/
@@ -269,9 +273,14 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			/*Function to show/hide tag box*/
 			self.colorTagsMarker = {};
+			self.stringTags="";
+			self.tagIsSet = false;
 			self.showTagBox=false;
 			self.switchShowTagBox =function(){
 				self.showTagBox=!self.showTagBox;
+			}
+			self.hideTagBox =function(){
+				self.showTagBox=false;
 			}
 			
 			/*-----------------------------*/
@@ -279,6 +288,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*Function to open map*/
 			self.colorMapMarker = {};
 			self.setPositionNewPost = function(){
+			self.placeIsSet = false;
+			self.placeName = "";
 //				console.log("setPositionNewMap");
 //				var mapsArray = [];
 //				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
@@ -289,12 +300,27 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			}
 			/*--------------------*/
 
+
 		}],
 		controllerAs: "insertStatus",
 		link : function(scope,elem,attrs,ctrl){
-			scope.$watch('insertStatus.newPost.place', function(val){
-				if(val && val.x && val.y){
-					ctrl.colorMapMarker = {'color': 'red'};
+			scope.$watch('insertStatus.newPost.image.length', function(val){
+				if(val>0){
+					ctrl.colorImageMarker = {'color': '#89b151'};
+				}else{
+					ctrl.colorImageMarker = {'color': 'dark grey'};
+				}
+			});
+			scope.$watch('insertStatus.newPost.file.length', function(val){
+				if(val>0){
+					ctrl.colorFileMarker = {'color': '#89b151'};
+				}else{
+					ctrl.colorFileMarker = {'color': 'dark grey'};
+				}
+			});
+			scope.$watch('insertStatus.newPost.place', function(newVal, oldVal){
+				if(newVal && newVal.x && newVal.y){
+					ctrl.colorMapMarker = {'color': '#89b151'};
 				}else{
 					ctrl.colorMapMarker = {'color': 'dark grey'};
 				}
@@ -302,9 +328,19 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			scope.$watch('insertStatus.newPost.tags.length', function(val){
 				if(val>0){
-					ctrl.colorTagsMarker = {'color': 'orange'};
+					ctrl.tagIsSet=true;
+					ctrl.colorTagsMarker = {'color': '#89b151'};						
+					ctrl.stringTags="";
+					for(var i=0;i<val;i++){
+						if(i<val-1)
+							ctrl.stringTags+=""+ctrl.newPost.tags[i].name+", ";
+						else
+							ctrl.stringTags+=""+ctrl.newPost.tags[i].name;
+					}
 				}else{
 					ctrl.colorTagsMarker = {'color': 'dark grey'};
+					ctrl.stringTags="";
+					ctrl.tagIsSet=false;
 				}
 			});
 		}
