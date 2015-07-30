@@ -332,10 +332,16 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					ctrl.colorTagsMarker = {'color': '#89b151'};						
 					ctrl.stringTags="";
 					for(var i=0;i<val;i++){
-						if(i<val-1)
-							ctrl.stringTags+=""+ctrl.newPost.tags[i].name+", ";
-						else
-							ctrl.stringTags+=""+ctrl.newPost.tags[i].name;
+						if(i>=2){						
+							ctrl.stringTags+=" e altri personaggi";
+							break;
+						}else{
+							if(i<val-1)
+								ctrl.stringTags+=""+ctrl.newPost.tags[i].name+", ";
+							else
+								ctrl.stringTags+=""+ctrl.newPost.tags[i].name;
+						}
+						
 					}
 				}else{
 					ctrl.colorTagsMarker = {'color': 'dark grey'};

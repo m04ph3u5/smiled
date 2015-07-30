@@ -1,7 +1,7 @@
-<div class="text-right">
+<div class="textRight">
 	<label data-ng-click="insertEvent.setDateNewPost()">{{insertEvent.newPost.date.formatted}}</label>
 	<div data-ng-click="insertEvent.setDateNewPost()"
-		class="glyphicon glyphicon-calendar"></div>
+		class="glyphicon glyphicon-calendar marginMRight"></div>
 	<div class="pull-right">
 		<div data-ng-show="insertEvent.showDatePicker"
 			historical-date-picker date="insertEvent.newPost.date"></div>
@@ -16,10 +16,10 @@
 				<span ng-if="insertEvent.tagIsSet" 
 					data-ng-click="insertEvent.switchShowTagBox()"> 
 					con <span class="linkPost">{{insertEvent.stringTags}}</span></span>
-				<span ng-if="insertEvent.tagIsSet && insertEvent.newPost.place.text">, </span> 
+				<span ng-if="insertEvent.tagIsSet && insertEvent.newPost.place.text">- </span> 
 				<span ng-if="insertEvent.newPost.place.text" 
 					data-ng-click="insertEvent.setPositionNewPost()"
-					class="linkPost">{{insertStatus.newPost.place.text}}</span>
+					class="linkPost">{{insertEvent.newPost.place.text}}</span>
 			</h4>
 			<textarea id="textarea-event" placeholder="COSA E' SUCCESSO?"  class="pull-left" style="width:80%"
 			rows="3" data-ng-model="insertEvent.newPost.content"></textarea>
@@ -113,7 +113,7 @@
 	</div>
 </div>
 
-	<div class="row col-md-10 col-md-offset-1">
+	<div class="row col-md-12">
 			<div class="pull-right">
 				<div data-ng-click="insertEvent.draftNewPost()"
 					class="btn generalButton">SALVA COME BOZZA</div>

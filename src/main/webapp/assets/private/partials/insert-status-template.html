@@ -94,19 +94,6 @@
 		
 				</div>
 		</div>
-		<div class="col-md-12 extraContent text-left">		
-			<div class="row">
-				<div data-ng-repeat="image in insertStatus.newPost.image">
-					<div class="col-lg-2 col-md-3">
-						<img class="img imgPreviewL" ng-src="{{insertStatus.getMedia(image.id)}}">
-						<span data-ng-show="image.name" show-on-hover-parent
-							class="glyphicon glyphicon-remove iconsMargin"
-							data-ng-click="insertStatus.removeImage(image)"></span>
-					</div>
-
-				</div>
-			</div>
-		</div>
 		<!-- Inserire icone -->
 		<div class="row">
 			<div data-ng-repeat="file in insertStatus.newPost.file">				
