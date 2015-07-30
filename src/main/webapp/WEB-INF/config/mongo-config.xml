@@ -10,13 +10,21 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
     <context:property-placeholder location="/WEB-INF/db.properties"/>
 
-	<mongo:db-factory dbname="${mongo.db.name}" />
+	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.db.name}" />
 
 	<mongo:mongo host="${mongo.host.name}" port="${mongo.host.port}" />
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 		<property name="writeResultChecking" value="EXCEPTION"/>
+	</bean>
+	
+	<mongo:mapping-converter id="converter" />
+ 
+	<bean name="gridFsTemplate"
+		class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+		<constructor-arg ref="converter" />
 	</bean>
 
 	<mongo:repositories base-package="it.polito.applied.smiled.repository"/>
