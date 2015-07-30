@@ -444,6 +444,9 @@
 			margin-right:3%;
 			margin-left:3%;
 		}
+		.scenarioHover:hover, .scenarioHover:focus{
+			background-color:#cdc08c;
+		}
 		
 /* Creazione scenario */
 
@@ -572,7 +575,7 @@
 	    display: block;
 	    background: rgba(0, 0, 0, .6);
 	}
-	
+
 /*Non ancora classificato*/
 		
 		

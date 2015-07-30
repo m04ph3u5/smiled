@@ -1,11 +1,14 @@
 <div class="container-fluid">
 	<h1>Personaggi</h1>
 	
-	<div class="box textLeft row">
+	<div class="box textCenter row">
 	
-	<div class="col-sm-3 marginSBottom" data-ng-repeat="a in scenarioCharacters.associations">
-		<img data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{a.id}}' })" data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/ic_characters.png"
-			class="img-circle imgPreviewL"> <label class="sideMarginThree">{{a.name}}</label>
+	<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="a in scenarioCharacters.associations">
+		<div class="col-xs-12"><img data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{a.id}}' })" data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/ic_characters.png"
+			class="img-circle imgPreviewL"> 
+		</div>
+		
+			<label class="sideMarginThree">{{a.name}}</label>
 	</div>
 	</div>
 </div>

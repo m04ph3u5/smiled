@@ -312,10 +312,15 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 					ctrl.tagIsSet=true;
 					ctrl.stringTags="";
 					for(var i=0;i<val;i++){
-						if(i<val-1)
-							ctrl.stringTags+=""+ctrl.newPost.tags[i].name+", ";
-						else
-							ctrl.stringTags+=""+ctrl.newPost.tags[i].name;
+						if(i>=2){						
+							ctrl.stringTags+=" e altri personaggi";
+							break;
+						}else{
+							if(i<val-1)
+								ctrl.stringTags+=""+ctrl.newPost.tags[i].name+", ";
+							else
+								ctrl.stringTags+=""+ctrl.newPost.tags[i].name;
+						}
 					}
 				}else{
 					ctrl.colorTagsMarker = {'color': 'dark grey'};
