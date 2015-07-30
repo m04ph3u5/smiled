@@ -41,16 +41,18 @@ public class GridFsManagerImpl implements GridFsManager{
 
 	@Override
 	public void toOldCover(GridFSFile oldCover) {
-		String id = oldCover.getId().toString();
-		FileMetadata oldMeta = mongoOperations.getConverter().read(FileMetadata.class, oldCover.getMetaData());
-		oldMeta.setType(ResourceType.OLD_COVER);
-		oldMeta.setLastChange(new Date());
-		Query q = new Query();
-		q.addCriteria(Criteria.where("filename").is(oldCover.getFilename()));
-		Update u = new Update();
-		u.set("filename", id);
-		u.set("metadata", oldMeta);
-		mongoOperations.updateFirst(q, u, "fs.files");
+		if(oldCover!=null){
+			String id = oldCover.getId().toString();
+			FileMetadata oldMeta = mongoOperations.getConverter().read(FileMetadata.class, oldCover.getMetaData());
+			oldMeta.setType(ResourceType.OLD_COVER);
+			oldMeta.setLastChange(new Date());
+			Query q = new Query();
+			q.addCriteria(Criteria.where("filename").is(oldCover.getFilename()));
+			Update u = new Update();
+			u.set("filename", id);
+			u.set("metadata", oldMeta);
+			mongoOperations.updateFirst(q, u, "fs.files");
+		}
 	}
 	
 	
