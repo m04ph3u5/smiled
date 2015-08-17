@@ -145,9 +145,11 @@
 			</div>
 			</div>
 		</div>
+		
+		
 		<div class="col-md-10 col-md-offset-2">
 			<div class="row">
-				<summarize-info-post data-ng-click="showNewsPost.switchShowComment()" post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post>
+				<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
 			</div>
 			<div class="row">
 				<hr style="margin-right: 0px;" class="hrDivider">
@@ -167,6 +169,33 @@
 					scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
 			</div>
 		</div>
+		
+		
+		
+<!-- 		<div class="col-md-10 col-md-offset-2"> -->
+<!-- 			<div class="row"> -->
+<!-- 				<summarize-info-post data-ng-click="showNewsPost.switchShowComment()" post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post> -->
+<!-- 			</div> -->
+<!-- 			<div class="row"> -->
+<!-- 				<hr style="margin-right: 0px;" class="hrDivider"> -->
+<!-- 			</div>	 -->
+<!-- 			<div class="row">  -->
+<!-- 				<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter" -->
+<!-- 					scenario-id="{{showNewsPost.scenarioId}}"></like-to> -->
+<!-- 				<div data-ng-class="showNewsPost.classCommentButton" data-ng-click="showNewsPost.switchShowComment()" style="margin-left: 20px;" class="glyphicon glyphicon-comment pull-left">Commenta</div> -->
+<!-- 				<div data-ng-click="showNewsPost.switchShowMetaComment()" style="margin-left: 20px;" class="glyphicon glyphicon-exclamation-sign pull-left">Suggerisci</div> -->
+<!-- 			</div> -->
+<!-- 			<div data-ng-if="showNewsPost.showComment" class="row"> -->
+<!-- 				<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter" -->
+<!-- 					scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to> -->
+<!-- 			</div> -->
+<!-- 			<div data-ng-if="showNewsPost.showMetaComment" class="row"> -->
+<!-- 				<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser" -->
+<!-- 					scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+
+
 	</div>
 </div>
 

@@ -30,6 +30,8 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 				while(i<l && i<self.post.likes.length){
 					if(self.post.likes[i].id!=self.currentCharacter.id)
 						self.tooltipLikes+=self.post.likes[i].name+"&#013";
+					else
+						self.post.youLike = true;
 					i++;
 				}
 				if(self.post.likes.length==(l+1)){
@@ -43,16 +45,21 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 			bindToController : true,
 			link : function(scope, elem, attrs, ctrl){
 				scope.$watch('summarizeInfoPost.post.likes.length', function(val){
-					if(ctrl.post.likes.length==1 && !ctrl.post.youLike)
+					if(ctrl.post.likes.length==1 && !ctrl.post.youLike){
 						ctrl.likesLabel = "Piace a <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>1 persona</span>";
-					else if(ctrl.post.likes.length>1 && !ctrl.post.youLike)
+					}
+					else if(ctrl.post.likes.length>1 && !ctrl.post.youLike){
 						ctrl.likesLabel = "Piace a <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>"+ctrl.post.likes.length+" persone</span>";
-					else if(ctrl.post.likes.length==1 && ctrl.post.youLike)
+					}
+					else if(ctrl.post.likes.length==1 && ctrl.post.youLike){
 						ctrl.likesLabel = "Ti piace";
-					else if(ctrl.post.likes.length==2 && ctrl.post.youLike)
+					}
+					else if(ctrl.post.likes.length==2 && ctrl.post.youLike){
 						ctrl.likesLabel = "Piace a te e ad <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>un altra persona</span>";
-					else if(ctrl.post.likes.length>2 && ctrl.post.youLike)
+					}
+					else if(ctrl.post.likes.length>2 && ctrl.post.youLike){
 						ctrl.likesLabel = "Piace a te e ad <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>altre "+(ctrl.post.likes.length-1)+" persone</span>";
+					}
 					else if(ctrl.post.likes.length==0)
 						ctrl.likesLabel = "";
 				});

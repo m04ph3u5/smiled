@@ -40,7 +40,7 @@ import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.repository.CharacterRepository;
-import it.polito.applied.smiled.repository.FileMetadataRepository;
+import it.polito.applied.smiled.repository.MissionRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
@@ -85,6 +85,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 	@Autowired
 	private PostRepository postRepository;
+	
+	@Autowired
+	private MissionRepository missionRepository;
 
 	@Autowired 
 	private UserService userService;
@@ -2267,9 +2270,26 @@ public class ScenarioServiceImpl implements ScenarioService{
 		m.setDescription(mission.getDescription());
 		m.setStatus(MissionStatus.STARTED);
 		
-		//missionRepository.addMission();
+		Mission miss = missionRepository.save(m);
 		
-		
-		return null;
+		return miss.getId();
 	}
+
+
+	@Override
+	public List<Mission> getMissionsOfTeacherInScenario(String id,
+			String teacherId) throws BadRequestException {
+		return missionRepository.getMissionsOfTeacherInScenario(id, teacherId);
+	}
+
+
+	@Override
+	public List<Mission> getMissionsOfStudentInScenario(String id,
+			String studentId) throws BadRequestException {
+		// TODO Auto-generated method stub
+		return missionRepository.getMissionsOfStudentInScenario(id, studentId);
+	}
+
+
+	
 }

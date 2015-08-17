@@ -19,6 +19,7 @@ import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentDTO;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
+import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -102,5 +103,9 @@ public interface ScenarioService {
 	public List<Character> getAllCharacters(String scenarioId);
 
 	public String addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
+	
+	public List<Mission> getMissionsOfTeacherInScenario(String id, String teacherId) throws BadRequestException;
+	
+	public List<Mission> getMissionsOfStudentInScenario(String id, String studentId) throws BadRequestException;
 	
 }

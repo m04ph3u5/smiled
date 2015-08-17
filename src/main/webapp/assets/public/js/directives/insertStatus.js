@@ -76,6 +76,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable= true;
 								self.newPost.place = null;
+								self.newPost.tags = null;
 								apiService.getSingleStatus(self.scenario.id, data.id).then(
 										function(data){
 											self.posts.unshift(data);

@@ -338,7 +338,37 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 //	var onErrorGetScenario = function(reason){
 //	console.log("Error retreaving scenario: "+reason);
 //	}
+	
+	/* inizio GESTIONE COMPITI ----------------------------------*/
+	var createMission = function(idScenario, mission){
+		var s = $q.defer();
 
+		$http.post("/ThesisProject/api/v1/scenarios/"+idScenario+"/missions", mission).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
+	var getMissionsInScenario = function(idScenario){
+		var s = $q.defer();
+
+		$http.get("/ThesisProject/api/v1/scenarios/"+idScenario+"/missions").then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	/* fine GESTIONE COMPITI ----------------------------------*/
+	
 	return {
 		postRegister: postRegister,
 		createScenario : createScenario,
@@ -363,7 +393,9 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		addLikeToPost: addLikeToPost,
 		sendCommentToPost: sendCommentToPost,
 		sendMetaCommentToPost: sendMetaCommentToPost,
-		sendEvent: sendEvent
+		sendEvent: sendEvent,
+		createMission: createMission,
+		getMissionsInScenario : getMissionsInScenario
 	}
 
 

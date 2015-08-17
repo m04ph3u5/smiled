@@ -27,9 +27,12 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 					self.showViewOthers = true;
 				
 				self.openViewOthers = function(){
-					for(var j=i; j<self.post.comments.length; j++){
-						self.visibleComments.unshift(self.post.comments[i]);
-					}
+					
+					self.visibleComments = self.post.comments;
+					self.visibleComments.reverse();
+//					for(var j=i; j<self.post.comments.length; j++){
+//						self.visibleComments.unshift(self.post.comments[i]);
+//					}
 					self.showViewOthers = false;
 				}
 				
@@ -46,6 +49,11 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 											function(data){
 												self.post = data;
 												self.post.newComment="";
+												var numVisible = self.visibleComments.length;
+												
+												self.post = data;
+												self.visibleComments = self.post.comments;
+												self.showViewOthers = false;
 //												for(var i=0; i<self.posts.length; i++){
 //													if(self.posts[i].id==data.id){
 //														data.newComment="";
