@@ -13,10 +13,9 @@ import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentDTO;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
-import it.polito.applied.smiled.pojo.scenario.MetaComment;
+import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -27,6 +26,7 @@ import it.polito.applied.smiled.validator.ScenarioDTOPostValidator;
 import it.polito.applied.smiled.validator.ScenarioDTOPutValidator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -36,6 +36,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -451,13 +452,34 @@ public class ScenarioController extends BaseController{
 		return new Id(idS);
 	}
 	
+	
+	//Restituisce la lista di Mission del richiedente all'interno di uno specifico scenario (nel caso di Teacher le Mission assegnate, nel caso di Student le Mission ricevute)
 	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="/v1/scenarios/{id}/missions/{missionId}", method=RequestMethod.GET)
+	@RequestMapping(value="/v1/scenarios/{id}/missions", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
-	public Post getMission(@PathVariable String id, @PathVariable String postId) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	public List<Mission> getMyMissions(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
-		//TODO gestione dei permessi da completare
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return null;
+		
+		List<Mission> missionsToReturn = new ArrayList<Mission>();
+		boolean isTeacher = false;
+		
+		List<GrantedAuthority> l = (List<GrantedAuthority>) activeUser.getAuthorities();
+		for(int i=0; i<l.size(); i++){
+			if(l.get(i).getAuthority().equals("ROLE_TEACHER")){
+				System.out.println("TEACHER-> "+l.get(i).getAuthority());
+				missionsToReturn = scenarioService.getMissionsOfTeacherInScenario(id, activeUser.getId());
+				isTeacher = true;
+				break;
+			}
+		}
+		if(!isTeacher){
+			System.out.println("NO TEACHER-> ");
+			System.out.println("id student: "+ activeUser.getId());
+			//TODO correggere gestione visualizzazione delle proprie missioni
+			//missionsToReturn = scenarioService.getMissionsOfStudentInScenario(id, activeUser.getId());
+		}
+		
+		//System.out.println(missionsToReturn.get(0).getTitle());
+		return missionsToReturn;
 	}
 }

@@ -67,6 +67,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								self.newPost.image=[];
 								self.newPost.file=[];
 								self.newPost.place=null;
+								self.newPost.tags = null;
 								self.newPost.date={afterChrist : true};
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable = true;

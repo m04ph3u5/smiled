@@ -1,6 +1,5 @@
 package it.polito.applied.smiled.pojo.scenario;
 
-import it.polito.applied.smiled.dto.MissionDTO;
 import it.polito.applied.smiled.pojo.Reference;
 
 import java.util.Date;
@@ -29,6 +28,10 @@ public class Mission {
 		return student;
 	}
 
+	public String getId(){
+		return id;
+	}
+	
 	public void setStudent(Reference student) {
 		this.student = student;
 	}

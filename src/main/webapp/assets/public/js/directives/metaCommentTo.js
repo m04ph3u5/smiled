@@ -24,9 +24,8 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 					self.showViewOthers = true;
 				
 				self.openViewOthers = function(){
-					for(var j=i; j<self.post.metaComments.length; j++){
-						self.visibleComments.unshift(self.post.metaComments[i]);
-					}
+					self.visibleComments = self.post.metaComments;
+					self.visibleComments.reverse();
 					self.showViewOthers = false;
 				}
 				
@@ -41,7 +40,10 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 									apiService.getSingleStatus(self.scenarioId, self.post.id).then(
 											function(data){
 												self.post = data;
-												self.post.newComment="";											
+												self.post.newComment="";	
+												var numVisible = self.visibleComments.length;
+												self.visibleComments = self.post.metaComments;
+												self.showViewOthers = false;
 											},
 											function(reason){
 												console.log("error in insert new post in array");

@@ -5,6 +5,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.currentCharacter = $scope.scenario.currentCharacter;
 	self.posts = [];
 	
+	
 //	self.newPost = {};
 //	self.newPost.date = {
 //			afterChrist : true
@@ -144,4 +145,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 			);
 		}
 	}
+	
+	
+
 }]);

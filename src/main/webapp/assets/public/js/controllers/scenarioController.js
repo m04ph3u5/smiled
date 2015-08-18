@@ -1,5 +1,6 @@
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 
-                                                              function scenarioCtrl(scenario, loggedUser, CONSTANTS){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService){
+	
 	
 	console.log("controller");
 	
@@ -13,7 +14,20 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.hasCharacter = false;
 	self.currentCharacter = {};
 	self.showBoxEvent = false;
+	self.mission = {};
+	self.myMissions = [];
+	
 
+	var findMyMissions = function(){
+		apiService.getMissionsInScenario(self.scen.id).then(
+				function(data){
+					myMissions = data;
+				},
+				function(reason){
+					console.log("error in find my missions");
+				}
+		);
+	}
 	
 	self.openBoxEvent = function(){
 		self.showBoxEvent = !self.showBoxEvent;
@@ -28,6 +42,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 			console.log("isCreator");
 			self.isCreator=true;
 			self.isModerator=true;
+	
 		}
 		
 		if(!self.isModerator){
@@ -54,8 +69,31 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 					}
 				}
 			}
+			if(!self.isModerator && !self.isCreator)
+				findMyMissions();
 		}
 	}
+	
+	self.createMission = function(){
+		console.log("create mission-----> "+ self.mission);
+		console.log(self.mission.title);
+		console.log(self.mission.description);
+		console.log(self.mission.deliveryDate);
+		console.log(self.mission.studentId);
+		console.log(self.mission.studentId);
+		apiService.createMission(self.scen.id, self.mission).then(
+				function(data){
+					self.mission.title="";
+					self.mission.description="";
+					self.mission.deliverydate=null;
+					self.mission.studentId="";
+				},
+				function(reason){
+					console.log("error in creation of new mission");
+				}
+		);
+	}
+	
 	
 	onStartup();
 

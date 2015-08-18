@@ -8,7 +8,7 @@
 				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{c.character.id}}/cover"
 				data-err-src="assets/public/img/cesar.png"></img>
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-9">
 			<div style="margin: 5px;" class="col-md-10 pull-left">
 				<p>
 					<label>{{c.character.firstname}}</label>: {{c.text}}
@@ -16,8 +16,9 @@
 			</div>
 			<div class="col-md-1">
 				<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}}
-					{{c.user.lastname}}</p>
+					{{c.user.lastname}} - {{c.creationDate|date}}</p>
 			</div>
+			
 		</div>
 	</div>
 	<div data-ng-show="commentTo.showInsert">
