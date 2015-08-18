@@ -1,5 +1,5 @@
-<div class="pull-left" style="margin-left: 25px;">
-	<span style="margin-right: 10px;" data-ng-bind-html="summarizeInfoPost.likesLabel" data-ng-if="summarizeInfoPost.likesLabel" data-ng-click="summarizeInfoPost.switchShowComments()"></span>
-	<span style="margin-right: 10px;" data-ng-if="summarizeInfoPost.commentsLabel" class="clickable" data-ng-click="summarizeInfoPost.switchShowComments()">{{summarizeInfoPost.commentsLabel}}</span>
+<div class="pull-left" >
+	<span data-ng-bind-html="summarizeInfoPost.likesLabel" data-ng-if="summarizeInfoPost.likesLabel" data-ng-click="summarizeInfoPost.switchShowComments()"></span>
+	<span data-ng-if="summarizeInfoPost.commentsLabel" class="clickable" data-ng-click="summarizeInfoPost.switchShowComments()">{{summarizeInfoPost.commentsLabel}}</span>
 	<span data-ng-if="summarizeInfoPost.metaCommentsLabel" class="clickable" data-ng-click="summarizeInfoPost.switchShowMetaComments()">{{summarizeInfoPost.metaCommentsLabel}}</span>
 </div>

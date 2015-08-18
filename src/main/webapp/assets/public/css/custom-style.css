@@ -142,7 +142,7 @@
 		}
 		
 		a{
-			color:#5B5955;
+			color:#8cbea3;
 		}
 		a:hover{
 			color:#ADA783;			
@@ -454,6 +454,10 @@
 		.lessWidth{
 			width:80%;
 		}
+		.paddingMRight{
+			padding-right:5%;
+		}
+		
 /* Elenco scenari */
 		.sideMarginThree{
 			margin-right:3%;

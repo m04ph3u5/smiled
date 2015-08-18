@@ -1,12 +1,11 @@
-<div data-ng-show="likeTo.liker" 
-	style="margin: 25px; margin-top: 7px; margin-bottom: 7px;">
-	<div data-ng-if="likeTo.post.youLike"
+<div data-ng-show="likeTo.liker" >
+	<span data-ng-if="likeTo.post.youLike"
 		data-ng-click="likeTo.likePost(likeTo.post)"
 		title="Non mi piace più"
 		class="tooltips glyphicon glyphicon-thumbs-up pull-left">Ti
-		piace</div>
-	<div data-ng-if="!likeTo.post.youLike"
+		piace</span>
+	<span data-ng-if="!likeTo.post.youLike"
 		data-ng-click="likeTo.likePost(likeTo.post)"
 		title="Mi piace!"
-		class="tooltips glyphicon glyphicon-thumbs-up pull-left"><a href="">Mi piace</a></div>
+		class="tooltips glyphicon glyphicon-thumbs-up pull-left"><a href="">Mi piace</a></span>
 </div>
