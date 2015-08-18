@@ -1,30 +1,35 @@
-<div data-ng-if="showNewsPost.post.character" class="row">
-	<div class="col-md-10 col-md-offset-1 box">
+<div data-ng-if="showNewsPost.post.character" class="container-fluid">
+	<div class="col-md-12 box">
 		<div class="row">
-			<div class="pull-left col-md-8">
-				<b class="pull-left"><a href=""
-										data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })">
-											{{showNewsPost.post.character.name}}</a></b>
-			</div>
-
-			<div class="col-md-4">			
-				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+			
+			<div class="textRight">			
+				<label>{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
 					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
 				</label>
 				<a class="pull-right" href="">
 					<div data-ng-if="showNewsPost.isOwner" >
-						<span class="glyphicon glyphicon-cog">Modifica</span>
+						<span class="glyphicon glyphicon-cog"></span>
 					</div>
 				</a>
 			</div>
+				
 		</div>
-		<div class="row rowPost">
-			<div class="col-md-2">
-				<a href="" ><img style="margin: 5px;"
-					data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
-					class="pull-left img-thumbnail imgPreviewL"
+			<div class="col-md-12 marginMTop">
+				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
+					class="img-thumbnail imgPreviewL pull-left marginMRight"
 					data-ng-src="{{showNewsPost.post.character.cover}}"
-					data-err-src="assets/public/img/cesar.png"></img></a>
+					data-err-src="assets/public/img/cesar.png"></img>
+					<div class="row">
+						<h4 class="pull-left">{{showNewsPost.post.character.name}} </h4>
+						<div class="col-sm-12 text-left lessWidth" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></span>
+					</div>
+					<div class="row"></div>
+			</div>
+			
+		
+		<div class="row">
+			<div class="col-md-2">
+				<a href="" ></a>
 				<div class="pull-left box box-info">
 					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
 						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
@@ -33,10 +38,10 @@
 				</div>
 			</div>
 
-			<div class="col-md-10 postStatus">
+			<div class="col-md-10">
 				<div class="row">
 					<div class="col-md-12">
-						<span class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></span>
+						
 					</div>
 					<div data-ng-repeat="row in showNewsPost.post.media track by $index">
 						<div class="timeline-images row">
@@ -94,7 +99,7 @@
 		
 			
 			<div class="col-md-4">			
-				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+				<label>{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
 					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
 				</label>
 				<a class="pull-right" href="">
@@ -170,140 +175,140 @@
 	</div>
 </div>
 
-<!-- EVENTO --> 
-<!-- <div data-ng-if="!showNewsPost.post.character" class="row"> -->
-<!-- 	<div class="col-md-10 col-md-offset-1 box"> -->
-<!-- 		<div class="row"> -->
-<!-- 			<div class="pull-left col-md-8"> -->
-<!-- 				<b class="pull-left">NARRATORE</b> -->
-<!-- 			</div> -->
-<!-- 			<div class="pull-right col-md-4"> -->
-<!-- 				<label class="pull-right">{{scenarioPost.formatDate(showNewsPost.post.historicalDate)}}</label> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<div class="row rowPost"> -->
-<!-- 			<div class="col-md-2"> -->
-<!-- 				<img style="margin: 5px;" -->
-<!-- 					class="pull-left img-thumbnail imgPreviewL" -->
-<!-- 					src="assets/public/img/bookImage.png"></img> -->
-<!-- 				<div class="pull-left box box-info"> -->
-<!-- 					{{showNewsPost.post.creationDate | date: scenarioPost.realDateFormat}} <br> -->
-<!-- 					{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}} -->
-<!-- 				</div> -->
-<!-- 			</div> -->
+<!-- <!-- EVENTO --> 
+<div data-ng-if="!showNewsPost.post.character" class="row">
+	<div class="col-md-10 col-md-offset-1 box">
+		<div class="row">
+			<div class="pull-left col-md-8">
+				<b class="pull-left">NARRATORE</b>
+			</div>
+			<div class="pull-right col-md-4">
+				<label class="pull-right">{{scenarioPost.formatDate(showNewsPost.post.historicalDate)}}</label>
+			</div>
+		</div>
+		<div class="row rowPost">
+			<div class="col-md-2">
+				<img style="margin: 5px;"
+					class="pull-left img-thumbnail imgPreviewL"
+					src="assets/public/img/bookImage.png"></img>
+				<div class="pull-left box box-info">
+					{{showNewsPost.post.creationDate | date: scenarioPost.realDateFormat}} <br>
+					{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
+				</div>
+			</div>
 
-<!-- 			<div class="col-md-10 postStatus"> -->
-<!-- 				<div class="row"> -->
-<!-- 					<p> -->
-<!-- 						<b>TIPOLOGIA EVENTO: </b>{{showNewsPost.post.type}} -->
-<!-- 					</p> -->
-<!-- 				</div> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div class="col-md-12"> -->
-<!-- 						<label class="pull-left">{{showNewsPost.post.text}}</label> -->
-<!-- 					</div> -->
-<!-- 					<div data-ng-show="showNewsPost.post.imageId"> -->
-<!-- 						<img class="imgPreviewXL" data-ng-src="{{showNewsPost.post.imageUrl}}"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<div class="col-md-10 col-md-offset-2"> -->
-<!-- 			<div data-ng-show="showNewsPost.post.tags.length>0" class="row"> -->
-<!-- 				<div style="margin-left: 35px;" class="pull-left"> -->
-<!-- 					<b>Con: </b><i><span data-ng-repeat="t in showNewsPost.post.tags"> <a -->
-<!-- 							href="">{{t.firstname}}</a> -->
-<!-- 					</span></i> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<div data-ng-show="scenario.hasCharacter" class="row" -->
-<!-- 				style="margin-left: 25px; margin-top: 7px; margin-bottom: 7px;"> -->
-<!-- 				<div data-ng-if="showNewsPost.post.youLike" data-ng-click="scenarioPost.likePost(showNewsPost.post)" -->
-<!-- 					title="Non mi piace più" -->
-<!-- 					class="tooltips glyphicon glyphicon-thumbs-up pull-left">Ti -->
-<!-- 					piace</div> -->
-<!-- 				<div data-ng-if="!showNewsPost.post.youLike" -->
-<!-- 					data-ng-click="scenarioPost.likePost(showNewsPost.post)" title="Mi piace!" -->
-<!-- 					class="tooltips glyphicon glyphicon-thumbs-up pull-left"></div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
+			<div class="col-md-10 postStatus">
+				<div class="row">
+					<p>
+						<b>TIPOLOGIA EVENTO: </b>{{showNewsPost.post.type}}
+					</p>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<label class="pull-left">{{showNewsPost.post.text}}</label>
+					</div>
+					<div data-ng-show="showNewsPost.post.imageId">
+						<img class="imgPreviewXL" data-ng-src="{{showNewsPost.post.imageUrl}}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-10 col-md-offset-2">
+			<div data-ng-show="showNewsPost.post.tags.length>0" class="row">
+				<div style="margin-left: 35px;" class="pull-left">
+					<b>Con: </b><i><span data-ng-repeat="t in showNewsPost.post.tags"> <a
+							href="">{{t.firstname}}</a>
+					</span></i>
+				</div>
+			</div>
+			<div data-ng-show="scenario.hasCharacter" class="row"
+				style="margin-left: 25px; margin-top: 7px; margin-bottom: 7px;">
+				<div data-ng-if="showNewsPost.post.youLike" data-ng-click="scenarioPost.likePost(showNewsPost.post)"
+					title="Non mi piace più"
+					class="tooltips glyphicon glyphicon-thumbs-up pull-left">Ti
+					piace</div>
+				<div data-ng-if="!showNewsPost.post.youLike"
+					data-ng-click="scenarioPost.likePost(showNewsPost.post)" title="Mi piace!"
+					class="tooltips glyphicon glyphicon-thumbs-up pull-left"></div>
+			</div>
+		</div>
 
-<!-- 		<div class="row"> -->
-<!-- 			<div class="col-md-2"></div> -->
-<!-- 			<div class="col-md-10" style="text-align: center;"> -->
-<!-- 				<div class="tabComment" -->
-<!-- 					data-ng-click="scenarioPost.switchCommentTab(true)">COMMENTA</div> -->
-<!-- 				<div class="tabComment pull-right" -->
-<!-- 					data-ng-click="scenarioPost.switchCommentTab(false)" -->
-<!-- 					style="margin-right: 5px;">DIETRO LE QUINTE</div> -->
-<!-- 			</div> -->
-<!-- 			<div class="col-md-2"></div> -->
-<!-- 			<div data-ng-if="scenarioPost.commentTab" class="col-md-10" -->
-<!-- 				style="text-align: center;"> -->
-<!-- 				<div class="col-md-2"> -->
-<!-- 					<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 						class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 						data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{scenario.currentCharacter.id}}/cover" -->
-<!-- 						data-err-src="assets/public/img/cesar.png"></img> -->
-<!-- 				</div> -->
-<!-- 				<div class="col-md-10"> -->
-<!-- 					<textarea data-ng-model="showNewsPost.post.newComment" rows="2" -->
-<!-- 						style="margin: 5px;" class="col-md-12" -->
-<!-- 						placeholder="Inserisci un commento"></textarea> -->
-<!-- 					<div class="btn btn-primary btn-sm pull-right" -->
-<!-- 						data-ng-click="scenarioPost.addCommentToPost(showNewsPost.post)">COMMENTA</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row" style="margin-top: 20px; margin-bottom: 20px;"> -->
-<!-- 				</div> -->
-<!-- 				<div data-ng-repeat="c in showNewsPost.post.comments" class="row"> -->
-<!-- 					<div class="col-md-2"> -->
-<!-- 						<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 							class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 							data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{c.character.id}}/cover" -->
-<!-- 							data-err-src="assets/public/img/cesar.png"></img> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-10"> -->
-<!-- 						<div style="margin: 5px;" class="col-md-10"> -->
-<!-- 							<p class="pull-left">{{c.text}}</p> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-md-1"> -->
-<!-- 							<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}} -->
-<!-- 								{{c.user.lastname}}</p> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<div data-ng-if="!scenarioPost.commentTab" class="col-md-10" -->
-<!-- 				style="text-align: center;"> -->
-<!-- 				<div class="col-md-2"> -->
-<!-- 					<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 						class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 						data-ng-src="api/v1/users/{{scenario.loggedUser.id}}/cover" -->
-<!-- 						data-err-src="assets/public/img/user_ico.png"></img> -->
-<!-- 				</div> -->
-<!-- 				<div class="col-md-10"> -->
-<!-- 					<textarea data-ng-model="showNewsPost.post.newMetaComment" rows="2" -->
-<!-- 						style="margin: 5px;" class="col-md-12" -->
-<!-- 						placeholder="Dai un suggerimento ai tuoi amici"></textarea> -->
-<!-- 					<div class="btn btn-primary btn-sm pull-right" -->
-<!-- 						data-ng-click="scenarioPost.addMetaCommentToPost(showNewsPost.post)">COMMENTA</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row" style="margin-top: 20px; margin-bottom: 20px;"> -->
-<!-- 				</div> -->
-<!-- 				<div data-ng-repeat="c in showNewsPost.post.metaComments" class="row"> -->
-<!-- 					<div class="col-md-2"> -->
-<!-- 						<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 							class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 							data-ng-src="api/v1/users/{{c.user.id}}/cover" -->
-<!-- 							data-err-src="assets/public/img/user_ico.png"></img> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-10"> -->
-<!-- 						<div style="margin: 5px;" class="col-md-10"> -->
-<!-- 							<p class="pull-left">{{c.text}}</p> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </div> -->
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-10" style="text-align: center;">
+				<div class="tabComment"
+					data-ng-click="scenarioPost.switchCommentTab(true)">COMMENTA</div>
+				<div class="tabComment pull-right"
+					data-ng-click="scenarioPost.switchCommentTab(false)"
+					style="margin-right: 5px;">DIETRO LE QUINTE</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div data-ng-if="scenarioPost.commentTab" class="col-md-10"
+				style="text-align: center;">
+				<div class="col-md-2">
+					<img style="margin: 5px; margin-left: 10px;"
+						class="pull-right img-thumbnail imgPreviewM"
+						data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{scenario.currentCharacter.id}}/cover"
+						data-err-src="assets/public/img/cesar.png"></img>
+				</div>
+				<div class="col-md-10">
+					<textarea data-ng-model="showNewsPost.post.newComment" rows="2"
+						style="margin: 5px;" class="col-md-12"
+						placeholder="Inserisci un commento"></textarea>
+					<div class="btn btn-primary btn-sm pull-right"
+						data-ng-click="scenarioPost.addCommentToPost(showNewsPost.post)">COMMENTA</div>
+				</div>
+				<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+				</div>
+				<div data-ng-repeat="c in showNewsPost.post.comments" class="row">
+					<div class="col-md-2">
+						<img style="margin: 5px; margin-left: 10px;"
+							class="pull-right img-thumbnail imgPreviewM"
+							data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{c.character.id}}/cover"
+							data-err-src="assets/public/img/cesar.png"></img>
+					</div>
+					<div class="col-md-10">
+						<div style="margin: 5px;" class="col-md-10">
+							<p class="pull-left">{{c.text}}</p>
+						</div>
+						<div class="col-md-1">
+							<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}}
+								{{c.user.lastname}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div data-ng-if="!scenarioPost.commentTab" class="col-md-10"
+				style="text-align: center;">
+				<div class="col-md-2">
+					<img style="margin: 5px; margin-left: 10px;"
+						class="pull-right img-thumbnail imgPreviewM"
+						data-ng-src="api/v1/users/{{scenario.loggedUser.id}}/cover"
+						data-err-src="assets/public/img/user_ico.png"></img>
+				</div>
+				<div class="col-md-10">
+					<textarea data-ng-model="showNewsPost.post.newMetaComment" rows="2"
+						style="margin: 5px;" class="col-md-12"
+						placeholder="Dai un suggerimento ai tuoi amici"></textarea>
+					<div class="btn btn-primary btn-sm pull-right"
+						data-ng-click="scenarioPost.addMetaCommentToPost(showNewsPost.post)">COMMENTA</div>
+				</div>
+				<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+				</div>
+				<div data-ng-repeat="c in showNewsPost.post.metaComments" class="row">
+					<div class="col-md-2">
+						<img style="margin: 5px; margin-left: 10px;"
+							class="pull-right img-thumbnail imgPreviewM"
+							data-ng-src="api/v1/users/{{c.user.id}}/cover"
+							data-err-src="assets/public/img/user_ico.png"></img>
+					</div>
+					<div class="col-md-10">
+						<div style="margin: 5px;" class="col-md-10">
+							<p class="pull-left">{{c.text}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

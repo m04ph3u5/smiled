@@ -270,14 +270,31 @@
 		}
 		
 /* Dashboard */
+		.provaOverlap{
+			position:relative;
+ 			display:block;
+		}
 		.overlapImg{
+			position:absolute;
+			  left:60%;
+			  /*top:60%;*/
+			  top: 80px;
 			  width: 20px;
 			  height: 20px;
-			  position: relative;
+			  /*position: relative;
 			  left: -30px;
-			  top: 30px;
-			  z-index: 1;
+			  
+			  z-index: 1;*/
 		}
+		.overlapImgSmall{
+			position:absolute;
+			  left:55%;
+			  top: 80px;
+			  width: 20px;
+			  height: 20px;			  
+			  z-index: 1;*/
+		}
+		
 		.singleRow{
 			height:280px;
 			overflow: hidden;
@@ -367,15 +384,10 @@
 
 /*Scenario*/
 		.jumbotron{
-/* 			background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 59%, rgba(0, 0, 0, 0.65) 100%), url('http://www.cuginischiantarelli.it/fpdb/cap3.JPG') no-repeat; */
-/* 			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(59%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, 0.65))), url('http://www.cuginischiantarelli.it/fpdb/cap3.JPG') no-repeat; */
-/* 			background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 59%, rgba(0, 0, 0, 0.65) 100%), url('http://www.cuginischiantarelli.it/fpdb/cap3.JPG') no-repeat; */
-/* 			background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 59%, rgba(0, 0, 0, 0.65) 100%), url('http://www.cuginischiantarelli.it/fpdb/cap3.JPG') no-repeat; */
-/* 			background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 59%, rgba(0, 0, 0, 0.65) 100%), url('http://www.cuginischiantarelli.it/fpdb/cap3.JPG') no-repeat; */
-/* 			background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 59%, rgba(0, 0, 0, 0.65) 100%), url('http://www.cuginischiantarelli.it/fpdb/cap3.JPG')no-repeat; */
-			background-size:contain;
-			background-repeat: no-repeat;
-			background-position: center center;
+			background-image:
+		        linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6)), 
+		        url('http://www.websista.it/wp-content/uploads/2014/05/10307378_495246587243633_4279993891325636266_n.png');
+			background-size:cover;
 			height: 350px;
 			color: white;
 			text-shadow: black 0.3em 0.3em 0.3em;
@@ -387,6 +399,7 @@
 			align-items: flex-end;
 			margin-top:0.5%;
 		}
+		
 		.marginM{
 			margin-top: 10%;
 			margin-bottom: 10%;
@@ -438,7 +451,9 @@
 		.hiddenOverflow{
 			overflow:hidden;
 		}
-
+		.lessWidth{
+			width:80%;
+		}
 /* Elenco scenari */
 		.sideMarginThree{
 			margin-right:3%;
