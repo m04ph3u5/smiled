@@ -2,17 +2,23 @@
 	<div class="col-md-12 box">
 		<div class="row marginSTop">
 	
-			<div class="col-xs-2">
+			<div class="col-xs-2 col-sm-3 col-md-2">
 				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
-					class="pull-left img-thumbnail imgPreviewL marginMRight"
+					class="img-thumbnail imgPreviewL marginMRight hidden-xs visible-sm visible-md visible-lg"
 					data-ng-src="{{showNewsPost.post.character.cover}}"
 					data-err-src="assets/public/img/cesar.png"></img>
+				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
+				class="img-thumbnail imgPreviewM marginMRight visible-xs hidden-sm hidden-md hidden-lg"
+				data-ng-src="{{showNewsPost.post.character.cover}}"
+				data-err-src="assets/public/img/cesar.png"></img>
 			</div>
-				<div class="col-xs-10">
-					<span class="pull-right marginMRight" href="">
+				<div class="col-xs-8 col-sm-9 col-md-10">
+					<span class="pull-right marginMRight" href="">						
 						<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
+							<span class="glyphicon glyphicon-user"></span>
+							{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
 							{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}, 
-							{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
+							
 						</a>
 							<a data-ng-if="showNewsPost.isOwner" class="glyphicon glyphicon-cog"></a>
 							
@@ -50,17 +56,29 @@
 						</div>
 					</div>							
 					<div class="row">
-						<div class="col-xs-12 noPadding">
+						<div class="col-xs-12 noPaddingLeft">
 						<hr></div>
-					</div>
-					<div class="row">
+					</div>					
+					<div class="row text-left">
+						<div class="">
+							<button class="btn invisibleButton">
+								<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+								scenario-id="{{showNewsPost.scenarioId}}"></like-to>
+							</button>
+							<button type="button" class="btn invisibleButton"
+								data-ng-class="showNewsPost.classCommentButton"
+								data-ng-click="showNewsPost.switchShowComment()">			
+								<span class="glyphicon glyphicon-comment marginLRight"></span>
+							Commenta
+							</button>						
+							<button type="button" class="btn invisibleButton"								
+								data-ng-click="showNewsPost.switchShowMetaComment()" >
+								<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>Suggerisci
+							</button>
+							</div>
+					</div>						
+					<div class="row marginSTop">
 						<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
-					</div>
-					<div class="row marginSTop"> 
-						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-							scenario-id="{{showNewsPost.scenarioId}}"></like-to>
-						<div data-ng-class="showNewsPost.classCommentButton" data-ng-click="showNewsPost.switchShowComment()" style="margin-left: 20px;" class="glyphicon glyphicon-comment pull-left">Commenta</div>
-						<div data-ng-click="showNewsPost.switchShowMetaComment()" style="margin-left: 20px;" class="glyphicon glyphicon-exclamation-sign pull-left">Suggerisci</div>
 					</div>
 					<div data-ng-if="showNewsPost.showComment" class="row">
 						<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
@@ -80,31 +98,38 @@
 </div>
 
 <!-- EVENTO -->
-<div data-ng-if="!showNewsPost.post.character" class="row">
-	<div class="col-md-10 col-md-offset-1 box">
-		<div class="row">
-			<div class="pull-left col-md-8">
+<div data-ng-if="!showNewsPost.post.character" class="container-fluid">
+	<div class="col-md-12 box">
+		<div class="row marginSTop">
+			<div class="col-xs-2 col-sm-3 col-md-2">
+				<img
+					class="img-thumbnail imgPreviewL marginMRight hidden-xs visible-sm visible-md visible-lg"
+					data-ng-src="assets/public/img/bookImage.png"></img>
+				<img
+				class="img-thumbnail imgPreviewM marginMRight visible-xs hidden-sm hidden-md hidden-lg"
+				data-ng-src="assets/public/img/bookImage.png"></img>
+		
 				<b class="pull-left"><a href="">NARRATORE</a></b>
 			</div>
-		
+			<div class="col-xs-8 col-sm-9 col-md-10">
+				<a class="pull-right marginMRight" href="">
+					<div data-ng-if="showNewsPost.isOwner" >
+						<span class="glyphicon glyphicon-cog"></span>
+					</div>
+				</a>
+			</div>
 			
 			<div class="col-md-4">			
 				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
 					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
 				</label>
-				<a class="pull-right" href="">
-					<div data-ng-if="showNewsPost.isOwner" >
-						<span class="glyphicon glyphicon-cog">Modifica</span>
-					</div>
-				</a>
+				
 			</div>
 			
 		</div>
 		<div class="row rowPost">
 			<div class="col-md-2">
-				<img style="margin: 5px;"
-					class="pull-left img-thumbnail imgPreviewL"
-					data-ng-src="assets/public/img/bookImage.png"></img>
+				
 				<div class="pull-left box box-info">
 					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
 						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>

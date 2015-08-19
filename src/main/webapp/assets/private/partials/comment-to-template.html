@@ -1,38 +1,32 @@
-<div class="pull-left" data-ng-if="commentTo.showViewOthers" data-ng-click="commentTo.openViewOthers()"><br><span class="clickable">Visualizza altri commenti</span></div>
-<div class="col-md-10"
-	style="text-align: center; margin-top: 20px;">
-	<div data-ng-repeat="c in commentTo.visibleComments" class="row">
-		<div class="col-md-2">
-			<img style="margin: 5px; margin-left: 10px;"
-				class="pull-right img-thumbnail imgPreviewM"
+<div data-ng-if="commentTo.showViewOthers" 
+	data-ng-click="commentTo.openViewOthers()"
+	class="marginSTop text-left">
+	<a class="clickable">Visualizza altri commenti</a>
+</div>
+<div class="marginSTop">
+	<div data-ng-repeat="c in commentTo.visibleComments" class="textLeft col-xs-12 noPadding">	
+			<img class="pull-left img imgPreviewM marginMRight"
 				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{c.character.id}}/cover"
 				data-err-src="assets/public/img/cesar.png"></img>
-		</div>
-		<div class="col-md-9">
-			<div style="margin: 5px;" class="col-md-10 pull-left">
-				<p>
+	
+		<div class="row">
 					<label>{{c.character.firstname}}</label>: {{c.text}}
-				</p>
-			</div>
-			<div class="col-md-1">
-				<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}}
+					<p style="font-size: 12px;"><span class="glyphicon glyphicon-user marginSRight"></span>
+					{{c.user.firstname}}
 					{{c.user.lastname}} - {{c.creationDate|date}}</p>
-			</div>
-			
 		</div>
 	</div>
-	<div data-ng-show="commentTo.showInsert">
-		<div class="col-md-2">
-			<img style="margin: 5px; margin-left: 10px;"
-				class="pull-right img-thumbnail imgPreviewM"
-				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
-				data-err-src="assets/public/img/cesar.png"></img>
-		</div>
-		<div class="col-md-10">
-			<textarea data-ng-model="commentTo.post.newComment" rows="2"
-				style="margin: 5px;" class="col-md-12"
-				placeholder="Inserisci un commento"></textarea>
-			<div class="btn generalButton btn-sm pull-right"
+</div>
+<div data-ng-show="commentTo.showInsert">
+	<img class="pull-left img imgPreviewM marginMTop marginMRight"
+		data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
+		data-err-src="assets/public/img/cesar.png"></img>
+	<div class="row">
+		<textarea data-ng-model="commentTo.post.newComment" rows="2"
+			class="pull-left col-xs-10 marginMTop"
+			placeholder="Inserisci un commento"></textarea>
+		<div class="text-right marginLRight">
+			<div class="btn generalButton btn-sm"
 				data-ng-click="commentTo.addCommentToPost()">COMMENTA</div>
 		</div>
 	</div>

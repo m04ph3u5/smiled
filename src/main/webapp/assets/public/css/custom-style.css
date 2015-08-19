@@ -121,11 +121,22 @@
 		}
 		.generalButton:focus,.generalButton:hover{
 			background:#cdc08c;
+			  -webkit-box-shadow: none;
+    		box-shadow: none;
+			background:#89b151;
+			color:#5b5955;
+			border-color:#5b5955;
+			outline-width:0px;
 		}
 		.generalButton1:focus,.generalButton1:hover{
 			background:#abbe90;
-		}
-		
+			  -webkit-box-shadow: none;
+    		box-shadow: none;
+			background:#89b151;
+			color:#5b5955;
+			border-color:#5b5955;
+			outline-width:0px;
+		}		
 		.positiveButton{
 			background:transparent;
 			border-color:#89b151;
@@ -139,6 +150,22 @@
 			background:#89b151;
 			color:#5b5955;
 			border-color:#5b5955;
+			outline-width:0px;
+			
+		}
+		.invisibleButton{
+			background:transparent;
+			outline:none;
+		    -webkit-box-shadow: none;
+    		box-shadow: none;
+    		outline-width:0px;
+		}
+		.invisibleButton:focus,.invisibleButton:hover, .invisibleButton:target{
+			background:transparent;
+			outline:none;
+		    -webkit-box-shadow: none;
+    		box-shadow: none;
+    		outline-width:0px;
 		}
 		
 		a{
@@ -197,13 +224,18 @@
 		}
 		.marginMRight{
 			margin-right: 3%;
+		}		
+		.marginLRight{
+			margin-right: 5%;
 		}
+		
 		.form-control[readonly]{
 			background-color:transparent;
 		}
 		.imgPreviewL{
 			height:100px;
 			width:100px;
+			
   			object-fit: cover;
 		}
 		.imgPreviewXL{
@@ -404,6 +436,9 @@
 			margin-top: 10%;
 			margin-bottom: 10%;
 		}
+		.marginSLeft{
+			margin-left:3%;
+		}
 		.menu {
 			background-color:#ebe6ca;			
 		}
@@ -456,6 +491,9 @@
 		}
 		.paddingMRight{
 			padding-right:5%;
+		}
+		.invisibleButton{
+			bakground-color:transparent !important;
 		}
 		
 /* Elenco scenari */
@@ -612,6 +650,9 @@
 		
 		.noPadding{
 			padding:0px;
+		}
+		.noPaddingLeft{
+			padding-left:0px;
 		}
 		
 		.tableMargin{
