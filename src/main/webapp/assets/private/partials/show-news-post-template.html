@@ -1,7 +1,6 @@
 <div data-ng-if="showNewsPost.post.character" class="container-fluid">
 	<div class="col-md-12 box">
-		<div class="row marginSTop">
-	
+		<div class="row marginSTop">	
 			<div class="col-xs-2 col-sm-3 col-md-2">
 				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
 					class="img-thumbnail imgPreviewL marginMRight hidden-xs visible-sm visible-md visible-lg"
@@ -12,87 +11,80 @@
 				data-ng-src="{{showNewsPost.post.character.cover}}"
 				data-err-src="assets/public/img/cesar.png"></img>
 			</div>
-				<div class="col-xs-8 col-sm-9 col-md-10">
-					<span class="pull-right marginMRight" href="">						
-						<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
-							<span class="glyphicon glyphicon-user"></span>
-							{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
-							{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}, 
-							
-						</a>
-							<a data-ng-if="showNewsPost.isOwner" class="glyphicon glyphicon-cog"></a>
-							
-					</span>	
-					<div class="row">					
-									
-						<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })">
-												{{showNewsPost.post.character.name}}</a>
-						</h4>
-					</div>
-					<div class="row">
-						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
-						<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-						</p>
-					</div>
-					<div class="row text-left textJustify paddingMRight">
-						<span class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></span>
-					</div>
-					<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left">
-						<b>Con: </b><span data-ng-repeat="t in showNewsPost.post.tags"> <a
-							href="">{{t.firstname}}</a>
-						</span>
-					</div>					
-					<div class="row">								
-						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-								<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
-									data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
-									<img data-ng-src="{{col}}" class="imgPreviewL marginMTop" />
-								</div>
+			<div class="col-xs-8 col-sm-9 col-md-10">
+				<span class="pull-right marginMRight" href="">						
+					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
+						<span class="glyphicon glyphicon-user"></span>
+						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}, 						
+					</a>
+					<a data-ng-if="showNewsPost.isOwner" class="glyphicon glyphicon-cog"></a>						
+				</span>	
+				<div class="row">					
+								
+					<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })">
+											{{showNewsPost.post.character.name}}</a>
+					</h4>
+				</div>
+				<div class="row">
+					<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+					</p>
+				</div>
+				<div class="row text-left textJustify paddingMRight">
+					<span class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></span>
+				</div>
+				<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left marginSTop">
+					<b>Con: </b>
+					<span data-ng-repeat="t in showNewsPost.post.tags">
+						<a href="">{{t.firstname}}</a>
+					</span>
+				</div>					
+				<div class="row">								
+					<div data-ng-repeat="row in showNewsPost.post.media track by $index">
+						<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
+							data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
+							<img data-ng-src="{{col}}" class="imgPreviewL marginMTop" />
 						</div>
-						<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
-							<div class="col-sm-2">
-								<p>{{file.originalName}}</p>
-							</div>
+					</div>
+					<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
+						<div class="col-sm-2">
+							<p>{{file.originalName}}</p>
 						</div>
-					</div>							
-					<div class="row">
-						<div class="col-xs-12 noPaddingLeft">
-						<hr></div>
-					</div>					
-					<div class="row text-left">
-						<div class="">
-							<button class="btn invisibleButton">
-								<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-								scenario-id="{{showNewsPost.scenarioId}}"></like-to>
-							</button>
-							<button type="button" class="btn invisibleButton"
-								data-ng-class="showNewsPost.classCommentButton"
-								data-ng-click="showNewsPost.switchShowComment()">			
-								<span class="glyphicon glyphicon-comment marginLRight"></span>
-							Commenta
-							</button>						
-							<button type="button" class="btn invisibleButton"								
-								data-ng-click="showNewsPost.switchShowMetaComment()" >
-								<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>Suggerisci
-							</button>
-							</div>
-					</div>						
-					<div class="row marginSTop">
-						<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
 					</div>
-					<div data-ng-if="showNewsPost.showComment" class="row">
-						<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-							scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
-					</div>
-					<div data-ng-if="showNewsPost.showMetaComment" class="row">
-						<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
-							scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
-					</div>
+				</div>							
+				<div class="row">
+					<div class="col-xs-12 noPaddingLeft">
+					<hr></div>
+				</div>					
+				<div class="row text-left">
+					<button class="btn invisibleButton">
+						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+						scenario-id="{{showNewsPost.scenarioId}}"></like-to>
+					</button>
+					<button type="button" class="btn invisibleButton"
+						data-ng-class="showNewsPost.classCommentButton"
+						data-ng-click="showNewsPost.switchShowComment()">			
+						<span class="glyphicon glyphicon-comment marginLRight"></span>
+					Commenta
+					</button>						
+					<button type="button" class="btn invisibleButton"								
+						data-ng-click="showNewsPost.switchShowMetaComment()" >
+						<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>Suggerisci
+					</button>
+				</div>						
+				<div class="row marginSTop">
+					<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
+				</div>
+				<div data-ng-if="showNewsPost.showComment" class="row">
+					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
+						scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
+				</div>
+				<div data-ng-if="showNewsPost.showMetaComment" class="row">
+					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
+						scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
+				</div>
 			</div>
-			<div class="pull-left">
-				
-			</div>
-			
 		</div>
 	</div>
 </div>
@@ -108,88 +100,88 @@
 				<img
 				class="img-thumbnail imgPreviewM marginMRight visible-xs hidden-sm hidden-md hidden-lg"
 				data-ng-src="assets/public/img/bookImage.png"></img>
-		
-				<b class="pull-left"><a href="">NARRATORE</a></b>
 			</div>
 			<div class="col-xs-8 col-sm-9 col-md-10">
-				<a class="pull-right marginMRight" href="">
-					<div data-ng-if="showNewsPost.isOwner" >
-						<span class="glyphicon glyphicon-cog"></span>
-					</div>
-				</a>
-			</div>
-			
-			<div class="col-md-4">			
-				<label >{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
-					<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-				</label>
-				
-			</div>
-			
-		</div>
-		<div class="row rowPost">
-			<div class="col-md-2">
-				
-				<div class="pull-left box box-info">
+				<span class="pull-right marginMRight" href="">
 					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
-						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} <br>
+						<span class="glyphicon glyphicon-user"></span>
 						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}						
 					</a>
+					<a data-ng-if="showNewsPost.isOwner" class="glyphicon glyphicon-cog"></a>				
+				</span>
+				<div class="row">
+					<h4 class="pull-left">
+						<a href="">NARRATORE</a>
+					</h4>
 				</div>
-			</div>
-
-			<div class="col-md-10 postStatus">
-				<div class="row">				
-				
-					<div class="col-md-12">
-						<label class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></label>
-					</div>
+				<div class="row">			
+					<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+						<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+					</p>				
+				</div>
+				<div class="row">
+					<span class="pull-left" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></span>
+				</div>
+				<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left marginSTop"> 
+						
+					<b>Con: </b>
+					<span data-ng-repeat="t in showNewsPost.post.tags">
+						<a href="">{{t.firstname}}</a>
+					</span>
+				</div>
+				<div class="row">
 					<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-						<div class="timeline-images row">
 							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
-								data-ng-repeat="col in row track by $index" class="col-xs-4">
+								data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
 								<img data-ng-src="{{col}}" class="imgPreviewL" />
 							</div>
-						</div>
 					</div>
 					<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
-						<p>{{file.originalName}}</p>
+						<div class="col-sm-2">
+							<p>{{file.originalName}}</p>
+						</div>
 					</div>
 				</div>
-				<div data-ng-show="showNewsPost.post.tags.length>0" class="row">
-				<div class="pull-left">
-					<b>Con: </b><i><span data-ng-repeat="t in showNewsPost.post.tags"> <a
-							href="">{{t.firstname}}</a>
-					</span></i>
+				<div class="row">
+					<div class="col-xs-12 noPaddingLeft">
+					<hr></div>
+				</div>			
+				<div class="row text-left">
+					<button class="btn invisibleButton">
+						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+						scenario-id="{{showNewsPost.scenarioId}}"></like-to>
+					</button>
+					<button class="btn invisibleButton"
+							data-ng-class="showNewsPost.classCommentButton" 
+							data-ng-click="showNewsPost.switchShowComment()">
+						<span class="glyphicon glyphicon-comment marginLRight"></span>
+						Commenta
+					</button>
+					<button class="btn invisibleButton"
+							data-ng-click="showNewsPost.switchShowMetaComment()">
+						<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>
+						Suggerisci
+					</button>				
 				</div>
+				<div class="row marginSTop">
+					<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
+				</div>	
+				<div data-ng-if="showNewsPost.showComment" class="row">
+					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
+						scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
+				</div>
+				<div data-ng-if="showNewsPost.showMetaComment" class="row">
+					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
+						scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
+				</div>
+			
 			</div>
-			</div>
+
 		</div>
-		
-		
-		<div class="col-md-10 col-md-offset-2">
-			<div class="row">
-				<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
-			</div>
-			<div class="row">
-				<hr style="margin-right: 0px;" class="hrDivider">
-			</div>	
-			<div class="row"> 
-				<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-					scenario-id="{{showNewsPost.scenarioId}}"></like-to>
-				<div data-ng-class="showNewsPost.classCommentButton" data-ng-click="showNewsPost.switchShowComment()" style="margin-left: 20px;" class="glyphicon glyphicon-comment pull-left">Commenta</div>
-				<div data-ng-click="showNewsPost.switchShowMetaComment()" style="margin-left: 20px;" class="glyphicon glyphicon-exclamation-sign pull-left">Suggerisci</div>
-			</div>
-			<div data-ng-if="showNewsPost.showComment" class="row">
-				<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-					scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
-			</div>
-			<div data-ng-if="showNewsPost.showMetaComment" class="row">
-				<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
-					scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
-			</div>
-		</div>
-		
+
+	</div>
+</div>
 		
 		
 <!-- 		<div class="col-md-10 col-md-offset-2"> -->
@@ -216,8 +208,6 @@
 <!-- 		</div> -->
 
 
-	</div>
-</div>
 
 <!-- EVENTO --> 
 <!-- <div data-ng-if="!showNewsPost.post.character" class="row"> -->

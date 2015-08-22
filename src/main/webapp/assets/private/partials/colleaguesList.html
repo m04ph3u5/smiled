@@ -1,13 +1,25 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8"><h1>I miei colleghi</h1>
+		<div class="col-md-2"></div>
+		<div class="col-md-8 ">
+			<h1>I miei colleghi</h4>
 			<div class="box">
-				<div data-ng-repeat="s in colleaguesList.user.students | orderBy: 'lastname'">
-					<div data-ui-sref="logged.userProfile({id: '{{s.id}}'})" class="box">
-						<img data-ng-src="api/v1/users/{{s.id}}/cover" data-err-src="assets/public/img/user_icon.png" class="img-circle imgPreviewM tableMargin">
-						<p>{{s.lastname}} {{s.firstname}}</p>
+				<div data-ng-repeat="s in colleaguesList.user.colleagues | orderBy: 'lastname'" class="row">
+					<div data-ui-sref="logged.userProfile({id: '{{s.id}}'})" class="col-sm-4 col-xs-6">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="roundedImgDiv" 
+									style="background-image:url('api/v1/users/{{s.id}}/cover'),
+									url('assets/public/img/ic_teacher.png')"></div>
+							</div>
+							<div class="col-sm-8 marginLTop">
+								<h4>{{s.lastname}} {{s.firstname}}</h4>
+							</div>
+						</div>
 					</div>
+				</div>
+				<div ng-if="colleaguesList.user.colleagues"==null>
+					Non sono presenti colleghi
 				</div>
 			</div>
 		</div>
