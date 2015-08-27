@@ -8,7 +8,7 @@
 					historical-date-picker date="insertStatus.newPost.date"></div>	
 			</div>		
 	</div>
-	<div class="col-md-12 marginMTop">
+	<div class="col-xs-12 marginMTop">
 		<img class="img-thumbnail imgPreviewL pull-left marginMRight"
 			data-ng-src="{{insertStatus.character.cover}}"
 			data-err-src="assets/public/img/cesar.png"></img>
@@ -23,13 +23,13 @@
 					data-ng-click="insertStatus.setPositionNewPost()"
 					class="linkPost">{{insertStatus.newPost.place.text}}</span>
 			</h4>
-			<textarea class="pull-left" style="width:80%" placeholder="A COSA STAVI PENSANDO?"
+			<textarea class="pull-left lessWidth" placeholder="A COSA STAVI PENSANDO?"
 			rows="3" data-ng-model="insertStatus.newPost.content"></textarea>				
 		</div>	
 	</div>
 
 
-	<div class="col-md-12 extraContent marginSTop ">
+	<div class="col-xs-12 extraContent marginSTop ">
 		<div class="pull-left marginSTop marginMRight">
 			<div title="Aggiungi un'immagine al post" ngf-select
 				ngf-change="insertStatus.addImageToNewPost($files)"
@@ -67,7 +67,7 @@
 		<!-- 				</div> -->
 		
 	</div>
-	<div class="col-md-12 extraContent text-left">		
+	<div class="col-xs-12 extraContent text-left">		
 	
 			<tags-input data-ng-show="insertStatus.showTagBox"
 				data-ng-model="insertStatus.newPost.tags" display-property="name"
@@ -108,7 +108,7 @@
 	</div>
 	
 </div>
-<div class="row col-md-12">
+<div class="row col-xs-12">
 	<div class="pull-right">
 		<div data-ng-click="insertStatus.draftNewPost()"
 			class="btn generalButton">SALVA COME BOZZA</div>
