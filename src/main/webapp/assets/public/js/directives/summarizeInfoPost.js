@@ -15,6 +15,7 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 				self.metaCommentsLabel = "";
 				
 				self.switchShowComments = function(){
+					console.log("switch show comments");
 					self.showMetaComment = false;
 					self.showComment = !self.showComment;
 				}
