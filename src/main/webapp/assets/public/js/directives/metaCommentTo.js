@@ -14,7 +14,7 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 				self.showViewOthers = false;
 				
 				self.visibleComments = new Array();
-				self.post.metaComments.reverse();
+//				self.post.metaComments.reverse();
 				var i=0;
 				while(i<self.post.metaComments.length && i<numVisibleComment){
 					self.visibleComments.unshift(self.post.metaComments[i]);
