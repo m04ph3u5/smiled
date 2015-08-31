@@ -17,7 +17,8 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 					self.showInsert = false;
 				
 				self.visibleComments = new Array();
-				self.post.comments.reverse();
+//				self.post.comments.reverse();
+				console.log("INSTANZIO COMMENT TO!!!");
 				var i=0;
 				while(i<self.post.comments.length && i<numVisibleComment){
 					self.visibleComments.unshift(self.post.comments[i]);

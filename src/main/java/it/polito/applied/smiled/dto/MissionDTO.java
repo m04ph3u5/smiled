@@ -1,27 +1,48 @@
 package it.polito.applied.smiled.dto;
 
+import it.polito.applied.smiled.pojo.scenario.MissionStatus;
+
 import java.util.Date;
 
 public class MissionDTO {
 
+	private String studentId;
+	
+	private String title;
+	private String description;
+	
+	private Date deliveryDate;
+	private MissionStatus status;
+	
 	public String getStudentId() {
-		// TODO Auto-generated method stub
-		return null;
+		return studentId;
 	}
-
-	public Date getDeliveryDate() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
 	}
-
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return title;
 	}
-
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return description;
 	}
-
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+	public MissionStatus getStatus() {
+		return status;
+	}
+	public void setStatus(MissionStatus status) {
+		this.status = status;
+	}
+	
 }
