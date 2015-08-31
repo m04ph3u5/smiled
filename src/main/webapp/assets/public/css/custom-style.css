@@ -5,7 +5,7 @@
 /*Common style*/
 
 		h1,h2,h3,h4{
-			color:#5B5955;
+			color:#212121;
 		}
 		
 		input[type=text]:focus,
@@ -178,10 +178,53 @@
 			border-style: solid;
 			border-width: 5px;
 			border-color:white;
-			background-color: #e5e0c3;
+			/*background-color: #e5e0c3;*/
 			text-align: center;
 			padding: 1%;
 		}
+		.boxBlue {						
+			background-image: url("img_temp/dash_bg_blue.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		.boxBrown {						
+			background-image: url("img_temp/dash_bg_brown.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		.boxGreen {						
+			background-image: url("img_temp/dash_bg_green.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		.boxLightblue {						
+			background-image: url("img_temp/dash_bg_lightblue.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		.boxLightgreen {						
+			background-image: url("img_temp/dash_bg_lightgreen.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		.boxRed {						
+			background-image: url("img_temp/dash_bg_red.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		.boxYellow {						
+			background-image: url("img_temp/dash_bg_yellow.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		
 		.box-event {			
 			border-style: solid;
 			border-width: 5px;
@@ -378,7 +421,12 @@
 			background-color: #5DAF82;
     		
     	}
-    			
+    	.title{
+    		width:120px;
+    	}
+    	.titleIcon{
+    		height:40px;
+    	}
     	
 
 /*Profilo*/
@@ -419,9 +467,6 @@
 
 /*Scenario*/
 		.jumbotron{
-			background-image:
-		        linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6)), 
-		        url('http://www.websista.it/wp-content/uploads/2014/05/10307378_495246587243633_4279993891325636266_n.png');
 			background-size:cover;
 			height: 350px;
 			color: white;
