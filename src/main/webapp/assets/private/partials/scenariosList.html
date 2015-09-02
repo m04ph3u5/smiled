@@ -1,18 +1,24 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-1"></div>
-		<div class="col-sm-12 col-lg-10">
-			<div class="row">
-				<div class="col-xs-8">
-					<h1>I miei scenari</h1>			
-				</div>
-					<div class="col-xs-2" data-ng-click="dashboard.showPopUpCreationScenario()">
-						<img href="" src="assets/public/img/ic_newscenario.png"
-							class="img-circle imgPreviewM" > 
-						<h4>Crea scenario</h4>
-					</div>
+		<div class="col-lg-1">
+			<a href=""><div data-ui-sref="logged.dashboard" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
+				<img ng-src="assets/public/img/icon/back.png" class="sideIcon marginXXLTop">
+				<img ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title marginMTop">			
+			</div></a>
+			<a href=""><div data-ng-click="dashboard.showPopUpCreationScenario()" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
+				<img ng-src="assets/public/img/icon/nuovo scenario.png" class="sideIcon marginXLTop">
+				<img ng-src="assets/public/img/titoli_dashboard/crea nuovo scenario.png" class="title marginMTop">			
+			</div></a>
+		</div>
+		<div class="col-sm-12 col-lg-8">
+			<div class="row text-center">				
+					<h1>
+						<img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title">
+						<img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon">
+					</h1>					
 			</div>
-			<div class="box">
+			<div class="boxRed box text-left">
 				<h2>Scenari in creazione</h2>
 				<div ng-if='scenariosList.user.creatingScenarios==null'>Non sono presenti scenari in creazione</div>			
 				
@@ -20,54 +26,50 @@
 					<div data-ng-repeat="s in scenariosList.user.creatingScenarios" >
 						<div class="col-md-4 col-xs-6 scenarioHover"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom" ng-mousehover="">
-								<div class="col-sm-4 sideMarginThree">
+								<div class="col-sm-5 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
 									url('assets/public/img/ic_creatingscenario.png')"></div>
 								</div>
-								<div class="col-sm-8 vAlignExt">
-									<h4 class="vAlignInt textLeft">{{s.name}}</h4>
+								<div class="col-sm-7 vAlignExt">
+									<h4 class="vAlignInt">{{s.name}}</h4>
 									<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>								
 								</div>
 							</div>
 						</div>	
 					</div>
 				</div>
-			</div>
-			<div class="box">		
 				<h2>Scenari attivi</h2>
 				<div ng-if='scenariosList.user.openScenarios==null'>Non sono presenti scenari attivi</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.openScenarios" >
 						<div class="col-md-4 col-xs-6 scenarioHover"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom">
-								<div class="col-sm-4 sideMarginThree">
+								<div class="col-sm-5 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
 									url('assets/public/img/ic_openscenario.png')"></div>
 								</div>
-								<div class="col-sm-6 vAlignExt">
+								<div class="col-sm-7 vAlignExt">
 									<h4 class="vAlignInt textLeft">{{s.name}}</h4>
 									<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>
 								</div>
 							</div>
 						</div>	
 					</div>
-				</div>
-			</div>
-			<div class="box">			
+				</div>		
 				<h2>Scenari conclusi</h2>
 				<div ng-if='scenariosList.user.closedScenarios==null'>Non sono ancora stati chiusi scenari</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.closedScenarios" >				
 						<div class="col-md-4 col-xs-6 scenarioHover"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom">
-								<div class="col-sm-6 sideMarginThree">
+								<div class="col-sm-5 sideMarginThree">
 									<div class="roundedImgDiv" 
 									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
 									url('assets/public/img/ic_closedscenarios.png')"></div>
 								</div>
-									<div class="col-sm-6 vAlignExt">
+									<div class="col-sm-7 vAlignExt">
 										<h4 class="vAlignInt textLeft">{{s.name}}</h4>
 										<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>
 									</div>
@@ -77,7 +79,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-2"></div>
 		
 	</div>
 

@@ -86,6 +86,12 @@
 		textarea{
 			resize:none;
 		}
+		.bgAll{
+			background-image: url("img_temp/paperbg.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 	
+		}
 		
 		.form-control::-webkit-input-placeholder { color: #5b5955; }
 		.form-control:-moz-placeholder { color: #5B5955; }
@@ -265,6 +271,9 @@
 		.marginLTop{
 			margin-top: 10%;
 		}
+		.marginXLTop{
+			margin-top: 25%;
+		}
 		.marginSBottom{
 			margin-bottom: 1%;
 		}
@@ -273,6 +282,9 @@
 		}		
 		.marginLRight{
 			margin-right: 5%;
+		}
+		.marginXXLTop{
+			margin-top: 150px;
 		}
 		
 		.form-control[readonly]{
@@ -328,6 +340,9 @@
 		.bootstrap-switch{
 			border-color: #5B5955 !important;
 		}
+		.sideIcon{
+    		height:80px;
+    	}
 
 /* Index */
 		.fillContent{
@@ -339,9 +354,9 @@
 /*Navbar*/
 	.navbar{
 			margin-top:1%;
-			background-color:#FFFFFF;
+			background-color:transparent;
 			border: none;
-			 color: #5B5955;
+			color: #5B5955;
 		}
 		.navbar-default .navbar-brand {
 			color: #5B5955;
