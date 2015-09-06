@@ -449,7 +449,7 @@ angular.module('smiled.application')
 	
 
 		$locationProvider.html5Mode(true);
-		RestangularProvider.setBaseUrl('/ThesisProject/api/v1');
+		RestangularProvider.setBaseUrl('/api/v1');
 		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 	}])
 	.run(function (Permission,userService, $q) {

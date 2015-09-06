@@ -1,7 +1,7 @@
 angular.module("smiled.application").constant("CONSTANTS",{
 	"realDateFormatWithHour": "d-M-yyyy H:mm",
 	"realDateFormatWithoutHour": "d-M-yyyy",
-	"baseUrl" : "https://localhost:8443/ThesisProject",
+//	"baseUrl" : "https://localhost:8443/ThesisProject",
 	"insertHistoricalDate" : "Data il post", 
 	"insertHistoricalDateEvent" : "Data l'evento", 
 	"lengthOfTooltipLikesList" : 10,

@@ -27,7 +27,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var getScenario = function(idScenario){
 		var p = $q.defer();
-		$http.get('/ThesisProject/api/v1/scenarios/'+idScenario).then(
+		$http.get('/api/v1/scenarios/'+idScenario).then(
 				function(response){
 					p.resolve(response.data);
 				},
@@ -40,7 +40,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var createScenario = function(scenarioDTO){
 		var s = $q.defer();
-		$http.post("/ThesisProject/api/v1/scenarios", scenarioDTO).then(
+		$http.post("/api/v1/scenarios", scenarioDTO).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -53,7 +53,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var updateScenario = function(scenarioDTO, id){
 		var s = $q.defer();
-		$http.put("/ThesisProject/api/v1/scenarios/"+id, scenarioDTO).then(
+		$http.put("/api/v1/scenarios/"+id, scenarioDTO).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -67,7 +67,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var deleteScenario = function(id){
 		var s = $q.defer();
-		$http.delete("/ThesisProject/api/v1/scenarios/"+id).then(
+		$http.delete("/api/v1/scenarios/"+id).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -80,7 +80,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var addUsersToScenario = function(emailsDTO, id){
 		var e = $q.defer();
-		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/users", emailsDTO).then(
+		$http.post("/api/v1/scenarios/"+id+"/users", emailsDTO).then(
 				function(response){
 					e.resolve(response.data);
 				},
@@ -93,7 +93,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var addCollaboratorToScenario = function (emailDTO, id){
 		var e = $q.defer();
-		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/collaborators", emailDTO).then(
+		$http.post("/api/v1/scenarios/"+id+"/collaborators", emailDTO).then(
 				function(response){
 					e.resolve(response.data);
 				},
@@ -106,7 +106,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var addCharacterToScenario = function(character, id){
 		var c = $q.defer();
-		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/characters", character).then(
+		$http.post("/api/v1/scenarios/"+id+"/characters", character).then(
 				function(response){
 					c.resolve(response.data);
 				},
@@ -119,7 +119,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var updateCharacter = function(id, characterDTO, idCharacter){
 		var c = $q.defer();
-		$http.put("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+idCharacter, characterDTO).then(
+		$http.put("/api/v1/scenarios/"+id+"/characters/"+idCharacter, characterDTO).then(
 				function(response){
 					c.resolve(response.data);
 				},
@@ -132,7 +132,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var getCharacter = function(id, idCharacter){
 		var c = $q.defer();
-		$http.get("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+idCharacter).then(
+		$http.get("/api/v1/scenarios/"+id+"/characters/"+idCharacter).then(
 				function(response){
 					c.resolve(response.data);
 				},
@@ -145,7 +145,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var removeUserFromScenario = function(id, idUser){
 		var u = $q.defer();
-		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/users/"+idUser).then(
+		$http.delete("/api/v1/scenarios/"+id+"/users/"+idUser).then(
 				function(response){
 					u.resolve(response.data);
 				},
@@ -158,7 +158,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var removeCollaboratorFromScenario = function(id, idCollaborator, putInAttendeesList){
 		var u = $q.defer();
-		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/collaborators/"+idCollaborator, putInAttendeesList).then(
+		$http.delete("/api/v1/scenarios/"+id+"/collaborators/"+idCollaborator, putInAttendeesList).then(
 				function(response){
 					u.resolve(response.data);
 				},
@@ -171,7 +171,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var removeCharacterFromScenario = function(id, idCharacter){
 		var c = $q.defer();
-		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+idCharacter).then(
+		$http.delete("/api/v1/scenarios/"+id+"/characters/"+idCharacter).then(
 				function(response){
 					c.resolve(response.data);
 				},
@@ -185,7 +185,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var getAllCharactersFromScen = function(id){
 		var c = $q.defer();
 
-		$http.get("/ThesisProject/api/v1/scenarios/"+id+"/characters").then(
+		$http.get("/api/v1/scenarios/"+id+"/characters").then(
 				function(response){
 					c.resolve(response.data);
 				},
@@ -200,7 +200,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var addUserToCharacter = function(id, userId, characterId){
 		var c = $q.defer();
 
-		$http.put("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+characterId+"/users/"+userId).then(
+		$http.put("/api/v1/scenarios/"+id+"/characters/"+characterId+"/users/"+userId).then(
 				function(response){
 					c.resolve(response.data);
 				},
@@ -215,7 +215,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var removeUserFromCharacter = function(id, userId, characterId){
 		var c = $q.defer();
 
-		$http.delete("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+characterId+"/users/"+userId).then(
+		$http.delete("/api/v1/scenarios/"+id+"/characters/"+characterId+"/users/"+userId).then(
 				function(response){
 					c.resolve(response.data);
 				},
@@ -231,7 +231,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 	var sendStatus = function(id, idCharacter, status){
 		var s = $q.defer();
-		$http.post("/ThesisProject/api/v1/scenarios/"+id+"/characters/"+idCharacter+"/status", status).then(
+		$http.post("/api/v1/scenarios/"+id+"/characters/"+idCharacter+"/status", status).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -245,7 +245,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var getPagedPosts = function(id, nPag, nItem, historicalOrder){
 		var c = $q.defer();
 
-		$http.get("/ThesisProject/api/v1/scenarios/"+id+"/posts", {
+		$http.get("/api/v1/scenarios/"+id+"/posts", {
 			params: { "nPag": nPag, "nItem": nItem, "historicOrder": historicalOrder }}).then(
 					function(response){
 						c.resolve(response.data);
@@ -261,7 +261,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var getSingleStatus = function(idScenario, idPost){
 		var s = $q.defer();
 
-		$http.get("/ThesisProject/api/v1/scenarios/"+idScenario+"/posts/"+idPost).then(
+		$http.get("/api/v1/scenarios/"+idScenario+"/posts/"+idPost).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -275,7 +275,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var addLikeToPost = function(idScenario, idPost){
 		var s = $q.defer();
 
-		$http.post("/ThesisProject/api/v1/scenarios/"+idScenario+"/posts/"+idPost+"/likes").then(
+		$http.post("/api/v1/scenarios/"+idScenario+"/posts/"+idPost+"/likes").then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -289,7 +289,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var sendCommentToPost = function(idScenario, idPost, comment){
 		var s = $q.defer();
 
-		$http.post("/ThesisProject/api/v1/scenarios/"+idScenario+"/posts/"+idPost+"/comments",comment).then(
+		$http.post("/api/v1/scenarios/"+idScenario+"/posts/"+idPost+"/comments",comment).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -303,7 +303,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var sendMetaCommentToPost = function(idScenario, idPost, comment){
 		var s = $q.defer();
 
-		$http.post("/ThesisProject/api/v1/scenarios/"+idScenario+"/posts/"+idPost+"/metaComments",comment).then(
+		$http.post("/api/v1/scenarios/"+idScenario+"/posts/"+idPost+"/metaComments",comment).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -317,7 +317,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var sendEvent = function(idScenario, event){
 		var s = $q.defer();
 
-		$http.post("/ThesisProject/api/v1/scenarios/"+idScenario+"/events",event).then(
+		$http.post("/api/v1/scenarios/"+idScenario+"/events",event).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -343,7 +343,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var createMission = function(idScenario, mission){
 		var s = $q.defer();
 
-		$http.post("/ThesisProject/api/v1/scenarios/"+idScenario+"/missions", mission).then(
+		$http.post("/api/v1/scenarios/"+idScenario+"/missions", mission).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -357,7 +357,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 	var getMissionsInScenario = function(idScenario){
 		var s = $q.defer();
 
-		$http.get("/ThesisProject/api/v1/scenarios/"+idScenario+"/missions").then(
+		$http.get("/api/v1/scenarios/"+idScenario+"/missions").then(
 				function(response){
 					s.resolve(response.data);
 				},
