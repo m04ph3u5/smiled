@@ -6,15 +6,27 @@
 		<div class="col-sm-12 col-lg-10">
 			<div class="row-fluid">
 				<div
-					class="col-md-3 doubleRow box hidden-xs hidden-sm visible-md visible-lg">
-					<h1>Compiti</h1>
+					class="col-md-3 doubleRow box boxGreen hidden-xs hidden-sm visible-md visible-lg">
+					<h1>
+					<img ng-src="assets/public/img/titoli_dashboard/compiti.png" class="title">
+					<img ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon">
+					</h1>
+					<p>Questa sezione non è ancora attiva.</p>
 				</div>
 				<div
-					class="col-sm-12 singleRow box visible-xs visible-sm hidden-md hidden-lg">
-					<h1>Compiti</h1>
+					class="col-sm-12 singleRow box boxGreen visible-xs visible-sm hidden-md hidden-lg">
+					<h1>
+						<img ng-src="assets/public/img/titoli_dashboard/compiti.png" class="title">
+						<img ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon">
+					</h1>
+					<p>Questa sezione non è ancora attiva.</p>
+					
 				</div>
-				<div class="col-md-9 singleRow box hidden-xs visible-sm visible-md visible-lg">
-					<a href=""><h1 data-ui-sref="logged.dashboard.scenariosList">SCENARI</h1></a>
+				<div class="col-md-9 singleRow box boxRed hidden-xs visible-sm visible-md visible-lg">
+					<h1 data-ui-sref="logged.dashboard.scenariosList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
+					</h1>
 					<div class="row marginMTop">
 						<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
 							<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
@@ -98,8 +110,11 @@
 					</div>
 				</div>
 			</div>
-				<div class="col-xs-12 doubleRow box visible-xs hidden-sm hidden-md hidden-lg">
-					<a href=""><h1 data-ui-sref="logged.dashboard.scenariosList">SCENARI</h1></a>
+				<div class="col-xs-12 doubleRow box boxRed visible-xs hidden-sm hidden-md hidden-lg">
+					<h1 data-ui-sref="logged.dashboard.scenariosList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
+					</h1>
 					<div class="row marginMTop">
 						<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
 							<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
@@ -183,8 +198,11 @@
 			</div>
 				
 				
-				<div class="col-sm-4 col-md-3 singleRow box">
-					<h3 data-ui-sref="logged.dashboard.studentsList">Alunni</h3>
+				<div class="col-sm-4 col-md-3 singleRow box boxYellow">
+					<h1 data-ui-sref="logged.dashboard.studentsList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/alunni.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_stud.png" class="titleIcon"></a>
+					</h1>
 					<table>
 						<tbody>
 							<tr data-ng-repeat="a in dashboard.user.students | limitTo:3">
@@ -196,8 +214,11 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-sm-4 col-md-3 singleRow box">
-					<h3 data-ui-sref="logged.dashboard.colleaguesList">Colleghi</h3>
+				<div class="col-sm-4 col-md-3 singleRow box boxLightgreen">
+					<h1 data-ui-sref="logged.dashboard.colleaguesList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/colleghi.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_coll.png" class="titleIcon"></a>
+					</h1>
 					<table>
 						<tbody>
 							<tr data-ng-repeat="c in dashboard.user.colleagues | limitTo:3">
@@ -209,8 +230,11 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-sm-4 col-md-3 singleRow box">
-					<h3>Nuovo compito</h3>
+				<div class="col-sm-4 col-md-3 singleRow box boxLightblue">
+					<h1>
+						<img ng-src="assets/public/img/titoli_dashboard/nuovo.png" class="titleIcon">
+						<img ng-src="assets/public/img/titoli_dashboard/compito.png" class="titleIcon">
+					</h1>
 					<div class="marginMTop">
 						<form role="form">
 							<div class="form-group">
@@ -243,15 +267,21 @@
 
 					</div>
 				</div>
-				<div class="col-sm-8 col-md-6 singleRow box">
-					<h3 data-ui-sref="logged.dashboard.filesList">Materiale didattico</h3>
+				<div class="col-sm-8 col-md-6 singleRow box boxBlue">
+					<h1 data-ui-sref="logged.dashboard.filesList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/materiali.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon"></a>
+					</h1>
 					<div>
 						<h4>Titolo del file</h4>
 						Qua verranno inserite le anteprime dei singoli materiali
 					</div>
 				</div>
-				<div class="col-sm-4 col-md-6 singleRow box">
-					<h3>Azioni</h3>
+				<div class="col-sm-4 col-md-6 singleRow box boxBrown">
+					<h1>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/azioni.png" class="titleIcon"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_att.png" class="titleIcon"></a>
+					</h1>
 					<ul class="list-group">
 						<li class="list-group-item"><a href="">Guidi Marco ha
 								inserito un nuovo post </a></li>
