@@ -5,7 +5,7 @@
 			border-radius: 25px;
 		}
 		.bg{
-			background-image: url(https://localhost:8443/ThesisProject/assets/public/img/teacher.jpg);
+			background-image: url(/assets/public/img/teacher.jpg);
 			background-size:cover;	
 	
 		}

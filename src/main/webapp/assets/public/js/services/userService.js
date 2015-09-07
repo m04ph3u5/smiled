@@ -5,7 +5,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 	
 	var getMe = function(){
 		var u = $q.defer();
-		$http.get('/ThesisProject/api/v1/me').then(
+		$http.get('/api/v1/me').then(
 			function(response){
 				u.resolve(response.data);
 			},
@@ -18,7 +18,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 		
 	var getUser = function(id){
 		var u = $q.defer();
-		$http.get('/ThesisProject/api/v1/users/'+id).then(
+		$http.get('/api/v1/users/'+id).then(
 			function(response){
 				u.resolve(response.data);
 			},
@@ -33,7 +33,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 	var logout = function(){
 		var log = $q.defer()
 		$http({
-			url: '/ThesisProject/apiLogout',
+			url: '/apiLogout',
 			method: 'POST',
 			headers: {
 				'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -55,7 +55,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 	var login = function(email, password){
 		var log = $q.defer();
 		$http({
-			url: '/ThesisProject/apiLogin',
+			url: '/apiLogin',
 			method: 'POST',
 			data: 'j_username='+email+'&j_password='+password+"&submit=",
 			headers: {

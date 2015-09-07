@@ -104,8 +104,8 @@ public interface ScenarioService {
 
 	public String addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
 	
-	public List<Mission> getMissionsOfTeacherInScenario(String id, String teacherId) throws BadRequestException;
+	public Page<Mission> getMissionsOfTeacher(String scenarioId, String teacherId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException;
 	
-	public List<Mission> getMissionsOfStudentInScenario(String id, String studentId) throws BadRequestException;
+	public Page<Mission> getMissionsOfStudent(String scenarioId, String studentId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException;
 	
 }

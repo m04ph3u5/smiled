@@ -10,9 +10,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
     <context:property-placeholder location="/WEB-INF/db.properties"/>
 
-	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.db.name}" />
+	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.db.name}"  host="${mongo.host.name}" port="${mongo.host.port}" />
 
-	<mongo:mongo host="${mongo.host.name}" port="${mongo.host.port}" />
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />

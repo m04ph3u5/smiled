@@ -63,6 +63,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.core.Authentication;
@@ -2277,17 +2278,22 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public List<Mission> getMissionsOfTeacherInScenario(String id,
-			String teacherId) throws BadRequestException {
-		return missionRepository.getMissionsOfTeacherInScenario(id, teacherId);
+	public Page<Mission> getMissionsOfTeacher(String scenarioId,
+			String teacherId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException {
+	
+		return missionRepository.getMissionsOfTeacher(nPag, nItem, orderByDeliveryDate, scenarioId, teacherId, onlyActive);
+		
+		
 	}
 
 
 	@Override
-	public List<Mission> getMissionsOfStudentInScenario(String id,
-			String studentId) throws BadRequestException {
-		// TODO Auto-generated method stub
-		return missionRepository.getMissionsOfStudentInScenario(id, studentId);
+	public Page<Mission> getMissionsOfStudent(String scenarioId,
+			String studentId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException {
+		
+		return missionRepository.getMissionsOfStudent(nPag, nItem, orderByDeliveryDate, scenarioId, studentId, onlyActive);
+		
+
 	}
 
 

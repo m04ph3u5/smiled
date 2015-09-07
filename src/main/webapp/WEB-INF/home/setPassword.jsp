@@ -9,7 +9,7 @@
 <title>Imposta password</title>
 <!-- Le styles -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="assets/css/bootstrap.css" rel="stylesheet">
+<link href="./assets/css/bootstrap.css" rel="stylesheet">
 
 <style>
 body {
@@ -19,15 +19,15 @@ body {
 </style>
 
 <!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="assets/ico/favicon.ico">
+<link rel="shortcut icon" href="./assets/ico/favicon.ico">
 <link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="assets/ico/apple-touch-icon-144-precomposed.png">
+	href="./assets/ico/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="assets/ico/apple-touch-icon-114-precomposed.png">
+	href="a./ssets/ico/apple-touch-icon-114-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="72x72"
-	href="assets/ico/apple-touch-icon-72-precomposed.png">
+	href="./assets/ico/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed"
-	href="assets/ico/apple-touch-icon-57-precomposed.png">
+	href="./assets/ico/apple-touch-icon-57-precomposed.png">
 	
 <style>
       body { padding-top: 60px; /* 60px to make the container go all the way
@@ -52,7 +52,7 @@ body {
 	<div class="navbar navbar-fixed-top navbar-inverse">
 		<div class="navbar-inner">
 			<div class="container">
-				<a class="brand" href="/ThesisProject"> Home </a>
+				<a class="brand" href="/"> Home </a>
 			</div>
 		</div>
 	</div>
@@ -98,10 +98,10 @@ body {
 		</div>
 	</div>
 
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="./assets/js/jquery.min.js"></script>
+	<script src="./assets/js/bootstrap.min.js"></script>
 	<link rel="stylesheet"
-	href="https://localhost:8443/ThesisProject/assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
-	<link rel="stylesheet" href="https://localhost:8443/ThesisProject/assets/public/css/custom-style.css">
+	href="./assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="./assets/public/css/custom-style.css">
 </body>
 </html>
