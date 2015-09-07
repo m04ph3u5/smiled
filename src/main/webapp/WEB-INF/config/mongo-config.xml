@@ -13,6 +13,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.db.name}" 
 		host="${mongo.host.name}" port="${mongo.host.port}"/>
 
+
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 		<property name="writeResultChecking" value="EXCEPTION"/>

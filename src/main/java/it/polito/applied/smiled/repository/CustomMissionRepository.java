@@ -16,11 +16,17 @@ public interface CustomMissionRepository {
 	public boolean deleteMission(String missionId);
 	public boolean putInDeleteStatus(String id);
 	
-	public List<Mission> getMissionsOfTeacherInScenario(String id,
-			String teacherId);
+	
+	public Page<Mission> getMissionsOfTeacher(Integer nPag, Integer nItem,
+			boolean orderByDeliveryDate, String scenarioId, String teacherId, Boolean onlyActive);
 
-	public List<Mission> getMissionsOfStudentInScenario(String id,
-			String studentId);
+	public Page<Mission> getMissionsOfStudent(Integer nPag, Integer nItem,
+			boolean orderByDeliveryDate, String scenarioId, String studentId, Boolean onlyActive);
+	
+	
+	
+	
+	
 	
 	
 }
