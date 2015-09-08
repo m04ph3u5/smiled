@@ -227,6 +227,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log("saveInfo");
 			var scenarioDTO = {};
 			scenarioDTO.name = self.scenario.name;
+			scenarioDTO.description = self.scenario.description;
 			scenarioDTO.history = self.scenario.history;
 			if(id==null){
 				if(infoValidate()){
@@ -930,7 +931,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log(self.scenario.history.startDate);
 			console.log(self.scenario.history.endDate);
 			if(!self.scenario.name || self.scenario.name.length<2){
-				console.log("infoValidate ---> 1");
+				console.log("infoValidate ---> name");
 				ret=false;
 				if(self.scenarioServer.name){
 					self.scenario.name=self.scenarioServer.name;
@@ -938,8 +939,16 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					self.scenario.name="";
 				}
 			}
+			if(!self.scenario.description){
+				console.log("infoValidate ---> description");
+				if(self.scenarioServer.name){
+					self.scenario.name=self.scenarioServer.name;
+				}else{
+					self.scenario.name="";
+				}
+			}
 			if(!self.scenario.history || !self.scenario.history.startDate){
-				console.log("infoValidate ---> 2");
+				console.log("infoValidate ---> startdate");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.startDate){
 					self.scenario.history.startDate=self.scenarioServer.history.startDate;
@@ -948,7 +957,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}
 			}
 			if(!self.scenario.history || !self.scenario.history.endDate){
-				console.log("infoValidate ---> 3");
+				console.log("infoValidate ---> enddate");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.endDate){
 					self.scenario.history.endDate=self.scenarioServer.history.endDate;

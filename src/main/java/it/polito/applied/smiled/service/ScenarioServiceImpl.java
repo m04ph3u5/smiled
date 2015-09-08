@@ -144,6 +144,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(scenario.getName()!=null){
 				u.set("name", scenario.getName());
 			}
+			if(scenario.getDescription()!=null){
+				u.set("description", scenario.getDescription());
+			}
 			if(scenario.getHistory()!=null){
 				if(scenario.getHistory().getDescription()!=null){
 					u.set("history.description", scenario.getHistory().getDescription());

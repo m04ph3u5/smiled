@@ -24,6 +24,7 @@ public class Scenario {
 	private ScenarioStatus status;
 	private History history;
 	private String cover;
+	private String description;
 	
 	private List<CharacterReference> characters;
 	
@@ -44,6 +45,7 @@ public class Scenario {
 		name=s.getName();
 		status=ScenarioStatus.CREATED_V1;
 		history= s.getHistory();
+		description = s.getDescription();
 		//cover=s.getCover();
 		this.teacherCreator = teacherCreator;
 		creationDate = new Date();
@@ -55,6 +57,13 @@ public class Scenario {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Date getStartDate() {

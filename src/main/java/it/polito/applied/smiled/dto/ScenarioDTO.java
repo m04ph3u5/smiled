@@ -30,6 +30,8 @@ public class ScenarioDTO {
 	@Null
 	private ScenarioStatus status;
 	
+	private String description;
+	
 	public String getName() {
 		return name;
 	}
@@ -37,6 +39,13 @@ public class ScenarioDTO {
 		this.name = name;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 	public ScenarioStatus getStatus() {
 		return status;
