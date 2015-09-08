@@ -15,19 +15,19 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.currentCharacter = {};
 	self.showBoxEvent = false;
 	self.mission = {};
-	self.myMissions = [];
-	
-
-	var findMyMissions = function(){
-		apiService.getMissionsInScenario(self.scen.id).then(
-				function(data){
-					myMissions = data;
-				},
-				function(reason){
-					console.log("error in find my missions");
-				}
-		);
-	}
+//	self.myMissions = [];
+//	
+//
+//	var findMyMissions = function(){
+//		apiService.getMissionsInScenario(self.scen.id).then(
+//				function(data){
+//					myMissions = data;
+//				},
+//				function(reason){
+//					console.log("error in find my missions");
+//				}
+//		);
+//	}
 	
 	self.openBoxEvent = function(){
 		self.showBoxEvent = !self.showBoxEvent;
@@ -69,8 +69,8 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 					}
 				}
 			}
-			if(!self.isModerator && !self.isCreator)
-				findMyMissions();
+			//if(!self.isModerator && !self.isCreator)
+				//findMyMissions();
 		}
 	}
 	
