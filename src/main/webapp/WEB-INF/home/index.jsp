@@ -2,8 +2,7 @@
 <html data-ng-app="smiled.application">
 <head>
 <!-- <meta charset="UTF-8"> -->
-<link rel="stylesheet"
-	href="./assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="./assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="./assets/public/js/vendor/angular-bootstrap/ui-bootstrap-csp.css">
 <link rel="stylesheet" href="./assets/public/css/custom-style.css">
 <link rel="stylesheet" href="./assets/public/css/secondaryCss.css">

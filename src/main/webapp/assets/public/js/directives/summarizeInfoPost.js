@@ -56,7 +56,7 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 						ctrl.likesLabel = "Ti piace";
 					}
 					else if(ctrl.post.likes.length==2 && ctrl.post.youLike){
-						ctrl.likesLabel = "Piace a te e ad <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>un altra persona</span>";
+						ctrl.likesLabel = "Piace a te e ad <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>un' altra persona</span>";
 					}
 					else if(ctrl.post.likes.length>2 && ctrl.post.youLike){
 						ctrl.likesLabel = "Piace a te e ad <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>altre "+(ctrl.post.likes.length-1)+" persone</span>";
