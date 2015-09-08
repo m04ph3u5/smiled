@@ -97,6 +97,12 @@ public class AsyncUpdater {
 		
 	}	
 	
+	public void sendTeacherRegistrationConfirmEmail(String firstName, String email) {
+		Runnable r = new sendEmailRunnable(firstName,email, null);
+		taskExecutor.execute(r);
+		
+	}	
+	
 	public void sendTeacherInviteEmail(String invitedEmail, String invitingTeacher){
 	//	Runnable r = new sendEmailRunnable(firstName,email, token);
 	//	taskExecutor.execute(r);
@@ -218,7 +224,11 @@ public class AsyncUpdater {
 		@Override
 		public void run(){
 			if(toSendEmail==null){
-				mailService.sendTeacherRegistrationEmail(firstName, email, token);
+				if(token!=null){
+					mailService.sendTeacherRegistrationEmail(firstName, email, token);
+				}else{
+					mailService.sendRegistrationConfirmTeacher(email, firstName);
+				}
 			}else{
 				Set<Entry<String,String>> set = toSendEmail.entrySet();
 				for(Entry<String, String> e : set){

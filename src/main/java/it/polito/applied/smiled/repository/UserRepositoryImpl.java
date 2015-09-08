@@ -37,7 +37,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 	private MongoOperations mongoOp;
 
 	@Override
-	public int updateToApproveUserStatus(String email) {
+	public String updateToApproveUserStatus(String email) {
 		Query q = new Query();
 		Criteria c = new Criteria();
 		c.orOperator(Criteria.where("status").is(UserStatus.STATUS_PENDING),(Criteria.where("status").is(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD)));
@@ -45,8 +45,11 @@ public class UserRepositoryImpl implements CustomUserRepository {
 				.andOperator(c));
 		Update u = new Update();
 		u.set("status", UserStatus.STATUS_APPROVED);
-		WriteResult w = mongoOp.updateFirst(q, u, User.class);
-		return w.getN();
+		User user = mongoOp.findAndModify(q, u, User.class);
+		if (user!=null)
+			return user.getFirstName()+" "+user.getLastName();
+		else
+			return null;
 	}
 
 	@Override

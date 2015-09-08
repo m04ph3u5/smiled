@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<context:property-placeholder location="classpath:application.properties" />
+	<context:property-placeholder location="/WEB-INF/config/application.properties" />
 
 
 	<context:component-scan base-package="it.polito.applied.smiled.mailMessage" />
@@ -26,9 +26,9 @@
 		
 	<bean id="taskExecutor"
 		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<property name="corePoolSize" value="3" />
-		<property name="maxPoolSize" value="15" />
-		<property name="queueCapacity" value="50" />
+		<property name="corePoolSize" value="${taskExec.corePoolSize}" />
+		<property name="maxPoolSize" value="${taskExec.maxPoolSize}" />
+		<property name="queueCapacity" value="${taskExec.queueCapacity}" />
 	</bean>
 	
 <!-- 	<task:annotation-driven executor="taskExecutor" />  -->
@@ -38,15 +38,15 @@
 <!-- 	<task:annotation-driven executor="taskExecutor" />  -->
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="mail.meschola.it" />
-		<property name="port" value="465" />
-		<property name="username" value="tomcat-user@meschola.it" />
-		<property name="password" value="gs64546vsa_4tfa" />
+		<property name="host" value="${mailServer.host}" />
+		<property name="port" value="${mailServer.port}" />
+		<property name="username" value="${mailServer.username}" />
+		<property name="password" value="${mailServer.password}" />
 		<property name="javaMailProperties">
 			<props>
-				<prop key="mail.transport.protocol">smtps</prop>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.transport.protocol">${mailServer.transport.protocol}</prop>
+				<prop key="mail.smtp.auth">${mailServer.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${mailServer.smtp.starttls.enable}</prop>
 			</props>
 		</property>
 	</bean>

@@ -51,7 +51,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
-@PropertySource(value={"classpath:application.properties"})
 @Service
 public class FileManagerServiceImpl implements FileManagerService {
 
@@ -72,10 +71,6 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Autowired
 	private GridFsManager gridFsManager;
-
-	@Value("${media.path}")
-	private String path;
-
 
 	@Value("${file.icon}")
 	private String fileIcon;

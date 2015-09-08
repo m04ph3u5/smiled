@@ -243,7 +243,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			try{
 				RegistrationToken registration = new RegistrationToken(teacher.getEmail());
 				registrationRepository.save(registration);
-				asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName(), teacher.getEmail(),registration.getToken().toString());
+				asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName()+" "+teacher.getLastName(), teacher.getEmail(),registration.getToken().toString());
 			}catch(MongoDataIntegrityViolationException e){
 				/*Eccezione che in teoria non dovrebbe mai verificarsi, in quanto abbiamo giÃ  controllato che non esista uno user con quella email
 				 * al passo precedente*/
@@ -259,10 +259,11 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		
 		RegistrationToken r = checkValidityTokenAndEmail(token,email);
 		
-		int n = userRepository.updateToApproveUserStatus(email);
-		if(n==0)
+		String username = userRepository.updateToApproveUserStatus(email);
+		if(username==null)
 			throw new UserNotFoundException(email);
 		registrationRepository.delete(r);
+		asyncUpdater.sendTeacherRegistrationConfirmEmail(username, email);
 	}
 
 
@@ -550,7 +551,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 					User user = userRepository.findByEmail(emailDTO.getEmail());
 					Reference r = new Reference(user);
 					userRepository.addColleagueToTeacher(activeUser.getId(),r);
-					System.out.println("Invito non è stato fatto poichè l'email era già presente nel sistema, aggiungo solo il nuovo teacher alla mia lista di colleghi");
+					System.out.println("Invito non ï¿½ stato fatto poichï¿½ l'email era giï¿½ presente nel sistema, aggiungo solo il nuovo teacher alla mia lista di colleghi");
 					
 					throw new UserAlreadyExistsException(u.getEmail());
 				}

@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 public interface CustomUserRepository {
 	
-	public int updateToApproveUserStatus(String email);
+	public String updateToApproveUserStatus(String email);
 	public void deletePendingByEmail(String email);
 	public User addTeacherToStudent(String id, Reference teacher);
 	public int changePassword(String userEmail, String newPassword);
