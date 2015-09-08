@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,8 +19,8 @@ public class RegistrationToken {
 	private String email;
 	private String token;
 	private Date expiration;
-	@Value("${registrationToken.expiration.days}")
-	private int expirationDaysTeacher;
+	          
+	private static final int expirationDaysTeacher=60;
 	
 	public RegistrationToken(){}
 	

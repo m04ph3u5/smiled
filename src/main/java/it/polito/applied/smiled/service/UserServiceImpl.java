@@ -289,6 +289,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			Date now = new Date();
 			if(r.getExpiration().before(now)){
 				deleteExpiredRegistrationAccount(email);
+				asyncUpdater.sendTeacherExpirationEmail(email);
 				throw new RegistrationTokenExpiredException(r.getExpiration(),r.getEmail());
 			}
 			return r;

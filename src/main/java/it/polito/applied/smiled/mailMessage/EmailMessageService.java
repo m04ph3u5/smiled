@@ -97,5 +97,21 @@ public class EmailMessageService {
 		mailSender.send(message);
 	}
 
+	public void sendExpiredEmail(String email) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(from);
+		message.setTo(email);
+		message.setSubject("Meschola! Conferma registrazione");
+		message.setText("Gentile utente\n\n "
+				+ "e' passato troppo tempo dalla tua ultima registrazione. Affiche' tu possa utilizzare al meglio i nostri servizi, e' necessario che tu"
+				+ "ripeta la procedura di registrazione\n\nGrazie per la collaborazione\n\n"
+				+ "Saluti,\n"
+				+ "Il team di Meschola");
+				
+	
+		mailSender.send(message);
+		
+	}
+
 	
 }

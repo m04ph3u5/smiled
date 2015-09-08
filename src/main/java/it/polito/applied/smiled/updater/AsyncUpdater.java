@@ -120,6 +120,28 @@ public class AsyncUpdater {
 		
 	}
 	
+	public void sendTeacherExpirationEmail(String email) {
+		Runnable r = new sendExpiredEmail(email);
+		taskExecutor.execute(r);
+		
+	}
+	
+	private class sendExpiredEmail implements Runnable{
+
+		private String email;
+		
+		public sendExpiredEmail(String email){
+			this.email=email;
+		}
+		
+		@Override
+		public void run() {
+			mailService.sendExpiredEmail(email);
+			
+		}
+		
+	}
+	
 	private class openScenarioOfUsersRunnable implements Runnable{
 		private Scenario scenario;
 		private List<String> usersId;
@@ -469,5 +491,8 @@ public class AsyncUpdater {
 
 
 	}
+
+
+	
 
 }
