@@ -1,41 +1,27 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-2"></div>
-		<div class="col-sm-5 col-md-3 box" id="imgProfile">
-			<div id="overlayed"><img class="toFitImage" data-ng-src="{{personalProfile.url}}" data-err-src="assets/public/img/user_ico.png"></img></div>
-			<div class="pull-right" data-ng-show="personalProfile.isModifiable"><span class="uploadSpan glyphicon glyphicon-camera" ngf-select ngf-change="personalProfile.uploadCover($files)"></span></div>
+		<div class="col-md-1 col-lg-2"></div>
+		<div class="col-sm-5 col-md-4 col-lg-3 box boxBrown" id="imgProfile">
+
+			<img class="profilePicture" data-ng-src="{{personalProfile.url}}" data-err-src="assets/public/img/ic_teacher.png"></img>
+			<a href=""><img data-ng-show="personalProfile.isModifiable" class="overlapIconPP img"
+				src="assets/public/img/icon/ic_camera.png"
+				ngf-select
+				ngf-change="personalProfile.uploadCover($files)"> </a>			
+			<h1 class="goUppercase">{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h1>
+			<h3>{{personalProfile.user.role}}</h3>
+			<h3>{{personalProfile.ruolo}}</h3>
+			<h4 ng-if="personalProfile.user.profile.bornDate!=null">Data di nascita: {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</h4>
+			<!--  <h4>Scuola, materie insegnate / preferite, Interessi, Citazione</h4>-->
 		</div>
-		<div class="col-sm-7 col-md-5 box fixedHeight">
-			<div class="fitContent table-responsive">
-			<table class="table">
-				<tr><h1>{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h1></tr>
-				<tr>
-					<td>Data di nascita: </td>								
-					<td>{{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</td>					
-				</tr>
-				<tr>
-					<td>Ruolo: </td>								
-					<td>Docente</td>					
-				</tr>
-				<tr>
-					<td>Scuola: </td>								
-					<td>Liceo Scientifico "P. Gobetti"</td>					
-				</tr>
-				<tr>
-					<td>Materie insegnate: </td>								
-					<td>Storia, Letteratura, Latino</td>					
-				</tr>
-				<tr>
-					<td>Interessi: </td>								
-					<td>Tennis, Cinema, Teatro</td>					
-				</tr>
-				<tr>
-					<td>Citazione: </td>								
-					<td>�I miei problemi sono iniziati con la prima educazione. Andavo in una scuola per insegnanti disagiati.� (Woody Allen)</td>					
-				</tr>				
-			</table>
-						
-			</div>
+		<div class="col-sm-7 col-md-6 col-lg-5 box fixedHeight" 
+		style="background-image:linear-gradient(rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('http://thewowstyle.com/wp-content/uploads/2015/02/1.Landscape-Photography.jpg');
+		background-size:cover">
+		<a href=""><img data-ng-show="personalProfile.isModifiable" class="overlapIconCover img pull-right pull-bottom"
+				src="assets/public/img/icon/ic_camera_white.png"
+				ngf-select
+				ngf-change="personalProfile.uploadCover($files)"> </a>	
+		
 <!-- 		<div class="col-md-2"></div> -->
 <!-- 		<div> -->
 <!-- 			<h3>MyImage</h3> -->

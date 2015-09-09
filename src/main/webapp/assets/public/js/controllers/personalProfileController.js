@@ -3,9 +3,15 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	
 	var self = this;
 	var id = null;
+	var role = null;
+	self.ruolo = null;
 	
 	var onSuccessGetUser = function(data){
 		self.user = data;
+		role = self.user.firstName;	
+		if (role=='{"authority":"ROLE_TEACHER"}') self.ruolo="DOCENTE";
+		else self.ruolo="STUDENTE";
+		console.log("metti:"+role + ruolo);
 	}
 	
 	var onErrorGetUser = function(reason){
@@ -13,19 +19,18 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	}
 	
 	self.dateFormat = CONSTANTS.realDateFormatWithoutHour;
-	self.isModifiable=false;
-	
+	self.isModifiable=false;	
 	if($stateParams.id)
 		id = $stateParams.id;
 	if(id){
 		userService.getUser(id).then(onSuccessGetUser, onErrorGetUser);
 		self.url = CONSTANTS.urlUserCover(id);
-
 	}else{
 		userService.getMe().then(onSuccessGetUser, onErrorGetUser);
 		self.url = CONSTANTS.urlMeCover;
 		self.isModifiable=true;
 	}
+	
 	
 	
 	

@@ -102,6 +102,26 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('logged.dashboard.colleaguesList',{
+			url: "colleghi",
+			views: {
+				'content@logged': {
+					templateUrl: "assets/private/partials/colleaguesList.html",
+					controller: 'colleaguesListCtrl',
+					controllerAs: 'colleaguesList'
+				}
+			}
+		})
+		.state('logged.dashboard.filesList',{
+			url: "/materiale",
+			views: {
+				'content@logged': {
+					templateUrl: "assets/private/partials/filesList.html",
+					controller: 'filesListCtrl',
+					controllerAs: 'filesList'
+				}
+			}
+		})
 		.state('logged.userProfile',{
 			url: "/utente/{id}",
 			params: {
@@ -225,26 +245,7 @@ angular.module('smiled.application')
 			url : "/{id}/collaborators",
 			templateUrl: "assets/private/partials/collaborators-scenario-wizard.html",
 		})
-		.state('logged.dashboard.colleaguesList',{
-			url: "/colleghi",
-			views: {
-				'content@logged': {
-					templateUrl: "assets/private/partials/colleaguesList.html",
-					controller: 'colleaguesListCtrl',
-					controllerAs: 'colleaguesList'
-				}
-			}
-		})
-		.state('logged.dashboard.filesList',{
-			url: "/materiale",
-			views: {
-				'content@logged': {
-					templateUrl: "assets/private/partials/filesList.html",
-					controller: 'filesListCtrl',
-					controllerAs: 'filesList'
-				}
-			}
-		})
+		
 //		.state('logout',{
 //			url: "/login",
 //			templateUrl: 'assets/public/partials/login.html',

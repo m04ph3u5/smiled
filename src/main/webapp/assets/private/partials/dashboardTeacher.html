@@ -28,84 +28,97 @@
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
 					</h1>
 					<div class="row marginMTop">
-						<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
-							<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
-							
-								<img href="" src="assets/public/img/ic_newscenario.png"
-									class="img-circle imgPreviewL">								
-								<h4>Crea scenario</h4>
-							
-					
-						</div>
+						<a href="">
+							<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
+								<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
+								
+									<img href="" src="assets/public/img/icon/nuovo scenario.png"
+										class="img scenDashIcon">								
+									<h4>Crea scenario</h4>
+							</div>
+						</a>
 						<div ng-if="dashboard.user.creatingScenarios.length>=4">
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios | limitTo:4">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_creatingscenario.png"
-								class="img-circle imgPreviewL"> 
-								<img 
-								class="overlapImg img-circle"
-								src="assets/public/img/100-719.jpg"> 
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_creatingscenario.png"
+										class="img-circle imgPreviewL"> 
+										<img 
+										class="overlapImg img-circle"
+										src="assets/public/img/white.jpg"> 
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								<a href="">
 							</div>
 						</div>						
 						<div ng-if="dashboard.user.creatingScenarios.length<4 &&
 						dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length>=4">
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_creatingscenario.png"
-								class="img-circle imgPreviewL"> 
-									<img class="overlapImg img-circle"
-								src="assets/public/img/100-719.jpg"> 
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_creatingscenario.png"
+										class="img-circle imgPreviewL"> 
+											<img class="overlapImg img-circle"
+										src="assets/public/img/white.jpg"> 
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios | limitTo:4-dashboard.user.creatingScenarios.length">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_openscenario.png"
-								class="img-circle imgPreviewL">
-								 <img 
-								class="overlapImg img-circle"
-									src="assets/public/img/100-719.jpg"> 				
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_openscenario.png"
+										class="img-circle imgPreviewL">
+										 <img 
+										class="overlapImg img-circle"
+											src="assets/public/img/green.jpg"> 				
+									
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>						
 						</div>
 						<div ng-if="dashboard.user.creatingScenarios.length<4 &&
 						dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length<4">
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_creatingscenario.png"
-								class="img-circle imgPreviewL"> 
-									<img
-								class="overlapImg img-circle"
-								src="assets/public/img/100-719.jpg">
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_creatingscenario.png"
+										class="img-circle imgPreviewL"> 
+											<img
+										class="overlapImg img-circle"
+										src="assets/public/img/white.jpg">
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_openscenario.png"
-								class="img-circle imgPreviewL"> 
-								<img
-								class="overlapImg img-circle"
-								src="assets/public/img/100-719.jpg"> 
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_openscenario.png"
+										class="img-circle imgPreviewL"> 
+										<img
+										class="overlapImg img-circle"
+										src="assets/public/img/green.jpg"> 
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.closedScenarios | limitTo: 4-dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length">
-							<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
-								data-err-src="assets/public/img/ic_closedscenario.png"
-								class="img-circle imgPreviewL"> <img
-								class="overlapImg img-circle" src="assets/public/img/red.png">
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
+										data-err-src="assets/public/img/ic_closedscenario.png"
+										class="img-circle imgPreviewL"> <img
+										class="overlapImg img-circle" src="assets/public/img/red.png">
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 						</div>						
-						<div class="col-sm-2">
+						<div class="col-sm-2" ng-if="dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length+dashboard.user.closedScenarios>4">
 							<a ui-sref="logged.dashboard.scenariosList">
-							<img data-ng-src="assets/public/img/ic_viewmore.png"								
-									class="imgPreviewL">		
+							<img data-ng-src="assets/public/img/icon/view_more.png"								
+									class="scenDashIcon">		
 							<h4>Vedi altri</h4>
 							</a>
 					</div>
@@ -117,82 +130,96 @@
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
 					</h1>
 					<div class="row marginMTop">
-						<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
-							<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
-							<img href="" src="assets/public/img/ic_newscenario.png"
-								class="img-circle imgPreviewL">								
-								<h4>Crea scenario</h4>
-							
-					
-						</div>
+						<a href="">
+							<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
+								<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
+								<img href="" src="assets/public/img/icon/nuovo scenario.png"
+									class="img scenDashIcon">								
+									<h4>Crea scenario</h4>		
+							</div>
+						</a>
 						<div ng-if="dashboard.user.creatingScenarios.length>=2">
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios | limitTo:2">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_creatingscenario.png"
-								class="img-circle imgPreviewL"> 
-								<img 
-								class="overlapImgSmall img-circle"
-								src="assets/public/img/100-719.jpg"> 
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_creatingscenario.png"
+										class="img-circle imgPreviewL"> 
+										<img 
+										class="overlapImgSmall img-circle"
+										src="assets/public/img/white.jpg"> 
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 						</div>						
 						<div ng-if="dashboard.user.creatingScenarios.length<2 &&
 						dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length>=2">
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_creatingscenario.png"
-								class="img-circle imgPreviewL"> 
-									<img class="overlapImgSmall img-circle"
-								src="assets/public/img/100-719.jpg"> 
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_creatingscenario.png"
+										class="img-circle imgPreviewL"> 
+											<img class="overlapImgSmall img-circle"
+										src="assets/public/img/white.jpg"> 
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios | limitTo:2-dashboard.user.creatingScenarios.length">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_openscenario.png"
-								class="img-circle imgPreviewL">
-								 <img 
-								class="overlapImgSmall img-circle"
-									src="assets/public/img/100-719.jpg"> 				
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_openscenario.png"
+										class="img-circle imgPreviewL">
+										 <img 
+										class="overlapImgSmall img-circle"
+											src="assets/public/img/green.jpg"> 				
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>						
 						</div>
 						<div ng-if="dashboard.user.creatingScenarios.length<2 &&
 						dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length<2">
 							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.creatingScenarios">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_creatingscenario.png"
-								class="img-circle imgPreviewL"> 
-									<img
-								class="overlapImgSmall img-circle"
-								src="assets/public/img/100-719.jpg">
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_creatingscenario.png"
+										class="img-circle imgPreviewL"> 
+											<img
+										class="overlapImgSmall img-circle"
+										src="assets/public/img/white.jpg">
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.openScenarios">
-							<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-								data-err-src="assets/public/img/ic_openscenario.png"
-								class="img-circle imgPreviewL"> 
-								<img
-								class="overlapImgSmall img-circle"
-								src="assets/public/img/100-719.jpg"> 
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/ic_openscenario.png"
+										class="img-circle imgPreviewL"> 
+										<img
+										class="overlapImgSmall img-circle"
+										src="assets/public/img/green.jpg"> 
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" class="col-sm-2"
 							data-ng-repeat="s in dashboard.user.closedScenarios | limitTo: 2-dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length">
-							<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
-								data-err-src="assets/public/img/ic_closedscenario.png"
-								class="img-circle imgPreviewL"> <img
-								class="overlapImgSmall img-circle" src="assets/public/img/red.png">
-							<h4>{{s.name}}</h4>
+								<a href="">
+									<img data-ng-src="/media/img/cover/scenarios/{{s.id}}"
+										data-err-src="assets/public/img/ic_closedscenario.png"
+										class="img-circle imgPreviewL"> <img
+										class="overlapImgSmall img-circle" src="assets/public/img/red.png">
+									<h4>{{s.name | limitTo:30}} <span ng-if="s.name.length>30">...</span></h4>
+								</a>
 							</div>
 						</div>						
-						<div class="col-sm-2 marginMTop">
-							<a ui-sref="logged.dashboard.scenariosList">					
-							<h4>VEDI ALTRI</h4>
+						<div class="col-sm-2 marginMTop" ng-if="dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length+dashboard.user.closedScenarios>2">
+							<a ui-sref="logged.dashboard.scenariosList">
+								<h4>Vedi tutti<img data-ng-src="assets/public/img/icon/view_more_vert.png"								
+										class="scenDashIcon2 marginSLeft">					
+								</h4>
 							</a>
 					</div>
 				</div>
@@ -204,13 +231,23 @@
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/alunni.png" class="title"></a>
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_stud.png" class="titleIcon"></a>
 					</h1>
+					<div ng-if="dashboard.user.students==null">
+						Qui verranno inseriti i propri alunni
+					</div>
 					<table>
 						<tbody>
-							<tr data-ng-repeat="a in dashboard.user.students | limitTo:3">
-								<td><img data-ng-src="api/v1/users/{{a.id}}/cover"
+							<tr data-ng-repeat="a in dashboard.user.students | limitTo:3">					
+								<td><a data-ui-sref="logged.userProfile({id: '{{a.id}}'})">
+									<img data-ng-src="api/v1/users/{{a.id}}/cover"
 									data-err-src="assets/public/img/ic_student.png"
-									class="img-circle imgPreviewM tableMargin"></td>
-								<td><span>{{a.lastname}} {{a.firstname}}</span></td>
+									class="img-circle imgPreviewM tableMargin">
+									</a>
+								</td>
+								<td>
+									<a data-ui-sref="logged.userProfile({id: '{{a.id}}'})">
+									<span>{{a.lastname}} {{a.firstname}}</span>
+									</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -220,6 +257,9 @@
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/colleghi.png" class="title"></a>
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_coll.png" class="titleIcon"></a>
 					</h1>
+					<div ng-if="dashboard.user.colleagues==null">
+						Qui verranno inseriti i propri colleghi
+					</div>
 					<table>
 						<tbody>
 							<tr data-ng-repeat="c in dashboard.user.colleagues | limitTo:3">
@@ -236,7 +276,7 @@
 						<img ng-src="assets/public/img/titoli_dashboard/nuovo.png" class="titleIcon">
 						<img ng-src="assets/public/img/titoli_dashboard/compito.png" class="titleIcon">
 					</h1>
-					<div class="marginMTop">
+					<!--<div class="marginMTop">
 						<form role="form">
 							<div class="form-group">
 								<input type="text" class="form-control" id="email"
@@ -265,34 +305,52 @@
 							</div>
 							<button type="submit" class="confirm btn btn-default">Crea</button>
 						</form>
-
 					</div>
+					-->
+					<p>Questa sezione non è ancora attiva.</p>
+					
 				</div>
-				<div class="col-sm-8 col-md-6 singleRow box boxBlue">
+				
+				<div class="col-sm-8 col-md-6 singleRow box boxBlue hidden-xs visible-sm visible-md visible-lg">
 					<h1 data-ui-sref="logged.dashboard.filesList">
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/materiali.png" class="title"></a>
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon"></a>
 					</h1>
-					<div>
-						<h4>Titolo del file</h4>
-						Qua verranno inserite le anteprime dei singoli materiali
+					<div class="row marginMTop">
+						<div class="col-sm-4">
+							<img ng-src="assets/public/img/icon/ic_excel.png" class="img fileIcon">
+							<h4>Titolo del file</h4>
+						</div>
 					</div>
 				</div>
+				<div class="col-sm-8 col-md-6 doubleRow box boxBlue visible-xs hidden-sm hidden-md hidden-lg">
+					<h1 data-ui-sref="logged.dashboard.filesList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/materiali.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon"></a>
+					</h1>
+					<div class="row marginLTop">
+						<img ng-src="assets/public/img/icon/ic_word.png" class="img fileIcon">
+						<h4>Titolo del file</h4>
+					</div>
+					<div class="row marginLTop">
+						<img ng-src="assets/public/img/icon/ic_excel.png" class="img fileIcon">
+						<h4>Titolo del file</h4>
+					</div>
+					<a ui-sref="logged.dashboard.filesList" class="marginLTop">	
+						<h4>Vedi altri</h4>
+					</a>
+				</div>
+				
 				<div class="col-sm-4 col-md-6 singleRow box boxBrown">
 					<h1>
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/azioni.png" class="titleIcon"></a>
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_att.png" class="titleIcon"></a>
 					</h1>
-					<ul class="list-group">
-						<li class="list-group-item"><a href="">Guidi Marco ha
-								inserito un nuovo post </a></li>
-						<li class="list-group-item"><a href="">A Rea Anna piace
-								il post di Renzo</a></li>
-						<li class="list-group-item"><a href="">Rea Anna ha
-								completato un compito </a></li>
-						<li class="list-group-item"><a href="">Bello Antonio ha
-								commentato il suo post</a></li>
-					</ul>
+					<p>Questa sezione non è ancora attiva</p>
+					<!--  <ul class="list-group">
+						<li class="list-group-item"><a href=""></a></li>
+						
+					</ul>-->
 				</div>
 			</div>
 		</div>

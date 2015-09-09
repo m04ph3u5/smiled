@@ -81,6 +81,7 @@
 	<script src="/assets/public/js/controllers/scenarioMapController.js"></script>
 	<script src="/assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="/assets/public/js/controllers/studentsListController.js"></script>
+	<script src="/assets/public/js/controllers/colleaguesListController.js"></script>
 	<script src="/assets/public/js/controllers/characterProfileController.js"></script>
 	<script src="/assets/public/js/controllers/dialogScenarioController.js"></script>
 	<script src="/assets/public/js/controllers/dialogSetDateController.js"></script>

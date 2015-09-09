@@ -3,7 +3,10 @@
 }
 
 /*Common style*/
-
+		body{
+			font-family: Georgia;
+			font-size:16px;
+		}
 		h1,h2,h3,h4{
 			color:#212121;
 		}
@@ -175,10 +178,10 @@
 		}
 		
 		a{
-			color:#8cbea3;
+			color:#587866;
 		}
 		a:hover{
-			color:#ADA783;			
+			color:#8cbea3;			
 		}
 		.box {			
 			border-style: solid;
@@ -286,7 +289,9 @@
 		.marginXXLTop{
 			margin-top: 150px;
 		}
-		
+		.goUppercase{
+			text-transform:uppercase
+		}
 		.form-control[readonly]{
 			background-color:transparent;
 		}
@@ -301,12 +306,12 @@
 			width:150px;
 			object-fit: cover;
 		}
-		
 		.imgPreviewM{
 			height:50px;
 			width:50px;
 			object-fit: cover;
 		}
+
 		label{
 			margin-top: 5px;
 		  font-weight: bold;
@@ -343,7 +348,24 @@
 		.sideIcon{
     		height:80px;
     	}
-
+		.scenDashIcon{
+			height:80px;
+			margin-top:10px;
+			margin-bottom:10px;
+		}
+		.scenDashIcon2{
+			width:80px;
+			margin-top:10px;
+			margin-bottom:10px;
+		}
+		.emptyContent{
+			margin-top:3%;
+			margin-bottom:1%;
+			font-size:18px;
+		}
+		.dashSection{
+			min-height:500px;
+		}
 /* Index */
 		.fillContent{
 			padding-right:0px;
@@ -363,10 +385,7 @@
 		}
 		
 /* Dashboard */
-		.provaOverlap{
-			position:relative;
- 			display:block;
-		}
+
 		.overlapImg{
 			position:absolute;
 			  left:60%;
@@ -374,10 +393,6 @@
 			  top: 80px;
 			  width: 20px;
 			  height: 20px;
-			  /*position: relative;
-			  left: -30px;
-			  
-			  z-index: 1;*/
 		}
 		.overlapImgSmall{
 			position:absolute;
@@ -442,7 +457,9 @@
     	.titleIcon{
     		height:40px;
     	}
-    	
+    	.fileIcon{
+    		height:130px;
+    	}
 
 /*Profilo*/
 		.profileSection{
@@ -462,12 +479,7 @@
 			max-width:100%;
 			max-height:100%;
 		}
-		.fitContent{
-			text-align:left;
-			padding-left:10%;
-			font-size:16px;
-			color: #5B5955;
-		}
+
 		.fixedHeight{
 			height:500px;
 		}
@@ -479,6 +491,22 @@
 		 #uploadSpan:hover{
 		 	color:#ADA783;
 		 }
+		 .profilePicture{
+			height:250px;
+			width:250px;
+			object-fit: cover;
+			
+		}
+		.overlapIconPP{
+			position:absolute;
+			left:70%;
+			top: 230px;
+			width: 40px;			
+		}
+		.overlapIconCover{			
+			
+			width: 40px;			
+		}
 
 /*Scenario*/
 		.jumbotron{
