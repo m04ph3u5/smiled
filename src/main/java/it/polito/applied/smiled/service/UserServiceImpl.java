@@ -520,61 +520,26 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		
 	}
 
+	/*Non iscrive al sistema l'utente ma gli invia soltanto una mail di invito.
+	 * Restituisce false se la mail � gia presente nel sistema, viceversa ritorna true.
+	*/
 	@Override
-	public void inviteColleague(EmailDTO emailDTO, CustomUserDetails activeUser) throws UserAlreadyExistsException {
-		try{
+	public boolean inviteTeacherIfNotPresent(String email, String teacherInviterId) throws BadRequestException {
+		
+		User u = userRepository.findByEmail(email);
+		if(u==null){
+		
 			
-			//if(!teacherAlreadyPresent(emailDTO.getEmail())){
-				/*SALVA UTENTE NEL REPOSITORY USER*/		
-				User u = new Teacher();
-				u.setEmail(emailDTO.getEmail());
-				//genero pwd casuale
-				String pwd = RandomStringUtils.random(10,true,true);
-				String hashPassword=passwordEncoder.encode(pwd);
-				u.setPassword(hashPassword);
-				u.setStatus(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD);
-				u.setRegistrationDate(new Date());
-
-				List<Role> roles = new ArrayList<Role>();
-				roles.add(new Role("ROLE_TEACHER"));
-				roles.add(new Role("ROLE_USER"));
-				u.setRoles(roles);
-				
-				u.setInvitedBy(activeUser.getId());
-				
-				asyncUpdater.sendTeacherInviteEmail(emailDTO.getEmail(), activeUser.getUsername());
-
-				try{
-					userRepository.save(u);
-				}catch(MongoDataIntegrityViolationException e){
-					//TODO 
-					/*Inserire report eccezione (in tutte le eccezioni di questa classe)*/
-					User user = userRepository.findByEmail(emailDTO.getEmail());
-					Reference r = new Reference(user);
-					userRepository.addColleagueToTeacher(activeUser.getId(),r);
-					System.out.println("Invito non � stato fatto poich� l'email era gi� presente nel sistema, aggiungo solo il nuovo teacher alla mia lista di colleghi");
-					
-					throw new UserAlreadyExistsException(u.getEmail());
-				}
-			//}		
-				
-//				try{
-//					RegistrationToken registration = new RegistrationToken(teacher.getEmail());
-//					registrationRepository.save(registration);
-//					asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName(), teacher.getEmail(),registration.getToken().toString());
-//				}catch(MongoDataIntegrityViolationException e){
-//					/*Eccezione che in teoria non dovrebbe mai verificarsi, in quanto abbiamo già controllato che non esista uno user con quella email
-//					 * al passo precedente*/
-//					throw e;
-//				}
-		}catch(MongoException e){
-			throw e;
+			Teacher teacherInviter = (Teacher) userRepository.findById(teacherInviterId);
+			if(teacherInviter==null)
+				throw new BadRequestException();
+			
+			asyncUpdater.sendTeacherInviteEmail(email, teacherInviter);
+			return true;
+		}else{
+			return false;
 		}
-
 	}
 	
-	@Override
-	public boolean teacherAlreadyPresent(String email){
-		return true;
-	}
+	
 }

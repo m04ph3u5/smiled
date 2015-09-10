@@ -33,7 +33,7 @@
 
 	<http use-expressions="true"  entry-point-ref="restServicesEntryPoint">
 		<remember-me key="smiledKey" token-validity-seconds="2000000" />
-		<intercept-url pattern="/" access="permitAll"/>
+		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll"/>
 		<intercept-url pattern="/assets/public/**" access="permitAll"
 			 />

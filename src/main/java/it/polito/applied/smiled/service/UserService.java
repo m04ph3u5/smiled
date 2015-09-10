@@ -68,7 +68,6 @@ public interface UserService {
 	public void moveScenarioFromOpenToInviting(String collaboratorId, String id);
 	public void createScenarioOfUser(Reference r,
 			ScenarioReference scenarioReference);
-	public void inviteColleague(EmailDTO emailDTO, CustomUserDetails activeUser) throws UserAlreadyExistsException;
-	public boolean teacherAlreadyPresent(String email);
+	public boolean inviteTeacherIfNotPresent(String email, String teacherInviterId) throws BadRequestException;	
 	
 }

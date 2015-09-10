@@ -103,9 +103,10 @@ public class AsyncUpdater {
 		
 	}	
 	
-	public void sendTeacherInviteEmail(String invitedEmail, String invitingTeacher){
-	//	Runnable r = new sendEmailRunnable(firstName,email, token);
-	//	taskExecutor.execute(r);
+	public void sendTeacherInviteEmail(String invitedEmail, Teacher invitingTeacher){
+		
+		Runnable r = new sendInviteEmailRunnable(invitedEmail, invitingTeacher);
+		taskExecutor.execute(r);
 	}
 
 	public void sendStudentsRegistrationEmail(Map<String,String> toSendEmail,
@@ -214,6 +215,21 @@ public class AsyncUpdater {
 				usersId.add(scenario.getTeacherCreator().getId());
 			
 			userRepository.openScenarioToUsers(usersId, new ScenarioReference(scenario));
+		}
+	}
+	
+	private class sendInviteEmailRunnable implements Runnable{
+		private String email;
+		private Teacher inviterTeacher;
+		
+		public sendInviteEmailRunnable(String email, Teacher inviterTeacher){
+			this.email = email;
+			this.inviterTeacher = inviterTeacher;
+		}
+		
+		@Override
+		public void run(){
+			mailService.sendInviteTeacherEmail(email, inviterTeacher.getFirstName() + " "+ inviterTeacher.getLastName());
 		}
 	}
 	
@@ -491,6 +507,9 @@ public class AsyncUpdater {
 
 
 	}
+
+
+	
 
 
 	
