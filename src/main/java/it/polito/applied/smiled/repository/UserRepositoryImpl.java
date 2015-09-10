@@ -417,6 +417,21 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		else
 			return false;
 	}
+	
+	@Override
+	public boolean setCoverLarge(String userId, String coverId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("_id").is(new ObjectId(userId)));
+		Update u = new Update();
+		u.set("profile.largeCoverPhotoId", coverId);
+
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
+		
+	}
 
 	@Override
 	public int createScenarioToUser(String id,
@@ -442,5 +457,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		else
 			return false;
 	}
+
+
 
 }

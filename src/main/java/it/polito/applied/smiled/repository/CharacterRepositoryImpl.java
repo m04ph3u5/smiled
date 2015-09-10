@@ -5,6 +5,7 @@ import java.util.List;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.Reference;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -114,10 +115,10 @@ public class CharacterRepositoryImpl implements CustomCharacterRepository{
 	@Override
 	public boolean setCover(String characterId, String coverId) {
 		Query q = new Query();
-		q.addCriteria(Criteria.where("id").is(characterId));
+		q.addCriteria(Criteria.where("_id").is(new ObjectId(characterId)));
 		Update u = new Update();
-		u.set("cover", coverId);
-		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		u.set("coverPhotoId", coverId);
+		WriteResult w = mongoOp.updateFirst(q, u, Character.class);
 		if(w.isUpdateOfExisting())
 			return true;
 		else

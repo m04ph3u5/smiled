@@ -46,5 +46,6 @@ public interface CustomUserRepository {
 	public boolean setCover(String userId, String coverId);
 	public int createScenarioToUser(String id,	ScenarioReference scenarioReference);
 	public boolean addColleagueToTeacher(String id, Reference r);
+	public boolean setCoverLarge(String userId, String coverId);
 
 }

@@ -7,6 +7,7 @@ import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.security.CustomUserDetails;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.data.domain.Page;
@@ -46,4 +47,9 @@ public interface FileManagerService {
 
 	public Page<FileMetadataDTO> getScenarioFilesMetadata(String idScenario,
 			Integer nPag, Integer nItem) throws IOException;
+
+	public void postCoverLargeUser(MultipartFile userCover,
+			CustomUserDetails user) throws HttpMediaTypeNotAcceptableException, BadRequestException, IOException;
+
+	public byte[] getUserCoverLarge(String id) throws FileNotFoundException, IOException;
 }
