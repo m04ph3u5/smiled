@@ -7,7 +7,8 @@ public class UserProfile {
 	//TODO - ATTENZIONE se modifichiamo questa classe ricordiamoci di aggiornare
 	// la updateUser di userServiceImpl e lo UserDTOValidator (ed eventuali altre classi)
 	protected String gender;
-	protected String coverPhoto;
+	protected String coverPhotoId;
+	protected String largeCoverPhotoId;
 	protected Date bornDate;
 	
 	
@@ -19,12 +20,12 @@ public class UserProfile {
 		this.gender = gender;
 	}
 
-	public String getCoverPhoto() {
-		return coverPhoto;
+	public String getCoverPhotoId() {
+		return coverPhotoId;
 	}
 
-	public void setCoverPhoto(String coverPhoto) {
-		this.coverPhoto = coverPhoto;
+	public void setCoverPhotoId(String coverPhotoId) {
+		this.coverPhotoId = coverPhotoId;
 	}
 
 	public Date getBornDate() {
@@ -33,6 +34,14 @@ public class UserProfile {
 
 	public void setBornDate(Date bornDate) {
 		this.bornDate = bornDate;
+	}
+
+	public String getLargeCoverPhotoId() {
+		return largeCoverPhotoId;
+	}
+
+	public void setLargeCoverPhotoId(String largeCoverPhotoId) {
+		this.largeCoverPhotoId = largeCoverPhotoId;
 	}
 	
 	

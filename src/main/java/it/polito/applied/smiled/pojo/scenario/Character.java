@@ -28,7 +28,8 @@ public class Character {
 	private String description;
 	private HistoricalDate bornDate;
 	private HistoricalDate deadDate;
-	private String cover;
+	private String coverPhotoId;
+	private String largeCoverPhotoId;
 	private String quote;
 	private String gender;
 	private String bornTown;
@@ -89,12 +90,7 @@ public class Character {
 	public void setDeadDate(HistoricalDate deadDate) {
 		this.deadDate = deadDate;
 	}
-	public String getCover() {
-		return cover;
-	}
-	public void setCover(String cover) {
-		this.cover = cover;
-	}
+	
 	public Reference getActualUser() {
 		return actualUser;
 	}
@@ -197,5 +193,28 @@ public class Character {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
+
+	public String getCoverPhotoId() {
+		return coverPhotoId;
+	}
+
+
+	public void setCoverPhotoId(String coverPhotoId) {
+		this.coverPhotoId = coverPhotoId;
+	}
+
+
+	public String getLargeCoverPhotoId() {
+		return largeCoverPhotoId;
+	}
+
+
+	public void setLargeCoverPhotoId(String largeCoverPhotoId) {
+		this.largeCoverPhotoId = largeCoverPhotoId;
+	}
+
+
+	
 	
 }

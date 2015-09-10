@@ -9,7 +9,6 @@ public class Reference {
 	private String id;
 	private String firstname;
 	private String lastname;
-	private String cover;
 	private String type;
 	
 	private String email;
@@ -22,8 +21,7 @@ public class Reference {
 		id=u.getId();
 		firstname=u.getFirstName();
 		lastname=u.getLastName();
-		if(u.getProfile()!=null)
-			cover=u.getProfile().getCoverPhoto();
+		
 		email=u.getEmail();
 		type=u.getClass().getSimpleName();
 	}
@@ -31,7 +29,6 @@ public class Reference {
 	public Reference(Character c) {
 		id=c.getId();
 		firstname=c.getName();
-		cover=c.getCover();
 		type=c.getClass().getSimpleName();
 	}
 
@@ -42,12 +39,7 @@ public class Reference {
 		this.id = id;
 	}
 	
-	public String getCover() {
-		return cover;
-	}
-	public void setCover(String cover) {
-		this.cover = cover;
-	}
+
 	public String getEmail() {
 		return email;
 	}

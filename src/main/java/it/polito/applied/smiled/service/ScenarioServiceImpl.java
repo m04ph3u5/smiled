@@ -1208,7 +1208,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					throw new BadRequestException();
 				if(!f.getUserId().equals(u.getId()))
 					throw new ForbiddenException();
-				event.addImageMetadata(f);
+				event.addImageMetadata(new FileReference(eventDTO.getImageMetaId().get(i), f.getOriginalName()));
 				gridFsManager.confirmImage(event.getImagesMetadata().get(i).getId(), f);
 			}
 		}
@@ -1220,7 +1220,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					throw new BadRequestException();
 				if(!f.getUserId().equals(u.getId()))
 					throw new ForbiddenException();
-				event.addFileMetadata(f);
+				event.addFileMetadata(new FileReference(eventDTO.getFileMetaId().get(i), f.getOriginalName()));
 				gridFsManager.confirmFile(event.getFilesMetadata().get(i).getId(), f);
 			}
 		}
@@ -1910,7 +1910,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 						if(permissionEvaluator.hasPermission(auth, scenRef.getMyCharacterId(), "Character", "WRITE")){
 							charRef = new Reference();
 							charRef.setId(scenRef.getMyCharacterId());
-							charRef.setCover(scenRef.getMyCharacterCover());
 							charRef.setFirstname(scenRef.getMyCharacterName());
 							hasPermission=true;
 						}

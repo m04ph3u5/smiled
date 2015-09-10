@@ -43,6 +43,7 @@ public class Student extends User{
 		this.password=password;
 		this.invitingScenariosId = new ArrayList<String>();
 		invitingScenariosId.add(scenarioId);
+		this.profile = new UserProfile();
 	}
 	
 	

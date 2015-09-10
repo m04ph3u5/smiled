@@ -206,7 +206,6 @@ public class UserRepositoryImpl implements CustomUserRepository {
 	@Override
 	public int removeScenarioFromUsers(List<String> usersToRemove, String id) {
 		
-		System.out.println("aaaaaaaaaaaa"+usersToRemove.get(0));
 		if(usersToRemove==null || usersToRemove.isEmpty())
 			return 0;
 
@@ -335,7 +334,6 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		Update u = new Update();
 		u.set("openScenarios.$.myCharacterId",null);
 		u.set("openScenarios.$.myCharacterName",null);
-		u.set("openScenarios.$.myCharacterCover",null);
 		u.push("openScenarios.$.myPastCharactersId", characterId);
 		
 		WriteResult w = mongoOp.updateFirst(q, u, User.class);
@@ -354,7 +352,6 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		Update u = new Update();
 		u.set("openScenarios.$.myCharacterId",characterRef.getId());
 		u.set("openScenarios.$.myCharacterName",characterRef.getFirstname());
-		u.set("openScenarios.$.myCharacterCover",characterRef.getCover());
 		
 		WriteResult w = mongoOp.updateFirst(q, u, User.class);
 		if(w.isUpdateOfExisting())
@@ -410,13 +407,12 @@ public class UserRepositoryImpl implements CustomUserRepository {
 	@Override
 	public boolean setCover(String userId, String coverId) {
 		Query q = new Query();
-		q.addCriteria(Criteria.where("id").is(userId));
+		q.addCriteria(Criteria.where("_id").is(new ObjectId(userId)));
 		Update u = new Update();
-		u.set("profile.coverPhoto", coverId);
-		FindAndModifyOptions options = new FindAndModifyOptions();
-		options.upsert(true);
-		User user = mongoOp.findAndModify(q, u, options, User.class);
-		if(user!=null)
+		u.set("profile.coverPhotoId", coverId);
+
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		if(w.isUpdateOfExisting())
 			return true;
 		else
 			return false;

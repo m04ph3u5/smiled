@@ -35,6 +35,7 @@ public class Teacher extends User{
 		this.email=email;
 		this.password=hashPassword;
 		this.invitedBy=teacherRef.getId();
+		this.profile = new UserProfile();
 	}
 
 	public List<Reference> getStudents() {
