@@ -24,8 +24,9 @@
 </div>
 
 <br>
-<div class="btn positiveButton pull-left" data-ui-sref="logged.scenarioWizard.associations"><span class="glyphicon glyphicon-arrow-left"></span> INDIETRO</div>
-
+<a href="">
+<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.associations" data-ng-click="scenarioWizard.saveInfo()">
+</a>
 <script type="text/ng-template" id="customTemplate.html">
   <a href="">
       <img data-ng-src="api/v1/users/{{match.model.id}}/cover" 

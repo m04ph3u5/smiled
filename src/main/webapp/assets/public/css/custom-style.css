@@ -203,6 +203,12 @@
 			background-repeat: no-repeat;
 			background-position: center; 			
 		}
+		.boxGray {						
+			background-image: url("img_temp/dash_bg_gray.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
 		.boxGreen {						
 			background-image: url("img_temp/dash_bg_green.jpg");
 			background-size:cover;
@@ -287,7 +293,7 @@
 			margin-right: 5%;
 		}
 		.marginXXLTop{
-			margin-top: 150px;
+			margin-top: 200px;
 		}
 		.goUppercase{
 			text-transform:uppercase
@@ -366,6 +372,20 @@
 		.dashSection{
 			min-height:500px;
 		}
+		#freccia{
+			height:60px;
+			width:250px; 
+			background-color:#cec18d;
+		}
+		#freccia::after {
+			content: '';
+			position: absolute;
+			margin-left:250px;
+			border-top: 30px solid transparent;
+			border-bottom: 30px solid transparent;
+			
+			border-left: 30px solid #cec18d;
+		}
 /* Index */
 		.fillContent{
 			padding-right:0px;
@@ -375,9 +395,10 @@
 
 /*Navbar*/
 	.navbar{
-			margin-top:1%;
-			background-color:transparent;
+			padding-top:1%;
+			background-color:#F5F2EA;
 			border: none;
+			border-radius:0px;
 			color: #5B5955;
 		}
 		.navbar-default .navbar-brand {
@@ -586,7 +607,13 @@
 		.invisibleButton{
 			bakground-color:transparent !important;
 		}
-		
+		.wizButton{
+			height:30px;
+		}
+		.paddingMLeft{
+			padding-left:3%;
+		}
+
 /* Elenco scenari */
 		.sideMarginThree{
 			margin-right:3%;
@@ -706,8 +733,7 @@
 		margin-right:8px;
 		font-size:18px;
 	}
-	.extraContent{
-		background-color:#efeace;
+	.extraContent{		
 		margin-right:0px;
 		margin-left:0px;
 		padding-bottom:1%;

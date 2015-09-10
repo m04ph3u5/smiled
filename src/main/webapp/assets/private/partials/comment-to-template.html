@@ -7,7 +7,7 @@
 	<div data-ng-repeat="c in commentTo.visibleComments" class="textLeft col-xs-12 noPadding">	
 			<img class="pull-left img imgPreviewM marginMRight"
 				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{c.character.id}}/cover"
-				data-err-src="assets/public/img/cesar.png"></img>
+				data-err-src="assets/public/img/icon/pg.png"></img>
 	
 		<div class="row">
 					<label>{{c.character.firstname}}</label>: {{c.text}}
@@ -20,7 +20,7 @@
 <div data-ng-show="commentTo.showInsert">
 	<img class="pull-left img imgPreviewM marginMTop marginMRight"
 		data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
-		data-err-src="assets/public/img/cesar.png"></img>
+		data-err-src="assets/public/img/icon/pg.png"></img>
 	<div class="row">
 		<textarea data-ng-model="commentTo.post.newComment" rows="2"
 			class="pull-left col-xs-10 marginMTop"

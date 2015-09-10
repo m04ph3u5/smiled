@@ -43,7 +43,7 @@
 				<div class="row">
 					<div class="col-sm-3 col-xs-12"></div>
 					<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{c.cover}}" 
-								data-err-src="/assets/public/img/ic_characters.png" class="img-circle imgPreviewM"> {{c.name}}
+								data-err-src="/assets/public/img/icon/pg.png" class="img-circle imgPreviewM"> {{c.name}}
 					</div>
 					<div class="col-sm-3 col-xs-12"></div>
 				
@@ -87,13 +87,17 @@
 			</div>
 			<div class="col-xs-4 btn generalButton textLeft">
 				<img data-ng-src="{{a.character.cover}}" 
-					data-err-src="/assets/public/img/ic_characters.png" class="img-circle imgPreviewL"> {{a.character.name}}
+					data-err-src="/assets/public/img/icon/pg.png" class="img-circle imgPreviewL"> {{a.character.name}}
 			</div>
 			<div class="col-sm-1"></div>
 			</div>
 		</div>
 	</div>
 	</div>
-<div class="btn positiveButton pull-left" data-ui-sref="logged.scenarioWizard.characters"><span class="glyphicon glyphicon-arrow-left"></span> INDIETRO</div>
-<div class="btn positiveButton pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.collaborators">AVANTI <span class="glyphicon glyphicon-arrow-right"></span></div>
 </div>
+<a href="">
+<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.characters" data-ng-click="scenarioWizard.saveInfo()">
+</a>
+<a href="">
+<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.collaborators" data-ng-click="scenarioWizard.saveInfo()">
+</a>

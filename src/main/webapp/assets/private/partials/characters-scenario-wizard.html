@@ -17,7 +17,7 @@
 					<accordion-heading>						
 						<div data-ng-click="scenarioWizard.openAccordion($index)">
 							<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': c.isOpen, 'glyphicon-chevron-right': !c.isOpen}"></div>	
-							<img ng-src="{{c.cover}}" err-src="assets/public/img/ic_characters.png" class="img-circle imgPreviewM">
+							<img ng-src="{{c.cover}}" err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">
 							<b>{{c.name}}</b>
 						</div>	
 					</accordion-heading>
@@ -35,7 +35,7 @@
 						<label class="col-md-4">Biografia</label>
 						<textarea data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
 						<img data-ng-src="{{c.cover}}"
-						data-err-src="assets/public/img/ic_characters.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
+						data-err-src="assets/public/img/icon/pg.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
 					</div>
 					<div class="row">
 						<label class="col-md-4">Data di nascita</label>
@@ -81,5 +81,9 @@
 	</accordion>
 	</div>
 </div>
-<div class="btn positiveButton pull-left" data-ui-sref="logged.scenarioWizard.attendees"><span class="glyphicon glyphicon-arrow-left"></span> INDIETRO</div>
-<div class="btn positiveButton pull-right" data-ng-click="scenarioWizard.checkOpenAccordion()" data-ui-sref="logged.scenarioWizard.associations">AVANTI <span class="glyphicon glyphicon-arrow-right"></span></div>
+<a href="">
+<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">
+</a>
+<a href="">
+<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.associations" data-ng-click="scenarioWizard.saveInfo()">
+</a>
