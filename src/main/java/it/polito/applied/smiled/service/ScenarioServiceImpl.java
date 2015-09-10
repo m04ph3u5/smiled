@@ -451,27 +451,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		return alreadyPresent;
 	}
 
-	/*Differente dal subscribeStudentIfNotPresent. A differenza di quest'ultima non iscrive al sistema l'utente ma gli invia soltanto una mail di invito.
-	 * Restituisce false se la mail è gia presente nel sistema, viceversa ritorna true.
-	*/
-	@Override
-	public boolean inviteTeacherIfNotPresent(String email, String teacherId) throws BadRequestException {
-		
-		Reference ref;
-		User u = userRepository.findByEmail(email);
-		if(u==null){
-			
-			
-			Teacher invitingTeacher = (Teacher) userRepository.findById(teacherId);
-			if(invitingTeacher==null)
-				throw new BadRequestException();
-			
-			asyncUpdater.sendTeacherInviteEmail(email, invitingTeacher);
-			return true;
-		}else{
-			return false;
-		}
-	}
+	
 
 //	//Rimuove una lista di user
 //	@Override
