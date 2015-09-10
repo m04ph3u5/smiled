@@ -58,15 +58,7 @@ public class UserController extends BaseController{
 		}
 		userService.registerTeacher(registerTeacherDTO);
 	}
-	
-	@RequestMapping(value="/v1/colleagues", method=RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void inviteColleague(@RequestBody @Valid EmailDTO emailDTO, BindingResult result,  @AuthenticationPrincipal CustomUserDetails activeUser)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, UserAlreadyExistsException, BadRequestException{
-		if(result.hasErrors()){
-			throw new BadRequestException();
-		}
-		userService.inviteColleague(emailDTO, activeUser);
-	}
+
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/v1/me", method=RequestMethod.GET)
@@ -218,12 +210,12 @@ public class UserController extends BaseController{
 		UserDTO u = userService.getOneself(email);
 	}
 	
+	@RequestMapping(value="/v1/colleagues", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@RequestMapping(value="/v1/invite", method=RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_TEACHER')")
-	public void inviteColleague() throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+	public void inviteColleague(@RequestBody @Valid EmailDTO emailDTO, BindingResult result,  @AuthenticationPrincipal CustomUserDetails activeUser)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, UserAlreadyExistsException, BadRequestException{
+		if(result.hasErrors()){
+			throw new BadRequestException();
+		}
+		userService.inviteTeacherIfNotPresent(emailDTO.getEmail(), activeUser.getId());
 	}
 }

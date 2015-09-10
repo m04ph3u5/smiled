@@ -112,6 +112,21 @@ public class EmailMessageService {
 		mailSender.send(message);
 		
 	}
+	
+	public void sendInviteTeacherEmail(String email, String inviterTeacherName){
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(from);
+		message.setTo(email);
+		message.setSubject("Meschola! "+inviterTeacherName+" ti ha invitato ad iscriverti");
+		message.setText("Gentile utente\n\n "
+				+ "il docente "+ inviterTeacherName +" ti ha invitato ad iscriverti a meschola.\n\n"
+				+ "Per farlo bastano pochi semplici passi:\nclicca qui: www.meschola.it ed iscriviti subito."
+				+ "Saluti,\n"
+				+ "Il team di Meschola");
+				
+	
+		mailSender.send(message);
+	}
 
 	
 }
