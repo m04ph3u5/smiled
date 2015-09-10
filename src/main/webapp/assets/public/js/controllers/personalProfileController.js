@@ -31,6 +31,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	}else{
 		userService.getMe().then(onSuccessGetUser, onErrorGetUser);
 		self.url = CONSTANTS.urlMeCover;
+		self.coverLarge = CONSTANTS.urlMeCoverLarge;
 		self.isModifiable=true;
 	}
 	
@@ -55,6 +56,28 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	            var date = new Date();
 	            self.url = CONSTANTS.urlMeCover+"?"+date.toString();    
 	            userService.notifyPersonalCoverObservers();
+	        });
+		}
+	}
+	
+	self.uploadCoverLarge = function(file){
+		if(file && file.length){
+			Upload.upload({
+	            url: 'api/v1/me/coverLarge',
+	            headers : {
+	                'Content-Type': file.type
+	            },
+	            file: file
+	        })
+//	            .progress(function (evt) {
+//	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//	        })
+	        .success(function (data, status, headers, config) {
+	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+	            var date = new Date();
+	            self.coverLarge = CONSTANTS.urlMeCoverLarge+"?"+date.toString();    
+	            //userService.notifyPersonalCoverObservers();
 	        });
 		}
 	}
