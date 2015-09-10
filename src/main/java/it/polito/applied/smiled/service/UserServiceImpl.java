@@ -542,7 +542,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 				
 				u.setInvitedBy(activeUser.getId());
 				
-				asyncUpdater.sendTeacherInviteEmail(emailDTO.getEmail(), activeUser.getUsername());
+			//	asyncUpdater.sendTeacherInviteEmail(emailDTO.getEmail(), activeUser.getUsername());
 
 				try{
 					userRepository.save(u);
