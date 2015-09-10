@@ -22,7 +22,9 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	}
 	
 	self.dateFormat = CONSTANTS.realDateFormatWithoutHour;
-	self.isModifiable=false;	
+	self.isModifiable=false;
+
+	
 	if($stateParams.id)
 		id = $stateParams.id;
 	if(id){

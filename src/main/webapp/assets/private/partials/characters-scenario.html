@@ -1,8 +1,8 @@
 <div class="container-fluid">	
-	<div class="box textCenter row">
+	<div class="box boxGray textCenter row">
 	
 	<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="a in scenarioCharacters.associations">
-		<div class="col-xs-12"><img data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{a.id}}' })" data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/icon/pg.png"
+		<div class="col-xs-12"><img data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })" data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/icon/pg.png"
 			class="img-circle imgPreviewL"> 
 		</div>
 		
