@@ -70,6 +70,13 @@ public class FileUploadController extends BaseController{
 		fileManagerService.postCoverUser(userCover, user);
 	}
 	
+	@ResponseStatus(value = HttpStatus.CREATED)
+	@RequestMapping(value="me/coverLarge", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public void uploadMeCoverLarge(@RequestPart("file") MultipartFile userCover, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
+		fileManagerService.postCoverLargeUser(userCover, user);
+	}
+	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="me/cover", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -78,10 +85,24 @@ public class FileUploadController extends BaseController{
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="me/coverLarge", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ByteArrayResource getMeCoverLarge(@AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		return new ByteArrayResource(fileManagerService.getUserCoverLarge(user.getId()));
+	}
+	
+	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="users/{id}/cover", method=RequestMethod.GET)
 	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
 	public ByteArrayResource getUserCover(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
 		return new ByteArrayResource(fileManagerService.getUserCover(id));
+	}
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="users/{id}/coverLarge", method=RequestMethod.GET)
+	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
+	public ByteArrayResource getUserCoverLarge(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		return new ByteArrayResource(fileManagerService.getUserCoverLarge(id));
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -126,7 +147,7 @@ public class FileUploadController extends BaseController{
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="me/media/image/meta", method=RequestMethod.GET)
+	@RequestMapping(value="me/media/images/meta", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Page<FileMetadataDTO> getUserImagesMetadata(@AuthenticationPrincipal CustomUserDetails user, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
 		if(nPag==null || nPag<0)

@@ -153,9 +153,55 @@ public class FileManagerServiceImpl implements FileManagerService {
 		}
 	}
 
+
+	@Override
+	public void postCoverLargeUser(MultipartFile userCover,
+			CustomUserDetails user) throws HttpMediaTypeNotAcceptableException, BadRequestException, IOException {
+		SupportedMedia type = validateAsImage(userCover);
+
+		User u = userRepository.findById(user.getId());
+		if(u==null)
+			throw new BadRequestException();
+
+		FileMetadata meta = new FileMetadata();
+
+		meta.setUserId(user.getId());
+		meta.setCreationDate(new Date());
+		meta.setType(ResourceType.ACTUAL_COVER);
+		meta.setOriginalName(userCover.getOriginalFilename());
+		meta.setFormat(type);
+
+		InputStream input = userCover.getInputStream();
+		String coverName = "ul"+user.getId();
+		if(u.getProfile()==null || u.getProfile().getLargeCoverPhotoId()==null || u.getProfile().getLargeCoverPhotoId().isEmpty()){
+			GridFSFile file = gridFsManager.save(input, coverName, userCover.getContentType(), meta);
+		    userRepository.setCoverLarge(u.getId(), file.getId().toString());
+		}else{
+			GridFSFile oldCover = gridFsManager.readOneById(u.getProfile().getLargeCoverPhotoId());
+			gridFsManager.toOldCover(oldCover);
+			GridFSFile file =	gridFsManager.save(input, coverName, userCover.getContentType(), meta);
+		    userRepository.setCoverLarge(u.getId(), file.getId().toString());
+
+		}
+		
+	}
+	
 	@Override
 	public byte[] getUserCover(String id) throws FileNotFoundException, IOException {
 		String name = "u"+id;
+		GridFSDBFile file = gridFsManager.readOneByName(name);
+		if(file==null){
+			throw new FileNotFoundException();
+		}
+		InputStream input = file.getInputStream();
+		byte[] targetArray = new byte[(int)file.getLength()];
+		input.read(targetArray);
+		return targetArray;
+	}
+	
+	@Override
+	public byte[] getUserCoverLarge(String id) throws IOException {
+		String name = "ul"+id;
 		GridFSDBFile file = gridFsManager.readOneByName(name);
 		if(file==null){
 			throw new FileNotFoundException();
@@ -189,10 +235,11 @@ public class FileManagerServiceImpl implements FileManagerService {
 		InputStream input = characterCover.getInputStream();
 		String coverName = "c"+c.getId();
 
-		if(c.getCoverPhotoId()==null || c.getCoverPhotoId().isEmpty() || c.getCoverPhotoId().equals("")){
+		if(c.getCoverPhotoId()==null || c.getCoverPhotoId().isEmpty()){
 			GridFSFile file = gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
 			characterRepository.setCover(c.getId(),file.getId().toString());
 		}else{
+			System.out.println("IN 2");
 			GridFSFile oldCover = gridFsManager.readOneById(c.getCoverPhotoId());
 			gridFsManager.toOldCover(oldCover);
 			GridFSFile file = gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
@@ -602,6 +649,9 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 		return false;
 	}
+
+	
+
 
 	
 
