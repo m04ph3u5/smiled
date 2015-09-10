@@ -8,10 +8,13 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	
 	var onSuccessGetUser = function(data){
 		self.user = data;
-		role = self.user.firstName;	
-		if (role=='{"authority":"ROLE_TEACHER"}') self.ruolo="DOCENTE";
-		else self.ruolo="STUDENTE";
-		console.log("metti:"+role + ruolo);
+		role = self.user.role;	
+		console.log(self.user);
+		if (role.authority=="ROLE_TEACHER")
+			self.ruolo="DOCENTE";
+		else 
+			self.ruolo="STUDENTE";
+		//console.log("metti:"+role + ruolo);
 	}
 	
 	var onErrorGetUser = function(reason){

@@ -10,19 +10,35 @@
 <label for="endDate">DATA FINE</label>
 <input id="endDate" type="text" class="form-control" placeholder="yyyy-MM-dd" readonly="readonly" data-ng-click="scenarioWizard.showPopUpSetDate(false)"
 		value="{{scenarioWizard.scenario.history.endDate.day}}/{{scenarioWizard.scenario.history.endDate.month}}/{{scenarioWizard.scenario.history.endDate.year}}"/>	
-<div class="block">
-	<img data-ng-src="{{scenarioWizard.scenarioCover}}" 
-			data-err-src="assets/public/img/ic_photo.png" 
-			class="imgPreviewL "
-			style="margin-right:3%">
-	<p class="uploadSpan btn positiveButton" ngf-select ngf-change="scenarioWizard.uploadCover($files)">CAMBIA LA COPERTINA DELLO SCENARIO</p>
-</div>
-<div class="block">
-	<img data-ng-src="{{scenarioWizard.map}}" 
-			data-err-src="assets/public/img/oldMap.jpg" 
-			class="imgPreviewL "
-			style="margin-right:3%">
-	<p class="uploadSpan btn positiveButton" ngf-select ngf-change="scenarioWizard.uploadMap($files)">CAMBIA LA MAPPA DELLO SCENARIO</p>
-</div>
+<div class="row text-center">
+	<div class="col-md-6 marginMTop">
+		<a href="" ngf-select ngf-change="scenarioWizard.uploadCover($files)">
+			<p>Aggiungi la copertina dello scenario</p>	
+		<div class="row">
+			<div class="col-xs-1"></div>
+			<div class="col-xs-10 imageHere marginMTop">				
+			<img data-ng-src="{{scenarioWizard.scenarioCover}}" 	
+				data-err-src="assets/public/img/wizard/bguploadimg.jpg" 				
+				class="coverMapPreview">
+			</div>		
+		</div>	
+		</a>
+	</div>
+	<div class="col-md-6 marginMTop">
+		<a href="" ngf-select ngf-change="scenarioWizard.uploadMap($files)">
+				<p>Aggiungi la mappa dello scenario</p>	
+			<div class="row">
+				<div class="col-xs-1"></div>
+					<div class="col-xs-10 imageHere marginMTop">					
+						<img data-ng-src="{{scenarioWizard.map}}"
+							data-err-src="assets/public/img/wizard/bguploadimg.jpg" 					
+							class="coverMapPreview">
+					</div>
+			</div>
+		</a>
+	</div>
 
-<div class="btn positiveButton pull-right" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">AVANTI <span class="glyphicon glyphicon-arrow-right"></span></div>
+</div>
+<a href="">
+<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">
+</a>
