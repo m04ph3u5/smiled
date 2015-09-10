@@ -9,7 +9,6 @@
 				ngf-select
 				ngf-change="personalProfile.uploadCover($files)"> </a>			
 			<h1 class="goUppercase">{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h1>
-			<h3>{{personalProfile.user.role}}</h3>
 			<h3>{{personalProfile.ruolo}}</h3>
 			<h4 ng-if="personalProfile.user.profile.bornDate!=null">Data di nascita: {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</h4>
 			<!--  <h4>Scuola, materie insegnate / preferite, Interessi, Citazione</h4>-->
