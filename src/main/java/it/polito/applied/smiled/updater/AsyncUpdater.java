@@ -103,9 +103,10 @@ public class AsyncUpdater {
 		
 	}	
 	
-	public void sendTeacherInviteEmail(String invitedEmail, String invitingTeacher){
-	//	Runnable r = new sendEmailRunnable(firstName,email, token);
-	//	taskExecutor.execute(r);
+	public void sendTeacherInviteEmail(String invitedEmail, Teacher invitingTeacher){
+		//TODO
+		//	Runnable r = new sendEmailRunnable(firstName,email, token);
+		//	taskExecutor.execute(r);
 	}
 
 	public void sendStudentsRegistrationEmail(Map<String,String> toSendEmail,
@@ -491,6 +492,9 @@ public class AsyncUpdater {
 
 
 	}
+
+
+	
 
 
 	

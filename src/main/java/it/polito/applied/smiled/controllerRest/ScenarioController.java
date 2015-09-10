@@ -531,4 +531,13 @@ public class ScenarioController extends BaseController{
 			
 			
 		}
+		
+		@ResponseStatus(value = HttpStatus.CREATED)
+		@RequestMapping(value="/v1/invite", method=RequestMethod.POST)
+		@PreAuthorize("hasRole('ROLE_TEACHER')")
+		public void inviteColleague() throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			
+		}
 }

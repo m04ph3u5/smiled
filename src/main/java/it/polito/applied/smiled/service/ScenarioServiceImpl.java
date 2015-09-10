@@ -451,42 +451,27 @@ public class ScenarioServiceImpl implements ScenarioService{
 		return alreadyPresent;
 	}
 
-//	/*Simile al subscribeStudentIfNotPresent. A differenza di quest'ultima iscrive al sistema un utente come Teacher se non gi√† presente
-//	 * In caso contrario restituisce il Reference allo User (indipendentemente dal fatto che sia Student o Teacher)*/
-//	//TODO - modificare procedura iscrizione aggiungendo conferma admin
-//	@Override
-//	public Reference subscribeTeacherIfNotPresent(String email, String teacherId) throws BadRequestException {
-//		
-//		Reference ref;
-//		User u = userRepository.findByEmail(email);
-//		if(u==null){
-//			String pwd = RandomStringUtils.random(10,true,true);
-//			String hashPassword=passwordEncoder.encode(pwd);
-//			
-//			Teacher invitingTeacher = (Teacher) userRepository.findById(teacherId);
-//			if(invitingTeacher==null)
-//				throw new BadRequestException();
-//			Reference invitingTeacherRef = new Reference(invitingTeacher);
-//			
-//			User teacher = new Teacher(email,invitingTeacherRef,hashPassword);
-//			
-//			try{
-//				u = userRepository.save(teacher);
-//				//TODO modificare l'invio mail seguendo pattern di iscrizione
-//				mailService.sendStudentRegistrationEmail(u.getEmail(), pwd, invitingTeacherRef.getLastname()+" "+invitingTeacherRef.getFirstname());
-//				ref = new Reference(u);
-//				return ref;
-//			}catch(MongoDataIntegrityViolationException e){
-//				u = userRepository.findByEmail(email);
-//				ref = new Reference(u);
-//				return ref;
-//			}
-//
-//		}else{
-//			ref = new Reference(u);
-//			return ref;
-//		}
-//	}
+	/*Differente dal subscribeStudentIfNotPresent. A differenza di quest'ultima non iscrive al sistema l'utente ma gli invia soltanto una mail di invito.
+	 * Restituisce false se la mail Ë gia presente nel sistema, viceversa ritorna true.
+	*/
+	@Override
+	public boolean inviteTeacherIfNotPresent(String email, String teacherId) throws BadRequestException {
+		
+		Reference ref;
+		User u = userRepository.findByEmail(email);
+		if(u==null){
+			
+			
+			Teacher invitingTeacher = (Teacher) userRepository.findById(teacherId);
+			if(invitingTeacher==null)
+				throw new BadRequestException();
+			
+			asyncUpdater.sendTeacherInviteEmail(email, invitingTeacher);
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 //	//Rimuove una lista di user
 //	@Override
