@@ -108,4 +108,5 @@ public interface ScenarioService {
 	
 	public Page<Mission> getMissionsOfStudent(String scenarioId, String studentId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException;
 	
+	public boolean inviteTeacherIfNotPresent(String email, String teacherId) throws BadRequestException;
 }

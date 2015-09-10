@@ -7,6 +7,8 @@ import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.Id;
@@ -25,6 +27,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -212,5 +216,14 @@ public class UserController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	public void emailIsRegistered(@RequestParam(value = "email", required=true) String email) throws  MongoException, UserNotFoundException{
 		UserDTO u = userService.getOneself(email);
+	}
+	
+	@ResponseStatus(value = HttpStatus.CREATED)
+	@RequestMapping(value="/v1/invite", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_TEACHER')")
+	public void inviteColleague() throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
 	}
 }
