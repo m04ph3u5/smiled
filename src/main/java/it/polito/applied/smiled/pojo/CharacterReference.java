@@ -6,7 +6,6 @@ public class CharacterReference {
 
 	private String id;
 	private String name;
-	private String cover;
 	private String userId;
 	
 	public CharacterReference(){
@@ -16,7 +15,6 @@ public class CharacterReference {
 	public CharacterReference(Character c){
 		this.id=c.getId();
 		this.name=c.getName();
-		this.cover=c.getCover();
 		if(c.getActualUser()!=null)
 			this.userId=c.getActualUser().getId();
 	}
@@ -36,12 +34,7 @@ public class CharacterReference {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCover() {
-		return cover;
-	}
-	public void setCover(String cover) {
-		this.cover = cover;
-	}
+	
 	public String getUserId() {
 		return userId;
 	}

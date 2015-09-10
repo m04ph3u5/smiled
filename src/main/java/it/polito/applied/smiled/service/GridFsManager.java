@@ -48,4 +48,6 @@ public interface GridFsManager {
 
 	FileMetadata putFileInDeleteStatus(String string);
 
+	GridFSDBFile readOneById(String name);
+
 }

@@ -95,12 +95,13 @@ public class FileManagerServiceImpl implements FileManagerService {
 		InputStream input = scenarioCover.getInputStream();
 		String coverName = "s"+id;
 		if(scenario.getCover()==null || scenario.getCover().isEmpty()){
-			gridFsManager.save(input, coverName, scenarioCover.getContentType(), meta);
-			scenarioRepository.setCover(id,coverName);
+			GridFSFile file = gridFsManager.save(input, coverName, scenarioCover.getContentType(), meta);
+			scenarioRepository.setCover(id,file.getId().toString());
 		}else{
-			GridFSFile oldCover = gridFsManager.readOneByName(coverName);
+			GridFSFile oldCover = gridFsManager.readOneById(scenario.getCover());
 			gridFsManager.toOldCover(oldCover);
-			gridFsManager.save(input, coverName, scenarioCover.getContentType(), meta);
+			GridFSFile file = gridFsManager.save(input, coverName, scenarioCover.getContentType(), meta);
+			scenarioRepository.setCover(id,file.getId().toString());
 		}
 	}
 
@@ -140,13 +141,15 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 		InputStream input = userCover.getInputStream();
 		String coverName = "u"+user.getId();
-		if(u.getProfile()==null || u.getProfile().getCoverPhoto()==null || u.getProfile().getCoverPhoto().isEmpty()){
-			gridFsManager.save(input, coverName, userCover.getContentType(), meta);
-			userRepository.setCover(u.getId(),meta.getId());
+		if(u.getProfile()==null || u.getProfile().getCoverPhotoId()==null || u.getProfile().getCoverPhotoId().isEmpty()){
+			GridFSFile file = gridFsManager.save(input, coverName, userCover.getContentType(), meta);
+		    userRepository.setCover(u.getId(), file.getId().toString());
 		}else{
-			GridFSFile oldCover = gridFsManager.readOneByName(coverName);
+			GridFSFile oldCover = gridFsManager.readOneById(u.getProfile().getCoverPhotoId());
 			gridFsManager.toOldCover(oldCover);
-			gridFsManager.save(input, coverName, userCover.getContentType(), meta);
+			GridFSFile file =	gridFsManager.save(input, coverName, userCover.getContentType(), meta);
+		    userRepository.setCover(u.getId(), file.getId().toString());
+
 		}
 	}
 
@@ -186,13 +189,14 @@ public class FileManagerServiceImpl implements FileManagerService {
 		InputStream input = characterCover.getInputStream();
 		String coverName = "c"+c.getId();
 
-		if(c.getCover()==null || c.getCover().isEmpty() || c.getCover().equals("")){
-			gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
-			characterRepository.setCover(c.getId(),meta.getId());
+		if(c.getCoverPhotoId()==null || c.getCoverPhotoId().isEmpty() || c.getCoverPhotoId().equals("")){
+			GridFSFile file = gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
+			characterRepository.setCover(c.getId(),file.getId().toString());
 		}else{
-			GridFSFile oldCover = gridFsManager.readOneByName(coverName);
+			GridFSFile oldCover = gridFsManager.readOneById(c.getCoverPhotoId());
 			gridFsManager.toOldCover(oldCover);
-			gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
+			GridFSFile file = gridFsManager.save(input, coverName, characterCover.getContentType(), meta);
+			characterRepository.setCover(c.getId(),file.getId().toString());
 		}
 
 	}
@@ -418,7 +422,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		}
 		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
 		FileMetadata metadata = gridFsManager.getMetadata(file);
-		if(!metadata.getUserId().equals(((CustomUserDetails)auth.getPrincipal()).getId()) && !permissionEvaluator.hasPermission(auth, metadata.getUserId(), "User", "READ"))
+		if(!metadata.getUserId().equals(((CustomUserDetails)auth.getPrincipal()).getId()) && !permissionEvaluator.hasPermission(auth, metadata.getScenarioId(), "Scenario", "READ"))
 			throw new ForbiddenException();
 		
 		

@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -56,12 +57,22 @@ public class GridFsManagerImpl implements GridFsManager{
 		q.addCriteria(Criteria.where("filename").is(name));
 		return gridFsOperation.findOne(q);
 	}
+	
+	@Override
+	public GridFSDBFile readOneById(String id) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
+		return gridFsOperation.findOne(q);
+	}
 
 	@Override
 	public void toOldCover(GridFSFile oldCover) {
 		if(oldCover!=null){
 			String id = oldCover.getId().toString();
 			FileMetadata oldMeta = mongoOperations.getConverter().read(FileMetadata.class, oldCover.getMetaData());
+			
+			System.out.println("OLD META: "+oldMeta.getOriginalName());
+			
 			oldMeta.setType(ResourceType.OLD_COVER);
 			oldMeta.setLastChange(new Date());
 			Query q = new Query();

@@ -54,9 +54,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 			function(data){
 				self.posts = data.content;
 				for(var i=0; i<self.posts.length;i++){
-					if(self.posts[i].imageId){
-						self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
-					}
+//					if(self.posts[i].imageId){
+//						self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
+//					}
 					if(self.posts[i].character){
 						self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
 					

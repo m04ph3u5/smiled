@@ -178,8 +178,7 @@ public abstract class User {
 				if(r.getId().equals(scenarioId)){
 					if(r.getMyCharacterId().equals(charRef.getId())){
 						r.setMyCharacterName(charRef.getName());
-						/*TODO togliere setCover perché probabilmente non serve (url cover fisso)*/
-						r.setMyCharacterCover(charRef.getCover());
+						
 					}
 					break;
 				}
