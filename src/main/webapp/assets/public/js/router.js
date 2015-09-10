@@ -207,7 +207,8 @@ angular.module('smiled.application')
 					controller: "characterProfileCtrl",
 					controllerAs: "characterProfile"
 				}
-			},params: {
+			},
+			params: {
 				idCharacter: null
 			}
 		})

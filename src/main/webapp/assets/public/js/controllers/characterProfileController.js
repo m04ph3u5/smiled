@@ -4,8 +4,9 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	var self = this;
 	self.character = {};
 	var idChar = $stateParams.idCharacter;
-	
-	apiService.getCharacter($scope.scenario.scen.id, idChar).then(
+	var scenarioId = $scope.scenario.scen.id;
+	self.month = null;
+	apiService.getCharacter(scenarioId, idChar).then(
 			function(data){
 				self.character = data;
 			},
@@ -14,8 +15,9 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 				console.log(reason);
 			}
 	);
-	var currentCharacter = $scope.scenario.currentCharacter;
-	var isOwner = currentCharacter.id==idChar;
+	self.cover = CONSTANTS.urlCharacterCover(scenarioId, idChar);
+
+	//var isOwner = currentCharacter.id==idChar;
 	//prendere la roba dalla vista e salvarla
 	/*self.updateDescription(){
 		character.quote=;
