@@ -14,7 +14,6 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 			self.ruolo="DOCENTE";
 		else 
 			self.ruolo="STUDENTE";
-		//console.log("metti:"+role + ruolo);
 	}
 	
 	var onErrorGetUser = function(reason){

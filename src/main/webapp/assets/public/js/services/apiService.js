@@ -1,4 +1,4 @@
-angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Restangular',
+ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Restangular',
                                                             function apiService($http,$q, Restangular){
 
 	/*TODO Da riscrivere utilizzando il pattern giusto $http*/

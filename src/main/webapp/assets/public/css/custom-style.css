@@ -286,6 +286,9 @@
 		.marginSBottom{
 			margin-bottom: 1%;
 		}
+		.marginMBottom{
+			margin-bottom: 3%;
+		}
 		.marginMRight{
 			margin-right: 3%;
 		}		
@@ -725,6 +728,15 @@
 		.QuoteDescription{
 			width:100%;
 			height:150px;
+		}
+		.charDescription{
+			font-size:18px;
+		}
+		.quoteChar{
+			font-size:14px;
+			color:#929292;
+			float: right;
+			margin-top:9%;
 		}
 		
 /* Post */
