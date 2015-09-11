@@ -15,6 +15,14 @@ angular.module('smiled.application')
 			}
 			
 		})
+		.state('notLogged.vetrina',{
+			url: "/",
+			views: {
+				'content': {
+					templateUrl: 'assets/public/partials/showcase.html'
+				}
+			}
+		})
 		.state('notLogged.login',{
 			url: "/login",
 			views: {
