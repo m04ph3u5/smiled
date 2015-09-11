@@ -38,6 +38,19 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('notLogged.policy',{
+			url: "/cookie-policy",
+			views: {
+				'header': {
+					templateUrl: 'assets/public/partials/navbar-login.html',
+					controller: "loginCtrl",
+					controllerAs:"login",
+				},
+				'content': {
+					templateUrl: 'assets/public/partials/cookie-policy.html',
+				}
+			}
+		})
 		.state('logged',{
 			templateUrl: 'assets/private/partials/template-logged.html',
 			abstract: true,
