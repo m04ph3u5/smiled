@@ -15,6 +15,14 @@ angular.module('smiled.application')
 			}
 			
 		})
+		.state('notLogged.vetrina',{
+			url: "/",
+			views: {
+				'content': {
+					templateUrl: 'assets/public/partials/showcase.html'
+				}
+			}
+		})
 		.state('notLogged.login',{
 			url: "/login",
 			views: {
@@ -455,6 +463,7 @@ angular.module('smiled.application')
 		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 	}])
 	.run(function (Permission,userService, $q) {
+		 $rootScope.title = $state.current.title;
     	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
     		  console.log("check anonymous");
