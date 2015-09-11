@@ -260,6 +260,8 @@
 			-webkit-border-radius: 100px;
 			-moz-border-radius: 100px;
 			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center;
 			
 		}
 		.vAlignExt{
@@ -494,7 +496,6 @@
 		#imgProfile{
 			text-align:center;
 			height:500px;
-/* 			background-image:url("http://hivesociety.com/wp-content/uploads/2014/05/teacher-smiling.jpg"); */
 			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center; 
@@ -527,14 +528,15 @@
 			top: 230px;
 			width: 40px;			
 		}
-		.overlapIconCover{			
-			
+		.overlapIconCover{		
 			width: 40px;			
 		}
+		
 
 /*Scenario*/
 		.jumbotron{
 			background-size:cover;
+			background-position: center;
 			height: 350px;
 			color: white;
 			text-shadow: black 0.3em 0.3em 0.3em;
@@ -727,7 +729,6 @@
 		}
 		.QuoteDescription{
 			width:100%;
-			height:150px;
 		}
 		.charDescription{
 			font-size:18px;
