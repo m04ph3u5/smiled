@@ -16,7 +16,7 @@ angular.module('smiled.application')
 			
 		})
 		.state('notLogged.welcome',{
-			url: "/welcome",
+			url: "/",
 			views: {
 				'content': {
 					templateUrl: 'assets/public/partials/showcase.html',
@@ -49,7 +49,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard',{
-			url: '/',
+			url: '/dashboard',
 			views: {
 				'content': {
 					controller: "loggedCtrl",

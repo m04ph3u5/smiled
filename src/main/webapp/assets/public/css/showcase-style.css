@@ -195,7 +195,7 @@ top: -13%; }
 					   -moz-transition: all 0.5s ease;
 					     -o-transition: all 0.5s ease;
 					       }
-.sblock:hover { border:1px solid rgba(5, 195, 249, 0.5); background:rgba(5, 195, 249, 0.5); }
+.sblock:hover { border:1px solid rgba(66, 153, 118, 0.5); background:rgba(66, 153, 118, 0.5); }
 
 #services p { font-size:16px; }
 	.services-overlay{
