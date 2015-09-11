@@ -15,11 +15,11 @@ angular.module('smiled.application')
 			}
 			
 		})
-		.state('notLogged.vetrina',{
+		.state('notLogged.welcome',{
 			url: "/",
 			views: {
 				'content': {
-					templateUrl: 'assets/public/partials/showcase.html'
+					templateUrl: 'assets/public/partials/showcase.html',
 				}
 			}
 		})
@@ -44,12 +44,12 @@ angular.module('smiled.application')
 			data: {
 				permissions: {
 					except: ['anonymous'],
-					redirectTo: 'notLogged.login' 
+					redirectTo: 'notLogged.welcome' 
 				}
 			}
 		})
 		.state('logged.dashboard',{
-			url: '/',
+			url: '/dashboard',
 			views: {
 				'content': {
 					controller: "loggedCtrl",
@@ -463,7 +463,6 @@ angular.module('smiled.application')
 		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 	}])
 	.run(function (Permission,userService, $q) {
-		 
     	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
     		  console.log("check anonymous");
