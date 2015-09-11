@@ -1,15 +1,15 @@
 <div data-ng-if="showNewsPost.post.character" class="container-fluid">
-	<div class="col-md-12 box">
+	<div class="col-md-12 box boxGray">
 		<div class="row marginSTop">	
 			<div class="col-xs-2 col-sm-3 col-md-2">
 				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
 					class="img-thumbnail imgPreviewL marginMRight hidden-xs visible-sm visible-md visible-lg"
 					data-ng-src="{{showNewsPost.post.character.cover}}"
-					data-err-src="assets/public/img/cesar.png"></img>
+					data-err-src="assets/public/img/icon/pg.png"></img>
 				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
 				class="img-thumbnail imgPreviewM marginMRight visible-xs hidden-sm hidden-md hidden-lg"
 				data-ng-src="{{showNewsPost.post.character.cover}}"
-				data-err-src="assets/public/img/cesar.png"></img>
+				data-err-src="assets/public/img/icon/pg.png"></img>
 			</div>
 			<div class="col-xs-8 col-sm-9 col-md-10">
 				<span class="pull-right marginMRight" href="">						
@@ -91,7 +91,7 @@
 
 <!-- EVENTO -->
 <div data-ng-if="!showNewsPost.post.character" class="container-fluid">
-	<div class="col-md-12 box">
+	<div class="col-md-12 box boxGray">
 		<div class="row marginSTop">
 			<div class="col-xs-2 col-sm-3 col-md-2">
 				<img

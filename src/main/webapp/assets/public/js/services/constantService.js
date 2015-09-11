@@ -8,9 +8,13 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"visibleComment": 3,
 //	"regexForSearchTag" : "/\b[A-Z][-'a-zA-Z]+,?\s[A-Z][-'a-zA-Z]{0-19}\b/",
 	"urlMeCover" : "api/v1/me/cover",
+	"urlMeCoverLarge" : "api/v1/me/coverLarge",
 	"urlUserCover" : function(id){
 							return "api/v1/users/"+id+"/cover"
 						},
+	"urlUserCoverLarge" : function(id){
+		return "api/v1/users/"+id+"/coverLarge"
+	},
 	"urlScenarioCover" : function(id){
 						 	return "api/v1/scenarios/"+id+"/cover";
 						 },

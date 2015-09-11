@@ -1,22 +1,35 @@
-<aside></aside>
+			
+			
+				<aside></aside>
 <section>
 
-		<div class="row textLeft">
-			<div class="col-sm-2">
-				<img data-ng-src="{{characterProfile.character.cover}}" 
-				data-err-src="assets/public/img/ic_characters.png"
-				class="imgPreviewXL marginTwenty">
+	  <div class="row text-center">
+			<div class="col-sm-4">
+				<img data-ng-src="{{characterProfile.cover}}" 
+				data-err-src="assets/public/img/icon/pg.png"
+				class="imgPreviewXL img-circle marginTwenty">
 			</div>
-			<div class="col-sm-5" ng-show="!isOwner">
+			<div class="col-sm-8">
+				<div class="row">
 					<h1>{{characterProfile.character.name}}</h1>
+					{{characterProfile.month}}
+					
+				</div>
+				<div class="box boxGray">
 					<div class="highlightText">
-					<span ng-if="characterProfile.character.birthDate!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
-					<span>{{characterProfile.character.birthDate}}</span>
-					<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.birthTown}}</span>
+					<span ng-if="characterProfile.character.bornDate!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
+					<span>{{characterProfile.character.bornDate.day}}/{{characterProfile.character.bornDate.month}}/{{characterProfile.character.bornDate.year}}</span>
+					<span ng-if="characterProfile.character.bornTown!=null">, {{characterProfile.character.bornTown}}</span>
 					<span ng-if="characterProfile.character.deadDate!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
-					<span>{{characterProfile.character.deadDate}}</span>
-					<span ng-if="characterProfile.character.birthDate!=null">, {{characterProfile.character.deadTown}}</span>
+					<span>{{characterProfile.character.deadDate.day}}/{{characterProfile.character.deadDate.month}}/{{characterProfile.character.deadDate.year}}</span>
+					<span ng-if="characterProfile.character.deadDate!=null">, {{characterProfile.character.deadTown}}</span>
 					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-5" ng-show="!isOwner">
+					
+					
 			<p>
 				<span class="textJustify" ng-show="!editDescription">{{characterProfile.character.description}}</span>
 				<textarea class="QuoteDescription" ng-show="editDescription">{{characterProfile.character.description}}</textarea>				

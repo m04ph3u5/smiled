@@ -521,14 +521,14 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 
 	/*Non iscrive al sistema l'utente ma gli invia soltanto una mail di invito.
-	 * Restituisce false se la mail è gia presente nel sistema, viceversa ritorna true.
+	 * Restituisce false se la mail ï¿½ gia presente nel sistema, viceversa ritorna true.
 	*/
 	@Override
 	public boolean inviteTeacherIfNotPresent(String email, String teacherInviterId) throws BadRequestException {
 		
 		User u = userRepository.findByEmail(email);
 		if(u==null){
-			
+		
 			
 			Teacher teacherInviter = (Teacher) userRepository.findById(teacherInviterId);
 			if(teacherInviter==null)
