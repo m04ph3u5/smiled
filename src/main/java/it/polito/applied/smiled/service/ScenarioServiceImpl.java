@@ -607,26 +607,27 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	
 	@Override
-	public Reference addCollaboratorToScenario(String collaboratorEmail, String idScenario) throws BadRequestException, NotFoundException {
+	public Reference addCollaboratorToScenario(String idCollaborator, String idScenario) throws BadRequestException, NotFoundException {
 		try{
 			Scenario scen = scenarioRepository.findById(idScenario);
-
+			
 			if (scen == null)
 				throw new BadRequestException();
 
 			if(scen.getStatus().equals(ScenarioStatus.CLOSED))
 				throw new BadRequestException();
 			
-			User u = userRepository.findByEmail(collaboratorEmail);
-			if(u==null || u.getStatus().equals(UserStatus.STATUS_PENDING) || u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD))
+			User collaborator = userRepository.findById(idCollaborator);
+			if(collaborator==null || collaborator.getStatus().equals(UserStatus.STATUS_PENDING))  //TODO Nel caso si vuole permettere anche l'aggiunta di studenti come collaborator aggiungere || collaborator.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD)
 				throw new NotFoundException();
 
-			Reference r = new Reference(u);
+			Reference r = new Reference(collaborator);
 			
 			/*I permessi ai moderatori vengono assegnati a prescindere dallo stato dello Scenario. Possono iniziare a lavorare sullo Scenario anche
 			 * quando questo è nella fase di Creazione (così da poter, per esempio, invitare altri studenti).*/
 				
 			if(scen.getAttendees()!=null && scen.getAttendees().contains(r)){
+				//Questo controllo � superfluo se si lascia che i collaborator possono essere solo dei Teacher
 				/*Se il collaboratore da inserire si travava già nella lista dei partecipanti, allora elevo solamente i suoi privilegi e lo
 				 * tolgo dalla lista degli attendees per inserirlo nella lista dei teachersCollaborator*/
 				scenarioRepository.addCollaborator(r, scen.getStatus(), idScenario, true);
@@ -637,14 +638,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 				userService.openScenarioOfUser(r, new ScenarioReference(scen));
 				/*L'aggiornamento delle relazioni va fatto solo se lo scenario è già attivo, altrimenti verrà fatto all'attivazione per tutti i partecipanti*/
 				if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
-					asyncUpdater.addRelationShipToUser(u, scen);
+					asyncUpdater.addRelationShipToUser(collaborator, scen);
 			}
 	
-			if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
-				userService.openScenarioOfUser(r, new ScenarioReference(scen));
-			else
-				userService.createScenarioOfUser(r, new ScenarioReference(scen));
-
+			if(!scen.getCollaborators().contains(r)){
+				if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
+					userService.openScenarioOfUser(r, new ScenarioReference(scen));
+				else
+					userService.createScenarioOfUser(r, new ScenarioReference(scen));
+			}
+			
 			return r;
 		}catch(MongoException e){
 			throw e;

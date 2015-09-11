@@ -541,5 +541,25 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 	}
 	
+	/*
+	 * Restituisce ina maniera paginata i teacher che rispettano la regex che viene passata.*/
+	@Override
+	public Page<Reference> getAllTeachersByRegex(String regex, Integer nPag, Integer nItem) throws BadRequestException{
+		try{
+			Page<User> p = userRepository.getPagingTeachersByRegex(regex, nPag, nItem);
+			if(p==null)
+				throw new BadRequestException();
+			List<Reference> l = new ArrayList<Reference>();
+			for(User u : p.getContent()){
+				l.add(new Reference(u));
+			}
+			Pageable pageable = new PageRequest(nPag,nItem);
+			PageImpl<Reference> page = new PageImpl<Reference>(l, pageable, p.getTotalElements());	
+			return page;
+		}catch(MongoException e ){
+			throw e;
+		}
+		
+	}
 	
 }

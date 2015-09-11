@@ -13,6 +13,7 @@ import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Message;
+import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.UserService;
 import it.polito.applied.smiled.validator.UserDTOValidator;
@@ -204,11 +205,11 @@ public class UserController extends BaseController{
 	
 	/*TODO valutare sicurezza su questo metodo e necessità del metodo stesso
 	 * Potrebbe essere utile per una validazione realtime al momento della registrazione*/
-	@RequestMapping(value="/v1/users/email",method=RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void emailIsRegistered(@RequestParam(value = "email", required=true) String email) throws  MongoException, UserNotFoundException{
-		UserDTO u = userService.getOneself(email);
-	}
+	//@RequestMapping(value="/v1/users/email",method=RequestMethod.GET)
+	//@ResponseStatus(value = HttpStatus.OK)
+	//public void emailIsRegistered(@RequestParam(value = "email", required=true) String email) throws  MongoException, UserNotFoundException{
+	//	UserDTO u = userService.getOneself(email);
+	//}
 	
 	@RequestMapping(value="/v1/colleagues", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -217,5 +218,24 @@ public class UserController extends BaseController{
 			throw new BadRequestException();
 		}
 		userService.inviteTeacherIfNotPresent(emailDTO.getEmail(), activeUser.getId());
+	}
+	
+	
+	//Lunghezza minima accettabile della regex= 2 caratteri
+	@PreAuthorize("hasRole('ROLE_TEACHER')")
+	@RequestMapping(value="/v1/searchTeachers", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<Reference> getAllTeachersByRegex(@RequestParam (value = "regex", required=true) String regex, @RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>10 || nItem<=0)
+			nItem=10;
+		if(regex == null || regex.isEmpty() || regex.length()<2)  
+			throw new BadRequestException();
+		Page<Reference> teachersPage = userService.getAllTeachersByRegex(regex, nPag, nItem);
+		System.out.println("TEACHERS PAGE -----------> "+teachersPage);
+		//System.out.println("first teacher name -----------> "+teachersPage.getContent().get(0).getFirstName());
+		return teachersPage;
 	}
 }

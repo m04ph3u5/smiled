@@ -87,7 +87,7 @@ public class AsyncUpdater {
 	}
 	
 	public void updateOnChangeFirstPassword(Student u) {
-		Runnable r = new UpdateOnChangeFisrtPasswordRunnable(u);
+		Runnable r = new UpdateOnChangeFirstPasswordRunnable(u);
 		taskExecutor.execute(r);
 	}
 	
@@ -277,10 +277,10 @@ public class AsyncUpdater {
 		
 	//TODO controllare i not null prima di ogni for each
 	
-	private class UpdateOnChangeFisrtPasswordRunnable implements Runnable{
+	private class UpdateOnChangeFirstPasswordRunnable implements Runnable{
 		private Student student;
 		
-		public UpdateOnChangeFisrtPasswordRunnable(Student student){
+		public UpdateOnChangeFirstPasswordRunnable(Student student){
 			this.student=student;
 		}
 		

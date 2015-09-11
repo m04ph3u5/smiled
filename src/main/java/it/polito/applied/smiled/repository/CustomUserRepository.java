@@ -3,6 +3,8 @@ package it.polito.applied.smiled.repository;
 import java.util.List;
 
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
+import it.polito.applied.smiled.dto.UserDTO;
+import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
@@ -46,6 +48,11 @@ public interface CustomUserRepository {
 	public boolean setCover(String userId, String coverId);
 	public int createScenarioToUser(String id,	ScenarioReference scenarioReference);
 	public boolean addColleagueToTeacher(String id, Reference r);
+
+	public Page<User> getPagingTeachersByRegex(String regex, Integer nPag,
+			Integer nItem) throws BadRequestException;
+
 	public boolean setCoverLarge(String userId, String coverId);
+
 
 }
