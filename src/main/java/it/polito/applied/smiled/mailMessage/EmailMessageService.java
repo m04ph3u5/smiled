@@ -74,7 +74,7 @@ public class EmailMessageService {
 				+"il prof. " + teacherName+" ti ha invitato a iscriverti a MESCHOLA.\n\n "
 						+ "Per il tuo primo accesso utilizza la seguente password: \n" + pwd + "\n\n" 
 						  + "Segui il link in basso per inizare ad utilizzare Meschola\n\n"
-							+ domain+"/setPassword.html \n\n\n"							
+							+ domain+"setPassword.html \n\n\n"							
 								+ "A presto\n\nMESCHOLA\n");
 		
 	

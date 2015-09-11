@@ -55,7 +55,7 @@ public class UrlForwardController extends BaseController{
 		}
 		
 	    userService.changeFirstPassword(firstPassword);
-		return "index";
+		return "redirect:login";
 		
 	}
 	
