@@ -68,6 +68,12 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 						}
 					}
 				}
+				
+				(function tick() {
+			        $scope.data = Data.query(function(){
+			            $timeout(tick, 20000);
+			        });
+			    })();
 			}, function(reason){
 				console.log("errore");
 			}
