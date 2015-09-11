@@ -186,9 +186,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var updateSelectableAttendees = function(){
 			console.log("updateSelectableAttendees");
-			console.log(self.selectableStudents);
-			console.log(self.scenarioServer.attendees);
-			console.log(self.scenarioServer);
+			
 			if(self.scenarioServer && self.scenarioServer.attendees && self.selectableStudents){
 				
 				for(var i=0; i<self.scenarioServer.attendees.length; i++){
@@ -203,8 +201,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		self.getPagedTeacherByRegex = function(regex){
+			apiService.getPagedTeacherByRegex(0, 10, regex).then(
+					function(data){
+						console.log("get paged teachers");
+						console.log(data);
+					},
+					function(reason){
+						console.log("failed to get paged teacher by regex");
+						console.log(reason);
+					}
+			);
+		}
+		
 		var updateSelectableCollaborators = function(){
-			console.log("updateSelectableCollaborators");
 			
 			if(self.scenarioServer && self.scenarioServer.collaborators && self.selectableCollaborators){
 			

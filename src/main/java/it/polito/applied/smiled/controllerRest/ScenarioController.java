@@ -157,16 +157,16 @@ public class ScenarioController extends BaseController{
 	
 	//Aggiungo un collaboratore allo scenario 
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@RequestMapping(value="/v1/scenarios/{id}/collaborators", method=RequestMethod.POST)
+	@RequestMapping(value="/v1/scenarios/{id}/collaborator/{idCollaborator}", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_TEACHER')and hasPermission(#id, 'Scenario', 'CREATOR')")
-	public Reference subscribeCollaborators(@PathVariable String id, @RequestBody @Valid EmailDTO collaboratorEmail, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
+	public Reference addCollaboratorToScenario(@PathVariable String id, @PathVariable String idCollaborator , BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 
 		//Valido l'email che ricevo. Tutte le email che arrivano devono essere corrette
 		if(result.hasErrors()){
 			throw new BadRequestException();
 		}	
 		
-		return scenarioService.addCollaboratorToScenario(collaboratorEmail.getEmail(), id);
+		return scenarioService.addCollaboratorToScenario(idCollaborator, id);
 	}
 
   

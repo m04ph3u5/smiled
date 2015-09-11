@@ -70,4 +70,6 @@ public interface UserService {
 			ScenarioReference scenarioReference);
 	public boolean inviteTeacherIfNotPresent(String email, String teacherInviterId) throws BadRequestException;	
 	
+	
+	public Page<Reference> getAllTeachersByRegex(String regex, Integer nPag, Integer nItem) throws BadRequestException;
 }

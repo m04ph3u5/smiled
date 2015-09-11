@@ -1,6 +1,8 @@
 package it.polito.applied.smiled.repository;
 
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
+import it.polito.applied.smiled.dto.UserDTO;
+import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
@@ -179,6 +181,61 @@ public class UserRepositoryImpl implements CustomUserRepository {
 	}
 
 	@Override
+	public Page<User> getPagingTeachersByRegex(String regex, Integer nPag, Integer nItem) throws BadRequestException{
+		Query q = new Query();
+		long total;
+		//TODO total va calcolato
+		Pageable p = new PageRequest(nPag,nItem);
+		q.with(p);
+		
+		
+		String queryx[] = regex.split(" ");
+		
+		if(queryx.length<=1){
+			Criteria internal = new Criteria();
+			Criteria external = new Criteria();
+			internal.orOperator(Criteria.where("firstName").regex(regex, "i"), Criteria.where("lastName").regex(regex, "i"));
+			external.andOperator(internal, Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher"));
+			
+			q.addCriteria(external);
+			System.out.println("q: "+ q.toString());
+		}else{
+			ArrayList<Criteria> cr = new ArrayList<Criteria>();
+			for (String qq : queryx) {
+			    Criteria fCriteria = Criteria.where("firstName").regex(qq, "i");
+			    cr.add(fCriteria);
+			    Criteria lCriteria = Criteria.where("lastName").regex(qq, "i");
+			    cr.add(lCriteria);
+			}
+			Criteria c = cr.remove(0);
+			
+			Criteria [] orArray = cr.toArray(new Criteria[cr.size()]);
+			Criteria c2 = cr.remove(0);
+			Criteria [] orArray2 = cr.toArray(new Criteria[cr.size()]);
+
+			c2.orOperator(orArray2);
+			c.orOperator(orArray);
+			
+			Criteria internal = new Criteria();
+			Criteria external = new Criteria();
+			
+			internal.orOperator(c,c2);
+			external.andOperator(internal, Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher") );
+			q.addCriteria(external);
+			
+			//q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher").andOperator(c));
+		}
+		
+		
+		
+		
+		total = mongoOp.count(q, User.class);
+		List<User> matching = mongoOp.find(q,User.class);
+		return new PageImpl<User>(matching,p,total);
+		
+	}
+	
+	@Override
 	public int removeScenarioFromUser(String userToRemove, String scenarioId) {
 		
 		WriteResult w = null;
@@ -203,31 +260,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		);*/
 	}
 	
-	@Override
-	public int removeScenarioFromUsers(List<String> usersToRemove, String id) {
-		
-		System.out.println("aaaaaaaaaaaa"+usersToRemove.get(0));
-		if(usersToRemove==null || usersToRemove.isEmpty())
-			return 0;
-
-		WriteResult w = null;
-		
-		Query q = new Query();
-		q.addCriteria(Criteria.where("_id").in(usersToRemove));
-		Update u = new Update();
-		
-		ScenarioReference scenarioRef = new ScenarioReference();
-		scenarioRef.setId(id);
-		
-		u.pull("openScenarios", scenarioRef);
-		u.pull("creatingScenarios", scenarioRef);
-		u.pull("closedScenarios", scenarioRef);
-		u.pull("invitingScenariosId", id);
-		
-		w = mongoOp.updateMulti(q, u, User.class);
-		
-		return w.getN();
-	}
+	
 
 
 	@Override
@@ -279,7 +312,33 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		else
 			return false;
 	}
+	
+	@Override
+	public int removeScenarioFromUsers(List<String> usersToRemove, String id) {
+		
+		System.out.println("aaaaaaaaaaaa"+usersToRemove.get(0));
+		if(usersToRemove==null || usersToRemove.isEmpty())
+			return 0;
 
+		WriteResult w = null;
+		
+		Query q = new Query();
+		q.addCriteria(Criteria.where("_id").in(usersToRemove));
+		Update u = new Update();
+		
+		ScenarioReference scenarioRef = new ScenarioReference();
+		scenarioRef.setId(id);
+		
+		u.pull("openScenarios", scenarioRef);
+		u.pull("creatingScenarios", scenarioRef);
+		u.pull("closedScenarios", scenarioRef);
+		u.pull("invitingScenariosId", id);
+		
+		w = mongoOp.updateMulti(q, u, User.class);
+		
+		return w.getN();
+	}
+	
 	@Override
 	public boolean deleteScenarioFromCreator(String creatorId, String scenarioId) {
 		Query q = new Query();

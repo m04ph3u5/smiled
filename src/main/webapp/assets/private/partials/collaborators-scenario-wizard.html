@@ -3,8 +3,8 @@
 	 <div class="inner-addon left-addon">
 		<i class="glyphicon glyphicon-user"></i>
 	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="form-control input-medium search-query" placeholder="NOME COGNOME" 
-	  		typeahead="s as s.firstname for s in scenarioWizard.selectableCollaborators | filter:$viewValue | limitTo:10" 
-	  		typeahead-min-length='1' 
+	  		typeahead="t as t.lastname+' '+t.firstname for t in scenarioWizard.getPagedTeacherByRegex($viewValue) " 
+	  		typeahead-min-length='2' 
 	  		typeahead-on-select='scenarioWizard.addCollaborator(scenarioWizard.selectedCollaborator)'  
 	  	typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
 	 </div>

@@ -257,6 +257,22 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 
 		return c.promise;
 	}
+	
+	var getPagedTeacherByRegex = function(nPag, nItem, regex){
+		var c = $q.defer();
+
+		$http.get("/api/v1/searchTeachers", {
+			params: {"regex": regex, "nPag": nPag, "nItem": nItem }}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
 
 	var getSingleStatus = function(idScenario, idPost){
 		var s = $q.defer();
@@ -386,6 +402,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		getAllCharactersFromScen : getAllCharactersFromScen,
 		addUserToCharacter: addUserToCharacter,
 		removeUserFromCharacter: removeUserFromCharacter,
+		getPagedTeacherByRegex : getPagedTeacherByRegex,
 		/*Gesitone post*/
 		sendStatus: sendStatus,
 		getPagedPosts : getPagedPosts,
@@ -396,6 +413,7 @@ angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Rest
 		sendEvent: sendEvent,
 		createMission: createMission,
 		getMissionsInScenario : getMissionsInScenario
+		
 	}
 
 
