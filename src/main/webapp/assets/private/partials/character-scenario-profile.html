@@ -9,7 +9,7 @@
 				<a href="">
 					<div ng-show="characterProfile.character.quote==null && characterProfile.isOwner">
 					<p ng-click="editQuote =! editQuote" ng-show="!editQuote">Inserisci la citazione del personaggio</p>	
-					<textarea class="QuoteDescription" ng-show="editQuote">{{characterProfile.character.quote}}</textarea>	
+					<textarea class="QuoteDescription" ng-show="editQuote" rows="3">{{characterProfile.character.quote}}</textarea>	
 					<div class="btn generalButton" ng-click="editQuote =! editQuote" ng-show="editQuote">OK</div>
 			
 					</div>
@@ -18,16 +18,21 @@
 					<span class="marginMTop charDescription" ng-show="!editQuote">
 						{{characterProfile.character.quote}}					
 					</span>
-					<textarea class="QuoteDescription" ng-show="editQuote">{{characterProfile.character.quote}}</textarea>	
-					<div class="btn generalButton" ng-click="editQuote =! editQuote" ng-show="editQuote">OK</div>
+					<textarea ng-model="characterProfile.newQuote" class="QuoteDescription" ng-show="editQuote" rows="3">{{characterProfile.character.quote}}</textarea>	
+					<div class="btn generalButton" ng-click="editQuote =! editQuote; characterProfile.updateChar()" ng-show="editQuote">OK</div>
 					<p class="quoteChar"><i>- {{characterProfile.character.name}}</i></p>					
-					<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editQuote =! editQuote" ng-show="!editQuote"></span>
+					<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editQuote =! editQuote" ng-show="!editQuote && characterProfile.isOwner"></span>
 				</div>
 				
 			</div>
 			<div class="col-sm-8">
 				<div class="row">
-					<h1>{{characterProfile.character.name}}</h1>					
+					<h1>{{characterProfile.character.name}}</h1>
+					<p><span ng-show="!editRole">{{characterProfile.character.role}}</span>
+					<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editRole =! editRole" ng-show="!editRole && characterProfile.isOwner"></span>					
+					<textarea type="text" class="lessWidth" ng-show="editRole" rows="1">{{characterProfile.character.role}}</textarea>
+					<div class="pull-right btn generalButton" style="display:block" ng-click="editRole =! editRole; updateDescription()" ng-show="editRole">OK</div>
+					</p>
 				</div>
 				<div class="box boxGray">
 					<div class="highlightText">
@@ -45,11 +50,12 @@
 					</div>
 					<div class="charDescription marginMTop">
 						<span ng-show="!editDescription">{{characterProfile.character.description}}</span>
+						<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editDescription =! editDescription" ng-show="!editDescription && characterProfile.isOwner"></span>
 						<span ng-show="characterProfile.isOwner">
-							<textarea class="QuoteDescription" ng-show="editDescription">{{characterProfile.character.description}}</textarea>				
-							<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editDescription =! editDescription" ng-show="!editDescription"></span>
+							<textarea class="QuoteDescription" rows="5" ng-show="editDescription">{{characterProfile.character.description}}</textarea>				
+							<div class="pull-right btn generalButton" style="display:block" ng-click="editDescription =! editDescription; updateDescription()" ng-show="editDescription">OK</div>
+							
 						</span>
-						<div class="pull-right btn generalButton" style="display:block" ng-click="editDescription =! editDescription; updateDescription()" ng-show="editDescription">OK</div>
 					</div>
 					<div class="row marginMBottom marginMTop">
 						<label class="marginMTop">Interpretato da: </label>

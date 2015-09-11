@@ -81,6 +81,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.post.comments.reverse();
 				self.post.metaComments.reverse();
 				
+			
 			},
 			controllerAs: "showNewsPost",
 			bindToController : true

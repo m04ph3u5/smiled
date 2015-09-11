@@ -24,7 +24,7 @@
 				
 					<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.creatingScenarios" >
-						<div class="col-md-4 col-xs-6 scenarioHover"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
+						<a href=""><div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom" ng-mousehover="">
 								<div class="col-sm-5 sideMarginThree">
 									<div class="roundedImgDiv" 
@@ -36,14 +36,14 @@
 									<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>								
 								</div>
 							</div>
-						</div>	
+						</div></a>	
 					</div>
 				</div>
 				<h2>Scenari attivi</h2>
 				<div ng-if='scenariosList.user.openScenarios==null' class="emptyContent">Qui verranno inseriti gli scenari attivi</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.openScenarios" >
-						<div class="col-md-4 col-xs-6 scenarioHover"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
+						<a href=""><div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom">
 								<div class="col-sm-5 sideMarginThree">
 									<div class="roundedImgDiv" 
@@ -55,14 +55,14 @@
 									<div class="textLeft">Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</div>
 								</div>
 							</div>
-						</div>	
+						</div></a>	
 					</div>
 				</div>		
 				<h2>Scenari conclusi</h2>
 				<div ng-if='scenariosList.user.closedScenarios==null' class="emptyContent">Qui verranno inseriti gli scenari conclusi</div>
 				<div class="row sideMarginThree">
-					<div data-ng-repeat="s in scenariosList.user.closedScenarios" >				
-						<div class="col-md-4 col-xs-6 scenarioHover"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
+					<a href=""><div data-ng-repeat="s in scenariosList.user.closedScenarios" >				
+						<div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom">
 								<div class="col-sm-5 sideMarginThree">
 									<div class="roundedImgDiv" 
@@ -75,7 +75,7 @@
 									</div>
 							</div>
 						</div>	
-					</div>
+					</div></a>
 				</div>
 			</div>
 		</div>
