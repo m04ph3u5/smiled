@@ -40,7 +40,7 @@ public class AuthenticationEntryPointRest extends LoginUrlAuthenticationEntryPoi
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			response.getWriter().println(json);
 		} else{
-		    response.sendRedirect("/ThesisProject#"+path);
+		    response.sendRedirect("/#"+path);
 		}
 		
 	
