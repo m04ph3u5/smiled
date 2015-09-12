@@ -3,24 +3,31 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	
 	var self = this;
 	self.character = {};
-	var idChar = $stateParams.idCharacter;
+	//due variabili identiche perché ad api service non piaceva self.idchar
+	idChar = $stateParams.idCharacter;
+	self.idChar = idChar;
 	var scenarioId = $scope.scenario.scen.id;
+	
 	self.bornMonth = null;
 	self.deadMonth = null;
-	self.isOwner = false;
-	var currentOwnerId  = null;
-	var idUser = $scope.scenario.loggedUser.id;
 	self.actualUserCover = null;
 	self.newQuote = null;
+	self.newRole = null;
+	self.newDescription = null;
+	
+	//var idUser = $scope.scenario.loggedUser.id;
+	self.currentChar = $scope.scenario.currentCharacter.id;
 	
 	apiService.getCharacter(scenarioId, idChar).then(
 			function(data){
+				
 				self.character = data;
 				self.bornMonth = CONSTANTS.monthString(self.character.bornDate.month);
-				self.deadMonth = CONSTANTS.monthString(self.character.deadDate.month);
-				if(self.character.actualUser.id == idUser) self.isOwner = true;	
+				self.deadMonth = CONSTANTS.monthString(self.character.deadDate.month);				
 				self.actualUserCover = CONSTANTS.urlUserCover(self.character.actualUser.id);
 				self.newQuote = self.character.quote;
+				self.newRole = self.character.role;
+				self.newDescription = self.character.description;
 			},
 			function(reason){
 				console.log("ERROR RETRIEVE CHARACTER: ");
@@ -28,32 +35,40 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 			}
 	);
 	self.cover = CONSTANTS.urlCharacterCover(scenarioId, idChar);
-	console.log("OHUUU"+currentOwnerId + idUser + self.isOwner);
+
 	
-	//prendere la roba dalla vista e salvarla
-	self.updateDescription = function(){
-		self.editDescription = !self.editDescription;
-		//apiService.updateCharacter(self.id, character,idChar).then{
-			
-		//}		
-	}
-	
-	self.updateChar = function(){
-		console.log(self.newQuote);
-		var charDTO = {
-				'name': self.character.name,
-				'nickname': self.character.nickname,
-				'description' : self.character.bornDate,
-				'bornDate': self.character.bornDate,
-				'deadDate': self.character.deadDate,
-				'cover': self.character.deadDate,
-				'quote': self.newQuote,
-				'gender': self.character.gender,
-				'role': self.character.role,
-				'bornTown': self.character.bornTown,
-				'deadTown': self.character.deadTown
-		}
-//		apiService.updateCharacter(scenarioId, charDTO , idChar);
+	self.updateChar = function(){		
+		var charDTO = {};
+		charDTO.name= self.character.name;
+		charDTO.nickname= self.character.nickname;
+		charDTO.description= self.newDescription;
+		charDTO.bornDate= self.character.bornDate;
+		charDTO.deadDate= self.character.deadDate;
+		charDTO.cover= self.character.cover;
+		charDTO.quote= self.newQuote;
+		charDTO.gender= self.character.gender;
+		charDTO.role= self.newRole;
+		charDTO.bornTown= self.character.bornTown;
+		charDTO.deadTown= self.character.deadTown;
+		
+		apiService.updateCharacter(scenarioId, charDTO , idChar).then(
+				function(data){
+					self.character.name=data.name;
+					self.character.nickname=data.nickname;
+					self.character.description=data.description;
+					self.character.bornDate=data.bornDate;
+					self.character.deadDate=data.deadDate;
+					self.character.cover=data.coverPhotoId;
+					self.character.quote=data.quote;
+					self.character.gender=data.gender;
+					self.character.role=data.role;
+					self.character.bornTown=data.bornTown;
+					self.character.deadTown=data.deadTown;
+				},
+				function(reason){
+					
+				}
+		);
 	}
 	
 //	self.getUserCover = function(){
