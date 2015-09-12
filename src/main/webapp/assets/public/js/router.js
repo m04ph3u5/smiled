@@ -15,11 +15,11 @@ angular.module('smiled.application')
 			}
 			
 		})
-		.state('notLogged.vetrina',{
+		.state('notLogged.welcome',{
 			url: "/",
 			views: {
 				'content': {
-					templateUrl: 'assets/public/partials/showcase.html'
+					templateUrl: 'assets/public/partials/showcase.html',
 				}
 			}
 		})
@@ -38,18 +38,31 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('notLogged.policy',{
+			url: "/cookie-policy",
+			views: {
+				'header': {
+					templateUrl: 'assets/public/partials/navbar-login.html',
+					controller: "loginCtrl",
+					controllerAs:"login",
+				},
+				'content': {
+					templateUrl: 'assets/public/partials/cookie-policy.html',
+				}
+			}
+		})
 		.state('logged',{
 			templateUrl: 'assets/private/partials/template-logged.html',
 			abstract: true,
 			data: {
 				permissions: {
 					except: ['anonymous'],
-					redirectTo: 'notLogged.login' 
+					redirectTo: 'notLogged.welcome' 
 				}
 			}
 		})
 		.state('logged.dashboard',{
-			url: '/',
+			url: '/dashboard',
 			views: {
 				'content': {
 					controller: "loggedCtrl",
@@ -408,21 +421,21 @@ angular.module('smiled.application')
 //				}
 //			}
 //		})
-		.state('notLogged.setPassword',{
-			url: '/setPassword.html',
-			views: {
-				'header': {
-					templateUrl: 'assets/public/partials/navbar-login.html',
-					controller: "loginCtrl",
-					controllerAs:"login",
-				},
-				'content': {
-					templateUrl: 'assets/public/partials/registerPartial.html',
-					controller: "registerCtrl",
-					controllerAs:"register",
-				}
-			}
-		})
+//		.state('notLogged.setPassword',{
+//			url: '/setPassword.html',
+//			views: {
+//				'header': {
+//					templateUrl: 'assets/public/partials/navbar-login.html',
+//					controller: "loginCtrl",
+//					controllerAs:"login",
+//				},
+//				'content': {
+//					templateUrl: 'assets/public/partials/registerPartial.html',
+//					controller: "registerCtrl",
+//					controllerAs:"register",
+//				}
+//			}
+//		})
 		.state('notLogged.registrationConfirm',{
 			url: '/registrationConfirm.html',
 			views: {
@@ -463,7 +476,6 @@ angular.module('smiled.application')
 		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 	}])
 	.run(function (Permission,userService, $q) {
-		 
     	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
     		  console.log("check anonymous");

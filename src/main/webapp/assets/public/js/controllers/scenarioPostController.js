@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload',
-              function scenarioPostCtrl(CONSTANTS,$scope, apiService,Upload){
+angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','$interval',
+              function scenarioPostCtrl(CONSTANTS,$scope, apiService,Upload,$interval){
 	var self = this;
 	self.scen = $scope.scenario.scen;
 	self.currentCharacter = $scope.scenario.currentCharacter;
@@ -50,7 +50,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		return date.day+" / "+date.month+" / "+date.year+" "+era;
 	}
 	
-	apiService.getPagedPosts(self.scen.id, 0, 30, false).then(
+	var getPost = function(){
+		apiService.getPagedPosts(self.scen.id, 0, 30, false).then(
+	
 			function(data){
 				self.posts = data.content;
 				for(var i=0; i<self.posts.length;i++){
@@ -69,16 +71,21 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 					}
 				}
 				
-				(function tick() {
-			        $scope.data = Data.query(function(){
-			            $timeout(tick, 20000);
-			        });
-			    })();
+				
 			}, function(reason){
 				console.log("errore");
 			}
 	);
+	}
+	getPost();
+	var interval;
+	self.startUpdatePost = function(){
+		interval = $interval(getPost,15000);
+	}
 	
+	self.stopUpdatePost = function(){
+		$interval.cancel(interval);
+	}
 	
 	
 	self.switchCommentTab = function(c){

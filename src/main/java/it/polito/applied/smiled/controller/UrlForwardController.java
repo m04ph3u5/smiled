@@ -49,13 +49,12 @@ public class UrlForwardController extends BaseController{
 	public String setPassword(@ModelAttribute @Valid FirstPasswordDTO firstPassword, BindingResult result) throws UserNotFoundException, BadCredentialsException, MongoException, BadRequestException{
 		System.out.println("setPassword post");
 		if(result.hasErrors()){
-			System.out.println("setPassword hasError");
 
 			return "setPassword";
 		}
 		
 	    userService.changeFirstPassword(firstPassword);
-		return "index";
+		return "redirect:login";
 		
 	}
 	
@@ -64,12 +63,7 @@ public class UrlForwardController extends BaseController{
 	 * attraverso un interceptor, di farsi carico della gestione di pagine di errore. */
 	@RequestMapping(value="/**",method=RequestMethod.GET)
 	public String index() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if(auth.isAuthenticated()){
-			System.out.println("UrlForwardController "+auth.getPrincipal());
-		}else{
-			System.out.println("UrlForwardController - NOT LOGGED");
-		}
+		
 	    return "index";
 	}
 	
