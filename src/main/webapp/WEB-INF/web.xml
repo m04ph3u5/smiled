@@ -96,7 +96,7 @@
 		<load-on-startup>1</load-on-startup>
 		<multipart-config>
 
-			<location>media.path=C:\\Users\\andrea\\Documents\\tmp\\</location>
+			<location>/var/meschola/tmp</location>
 
 
 			<max-file-size>10485760</max-file-size>
