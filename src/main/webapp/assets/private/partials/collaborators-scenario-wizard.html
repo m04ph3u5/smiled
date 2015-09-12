@@ -2,7 +2,7 @@
 <form class="form-search">
 	 <div class="inner-addon left-addon">
 		<i class="glyphicon glyphicon-user"></i>
-	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="form-control input-medium search-query" placeholder="NOME COGNOME" 
+	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="form-control input-medium search-query" placeholder="Cerca altri docenti" 
 	  		typeahead="t as t.lastname+' '+t.firstname for t in scenarioWizard.getPagedTeacherByRegex($viewValue) " 
 	  		typeahead-min-length='2' 
 	  		typeahead-on-select='scenarioWizard.addCollaborator(scenarioWizard.selectedCollaborator)'  

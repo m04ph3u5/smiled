@@ -18,7 +18,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.accordionIsDisabled=true;
 		self.user;
 		self.selectableStudents;
-		self.selectableCollaborators;
+		self.selectableCollaborators = new Array();
 		self.currentCharacters = []; //qui ci vanno le modifiche temporanee al character i-esimo. Questo ci permette di decidere se effettuare o meno la put sul server nel momento in cui andiamo a chiudere l'accordion
 		self.charactersServer = []; //array di character cosi come sono sul server
 		self.map;
@@ -208,16 +208,19 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.getPagedTeacherByRegex = function(regex){
-			apiService.getPagedTeacherByRegex(0, 10, regex).then(
-					function(data){
-						console.log("get paged teachers");
-						console.log(data);
-					},
-					function(reason){
-						console.log("failed to get paged teacher by regex");
-						console.log(reason);
-					}
+			return apiService.getPagedTeacherByRegex(0, 10, regex).then(
+						function(data){
+							
+							return data.content;
+						},
+						function(reason){
+							console.log("failed to get paged teacher by regex");
+							console.log(reason);
+						}
+				
 			);
+			
+			
 		}
 		
 		var updateSelectableCollaborators = function(){
