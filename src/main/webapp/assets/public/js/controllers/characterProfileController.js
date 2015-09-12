@@ -14,6 +14,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	self.newQuote = null;
 	self.newRole = null;
 	self.newDescription = null;
+	self.newNickname = null;
 	
 	//var idUser = $scope.scenario.loggedUser.id;
 	self.currentChar = $scope.scenario.currentCharacter.id;
@@ -28,6 +29,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 				self.newQuote = self.character.quote;
 				self.newRole = self.character.role;
 				self.newDescription = self.character.description;
+				self.newNickname = self.character.nickname;
 			},
 			function(reason){
 				console.log("ERROR RETRIEVE CHARACTER: ");
@@ -40,7 +42,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	self.updateChar = function(){		
 		var charDTO = {};
 		charDTO.name= self.character.name;
-		charDTO.nickname= self.character.nickname;
+		charDTO.nickname= self.newNickname;
 		charDTO.description= self.newDescription;
 		charDTO.bornDate= self.character.bornDate;
 		charDTO.deadDate= self.character.deadDate;
@@ -51,6 +53,9 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 		charDTO.bornTown= self.character.bornTown;
 		charDTO.deadTown= self.character.deadTown;
 		
+		if (self.newQuote!="" || self.newQuote!=null){		
+			console.log(self.newQuote + '\\\\\"' + self.character.quote +"       E LA CHIQUITA BANANA");
+}
 		apiService.updateCharacter(scenarioId, charDTO , idChar).then(
 				function(data){
 					self.character.name=data.name;

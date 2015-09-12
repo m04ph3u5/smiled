@@ -6,36 +6,42 @@
 				<img data-ng-src="{{characterProfile.cover}}" 
 				data-err-src="assets/public/img/icon/pg.png"
 				class="imgPreviewXL img-circle marginTwenty">
-				<a href="">				
-					<div ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.quote==null || characterProfile.character.quote=='')">
-					<p ng-click="editQuote =! editQuote" ng-show="!editQuote">Inserisci la citazione del personaggio</p>	
-					<!--  <textarea ng-model="characterProfile.newQuote" class="QuoteDescription" ng-show="editQuote" rows="3">{{characterProfile.character.quote}}</textarea>	
-					<div class="btn generalButton" ng-click="editQuote =! editQuote; characterProfile.updateChar()" ng-show="editQuote">OK</div>
-			-->
-					</div>
-				</a>
-				<div class="marginMTop" ng-show="characterProfile.character.quote!='' || characterProfile.character.quote!=null">
+				
+				<div class="marginMTop">
+					<a href="">				
+						<div ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.quote==null || characterProfile.character.quote=='')">
+						<p ng-click="editQuote =! editQuote" ng-show="!editQuote">Inserisci la citazione del personaggio</p>	
+						
+						</div>
+					</a>
 					<span class="marginMTop charDescription" ng-show="!editQuote" ng-model="newQuote">
 						{{characterProfile.character.quote}}					
 					</span>
-					<textarea ng-model="characterProfile.newQuote" class="QuoteDescription" ng-show="editQuote" rows="3">{{characterProfile.character.quote}}</textarea>	
-					<div class="btn generalButton" ng-click="editQuote =! editQuote; characterProfile.updateChar()" ng-show="editQuote">OK</div>
-					<p class="quoteChar"><i>- {{characterProfile.character.name}}</i></p>					
 					<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editQuote =! editQuote" ng-show="!editQuote && characterProfile.currentChar==characterProfile.idChar"></span>
+					<textarea ng-model="characterProfile.newQuote" class="QuoteDescription" ng-show="editQuote" rows="3">{{characterProfile.character.quote}}</textarea>	
+					<div class="btn generalButton" ng-click="editQuote =! editQuote; characterProfile.updateChar()" ng-show="editQuote">OK</div>										
+					
 				</div>
-				
+				<p class="quoteChar" ng-hide="characterProfile.newQuote==null || characterProfile.newQuote==''"><i>- {{characterProfile.character.name}}</i></p>
 			</div>
 			<div class="col-sm-8">
 				<div class="row">
 					<h1>{{characterProfile.character.name}}</h1>
-					<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.role == null || characterProfile.character.role =='')">
-						<span ng-click="editRole =! editRole" ng-show="!editRole">Inserisci il ruolo del personaggio</span>
+					<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.nickname != null || characterProfile.character.nickname !='')">
+						<span ng-click="editNickname =! editNickname" ng-show="!editNickname">Inserisci il nickname del personaggio</span>
 					</a>
-					<p><span ng-show="!editRole" ng-model="characterProfile.newRole">{{characterProfile.character.role}}</span>
-					<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editRole =! editRole" ng-show="!editRole"></span>					
-					<textarea type="text" class="lessWidth" ng-show="editRole" rows="1" ng-model="characterProfile.newRole">{{characterProfile.character.role}}</textarea>
-					<div class="pull-right btn generalButton" style="display:block" ng-click="editRole =! editRole; characterProfile.updateChar()" ng-show="editRole">OK</div>
-					</p>
+					<span ng-show="!editNickname" ng-model="characterProfile.newNickname">
+					<span ng-if="characterProfile.character.nickname!=null && characterProfile.character.nickname!=''">"</span>
+					{{characterProfile.character.nickname}}
+					<span ng-if="characterProfile.character.nickname!=null && characterProfile.character.nickname!=''">"</span>
+					</span>
+					<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editNickname =! editNickname" ng-show="!editNickname && characterProfile.currentChar==characterProfile.idChar"></span>
+					<span >
+						<textarea class="lessWidth" rows="1" ng-show="editNickname" ng-model="characterProfile.newNickname">{{characterProfile.character.nickname}}</textarea>				
+						<div class="pull-right btn generalButton" style="display:block" ng-click="editNickname =! editNickname; characterProfile.updateChar()" ng-show="editNickname">OK</div>
+						
+					</span>
+					
 				</div>
 				<div class="box boxGray">
 					<div class="highlightText">
@@ -56,12 +62,24 @@
 							<span ng-click="editDescription =! editDescription" ng-show="!editDescription">Inserisci la descrizione del personaggio</span>
 						</a>
 						<span ng-show="!editDescription" ng-model="characterProfile.newDescription">{{characterProfile.character.description}}</span>
-						<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editDescription =! editDescription" ng-show="!editDescription"></span>
+						<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editDescription =! editDescription" ng-show="!editDescription && characterProfile.currentChar==characterProfile.idChar"></span>
 						<span >
 							<textarea class="QuoteDescription" rows="5" ng-show="editDescription" ng-model="characterProfile.newDescription">{{characterProfile.character.description}}</textarea>				
 							<div class="pull-right btn generalButton" style="display:block" ng-click="editDescription =! editDescription; characterProfile.updateChar()" ng-show="editDescription">OK</div>
 							
 						</span>
+					</div>
+					<div class="marginSTop">
+						<label>Ruolo:</label>
+						<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.role == null || characterProfile.character.role =='')">
+							<span ng-click="editRole =! editRole" ng-show="!editRole">Inserisci il ruolo del personaggio</span>
+						</a>
+						<span ng-show="characterProfile.currentChar!=characterProfile.idChar && (characterProfile.character.role == null || characterProfile.character.role =='')">{{characterProfile.character.name}} non ha nessun ruolo</span>
+						<span ng-show="!editRole" ng-model="characterProfile.newRole">{{characterProfile.character.role}}</span>
+						<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" ng-click="editRole =! editRole" ng-show="!editRole && characterProfile.currentChar==characterProfile.idChar"></span>					
+						<textarea type="text" class="lessWidth" ng-show="editRole" rows="1" ng-model="characterProfile.newRole">{{characterProfile.character.role}}</textarea>
+						<div class="pull-right btn generalButton" style="display:block" ng-click="editRole =! editRole; characterProfile.updateChar()" ng-show="editRole">OK</div>
+						
 					</div>
 					<div class="row marginMBottom marginMTop">
 						<label class="marginMTop">Interpretato da: </label>
