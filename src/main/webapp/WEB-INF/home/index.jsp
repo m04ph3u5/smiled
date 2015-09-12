@@ -16,14 +16,25 @@
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
 <link rel="stylesheet" href="/assets/public/css/storyline.css">
+  <!-- Google Web Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet'
+        type='text/css'>
+    <link href="/assets/public/js/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
+    
 
+<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+<script type="text/javascript">
+    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalità che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformità con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
+</script>
 
-
+<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+<!-- End Cookie Consent plugin -->
 </head>
 <base href="/">
 <body data-ng-cloak>
-<div  class="container-fluid fillContent">
+<div  class="">
 	
 	<div data-ui-view></div>
 
@@ -126,8 +137,9 @@
 	
 	<!-- SCRIPT PER VETRINA -->
 	 <script src="/assets/public/js/support/jquery.backstretch.min.js" type="text/javascript"></script>
-    <script src="/assets/public/js/support/scrollReveal.js" type="text/javascript"></script>
-    <script src="/assets/public/js/support/jquery.downCount.js" type="text/javascript"></script>
+    <script src="/assets/public/js/vendor/scrollReveal.js/dist/scrollReveal.min.js" type="text/javascript"></script>
+   	<script src="/assets/public/js/vendor/fox-angular-scrollReveal.js/dist/fox-angular-scrollReveal.min.js"></script>
+       <script src="/assets/public/js/support/jquery.downCount.js" type="text/javascript"></script>
 <!--     <script src="/assets/public/js/support/showcase-custom.js" type="text/javascript"></script> -->
 	<!-- FINE SCRIPT PER VETRINA -->
 	

@@ -23,5 +23,6 @@
 		"ng-tags-input" : "latest",
 		"angular-bootstrap-lightbox": "latest",
 		"bootstrap-switch":"latest",
+		"fox-angular-scrollReveal.js" : "latest"
 	}
 }

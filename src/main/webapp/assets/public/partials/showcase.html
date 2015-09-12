@@ -1,183 +1,562 @@
 <head>
-<!-- header per vetrina -->
-	<link rel="stylesheet"
-	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Google Web Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet'
-        type='text/css'>
-    <link href="/assets/public/js/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/assets/public/css/showcase-style.css" rel="stylesheet" />
-    <!--[if lt IE 9]>
-		<script src="js/ie8-responsive-file-warning.js"></script>
-	<![endif]-->
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<!--     Fav and touch icons -->
-<!--     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/fav-144.png"> -->
-<!--     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/fav-114.png"> -->
-<!--     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/fav-72.png"> -->
-<!--     <link rel="apple-touch-icon-precomposed" href="images/fav-57.png"> -->
-<!--     <link rel="shortcut icon" href="images/fav.png"> -->
-<!-- fine header per vetrina -->
-<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
-<script type="text/javascript">
-    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalità che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformità con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
-</script>
+<style>
+/* See Soon - Coming Soon/Under Construction Responsive Template
+Author: EGrappler.com
+Tags: Dark, coming soon, under construction, black, one column
+*/
+.showcase-main-div {
+	background: #202020;
+	color: #fff;
+	font: 18px/28px 'Raleway', sans-serif;
+	font-weight: 300;
+}
 
-<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
-<!-- End Cookie Consent plugin -->
+/* General  */
+a, a:hover, a:focus {
+	color: #fff;
+}
+
+a:hover {
+	
+}
+
+a:focus {
+	outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Coustard', sans-serif;
+	margin: 0;
+	padding: 0;
+	font-weight: 300;
+}
+
+h1 {
+	font-size: 72px;
+}
+
+h2 {
+	font-size: 40px;
+}
+
+h3 {
+	font-size: 36px;
+}
+
+h4 {
+	font-size: 30px;
+}
+
+h5 {
+	font-size: 24px;
+}
+
+h6 {
+	font-size: 18px;
+}
+
+.loader {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: #000 url(/assets/public/img/showcase-images/loader.gif) 50%
+		50% no-repeat;
+}
+
+/* Header  */
+#header {
+	
+}
+
+.header-overlay {
+	background: rgba(0, 0, 0, 0.6);
+	padding: 30px 0;
+}
+
+.circle {
+	margin: 10px auto 160px 15px;
+	display: block;
+	width: 100px;
+	height: 100px;
+}
+
+.hexagon {
+	position: relative;
+	width: 70px;
+	height: 40.41px;
+	background-color: #05c3f9;
+	margin: 90px auto 140px auto;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+}
+
+.hexagon:before, .hexagon:after {
+	content: "";
+	position: absolute;
+	z-index: 1;
+	width: 49.50px;
+	height: 49.50px;
+	-webkit-transform: scaleY(0.5774) rotate(-45deg);
+	-ms-transform: scaleY(0.5774) rotate(-45deg);
+	transform: scaleY(0.5774) rotate(-45deg);
+	background-color: inherit;
+	left: 10.2513px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+}
+
+.hexagon:before {
+	top: -24.7487px;
+}
+
+.hexagon:after {
+	bottom: -24.7487px;
+}
+
+/*cover up extra shadows*/
+.hexagon span {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0;
+	width: 70px;
+	height: 40.4145px;
+	z-index: 2;
+	background: inherit;
+}
+
+.logo {
+	text-align: center;
+	padding: 30px 0;
+	background: #05c3f9;
+	width: 12%;
+	margin: 0 auto;
+}
+
+.hexagon i {
+	font-size: 50px;
+	color: #fff;
+	position: absolute;
+	left: 35%;
+	z-index: 10;
+	top: -13%;
+}
+
+#header .main-head h2, #header .main-head h4 {
+	font-weight: 300;
+}
+
+#header .main-head h4 {
+	line-height: 40px;
+}
+
+/* Countdown  */
+#countdown-area {
+	padding: 40px 0;
+	margin: 0 0 40px;
+}
+
+ul.countdown {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: block;
+	text-align: center;
+}
+
+ul.countdown li {
+	display: inline-block;
+	margin: 0 20px;
+	padding: 0;
+}
+
+ul.countdown li span {
+	font-family: 'Coustard', sans-serif;
+	width: 100px;
+	display: block;
+	font-size: 48px;
+}
+
+ul.countdown li.seperator {
+	font-size: 80px;
+	line-height: 70px;
+	vertical-align: top;
+}
+
+ul.countdown li p {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 18px;
+	text-transform: capitalize;
+	margin: 0;
+	padding: 15px 0 30px 0;
+}
+
+/* Main Heading Style Starts */
+.main-head {
+	text-align: center;
+	padding: 0 0 40px;
+}
+
+.main-head h2, .main-head p {
+	
+}
+
+.main-head h2 {
+	padding: 0 0 20px;
+}
+
+.main-head p {
+	font-size: 24px;
+	line-height: 36px;
+}
+
+/* Services */
+#services {
+	
+}
+
+.sblock {
+	border: 1px solid transparent;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+}
+
+.sblock:hover {
+	border: 1px solid rgba(66, 153, 118, 0.5);
+	background: rgba(66, 153, 118, 0.5);
+}
+
+#services p {
+	font-size: 16px;
+}
+
+.services-overlay {
+	background: rgba(0, 0, 0, 0.9);
+	padding: 70px 0;
+}
+
+#services-blocks {
+	
+}
+
+#services-blocks div {
+	text-align: center;
+	padding: 20px 20px 30px 20px;
+}
+
+#services-blocks div span.fa {
+	width: 110px;
+	height: 110px;
+	line-height: 110px;
+	font-size: 60px;
+	color: rgba(255, 255, 255, 1);
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+
+#services-blocks h4 {
+	padding: 20px 0;
+}
+
+/* Contact  */
+input {
+	border: 1px solid #fff !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.
+#contact {
+	background: #05c3f9;
+	padding: 50px 0;
+}
+
+.MT40 {
+	margin-top: 40px;
+}
+
+#contact p {
+	font-size: 16px;
+}
+
+#contact-area {
+	
+}
+
+#contact-area h3 {
+	padding: 0 0 38px 0;
+}
+
+#contact-form {
+	
+}
+
+#contact-form .form-group {
+	margin: 0 0 20px;
+}
+
+#contact-form .form-control {
+	font-size: 16px;
+	font-weight: 400;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#contact-form .form-control:focus {
+	border-color: #fff;
+}
+
+#contact-form input.form-control {
+	height: 40px;
+	line-height: 40px !important;
+	padding: 3px 20px 0;
+}
+
+/* Footer  */
+#footer {
+	padding: 10px 0;
+	margin-top: 40px;
+	font-size: 13px;
+	text-align: center;
+	background: rgba(255, 255, 255, 0.1)
+}
+
+#footer p {
+	margin: 10px;
+}
+
+/* Responsive */
+
+/* Contact Style Starts */
+#contact h3, .address, #contact-form .form-group {
+	text-align: center;
+}
+
+#contact-area {
+	padding-bottom: 20px;
+}
+
+}
+@media ( max-width : 767px) {
+	/* Countdown Style Starts */
+	ul.countdown li {
+		display: inline-block;
+		margin: 5px;
+		padding: 0;
+	}
+	ul.countdown li span {
+		width: 100px;
+		height: 100px;
+		display: block;
+		font-size: 48px;
+		font-weight: 300;
+		line-height: 100px;
+		border: 2px solid #fff;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		border-radius: 50%;
+	}
+	ul.countdown li p {
+		padding: 15px 0;
+	}
+
+	/* Contact Style Starts */
+	#contact h3, .address, #contact-form .form-group {
+		text-align: center;
+	}
+	#contact-area {
+		padding-bottom: 20px;
+	}
+
+	/* Footer Style Starts */
+	#footer ul.sm-links li a span {
+		width: 45px;
+		height: 45px;
+		line-height: 42px;
+		font-size: 20px;
+	}
+	.copyright {
+		font-size: 16px;
+	}
+}
+</style>
 
 </head>
-<body>
-<!--     Preloader Starts -->
-<!--     <div class="loader"> -->
-<!--     </div> -->
-    <!-- Preloader Ends -->
-    <!-- Header Section Starts -->
-    <header id="header">
-    	<div style="margin: 10px;" class="pull-right btn btn-info" data-ui-sref="notLogged.login"><b>Accedi</b></div>
-        <div class="header-overlay">
-            <div class="container">
-                <!-- Logo Starts -->
-                <a href="" data-ui-sref="notLogged.login">
-                	<div data-scroll-reveal="enter top and move 50px over 1.2s" 
-                			style="margin: 90px auto 120px;" class="text-center">
-                    <img class="img imgPreviewXL" src="/assets/public/img/logo_calderone.png">
-                	</div>
-                </a>
-                <!-- Logo Ends -->
-                <!-- Main Heading Starts -->
-                <div class="main-head">
-                    <a href="" data-ui-sref="notLogged.login"><h1 data-scroll-reveal="enter left and move 50px over 1.8s">
-                        <span style="color:#cb654f;"><i>me</i>schola</span></h1></a>
-                    <h5 data-scroll-reveal="enter right and move 50px over 2.0s">
-                        Diventa protagonista del tuo sapere</h5>
-                </div>
-                <!-- Main Heading Ends -->
-            </div>
-           
-        </div>
-    </header>
-    <!-- Header Section Ends -->
-   
-    </section>
-    
-    <!-- Services Section Starts -->
-    <section id="services">
-        <div class="services-overlay">
-            <div class="container">
-                <!-- Main Heading Starts -->
-                <div class="main-head">
-                    <h2 data-scroll-reveal="enter top and move 50px over 1.2s">Cos'è <i>me</i>schola</h2>
-					<p data-scroll-reveal="enter bottom and move 50px over 1.4s" style="font-size: 1.2em;">
-                        Quante volte è capitato di trovare una materia scolastica noiosa perché non si riesce a capirne l'attualità o il valore pratico? Quante volte è capitato di "sentirsi distanti" o di non sentirsi coinvolti in ciò che si insegna o si studia?</p>
+<div data-sr-container='{ "reset":true, "vFactor": 0.2 }' class="showcase-main-div">
+	<!--     Preloader Starts -->
+	<!--     <div class="loader"> -->
+	<!--     </div> -->
+	<!-- Preloader Ends -->
+	<!-- Header Section Starts -->
+	<header id="header">
+		<div style="margin: 10px;" class="pull-right btn btn-info"
+			data-ui-sref="notLogged.login">
+			<b>Accedi</b>
+		</div>
+		<div class="header-overlay">
+			<div class="container">
+				<!-- Logo Starts -->
 
-                    <br />
-                    <p data-scroll-reveal="enter bottom and move 50px over 1.4s">
-                        <span style="color:#cb654f; font-size:1.2em"><b><i>me</i>schola</b></span> è la piattaforma digitale collaborativa che attraverso il <i>role-play</i> consente di "rendere vivi" argomenti, fatti e personaggi, immergendo insegnanti e studenti direttamente nella Storia.
-                    </p>
-                </div>
-                <!-- Main Heading Ends -->
-                <!-- Services List Starts -->
-                <div id="services-blocks" class="row">
-                    <div data-scroll-reveal="enter bottom and move 50px over 1.6s" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sblock">
-                        <span class="fa fa-star-o"></span>
-                        <h4>
-                            Creativa</h4>
-                        <p>
-                            Permette di scegliere o creare scenari didattici ispirati ad opere letterarie, periodi storici, temi di attualità o altri argomenti dei programmi scolastici.
-                        </p>
-                    </div>
-                    <div data-scroll-reveal="enter top and move 50px over 1.7s" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sblock">
-                        <span class="fa fa-smile-o"></span>
-                        <h4>
-                            Divertente</h4>
-                        <p>
-                            Fa sì che gli studenti possano giocare ad immaginare cosa avrebbero scritto i personaggi storici se avessero avuto a disposizione i social network.
-                        </p>
-                    </div>
-                    <div data-scroll-reveal="enter bottom and move 50px over 1.8s" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sblock">
-                        <span class="fa fa-lightbulb-o"></span>
-                        <h4>
-                            Stimolante</h4>
-                        <p>
-                            Coinvolge insegnanti e studenti trasformandoli in veri e propri protagonisti del processo di apprendimento, spronandoli a creare contenuti originali.
-                        </p>
-                    </div>
-                </div>
-                <!-- Services List Ends -->
-            </div>
-        </div>
-    </section>
-    <!-- Services Section Ends -->
-    <!-- Contact Us Section Starts -->
-    <section id="contact">
-        <div class="container">
-            <!-- Main Heading Starts -->
-            <div class="main-head">
-                <h2 data-scroll-reveal="enter top and move 50px over 1.2s" class="MT40">
-		    A chi è rivolto?</h2>
-				<span style="color:#cb654f; font-size:1.2em;"><b><i>me</i>schola</b></span> è uno strumento per le scuole che vogliono portare innovazione nei propri metodi di insegnamento.
-				
-            </div>
-            <!-- Main Heading Ends -->
-          
-            <div class="row">
-               
-                <div data-scroll-reveal="enter left and move 50px over 1.6s" id="contact-area" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <h4 data-scroll-reveal="enter top and move 50px over 1.2s" class="MT40">
-                    Sei un insegnante?</h4><br>
-					Se vuoi utilizzare <span><i>me</i>schola</span> con la tua classe bastano pochi semplici passaggi:
+				<div data-sr="enter top and move 50px over 1.2s"
+					style="margin: 90px auto 120px;" class="text-center">
+					<a href="" data-ui-sref="notLogged.login"> <img
+						class="img imgPreviewXL"
+						src="/assets/public/img/logo_calderone.png">
+					</a>
+				</div>
+
+				<!-- Logo Ends -->
+				<!-- Main Heading Starts -->
+				<div class="main-head">
+					<div data-ui-sref="notLogged.login">
+						<h1 data-sr="enter left and move 50px over 1.8s">
+							<span style="color: #cb654f;"><i>me</i>schola</span>
+						</h1>
+					</div>
+					<h5 data-sr="enter right and move 50px over 2.0s">
+						Diventa protagonista del tuo sapere</h5>
+				</div>
+				<!-- Main Heading Ends -->
+			</div>
+
+		</div>
+	</header>
+	<!-- Header Section Ends -->
+
+
+	<!-- Services Section Starts -->
+	<section id="services">
+		<div class="services-overlay">
+			<div class="container">
+				<!-- Main Heading Starts -->
+				<div class="main-head">
+					<h2 style="color:#fff;" data-sr="enter top and move 50px over 1.2s">
+						Cos'è <i>me</i>schola
+					</h2>
+					<p data-sr="enter bottom and move 50px over 1.4s"
+						style="font-size: 1.2em;">Quante volte è capitato di trovare
+						una materia scolastica noiosa perché non si riesce a capirne
+						l'attualità o il valore pratico? Quante volte è capitato di
+						"sentirsi distanti" o di non sentirsi coinvolti in ciò che si
+						insegna o si studia?</p>
+
+					<br />
+					<p data-sr="enter bottom and move 50px over 1.4s">
+						<span style="color: #cb654f; font-size: 1.2em"><b><i>me</i>schola</b></span>
+						è la piattaforma digitale collaborativa che attraverso il <i>role-play</i>
+						consente di "rendere vivi" argomenti, fatti e personaggi,
+						immergendo insegnanti e studenti direttamente nella Storia.
+					</p>
+				</div>
+				<!-- Main Heading Ends -->
+				<!-- Services List Starts -->
+				<div id="services-blocks" class="row">
+					<div data-sr="enter bottom and move 50px over 1.6s"
+						class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sblock">
+						<span class="fa fa-star-o"></span>
+						<h4 style="color:#fff;">Creativa</h4>
+						<p>Permette di scegliere o creare scenari didattici ispirati
+							ad opere letterarie, periodi storici, temi di attualità o altri
+							argomenti dei programmi scolastici.</p>
+					</div>
+					<div data-sr="enter top and move 50px over 1.7s"
+						class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sblock">
+						<span class="fa fa-smile-o"></span>
+						<h4 style="color:#fff;">Divertente</h4>
+						<p>Fa sì che gli studenti possano giocare ad immaginare cosa
+							avrebbero scritto i personaggi storici se avessero avuto a
+							disposizione i social network.</p>
+					</div>
+					<div data-sr="enter bottom and move 50px over 1.8s"
+						class="col-lg-4 col-md-4 col-sm-12 col-xs-12 sblock">
+						<span class="fa fa-lightbulb-o"></span>
+						<h4 style="color:#fff;">Stimolante</h4>
+						<p>Coinvolge insegnanti e studenti trasformandoli in veri e
+							propri protagonisti del processo di apprendimento, spronandoli a
+							creare contenuti originali.</p>
+					</div>
+				</div>
+				<!-- Services List Ends -->
+			</div>
+		</div>
+	</section>
+	<!-- Services Section Ends -->
+	<!-- Contact Us Section Starts -->
+	<section id="contact">
+		<div class="container">
+			<!-- Main Heading Starts -->
+			<div class="main-head">
+				<h2 data-sr="enter top and move 50px over 1.2s"
+					class="MT40">A chi è rivolto?</h2>
+				<span style="color: #cb654f; font-size: 1.2em;"><b><i>me</i>schola</b></span>
+				è uno strumento per le scuole che vogliono portare innovazione nei
+				propri metodi di insegnamento.
+
+			</div>
+			<!-- Main Heading Ends -->
+
+			<div class="row">
+
+				<div data-sr="enter left and move 50px over 1.6s"
+					id="contact-area" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<h4 style="color:#fff;" data-sr="enter top and move 50px over 1.2s"
+						class="MT40">Sei un insegnante?</h4>
+					<br> Se vuoi utilizzare <span><i>me</i>schola</span> con la
+					tua classe bastano pochi semplici passaggi:
 					<ol>
 						<li>Iscriviti alla piattaforma (non appena saremo pronti)</li>
 						<li>Scegli o crea uno scenario didattico</li>
-						<li>Invita i tuoi alunni e assegna loro i ruoli da interpretare</li>
+						<li>Invita i tuoi alunni e assegna loro i ruoli da
+							interpretare</li>
 						<li>Dai spazio alla creatività dei tuoi studenti ...</li>
 					</ol>
-                </div>
-                
-                <div data-scroll-reveal="enter right and move 50px over 1.8s" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <h4 data-scroll-reveal="enter top and move 50px over 1.2s" class="MT40">
-                    Sei uno studente?</h4><br>
-					Se sei curioso di utilizzare <span><i>me</i>schola</span> insieme ai tuoi compagni bastano pochi semplici passaggi:
+				</div>
+
+				<div data-sr="enter right and move 50px over 1.8s"
+					class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<h4 style="color:#fff;" data-sr="enter top and move 50px over 1.2s"
+						class="MT40">Sei uno studente?</h4>
+					<br> Se sei curioso di utilizzare <span><i>me</i>schola</span>
+					insieme ai tuoi compagni bastano pochi semplici passaggi:
 					<ol>
 						<li>Parlane con i tuoi professori e fai scoprire loro <span><i>me</i>schola</span></li>
 						<li>Attendi di ricevere un invito dal tuo insegnante</li>
 						<li>Dai vita al tuo personaggio</li>
-						<li>Tieni d'occhio la piattaforma per non perdere i post dei tuoi amici e interagisci con loro</li>
+						<li>Tieni d'occhio la piattaforma per non perdere i post dei
+							tuoi amici e interagisci con loro</li>
 					</ol>
-                </div>
-                <!-- Contact Address Ends -->
+				</div>
+				<!-- Contact Address Ends -->
 			</div>
-            <!-- Form & Address Blocks Ends -->
-        </div>
-    </section>
-    <!-- Contact Us Section Ends -->
-    <!-- Footer Starts -->
-    <footer id="footer">
-        <div class="container">
-            <!-- Copyright Starts -->
-            <div data-scroll-reveal="enter bottom and move 50px over 1.2s">
-                <p data-scroll-reveal="enter over 3.2s">
-	  <b><span style="font-size: 1.2em;"> Stiamo arrivando!</span><br> Tieniti aggiornato: <a href="mailto:info@meschola.it">
-                       info@meschola.it </a></b>
-                </p>
-            </div>
-            <!-- Copyright Ends -->
-        </div>
-    </footer>
-</body>
+			<!-- Form & Address Blocks Ends -->
+		</div>
+	</section>
+	<!-- Contact Us Section Ends -->
+	<!-- Footer Starts -->
+	<footer id="footer">
+		<div class="container">
+			<!-- Copyright Starts -->
+			<div data-sr="enter bottom and move 50px over 1.2s">
+				<p data-sr="enter over 3.2s">
+					<b><span style="font-size: 1.2em;"> Stiamo arrivando!</span><br>
+						Tieniti aggiornato: <a href="mailto:info@meschola.it">
+							info@meschola.it </a></b>
+				</p>
+			</div>
+			<!-- Copyright Ends -->
+		</div>
+	</footer>
+</div>
 <script>
 	$(function() {
-		window.scrollReveal = new scrollReveal();
-		"use strict";
+// 		window.scrollReveal = new scrollReveal();
+// 		"use strict";
 		
-// 		// PreLoader
+// 		 PreLoader
 // 		$(window).load(function() {
 // 			$(".loader").fadeOut(400);
 // 		});
