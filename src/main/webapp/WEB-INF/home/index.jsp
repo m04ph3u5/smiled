@@ -5,16 +5,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet"
-	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
+	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap/ui-bootstrap-csp.css">
 <link rel="stylesheet" href="/assets/public/css/custom-style.css">
 <link rel="stylesheet" href="/assets/public/css/secondaryCss.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.css">
+<link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css">
 <link rel="stylesheet" href="/assets/public/css/validation-form.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/ngDialog/css/ngDialog.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/ng-tags-input/ng-tags-input.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css">
+<link rel="stylesheet" href="/assets/public/js/vendor/ngDialog/css/ngDialog.min.css">
+<link rel="stylesheet" href="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.css">
+<link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css">
+<link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
 <link rel="stylesheet" href="/assets/public/css/storyline.css">
 
 
@@ -31,39 +31,38 @@
 	<!-- VENDOR SCRIPT -->
 	
 	<script
-		src="/assets/public/js/vendor/jquery/dist/jquery.js"></script>
+		src="/assets/public/js/vendor/jquery/dist/jquery.min.js"></script>
 
 	<script
-		src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.js"></script>
-	<script src="/assets/public/js/vendor/jquery-ui/jquery-ui.js"></script>
-	<script src="/assets/public/js/vendor/angular/angular.js"></script>
+		src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/assets/public/js/vendor/jquery-ui/jquery-ui.min.js"></script>
+	<script src="/assets/public/js/vendor/angular/angular.min.js"></script>
 	<script src="/assets/public/js/vendor/angular-ui-date/src/date.js"></script>
-	<script src="/assets/public/js/vendor/angular-ui-date/datepicker-it.js"></script>
 		
 	<script
-		src="/assets/public/js/vendor/angular-cookies/angular-cookies.js"></script>
+		src="/assets/public/js/vendor/angular-cookies/angular-cookies.min.js"></script>
 	<script
-		src="/assets/public/js/vendor/angular-ui-router/release/angular-ui-router.js"></script>
+		src="/assets/public/js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script
-		src="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
-	<script src="/assets/public/js/vendor/ngstorage/ngStorage.js"></script>
+		src="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js"></script>
+	<script src="/assets/public/js/vendor/ngstorage/ngStorage.min.js"></script>
 	<script
-		src="/assets/public/js/vendor/angular-resource/angular-resource.js"></script>
+		src="/assets/public/js/vendor/angular-resource/angular-resource.min.js"></script>
 	<script
 		src="/assets/public/js/vendor/angular-permission/dist/angular-permission.js"></script>
-	<script src="/assets/public/js/vendor/lodash/lodash.js"></script>
-	<script src="/assets/public/js/vendor/restangular/src/restangular.js"></script>
-	<script src="/assets/public/js/vendor/stomp-websocket/lib/stomp.js"></script>
-	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload.js"></script>
-	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.js"></script>
-	<script src="/assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.js"></script>
-	<script src="/assets/public/js/vendor/ngDialog/js/ngDialog.js"></script>
+	<script src="/assets/public/js/vendor/lodash/lodash.min.js"></script>
+	<script src="/assets/public/js/vendor/restangular/dist/restangular.min.js"></script>
+	<script src="/assets/public/js/vendor/stomp-websocket/lib/stomp.min.js"></script>
+	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload.min.js"></script>
+	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.min.js"></script>
+	<script src="/assets/public/js/vendor/sockjs-client/dist/sockjs-0.3.4.min.js"></script>
+	<script src="/assets/public/js/vendor/ngDialog/js/ngDialog.min.js"></script>
 	<script src="/assets/public/js/vendor/angular-native-dragdrop/draganddrop.js"></script>
-	<script src="/assets/public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-	<script src="/assets/public/js/vendor/ng-tags-input/ng-tags-input.js"></script>
-	<script src="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
-	<script src="/assets/public/js/vendor/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
-	<script src="/assets/public/js/vendor/angular-sanitize/angular-sanitize.js"></script>
+	<script src="/assets/public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+	<script src="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.js"></script>
+	<script src="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.js"></script>
+	<script src="/assets/public/js/vendor/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+	<script src="/assets/public/js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 	
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	

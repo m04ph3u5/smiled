@@ -33,19 +33,19 @@
 
 	<http use-expressions="true"  entry-point-ref="restServicesEntryPoint">
 		<remember-me key="smiledKey" token-validity-seconds="2000000" />
-		<intercept-url pattern="/" access="permitAll" />
-		<intercept-url pattern="/login" access="permitAll"/>
+		<intercept-url pattern="/" access="permitAll" requires-channel="https"/>
+		<intercept-url pattern="/login" access="permitAll" requires-channel="https"/>
 		<intercept-url pattern="/assets/public/**" access="permitAll"
-			 />
-		<intercept-url pattern="/websocket/**" access="permitAll" />
+			 requires-channel="https"/>
+		<intercept-url pattern="/websocket/**" access="permitAll" requires-channel="https"/>
 		<intercept-url pattern="/api/v1/register" access="permitAll"
-			 />
+			 requires-channel="https"/>
 		<intercept-url pattern="/api/v1/users/email" access="hasRole('ROLE_ANONYMOUS')"
-			 />
+			 requires-channel="https"/>
 		<intercept-url pattern="/registrationConfirm.html"
-			access="permitAll"  />
+			access="permitAll"  requires-channel="https"/>
 		<intercept-url pattern="/setPassword.html" access="hasRole('ROLE_ANONYMOUS')"
-		 />
+		 requires-channel="https"/>
 <!-- 		<intercept-url pattern="/400.html" access="permitAll" -->
 <!-- 			 /> -->
 <!-- 		<intercept-url pattern="/404.html" access="permitAll" -->
@@ -72,7 +72,7 @@
 		
 
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"
-			 />
+			 requires-channel="https"/>
 <!-- 		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/> -->
 <!-- 		<csrf token-repository-ref="customCsrfTokenRepository"></csrf> -->
 		<form-login
