@@ -39,7 +39,6 @@ public class EmailMessageService {
 //			e.printStackTrace();
 //		}
 		
-		System.out.println("--------------------->"+from);
 		
 		/*EMAIL INFORMATIVA INVIATA ALLA PERSONA CHE STA CERCANDO DI REGISTRARSI */
 		SimpleMailMessage message = new SimpleMailMessage();
