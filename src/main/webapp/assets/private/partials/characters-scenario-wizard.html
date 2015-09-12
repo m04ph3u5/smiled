@@ -1,9 +1,13 @@
 <div class="container-fluid">
 	<div class="row">
 		<label for="characterName">INSERISCI IL NOME DEL NUOVO PERSONAGGIO</label>
-		<input type="text" id="characterName" class="form-control" placeholder="ES: GIULIO CESARE"
-			data-ng-model="scenarioWizard.newCharacter.name">
-		<div class="pull-right btn generalButton" data-ng-click="scenarioWizard.addCharacter()"><span class="glyphicon glyphicon-floppy-save"></span> CREA PERSONAGGIO</div>
+		<div class="input-group">
+	      <input type="text" id="characterName" class="form-control" 
+	      placeholder="ES: GIULIO CESARE" data-ng-model="scenarioWizard.newCharacter.name">
+	      <span class="input-group-btn">
+	       	 <button class=" btn generalButton" data-ng-click="scenarioWizard.addCharacter()" type="button"><span class="glyphicon glyphicon-sunglasses"></span> CREA PERSONAGGIO</button>
+	      </span>
+	    </div>
 	</div>
 </div>
 <br>
@@ -21,11 +25,24 @@
 							<b>{{c.name}}</b>
 						</div>	
 					</accordion-heading>
-								
+					<div class="pull-right text-center">
+						<a href="">
+						<div>
+							<img data-ng-src="{{c.cover}}"
+								data-err-src="assets/public/img/icon/pg.png" class="img-thumbnail imgPreviewL"
+								ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"> 
+						</div>
+							<img data-ng-src="assets/public/img/icon/ic_camera.png" class="marginMTop img overlapIconCover"
+							ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"> 
+						</a>
+					</div>
 					<div class="row">
 						<label class="col-md-4">Nome</label>
 						<input class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].name">
-						<div><a href=""><span class="glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCharacter(c)" style="margin-right: 15px;"></span></a></div>
+						
+						<div><a href="">
+							
+						</span></a></div>
 					</div>
 					<div class="row">
 						<label class="col-md-4">Soprannome</label>
@@ -34,8 +51,7 @@
 					<div class="row">
 						<label class="col-md-4">Biografia</label>
 						<textarea data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
-						<img data-ng-src="{{c.cover}}"
-						data-err-src="assets/public/img/icon/pg.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
+						
 					</div>
 					<div class="row">
 						<label class="col-md-4">Data di nascita</label>
@@ -71,9 +87,12 @@
 						<label class="col-md-4 ">Ruolo</label>
 						<input data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
 					</div>
-					<div class="row">
-						<div class="pickRow col-md-9 uploadSpan btn generalButton btn-file"
-						ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')">CAMBIA L'IMMAGINE DEL PERSONAGGIO</div>
+					<div class="row">						
+						<div class="pickRow col-md-9 uploadSpan btn warningButton btn-file"
+						data-ng-click="scenarioWizard.deleteCharacter(c)"> 
+							<span class="glyphicon glyphicon-trash" data-ng-click="scenarioWizard.deleteCharacter(c)">
+							ELIMINA PERSONAGGIO
+						</div>
 					</div>
 				</div>
 			</div>

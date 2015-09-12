@@ -126,7 +126,6 @@
 		.generalButton, .generalButton1{
 			background:transparent;
 			border-color:#5b5955;
-			margin-top:1%;			
 		}
 		.generalButton:focus,.generalButton:hover{
 			background:#cdc08c;
@@ -159,6 +158,22 @@
 			background:#89b151;
 			color:#5b5955;
 			border-color:#5b5955;
+			outline-width:0px;
+			
+		}
+		.warningButton{
+			background:transparent;
+			border-color:#232323;
+			margin-top:1%;	
+			color:#232323;		
+		}
+		.warningButton:hover, .warningButton:focus{
+			outline:none;
+		    -webkit-box-shadow: none;
+    		box-shadow: none;
+			background:#cb654f;
+			color:#232323;
+			border-color:#232323;
 			outline-width:0px;
 			
 		}
