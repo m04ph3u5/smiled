@@ -91,7 +91,6 @@ public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 		//VERIFICARE funzionamento addToSetBuilder utilizzato al posto della pushAll deprecata da Mongo
 //		AddToSetBuilder addToSetBuilder = u.addToSet("attendees");
 //		u=addToSetBuilder.each(l.toArray());
-//		System.out.println("addUsersToScenario");
 //		//u.pushAll("attendees", l.toArray());
 //		
 //		
