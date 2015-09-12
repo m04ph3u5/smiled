@@ -126,15 +126,15 @@ public abstract class BaseController {
 	
 	
 	
-//	@ExceptionHandler(AccessDeniedException.class)
-//	@ResponseStatus(value = HttpStatus.FORBIDDEN)
-//	public ErrorInfo handleAccessDeniedException(AccessDeniedException e){
-//		ErrorInfo error = new ErrorInfo();
-//		error.setStatusCode("403");
-//		System.out.println("FORBIDDEN");
-//		return error;
-//	}
-//	
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(value = HttpStatus.FORBIDDEN)
+	public ErrorInfo handleAccessDeniedException(AccessDeniedException e){
+		ErrorInfo error = new ErrorInfo();
+		error.setStatusCode("403");
+		System.out.println("FORBIDDEN");
+		return error;
+	}
+	
 	@ExceptionHandler(FileNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ErrorInfo handleFileNotFoundException(FileNotFoundException e){
@@ -144,13 +144,13 @@ public abstract class BaseController {
 		return error;
 	}
 	
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//	public ErrorInfo handleGenericException(Exception e){
-//		ErrorInfo error = new ErrorInfo();
-//		error.setStatusCode("400");
-//		System.out.println("generic exception: "+e.getClass()+" "+e.getMessage());
-//		return error;
-//	}
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public ErrorInfo handleGenericException(Exception e){
+		ErrorInfo error = new ErrorInfo();
+		error.setStatusCode("400");
+		System.out.println("generic exception: "+e.getClass()+" "+e.getMessage());
+		return error;
+	}
 	
 }
