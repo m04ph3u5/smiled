@@ -91,13 +91,14 @@
 		return e.promise;
 	}
 
-	var addCollaboratorToScenario = function (emailDTO, id){
+	var addCollaboratorToScenario = function (idCollaborator, id){
 		var e = $q.defer();
-		$http.post("/api/v1/scenarios/"+id+"/collaborators", emailDTO).then(
+		$http.post("/api/v1/scenarios/"+id+"/collaborators/"+ idCollaborator).then(
 				function(response){
 					e.resolve(response.data);
 				},
 				function(reason){
+					console.log(reason);
 					e.reject(reason);
 				}
 		);
