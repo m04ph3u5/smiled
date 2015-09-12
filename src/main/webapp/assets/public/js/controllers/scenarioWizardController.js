@@ -123,19 +123,25 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var updateAssociated = function(){
 			var teacherPlay=false;
-			if(self.scenario.attendees){ //TODO Sistemare il fatto che se non hai attendees non vedi nemmeno i characters
-				var attendees = angular.copy(self.scenario.attendees);
-				if(self.scenario.characters){
-					for(var i=0; i<self.scenario.characters.length; i++){
-						if(self.scenario.characters[i].userId==null){
-							self.notAssociatedCharacters.push(self.scenario.characters[i]);
-						}else if(self.scenario.characters[i].userId==self.scenario.teacherCreator.id){
-							var association = {};
-							association.character = self.scenario.characters[i];
-							association.attendee = self.scenario.teacherCreator;
-							self.associations.push(association);
-							teacherPlay=true;
-						}else{
+			var attendees= new Array();
+			if(self.scenario.attendees){
+				attendees = angular.copy(self.scenario.attendees);
+			}
+
+			//attendees.push(self.scenario.teacherCreator);
+
+			if(self.scenario.characters){
+				for(var i=0; i<self.scenario.characters.length; i++){
+					if(self.scenario.characters[i].userId==null){
+						self.notAssociatedCharacters.push(self.scenario.characters[i]);
+					}else if(self.scenario.characters[i].userId==self.scenario.teacherCreator.id){
+						var association = {};
+						association.character = self.scenario.characters[i];
+						association.attendee = self.scenario.teacherCreator;
+						self.associations.push(association);
+						teacherPlay=true;
+					}else{
+						if(attendees){
 							for(var j=0; j<attendees.length; j++){
 								if(attendees[j].id==self.scenario.characters[i].userId){
 									var association = {};
@@ -149,9 +155,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 					}
 				}
-				self.notAssociatedAttendees = attendees;
-				
 			}
+			self.notAssociatedAttendees = attendees;
+
+
 			if(!teacherPlay)
 				self.notAssociatedAttendees.push(self.scenario.teacherCreator);
 			console.log("----------------------------->UPDATE ASSOCIATIONS");
@@ -159,7 +166,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log(self.notAssociatedCharacters);
 			console.log(self.associations);
 		}
-		
 		
 		/*------------------------------------------------------------------------------------------------------------------------ */
 		
