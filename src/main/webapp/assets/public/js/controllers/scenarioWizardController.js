@@ -1047,13 +1047,26 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}	
 		
 		var isUpdatedCharacter = function(newChar, oldChar){
+			
 			if(newChar.name!=oldChar.name)
 				return true;
 			if(newChar.nickname!=oldChar.nickname)
 				return true;
-			if(newChar.bornDate!=oldChar.bornDate)
+			if(newChar.bornDate.day!=oldChar.bornDate.day)
 				return true;
-			if(newChar.deadDate!=oldChar.deadDate)
+			if(newChar.bornDate.month!=oldChar.bornDate.month)
+				return true;
+			if(newChar.bornDate.year!=oldChar.bornDate.year)
+				return true;
+			if(newChar.bornDate.afterChrist!=oldChar.bornDate.afterChrist)
+				return true;
+			if(newChar.deadDate.day!=oldChar.deadDate.day)
+				return true;
+			if(newChar.deadDate.month!=oldChar.deadDate.month)
+				return true;
+			if(newChar.deadDate.year!=oldChar.deadDate.year)
+				return true;
+			if(newChar.deadDate.afterChrist!=oldChar.deadDate.afterChrist)
 				return true;
 			if(newChar.bornTown!=oldChar.bornTown)
 				return true;
