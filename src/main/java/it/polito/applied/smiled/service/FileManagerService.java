@@ -31,7 +31,7 @@ public interface FileManagerService {
 
 	public byte[] getCharacterCover(String characterId) throws NotFoundException, IOException;
 
-	public byte[] getMedia(String id, Authentication auth) throws NotFoundException, IOException, ForbiddenException;
+	public byte[] getMedia(String id, Authentication auth) throws FileNotFoundException, IOException, ForbiddenException;
 
 	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException;
 

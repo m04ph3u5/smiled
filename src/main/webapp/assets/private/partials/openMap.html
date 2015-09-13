@@ -2,9 +2,14 @@
 	<h3 class="modal-title">Indica la posizione sulla mappa</h3>
 </div>
 <div class="modal-body text-center">
-		<canvas pin-point-canvas post="openMap.post" map="{{openMap.map}}" id="mapcanvas" width="100%" class="map-canvas"></canvas>
-		<div class="row">
-			<label>Dove ti trovavi?</label><input type="text" class="form-control" placeholder="Es. Roma - Colosseo" data-ng-model="openMap.post.place.text" data-ng-value="{{openMap.post.place.text}}">
+		<div data-ng-if="openMap.map">
+			<canvas pin-point-canvas post="openMap.post" map="{{openMap.map}}" id="mapcanvas" width="100%" class="map-canvas"></canvas>
+			<div class="row">
+				<label>Dove ti trovavi?</label><input type="text" class="form-control" placeholder="Es. Roma - Colosseo" data-ng-model="openMap.post.place.text" data-ng-value="{{openMap.post.place.text}}">
+			</div>
+		</div>	
+		<div data-ng-if="!openMap.map">
+			<div class="row"><label>Ci dispiace, non è stata ancora caricata una mappa per questo scenario</label></div>
 		</div>
 <!-- 	<div id="overlay-container" class="overlay"> -->
 <!--  		<img id='pin' data-ng-src='assets/public/img/marker.png' --> 
@@ -12,6 +17,7 @@
 <!--  			data-ng-click="openMap.removePin()"> --> 
 <!-- 	</div> -->
 </div>
+
 <div class="modal-footer">
 	<button class="positiveButton btn" data-ng-click="openMap.ok()">OK</button>
 	<button class="generalButton btn" data-ng-click="openMap.cancel()">Annulla</button>

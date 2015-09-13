@@ -30,6 +30,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			self.showDatePicker = false;
 			self.setDateNewPost = function(){
 				self.showDatePicker = !self.showDatePicker;
+				
 			}
 			/*----------------------------------------------------------------*/
 			
@@ -272,7 +273,11 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 //				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
 //				mapsArray.push(map);
 //				Lightbox.openModal(mapsArray,0);
-				var map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
+				var map;
+				if(self.scenario.history.mapId) 
+					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
+				else
+					map = null;
 				modalService.showModalOpenMap(self.newPost,map);
 			}
 			/*--------------------*/

@@ -27,13 +27,16 @@ public class ScenarioDTOPostValidator implements Validator {
 		// TODO Controllare eventuali vincoli per la validazione custom dello scenario
 		ScenarioDTO scenario = (ScenarioDTO) target;
 		
-		//TODO validazioni su coerenza date history
-	
+		validateDate(scenario, errors);
 		
 	}
 	
-	private void validateStartDate(ScenarioDTO scenario, Errors errors) {
-		// TODO Auto-generated method stub
+	private void validateDate(ScenarioDTO scenario, Errors errors) {
+		if(scenario.getHistory().getStartDate().getDateMillis()>
+				scenario.getHistory().getEndDate().getDateMillis()){
+			errors.rejectValue("startDate", "Data di inizio successiva data di fine");
+		}
+			
 		
 	}
 
