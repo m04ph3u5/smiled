@@ -5,24 +5,26 @@ angular.module("smiled.application").directive('updatePostOnScrool',[ '$window',
 				stop : '&',
 				start : '&'
 			},
-//			controller : function($scope) {
-//				var self = this;
-//				self.start = $scope.start;
-//				self.stop = $scope.stop;
-//			},
-//			controllerAs: "updatePostOnScrollCtrl",
-//			bindToController : true,
-			link : function(scope, element, attrs){
-				angular.element($window).bind("scroll", function() {
+			controller : function($scope) {
+				var self = this;
+				self.control = function() {
 		             if (this.pageYOffset <= 500) {
-		                 scope.start();
+		                 self.start();
 		             } else {
-		                 scope.stop();
+		                 self.stop();
 		             }
-		             scope.$apply();
-		             scope.$on('$destroy', function() {
-		                 scope.stop();
-		               });
+				};
+			
+			},
+			controllerAs: "updatePostOnScrollCtrl",
+			bindToController : true,
+			link : function(scope, element, attrs, ctrl){
+				angular.element($window).on("scroll", ctrl.control);
+		          
+				scope.$on('$destroy', function() {
+		           	 console.log("LOCATION CHANGE");
+		             ctrl.stop();
+		             angular.element($window).off('scroll', ctrl.control);
 		        });
 			}
 		};
