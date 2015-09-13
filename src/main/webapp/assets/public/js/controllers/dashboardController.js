@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService',
-   function dashboardCtrl(loggedUser,modalService){
+angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService','apiService',
+   function dashboardCtrl(loggedUser,modalService,apiService){
 	
 	var self = this;
 	//self.user = {};
@@ -17,7 +17,20 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
 	};
-		
+	
+	self.missionList = apiService.getMyMissions();
+	self.createMission = function(){
+		var newMission = {
+				'student': "", //mettere reference vuota
+				'teacher':"", //mettere reference al prof che crea
+				'title': self.missionTitle, //prenderlo dalla vista
+				'description': "",
+				'scenarioId': "", //prenderlo dalla vista
+				'creationDate': "", //ora
+				'lastChangeDate': "", //mettere valore vuoto
+				'deliveryDate': "" //prenderlo dalla vista
+		}
+	}
 		
 	
 }]);

@@ -385,7 +385,7 @@
 					}
 			);
 
-		return c.promise;
+		return s.promise;
 	}
 	
 	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
@@ -402,7 +402,7 @@
 					}
 			);
 
-		return c.promise;
+		return s.promise;
 	}
 	/* fine GESTIONE COMPITI ----------------------------------*/
 	

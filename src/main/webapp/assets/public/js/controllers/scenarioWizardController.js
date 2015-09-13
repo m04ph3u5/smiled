@@ -305,7 +305,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					console.log("fail infoValidate");
 				}
 			}else{
-				if(!isEquivalent(self.scenario,self.scenarioServer) && infoValidate()){
+				if(!isEquivalent(self.scenario, self.scenarioServer) && infoValidate()){
 					apiService.updateScenario(scenarioDTO, id).then(
 							function(data){
 								self.scenarioServer = data;
@@ -948,6 +948,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var isEquivalent =  function(a, b) {
 			console.log("isEquivalent");
+			var ret = angular.equals(a,b);
+			console.log(ret);
 //			console.log(a);
 //			console.log(b);
 //			// Create arrays of property names
@@ -975,7 +977,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //		    // are considered equivalent
 //		    console.log("isEquivalent ---> return true");
 //		    return true;
-			return angular.equals(a, b);
+			return ret;
 		}
 		
 		var infoValidate = function(){

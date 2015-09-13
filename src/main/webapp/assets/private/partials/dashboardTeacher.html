@@ -11,7 +11,11 @@
 					<img ng-src="assets/public/img/titoli_dashboard/compiti.png" class="title">
 					<img ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon">
 					</h1>
-					<p>Questa sezione non è ancora attiva.</p>
+					<div ng-repeat="m in dashboard.missionList">
+						<div class="col-xs-12">{{m.title}}</div>
+					</div>
+					
+					<p ng-if="dashboard.missionList==null">Qui verranno inseriti i propri compiti</p>
 				</div>
 				<div
 					class="col-sm-12 singleRow box boxGreen visible-xs visible-sm hidden-md hidden-lg">
@@ -236,7 +240,7 @@
 					</div>
 					<table>
 						<tbody>
-							<tr data-ng-repeat="a in dashboard.user.students | limitTo:3">					
+							<tr data-ng-repeat="a in dashboard.user.students | limitTo:2">					
 								<td><a data-ui-sref="logged.userProfile({id: '{{a.id}}'})">
 									<img data-ng-src="api/v1/users/{{a.id}}/cover"
 									data-err-src="assets/public/img/ic_student.png"
@@ -248,6 +252,11 @@
 									<span>{{a.lastname}} {{a.firstname}}</span>
 									</a>
 								</td>
+							</tr>
+							<tr ng-if="dashboard.user.students.length>2">
+								<a href=""><td><img src="assets/public/img/icon/view_more_vert.png"class="scenDashIcon2"></td>
+								<td>Vedi altri</td>
+								</a>
 							</tr>
 						</tbody>
 					</table>
@@ -262,11 +271,16 @@
 					</div>
 					<table>
 						<tbody>
-							<tr data-ng-repeat="c in dashboard.user.colleagues | limitTo:3">
+							<tr data-ng-repeat="c in dashboard.user.colleagues | limitTo:2">
 								<td><img data-ng-src="/media/img/cover/users/{{c.id}}"
 									data-err-src="assets/public/img/ic_teacher.png"
 									class="img-circle imgPreviewM tableMargin"></td>
 								<td><span>{{c.lastname}} {{c.firstname}}</span></td>
+							</tr>
+							<tr ng-if="dashboard.user.colleagues.length>2">
+								<a href=""><td><img src="assets/public/img/icon/view_more_vert.png"class="scenDashIcon2"></td>
+								<td>Vedi altri</td>
+								</a>
 							</tr>
 						</tbody>
 					</table>
@@ -276,10 +290,10 @@
 						<img ng-src="assets/public/img/titoli_dashboard/nuovo.png" class="titleIcon">
 						<img ng-src="assets/public/img/titoli_dashboard/compito.png" class="titleIcon">
 					</h1>
-					<!--<div class="marginMTop">
+					<div class="marginMTop">
 						<form role="form">
 							<div class="form-group">
-								<input type="text" class="form-control" id="email"
+								<input type="text" class="form-control" id="email" ng-model="dashboard.missionTitle"
 									placeholder="TITOLO DEL COMPITO">
 							</div>
 							<div class="form-group">
@@ -303,10 +317,9 @@
 									</div>
 								</form>
 							</div>
-							<button type="submit" class="confirm btn btn-default">Crea</button>
+							<button type="submit" class="confirm btn generalButton" ng-click="dashboard.createMission()">CREA</button>
 						</form>
 					</div>
-					-->
 					<p>Questa sezione non è ancora attiva.</p>
 					
 				</div>

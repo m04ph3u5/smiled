@@ -4,7 +4,7 @@
 
 /*Common style*/
 		body{
-			font-family: Georgia;
+			font-family: 'Coustard', sans-serif;
 			font-size:16px;
 		}
 		h1,h2,h3,h4{
@@ -361,12 +361,12 @@
     	}
     	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
     		color: #5B5955 !important;
-    		background: #abbe90 !important;
+    		background: #cdc08c !important;
     		border-color: #5B5955 !important;
     	}
     	.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
 		    color: #5B5955 !important;
-		    background: #abbe90 !important;
+		    background: #cdc08c !important;
 		}
 		.bootstrap-switch .bootstrap-switch-label{
 			background: transparent !important;
@@ -427,7 +427,24 @@
 		.navbar-default .navbar-brand {
 			color: #5B5955;
 		}
-		
+		.titleNav{
+			font-size:20px;
+			color: #cb654f;						
+		}
+		.titleNav{
+			font-size:20px;
+			color: #cb654f;						
+		}
+		.titleNav::hover{			
+			color: #cb654f;						
+		}
+/* Footer */
+
+	.footer{
+		    bottom: 0;
+		    width: 100%;
+		    margin-top: 1%;
+	}
 /* Dashboard */
 
 		.overlapImg{
@@ -634,7 +651,7 @@
 			height:30px;
 		}
 		.paddingMLeft{
-			padding-left:3%;
+			padding-left:5%;
 		}
 
 /* Elenco scenari */
@@ -716,7 +733,10 @@
 			text-decoration:none;
 		}
 		.linkImg{
-			margin-top:35%;
+			margin-top:15%;
+		}
+		.linkImg2{
+			margin-top:55%;
 		}
 		.icCameraWiz{
 			width:40px;
@@ -761,7 +781,8 @@
 
 	.iconsMargin{
 		margin-right:8px;
-		font-size:18px;
+		font-size:30px;
+		color:#262626;
 	}
 	.extraContent{		
 		margin-right:0px;
