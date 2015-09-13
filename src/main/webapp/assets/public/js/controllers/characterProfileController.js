@@ -26,9 +26,9 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 				if(self.character.bornDate!=null)
 					self.bornMonth = CONSTANTS.monthString(self.character.bornDate.month);
 				if(self.character.deadDate!=null)
-				self.deadMonth = CONSTANTS.monthString(self.character.deadDate.month);	
-				if(self.character.actualUser.id!=null)
-				self.actualUserCover = CONSTANTS.urlUserCover(self.character.actualUser.id);
+					self.deadMonth = CONSTANTS.monthString(self.character.deadDate.month);	
+				if(self.character.actualUser != null && self.character.actualUser.id != null)
+					self.actualUserCover = CONSTANTS.urlUserCover(self.character.actualUser.id);
 				if(self.character.quote!=null)
 					self.newQuote = self.character.quote;
 				if(self.character.role!=null)
