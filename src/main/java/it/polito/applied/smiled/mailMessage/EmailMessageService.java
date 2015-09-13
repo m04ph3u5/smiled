@@ -70,8 +70,8 @@ public class EmailMessageService {
 		message.setTo(email);
 		message.setSubject("Meschola! Ciao, sei stato invitato a MESCHOLA");
 		message.setText("Ciao\n\n"
-				+"il prof. " + teacherName+" ti ha invitato a iscriverti a MESCHOLA.\n\n "
-						+ "Per il tuo primo accesso utilizza la seguente password: \n" + pwd + "\n\n" 
+				+"il prof. " + teacherName+" ti ha invitato a iscriverti a MESCHOLA.\n\n"
+						+ "Per il tuo primo accesso utilizza la seguente password: \n\n" + pwd + "\n\n" 
 						  + "Segui il link in basso per inizare ad utilizzare Meschola\n\n"
 							+ domain+"setPassword.html \n\n\n"							
 								+ "A presto\n\nMESCHOLA\n");

@@ -30,6 +30,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			self.showDatePicker = false;
 			self.setDateNewPost = function(){
 				self.showDatePicker = !self.showDatePicker;
+				
 			}
 			/*----------------------------------------------------------------*/
 			
