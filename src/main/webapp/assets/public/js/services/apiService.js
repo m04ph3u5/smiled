@@ -371,18 +371,38 @@
 		return s.promise;
 	}
 	
-	var getMissionsInScenario = function(idScenario){
+	var getMyMissionsInScenario = function(idScenario, nPag, nItem, orderByDeliveryDate, onlyActive){
 		var s = $q.defer();
 
-		$http.get("/api/v1/scenarios/"+idScenario+"/missions").then(
-				function(response){
-					s.resolve(response.data);
-				},
-				function(reason){
-					s.reject(reason);
-				}
-		);
-		return s.promise;
+		$http.get("/api/v1/scenarios/"+idScenario+"/missions", {
+			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
+						"onlyActive": onlyActive }}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
+	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
+		var s = $q.defer();
+
+		$http.get("/api/v1/missions", {
+			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
+						"onlyActive": onlyActive }}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
 	}
 	/* fine GESTIONE COMPITI ----------------------------------*/
 	
@@ -413,7 +433,8 @@
 		sendMetaCommentToPost: sendMetaCommentToPost,
 		sendEvent: sendEvent,
 		createMission: createMission,
-		getMissionsInScenario : getMissionsInScenario
+		getMyMissionsInScenario : getMyMissionsInScenario,
+		getMyMissions : getMyMissions
 		
 	}
 
