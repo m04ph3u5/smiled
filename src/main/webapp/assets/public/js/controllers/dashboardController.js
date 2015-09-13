@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService',
-   function dashboardCtrl(loggedUser,modalService){
+angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService','apiService',
+   function dashboardCtrl(loggedUser,modalService,apiService){
 	
 	var self = this;
 	//self.user = {};
@@ -17,6 +17,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
 	};
+	
+//	self.missionList = apiService.getMyMissions();
 		
 		
 	
