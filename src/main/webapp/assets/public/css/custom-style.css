@@ -306,14 +306,17 @@
 		.marginMBottom{
 			margin-bottom: 3%;
 		}
+		.marginXXLTop{
+			margin-top: 200px;
+		}
 		.marginMRight{
 			margin-right: 3%;
 		}		
 		.marginLRight{
 			margin-right: 5%;
 		}
-		.marginXXLTop{
-			margin-top: 200px;
+		.marginXLLeft{
+			margin-left: 20%;
 		}
 		.goUppercase{
 			text-transform:uppercase
@@ -664,8 +667,7 @@
 		    /*margin-right: 5px;*/
 		    min-width: 150px;
 		    outline: none;
-		    padding: 10px 40px 10px;
-		    position: relative;
+		    padding: 10px 1% 10px;
 		    text-decoration: none;
 		    text-align: center;
 		}
