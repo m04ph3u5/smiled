@@ -62,9 +62,8 @@
 		<label>ASSOCIAZIONI</label>
 <!-- 			Mettere qualcosa se non ci sono associazioni -->
 		<div data-ng-repeat="a in scenarioWizard.associations">
-		<div class="row">
-			<div class="col-sm-1"></div>
-			<div ng-if=" scenarioWizard.isStudent(a.attendee)">
+		<div class="row paddingMRight paddingMLeft">
+			<div ng-if="scenarioWizard.isStudent(a.attendee)">
 				<div class="col-xs-4 btn generalButton textLeft">
 				<img data-ng-src="{{a.attendee.cover}}/" 
 					 data-err-src="/assets/public/img/ic_student.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
@@ -82,7 +81,7 @@
 						 data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (creatore)
 				</div>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-xs-4">
 				<img hide-on-hover-parent data-ng-src="/assets/public/img/ic_association.png" class="linkImg" width="150px">
 				<img show-on-hover-parent style="display:none" data-ng-src="/assets/public/img/ic_association_del.png" class="linkImg" width="150px" data-ng-click="scenarioWizard.removeAssociation(a)">
 			</div>
