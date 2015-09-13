@@ -5,6 +5,10 @@
 <!DOCTYPE html>
 <html ng-app="mainModule">
 <head>
+<link rel="stylesheet"
+	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/public/css/custom-style.css">
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Imposta password</title>
 <!-- Le styles -->
@@ -98,10 +102,12 @@ body {
 		</div>
 	</div>
 
-	<script src="./assets/js/jquery.min.js"></script>
-	<script src="./assets/js/bootstrap.min.js"></script>
-	<link rel="stylesheet"
-	href="./assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
-	<link rel="stylesheet" href="./assets/public/css/custom-style.css">
+	<script
+		src="/assets/public/js/vendor/jquery/dist/jquery.min.js"></script>
+
+	<script
+		src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+	
+
 </body>
 </html>
