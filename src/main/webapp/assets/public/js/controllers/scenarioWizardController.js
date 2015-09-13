@@ -18,7 +18,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.accordionIsDisabled=true;
 		self.user;
 		self.selectableStudents;
-		self.selectableCollaborators = new Array();
+		//self.selectableCollaborators = new Array();
 		self.currentCharacters = []; //qui ci vanno le modifiche temporanee al character i-esimo. Questo ci permette di decidere se effettuare o meno la put sul server nel momento in cui andiamo a chiudere l'accordion
 		self.charactersServer = []; //array di character cosi come sono sul server
 		self.map;
@@ -31,7 +31,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				self.user = data;
 				var userCopy = angular.copy(self.user);
 				self.selectableStudents = userCopy.students;
-				self.selectableCollaborators = userCopy.colleagues;
+				//self.selectableCollaborators = userCopy.colleagues;
 				getMePromise.resolve();
 			}
 		);
@@ -53,7 +53,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						updateSelectableAttendees();
 						//aggiorno le cover dei characters dello scenario
 						updateCover();
-						updateSelectableCollaborators();
+						//updateSelectableCollaborators();
 						
 						updateAssociated();
 
@@ -126,6 +126,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			self.map = CONSTANTS.urlMedia(self.scenario.history.mapId);
 		}
 		
+		
+		
 		var updateAssociated = function(){
 			var teacherPlay=false;
 			var attendees= new Array();
@@ -190,15 +192,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var reInsertInSelectable = function(s){
 			console.log("reInsertInSelectable");
 			self.selectableStudents.push(s);
-			for(var j=0; j<self.selectableStudents.length; j++){
-				console.log(self.selectableStudents[j]);
-			}
 			
 		}
-		var reInsertInSelectableCollaborators = function(c){
-			console.log("reInsertInSelectableCollaborators");
-			self.selectableCollaborators.push(c);
-		}
+//		var reInsertInSelectableCollaborators = function(c){
+//			console.log("reInsertInSelectableCollaborators");
+//			self.selectableCollaborators.push(c);
+//		}
 		
 		var updateSelectableAttendees = function(){
 			console.log("updateSelectableAttendees");
@@ -235,24 +234,29 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var filterListSelectableCollaborators = function(l){
+			
 			var found=false;
-			if(l != null){
+			if(l){
 				for(var i=0; i< l.length; i++){
 					found=false;
 					if(l[i].id == self.user.id){
+						
 						l.splice(i, 1);
-						break;
+						continue;
 					}
-					if(self.scenario.collaborator!=null)
+					if(self.scenario.collaborators!=null){
 						for(var j=0; j< self.scenario.collaborators.length; j++){
+							
 							if(l[i].id == self.scenario.collaborators[j].id){
+								
 								l.splice(i, 1);
 								found = true;
 								break;
 							}
 						}
+					}
 					if(found)
-						break;
+						continue;
 						
 				}
 			}
@@ -260,21 +264,21 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			return l;
 		}
 		
-		var updateSelectableCollaborators = function(){
-			
-			if(self.scenarioServer && self.scenarioServer.collaborators && self.selectableCollaborators){
-			
-				for(var i=0; i<self.scenarioServer.collaborators.length; i++){
-			
-					for(var j=0; j<self.selectableCollaborators.length; j++){
-					
-						if(self.scenarioSever.collaborators[i].id==self.selectableCollaborators[j].id){
-							self.selectableCollaborators.splice(j,1);
-						}
-					}
-				}
-			}
-		}
+//		var updateSelectableCollaborators = function(){
+//			
+//			if(self.scenarioServer && self.scenarioServer.collaborators && self.selectableCollaborators){
+//			
+//				for(var i=0; i<self.scenarioServer.collaborators.length; i++){
+//			
+//					for(var j=0; j<self.selectableCollaborators.length; j++){
+//					
+//						if(self.scenarioSever.collaborators[i].id==self.selectableCollaborators[j].id){
+//							self.selectableCollaborators.splice(j,1);
+//						}
+//					}
+//				}
+//			}
+//		}
 		
 		
 		
@@ -558,6 +562,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.scenarioServer.collaborators.push(data);
 							self.selectedCollaborator="";
 							self.scenario.collaborators.push(angular.copy(data));
+							self.notAssociatedAttendees.push(angular.copy(data));
 						}, 
 					function(reason){
 	
@@ -633,7 +638,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						for(var i=0; i<self.scenarioServer.collaborators.length; i++){
 							if(self.scenarioServer.collaborators[i].id==c.id)
 								self.scenarioServer.collaborators.splice(i,1);
+							if(self.scenario.collaborators[i].id==c.id)
+								self.scenario.collaborators.splice(i,1);
 						}
+						manageAssociationOnAttendeeDeletion(c);
 						//reInsertInSelectableCollaborators(c);
 					},
 					function(reason){
@@ -696,6 +704,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}
 			}
 		}
+		
 		
 		var manageAssociationOnCharacterDeletion = function(c){
 			if(self.notAssociatedCharacters){
