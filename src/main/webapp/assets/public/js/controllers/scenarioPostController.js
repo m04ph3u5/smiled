@@ -79,12 +79,19 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	getPost();
 	var interval;
+	var intervalSet = false;
 	self.startUpdatePost = function(){
-		interval = $interval(getPost,15000);
+		if(!intervalSet){
+			interval = $interval(getPost,15000);
+			intervalSet=true;
+		}
 	}
 	
 	self.stopUpdatePost = function(){
-		$interval.cancel(interval);
+		if(intervalSet){
+			$interval.cancel(interval);
+			intervalSet=false;
+		}
 	}
 	
 	

@@ -1,9 +1,13 @@
 <div class="container-fluid">
 	<div class="row">
 		<label for="characterName">INSERISCI IL NOME DEL NUOVO PERSONAGGIO</label>
-		<input type="text" id="characterName" class="form-control" placeholder="ES: GIULIO CESARE"
-			data-ng-model="scenarioWizard.newCharacter.name">
-		<div class="pull-right btn generalButton" data-ng-click="scenarioWizard.addCharacter()"><span class="glyphicon glyphicon-floppy-save"></span> CREA PERSONAGGIO</div>
+		<div class="input-group">
+	      <input type="text" id="characterName" class="form-control" 
+	      placeholder="ES: GIULIO CESARE" data-ng-model="scenarioWizard.newCharacter.name">
+	      <span class="input-group-btn">
+	       	 <button class=" btn generalButton" data-ng-click="scenarioWizard.addCharacter()" type="button"><span class="glyphicon glyphicon-sunglasses"></span> CREA PERSONAGGIO</button>
+	      </span>
+	    </div>
 	</div>
 </div>
 <br>
@@ -12,7 +16,7 @@
 	<div class="row">
 	<accordion close-others="true">
 		<div data-ng-repeat="c in scenarioWizard.scenario.characters">
-			<div class="col-md-6">
+			<div class="col-sm-6">
 				<accordion-group is-open="c.isOpen" is-disabled="scenarioWizard.accordionIsDisabled">
 					<accordion-heading>						
 						<div data-ng-click="scenarioWizard.openAccordion($index)">
@@ -21,59 +25,79 @@
 							<b>{{c.name}}</b>
 						</div>	
 					</accordion-heading>
-								
+					
 					<div class="row">
-						<label class="col-md-4">Nome</label>
-						<input class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].name">
-						<div><a href=""><span class="glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCharacter(c)" style="margin-right: 15px;"></span></a></div>
+						<div class="col-sm-4 text-center">
+							<a href="">
+							<div>
+								<img data-ng-src="{{c.cover}}"
+									data-err-src="assets/public/img/icon/pg.png" class="img-thumbnail imgPreviewL"
+									ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"> 
+							</div>
+								<img data-ng-src="assets/public/img/icon/ic_camera.png" class="marginMTop img overlapIconCover"
+								ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"> 
+							</a>
+						</div>
+						<div class="col-sm-8">
+							<div class="row">
+								<label class="col-xs-4 col-sm-12">Nome</label>
+								<input class="generalInput col-xs-8 col-sm-12"  data-ng-model="scenarioWizard.currentCharacters[$index].name">
+							</div>
+							<div class="row marginMTop ">
+								<label class="col-xs-4 col-sm-12">Soprannome</label>
+								<input class="generalInput col-xs-8 col-sm-12" data-ng-model="scenarioWizard.currentCharacters[$index].nickname">
+							</div>
+						</div>
+						
+						
 					</div>
-					<div class="row">
-						<label class="col-md-4">Soprannome</label>
-						<input class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].nickname">
+					
+					<div class="row marginMTop">
+						<label class="col-xs-4">Biografia</label>
+						<textarea data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
+						
 					</div>
-					<div class="row">
-						<label class="col-md-4">Biografia</label>
-						<textarea data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>
-						<img data-ng-src="{{c.cover}}"
-						data-err-src="assets/public/img/icon/pg.png" class="pull-right img-thumbnail imgPreviewL" style="margin-right: 10px"> 
-					</div>
-					<div class="row">
-						<label class="col-md-4">Data di nascita</label>
-						<span  class="col-md-5  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowBornDate()">{{scenarioWizard.currentCharacters[$index].bornDate.formatted}}</span>
+					
+					<div class="row marginMTop">
+						<label class="col-xs-4">Data di nascita</label>
+						<span  class="col-xs-8  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowBornDate()">{{scenarioWizard.currentCharacters[$index].bornDate.formatted}}</span>
 					</div>
 					<div class="row" data-ng-show="scenarioWizard.showBornDatePicker">
 						<historical-date-picker date="scenarioWizard.currentCharacters[$index].bornDate"></historical-date-picker>
 					</div>
 					<div class="row">
-						<label class="col-md-4">Data di morte</label>
-						<span  class="col-md-5  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowDeadDate()">{{scenarioWizard.currentCharacters[$index].deadDate.formatted}}</span>
+						<label class="col-xs-4">Data di morte</label>
+						<span  class="col-xs-8  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowDeadDate()">{{scenarioWizard.currentCharacters[$index].deadDate.formatted}}</span>
 					</div>
 					<div class="row" data-ng-show="scenarioWizard.showDeadDatePicker">
 						<historical-date-picker date="scenarioWizard.currentCharacters[$index].deadDate"></historical-date-picker>
 					</div>
 					<div class="row">
-						<label class="col-md-4">Luogo di nascita</label>
-						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
+						<label class="col-xs-4">Luogo di nascita</label>
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
 					</div>
 					<div class="row">
-						<label class="col-md-4">Luogo di morte</label>
-						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].deadTown">
+						<label class="col-xs-4">Luogo di morte</label>
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].deadTown">
 					</div>
 					<div class="row">
-						<label class="col-md-4">Genere</label>
-						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].gender">
+						<label class="col-xs-4">Genere</label>
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].gender">
 					</div>
 					<div class="row">
-						<label class="col-md-4">Citazione</label>
-						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].quote">
+						<label class="col-xs-4">Citazione</label>
+						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].quote">
 					</div>
 					<div class="row">
-						<label class="col-md-4 ">Ruolo</label>
-						<input data-ng-click="scenarioWizard.hideDatePicker()" class="col-md-5 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
+						<label class="col-xs-4 ">Ruolo</label>
+						<input data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
 					</div>
-					<div class="row">
-						<div class="pickRow col-md-9 uploadSpan btn generalButton btn-file"
-						ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')">CAMBIA L'IMMAGINE DEL PERSONAGGIO</div>
+					<div class="row text-center">						
+						<div class="pickRow col-md-9 uploadSpan btn warningButton btn-file"
+						data-ng-click="scenarioWizard.deleteCharacter(c)"> 
+							<span class="glyphicon glyphicon-trash" data-ng-click="scenarioWizard.deleteCharacter(c)">
+							ELIMINA PERSONAGGIO
+						</div>
 					</div>
 				</div>
 			</div>

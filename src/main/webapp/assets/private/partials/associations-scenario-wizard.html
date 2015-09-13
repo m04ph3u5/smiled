@@ -4,7 +4,7 @@
 	<div class="row">
 	<div class="col-md-6">
 		<label>PARTECIPANTI</label>
-		<!-- Mettere qualcosa di decente quando non ce n'� -->
+		<!-- Mettere qualcosa di decente quando non ce n'ï¿½ -->
 							
 <!-- 			<div class="col-sm-6" data-ng-show="!self.scenarioWizard.attendees || scenarioWizard.scenarioServer.attendees.length<=0">Non hai ancora invitato nessuno studente a partecipare</div> -->
 				<div ui-draggable="true" drag="a" ui-on-Drop="scenarioWizard.onDrop($event,$data, $index)"
@@ -43,7 +43,8 @@
 				<div class="row">
 					<div class="col-sm-3 col-xs-12"></div>
 					<div class="col-sm-6 col-xs-12 btn generalButton textLeft"><img data-ng-src="{{c.cover}}" 
-								data-err-src="/assets/public/img/icon/pg.png" class="img-circle imgPreviewM"> {{c.name}}
+								data-err-src="/assets/public/img/icon/pg.png" class="img-circle imgPreviewM"> {{c.name | limitTo: 15}}
+						<span ng-if="c.name.length>15">...</span>
 					</div>
 					<div class="col-sm-3 col-xs-12"></div>
 				

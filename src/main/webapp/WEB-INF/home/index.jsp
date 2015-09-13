@@ -127,6 +127,7 @@
 	<script src="/assets/public/js/directives/errSrc.js"></script>
 	<script src="/assets/public/js/directives/pin-point-canvas.js"></script>
 	<script src="/assets/public/js/directives/bsSwitch.js"></script>
+	<script src="/assets/public/js/directives/updatePostOnScroll.js"></script>
 	<script src="/assets/public/js/support/jqSupport.js"></script>
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->

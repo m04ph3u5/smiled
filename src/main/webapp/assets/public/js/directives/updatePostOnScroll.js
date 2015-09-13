@@ -1,22 +1,29 @@
-angular.module("smiled.application").directive('updatePostOnScrool',[ '$window', 'CONSTANTS',
-    function($window, CONSTANTS){
+angular.module("smiled.application").directive('updatePostOnScrool',[ '$window', 
+    function($window){
 		return {
 			scope : {
-				
+				stop : '&',
+				start : '&'
 			},
-			controller : function(){
-				
-			},
-			controllerAs: "updatePostOnScrool",
-			bindToController: true,
-			link : function(scope, elem, attrs, ctrl){
-				angular.elem($window).bind("scroll", function() {
-		             if (this.pageYOffset >= 150) {
-		                 scope.stopUpdatePost();
+//			controller : function($scope) {
+//				var self = this;
+//				self.start = $scope.start;
+//				self.stop = $scope.stop;
+//			},
+//			controllerAs: "updatePostOnScrollCtrl",
+//			bindToController : true,
+			link : function(scope, element, attrs){
+				angular.element($window).bind("scroll", function() {
+		             if (this.pageYOffset <= 450) {
+		                 scope.start();
 		             } else {
-		                 scope.startUpdatePost;
+		                 scope.stop();
 		             }
-		            scope.$apply();
+		             scope.$apply();
+		             scope.$on('$destroy', function() {
+		                 scope.stop();
+		                 cleanup();
+		               });
 		        });
 			}
 		};
