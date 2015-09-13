@@ -17,8 +17,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
 	};
-	
-	self.missionList = apiService.getMyMissions();
+	/*
+	self.missionList = apiService.getMyMissions(0, 20, true, true);
 	self.createMission = function(){
 		var newMission = {
 				'student': "", //mettere reference vuota
@@ -31,6 +31,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 				'deliveryDate': "" //prenderlo dalla vista
 		}
 	}
+	*/
 		
 	
 }]);

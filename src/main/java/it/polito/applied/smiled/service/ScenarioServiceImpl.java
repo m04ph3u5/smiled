@@ -172,6 +172,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 			scenarioUpdated = scenarioRepository.updateScenario(id, u);
 			if(scenarioUpdated == null)
 				throw new BadRequestException();
+			if(scenario.getName()!=null){
+				u.set("name", scenario.getName());
+				updateReferenceOfAllPeopleInScenario(id, callerId, scenarioUpdated.getName());
+			}
+			
+			
+			
 			
 			
 			/*Inserisco lo scenario nelle liste degli utenti (openScenarios o closedScenarios) partecipanti o collaboratori*/
@@ -243,7 +250,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 
 	}
-
+	//L'update dello ScenarioReference deve essere immediato solo per chi ha fatto la modifica (che potrebbe essere il creatore oppure un collaboratore)
+	private void updateReferenceOfAllPeopleInScenario(String scenarioId, String callerId, String scenarioName){
+		//TODO userRepository.
+	}
 
 	@Override
 	public List<Reference> getAllScenariosUsers(String id) throws MongoException, NotFoundException{
