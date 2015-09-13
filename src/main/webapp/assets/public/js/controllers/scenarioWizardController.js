@@ -332,7 +332,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						function(data){
 							for(var i=0; i<data.length; i++){
 								if(data[i].firstname!=null){
-									data[i].cover = CONSTANTS.getUserCover(data[i].id);
+									data[i].cover = CONSTANTS.urlUserCover(data[i].id);
 									console.log(data[i]);
 									if(self.scenarioServer.attendees==null || self.scenarioServer.attendees == "")
 										self.scenarioServer.attendees = new Array();
