@@ -5,11 +5,14 @@
 <!DOCTYPE html>
 <html ng-app="mainModule">
 <head>
+<link rel="stylesheet"
+	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/public/css/custom-style.css">
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Imposta password</title>
 <!-- Le styles -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="./assets/css/bootstrap.css" rel="stylesheet">
 
 <style>
 body {
@@ -21,13 +24,13 @@ body {
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="./assets/ico/favicon.ico">
 <link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="./assets/ico/apple-touch-icon-144-precomposed.png">
+	href="/assets/ico/apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="a./ssets/ico/apple-touch-icon-114-precomposed.png">
+	href="assets/ico/apple-touch-icon-114-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="72x72"
-	href="./assets/ico/apple-touch-icon-72-precomposed.png">
+	href="assets/ico/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed"
-	href="./assets/ico/apple-touch-icon-57-precomposed.png">
+	href="assets/ico/apple-touch-icon-57-precomposed.png">
 	
 <style>
       body { padding-top: 60px; /* 60px to make the container go all the way
@@ -50,9 +53,15 @@ body {
 
 <body>
 	<div class="navbar navbar-fixed-top navbar-inverse">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="/"> Home </a>
+		<div class="container-fluid">
+	
+			<div class="navbar-inner">
+				<div class="navbar-header">
+					<a href="/login"> <img class="img imgPreviewM" src="assets/public/img/logo_calderone.png"><b><i>me</i>schola</b></img>
+					</a>
+					
+				</div>
+	
 			</div>
 		</div>
 	</div>
@@ -68,27 +77,27 @@ body {
 
 			<form:form commandName="firstPassword">
 				<div class="form-group row">
-					<label for="textinputEmail" class=" col-sm-3"> EMAIL: </label>
+					<label style="margin-right: 25px;" for="textinputEmail" class=" col-sm-3"> EMAIL: </label>
 					<form:input class="generalInput col-sm-8" path="email" type="email" cssErrorClass="error" placeholder="INSERISCI LA TUA EMAIL"/>
 					<form:errors path="email" cssClass="error" />
 				</div>
 				<div class="form-group row">
-					<label for="textinputEmail" class=" col-sm-3"> NOME: </label>
+					<label style="margin-right: 25px;" for="textinputEmail" class=" col-sm-3"> NOME: </label>
 					<form:input class="generalInput col-sm-8" path="firstname" type="text" cssErrorClass="error" placeholder="NOME"/>
 					<form:errors path="firstname" cssClass="error" />
 				</div>
 				<div class="form-group row">
-					<label for="textinputEmail" class=" col-sm-3"> COGNOME: </label>
+					<label style="margin-right: 25px;" for="textinputEmail" class=" col-sm-3"> COGNOME: </label>
 					<form:input class="generalInput col-sm-8" path="lastname" type="text" cssErrorClass="error" placeholder="COGNOME"/>
 					<form:errors path="lastname" cssClass="error" />
 				</div>
 				<div class="form-group row">
-					<label for="textinputOldPassword" class=" col-sm-3"> VECCHIA PASSWORD: </label>
+					<label style="margin-right: 25px;" for="textinputOldPassword" class=" col-sm-3"> VECCHIA PASSWORD: </label>
 					<form:input class="generalInput col-sm-8" path="oldPassword" type="password" cssErrorClass="error" placeholder="INSERISCI LA VECCHIA PASSWORD"/>
 					<form:errors path="oldPassword" cssClass="error" />
 				</div>
 				<div class="form-group row">
-				<label for="textinputNewPassword" class=" col-sm-3"> NUOVA PASSWORD: </label>
+				<label style="margin-right: 25px;" for="textinputNewPassword" class=" col-sm-3"> NUOVA PASSWORD: </label>
 					<form:input class="generalInput col-sm-8" path="newPassword" type="password" cssErrorClass="error" placeholder="INSERISCI LA TUA NUOVA PASSWORD"/>
 					<form:errors path="newPassword" cssClass="error" />
 				</div>
@@ -98,10 +107,12 @@ body {
 		</div>
 	</div>
 
-	<script src="./assets/js/jquery.min.js"></script>
-	<script src="./assets/js/bootstrap.min.js"></script>
-	<link rel="stylesheet"
-	href="./assets/public/js/vendor/bootstrap/dist/css/bootstrap.css">
-	<link rel="stylesheet" href="./assets/public/css/custom-style.css">
+	<script
+		src="/assets/public/js/vendor/jquery/dist/jquery.min.js"></script>
+
+	<script
+		src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+	
+
 </body>
 </html>
