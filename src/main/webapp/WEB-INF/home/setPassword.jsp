@@ -72,7 +72,7 @@ body {
 		<div class="col-sm-3 box textLeft">
 			<h1>Imposta la password</h1>
 			<div>
-				<p>Ci sei quasi. Imposta la tua nuova passsword ed inizia ad utilizzare SMILED!</p>
+				<p>Ci sei quasi. Imposta la tua nuova password ed inizia ad utilizzare Meschola!</p>
 			</div>
 
 			<form:form commandName="firstPassword">

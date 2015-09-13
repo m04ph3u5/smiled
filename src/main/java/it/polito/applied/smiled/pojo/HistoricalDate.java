@@ -163,6 +163,14 @@ public class HistoricalDate {
 	
 	private void getDateFromMillis(){
 		int remains;
+		
+		if(dateMillis<0){
+			afterChrist=false;
+			dateMillis*=-1;
+		}
+		else
+			afterChrist=true;
+		
 		year = (int)(dateMillis/(365*24*60));
 		remains = (int)(dateMillis%(365*24*60));
 		int monthDays = remains/(24*60);
@@ -208,11 +216,6 @@ public class HistoricalDate {
 			month=12;
 			day=monthDays-334;
 		}
-		
-		if(dateMillis<0)
-			afterChrist=false;
-		else
-			afterChrist=true;
 			
 	}
 
