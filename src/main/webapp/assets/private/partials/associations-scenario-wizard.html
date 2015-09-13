@@ -1,10 +1,10 @@
 <div class="container-fluid text-center">
-<label>ASSOCIA GLI STUDENTI AI PERSONAGGI</label>
-	<p>Trascina la scheda di uno studente sul personaggio che vuoi fargli interpretare</p>
+<label>ASSOCIA I PARTECIPANTI AI PERSONAGGI</label>
+	<p>Trascina la scheda di un partecipante sul personaggio che vuoi fargli interpretare</p>
 	<div class="row">
 	<div class="col-md-6">
 		<label>PARTECIPANTI</label>
-		<!-- Mettere qualcosa di decente quando non ce n'� -->
+		<!-- Mettere qualcosa di decente quando non ce n'ï¿½ -->
 							
 <!-- 			<div class="col-sm-6" data-ng-show="!self.scenarioWizard.attendees || scenarioWizard.scenarioServer.attendees.length<=0">Non hai ancora invitato nessuno studente a partecipare</div> -->
 				<div ui-draggable="true" drag="a" ui-on-Drop="scenarioWizard.onDrop($event,$data, $index)"
@@ -18,7 +18,7 @@
 									data-err-src="/assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}}
 						</div>
 					</div>
-					<div ng-if="!scenarioWizard.isStudent(a) && !a.id==scenarioWizard.scenario.teacherCreator.id">
+					<div ng-if="!scenarioWizard.isStudent(a) && a.id!=scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft"><img data-ng-src="{{a.cover}}" 
 										data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewM"> {{a.lastname}} {{a.firstname}} (docente)
 						</div>
@@ -69,8 +69,8 @@
 					 data-err-src="/assets/public/img/ic_student.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}}
 				</div>
 			</div>								
-			<div ng-if="!scenarioWizard.isStudent(a.attendee) && !a.attendee.id==scenarioWizard.scenario.teacherCreator.id">
-				<div class="col-xs-4 btn generalButton1textLeft ">
+			<div ng-if="!scenarioWizard.isStudent(a.attendee) && a.attendee.id!=scenarioWizard.scenario.teacherCreator.id">
+				<div class="col-xs-4 btn generalButton1 textLeft ">
 				<img data-ng-src="{{a.attendee.cover}}/" 
 					 data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewL"> {{a.attendee.lastname}} {{a.attendee.firstname}} (docente)
 				</div>

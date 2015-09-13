@@ -18,7 +18,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.accordionIsDisabled=true;
 		self.user;
 		self.selectableStudents;
-		self.selectableCollaborators;
+		self.selectableCollaborators = new Array();
 		self.currentCharacters = []; //qui ci vanno le modifiche temporanee al character i-esimo. Questo ci permette di decidere se effettuare o meno la put sul server nel momento in cui andiamo a chiudere l'accordion
 		self.charactersServer = []; //array di character cosi come sono sul server
 		self.map;
@@ -47,6 +47,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(data){
 						self.scenarioServer = data;
 						self.scenario = angular.copy(data);
+						
 						self.title = data.name;
 						
 						updateSelectableAttendees();
@@ -117,25 +118,40 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				for(var i=0;i<self.scenario.attendees.length; i++){
 					self.scenario.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
 				}
+			if(self.scenario.collaborators)
+				for(var i=0;i<self.scenario.collaborators.length; i++){
+					self.scenario.collaborators[i].cover = CONSTANTS.urlUserCover(self.scenario.collaborators[i].id);
+				}
 			self.scenario.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
 			self.map = CONSTANTS.urlMedia(self.scenario.history.mapId);
 		}
 		
 		var updateAssociated = function(){
 			var teacherPlay=false;
-			if(self.scenario.attendees){ //TODO Sistemare il fatto che se non hai attendees non vedi nemmeno i characters
-				var attendees = angular.copy(self.scenario.attendees);
-				if(self.scenario.characters){
-					for(var i=0; i<self.scenario.characters.length; i++){
-						if(self.scenario.characters[i].userId==null){
-							self.notAssociatedCharacters.push(self.scenario.characters[i]);
-						}else if(self.scenario.characters[i].userId==self.scenario.teacherCreator.id){
-							var association = {};
-							association.character = self.scenario.characters[i];
-							association.attendee = self.scenario.teacherCreator;
-							self.associations.push(association);
-							teacherPlay=true;
-						}else{
+			var attendees= new Array();
+			
+			if(self.scenario.attendees){
+				attendees = angular.copy(self.scenario.attendees);
+			}
+			if(self.scenario.collaborators){
+				
+				attendees = attendees.concat(self.scenario.collaborators);
+			}
+
+			
+
+			if(self.scenario.characters){
+				for(var i=0; i<self.scenario.characters.length; i++){
+					if(self.scenario.characters[i].userId==null){
+						self.notAssociatedCharacters.push(self.scenario.characters[i]);
+					}else if(self.scenario.characters[i].userId==self.scenario.teacherCreator.id){
+						var association = {};
+						association.character = self.scenario.characters[i];
+						association.attendee = self.scenario.teacherCreator;
+						self.associations.push(association);
+						teacherPlay=true;
+					}else{
+						if(attendees){
 							for(var j=0; j<attendees.length; j++){
 								if(attendees[j].id==self.scenario.characters[i].userId){
 									var association = {};
@@ -149,9 +165,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 					}
 				}
-				self.notAssociatedAttendees = attendees;
-				
 			}
+			self.notAssociatedAttendees = attendees;
+
+
 			if(!teacherPlay)
 				self.notAssociatedAttendees.push(self.scenario.teacherCreator);
 			console.log("----------------------------->UPDATE ASSOCIATIONS");
@@ -159,7 +176,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			console.log(self.notAssociatedCharacters);
 			console.log(self.associations);
 		}
-		
 		
 		/*------------------------------------------------------------------------------------------------------------------------ */
 		
@@ -202,16 +218,46 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.getPagedTeacherByRegex = function(regex){
-			apiService.getPagedTeacherByRegex(0, 10, regex).then(
-					function(data){
-						console.log("get paged teachers");
-						console.log(data);
-					},
-					function(reason){
-						console.log("failed to get paged teacher by regex");
-						console.log(reason);
-					}
+			return apiService.getPagedTeacherByRegex(0, 10, regex).then(
+						function(data){
+							console.log(data.content);
+							return filterListSelectableCollaborators(data.content);
+							
+						},
+						function(reason){
+							console.log("failed to get paged teacher by regex");
+							console.log(reason);
+						}
+				
 			);
+			
+			
+		}
+		
+		var filterListSelectableCollaborators = function(l){
+			var found=false;
+			if(l != null){
+				for(var i=0; i< l.length; i++){
+					found=false;
+					if(l[i].id == self.user.id){
+						l.splice(i, 1);
+						break;
+					}
+					if(self.scenario.collaborator!=null)
+						for(var j=0; j< self.scenario.collaborators.length; j++){
+							if(l[i].id == self.scenario.collaborators[j].id){
+								l.splice(i, 1);
+								found = true;
+								break;
+							}
+						}
+					if(found)
+						break;
+						
+				}
+			}
+			
+			return l;
 		}
 		
 		var updateSelectableCollaborators = function(){
@@ -505,25 +551,14 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.addCollaborator = function(collaborator){
 			console.log("addCollaboratorToScenario: "+collaborator);
-			var emailDTO = {"email": collaborator.email};
+	
 			
-			apiService.addCollaboratorToScenario(emailDTO, id).then(
+			apiService.addCollaboratorToScenario(collaborator.id, id).then(
 					function(data){
-						if(data.firstname!= null && data.lastname != null){
-							if(self.scenarioServer.collaborators==null || self.scenarioServer.collaborators == "")
-								self.scenarioServer.collaborators = new Array();
 							self.scenarioServer.collaborators.push(data);
-						}
-							
-						
-						self.selectedCollaborator="";
-						
-						for(var j=0; j<self.selectableCollaborators.length; j++){
-							if(self.selectableCollaborators[j].id==collaborator.id){
-								self.selectableCollaborators.splice(j,1);
-							}
-						}
-					}, 
+							self.selectedCollaborator="";
+							self.scenario.collaborators.push(angular.copy(data));
+						}, 
 					function(reason){
 	
 					});
@@ -599,7 +634,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							if(self.scenarioServer.collaborators[i].id==c.id)
 								self.scenarioServer.collaborators.splice(i,1);
 						}
-						reInsertInSelectableCollaborators(c);
+						//reInsertInSelectableCollaborators(c);
 					},
 					function(reason){
 						console.log("Delete collaborator failed: "+reason);

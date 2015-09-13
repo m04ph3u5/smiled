@@ -195,7 +195,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 			Criteria internal = new Criteria();
 			Criteria external = new Criteria();
 			internal.orOperator(Criteria.where("firstName").regex(regex, "i"), Criteria.where("lastName").regex(regex, "i"));
-			external.andOperator(internal, Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher"));
+			external.andOperator(internal, Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher"), Criteria.where("status").ne("STATUS_PENDING"));
 			
 			q.addCriteria(external);
 			System.out.println("q: "+ q.toString());
@@ -220,7 +220,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 			Criteria external = new Criteria();
 			
 			internal.orOperator(c,c2);
-			external.andOperator(internal, Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher") );
+			external.andOperator(internal, Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher") , Criteria.where("status").ne("STATUS_PENDING"));
 			q.addCriteria(external);
 			
 			//q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher").andOperator(c));

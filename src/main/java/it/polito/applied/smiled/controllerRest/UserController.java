@@ -220,7 +220,7 @@ public class UserController extends BaseController{
 		userService.inviteTeacherIfNotPresent(emailDTO.getEmail(), activeUser.getId());
 	}
 	
-	
+	//Ritorna il teacher solo se non è in stato PENDING
 	//Lunghezza minima accettabile della regex= 2 caratteri
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@RequestMapping(value="/v1/searchTeachers", method=RequestMethod.GET)
