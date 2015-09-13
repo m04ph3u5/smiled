@@ -316,7 +316,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							}
 					);
 				}else
-					console.log("---------------> Nessun cambiamento NO PUT");
+					console.log("---------------> Nessun cambiamento oppure infovalidate fallisce NO PUT");
 			}
 		}
 		
@@ -979,11 +979,19 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var infoValidate = function(){
+			
+			//controllo che data fine non preceda data inizio
+			if(self.scenario.history && self.scenario.history.startDate && self.scenario.history.endDate){
+				if (!checkIfEndIsAfterStart(self.scenario.history.startDate , self.scenario.history.endDate )){
+					self.scenario.history.startDate = self.scenarioServer.history.startDate;
+					self.scenario.history.endDate = self.scenarioServer.history.endDate;
+					return false;
+				}
+					
+			}
 			var ret=true;
 			console.log("infoValidate");
-			console.log(self.scenario.history);
-			console.log(self.scenario.history.startDate);
-			console.log(self.scenario.history.endDate);
+			
 			if(!self.scenario.name || self.scenario.name.length<2){
 				console.log("infoValidate ---> name");
 				ret=false;
@@ -1038,6 +1046,80 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				
 			
 			return ret;
+		}
+		
+		
+		var checkIfEndIsAfterStart = function(startDate, endDate){
+			console.log("checkIfEndIsAfterStart");
+			if(startDate.afterChrist && endDate.afterChrist){  //entrambe dopo cristo
+				console.log("entrambe dopo cristo");
+				if(startDate.year > endDate.year){  //startDate.year > endDate.year ERR
+					console.log ("startDate.year > endDate.year ERR");
+					return false;
+				}else if (startDate.year < endDate.year){ //startDate.year > endDate.year GOOD
+					console.log("startDate.year > endDate.year GOOD");
+					return true;
+				}else{   //data inizio e fine hanno lo stesso anno, quindi guardo al mese!
+					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
+						console.log ("startDate.month > endDate.month ERR");
+						return false;
+					}else if(startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
+						console.log("startDate.month < endDate.month GOOD");
+						return true;
+					}else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
+						console.log("data inizio e fine con stesso anno e stesso mese");
+						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
+							console.log("startDate.day > endDate.day ERR");
+							return false;
+						}
+						else if(startDate.day < endDate.day){ //startDate.day < endDate.day GOOD
+							console.log("startDate.day < endDate.day GOOD");
+							return true;
+						}else{   //data inizio e data fine hanno stesso anno, mese e giorno GOOD
+							return true;
+						}
+					}
+				}
+					
+			}
+			else if(!startDate.afterChrist && !endDate.afterChrist){  //entrambe avanti cristo
+				console.log("entrambe avanti cristo");
+				if(startDate.year < endDate.year){  //startDate.year < endDate.year ERR
+					console.log ("startDate.year < endDate.year ERR");
+					return false;
+				}else if (startDate.year > endDate.year){ //startDate.year > endDate.year GOOD
+					console.log("startDate.year > endDate.year GOOD");
+					return true;
+				}else{   //data inizio e fine hanno lo stesso anno, quindi guardo al mese!
+					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
+						console.log ("startDate.month > endDate.month ERR");
+						return false;
+					}else if(startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
+						console.log("startDate.month < endDate.month GOOD");
+						return true;
+					}else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
+						console.log("data inizio e fine con stesso anno e stesso mese");
+						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
+							console.log("startDate.day > endDate.day ERR");
+							return false;
+						}
+						else if(startDate.day < endDate.day){ //startDate.day < endDate.day GOOD
+							console.log("startDate.day < endDate.day GOOD");
+							return true;
+						}else{   //data inizio e data fine hanno stesso anno, mese e giorno GOOD
+							return true;
+						}
+					}
+				}
+			}
+			else if(!startDate.afterChrist && endDate.afterChrist){   //inizio a.c. e fine d.c.  SICURAMENTE BUONO
+				console.log("inizio a.c. e fine d.c.");
+				return true;
+			}
+			else{																				//inizio d.c. e fine a.c. SICURAMENTE ERRATO
+				console.log("inizio d.c. e fine a.c. ERRORE SICURO");
+				return false;
+			}
 		}
 		
 		var checkDate = function(date){
