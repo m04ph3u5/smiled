@@ -14,7 +14,7 @@ angular.module("smiled.application").directive('updatePostOnScrool',[ '$window',
 //			bindToController : true,
 			link : function(scope, element, attrs){
 				angular.element($window).bind("scroll", function() {
-		             if (this.pageYOffset <= 450) {
+		             if (this.pageYOffset <= 500) {
 		                 scope.start();
 		             } else {
 		                 scope.stop();
@@ -22,7 +22,6 @@ angular.module("smiled.application").directive('updatePostOnScrool',[ '$window',
 		             scope.$apply();
 		             scope.$on('$destroy', function() {
 		                 scope.stop();
-		                 cleanup();
 		               });
 		        });
 			}

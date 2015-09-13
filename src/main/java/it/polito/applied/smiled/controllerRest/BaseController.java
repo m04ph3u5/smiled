@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.controllerRest;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
@@ -140,7 +141,16 @@ public abstract class BaseController {
 	public ErrorInfo handleFileNotFoundException(FileNotFoundException e){
 		ErrorInfo error = new ErrorInfo();
 		error.setStatusCode("404");
-		System.out.println("File not found"+e.getMessage());
+//		System.out.println("File not found"+e.getMessage());
+		return error;
+	}
+	
+	@ExceptionHandler(IOException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public ErrorInfo handleIOException(IOException e){
+		ErrorInfo error = new ErrorInfo();
+		error.setStatusCode("400");
+		System.out.println("io exception: "+e.getMessage());
 		return error;
 	}
 	

@@ -3,7 +3,11 @@ angular.module("smiled.application").controller('openMapCtrl', [ 'post', 'scenar
 		var self = this;
 		self.post = post;
 		var oldPlace = post.place;
-		self.map = scenarioMap.url;
+		if(scenarioMap)
+			self.map = scenarioMap.url;
+		else
+			self.map=null;
+		console.log("---------------> MAPPA: "+self.map);
 		self.stylePin = {'visibility' : 'hidden'};
 		self.pinPoint = function(event){
 			console.log(event);

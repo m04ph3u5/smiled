@@ -8,6 +8,7 @@ import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.FileManagerService;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -124,9 +125,10 @@ public class FileUploadController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="media/{id}", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ByteArrayResource getMedia(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException, ForbiddenException{
+	public ByteArrayResource getMedia(@PathVariable String id) throws BadRequestException, IllegalStateException, NotFoundException, FileNotFoundException, ForbiddenException, IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return new ByteArrayResource(fileManagerService.getMedia(id,auth));
+		byte[] b = fileManagerService.getMedia(id,auth);
+		return new ByteArrayResource(b);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
