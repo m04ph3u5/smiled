@@ -23,13 +23,20 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 			function(data){
 				
 				self.character = data;
-				self.bornMonth = CONSTANTS.monthString(self.character.bornDate.month);
-				self.deadMonth = CONSTANTS.monthString(self.character.deadDate.month);				
+				if(self.character.bornDate!=null)
+					self.bornMonth = CONSTANTS.monthString(self.character.bornDate.month);
+				if(self.character.deadDate!=null)
+				self.deadMonth = CONSTANTS.monthString(self.character.deadDate.month);	
+				if(self.character.actualUser.id!=null)
 				self.actualUserCover = CONSTANTS.urlUserCover(self.character.actualUser.id);
-				self.newQuote = self.character.quote;
+				if(self.character.quote!=null)
+					self.newQuote = self.character.quote;
+				if(self.character.role!=null)
 				self.newRole = self.character.role;
-				self.newDescription = self.character.description;
-				self.newNickname = self.character.nickname;
+				if(self.character.description!=null)
+					self.newDescription = self.character.description;
+				if(self.character.nickname!=null)
+					self.newNickname = self.character.nickname;
 			},
 			function(reason){
 				console.log("ERROR RETRIEVE CHARACTER: ");
