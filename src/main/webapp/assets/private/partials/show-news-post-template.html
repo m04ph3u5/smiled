@@ -29,7 +29,7 @@
 				<div class="row">
 					<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
 						<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-						<span class="glyphicon glyphicon-map-marker"></span>
+						<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
 					</p>
 				</div>
 				<div class="row text-left paddingMRight">
@@ -119,6 +119,7 @@
 				<div class="row">			
 					<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
 						<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+						<a href=""><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
 					</p>				
 				</div>
 				<div class="row">
