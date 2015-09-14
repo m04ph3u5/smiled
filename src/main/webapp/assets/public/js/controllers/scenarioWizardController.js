@@ -554,18 +554,26 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.addCollaborator = function(collaborator){
-			console.log("addCollaboratorToScenario: "+collaborator);
-	
+			console.log("addCollaboratorToScenario: ");
+			console.log(collaborator);
 			
 			apiService.addCollaboratorToScenario(collaborator.id, id).then(
 					function(data){
+							console.log("chiamata alle api OK");
+							if(self.scenarioServer.collaborators==null)
+								self.scenarioServer.collaborators = new Array();
 							self.scenarioServer.collaborators.push(data);
 							self.selectedCollaborator="";
+							if(self.scenario.collaborators==null)
+								self.scenario.collaborators = new Array();
 							self.scenario.collaborators.push(angular.copy(data));
+							if(self.notAssociatedAttendees==null)
+								self.notAssociatedAttendees = new Array();
 							self.notAssociatedAttendees.push(angular.copy(data));
 						}, 
 					function(reason){
-	
+							console.log("chiamata alle api NOT OK");
+							console.log(reason);
 					});
 		}
 		

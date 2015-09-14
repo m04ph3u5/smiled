@@ -116,6 +116,20 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		WriteResult w = mongoOp.updateFirst(q, u, User.class);
 		return w.getN();
 	}
+	
+	@Override
+	public int insertInCreatedScenarioOfUser(String id,
+			ScenarioReference scenario) {
+		
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(id));
+		Update u = new Update();
+		u.addToSet("creatingScenarios", scenario);
+		u.pull("invitingScenariosId", scenario.getId());
+		
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		return w.getN();
+	}
 
 
 	@Override
@@ -524,6 +538,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		return false;
 	}
 
+	
 
 
 }

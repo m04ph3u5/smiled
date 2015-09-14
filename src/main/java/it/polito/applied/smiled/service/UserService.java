@@ -68,6 +68,7 @@ public interface UserService {
 	public void moveScenarioFromOpenToInviting(String collaboratorId, String id);
 	public void createScenarioOfUser(Reference r,
 			ScenarioReference scenarioReference);
+	public void insertInCreatedScenarioOfUser(Reference r, ScenarioReference scenarioReference);
 	public boolean inviteTeacherIfNotPresent(String email, String teacherInviterId) throws BadRequestException;	
 	
 	

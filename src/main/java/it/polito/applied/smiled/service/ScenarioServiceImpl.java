@@ -378,7 +378,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 								}else if(!u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD) && !scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 									userRepository.addInvitingScenario(ref.getId(), scen.getId());
 									userService.addTeacherToStudent(ref.getId(), teacherRef, true);
-									scenarioRepository.addAttendeeToScenario(ref, scen.getStatus(), scen.getId());
 								}else if(!u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD) && scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 									userService.addTeacherToStudent(ref.getId(), teacherRef, true);
 									userRepository.openScenarioToUser(ref.getId(), scenarioRef);
@@ -628,6 +627,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 				throw new BadRequestException();
 			
 			User collaborator = userRepository.findById(idCollaborator);
+			//quando si aggiunge un collaboratore ad uno scenario questo diventa collega del teacher creator dello scenario e viceversa
+			Reference teacherCreatorRef = scen.getTeacherCreator();
+			
+			
 			if(collaborator==null || collaborator.getStatus().equals(UserStatus.STATUS_PENDING))  //TODO Nel caso si vuole permettere anche l'aggiunta di studenti come collaborator aggiungere || collaborator.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD)
 				throw new NotFoundException();
 
@@ -645,13 +648,21 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}else if(scen.getCollaborators()==null || !scen.getCollaborators().contains(r)){
 				scenarioRepository.addCollaborator(r, scen.getStatus(), idScenario, false);
 				permissionEvaluator.addPermission(r.getId(), Scenario.class, "MODERATOR", scen.getId());
-				userService.openScenarioOfUser(r, new ScenarioReference(scen));
-				/*L'aggiornamento delle relazioni va fatto solo se lo scenario è già attivo, altrimenti verrà fatto all'attivazione per tutti i partecipanti*/
-				if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
-					asyncUpdater.addRelationShipToUser(collaborator, scen);
+				userService.addColleagueToTeacher(teacherCreatorRef.getId(), r);  //aggiungo questo collaboratore alla lista di colleghi del teacher creator dello scenario
+				userService.addColleagueToTeacher(collaborator.getId(), teacherCreatorRef); //aggiungo il teacher creator alla lista di colleghi del collaboratore appena aggiunto allo scenario
+				asyncUpdater.addRelationShipToUser(collaborator, scen);   /*L'aggiornamento delle relazioni va fatto solo se lo scenario è già attivo, altrimenti verrà fatto all'attivazione per tutti i partecipanti*/
+				if(scen.getStatus().equals(ScenarioStatus.CREATED_V1) || scen.getStatus().equals(ScenarioStatus.CREATED_V2) || scen.getStatus().equals(ScenarioStatus.CREATED_V3)){
+					userService.insertInCreatedScenarioOfUser(r, new ScenarioReference(scen));
+				}else if(scen.getStatus().equals(ScenarioStatus.ACTIVE)){
+					userService.openScenarioOfUser(r, new ScenarioReference(scen));
+					}
+				//TODO gestire in maniera analoga anche le altre tipologia di scenari (chiusi, pubblicati..)
+				
+				
+					
 			}
 	
-			if(!scen.getCollaborators().contains(r)){
+			if( scen.getCollaborators()!= null && !scen.getCollaborators().contains(r)){
 				if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
 					userService.openScenarioOfUser(r, new ScenarioReference(scen));
 				else
