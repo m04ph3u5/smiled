@@ -145,22 +145,22 @@ public abstract class BaseController {
 		return error;
 	}
 	
-	@ExceptionHandler(IOException.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	public ErrorInfo handleIOException(IOException e){
-		ErrorInfo error = new ErrorInfo();
-		error.setStatusCode("400");
-		System.out.println("io exception: "+e.getMessage());
-		return error;
-	}
-	
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	public ErrorInfo handleGenericException(Exception e){
-		ErrorInfo error = new ErrorInfo();
-		error.setStatusCode("400");
-		System.out.println("generic exception: "+e.getClass()+" "+e.getMessage());
-		return error;
-	}
+////	@ExceptionHandler(IOException.class)
+////	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+////	public ErrorInfo handleIOException(IOException e){
+////		ErrorInfo error = new ErrorInfo();
+////		error.setStatusCode("400");
+////		System.out.println("io exception: "+e.getMessage());
+////		return error;
+////	}
+//	
+////	@ExceptionHandler(Exception.class)
+////	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+////	public ErrorInfo handleGenericException(Exception e){
+////		ErrorInfo error = new ErrorInfo();
+////		error.setStatusCode("400");
+////		System.out.println("generic exception: "+e.getClass()+" "+e.getMessage());
+////		return error;
+////	}
 	
 }

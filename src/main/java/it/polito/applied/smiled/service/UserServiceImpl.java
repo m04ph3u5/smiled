@@ -390,6 +390,13 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 
 	@Override
+	public void insertInCreatedScenarioOfUser(Reference user,
+			ScenarioReference scenarioRef) {
+		userRepository.insertInCreatedScenarioOfUser(user.getId(), scenarioRef);
+		
+	}
+	
+	@Override
 	public void openScenarioOfUsers(List<Reference> l, ScenarioReference scen) {
 		List<String> listId = new ArrayList<String>();
 		for(Reference r : l){
@@ -479,8 +486,14 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public void addStudentToTeacher(String teacherId, Reference studentRef) {
 		userRepository.addStudentToTeacher(teacherId, studentRef);
 		permissionEvaluator.addPermission(teacherId, User.class, "READ", studentRef.getId());	
-		System.out.println("changeFirst-update sincrono-addStudToTeach: "+System.currentTimeMillis());
 
+	}
+	
+	@Override
+	public void addColleagueToTeacher(String teacherId, Reference colleague) {
+		userRepository.addColleagueToTeacher(teacherId, colleague);
+		permissionEvaluator.addPermission(teacherId, User.class, "READ", colleague.getId());
+		
 	}
 
 	@Override
@@ -495,11 +508,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 	}
 
-	@Override
-	public void addColleagueToTeacher(String teacherId, Reference colleague) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void addFriendToStudent(String studentId, Reference friend) {
@@ -561,5 +570,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 		
 	}
+
+	
 	
 }

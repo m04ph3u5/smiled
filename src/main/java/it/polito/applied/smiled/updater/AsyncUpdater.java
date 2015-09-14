@@ -68,7 +68,7 @@ public class AsyncUpdater {
 	
 	
 	/*Costruisco le relazioni relative ad un utente aggiunto ad uno scenario già attivo*/
-	public void addRelationShipToUser(User u, Scenario scenario) {
+	public void addRelationShipToUser(User u, Scenario scenario)  {
 		// TODO Auto-generated method stub
 		System.out.println("changeFirst-update asincrono: "+System.currentTimeMillis());
 
