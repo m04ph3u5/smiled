@@ -2,11 +2,11 @@
 <div class="row">
 <div class="col-md-1"></div>
 	<div class="col-lg-2 col-md-3 col-sm-4 pull-left">
-	<!-- 
+	 
 		<div class="box" data-ng-show="!scenario.isCreator && !scenario.isModerator">
 			<h3>I MIEI COMPITI: </h3>
   			<!--<div data-ng-repeat="scenario.myMissions"></div>  -->
-		<!-- </div>
+		</div>
 		<div class="box" data-ng-show="scenario.isCreator">
 			<h3>CREA NUOVO COMPITO: </h3>
 						<div class="marginMTop">
@@ -51,7 +51,6 @@
 	
 						</div>
 		</div>
-		 -->
 		 <div class="box" data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
 		 	<a href="">
 		 	<div class="row marginMTop">
@@ -61,35 +60,35 @@
 			<p class="highlightText sideMarginThree">{{scenario.currentCharacter.name}}</p>
 			</a>			
 		</div>		
-		<div class="box input-group visible-xs visible-sm visible-md hidden-lg">
-				<input type="text" class="form-control" placeholder="Cerca nello scenario...">
-				<span class="input-group-btn">
-					<button class="btn generalButton" type="button"><span class="glyphicon glyphicon-search"></span></button>
-				</span>
+		<!-- <div class="box input-group visible-xs visible-sm visible-md hidden-lg">
+			<input type="text" class="form-control" placeholder="Cerca nello scenario...">
+			<span class="input-group-btn">
+				<button class="btn generalButton" type="button"><span class="glyphicon glyphicon-search"></span></button>
+			</span>
+		</div> -->
+		<div class="box visible-xs visible-sm visible-md hidden-lg">
+			
+			<label> {{scenario.scen.name}}</label><br>
+				Creato da: <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
+				<hr>
+				<span data-ng-if="scenario.scen.attendees"><label>{{scenario.scen.attendees.length}}</label> partecipanti<br></span>
+				<span data-ng-if="!scenario.scen.attendees"><label>0</label> partecipanti<br></span>
+				<span data-ng-if="scenario.scen.characters"><label>{{scenario.scen.characters.length}}</label> personaggi<br></span>
+				<span data-ng-if="!scenario.scen.characters"><label>0</label> personaggi<br></span>
+				<span data-ng-if="scenario.scen.collaborators"><label>{{scenario.scen.collaborators.length}}</label> collaboratori<br></span>
+				<span data-ng-if="!scenario.scen.collaborators"><label>0</label> collaboratori<br></span>
+			
+			
+			<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
+				<hr>
+				<a href="">
+					<p class="marginMTop">
+						<span class="glyphicon glyphicon-cog"></span>
+						Gestisci scenario		
+					</p>
+				</a>
 			</div>
-			<div class="box visible-xs visible-sm visible-md hidden-lg">
-				
-				<label> {{scenario.scen.name}}</label><br>
-					Creato da: <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
-					<hr>
-					<span data-ng-if="scenario.scen.attendees"><label>{{scenario.scen.attendees.length}}</label> partecipanti<br></span>
-					<span data-ng-if="!scenario.scen.attendees"><label>0</label> partecipanti<br></span>
-					<span data-ng-if="scenario.scen.characters"><label>{{scenario.scen.characters.length}}</label> personaggi<br></span>
-					<span data-ng-if="!scenario.scen.characters"><label>0</label> personaggi<br></span>
-					<span data-ng-if="scenario.scen.collaborators"><label>{{scenario.scen.collaborators.length}}</label> collaboratori<br></span>
-					<span data-ng-if="!scenario.scen.collaborators"><label>0</label> collaboratori<br></span>
-				
-				
-				<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
-					<hr>
-					<a href="">
-						<p class="marginMTop">
-							<span class="glyphicon glyphicon-cog"></span>
-							Gestisci scenario		
-						</p>
-					</a>
-				</div>
-			</div>		
+		</div>		
 	</div>
 	
 	<div class="col-lg-6 col-sm-8">
@@ -122,13 +121,13 @@
 				<span class="glyphicon glyphicon-search pull-right"></span>
 			</div>		
 			 -->
-			<div class="box input-group hidden-xs hidden-sm hidden-md visible-lg">
+			<!-- <div class="box input-group hidden-xs hidden-sm hidden-md visible-lg">
 				<input type="text" class="form-control lessWidth" placeholder="Cerca nello scenario...">
 				<span class="glyphicon glyphicon-search pull-right"></span>
-			</div>
-			<div class=" box hidden-xs hidden-sm hidden-md visible-lg">
+			</div> -->
+			<div class=" box boxLightgreen hidden-xs hidden-sm hidden-md visible-lg">
 				
-				<label> {{scenario.scen.name}}</label><br>
+				<h3> {{scenario.scen.name}}</h3>
 					Creato da: <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
 					<hr>
 					<span data-ng-if="scenario.scen.attendees"><label>{{scenario.scen.attendees.length}}</label> partecipanti<br></span>

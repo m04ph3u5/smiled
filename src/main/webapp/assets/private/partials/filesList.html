@@ -1,7 +1,39 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8"><h1>I miei materiali</h1></div>
-		
+		<div class="col-lg-1">					
+		</div>
+		<div class="col-lg-1">
+			<a href=""><div data-ui-sref="logged.dashboard" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
+				<img ng-src="assets/public/img/icon/back.png" class="sideIcon marginXXLTop">
+				<img ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title marginMTop">			
+			</div></a>	
+		</div>		
+		<div class="col-sm-12 col-lg-8">
+			<div class="row text-center">				
+					<h1>
+						<img ng-src="assets/public/img/titoli_dashboard/materiali.png" class="title">
+						<img ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon">
+					</h1>					
+			</div>
+			<div class="box boxLightgreen dashSection">
+				<div class="row sideMarginThree">
+					<!--  <div data-ng-repeat="s in colleaguesList.user.colleagues | orderBy: 'lastname'">
+						
+					</div>
+					<div ng-if="colleaguesList.user.colleagues==null" class="emptyContent">
+						Qui verranno inseriti i propri materiali
+					</div>-->
+				</div>
+			</div>
+		</div>
+		<div class="row hidden-lg visible-md visible-sm visible-xs text-center marginMTop">
+			<a href="">
+				<div data-ui-sref="logged.dashboard">
+					<img ng-src="assets/public/img/icon/back.png" class="sideIcon">
+					<img ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title">			
+				</div>
+			</a>
+			
+		</div>		
 	</div>
 </div>

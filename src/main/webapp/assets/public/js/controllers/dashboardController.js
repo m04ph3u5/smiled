@@ -18,7 +18,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		modalService.showModalCreateScen();
 	};
 	
-	self.missionList = apiService.getMyMissions();
+	self.missionList = apiService.getMyMissions(1,1,true,true);
 	self.createMission = function(){
 		var newMission = {
 				'student': "", //mettere reference vuota
