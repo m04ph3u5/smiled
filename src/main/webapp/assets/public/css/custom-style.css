@@ -768,6 +768,7 @@
 		}
 		.textJustify{
 			text-align: justify;
+			word-wrap: break-word;
 		}
 		.QuoteDescription{
 			width:100%;

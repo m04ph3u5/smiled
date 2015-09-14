@@ -101,6 +101,7 @@
 	<script src="/assets/public/js/controllers/dialogSetDateController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioStorylineController.js"></script>
 	<script src="/assets/public/js/controllers/openMapController.js"></script>
+	<script src="/assets/public/js/controllers/openMapForPostController.js"></script>
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>
@@ -128,6 +129,7 @@
 	<script src="/assets/public/js/directives/pin-point-canvas.js"></script>
 	<script src="/assets/public/js/directives/bsSwitch.js"></script>
 	<script src="/assets/public/js/directives/updatePostOnScroll.js"></script>
+	<script src="/assets/public/js/directives/mapPostView.js"></script>
 	<script src="/assets/public/js/support/jqSupport.js"></script>
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->

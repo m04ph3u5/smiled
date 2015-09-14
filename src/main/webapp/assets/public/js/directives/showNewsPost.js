@@ -1,11 +1,12 @@
-angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox',
+angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService',
                                                                  
-	function(CONSTANTS, apiService, Lightbox){
+	function(CONSTANTS, apiService, Lightbox, modalService){
 		return {
 			templateUrl: "assets/private/partials/show-news-post-template.html",
 			scope : {
 				post: "=",
 				scenarioId : "@",
+				mapId : "@",
 				currentCharacter : "=",
 				loggedUser : "="
 			},
@@ -80,6 +81,11 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				
 				self.post.comments.reverse();
 				self.post.metaComments.reverse();
+				
+				self.viewMap = function(){
+					var map = {'url': CONSTANTS.urlMedia(self.mapId)+".jpg"};
+					modalService.showModalOpenMapForPost(self.post,map);
+				}
 				
 			
 			},

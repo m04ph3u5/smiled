@@ -11,6 +11,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceDeleteScen;
 		var modalInstanceSetDate;
 		var modalInstanceOpenMap;
+		var modalInstanceOpenMapForPost;
 		
 		var optionsCreateScen = {
 				templateUrl:'assets/private/partials/createScenario.html',
@@ -57,6 +58,21 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				templateUrl: 'assets/private/partials/openMap.html',
 				controller: 'openMapCtrl',
 				controllerAs: 'openMap',
+				size: "lg",
+				resolve: {
+					post : function(){
+						return post;
+					},
+					scenarioMap : function(){
+						return scenarioMap;
+					}
+				}
+		}
+		
+		var optionsOpenMapForPost = {
+				templateUrl: 'assets/private/partials/openMapForPost.html',
+				controller: 'openMapForPostCtrl',
+				controllerAs: 'openMapForPost',
 				size: "lg",
 				resolve: {
 					post : function(){
@@ -163,6 +179,17 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceOpenMap.close();
 		}
 		
+		var showModalOpenMapForPost = function(p, sMap){
+			post = p;
+			scenarioMap = sMap;
+			modalInstanceOpenMapForPost = $modal.open(optionsOpenMapForPost);
+			return modalInstanceOpenMapForPost.result;
+		}
+	
+		var closeModalOpenMapForPost = function(){
+			modalInstanceOpenMapForPost.close();
+		}
+		
 		return {
 			createScenario : createScenario,
 			deleteScenario : deleteScenario,
@@ -174,8 +201,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showPopUpSetDate : showPopUpSetDate,
 			closeModalSetDate : closeModalSetDate,
 			showModalOpenMap : showModalOpenMap,
-			closeModalOpenMap : closeModalOpenMap
-			
+			closeModalOpenMap : closeModalOpenMap,
+			showModalOpenMapForPost: showModalOpenMapForPost,
+			closeModalOpenMapForPost: closeModalOpenMapForPost
 		}
 }]);
 

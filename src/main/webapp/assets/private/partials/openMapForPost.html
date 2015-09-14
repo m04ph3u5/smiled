@@ -1,0 +1,21 @@
+<div class="modal-header">
+	<h3 class="modal-title">Mappa</h3>
+</div>
+<div class="modal-body text-center">
+		<div data-ng-if="openMapForPost.map">
+			<canvas map-post-view post="openMapForPost.post" map="{{openMapForPost.map}}" id="mapcanvas" width="100%" class="map-canvas"></canvas>
+			<div class="row">
+				<label>{{openMapForPost.post.place.text}}</label>
+			</div>
+		</div>	
+<!-- 	<div id="overlay-container" class="overlay"> -->
+<!--  		<img id='pin' data-ng-src='assets/public/img/marker.png' --> 
+<!-- 			class='overlay top-layer marker' data-ng-style={{openMap.stylePin}} --> 
+<!--  			data-ng-click="openMap.removePin()"> --> 
+<!-- 	</div> -->
+</div>
+
+<div class="modal-footer">
+	<button class="positiveButton btn" data-ng-click="openMapForPost.cancel()">OK</button>
+</div>
+

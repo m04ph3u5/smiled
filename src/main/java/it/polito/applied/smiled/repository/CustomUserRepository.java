@@ -21,6 +21,8 @@ public interface CustomUserRepository {
 	public User addTeacherToStudent(String id, Reference teacher);
 	public int changePassword(String userEmail, String newPassword);
 	public int openScenarioToUser(String id, ScenarioReference scenario);
+	
+	public int insertInCreatedScenarioOfUser(String id, ScenarioReference scenario);
 	public User updateUser(Update update, String userEmail);
 	public User changeFirstPassword(FirstPasswordDTO firstPassword, String hashNewPassword);
 	public int updateTeachersListReference(String id, Reference newRef);
@@ -31,6 +33,7 @@ public interface CustomUserRepository {
 	public int removeScenarioFromUser(String userToRemove, String id);
 	public int removeScenarioFromUsers(List<String> usersToRemove, String id);
 	public int openScenarioToUsers(List<String> l, ScenarioReference scen);
+	
 	public int addStudentToTeacher(String id, Reference ref);
 	public boolean addInvitingScenario(String userId, String scenarioId);
 	public boolean deleteScenarioFromCreator(String creatorId, String scenarioId);
