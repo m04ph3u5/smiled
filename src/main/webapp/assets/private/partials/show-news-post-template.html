@@ -42,7 +42,7 @@
 					</span>
 				</div>					
 				<div class="row">								
-					<div data-ng-repeat="row in showNewsPost.post.media track by $index">
+					<div class="row" data-ng-repeat="row in showNewsPost.post.media track by $index">
 						<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
 							data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
 							<img data-ng-src="{{col}}" class="imgPreviewL marginMTop" />
@@ -133,7 +133,7 @@
 					</span>
 				</div>
 				<div class="row">
-					<div data-ng-repeat="row in showNewsPost.post.media track by $index">
+					<div class="row" data-ng-repeat="row in showNewsPost.post.media track by $index">
 							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
 								data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
 								<img data-ng-src="{{col}}" class="imgPreviewL" />

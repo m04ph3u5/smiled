@@ -51,7 +51,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	var getPost = function(){
-		apiService.getPagedPosts(self.scen.id, 0, 30, false).then(
+		apiService.getPagedPosts(self.scen.id, 0, 300, false).then(
 	
 			function(data){
 				self.posts = data.content;

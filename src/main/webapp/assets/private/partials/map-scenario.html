@@ -3,7 +3,7 @@
 		scenario</b>
 </div>
 <div class="box" data-ng-show="scenarioMap.map">
-	<img style="width: 100%;" data-ng-src="{{scenarioMap.map}}">
+	<canvas map-scenario posts="scenarioMap.posts" map={{scenarioMap.map}} id="mapcanvas" width="100%" class="map-canvas"></canvas>
 </div>
 <div id="slider"></div>
 <script>
