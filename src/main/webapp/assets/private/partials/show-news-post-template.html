@@ -50,7 +50,7 @@
 					</div>
 					<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
 						<div class="col-sm-2">
-							<p>{{file.originalName}}</p>
+							<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self" download="{{file.originalName}}">{{file.originalName}}</a>
 						</div>
 					</div>
 				</div>							
@@ -141,7 +141,7 @@
 					</div>
 					<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
 						<div class="col-sm-2">
-							<p>{{file.originalName}}</p>
+							<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self" download="{{file.originalName}}">{{file.originalName}}</a>
 						</div>
 					</div>
 				</div>

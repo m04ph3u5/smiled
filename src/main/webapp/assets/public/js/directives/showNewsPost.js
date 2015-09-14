@@ -18,6 +18,11 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					//console.log("SEI IL PROPRIETARIO DI QUESTO POST");
 				}
 					
+				self.getMediaUrl = function(id){
+					var t = CONSTANTS.urlMedia(id);
+					console.log("FILE URL--------> "+t)
+					return t;
+				}
 				
 				self.realDateFormat = CONSTANTS.realDateFormatWithHour;
 				self.formatDate = function(date){
