@@ -278,11 +278,11 @@
 					<table>
 						<tbody>
 							<tr data-ng-repeat="c in dashboard.user.colleagues | limitTo:2">
-								<td data-ui-sref="logged.userProfile({id: '{{c.id}}'})">
+								<td><a data-ui-sref="logged.userProfile({id: '{{c.id}}'})">
 								<img data-ng-src="/media/img/cover/users/{{c.id}}"
 									data-err-src="assets/public/img/ic_teacher.png"
-									class="img-circle imgPreviewM tableMargin"></td>
-								<td><span>{{c.lastname}} {{c.firstname}}</span></td>
+									class="img-circle imgPreviewM tableMargin"></a></td>
+								<td><a data-ui-sref="logged.userProfile({id: '{{c.id}}'})"><span>{{c.lastname}} {{c.firstname}}</span></a></td>
 							</tr>
 							<tr ng-if="dashboard.user.colleagues.length>2">
 								<a href=""><td data-ui-sref="logged.dashboard.studentsList"><img src="assets/public/img/icon/view_more_vert.png"class="scenDashIcon2"></td>
