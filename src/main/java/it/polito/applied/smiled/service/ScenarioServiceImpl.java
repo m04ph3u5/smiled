@@ -492,7 +492,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(scen.getCharacters()!=null){
 			for(CharacterReference c : scen.getCharacters()){
 				if(c.getUserId()!=null && userToDelete.equals(c.getUserId())){
-					System.out.println("Rimuovo permission su Character");
 					permissionEvaluator.removeOnePermission(c.getUserId(), Character.class, c.getId());
 					characterRepository.updateActualUserReference(c.getId(), null);
 					scenarioRepository.removeUserFromCharacterReference(scen.getId(), c, userToDelete);
@@ -752,7 +751,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 			Character c = characterRepository.updateCharacter(character.getId(), u);
 			
 			if(updateRef){
-				System.out.println("updateRef");
 				CharacterReference charRef = new CharacterReference(c);
 				scenarioRepository.updateCharacterToScenario(charRef, scenarioId);
 				if(c.getActualUser()!=null && !c.getActualUser().getId().isEmpty()){
@@ -1162,7 +1160,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 		int totalPage = ((int) Math.ceil((double)size/nItem));
 		
 		if((nPag+1)>totalPage){
-			System.out.println("inErrorIf - totalPage= "+totalPage+" "+size+" "+nItem+" "+nPag);
 			List<Post> returnPost = new ArrayList<Post>();
 			return new PageImpl<Post>(returnPost, p, size);
 		}
@@ -1179,7 +1176,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(start<0)
 			start=0;
 		toSearch = posts.subList(start, end+1);
-		System.out.println("toSearch.size= "+toSearch.size()+"start "+start+" end "+end);
 		if(toSearch!=null){
 			for(PostReference postRef : toSearch)
 				postsId.add(postRef.getId());
