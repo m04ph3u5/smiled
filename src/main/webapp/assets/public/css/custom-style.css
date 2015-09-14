@@ -4,7 +4,7 @@
 
 /*Common style*/
 		body{
-			font-family: 'Coustard', sans-serif;
+			font-family: Georgia;
 			font-size:16px;
 		}
 		h1,h2,h3,h4{
@@ -148,7 +148,6 @@
 		.positiveButton{
 			background:transparent;
 			border-color:#89b151;
-			margin-top:1%;	
 			color:#89b151;		
 		}
 		.positiveButton:hover, .positiveButton:focus{
@@ -689,7 +688,7 @@
 		    text-align: center;
 		}
 		.wizard .active {
-			background: #cbdbb4;
+			background: #AFC48B;
 		}
 		.textLeft{
 			text-align: left;

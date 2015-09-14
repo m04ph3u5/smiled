@@ -395,10 +395,10 @@
 			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
 						"onlyActive": onlyActive }}).then(
 					function(response){
-						c.resolve(response.data);
+						s.resolve(response.data);
 					},
 					function(reason){
-						c.reject(reason);
+						s.reject(reason);
 					}
 			);
 
