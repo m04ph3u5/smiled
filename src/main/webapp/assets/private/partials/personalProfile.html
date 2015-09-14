@@ -17,10 +17,10 @@
 				style="background-size: cover;
 						background-repeat: no-repeat;
 						background-position: center;
-						background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6)),url('{{personalProfile.coverLarge}}')">		
+						background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6)),url('{{personalProfile.coverLarge}}'), url('assets/public/img/cover_default.jpg')">		
 			
 		<a href=""><img data-ng-show="personalProfile.isModifiable" class="overlapIconCover img pull-right pull-bottom"
-				src="assets/public/img/icon/ic_camera_white.png"
+				ng-src="assets/public/img/icon/ic_camera_white.png"				
 				ngf-select
 				ngf-change="personalProfile.uploadCoverLarge($files)"> </a>	
 <!-- 		<div class="col-md-2"></div> -->

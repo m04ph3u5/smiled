@@ -73,9 +73,9 @@
 			<a href="">
 				<img data-ng-show="scenarioWizard.associations.length>0 && !scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.openScenario()" ng-src="assets/public/img/wizard/attiva.png" class="marginLRight titleIcon">
 				<img data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.enterInScenario()" ng-src="assets/public/img/wizard/entra.png" class="marginLRight titleIcon">
-<!-- 				<img data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.suspendScenario()" ng-src="assets/public/img/wizard/sospendi.png" class="marginLRight titleIcon">
- -->				<img data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.closeScenario()" ng-src="assets/public/img/wizard/chiudi.png" class="marginLRight titleIcon">
-				<img data-ng-click="scenarioWizard.showPopUpDeleteScenario()" ng-src="assets/public/img/wizard/elimina.png" class="titleIcon">
+<!-- 				<img data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.suspendScenario()" ng-src="assets/public/img/wizard/sospendi.png" class="marginLRight titleIcon"> -->			
+				<img data-ng-show="scenarioWizard.isScenarioActive() && scenarioWizard.iAmCreator()" data-ng-click="scenarioWizard.closeScenario()" ng-src="assets/public/img/wizard/chiudi.png" class="marginLRight titleIcon">
+				<img data-ng-show= "scenarioWizard.iAmCreator()" data-ng-click="scenarioWizard.showPopUpDeleteScenario() " ng-src="assets/public/img/wizard/elimina.png" class="titleIcon">
 				</a>
 		</div>
 </div>
@@ -85,8 +85,8 @@
 		<img data-ng-show="scenarioWizard.associations.length>0 && !scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.openScenario()" ng-src="assets/public/img/wizard/attiva.png" class="marginLTop titleIcon">
 		<img data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.enterInScenario()" ng-src="assets/public/img/wizard/entra.png" class="marginLTop titleIcon">
 <!-- 		<img data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.suspendScenario()" ng-src="assets/public/img/wizard/sospendi.png" class="marginLTop titleIcon">
- -->		<img data-ng-show="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.closeScenario()" ng-src="assets/public/img/wizard/chiudi.png" class="marginLTop titleIcon">
-		<img data-ng-click="scenarioWizard.showPopUpDeleteScenario()" ng-src="assets/public/img/wizard/elimina.png" class="marginLTop titleIcon">
+ -->		<img data-ng-show="scenarioWizard.isScenarioActive() && scenarioWizard.iAmCreator()" data-ng-click="scenarioWizard.closeScenario()" ng-src="assets/public/img/wizard/chiudi.png" class="marginLTop titleIcon">
+		<img data-ng-show="scenarioWizard.iAmCreator()" data-ng-click="scenarioWizard.showPopUpDeleteScenario()" ng-src="assets/public/img/wizard/elimina.png" class="marginLTop titleIcon">
 		</a>
 	</div>
 </div>

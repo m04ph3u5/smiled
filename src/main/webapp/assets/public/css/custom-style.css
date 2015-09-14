@@ -4,11 +4,16 @@
 
 /*Common style*/
 		body{
-			font-family: Georgia;
-			font-size:16px;
+			font-family: 'Raleway', sans-serif;
+			font-size:14px;
 		}
 		h1,h2,h3,h4{
+			font-family: 'Coustard', sans-serif;
 			color:#212121;
+		}
+		h5{
+			color:#212121;
+			font-size:16px;
 		}
 		
 		input[type=text]:focus,
@@ -192,10 +197,10 @@
 		}
 		
 		a{
-			color:#587866;
+			color:#2C6143;
 		}
 		a:hover{
-			color:#8cbea3;			
+			color:#7CB02A;			
 		}
 		.box {			
 			border-style: solid;
@@ -427,6 +432,7 @@
 			color: #5B5955;
 		}
 		.titleNav{
+			font-family: 'Coustard', sans-serif;
 			font-size:20px;
 			color: #cb654f;						
 		}
@@ -572,7 +578,7 @@
 			background-size:cover;
 			background-position: center;
 			height: 350px;
-			color: white;
+			color: #F1EFD6;;
 			text-shadow: black 0.3em 0.3em 0.3em;
 			opacity:0.8;
 			margin-bottom:0px;
