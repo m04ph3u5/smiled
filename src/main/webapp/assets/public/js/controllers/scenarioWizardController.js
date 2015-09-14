@@ -949,7 +949,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var isEquivalent =  function(a, b) {
 			console.log("isEquivalent");
 			var ret = angular.equals(a,b);
-			console.log(ret);
 //			console.log(a);
 //			console.log(b);
 //			// Create arrays of property names

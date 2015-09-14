@@ -40,11 +40,52 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			}
 			/*----------------------------------------------------------------*/
 			
+			var validateDate = function(){
+				var outStart=true;
+				var outEnd=true;
+				
+				if(self.newPost.date.year==self.scenario.history.startDate.year){
+					if(self.newPost.date.month==self.scenario.history.startDate.month){
+						if(self.newPost.date.day>=self.scenario.history.startDate.day){
+							outStart=false;
+						}
+					}else if(self.newPost.date.month>self.scenario.history.startDate.month){
+						outStart=false;
+					}
+				}else if(self.newPost.date.year>self.scenario.history.startDate.year){
+					outStart=false;
+				}else{
+					self.newPost.date = {};
+					self.newPost.date.afterChrist=true;
+					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
+					return false;
+				}
+				
+				if(self.newPost.date.year==self.scenario.history.endDate.year){
+					if(self.newPost.date.month==self.scenario.history.endDate.month){
+						if(self.newPost.date.day<=self.scenario.history.endDate.day){
+							outEnd=false;
+						}
+					}else if(self.newPost.date.month<self.scenario.history.endDate.month){
+						outEnd=false;
+					}
+				}else if(self.newPost.date.year<self.scenario.history.endDate.year){
+					outEnd=false;
+				}
+				
+				if(outStart || outEnd){
+					self.newPost.date = {};
+					self.newPost.date.afterChrist=true;
+					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
+					return false;
+				}else
+					return true;
+			}
 			
 			/*Create new Status*/
 			self.savePost = function(){
 				self.setDateNewPost();
-				if(self.sendPostEnable && self.newPost.content && (self.newPost.date.formatted!=CONSTANTS.insertHistoricalDate)){
+				if(self.sendPostEnable && self.newPost.content && validateDate()){
 					self.sendPostEnable=false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
@@ -106,6 +147,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*--------------Create new post end------------------------------------------*/
 			
 			/*--------------Create draft post start------------------------------------------*/
+			
+			/*AGGIUNGERE CONTROLLO DATE - guarda validateDAte()*/
 			self.draftNewPost = function(){
 				if(self.sendPostEnable && self.newPost.content){
 					self.sendPostEnable = false;
@@ -350,6 +393,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					ctrl.tagIsSet=false;
 				}
 			});
+			
 		}
 	}
 }]);

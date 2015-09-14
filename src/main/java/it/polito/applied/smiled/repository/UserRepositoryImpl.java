@@ -517,6 +517,13 @@ public class UserRepositoryImpl implements CustomUserRepository {
 			return false;
 	}
 
+	@Override
+	public boolean updateNameOfOneScenarioReference(String userId,
+			String scenarioId, String newNameOfScenario) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 
 }
