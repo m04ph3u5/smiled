@@ -183,7 +183,7 @@ public class UserController extends BaseController{
 		return userService.getAllUsers(nPag, nItem);
 	}
 	
-	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
+	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_USER'))")
 	@RequestMapping(value="/v1/users/{userId}", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public UserDTO getOneUser(@PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, UserNotFoundException{
@@ -194,7 +194,7 @@ public class UserController extends BaseController{
 				throw new UserNotFoundException();
 			userDTO = userService.getUserById(userId);
 			
-			userDTO.setRole(null);
+			//userDTO.setRole(null);
 		}else{
 			userDTO = userService.getUserById(userId);
 		}

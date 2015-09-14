@@ -20,6 +20,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 		var u = $q.defer();
 		$http.get('/api/v1/users/'+id).then(
 			function(response){
+				console.log(response.data);
 				u.resolve(response.data);
 			},
 			function(reason){

@@ -17,7 +17,7 @@
 			<div data-ng-repeat="c in scenarioWizard.scenarioServer.collaborators">
 				<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCollaborator(c)"></span></div>
 				<img data-ng-src="api/v1/users/{{c.id}}/cover" 
-						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewL"> {{c.lastname}} {{c.firstname}} 
+						data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewL"> {{c.lastname}} {{c.firstname}} 
 			</div>
 		</div>
 	</div>
@@ -30,7 +30,7 @@
 <script type="text/ng-template" id="customTemplate.html">
   <a href="">
       <img data-ng-src="api/v1/users/{{match.model.id}}/cover" 
-						data-err-src="assets/public/img/user_ico.png" class="img-circle imgPreviewM">
+						data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewM">
 	  <b>{{match.model.lastname}} {{match.model.firstname}}</b>
   </a>
 </script>
