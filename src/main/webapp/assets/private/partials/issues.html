@@ -1,0 +1,41 @@
+<div class="container">
+	<h1>Segnala un problema</h1>
+	<br>
+	<p>In questa pagina puoi segnalrci errori ed anomalie riscontrate
+		durante l'utilizzo di Meschola.</p>
+	<p>Compila con cura i campi sottostanti, così da consentirci di
+		migliorare la piattaforma e offrirti un servizio sempre migliore.</p>
+
+
+
+	<form role="form" novalidate>
+		<div class="form-group">
+			<label>Quale operazione stavi facendo quando hai riscontrato
+				l'anomalia?</label>
+			<textarea class="form-control" placeholder=""
+				data-ng-model="issues.preOperation"></textarea>
+		</div>
+		<div class="form-group">
+			<label>Qual è stato il comportamento anomalo riscontrato?</label>
+			<textarea class="form-control" placeholder=""
+				data-ng-model="issues.issue"></textarea>
+		</div>
+		<div class="form-group">
+			<label>Qual era il comportamento atteso?</label>
+			<textarea class="form-control" placeholder=""
+				data-ng-model="issues.expect"></textarea>
+		</div>
+
+		<button data-ng-click="issues.postIssue()"
+			class="btn btn-default confirm pull-right"
+			style="margin-bottom: 15px;">Invia</button>
+	</form>
+	<br>
+	<div data-ng-if="issues.sended" style="margin-top:10px;" class="alert alert-success">
+		<p>La tua segnalazione è stata inviata.</p>
+		<p>Controlla la tua casella di posta, ti avvertiremo non appena il problema sarà risolto.</p>
+		<p>Grazie per il tempo speso ad aiutare Meschola a migliorare.</p>
+	</div>
+
+
+</div>
