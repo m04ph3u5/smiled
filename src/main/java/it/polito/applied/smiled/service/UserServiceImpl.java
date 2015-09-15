@@ -12,6 +12,7 @@ import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.mailMessage.EmailMessageService;
 import it.polito.applied.smiled.pojo.Id;
+import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.RegistrationToken;
@@ -327,7 +328,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 	
 	
-	/* typeOfUsers è un intero che dice che tipo di utenti si desidera cercare:
+	/* typeOfUsers ï¿½ un intero che dice che tipo di utenti si desidera cercare:
 	 * 1: Teacher
 	 * 2: Student
 	 * 3: All (teacher + student + moderator)
@@ -578,6 +579,12 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			throw e;
 		}
 		
+	}
+
+	@Override
+	public void sendReport(CustomUserDetails activeUser, Issue issue) {
+		User u = userRepository.findById(activeUser.getId());
+		asyncUpdater.sendReport(u, issue);		
 	}
 
 	

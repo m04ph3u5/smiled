@@ -12,6 +12,7 @@ import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.Id;
+import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -207,7 +208,7 @@ public class UserController extends BaseController{
 		userService.inviteTeacherIfNotPresent(emailDTO.getEmail(), activeUser.getId());
 	}
 	
-	//Ritorna il teacher solo se non è in stato PENDING
+	//Ritorna il teacher solo se non ï¿½ in stato PENDING
 	//Lunghezza minima accettabile della regex= 2 caratteri
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@RequestMapping(value="/v1/searchTeachers", method=RequestMethod.GET)
@@ -224,6 +225,13 @@ public class UserController extends BaseController{
 		System.out.println("TEACHERS PAGE -----------> "+teachersPage);
 		//System.out.println("first teacher name -----------> "+teachersPage.getContent().get(0).getFirstName());
 		return teachersPage;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/report", method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void sendReport(@RequestBody Issue issue, @AuthenticationPrincipal CustomUserDetails activeUser){
+		userService.sendReport(activeUser, issue);
 	}
 	
 	/*----------------------------------------------ADMIN API START--------------------------------------- */

@@ -72,6 +72,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.issues',{
+			url: '/anomalie',
 			views: {
 				'content@logged': {
 					templateUrl: 'assets/private/partials/issues.html',
