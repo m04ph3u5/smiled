@@ -1,6 +1,6 @@
 angular.module('smiled.application')
-	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider',
-	         function($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider){
+	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$httpProvider',
+	         function($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $httpProvider){
 	
 		var notFoundPath;
 		$stateProvider
@@ -53,6 +53,7 @@ angular.module('smiled.application')
 		})
 		.state('logged',{
 			templateUrl: 'assets/private/partials/template-logged.html',
+			controller : "mainCtrl",
 			abstract: true,
 			data: {
 				permissions: {
@@ -469,8 +470,7 @@ angular.module('smiled.application')
 			var state = $injector.get('$state');
 			state.go('notLogged.notFound');
 		});
-	
-
+	    $httpProvider.interceptors.push('unauthorizedInterceptor');
 		$locationProvider.html5Mode(true);
 		RestangularProvider.setBaseUrl('/api/v1');
 		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});

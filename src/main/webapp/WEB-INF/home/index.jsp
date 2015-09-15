@@ -80,6 +80,7 @@
 	<!-- CUSTOM SCRIPT -->
 	<script src="/assets/public/js/app.js"></script>
 	<script src="/assets/public/js/router.js"></script>
+	<script src="/assets/public/js/controllers/mainController.js"></script>
 	<script src="/assets/public/js/controllers/loggedController.js"></script>
 	<script src="/assets/public/js/controllers/loginController.js"></script>
 	<script src="/assets/public/js/controllers/registerController.js"></script>
@@ -109,6 +110,7 @@
 	<script src="/assets/public/js/services/alertingGeneric.js"></script>
 	<script src="/assets/public/js/services/constantService.js"></script>
 	<script src="/assets/public/js/services/alertingRegistration.js"></script>
+	<script src="/assets/public/js/services/unauthorizedInterceptor.js"></script>
 	<script src="/assets/public/js/directives/alertLogin.js"></script>
 	<script src="/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="/assets/public/js/directives/hideOnHoverParent.js"></script> 
