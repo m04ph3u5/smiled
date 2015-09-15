@@ -21,6 +21,7 @@ public class AuthenticationSuccessHandlerRest extends SavedRequestAwareAuthentic
 	{
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setStatus(HttpStatus.OK.value());
+        request.getSession().setMaxInactiveInterval(60*60*2);
 		response.getWriter().println("{\"success\":\"true\"}");
 	}
 }
