@@ -1,4 +1,4 @@
-angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONSTANTS',
+angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONSTANTS', 
     function(apiService, CONSTANTS){
 		return {
 			templateUrl: "assets/private/partials/comment-to-template.html",
@@ -8,34 +8,47 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 				currentCharacter : "=",
 				scenarioId : "@" 
 			},
-			controller : function(){
+			controller : ['$scope' , function($scope){
 				var numVisibleComment = CONSTANTS.visibleComment;
 				var self = this;
 				self.showViewOthers = false;
 				self.showInsert = true;
+				self.atLeastOneCommentWasSended = false;
 				if(!self.currentCharacter || !self.currentCharacter.id)
 					self.showInsert = false;
 				
 				self.visibleComments = new Array();
 //				self.post.comments.reverse();
-				console.log("INSTANZIO COMMENT TO!!!");
+				console.log("COMMENT TO!!!");
+				console.log(self.post.comments);
 				var i=0;
 				while(i<self.post.comments.length && i<numVisibleComment){
 					self.visibleComments.unshift(self.post.comments[i]);
 					i++;
 				}
+				
 				if(self.post.comments.length>numVisibleComment)
 					self.showViewOthers = true;
 				
 				self.openViewOthers = function(){
 					
-					self.visibleComments = self.post.comments;
+					self.visibleComments = angular.copy(self.post.comments);
 					self.visibleComments.reverse();
 //					for(var j=i; j<self.post.comments.length; j++){
 //						self.visibleComments.unshift(self.post.comments[i]);
 //					}
 					self.showViewOthers = false;
 				}
+				var onDestroy = function(){
+					console.log("onDestroy commentTo directive");
+					if(self.atLeastOneCommentWasSended)
+						self.post.comments.reverse();
+				}
+				$scope.$on("$destroy", function(){
+					onDestroy();
+				});
+				
+				
 				
 				self.addCommentToPost = function(){
 					console.log(self.post.newComment);
@@ -52,9 +65,10 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 												self.post.newComment="";
 												var numVisible = self.visibleComments.length;
 												
-												self.post = data;
 												self.visibleComments = self.post.comments;
+												
 												self.showViewOthers = false;
+												self.atLeastOneCommentWasSended = true;
 //												for(var i=0; i<self.posts.length; i++){
 //													if(self.posts[i].id==data.id){
 //														data.newComment="";
@@ -79,7 +93,7 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 						);
 					}
 				}
-			},
+			}],
 			controllerAs: "commentTo",
 			bindToController: true
 		};

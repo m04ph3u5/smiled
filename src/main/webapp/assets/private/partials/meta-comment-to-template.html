@@ -9,7 +9,8 @@
 				data-ng-src="api/v1/users/{{m.user.id}}/cover"
 				data-err-src="assets/public/img/ic_student.png"></img>
 		<div class="row">			
-					<label>{{m.user.firstname}} {{m.user.lastname}}</label>: {{m.text}}
+					<label>{{m.user.firstname}} {{m.user.lastname}}</label>: {{m.text}}  <br>
+					<p style="font-size: 12px;"> {{m.creationDate| date:'dd-M-yyyy HH:mm'}} </p>
 		</div>
 	</div>
 </div>

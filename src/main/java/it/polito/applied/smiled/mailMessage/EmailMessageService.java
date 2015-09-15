@@ -1,8 +1,13 @@
 package it.polito.applied.smiled.mailMessage;
 
+import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.security.CustomUserDetails;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +127,24 @@ public class EmailMessageService {
 				+ "Per farlo bastano pochi semplici passi:\nclicca qui: www.meschola.it ed iscriviti subito."
 				+ "Saluti,\n"
 				+ "Il team di Meschola");
+				
+	
+		mailSender.send(message);
+	}
+
+	public void sendReportEmail(User activeUser, Issue issue) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		Date d = new Date();
+		message.setFrom(from);
+		message.setTo("info@meschola.it");
+		message.setSubject("Meschola - Report problema");
+		message.setText("Segnalazione problema da parte di "+activeUser.getLastName()+" "+activeUser.getFirstName()
+				+ "\nEmail: "+activeUser.getEmail()
+				+ "\n\nData: "+d.toString()
+				+ "\n\nOperazione precedente: \n"+issue.getPreOperation()
+				+ ";\n\nAnomalia riscontrata: \n"+issue.getIssue()
+				+ ";\n\nComportamento atteso: \n"+issue.getExpect()
+				+ ".");
 				
 	
 		mailSender.send(message);
