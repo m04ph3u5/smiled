@@ -7,12 +7,12 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 				writer : "=",
 				scenarioId : "@"
 			},
-			controller : function(){
+			controller : ['$scope' , function($scope){
 				var self = this;
 				var numVisibleComment = CONSTANTS.visibleComment;
 				var self = this;
 				self.showViewOthers = false;
-				
+				self.atLeastOneCommentWasSended = false;
 				self.visibleComments = new Array();
 //				self.post.metaComments.reverse();
 				var i=0;
@@ -24,11 +24,19 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 					self.showViewOthers = true;
 				
 				self.openViewOthers = function(){
-					self.visibleComments = self.post.metaComments;
+					self.visibleComments = angular.copy(self.post.metaComments);
 					self.visibleComments.reverse();
 					self.showViewOthers = false;
 				}
 				
+				var onDestroy = function(){
+					console.log("onDestroy metaCommentTo directive");
+					if(self.atLeastOneCommentWasSended)
+						self.post.metaComments.reverse();
+				}
+				$scope.$on("$destroy", function(){
+					onDestroy();
+				});
 				self.addMetaCommentToPost = function(){
 					if(self.post.newMetaComment){
 						var metaComment = {};
@@ -42,8 +50,12 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 												self.post = data;
 												self.post.newComment="";	
 												var numVisible = self.visibleComments.length;
+												
 												self.visibleComments = self.post.metaComments;
 												self.showViewOthers = false;
+												self.atLeastOneCommentWasSended = true;
+												
+												
 											},
 											function(reason){
 												console.log("error in insert new post in array");
@@ -56,7 +68,7 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 						);
 					}
 				}
-			},
+			}],
 			controllerAs: "metaCommentTo",
 			bindToController : true
 		};
