@@ -12,14 +12,12 @@
 						<div class="marginMTop">
 							<form role="form ">
 								<div class="form-group">
-								<label for="title">TITOLO: </label>
 									<input type="text" id="title" class="form-control" 
-										placeholder="Scegli un titolo " data-ng-model="scenario.mission.title">
+										placeholder="TITOLO DEL COMPITO" data-ng-model="scenario.mission.title">
 								</div>		
 								<div class="form-group">
-								<label for="description">DESCRIZIONE: </label>
 									<input type="text" class="form-control"  id="description"
-										placeholder="Scegli una descrizione " data-ng-model="scenario.mission.description">
+										placeholder="DESCRIZIONE DEL COMPITO" data-ng-model="scenario.mission.description">
 								</div>
 											
 								<div class="form-group">
@@ -27,26 +25,34 @@
 										<div class="form-group">
 											<form class="form-inline">
 												<div class="form-group">
-												<label for="deliveryDate">DATA CONSEGNA: </label>
 													<input ui-date="dateOptions" class="form-control" required id="deliveryDate"
-														placeholder="Scegli la data di consegna" data-ng-model="scenario.mission.deliveryDate"></input>
+														placeholder="DATA CONSEGNA COMPITO" data-ng-model="scenario.mission.deliveryDate"></input>
 												</div>
 											</form>
 										</div>
 									</form>
 								</div>
 								<div class="form-group">
-								<label for="selectAttendee">SELEZIONA ALUNNO: </label>
 									<select id="selectAttendee" class="" data-ng-model="scenario.mission.studentId">
-										<option disabled selected style="display:none;">SELEZIONA ALUNNO</option>
+										<option>SELEZIONA ALUNNO</option>
 										<option value="{{attendee.id}}" data-ng-repeat ="attendee in scenario.scen.attendees">
 											<span class="tagName">{{attendee.lastname}}
 											{{attendee.firstname}}</span>
 										</option>									
 					
 									</select>
-								</div>			
-								<button type="submit" class="btn generalButton marginSBottom" data-ng-click="scenario.createMission()">Assegna</button>
+								</div>
+								<div class="form-group">
+									<select id="selectAttendee" class="selectpicker form-control" title="SELEZIONA ALUNNO"
+									data-ng-model="scenario.mission.studentId">										
+										<option value="{{attendee.id}}" data-ng-repeat ="attendee in scenario.scen.attendees">
+											<span class="tagName">{{attendee.lastname}}
+											{{attendee.firstname}}</span>
+										</option>									
+					
+									</select>
+								</div>		
+								<button type="submit" class="btn generalButton marginSBottom" data-ng-click="scenario.createMission()">ASSEGNA</button>
 							</form>
 	
 						</div>
@@ -151,3 +157,4 @@
 		</div>
 	</div>
 </div>
+<script>  $('.selectpicker').selectpicker();</script>
