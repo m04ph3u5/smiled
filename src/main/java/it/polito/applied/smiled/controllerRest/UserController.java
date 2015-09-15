@@ -108,6 +108,7 @@ public class UserController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadCredentialsException(result.getAllErrors().get(0).getDefaultMessage());
 		}
+		firstPassword.setEmail(firstPassword.getEmail().toLowerCase());
 		
 	    userService.changeFirstPassword(firstPassword);
 	}
@@ -148,17 +149,12 @@ public class UserController extends BaseController{
 	@RequestMapping(value="/v1/messages", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public Id sendMessage(@RequestBody @Valid Message message, BindingResult result, 
-			@AuthenticationPrincipal CustomUserDetails activeUser, 
-			@RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+			@AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException{
 		
 		if(result.hasErrors()){
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
 		
-		if(nPag==null)
-			nPag=1;
-		if(nItem==null || nItem>10 || nItem<0)
-			nItem=10;
 		
 		//A prescindere da quello che mi viene mandato in message setto la data alla data corrente e il sender all'utente autenticato
 		message.setDate(new Date());
@@ -170,18 +166,7 @@ public class UserController extends BaseController{
 
 		return userService.sendMessage(message);
 	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value="/v1/users", method=RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	public Page<UserDTO> getAllUsers(@RequestParam(value = "nPag", required=false) Integer nPag, 
-			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
-		if(nPag==null)
-			nPag=0;
-		if(nItem==null || nItem>10 || nItem<=0)
-			nItem=10;
-		return userService.getAllUsers(nPag, nItem);
-	}
+
 	
 	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_USER'))")
 	@RequestMapping(value="/v1/users/{userId}", method=RequestMethod.GET)
@@ -217,6 +202,8 @@ public class UserController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException();
 		}
+		emailDTO.setEmail(emailDTO.getEmail().toLowerCase());
+		
 		userService.inviteTeacherIfNotPresent(emailDTO.getEmail(), activeUser.getId());
 	}
 	
@@ -238,4 +225,43 @@ public class UserController extends BaseController{
 		//System.out.println("first teacher name -----------> "+teachersPage.getContent().get(0).getFirstName());
 		return teachersPage;
 	}
+	
+	/*----------------------------------------------ADMIN API START--------------------------------------- */
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/users", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<UserDTO> getAllUsers(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>10 || nItem<=0)
+			nItem=10;
+		return userService.getAllUsers(nPag, nItem, 3); //il terzo parametro indica che voglio tutti gli user (sia teacher che student che moderator)
+	}
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/teachers", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<UserDTO> getAllTeachers(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>10 || nItem<=0)
+			nItem=10;
+		return userService.getAllUsers(nPag, nItem, 1); //il terzo parametro indica che cerco dei teacher
+	}
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/students", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<UserDTO> getAllStudents(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>10 || nItem<=0)
+			nItem=10;
+		return userService.getAllUsers(nPag, nItem, 2); //il terzo parametro indica che cerco degli student
+	}
+	/*----------------------------------------------ADMIN API END--------------------------------------- */
+	
+	
 }

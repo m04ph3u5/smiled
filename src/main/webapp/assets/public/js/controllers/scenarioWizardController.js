@@ -68,7 +68,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.isScenarioActive = function(){
-			console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+			
 			if (self.scenario.status == 'ACTIVE')
 				return true;
 			else 

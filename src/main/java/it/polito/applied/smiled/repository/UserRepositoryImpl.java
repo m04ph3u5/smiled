@@ -183,8 +183,17 @@ public class UserRepositoryImpl implements CustomUserRepository {
 	}
 
 	@Override
-	public Page<User> getPagingUsers(Integer nPag, Integer nItem) {
+	public Page<User> getPagingUsers(Integer nPag, Integer nItem, int type) {  //type mi dice se voglio dei teacher (1), degli student(2) o entrambi + moderatori(3)
 		Query q = new Query();
+		if(type==1){
+			q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher"));
+		}else if(type==2){
+			q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Student"));
+		}else if(type==3){
+			;   //restituisce tutti: studenti, teacher e moderatori
+		}else{
+			return null;
+		}
 		long total = mongoOp.count(q, User.class);
 		
 		Pageable p = new PageRequest(nPag,nItem);
