@@ -21,6 +21,9 @@ angular.module('smiled.application')
 				'content': {
 					templateUrl: 'assets/public/partials/showcase.html',
 				}
+			},
+			data : {
+				pageTitle : 'Mescola'
 			}
 		})
 		.state('notLogged.login',{
@@ -36,6 +39,9 @@ angular.module('smiled.application')
 					controller: "registerCtrl",
 					controllerAs:"register",
 				}
+			},
+			data : {
+				pageTitle : 'Login - Mescola'
 			}
 		})
 		.state('notLogged.policy',{
@@ -49,6 +55,9 @@ angular.module('smiled.application')
 				'content': {
 					templateUrl: 'assets/public/partials/cookie-policy.html',
 				}
+			},
+			data : {
+				pageTitle : 'Cookie policy - Mescola'
 			}
 		})
 		.state('logged',{
@@ -75,6 +84,9 @@ angular.module('smiled.application')
 					return userService.getMe();
 				} 
 			
+			},
+			data : {
+				pageTitle : 'Mescola'
 			}
 		})
 		.state('logged.dashboard.teacher',{
@@ -112,6 +124,9 @@ angular.module('smiled.application')
 					controller: 'scenariosListCtrl',
 					controllerAs: 'scenariosList'
 				}
+			},
+			data : {
+				pageTitle : 'I miei scenari - Mescola'
 			}
 		})
 		.state('logged.dashboard.studentsList',{
@@ -122,6 +137,9 @@ angular.module('smiled.application')
 					controller: 'studentsListCtrl',
 					controllerAs: 'studentsList'
 				}
+			},
+			data : {
+				pageTitle : 'I miei studenti - Mescola'
 			}
 		})
 		.state('logged.dashboard.colleaguesList',{
@@ -132,6 +150,9 @@ angular.module('smiled.application')
 					controller: 'colleaguesListCtrl',
 					controllerAs: 'colleaguesList'
 				}
+			},
+			data : {
+				pageTitle : 'I miei colleghi - Mescola'
 			}
 		})
 		.state('logged.dashboard.filesList',{
@@ -142,6 +163,9 @@ angular.module('smiled.application')
 					controller: 'filesListCtrl',
 					controllerAs: 'filesList'
 				}
+			},
+			data : {
+				pageTitle : 'Il mio materiale - Mescola'
 			}
 		})
 		.state('logged.userProfile',{
@@ -155,6 +179,9 @@ angular.module('smiled.application')
 					controller: 'personalProfileCtrl',
 					controllerAs: 'personalProfile'
 				}
+			},
+			data : {
+				pageTitle : 'Profilo - Mescola'
 			}
 		})
 		.state('logged.scenario',{
@@ -189,6 +216,9 @@ angular.module('smiled.application')
 					controller: "scenarioPostCtrl",
 					controllerAs: "scenarioPost"
 				}
+			},
+			data : {
+				pageTitle : 'Mescola'
 			}
 		})
 		.state('logged.scenario.storyline',{
@@ -199,6 +229,9 @@ angular.module('smiled.application')
 					controller: "scenarioStorylineCtrl",
 					controllerAs: "scenarioStoryline"
 				}
+			},
+			data : {
+				pageTitle : 'Storyline - Mescola'
 			}
 		})
 		.state('logged.scenario.characters',{
@@ -209,6 +242,9 @@ angular.module('smiled.application')
 					controller: "scenarioCharactersCtrl",
 					controllerAs: "scenarioCharacters"
 				}
+			},
+			data : {
+				pageTitle : 'I personaggi - Mescola'
 			}
 		})
 		.state('logged.scenario.map',{
@@ -219,6 +255,9 @@ angular.module('smiled.application')
 					controller: "scenarioMapCtrl",
 					controllerAs: "scenarioMap"
 				}
+			},
+			data : {
+				pageTitle : 'La mappa - Mescola'
 			}
 		})
 		.state('logged.scenario.charprofile',{
@@ -232,6 +271,9 @@ angular.module('smiled.application')
 			},
 			params: {
 				idCharacter: null
+			},
+			data : {
+				pageTitle : 'Profilo - Mescola'
 			}
 		})
 		.state('logged.scenarioWizard',{
@@ -246,6 +288,9 @@ angular.module('smiled.application')
 					controller: "scenarioWizardCtrl",
 					controllerAs: "scenarioWizard"
 				}
+			},
+			data : {
+				pageTitle : 'Gestisci scenario - Mescola'
 			}
 		})
 		.state('logged.scenarioWizard.info',{
@@ -450,6 +495,9 @@ angular.module('smiled.application')
 					controller: "registerCtrl",
 					controllerAs:"register",
 				}
+			},
+			data : {
+				pageTitle : 'Mescola - Conferma registrazione'
 			}
 		})
 		.state('notLogged.notFound',{
@@ -463,6 +511,9 @@ angular.module('smiled.application')
 				'content': {
 					templateUrl: "assets/public/partials/404.html"			
 				}
+			},
+			data : {
+				pageTitle : '404 - Mescola'
 			}
 		});
 		
@@ -475,7 +526,11 @@ angular.module('smiled.application')
 		RestangularProvider.setBaseUrl('/api/v1');
 		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 	}])
-	.run(function (Permission,userService, $q) {
+	.run(function (Permission,userService, $q, $rootScope, $stateParams, $state) {
+		
+		$rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+        
     	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
     		  console.log("check anonymous");
