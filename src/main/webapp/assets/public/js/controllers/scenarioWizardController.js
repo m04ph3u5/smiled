@@ -69,17 +69,17 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.isScenarioActive = function(){
 			console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-			if (self.scenarioServer.status == 'ACTIVE')
+			if (self.scenario.status == 'ACTIVE')
 				return true;
 			else 
 				return false;
 		}
 		self.iAmCreator = function(){
 			console.log("------------------------------------------->>>>>>>>>>>>>>>>>>>>>");
-			console.log(self.scenarioServer);
-			console.log(self.scenarioServer.teacherCreator.id);
+			console.log(self.scenario);
+			console.log(self.scenario.teacherCreator.id);
 			console.log(self.user.id);
-			if(self.scenarioServer.teacherCreator.id == self.user.id){
+			if(self.scenario.teacherCreator.id == self.user.id){
 				console.log("I AM CREATORRRRRRRRRRR");
 				return true;
 			}
