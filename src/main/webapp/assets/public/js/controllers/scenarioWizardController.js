@@ -69,12 +69,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.isScenarioActive = function(){
 			console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-			if (self.scenarioServer.status == 'ACTIVE')
+			if (self.scenario.status == 'ACTIVE')
 				return true;
 			else 
 				return false;
 		}
 		self.iAmCreator = function(){
+
 //			console.log("------------------------------------------->>>>>>>>>>>>>>>>>>>>>");
 //			console.log(self.scenarioServer);
 //			console.log(self.scenarioServer.teacherCreator.id);
@@ -88,6 +89,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //				return false;
 //			}
 			return true;
+
 		}
 		var retrieveCharacterAndOrder = function(){
 			
