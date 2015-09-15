@@ -89,6 +89,22 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		}
 	}
 	*/
-		
+	self.createMission = function(){
+		console.log("create mission-----> "+ self.mission);
+		console.log(self.mission.title);
+		console.log(self.mission.deliveryDate);
+		console.log(self.mission.studentId);
+//		apiService.createMission(self.scen.id, self.mission).then(
+//				function(data){
+//					self.mission.title="";
+//					self.mission.description="";
+//					self.mission.deliverydate=null;
+//					self.mission.studentId="";
+//				},
+//				function(reason){
+//					console.log("error in creation of new mission");
+//				}
+//		);
+	}	
 	
 }]);
