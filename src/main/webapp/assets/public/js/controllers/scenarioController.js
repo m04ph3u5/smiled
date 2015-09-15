@@ -95,7 +95,6 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		);
 	}
 	
-	
 	onStartup();
 
 }]);

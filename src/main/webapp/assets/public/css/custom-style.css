@@ -5,8 +5,11 @@
 /*Common style*/
 		body{
 			font-family: 'Raleway', sans-serif;
-			font-size:14px;
+			font-size:140%;
 		}
+		
+
+		
 		h1,h2,h3,h4{
 			font-family: 'Coustard', sans-serif;
 			color:#212121;
@@ -53,6 +56,11 @@
     		border-color:#5B5955;
     		border-width:1px;
 		}
+		
+		.form-group{
+			margin-bottom:10px;
+		}
+		
 		.selectpicker{
 			background-color:transparent;
 			border-top: none;
@@ -526,6 +534,54 @@
     	.fileIcon{
     		height:130px;
     	}
+    	.wrapperDivSquared{
+    		margin-top:10px;
+    		width:100%;
+    		padding-bottom:100%;
+    		position: relative;
+    		background: #cdc08c;
+    		
+    	}
+    	.wrapperContent{
+    			position: absolute;
+				top: 0; bottom: 0; left: 0; right: 0;
+			
+				color: white;
+				text-align: center;
+    	}
+		.dayHW, .dayNameHW{
+			-webkit-margin-before: 0 em;
+	   		-webkit-margin-after: 0em;
+		}
+		@media screen  and (max-width: 1240px) and (min-width: 970px) {
+		    .dayHW{font-size:1.7em !important}
+		    .dayNameHW{font-size:0.7em !important}
+		}
+		@media screen and (max-width: 1500px) and (min-width: 1240px) {
+		    .dayHW{font-size:1.9em !important}
+		    .dayNameHW{font-size:0.9em !important}
+		    
+		}
+		@media screen and (max-width: 1800px) and (min-width: 1500px) {
+		    .dayHW{font-size:2.5em !important}
+		    .dayNameHW{font-size:1em !important}
+		}
+		@media screen and (min-width: 1800px) {
+		    .dayHW{font-size:3.2em !important}
+		    .dayNameHW{font-size:1.2em !important}
+		}
+/*		@media screen and (min-width: 1170px) {
+		    .dayHW{font-size:3em;}
+		}
+		@media screen and (min-width: 1450px) {
+		    .dayHW{font-size:1em;}
+		}
+		@media screen and (min-width: 1700px) {
+		    .dayHW{font-size:4em;}
+		}
+		@media screen and (min-width: 1800px) {		    
+		    .dayHW{font-size:8em}
+		}*/
 
 /*Profilo*/
 		.profileSection{

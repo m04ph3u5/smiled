@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+<link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+
 <link rel="stylesheet" href="/assets/public/css/storyline.css">
   <!-- Google Web Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
@@ -73,6 +75,7 @@
 	<script src="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.js"></script>
 	<script src="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.js"></script>
 	<script src="/assets/public/js/vendor/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+	<script src="/assets/public/js/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 	<script src="/assets/public/js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 	
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
@@ -96,6 +99,7 @@
 	<script src="/assets/public/js/controllers/personalProfileController.js"></script>
 	<script src="/assets/public/js/controllers/studentsListController.js"></script>
 	<script src="/assets/public/js/controllers/colleaguesListController.js"></script>
+	<script src="/assets/public/js/controllers/filesListController.js"></script>
 	<script src="/assets/public/js/controllers/characterProfileController.js"></script>
 	<script src="/assets/public/js/controllers/dialogScenarioController.js"></script>
 	<script src="/assets/public/js/controllers/dialogSetDateController.js"></script>
