@@ -346,6 +346,20 @@
 		);
 		return s.promise;
 	}
+	
+	var postIssue = function(issue){
+		var s = $q.defer();
+
+		$http.post("/api/v1/report",issue).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
 
 
 //	var onSuccessGetScenario = function(response){
@@ -436,7 +450,8 @@
 		sendEvent: sendEvent,
 		createMission: createMission,
 		getMyMissionsInScenario : getMyMissionsInScenario,
-		getMyMissions : getMyMissions
+		getMyMissions : getMyMissions,
+		postIssue: postIssue
 		
 	}
 

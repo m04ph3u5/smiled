@@ -8,6 +8,7 @@ import java.util.Set;
 
 import it.polito.applied.smiled.mailMessage.EmailMessageService;
 import it.polito.applied.smiled.pojo.CharacterReference;
+import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
@@ -18,6 +19,7 @@ import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
+import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 import it.polito.applied.smiled.service.ScenarioService;
 import it.polito.applied.smiled.service.UserService;
@@ -124,6 +126,29 @@ public class AsyncUpdater {
 	public void sendTeacherExpirationEmail(String email) {
 		Runnable r = new sendExpiredEmail(email);
 		taskExecutor.execute(r);
+		
+	}
+	
+	public void sendReport(User activeUser, Issue issue) {
+		Runnable r = new sendReportEmail(activeUser, issue);
+		taskExecutor.execute(r);		
+	}
+	
+	private class sendReportEmail implements Runnable{
+
+		private User activeUser; 
+		private Issue issue;
+		
+		public sendReportEmail(User activeUser, Issue issue){
+			this.activeUser=activeUser;
+			this.issue=issue;
+		}
+		
+		@Override
+		public void run() {
+			mailService.sendReportEmail(activeUser,issue);
+			
+		}
 		
 	}
 	
@@ -523,6 +548,9 @@ public class AsyncUpdater {
 
 
 	}
+
+
+	
 
 
 	
