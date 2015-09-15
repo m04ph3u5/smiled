@@ -256,8 +256,8 @@
 					<div ng-if="dashboard.user.students==null">
 						Qui verranno inseriti i propri alunni
 					</div>
-					<div class="row" data-ng-repeat="a in dashboard.user.students | limitTo:6">
-						<div class="col-xs-4">
+					<div class="row">
+						<div class="col-xs-4" data-ng-repeat="a in dashboard.user.students | limitTo:6">
 							<a data-ui-sref="logged.userProfile({id: '{{a.id}}'})" class="marginMTop">
 									<img title="{{a.lastname}} {{a.firstname}}" 
 									data-ng-src="api/v1/users/{{a.id}}/cover"
@@ -280,8 +280,8 @@
 					<div ng-if="dashboard.user.colleagues==null">
 						Qui verranno inseriti i propri colleghi
 					</div>
-					<div class="row" data-ng-repeat="c in dashboard.user.colleagues | limitTo:6">
-						<div class="col-xs-4">
+					<div class="row">
+						<div data-ng-repeat="c in dashboard.user.colleagues | limitTo:6" class="col-xs-4">
 							<a data-ui-sref="logged.userProfile({id: '{{c.id}}'})" class="marginMTop">
 									<img title="{{c.lastname}} {{c.firstname}}" 
 									data-ng-src="api/v1/users/{{c.id}}/cover"
@@ -308,21 +308,26 @@
 									placeholder="TITOLO DEL COMPITO">
 							</div>
 							<div class="form-group">
-								<select class="form-control">
-									<option>SCEGLI SCENARIO</option>
-									<option>Nome 2</option>
-									<option>Nome 3</option>
-									<option>Nome 4</option>
+								<select id="selectAttendee" class="form-control" data-ng-model="scenario.mission.scenID"
+								ng-change="dashboard.scenarioChanged()">
+									<option value="" disabled selected>SCEGLI SCENARIO</option>
+									<option value="{{s.id}}" data-ng-repeat ="s in scenariosList">
+										<span class="tagName">{{s.name}}
+										</span>
+									</option>									
+				
 								</select>
-							</div>
+							</div>			
 							<div class="form-group">
-								<select class="form-control">
-									<option>SCEGLI ALUNNO</option>
-									<option>Nome 2</option>
-									<option>Nome 3</option>
-									<option>Nome 4</option>
+								<select id="selectAttendee" class="form-control" data-ng-model="dashboard.mission.studentId"
+								ng-change="dashboard.studentChanged()">
+									<option value="" disabled selected>SCEGLI ALUNNO</option>
+									<option value="{{s.id}}" data-ng-repeat ="s in studentsList">
+										<span class="tagName">{{s.lastname}}
+										{{s.firstname}}</span>
+									</option>
 								</select>
-							</div>
+							</div>			
 							<div class="form-group">
 								<form class="form-horizontal" role="form">
 									<div class="form-group">

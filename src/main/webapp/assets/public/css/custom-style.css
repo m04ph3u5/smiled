@@ -56,6 +56,14 @@
     		border-color:#5B5955;
     		border-width:1px;
 		}
+		.form-control:focus{
+			background-color:#E0D8A9 !important;
+		    outline:none;
+		    -webkit-box-shadow: none;
+    		box-shadow: none;
+    		border: 0px 0px 0px 2px;
+    		border-bottom-color: #5B5955;
+		}
 		
 		.form-group{
 			margin-bottom:10px;
@@ -705,6 +713,9 @@
 		.paddingMRight{
 			padding-right:5%;
 		}
+		.paddingLTop{
+			padding-top:4em;
+		}
 		.invisibleButton{
 			bakground-color:transparent !important;
 		}
@@ -714,7 +725,45 @@
 		.paddingMLeft{
 			padding-left:5%;
 		}
+.badge_part1{
+	display: inline-block;
+}
+.badge_part2{
+	position: relative;
+}
 
+.badge_i_part3 {
+    position: absolute;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    border: 2.5em solid #b7ac7d;
+    border-left: 2.5em solid transparent;
+    left: 0em;
+    top: 4.5em;
+}
+.badge_i_part4 {
+    position: absolute;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    border: 2.5em solid #b7ac7d;
+    border-right: 2.5em solid transparent;
+    left: 31.5em;
+    top: 4.5em;
+}
+.badge_i_part5 {
+    position: absolute;
+    display: inline-block;
+    width: 29.5em;
+    height: 5em;
+    background-color: #cdc08b;
+    left: 0.2777777777777778em;
+    top: 3em;
+    left: 3.5em;
+}
 /* Elenco scenari */
 		.sideMarginThree{
 			margin-right:3%;

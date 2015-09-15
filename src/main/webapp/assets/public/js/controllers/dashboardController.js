@@ -13,7 +13,9 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	console.log("dashboard");
 	console.log(loggedUser);
 	self.user = loggedUser;
-
+	self.scenariosList = loggedUser.openScenarios;
+	self.studentsList = loggedUser.students;
+		
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
 	};
@@ -72,7 +74,16 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	$scope.$on('$destroy', function() {
       	stopUpdateUser();
 	});
-
+	
+	self.scenarioChanged  = function(){
+		//aggiorna la lista degli studenti e ci inserisce solo quelli che fanno parte di quello scenario
+		
+	}
+	self.studentChanged  = function(){
+		//aggiorna la lista degli scenari e ci inserisce solo quelli in cui lo studente è iscritto
+		
+	}
+	
 	
 	/*
 	self.missionList = apiService.getMyMissions(0, 20, true, true);
