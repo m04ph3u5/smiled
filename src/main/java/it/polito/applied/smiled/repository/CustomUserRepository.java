@@ -29,7 +29,7 @@ public interface CustomUserRepository {
 	public int updateColleaguesListReference(String id, Reference newRef);
 	public int updateStudentsListReference(String id, Reference newRef);
 	public int updateFriendsListReference(String id, Reference newRef);
-	public Page<User> getPagingUsers(Integer nPag, Integer nItem);
+	public Page<User> getPagingUsers(Integer nPag, Integer nItem, int type);
 	public int removeScenarioFromUser(String userToRemove, String id);
 	public int removeScenarioFromUsers(List<String> usersToRemove, String id);
 	public int openScenarioToUsers(List<String> l, ScenarioReference scen);

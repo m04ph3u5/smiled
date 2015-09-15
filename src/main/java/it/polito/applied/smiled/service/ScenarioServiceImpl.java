@@ -323,6 +323,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				/*Per ogni email presente nella lista*/
 				for(EmailDTO emailDTO : studentsEmail){
 					
+					emailDTO.setEmail(emailDTO.getEmail().toLowerCase());
+					
 					/*Controllo se l'email che mi è stata inviata è già registrata all'interno dello scenario*/
 					if(userAlreadyPresentInScenario(emailDTO.getEmail(),scen))
 						continue;

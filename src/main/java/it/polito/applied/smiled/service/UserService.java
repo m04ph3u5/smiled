@@ -36,7 +36,7 @@ public interface UserService {
 	public void deleteExpiredRegistrationAccount(String userEmail);
 	public void confirmRegistration(String token, String email) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException;
 	
-	public Page<UserDTO> getAllUsers(Integer nPag, Integer nItem) throws BadRequestException;
+	public Page<UserDTO> getAllUsers(Integer nPag, Integer nItem, int type) throws BadRequestException;
 	public UserDTO getUserById(String id) throws UserNotFoundException;
 	
 	//TODO

@@ -29,6 +29,8 @@
 		var p = $q.defer();
 		$http.get('/api/v1/scenarios/'+idScenario).then(
 				function(response){
+					console.log("-------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+					console.log(response.data);
 					p.resolve(response.data);
 				},
 				function(reason){

@@ -24,7 +24,7 @@
         type='text/css'>
     <link href="/assets/public/js/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
-    
+<title ng-bind="$state.current.data.pageTitle">Meschola</title>    
 
 <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 <script type="text/javascript">
@@ -83,6 +83,7 @@
 	<!-- CUSTOM SCRIPT -->
 	<script src="/assets/public/js/app.js"></script>
 	<script src="/assets/public/js/router.js"></script>
+	<script src="/assets/public/js/controllers/mainController.js"></script>
 	<script src="/assets/public/js/controllers/loggedController.js"></script>
 	<script src="/assets/public/js/controllers/loginController.js"></script>
 	<script src="/assets/public/js/controllers/registerController.js"></script>
@@ -113,6 +114,7 @@
 	<script src="/assets/public/js/services/alertingGeneric.js"></script>
 	<script src="/assets/public/js/services/constantService.js"></script>
 	<script src="/assets/public/js/services/alertingRegistration.js"></script>
+	<script src="/assets/public/js/services/unauthorizedInterceptor.js"></script>
 	<script src="/assets/public/js/directives/alertLogin.js"></script>
 	<script src="/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="/assets/public/js/directives/hideOnHoverParent.js"></script> 

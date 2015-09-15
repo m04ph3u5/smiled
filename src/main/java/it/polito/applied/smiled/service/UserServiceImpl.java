@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		
 		User user;		
 		try{
-			user = userRepository.findByEmail(email);
+			String emailToLowerCase = email.toLowerCase();
+			user = userRepository.findByEmail(emailToLowerCase);
 
 			if (user == null){
 				throw new UsernameNotFoundException("Username "+email+ " not found.");
@@ -213,7 +214,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		try{
 			/*SALVA UTENTE NEL REPOSITORY USER*/		
 			User u = new Teacher();
-			u.setEmail(teacher.getEmail());
+			String emailToLowerCase = teacher.getEmail().toLowerCase();
+			u.setEmail(emailToLowerCase);
 			String hashPassword=passwordEncoder.encode(teacher.getPassword());
 			u.setPassword(hashPassword);
 			u.setFirstName(teacher.getFirstName());
@@ -323,11 +325,18 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
+	/* typeOfUsers è un intero che dice che tipo di utenti si desidera cercare:
+	 * 1: Teacher
+	 * 2: Student
+	 * 3: All (teacher + student + moderator)
+	 * 
+	 * */
 	@Override
-	public Page<UserDTO> getAllUsers(Integer nPag, Integer nItem) throws BadRequestException {
+	public Page<UserDTO> getAllUsers(Integer nPag, Integer nItem, int typeOfUsers) throws BadRequestException {
 		try{
-			Page<User> p = userRepository.getPagingUsers(nPag, nItem);
+			Page<User> p = userRepository.getPagingUsers(nPag, nItem, typeOfUsers);
 			if(p==null)
 				throw new BadRequestException();
 			List<UserDTO> l = new ArrayList<UserDTO>();

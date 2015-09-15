@@ -146,6 +146,7 @@ public class AsyncUpdater {
 	private class openScenarioOfUsersRunnable implements Runnable{
 		private Scenario scenario;
 		private List<String> usersId;
+		private List<String> collaboratorsId;
 		
 		public openScenarioOfUsersRunnable(Scenario scenario){
 			this.scenario=scenario;
@@ -157,9 +158,19 @@ public class AsyncUpdater {
 			boolean creatorOpen = false;
 			
 			usersId = new ArrayList<String>();
-			if(scenario.getAttendees()!=null)
+			if(scenario.getAttendees()!=null){
 				for(Reference r : scenario.getAttendees())
 					usersId.add(r.getId());
+				
+			}
+			
+			collaboratorsId = new ArrayList<String>();
+			if(scenario.getCollaborators()!=null){
+				for(Reference r : scenario.getCollaborators())
+					collaboratorsId.add(r.getId());
+				
+			}
+				
 
 			
 			if(scenario.getCharacters()!=null){
@@ -187,10 +198,12 @@ public class AsyncUpdater {
 							userRepository.openScenarioToUser(userRef.getId(), ref);
 							creatorOpen=true;
 						}else{
-							Reference charRef = new Reference();
-							charRef.setId(character.getId());
-							charRef.setFirstname(character.getName());
-							userRepository.addActualCharacterToUser(userId, charRef, scenario.getId());
+							userRepository.openScenarioToUser(userRef.getId(), ref);
+							collaboratorsId.remove(userId);
+//							Reference charRef = new Reference();
+//							charRef.setId(character.getId());
+//							charRef.setFirstname(character.getName());
+//							userRepository.addActualCharacterToUser(userId, charRef, scenario.getId());
 						}
 					}
 				}
@@ -205,14 +218,19 @@ public class AsyncUpdater {
 				for(Reference r : scenario.getInvited())
 					usersId.add(r.getId());
 			
-			if(scenario.getCollaborators()!=null)
-				for(Reference r : scenario.getCollaborators())
-					usersId.add(r.getId());
+//			if(scenario.getCollaborators()!=null)
+//				for(Reference r : scenario.getCollaborators()){
+//					usersId.add(r.getId());
+//				}
+					
 			
 			if(!creatorOpen)
 				usersId.add(scenario.getTeacherCreator().getId());
 			
+			usersId.addAll(collaboratorsId);  //questa lista contiene tutti i collaboratori e i partecipanti che non hanno ancora un personaggio associato
+			
 			userRepository.openScenarioToUsers(usersId, new ScenarioReference(scenario));
+			
 		}
 	}
 	

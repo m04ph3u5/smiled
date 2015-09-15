@@ -65,7 +65,9 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 		self.endDate.days = CONSTANTS.getDays(self.scenario.endDate.month);
 	}
 	
-	var checkIfEndIsAfterStart = function(startDate, endDate){
+	var checkIfEndIsAfterStart = function(sD, eD){
+		var startDate = parseInt(sD);
+		var endDate = parseInt(eD);
 		console.log("checkIfEndIsAfterStart");
 		if(startDate.afterChrist && endDate.afterChrist){  //entrambe dopo cristo
 			console.log("entrambe dopo cristo");
@@ -102,6 +104,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 			console.log("entrambe avanti cristo");
 			if(startDate.year < endDate.year){  //startDate.year < endDate.year ERR
 				console.log ("startDate.year < endDate.year ERR");
+				console.log(startDate.year); console.log(endDate.year);
 				return false;
 			}else if (startDate.year > endDate.year){ //startDate.year > endDate.year GOOD
 				console.log("startDate.year > endDate.year GOOD");

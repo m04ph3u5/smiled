@@ -17,9 +17,6 @@ angular.module('smiled.application').controller('loggedCtrl', ['loggedUser', '$s
 			console.log("USER");	
 			$state.go('logged.dashboard.student');
 		}
-	
-		
-
 }]);
 
 
