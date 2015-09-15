@@ -71,6 +71,18 @@ angular.module('smiled.application')
 				}
 			}
 		})
+		.state('logged.issues',{
+			views: {
+				'content@logged': {
+					templateUrl: 'assets/private/partials/issues.html',
+					controller: "issuesCtrl",
+					controllerAs: "issues"
+				}
+			},
+			data : {
+				pageTitle : "Segnala un problema - Meschola"
+			}
+		})
 		.state('logged.dashboard',{
 			url: '/dashboard',
 			views: {
