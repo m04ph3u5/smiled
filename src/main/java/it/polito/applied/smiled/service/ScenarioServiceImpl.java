@@ -174,7 +174,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				throw new BadRequestException();
 			if(scenario.getName()!=null){
 				u.set("name", scenario.getName());
-				updateReferenceOfAllPeopleInScenario(id, callerId, scenarioUpdated.getName());
+				updateNameInReferenceOfAllPeopleInScenario(callerId, scenarioUpdated);
 			}
 			
 			
@@ -251,8 +251,21 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	}
 	//L'update dello ScenarioReference deve essere immediato solo per chi ha fatto la modifica (che potrebbe essere il creatore oppure un collaboratore)
-	private void updateReferenceOfAllPeopleInScenario(String scenarioId, String callerId, String scenarioName){
-		//TODO userRepository.
+	private void updateNameInReferenceOfAllPeopleInScenario(String callerId, Scenario scenario) throws BadRequestException{
+		userRepository.updateNameOfOneScenarioReference(callerId, scenario, scenario.getName());
+		System.out.println("Il nome dello scenario è stato modificato nel reference del chiamante ed ora verrà modificato in maniera asincrona per tutti gli altri");
+		List<String> idOfPeopleToUpdate = new ArrayList<String>();
+		for(int i=0; i < scenario.getAttendees().size(); i++){
+			idOfPeopleToUpdate.add(scenario.getAttendees().get(i).getId());
+		}
+		for(int i=0; i < scenario.getCollaborators().size(); i++){
+			if(!scenario.getCollaborators().get(i).getId().equals(callerId))
+				idOfPeopleToUpdate.add(scenario.getCollaborators().get(i).getId());
+		}
+		if(!scenario.getTeacherCreator().getId().equals(callerId))
+			idOfPeopleToUpdate.add(scenario.getTeacherCreator().getId());
+		asyncUpdater.updateNameOfScenarioReference(idOfPeopleToUpdate, scenario, scenario.getName());
+		//aggiornamento asincrono dei reference di tutti i partecipanti e collaboratori
 	}
 
 	@Override

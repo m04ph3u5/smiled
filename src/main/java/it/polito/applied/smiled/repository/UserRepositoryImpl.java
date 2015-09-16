@@ -7,6 +7,7 @@ import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.UserProfile;
@@ -542,9 +543,65 @@ public class UserRepositoryImpl implements CustomUserRepository {
 
 	@Override
 	public boolean updateNameOfOneScenarioReference(String userId,
-			String scenarioId, String newNameOfScenario) {
-		// TODO Auto-generated method stub
-		return false;
+			Scenario scenario, String newNameOfScenario) {
+		Query q = new Query();
+		String scenarioId = scenario.getId();
+		Criteria c = new Criteria();
+		Update u = new Update();
+		
+		if(scenario.getStatus().equals(ScenarioStatus.CREATED_V1) || 
+				scenario.getStatus().equals(ScenarioStatus.CREATED_V2) || 
+						scenario.getStatus().equals(ScenarioStatus.CREATED_V3)){
+			
+							c.andOperator(Criteria.where("id").is(userId), Criteria.where("creatingScenarios._id").is(new ObjectId(scenarioId) ));
+							u.set("creatingScenarios.$.name", newNameOfScenario);
+							
+		}else if (scenario.getStatus().equals(ScenarioStatus.ACTIVE)){
+			c.andOperator(Criteria.where("id").is(userId), Criteria.where("openScenarios._id").is(new ObjectId(scenarioId) ));
+			u.set("openScenarios.$.name", newNameOfScenario);
+		}else{
+			return false;
+		}
+		
+	
+		q.addCriteria(c);
+		WriteResult w = mongoOp.updateFirst(q, u, User.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
+	}
+
+	@Override
+	public boolean updateNameOfAllScenarioReference(
+			List<String> idOfPeopleToUpdate, Scenario scenario,
+			String newNameOfScenario) {
+		Query q = new Query();
+		String scenarioId = scenario.getId();
+		Criteria c = new Criteria();
+		Update u = new Update();
+		
+		if(scenario.getStatus().equals(ScenarioStatus.CREATED_V1) || 
+				scenario.getStatus().equals(ScenarioStatus.CREATED_V2) || 
+						scenario.getStatus().equals(ScenarioStatus.CREATED_V3)){
+			
+							c.andOperator(Criteria.where("id").in(idOfPeopleToUpdate), Criteria.where("creatingScenarios._id").is(new ObjectId(scenarioId) ));
+							u.set("creatingScenarios.$.name", newNameOfScenario);
+							
+		}else if (scenario.getStatus().equals(ScenarioStatus.ACTIVE)){
+			c.andOperator(Criteria.where("id").in(idOfPeopleToUpdate), Criteria.where("openScenarios._id").is(new ObjectId(scenarioId) ));
+			u.set("openScenarios.$.name", newNameOfScenario);
+		}else{
+			return false;
+		}
+		
+	
+		q.addCriteria(c);
+		WriteResult w = mongoOp.updateMulti(q, u, User.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
 	}
 
 	
