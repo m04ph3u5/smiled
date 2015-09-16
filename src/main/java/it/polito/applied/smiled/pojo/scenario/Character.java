@@ -9,6 +9,7 @@ import it.polito.applied.smiled.pojo.Reference;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
@@ -39,7 +40,7 @@ public class Character {
 	private String role;
 	private Reference actualUser;
 	private Date actualUserStart;
-	private Map<String,IntervalDate> pastUserId;
+	private Map<String, ArrayList<IntervalDate>> pastUserId;   //la chiave � l'id dello user, la lista contiene tutte le volte (tutti gli intervalli temporali) in cui quello user ha interpretato quel character
 	private String idScenario;
 	private List<PostReference> posts;
 	
@@ -101,9 +102,17 @@ public class Character {
 		/*Se lo Scenario non è ancora attivo oppure se il Character non era già interpretato da qualcuno, non devo gestire la lista di PastUSer*/
 		if(status.equals(ScenarioStatus.ACTIVE) && this.actualUser!=null){
 			if(pastUserId==null)
-				pastUserId=new HashMap<String, IntervalDate>();
+				pastUserId=new HashMap<String, ArrayList<IntervalDate>>();
 			IntervalDate intervalDate = new IntervalDate(actualUserStart,now);
-			pastUserId.put(this.actualUser.getId(), intervalDate);
+			if(pastUserId.containsKey(this.actualUser.getId())){
+				ArrayList<IntervalDate> tmp = pastUserId.get(this.actualUser.getId());   //tmp rappresenta la lista di volte che l'user che sto togliendo dal character aveva interpretato quel character
+				tmp.add(intervalDate);
+				pastUserId.put(this.actualUser.getId(), tmp);
+			}else{
+				ArrayList<IntervalDate> a = new ArrayList<IntervalDate>();
+				a.add(intervalDate);
+				pastUserId.put(this.actualUser.getId(), a);
+			}
 		}
 		this.actualUser = newActualUser;
 		if(newActualUser!=null)
@@ -121,13 +130,17 @@ public class Character {
 		return id;
 	}
 
-	public Map<String, IntervalDate> getPastUserId() {
+	
+
+	public Map<String, ArrayList<IntervalDate>> getPastUserId() {
 		return pastUserId;
 	}
 
-	public void setPastUserId(Map<String, IntervalDate> pastUserId) {
+
+	public void setPastUserId(Map<String, ArrayList<IntervalDate>> pastUserId) {
 		this.pastUserId = pastUserId;
 	}
+
 
 	public List<PostReference> getPosts() {
 		return posts;

@@ -82,6 +82,30 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 				}
 		);
 	}
+	self.uploadCharacterCover = function(file,event,idCharacter){
+		if(file && file.length && idCharacter){
+			Upload.upload({
+	            url: CONSTANTS.urlCharacterCover(id,idCharacter),
+	            headers : {
+	                'Content-Type': file.type
+	            },
+	            file: file
+	        })
+//	            .progress(function (evt) {
+//	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//	        })
+	        .success(function (data, status, headers, config) {
+	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+	            for(var i=0; i<self.scenario.characters.length; i++){
+	            	if(self.scenario.characters[i].id==idCharacter){
+	            		var d = new Date();
+	            		self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
+	            	}
+	            }
+	        });
+		}
+	}
 	
 //	self.getUserCover = function(){
 //		console.log("STO CERCANDO"+id)

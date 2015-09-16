@@ -2,7 +2,7 @@
 <div class="row">
 <div class="col-md-1"></div>
 	<div class="col-lg-2 col-md-3 col-sm-4 pull-left">
-	 
+	 	
 		<div class="box" data-ng-show="!scenario.isCreator && !scenario.isModerator">
 			<h3>I MIEI COMPITI: </h3>
   			<!--<div data-ng-repeat="scenario.myMissions"></div>  -->
@@ -33,25 +33,15 @@
 									</form>
 								</div>
 								<div class="form-group">
-									<select id="selectAttendee" class="" data-ng-model="scenario.mission.studentId">
-										<option>SELEZIONA ALUNNO</option>
+									<select id="selectAttendee" class="form-control" data-ng-model="scenario.mission.studentId">
+										<option value="" disabled selected>SCEGLI ALUNNO</option>
 										<option value="{{attendee.id}}" data-ng-repeat ="attendee in scenario.scen.attendees">
 											<span class="tagName">{{attendee.lastname}}
 											{{attendee.firstname}}</span>
 										</option>									
 					
 									</select>
-								</div>
-								<div class="form-group">
-									<select id="selectAttendee" class="selectpicker form-control" title="SELEZIONA ALUNNO"
-									data-ng-model="scenario.mission.studentId">										
-										<option value="{{attendee.id}}" data-ng-repeat ="attendee in scenario.scen.attendees">
-											<span class="tagName">{{attendee.lastname}}
-											{{attendee.firstname}}</span>
-										</option>									
-					
-									</select>
-								</div>		
+								</div>							
 								<button type="submit" class="btn generalButton marginSBottom" data-ng-click="scenario.createMission()">ASSEGNA</button>
 							</form>
 	
@@ -106,10 +96,10 @@
 		</div>
 		<div class="container-fluid wizard">
 			<div class="row text-center">
-				<a href="" class="col-xs-3" data-ui-sref=".posts" data-ui-sref-active="active"><label>POST</label></a>
-				<a href="" class="col-xs-3" data-ui-sref=".storyline" data-ui-sref-active="active"><label>STORYLINE</label></a>
-				<a href="" class="col-xs-3" data-ui-sref=".characters" data-ui-sref-active="active"><label>PERSONAGGI</label></a>
-				<a href="" class="col-xs-3" data-ui-sref=".map" data-ui-sref-active="active"><label>MAPPA</label></a>
+				<a href="" class="col-xs-3" data-ui-sref=".posts" data-ui-sref-active="active"><h4>POST</h4></a>
+				<a href="" class="col-xs-3" data-ui-sref=".storyline" data-ui-sref-active="active"><h4>STORYLINE</h4></a>
+				<a href="" class="col-xs-3" data-ui-sref=".characters" data-ui-sref-active="active"><h4>PERSONAGGI</h4></a>
+				<a href="" class="col-xs-3" data-ui-sref=".map" data-ui-sref-active="active"><h4>MAPPA</h4></a>
 			</div>
 		</div>
 <!-- 		<ul class="wizard nav nav-pills nav-justified menu"> -->

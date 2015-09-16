@@ -19,9 +19,9 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 		}
 		else if (self.scenario.title.length<2)
 			alertingGeneric.addWarning("Inserire un titolo di almeno 2 caratteri");
-		else if(checkDate(self.scenario.startDate) == false)
+		else if(checkDate(self.scenario.startDate.year) == false)
 			alertingGeneric.addWarning("Data di inizio errata");
-		else if(checkDate(self.scenario.endDate) == false)
+		else if(checkDate(self.scenario.endDate.year) == false)
 			alertingGeneric.addWarning("Data di fine errata");
 		else if(checkIfEndIsAfterStart(self.scenario.startDate, self.scenario.endDate) == false)
 			alertingGeneric.addWarning("La data di fine non puo' precedere la data di inizio");
@@ -66,8 +66,17 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	}
 	
 	var checkIfEndIsAfterStart = function(sD, eD){
-		var startDate = parseInt(sD);
-		var endDate = parseInt(eD);
+		var startDate = {};
+		var endDate = {};
+		startDate.year = parseInt(sD.year);
+		endDate.year = parseInt(eD.year);
+		startDate.month = sD.month;
+		endDate.month = eD.month;
+		startDate.day = sD.day;
+		endDate.day = eD.day;
+		startDate.afterChrist = sD.afterChrist;
+		endDate.afterChrist = eD.afterChrist;
+		
 		console.log("checkIfEndIsAfterStart");
 		if(startDate.afterChrist && endDate.afterChrist){  //entrambe dopo cristo
 			console.log("entrambe dopo cristo");
@@ -142,16 +151,13 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	}
 	
 	
-	var checkDate = function(date){
-		// regular expression to match required date format
-//		   var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-//
-//
-//	    if(date != '' && !date.match(re)) {
-//	      return false;
-//	    }
-//	    else
-	    	return true;
+	var checkDate = function(year){
+		if(isNaN(year)){
+			return false;
+		}else{
+			return true;
+		}
+	    	
 	    
 	    
 	}

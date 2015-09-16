@@ -5,7 +5,8 @@
 			<div class="col-sm-4">
 				<img data-ng-src="{{characterProfile.cover}}" 
 				data-err-src="assets/public/img/icon/pg.png"
-				class="imgPreviewXL img-circle marginTwenty">
+				class="imgPreviewXL img-circle marginTwenty"
+				ngf-select ngf-change="characterProfile.uploadCharacterCover($files,$event,'{{c.id}}')">
 				
 				<div class="marginMTop">
 					<a href="">				
@@ -33,9 +34,17 @@
 				<p class="quoteChar" ng-hide="characterProfile.newQuote==null || characterProfile.newQuote==''"><i>- {{characterProfile.character.name}}</i></p>
 			</div>
 			<div class="col-sm-8">
-				<div class="row">
+				<span class="row">
+					<!-- <div class="text-center">
+						<span class="badge_part1">
+								<i class="badge_i_part3"></i>
+								<i class="badge_i_part4"></i>
+								<span class="badge_i_part5"><h2>{{characterProfile.character.name}}</h2></span>
+						</span>
+					</div> -->
 					<h1>{{characterProfile.character.name}}</h1>
-					<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.nickname == null || characterProfile.character.nickname =='')">
+				</span>
+				<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.nickname == null || characterProfile.character.nickname =='')">
 						<span ng-click="editNickname =! editNickname" ng-show="!editNickname">Inserisci il nickname del personaggio</span>
 					</a>
 					<span ng-show="!editNickname" ng-model="characterProfile.newNickname">
@@ -44,9 +53,9 @@
 					<span ng-if="characterProfile.character.nickname!=null && characterProfile.character.nickname!=''">"</span>
 					</span>
 					<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" 
-					ng-click="editNickname =! editNickname" 
-					ng-show="!editNickname && characterProfile.currentChar==characterProfile.idChar
-					&& characterProfile.newNickname!=null && characterProfile.newNickname!=''"></span>
+						ng-click="editNickname =! editNickname" 
+						ng-show="!editNickname && characterProfile.currentChar==characterProfile.idChar
+						&& characterProfile.newNickname!=null && characterProfile.newNickname!=''"></span>
 					<div ng-show="editNickname">
 						<div class="col-sm-2"></div>
 						<div class="col-sm-8" ng-show="editNickname">
@@ -59,11 +68,12 @@
 							</div>
 						</div>
 					</div>					
+				<div class="box boxGray paddingMTop">
 					
-				</div>
-				<div class="box boxGray">
-					<div class="highlightText">
-						<i><span ng-if="characterProfile.character.bornDate!=null || characterProfile.character.bornTown!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
+					<div>
+						<i><span ng-if="characterProfile.character.bornDate!=null || characterProfile.character.bornTown!=null" class="glyphicons glyphicons-stroller" aria-hidden="true">
+							<img class="customGlyph" src="assets/public/img/glyph/stroller.png">
+						</span>
 						<span>{{characterProfile.character.bornTown}}</span>
 						<span ng-if="characterProfile.character.bornTown!=null && characterProfile.character.bornDate!=null">, </span>
 						<span>{{characterProfile.character.bornDate.day}} {{characterProfile.bornMonth}} {{characterProfile.character.bornDate.year}}</span>
@@ -74,6 +84,13 @@
 						<span>{{characterProfile.character.deadDate.day}} {{characterProfile.deadMonth}} {{characterProfile.character.deadDate.year}}</span>
 						<span ng-if="characterProfile.character.deadDate!=null || characterProfile.character.deadTown!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 						</i>
+						<span class="glyphicon glyphicon-pencil" show-on-hover-parent style="display:none" 
+						ng-click="editLifespan =! editLifespan" 
+						ng-show="!editLifespan && characterProfile.currentChar==characterProfile.idChar
+						&& characterProfile.newLifespan!=null && characterProfile.newLifespan!=''"></span>
+						<!-- il lifespan va controllato faccendo il check di tutte le variabili; in alternativa
+						posso definire una variabile booleana che mi dice che le info di data sono inserite o vuote
+						completamente; se non ci sono info si mette la label che dice  "inserisci date e luoghi" -->
 					</div>
 					<div class="charDescription marginMTop">
 						<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.description == null || characterProfile.character.description =='')">
