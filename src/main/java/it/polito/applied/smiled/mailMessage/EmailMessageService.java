@@ -84,7 +84,16 @@ public class EmailMessageService {
 	
 		mailSender.send(message);
 	}
+	public void sendErrorEmail (String errorMessage){
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(from);
+		message.setTo(to);
+		message.setSubject("Meschola! Errore sul server!!!");
+		message.setText("Si è verificato il seguente problema:\n\n " + errorMessage);
+				
 	
+		mailSender.send(message);
+	}
 	public void sendRegistrationConfirmTeacher(String email, String teacherName){
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(from);

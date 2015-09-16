@@ -56,7 +56,8 @@ public interface CustomUserRepository {
 			Integer nItem) throws BadRequestException;
 
 	public boolean setCoverLarge(String userId, String coverId);
-	public boolean updateNameOfOneScenarioReference(String userId, String scenarioId, String newNameOfScenario);
-
+	public boolean updateNameOfOneScenarioReference(String userId, Scenario scenario, String newNameOfScenario);
+	public boolean updateNameOfAllScenarioReference( List<String> idOfPeopleToUpdate, Scenario scenario,
+			String newScenarioName);
 
 }

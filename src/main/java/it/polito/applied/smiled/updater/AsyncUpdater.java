@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.mailMessage.EmailMessageService;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Issue;
@@ -82,6 +83,11 @@ public class AsyncUpdater {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void updateNameOfScenarioReference(List<String> idOfPeopleToUpdate, Scenario scenario, String newScenarioName){
+		Runnable r = new UpdateNameOfScenarioInAllReference(idOfPeopleToUpdate, scenario, newScenarioName);
+		taskExecutor.execute(r);
+	}
 
 	public void closeScenario(String scenarioId, List<String> usersId) {
 		Runnable r = new CloseScenarioRunnable(scenarioId, usersId);
@@ -94,52 +100,52 @@ public class AsyncUpdater {
 	}
 	
 	public void sendTeacherRegistrationEmail(String firstName, String email, String token) {
-		Runnable r = new sendEmailRunnable(firstName,email, token);
+		Runnable r = new SendEmailRunnable(firstName,email, token);
 		taskExecutor.execute(r);
 		
 	}	
 	
 	public void sendTeacherRegistrationConfirmEmail(String firstName, String email) {
-		Runnable r = new sendEmailRunnable(firstName,email, null);
+		Runnable r = new SendEmailRunnable(firstName,email, null);
 		taskExecutor.execute(r);
 		
 	}	
 	
 	public void sendTeacherInviteEmail(String invitedEmail, Teacher invitingTeacher){
 		
-		Runnable r = new sendInviteEmailRunnable(invitedEmail, invitingTeacher);
+		Runnable r = new SendInviteEmailRunnable(invitedEmail, invitingTeacher);
 		taskExecutor.execute(r);
 	}
 
 	public void sendStudentsRegistrationEmail(Map<String,String> toSendEmail,
 			Reference teacherRef) {
-		Runnable r = new sendEmailRunnable(toSendEmail, teacherRef);
+		Runnable r = new SendEmailRunnable(toSendEmail, teacherRef);
 		taskExecutor.execute(r);
 	}
 	
 	public void openScenarioOfUsers(Scenario scenarioUpdated) {
-		Runnable r = new openScenarioOfUsersRunnable(scenarioUpdated);
+		Runnable r = new OpenScenarioOfUsersRunnable(scenarioUpdated);
 		taskExecutor.execute(r);
 		
 	}
 	
 	public void sendTeacherExpirationEmail(String email) {
-		Runnable r = new sendExpiredEmail(email);
+		Runnable r = new SendExpiredEmail(email);
 		taskExecutor.execute(r);
 		
 	}
 	
 	public void sendReport(User activeUser, Issue issue) {
-		Runnable r = new sendReportEmail(activeUser, issue);
+		Runnable r = new SendReportEmail(activeUser, issue);
 		taskExecutor.execute(r);		
 	}
 	
-	private class sendReportEmail implements Runnable{
+	private class SendReportEmail implements Runnable{
 
 		private User activeUser; 
 		private Issue issue;
 		
-		public sendReportEmail(User activeUser, Issue issue){
+		public SendReportEmail(User activeUser, Issue issue){
 			this.activeUser=activeUser;
 			this.issue=issue;
 		}
@@ -152,11 +158,36 @@ public class AsyncUpdater {
 		
 	}
 	
-	private class sendExpiredEmail implements Runnable{
+	private class UpdateNameOfScenarioInAllReference implements Runnable{
+		
+		private List<String> idOfPeopleToUpdate;
+		private Scenario scenario;
+		private String newScenarioName;
+		
+		public UpdateNameOfScenarioInAllReference (List<String> idOfPeopleToUpdate, Scenario scenario, String newScenarioName){
+			this.idOfPeopleToUpdate = idOfPeopleToUpdate;
+			this.scenario = scenario;
+			this.newScenarioName = newScenarioName;
+		}
+		
+		@Override
+		public void run() {
+			for(int i=0; i<idOfPeopleToUpdate.size(); i++){
+				System.out.println(idOfPeopleToUpdate.get(i));
+			}
+			if(userRepository.updateNameOfAllScenarioReference(idOfPeopleToUpdate, scenario, newScenarioName)){
+				System.out.println("Tutti i reference dei partecipanti e collaboratori dello scenario sono stati correttamente aggiornati con il nuovo nome dello scenario");
+			}
+		}
+		
+	}
+	
+	
+	private class SendExpiredEmail implements Runnable{
 
 		private String email;
 		
-		public sendExpiredEmail(String email){
+		public SendExpiredEmail(String email){
 			this.email=email;
 		}
 		
@@ -168,12 +199,12 @@ public class AsyncUpdater {
 		
 	}
 	
-	private class openScenarioOfUsersRunnable implements Runnable{
+	private class OpenScenarioOfUsersRunnable implements Runnable{
 		private Scenario scenario;
 		private List<String> usersId;
 		private List<String> collaboratorsId;
 		
-		public openScenarioOfUsersRunnable(Scenario scenario){
+		public OpenScenarioOfUsersRunnable(Scenario scenario){
 			this.scenario=scenario;
 		}
 		
@@ -259,11 +290,11 @@ public class AsyncUpdater {
 		}
 	}
 	
-	private class sendInviteEmailRunnable implements Runnable{
+	private class SendInviteEmailRunnable implements Runnable{
 		private String email;
 		private Teacher inviterTeacher;
 		
-		public sendInviteEmailRunnable(String email, Teacher inviterTeacher){
+		public SendInviteEmailRunnable(String email, Teacher inviterTeacher){
 			this.email = email;
 			this.inviterTeacher = inviterTeacher;
 		}
@@ -274,14 +305,14 @@ public class AsyncUpdater {
 		}
 	}
 	
-	private class sendEmailRunnable implements Runnable{
+	private class SendEmailRunnable implements Runnable{
 		private String firstName;
 		private String email;
 		private String token;
 		private Map<String,String> toSendEmail;
 		private Reference teacherRef;
 		
-		public sendEmailRunnable(String firstName, String email, String token){
+		public SendEmailRunnable(String firstName, String email, String token){
 			this.firstName=firstName;
 			this.email=email;
 			this.token=token;
@@ -290,7 +321,7 @@ public class AsyncUpdater {
 		}
 		
 		
-		public sendEmailRunnable(Map<String,String> toSendEmail,
+		public SendEmailRunnable(Map<String,String> toSendEmail,
 				Reference teacherRef){
 			
 			this.toSendEmail=toSendEmail;

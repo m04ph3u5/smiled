@@ -124,4 +124,5 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 //		);
 	}	
 	
+	
 }]);

@@ -1,9 +1,9 @@
 <div class="box row" style="border:1px; margin-right:1%; border-color:#5B5955">
 
-		<select class="selectpicker customInput2 "  data-ng-model="vm.date.day" data-ng-options="day.value as day.value for day in vm.days">
+		<select class="form-control customInput2 "  data-ng-model="vm.date.day" data-ng-options="day.value as day.value for day in vm.days">
 		    <option value="" disabled selected style="display:none;">GIORNO</option>
 		</select>
- 		<select data-ng-click="vm.getDays()" class="selectpicker customInput2 " data-ng-model="vm.date.month" data-ng-options="month.value as month.name for month in vm.months">
+ 		<select data-ng-click="vm.getDays()" class="form-control customInput2 " data-ng-model="vm.date.month" data-ng-options="month.value as month.name for month in vm.months">
 		    <option value="" disabled selected style="display:none;">MESE</option>
  		</select>
 		<input class="generalInput" class="" type="text" data-ng-model="vm.date.year"  placeholder="ANNO"/>

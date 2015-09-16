@@ -174,7 +174,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				throw new BadRequestException();
 			if(scenario.getName()!=null){
 				u.set("name", scenario.getName());
-				updateReferenceOfAllPeopleInScenario(id, callerId, scenarioUpdated.getName());
+				updateNameInReferenceOfAllPeopleInScenario(callerId, scenarioUpdated);
 			}
 			
 			
@@ -251,8 +251,23 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	}
 	//L'update dello ScenarioReference deve essere immediato solo per chi ha fatto la modifica (che potrebbe essere il creatore oppure un collaboratore)
-	private void updateReferenceOfAllPeopleInScenario(String scenarioId, String callerId, String scenarioName){
-		//TODO userRepository.
+	private void updateNameInReferenceOfAllPeopleInScenario(String callerId, Scenario scenario) throws BadRequestException{
+		userRepository.updateNameOfOneScenarioReference(callerId, scenario, scenario.getName());
+		System.out.println("Il nome dello scenario è stato modificato nel reference del chiamante ed ora verrà modificato in maniera asincrona per tutti gli altri");
+		List<String> idOfPeopleToUpdate = new ArrayList<String>();
+		if(scenario.getAttendees() != null)
+			for(int i=0; i < scenario.getAttendees().size(); i++){
+				idOfPeopleToUpdate.add(scenario.getAttendees().get(i).getId());
+			}
+		if(scenario.getCollaborators() != null)
+		for(int i=0; i < scenario.getCollaborators().size(); i++){
+			if(!scenario.getCollaborators().get(i).getId().equals(callerId))
+				idOfPeopleToUpdate.add(scenario.getCollaborators().get(i).getId());
+		}
+		if(!scenario.getTeacherCreator().getId().equals(callerId))
+			idOfPeopleToUpdate.add(scenario.getTeacherCreator().getId());
+		asyncUpdater.updateNameOfScenarioReference(idOfPeopleToUpdate, scenario, scenario.getName());
+		//aggiornamento asincrono dei reference di tutti i partecipanti e collaboratori
 	}
 
 	@Override
@@ -641,7 +656,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			 * quando questo Ã¨ nella fase di Creazione (cosÃ¬ da poter, per esempio, invitare altri studenti).*/
 				
 			if(scen.getAttendees()!=null && scen.getAttendees().contains(r)){
-				//Questo controllo è superfluo se si lascia che i collaborator possono essere solo dei Teacher
+				//Questo controllo ï¿½ superfluo se si lascia che i collaborator possono essere solo dei Teacher
 				/*Se il collaboratore da inserire si travava giÃ  nella lista dei partecipanti, allora elevo solamente i suoi privilegi e lo
 				 * tolgo dalla lista degli attendees per inserirlo nella lista dei teachersCollaborator*/
 				scenarioRepository.addCollaborator(r, scen.getStatus(), idScenario, true);
@@ -1929,7 +1944,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			for(ScenarioReference scenRef : user.getOpenScenarios()){
 				if(scenRef.getId().equals(idScenario)){
 					if(scenRef.getMyCharacterId()!=null){
-						if(permissionEvaluator.hasPermission(auth, scenRef.getMyCharacterId(), "Character", "WRITE")){
+						if(scenRef.getMyCharacterId().equals(commentDTO.getCharacterId()) && permissionEvaluator.hasPermission(auth, scenRef.getMyCharacterId(), "Character", "WRITE")){
 							charRef = new Reference();
 							charRef.setId(scenRef.getMyCharacterId());
 							charRef.setFirstname(scenRef.getMyCharacterName());

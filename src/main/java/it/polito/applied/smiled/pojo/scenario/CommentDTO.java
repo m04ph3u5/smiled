@@ -7,6 +7,7 @@ import java.util.List;
 public class CommentDTO {
 	private List<String> tags; 
 	private String text; 
+	private String characterId;
 	
 	public List<String> getTags() { 
 		return tags; 
@@ -22,6 +23,16 @@ public class CommentDTO {
 	
 	public void setText(String text) { 
 		this.text = text; 
+	}
+
+	public String getCharacterId() {
+		return characterId;
+	}
+
+	public void setCharacterId(String characterId) {
+		this.characterId = characterId;
 	} 
+	
+	
 }
 

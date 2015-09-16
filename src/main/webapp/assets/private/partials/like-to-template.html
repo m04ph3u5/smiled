@@ -1,18 +1,18 @@
-<span data-ng-show="likeTo.liker">
-	<span 
+<div data-ng-show="likeTo.liker">
+	<div 
 		data-ng-if="likeTo.post.youLike"
 		data-ng-click="likeTo.likePost(likeTo.post)"
 		class="text-left noPadding">
 		<span title="Non mi piace più"
 		class="tooltips glyphicon glyphicon-thumbs-up pull-left marginLRight"></span>
 		Mi piace
-	</span>
-	<span 
+	</div>
+	<div 
 		data-ng-if="!likeTo.post.youLike"
 		data-ng-click="likeTo.likePost(likeTo.post)"
 		class="text-left noPadding">
 		<span title="Mi piace!"
 		class="tooltips glyphicon glyphicon-thumbs-up pull-left marginLRight"></span>
 		Mi piace
-	</span>
-</span>
+	</div>
+</div>

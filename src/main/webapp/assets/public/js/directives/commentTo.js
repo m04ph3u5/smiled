@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONSTANTS', 
-    function(apiService, CONSTANTS){
+angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONSTANTS', 'modalService',
+    function(apiService, CONSTANTS, modalService){
 		return {
 			templateUrl: "assets/private/partials/comment-to-template.html",
 			scope : {
@@ -9,8 +9,13 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 				scenarioId : "@" 
 			},
 			controller : ['$scope' , function($scope){
+				
 				var numVisibleComment = CONSTANTS.visibleComment;
 				var self = this;
+				
+				var charId = self.currentCharacter.id;
+				var charName = self.currentCharacter.name;
+				
 				self.showViewOthers = false;
 				self.showInsert = true;
 				self.atLeastOneCommentWasSended = false;
@@ -55,6 +60,7 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 					if(self.post.newComment){
 						var comment = {};
 						comment.text=self.post.newComment;
+						comment.characterId = charId;
 						//aggiungo commento al post
 						apiService.sendCommentToPost(self.scenarioId, self.post.id, comment).then(
 								function(data){
@@ -89,6 +95,9 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 								},
 								function(reason){
 									console.log("fail to send comment: "+reason);
+									if(reason.status=="403"){
+									modalService.showModalOldCharacterChangeOnComment(charName);	
+									}
 								}
 						);
 					}

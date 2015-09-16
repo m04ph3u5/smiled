@@ -8,7 +8,7 @@ angular.module("smiled.application").directive('updatePostOnScrool',[ '$window',
 			controller : function($scope) {
 				var self = this;
 				self.control = function() {
-		             if (this.pageYOffset <= 800) {
+		             if (this.pageYOffset <= 600) {
 		                 self.start();
 		             } else {
 		                 self.stop();
