@@ -255,9 +255,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 		userRepository.updateNameOfOneScenarioReference(callerId, scenario, scenario.getName());
 		System.out.println("Il nome dello scenario è stato modificato nel reference del chiamante ed ora verrà modificato in maniera asincrona per tutti gli altri");
 		List<String> idOfPeopleToUpdate = new ArrayList<String>();
-		for(int i=0; i < scenario.getAttendees().size(); i++){
-			idOfPeopleToUpdate.add(scenario.getAttendees().get(i).getId());
-		}
+		if(scenario.getAttendees() != null)
+			for(int i=0; i < scenario.getAttendees().size(); i++){
+				idOfPeopleToUpdate.add(scenario.getAttendees().get(i).getId());
+			}
+		if(scenario.getCollaborators() != null)
 		for(int i=0; i < scenario.getCollaborators().size(); i++){
 			if(!scenario.getCollaborators().get(i).getId().equals(callerId))
 				idOfPeopleToUpdate.add(scenario.getCollaborators().get(i).getId());

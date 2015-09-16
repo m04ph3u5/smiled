@@ -172,7 +172,9 @@ public class AsyncUpdater {
 		
 		@Override
 		public void run() {
-
+			for(int i=0; i<idOfPeopleToUpdate.size(); i++){
+				System.out.println(idOfPeopleToUpdate.get(i));
+			}
 			if(userRepository.updateNameOfAllScenarioReference(idOfPeopleToUpdate, scenario, newScenarioName)){
 				System.out.println("Tutti i reference dei partecipanti e collaboratori dello scenario sono stati correttamente aggiornati con il nuovo nome dello scenario");
 			}
