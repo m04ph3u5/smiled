@@ -15,6 +15,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.user = loggedUser;
 	self.scenariosList = loggedUser.openScenarios;
 	self.studentsList = loggedUser.students;
+	self.showCard = false;
+	self.selectedUserID = null;
 		
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
@@ -82,8 +84,12 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.studentChanged  = function(){
 		//aggiorna la lista degli scenari e ci inserisce solo quelli in cui lo studente è iscritto
 		
-	}
+	}	
 	
+	self.openUserCard= function(userID){
+		self.selectedUserID = userID;
+		self.showCard = true;
+	}
 	
 	/*
 	self.missionList = apiService.getMyMissions(0, 20, true, true);

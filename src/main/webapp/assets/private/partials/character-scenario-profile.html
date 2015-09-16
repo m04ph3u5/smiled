@@ -41,9 +41,9 @@
 								<span class="badge_i_part5"><h2>{{characterProfile.character.name}}</h2></span>
 						</span>
 					</div> -->
+					<h1>{{characterProfile.character.name}}</h1>
 				</span>
-				<div class="box boxGray paddingLTop">
-					<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.nickname == null || characterProfile.character.nickname =='')">
+				<a ng-show="characterProfile.currentChar==characterProfile.idChar && (characterProfile.character.nickname == null || characterProfile.character.nickname =='')">
 						<span ng-click="editNickname =! editNickname" ng-show="!editNickname">Inserisci il nickname del personaggio</span>
 					</a>
 					<span ng-show="!editNickname" ng-model="characterProfile.newNickname">
@@ -67,8 +67,12 @@
 							</div>
 						</div>
 					</div>					
+				<div class="box boxGray paddingMTop">
+					
 					<div>
-						<i><span ng-if="characterProfile.character.bornDate!=null || characterProfile.character.bornTown!=null" class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>
+						<i><span ng-if="characterProfile.character.bornDate!=null || characterProfile.character.bornTown!=null" class="glyphicons glyphicons-stroller" aria-hidden="true">
+							<img class="customGlyph" src="assets/public/img/glyph/stroller.png">
+						</span>
 						<span>{{characterProfile.character.bornTown}}</span>
 						<span ng-if="characterProfile.character.bornTown!=null && characterProfile.character.bornDate!=null">, </span>
 						<span>{{characterProfile.character.bornDate.day}} {{characterProfile.bornMonth}} {{characterProfile.character.bornDate.year}}</span>

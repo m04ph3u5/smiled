@@ -338,6 +338,18 @@
 		.marginXLLeft{
 			margin-left: 20%;
 		}
+		.paddingMRight{
+			padding-right:5%;
+		}
+		.paddingMTop{
+			padding-top:1em;
+		}
+		.paddingLTop{
+			padding-top:4em;
+		}
+		.paddingMLeft{
+			padding-left:5%;
+		}
 		.goUppercase{
 			text-transform:uppercase
 		}
@@ -710,20 +722,16 @@
 		.lessWidth{
 			width:80%;
 		}
-		.paddingMRight{
-			padding-right:5%;
-		}
-		.paddingLTop{
-			padding-top:4em;
-		}
+
 		.invisibleButton{
 			bakground-color:transparent !important;
 		}
 		.wizButton{
 			height:30px;
 		}
-		.paddingMLeft{
-			padding-left:5%;
+		.customGlyph{
+			height:16px;
+			margin-bottom: 5px;
 		}
 .badge_part1{
 	display: inline-block;
