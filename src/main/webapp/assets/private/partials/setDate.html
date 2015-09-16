@@ -9,10 +9,10 @@
 	
 		<input class="col-xs-3 form-control customInput" type="text" data-ng-model="dialogSetDate.newDate.year"  placeholder="ANNO"/>
 		
-		<select data-ng-click="dialogSetDate.getDays()" class="col-xs-3 form-control customInput2 selectpicker" data-ng-model="dialogSetDate.newDate.month" data-ng-options="month.value as month.name for month in dialogSetDate.months">
+		<select data-ng-click="dialogSetDate.getDays()" class="col-xs-3 form-control customInput2" data-ng-model="dialogSetDate.newDate.month" data-ng-options="month.value as month.name for month in dialogSetDate.months">
  			 <option value="" disabled selected style="display:none;">MESE</option>
  		</select>
-		<select class="col-xs-3 form-control customInput2 selectpicker"  data-ng-model="dialogSetDate.newDate.day" data-ng-options="day.value as day.value for day in dialogSetDate.days">
+		<select class="col-xs-3 form-control customInput2"  data-ng-model="dialogSetDate.newDate.day" data-ng-options="day.value as day.value for day in dialogSetDate.days">
 		    <option value="" disabled selected style="display:none;">GIORNO</option>
  		</select>
  		
