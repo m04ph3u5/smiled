@@ -12,6 +12,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceSetDate;
 		var modalInstanceOpenMap;
 		var modalInstanceOpenMapForPost;
+		var modalInstanceOldCharacterChangeOnComment;
 		
 		var optionsCreateScen = {
 				templateUrl:'assets/private/partials/createScenario.html',
@@ -80,6 +81,18 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 					},
 					scenarioMap : function(){
 						return scenarioMap;
+					}
+				}
+		}
+		
+		var optionsOldCharacterChangeOnComment = {
+				templateUrl: 'assets/private/partials/oldCharacterChangeOnComment.html',
+				controller: 'oldCharacterChangeOnCommentCtrl',
+				controllerAs: 'oldCharacterChangeOnComment',
+				size: "sm",
+				resolve: {
+					charName : function(){
+						return charName;
 					}
 				}
 		}
@@ -190,6 +203,16 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceOpenMapForPost.close();
 		}
 		
+		var showModalOldCharacterChangeOnComment = function(characterName){
+			charName = characterName;
+			modalInstanceOldCharacterChangeOnComment = $modal.open(optionsOldCharacterChangeOnComment);
+			return modalInstanceOldCharacterChangeOnComment.result;
+		}
+	
+		var closeModalOldCharacterChangeOnComment = function(){
+			modalInstanceOldCharacterChangeOnComment.close();
+		}
+		
 		return {
 			createScenario : createScenario,
 			deleteScenario : deleteScenario,
@@ -203,7 +226,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showModalOpenMap : showModalOpenMap,
 			closeModalOpenMap : closeModalOpenMap,
 			showModalOpenMapForPost: showModalOpenMapForPost,
-			closeModalOpenMapForPost: closeModalOpenMapForPost
+			closeModalOpenMapForPost: closeModalOpenMapForPost,
+			showModalOldCharacterChangeOnComment: showModalOldCharacterChangeOnComment,
+			closeModalOldCharacterChangeOnComment: closeModalOldCharacterChangeOnComment
 		}
 }]);
 

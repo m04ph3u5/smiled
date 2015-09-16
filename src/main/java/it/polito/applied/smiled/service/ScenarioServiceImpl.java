@@ -654,7 +654,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			 * quando questo è nella fase di Creazione (così da poter, per esempio, invitare altri studenti).*/
 				
 			if(scen.getAttendees()!=null && scen.getAttendees().contains(r)){
-				//Questo controllo � superfluo se si lascia che i collaborator possono essere solo dei Teacher
+				//Questo controllo � superfluo se si lascia che i collaborator possono essere solo dei Teacher
 				/*Se il collaboratore da inserire si travava già nella lista dei partecipanti, allora elevo solamente i suoi privilegi e lo
 				 * tolgo dalla lista degli attendees per inserirlo nella lista dei teachersCollaborator*/
 				scenarioRepository.addCollaborator(r, scen.getStatus(), idScenario, true);
@@ -1942,7 +1942,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			for(ScenarioReference scenRef : user.getOpenScenarios()){
 				if(scenRef.getId().equals(idScenario)){
 					if(scenRef.getMyCharacterId()!=null){
-						if(permissionEvaluator.hasPermission(auth, scenRef.getMyCharacterId(), "Character", "WRITE")){
+						if(scenRef.getMyCharacterId().equals(commentDTO.getCharacterId()) && permissionEvaluator.hasPermission(auth, scenRef.getMyCharacterId(), "Character", "WRITE")){
 							charRef = new Reference();
 							charRef.setId(scenRef.getMyCharacterId());
 							charRef.setFirstname(scenRef.getMyCharacterName());

@@ -9,6 +9,7 @@ angular.module("smiled.application").directive('likeTo', [ 'apiService',
 				scenarioId : "@"
 			},
 			controller : function(){
+				console.log("LIKE TO CONTROLLER");
 				var self = this;
 				self.numLike = self.post.likes.length;
 				self.likePost = function(s){
