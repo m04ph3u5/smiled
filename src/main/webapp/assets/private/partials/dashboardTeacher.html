@@ -284,14 +284,13 @@
 						
 						<div data-ng-repeat="c in dashboard.user.colleagues | limitTo:6" class="col-xs-4">
 							<!--  data-ui-sref="logged.userProfile({id: '{{c.id}}'})"-->
-							<a class="marginMTop">
+							<a data-ui-sref="logged.userProfile({id: '{{c.id}}'})" class="marginMTop">
 									<img title="{{c.lastname}} {{c.firstname}}" 
 									data-ng-src="api/v1/users/{{c.id}}/cover"
 									data-err-src="assets/public/img/ic_teacher.png"
 									class="img-circle imgPreviewM"
-									data-ng-click="dashboard.openUserCard(c.id)">	
-									{{dashboard.selectedUserID}}
-									<user-card userid="{{c.id}}" ng-show="dashboard.showCard"></user-card>							
+									data-ng-click="dashboard.openUserCard(c.id)">
+									<!-- <user-card userid="{{c.id}}" ng-show="dashboard.showCard"></user-card> -->							
 							</a>
 						</div>
 					</div>
