@@ -139,6 +139,7 @@
 	<script src="/assets/public/js/directives/updatePostOnScroll.js"></script>
 	<script src="/assets/public/js/directives/mapPostView.js"></script>
 	<script src="/assets/public/js/directives/mapScenario.js"></script>
+	<script src="/assets/public/js/directives/customDatePicker.js"></script>
 	<script src="/assets/public/js/support/jqSupport.js"></script>
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->
