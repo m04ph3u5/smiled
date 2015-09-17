@@ -61,6 +61,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					
 					}, function(reason){
 						console.log("errore");
+						$state.go("logged.dashboard");
 					}
 			);
 			self.scenarioCover = CONSTANTS.urlScenarioCover(id);
@@ -298,7 +299,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //		}
 		
 		
-		
+		self.exitWizard = function(){
+			self.saveInfo();
+			self.checkOpenAccordion();
+		}
 		
 		self.saveInfo = function(){
 			console.log("saveInfo");
@@ -633,7 +637,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.enterInScenario = function(){
-			self.saveInfo();
+			self.exitWizard();
 
 			$state.go("logged.scenario.posts", {id : id});
 		}
@@ -823,6 +827,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.openScenario = function(){
+			self.exitWizard();
 			var scenarioDTO = {"status": "ACTIVE"};
 			apiService.updateScenario(scenarioDTO, id).then(
 					function(data){
@@ -837,6 +842,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.closeScenario = function(){
+			self.exitWizard();
 			console.log("chiusura scenario da implementare");
 		}
 		

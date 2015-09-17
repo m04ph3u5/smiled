@@ -4,7 +4,7 @@ angular.module("smiled.application").constant("CONSTANTS",{
 //	"baseUrl" : "https://localhost:8443/ThesisProject",
 	"insertHistoricalDate" : "Data il post", 
 	"insertHistoricalDateEvent" : "Data l'evento", 
-	"historicalDateOutInterval": "Inserisci una data nell'intervallo dello scenario",
+	"historicalDateOutInterval": "Inserisci una data valida nell'intervallo dello scenario",
 	"lengthOfTooltipLikesList" : 10,
 	"visibleComment": 3,
 //	"regexForSearchTag" : "/\b[A-Z][-'a-zA-Z]+,?\s[A-Z][-'a-zA-Z]{0-19}\b/",

@@ -417,13 +417,31 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		Update u = new Update();
 		u.set("openScenarios.$.myCharacterId",null);
 		u.set("openScenarios.$.myCharacterName",null);
-		u.push("openScenarios.$.myPastCharactersId", characterId);
 		
-		WriteResult w = mongoOp.updateFirst(q, u, User.class);
-		if(w.isUpdateOfExisting())
+		
+		User user = mongoOp.findAndModify(q, u, User.class);
+		if(user!=null){
+			
+			for(ScenarioReference sr : user.getOpenScenarios()){
+				if(sr.getId().equals(scenarioId)){
+					sr.addPastCharacter(characterId);
+					sr.setMyCharacterId(null);
+					sr.setMyCharacterName(null);
+					Query q2= new Query();
+					q2.addCriteria(Criteria.where("id").is(userId)
+							.andOperator(Criteria.where("openScenarios._id").is(new ObjectId(scenarioId))));
+					Update u2 = new Update();
+					u2.set("openScenarios.$",sr);
+					user = mongoOp.findAndModify(q2, u2, User.class);
+					break;
+				}
+			}
+			
 			return true;
-		else
+		}
+		else 
 			return false;
+		
 	}
 
 	@Override

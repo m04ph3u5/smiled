@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -80,8 +81,14 @@ public class ScenarioReference {
 	}
 	
 	public void addPastCharacter(String id){
-		if(myPastCharactersId!=null)
+		if(myPastCharactersId!=null){
+			if(!myPastCharactersId.contains(id))
+				myPastCharactersId.add(id);
+		}
+		else{
+			myPastCharactersId = new ArrayList<String>();
 			myPastCharactersId.add(id);
+		}
 	}
 
 	public Date getCreationDate() {

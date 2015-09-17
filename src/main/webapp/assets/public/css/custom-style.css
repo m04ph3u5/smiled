@@ -788,7 +788,7 @@
 
 		.modal-dialog {
 /* 			  width: 500px; */
-			  background-color: rgba(224, 216, 169, 0.8);
+			  background-color: rgba(224, 216, 169, 1);
 		}
 		.modal-content{
 			border-radius: 0px;

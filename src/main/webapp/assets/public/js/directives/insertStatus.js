@@ -95,6 +95,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					toSendPost.imageMetaId = new Array();
 					toSendPost.fileMetaId = new Array();
 					toSendPost.tags = new Array();
+					
 					for(var i=0; i<self.newPost.image.length; i++){
 						toSendPost.imageMetaId.push(self.newPost.image[i].id);
 					}
@@ -117,7 +118,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable= true;
 								self.newPost.place = null;
-								self.newPost.tags = null;
+								self.newPost.tags = [];
 								apiService.getSingleStatus(self.scenario.id, data.id).then(
 										function(data){
 											self.posts.unshift(data);
