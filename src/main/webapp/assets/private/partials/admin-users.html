@@ -25,11 +25,13 @@
 						<li>
 							<b>Scenari in creazione in cui e' coinvolto:</b>
 							<ol>
-								<div data-ng-repeat="scenC in t.openScenarios">
+								<div data-ng-repeat="scenC in t.creatingScenarios">
 									<li>
 										<div>
-											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenC.id}}' })">{{scenC.name}}</a></u> <br> <b>Data di creazione: </b> 
-											{{scenC.creationDate | date}} - <b>Personaggio corrente: </b> - 
+											<b>{{scenC.name}}</b> - 
+								
+											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenC.id}}' })">Entra nel Wizard</a></u> <br> 
+											<b>Data di creazione: </b> {{scenC.creationDate | date}} - <b>Personaggio corrente: </b>  
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenC.id}}' , idCharacter: '{{scenC.myCharacterId}}' })">{{scenC.myCharacterName}}</a></u>
 										</div>
 									</li>
@@ -42,7 +44,9 @@
 								<div data-ng-repeat="scenO in t.openScenarios">
 									<li>
 										<div>
-											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> <br> <b>Data di creazione: </b> 
+											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
+											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
+											<br> <b>Data di creazione: </b> 
 											{{scenO.creationDate | date}} - <b>Personaggio corrente: </b> 
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
 										</div>
@@ -81,7 +85,8 @@
 								<div data-ng-repeat="scenOStudent in s.openScenarios">
 									<li>
 										<div>
-											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenOStudent.id}}' })">{{scenOStudent.name}}</a></u> <br> <b>Data di creazione: </b> 
+											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenOStudent.id}}' })">{{scenOStudent.name}}</a></u> - 
+											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenOStudent.id}}' })">Entra nel Wizard</a></u> <br> <b>Data di creazione: </b> 
 											{{scenOStudent.creationDate | date}} - <b>Personaggio corrente: </b> <u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenOStudent.id}}' , idCharacter: '{{scenOStudent.myCharacterId}}' })">
 											{{scenOStudent.myCharacterName}}</a></u> 
 										</div>
