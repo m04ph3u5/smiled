@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public UserDTO updateUserProfile(String userEmail, UserDTO userDTO) throws MongoException, BadRequestException{
 		try{
 			//Booleano che mi serve per capire se devo lanciare il thread asincrono che si occupa dell'aggiornamento dei Reference
-			//Diventa true se cambio nome, cognome o cover
+			//Diventa true se cambio nome o cognome 
 			//TODO da controllare quando gestiamo il cambio cover
 			boolean updateRef=false;
 			Update update = new Update();
@@ -127,8 +127,6 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 				updateRef=true;
 			}
 			if(userDTO.getProfile()!=null){
-//				if(userDTO.getProfile().getCoverPhoto()!=null)
-//					update.set("profile.coverPhoto", userDTO.getProfile().getCoverPhoto());
 				if(userDTO.getProfile().getGender()!=null)
 					update.set("profile.gender", userDTO.getProfile().getGender());
 				if(userDTO.getProfile().getBornDate()!=null)
