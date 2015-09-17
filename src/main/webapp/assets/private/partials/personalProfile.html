@@ -2,15 +2,14 @@
 	<div class="row">
 		<div class="col-md-1 col-lg-2"></div>
 		<div class="col-sm-5 col-md-4 col-lg-3 box boxBrown" id="imgProfile">
-
+			<h2 class="goUppercase">{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h2>
 			<img class="profilePicture img-circle" data-ng-src="{{personalProfile.url}}" data-err-src="assets/public/img/ic_teacher.png"></img>
 			<a href=""><img data-ng-show="personalProfile.isModifiable" class="overlapIconPP img"
 				src="assets/public/img/icon/ic_camera.png"
 				ngf-select
 				ngf-change="personalProfile.uploadCover($files)"> </a>			
-			<h1 class="goUppercase">{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h1>
-			<h3>{{personalProfile.ruolo}}</h3>
-			<h4 ng-if="personalProfile.user.profile.bornDate!=null">Data di nascita: {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</h4>
+			<h4>{{personalProfile.ruolo}}</h4>
+			<p ng-if="personalProfile.user.profile.bornDate!=null">Data di nascita: {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</p>
 			<!--  <h4>Scuola, materie insegnate / preferite, Interessi, Citazione</h4>-->
 		</div>
 		<div class="col-sm-7 col-md-6 col-lg-5 box fixedHeight imgProfile"

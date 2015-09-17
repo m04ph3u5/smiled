@@ -1,5 +1,5 @@
-angular.module('smiled.application').factory('userService', [ '$http', '$q',
-               function userService($http, $q){
+angular.module('smiled.application').factory('userService', [ '$http', '$q', '$cookies',
+               function userService($http, $q, $cookies){
 
 
 	
@@ -8,6 +8,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 		$http.get('/api/v1/me').then(
 			function(response){
 				u.resolve(response.data);
+				$cookies.put('myMescholaId', response.data.id);
 			},
 			function(reason){
 				u.reject(reason);
@@ -43,6 +44,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q',
 				function(data){
 					console.log("logged out");
 					user=null;
+					$cookies.remove('myMescholaId');
 					log.resolve(data);
 				},
 				function(reason){
