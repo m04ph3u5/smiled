@@ -9,22 +9,27 @@
 			</div>		
 	</div>
 	<div class="col-xs-12 marginMTop">
-		<img class="img-thumbnail imgPreviewL pull-left marginMRight"
-			data-ng-src="{{insertStatus.character.cover}}"
-			data-err-src="assets/public/img/icon/pg.png"></img>
 		<div class="row">
-			<h4 class="pull-left">{{insertStatus.character.name}} 
-				<span ng-if="insertStatus.tagIsSet || insertStatus.newPost.place.text">-</span> 
-				<span ng-if="insertStatus.tagIsSet" 
-					data-ng-click="insertStatus.switchShowTagBox()"> 
-					con <span class="linkPost">{{insertStatus.stringTags}}</span></span>
-				<span ng-if="insertStatus.tagIsSet && insertStatus.newPost.place.text">, </span> 
-				<span ng-if="insertStatus.newPost.place.text" 
-					data-ng-click="insertStatus.setPositionNewPost()"
-					class="linkPost">{{insertStatus.newPost.place.text}}</span>
-			</h4>
-			<textarea class="pull-left lessWidth" placeholder="A COSA STAVI PENSANDO?"
-			rows="3" data-ng-model="insertStatus.newPost.content"></textarea>				
+			<div class="col-xs-2 col-sm-3 col-md-2">
+				<img class="img-thumbnail imgPreviewL marginMRight"
+					data-ng-src="{{insertStatus.character.cover}}"
+					data-err-src="assets/public/img/icon/pg.png"></img>
+			</div>
+		
+			<div class="col-xs-8 col-sm-9 col-md-10">
+				<h4 class="pull-left">{{insertStatus.character.name}} 
+					<span ng-if="insertStatus.tagIsSet || insertStatus.newPost.place.text">-</span> 
+					<span ng-if="insertStatus.tagIsSet" 
+						data-ng-click="insertStatus.switchShowTagBox()"> 
+						con <span class="linkPost">{{insertStatus.stringTags}}</span></span>
+					<span ng-if="insertStatus.tagIsSet && insertStatus.newPost.place.text">, </span> 
+					<span ng-if="insertStatus.newPost.place.text" 
+						data-ng-click="insertStatus.setPositionNewPost()"
+						class="linkPost">{{insertStatus.newPost.place.text}}</span>
+				</h4>
+				<textarea class="pull-left allWidth" placeholder="A COSA STAVI PENSANDO?"
+				rows="3" data-ng-model="insertStatus.newPost.content"></textarea>
+			</div>				
 		</div>	
 	</div>
 
@@ -46,7 +51,8 @@
 		
 			<div title="Aggiungi una posizione al post"
 				class="tooltips glyphicon glyphicon-map-marker iconsMargin"
-				data-ng-click="insertStatus.setPositionNewPost(); insertStatus.hideTagBox()"></div>
+				data-ng-click="insertStatus.setPositionNewPost(); insertStatus.hideTagBox()"
+				data-ng-style="showNewsPost.colorMapMarker"></div>
 			<!-- 					<label></label> -->
 
 			<!-- 			<div title="Tagga personaggi al post" -->
@@ -54,7 +60,8 @@
 			<!-- 					type="character" scenario="{{insertStatus.scenario.id}}" style="margin-right: 5px;"></div> -->
 			<!-- 			<label></label> -->
 
-			<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="insertStatus.colorTagsMarker"
+			<div class="tooltips glyphicon glyphicon-tags iconsMargin" 
+				data-ng-style="insertStatus.colorTagsMarker"
 				title="Tagga personaggi al post"
 				data-ng-click="insertStatus.switchShowTagBox()">
 			</div>

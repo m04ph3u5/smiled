@@ -335,8 +335,15 @@
 		.marginLRight{
 			margin-right: 5%;
 		}
+		.marginMLeft{
+			margin-left: 1em;
+		}
 		.marginXLLeft{
 			margin-left: 20%;
+		}
+		
+		.paddingSRight{
+			padding-right:2%;
 		}
 		.paddingMRight{
 			padding-right:5%;
@@ -440,9 +447,6 @@
 			border-bottom: 30px solid transparent;
 			
 			border-left: 30px solid #cec18d;
-		}
-		.over{
-			z-index:10;
 		}
 /* Index */
 		.fillContent{
@@ -886,7 +890,7 @@
 			text-align: justify;
 			word-wrap: break-word;
 		}
-		.QuoteDescription{
+		.allWidth{
 			width:100%;
 		}
 		.charDescription{

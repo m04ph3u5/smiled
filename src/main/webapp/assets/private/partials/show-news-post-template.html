@@ -16,9 +16,14 @@
 					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
 						<span class="glyphicon glyphicon-user"></span>
 						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
-						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}, 						
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 						
 					</a>
-					<a data-ng-if="showNewsPost.isOwner" class="glyphicon glyphicon-cog"></a>						
+					<div class="marginMLeft dropdown pull-right">
+						<a class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="#" ng-click="editPost =! editPost">Modifica post</a></li>
+						 </ul>	
+					 </div>					
 				</span>	
 				<div class="row">					
 								
@@ -26,34 +31,127 @@
 											{{showNewsPost.post.character.name}}</a>
 					</h4>
 				</div>
-				<div class="row">
-					<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
-						<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-						<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
-					</p>
+				<div ng-show="!editPost">
+					<div class="row">
+						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
+						</p>
+					</div>
+					<div class="row text-left paddingMRight">
+						<p class="textJustify" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></p>
+					</div>
+					<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left marginSTop">
+						<b>Con: </b>
+						<span data-ng-repeat="t in showNewsPost.post.tags">
+							<a href="">{{t.firstname}}</a>
+						</span>
+					</div>					
+					<div class="row">								
+						<div class="row" data-ng-repeat="row in showNewsPost.post.media track by $index">
+							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
+								data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
+								<img data-ng-src="{{col}}" class="imgPreviewL marginMTop" />
+							</div>
+						</div>
+						<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
+							<div class="col-sm-2 textLeft noPadding">
+								<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self" download="{{file.originalName}}">{{file.originalName}}</a>
+							</div>
+						</div>
+					</div>	
 				</div>
-				<div class="row text-left paddingMRight">
-					<p class="textJustify" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></p>
-				</div>
-				<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left marginSTop">
-					<b>Con: </b>
-					<span data-ng-repeat="t in showNewsPost.post.tags">
-						<a href="">{{t.firstname}}</a>
-					</span>
-				</div>					
-				<div class="row">								
-					<div class="row" data-ng-repeat="row in showNewsPost.post.media track by $index">
-						<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
-							data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
-							<img data-ng-src="{{col}}" class="imgPreviewL marginMTop" />
+				<div ng-show="editPost">
+					<div class="row paddingMRight">
+						<textarea class="pull-left allWidth" rows="3">{{showNewsPost.post.text | linky:'_blank'}}</textarea>
+					</div>
+					<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left marginSTop">
+						<b>Con: </b>
+						<span data-ng-repeat="t in showNewsPost.post.tags">
+							<a href="">{{t.firstname}}</a>
+						</span>
+					</div>
+					<div class="row text-left" data-ng-show="showNewsPost.post.place.text"><b>Presso:</b> <i>{{showNewsPost.post.place.text}}</i></div>			
+					<div class="row extraContent marginSTop ">
+						<div class="pull-left marginSTop marginMRight">
+							<div title="Aggiungi un'immagine al post" ngf-select
+								ngf-change="showNewsPost.addImageToPost($files)"
+								class="tooltips glyphicon glyphicon-camera iconsMargin"
+								data-ng-style="showNewsPost.colorImageMarker"
+								data-ng-click="showNewsPost.hideTagBox()"></div>
+							
+							<div title="Allega un file al post" ngf-select
+								ngf-change="showNewsPost.addFileToPost($files)"
+								class="tooltips glyphicon glyphicon-file iconsMargin"
+								data-ng-style="showNewsPost.colorFileMarker"
+								data-ng-click="showNewsPost.hideTagBox()"></div>
+						
+							<div title="Aggiungi una posizione al post"
+								class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()"
+								data-ng-style="showNewsPost.colorMapMarker"></div>
+				
+							<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="showNewsPost.colorTagsMarker"
+								title="Tagga personaggi al post"
+								data-ng-click="showNewsPost.switchShowTagBox()">
+							</div>
 						</div>
 					</div>
-					<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
-						<div class="col-sm-2">
-							<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self" download="{{file.originalName}}">{{file.originalName}}</a>
+					<div class="col-xs-12 extraContent text-left">		
+	
+						<tags-input data-ng-show="showNewsPost.showTagBox"
+							data-ng-model="showNewsPost.post.tags" display-property="name"
+							placeholder="TAGGA UN AMICO" replace-spaces-with-dashes="false"
+							template="tag-template" add-from-autocomplete-only="true">
+						<auto-complete source="showNewsPost.search($query,true)"
+							min-length="0" load-on-focus="true" load-on-empty="true"
+							max-results-to-show="32" template="autocomplete-template">
+						</auto-complete> </tags-input>
+			
+				
+						<div class="row">
+							<div class="row" data-ng-repeat="row in showNewsPost.post.media track by $index">
+							<div data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 text-left imgToPost">
+								<img data-ng-src="{{col}}" class="imgPreviewL" />
+								<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
+										data-ng-click="showNewsPost.removeImage(image)"></span></div>
+								</div>
+							</div>
+							
+							<div data-ng-repeat="image in showNewsPost.post.image">
+								<div class="col-lg-2 col-md-3 imgToPost">
+									<img class="img imgPreviewL" ng-src="{{showNewsPost.getMedia(image.id)}}">
+									
+									
+							<!-- 					<div title="Indica le tue fonti" -->
+							<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
+							<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
+							<!-- 					<label></label> -->
+							<!-- 				</div> -->
+			
+								</div>
+							</div>
+						</div>
+						<!-- Inserire icone -->
+						<div class="row">
+							<div data-ng-repeat="file in showNewsPost.post.filesMetadata">				
+									<div class="col-sm-2 textLeft noPadding">
+										{{file.originalName}} 
+										<span data-ng-show="file.originalName" show-on-hover-parent
+											class="glyphicon glyphicon-remove"
+											data-ng-click="showNewsPost.removeFile(file)"></span>
+									</div>
+							</div>
 						</div>
 					</div>
-				</div>							
+					<div class="row col-xs-12">
+						<div class="pull-right">
+							<div data-ng-click="editPost =! editPost"
+								class="btn generalButton">AGGIORNA POST</div>
+							</div>
+					</div>
+				</div>
+										
 				<div class="row">
 					<div class="col-xs-12 noPaddingLeft">
 					<hr></div>
@@ -348,3 +446,25 @@
 <!-- 		</div> -->
 <!-- 	</div> -->
 <!-- </div> -->
+<script type="text/ng-template" id="tag-template">
+      <div class="tag-template">
+ <!--       <div class="left-panel">
+          <img class="imgPreviewM" data-ng-src="{{data.cover}}" data-err-src="assets/public/img/user_ico.png"/>
+        </div> -->
+        <div class="right-panel">
+          <span>{{$getDisplayText()}}</span>
+          <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
+        </div>
+      </div>
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+      <div class="autocomplete-template">
+        <div class="left-panel">
+          <img class="imgPreviewM" data-ng-src="{{data.cover}}" data-err-src="assets/public/img/user_ico.png"/>
+        </div>
+        <div class="right-panel">
+          <span ng-bind-html="$highlight($getDisplayText())"></span>
+        </div>
+      </div>
+</script>
