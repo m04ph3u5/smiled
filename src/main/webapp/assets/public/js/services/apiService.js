@@ -1,7 +1,7 @@
  angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Restangular',
                                                             function apiService($http,$q, Restangular){
 
-	/*TODO Da riscrivere utilizzando il pattern giusto $http*/
+	/* TODO Da riscrivere utilizzando il pattern giusto $http */
 
 	var register = Restangular.one('register');
 
@@ -10,19 +10,19 @@
 		return register.post("",registerObject);
 	}
 
-//	function createScenario(scenarioDTO){
-//	var scenario = Restangular.one("scenarios");
-//	console.log(scenarioDTO);
-//	return scenario.post("",scenarioDTO);
-//	}
+// function createScenario(scenarioDTO){
+// var scenario = Restangular.one("scenarios");
+// console.log(scenarioDTO);
+// return scenario.post("",scenarioDTO);
+// }
 
-//	function updateScenario(id,scenarioDTO){
-//	var scenario = Restangular.one("scenarios",id);
-//	scenario.name = scenarioDTO.name;
-//	scenario.startHistoryDate = scenarioDTO.startHistoryDate;
-//	scenario.endHistoryDate = scenarioDTO.endHistoryDate;
-//	scenario.put();		
-//	}
+// function updateScenario(id,scenarioDTO){
+// var scenario = Restangular.one("scenarios",id);
+// scenario.name = scenarioDTO.name;
+// scenario.startHistoryDate = scenarioDTO.startHistoryDate;
+// scenario.endHistoryDate = scenarioDTO.endHistoryDate;
+// scenario.put();
+// }
 	/*-----------------------------------------------------------*/	
 
 	var getScenario = function(idScenario){
@@ -230,7 +230,7 @@
 		return c.promise;
 	}
 
-	/*      -------------- GESTIONE DEI POST-----------------*/	
+	/* -------------- GESTIONE DEI POST----------------- */	
 
 	var sendStatus = function(id, idCharacter, status){
 		var s = $q.defer();
@@ -250,6 +250,38 @@
 
 		$http.get("/api/v1/scenarios/"+id+"/posts", {
 			params: { "nPag": nPag, "nItem": nItem, "historicOrder": historicalOrder }}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
+	var getPagedTeachers = function(nPag, nItem){
+		var c = $q.defer();
+
+		$http.get("/api/v1/teachers", {
+			params: { "nPag": nPag, "nItem": nItem}}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
+	var getPagedStudents = function(nPag, nItem){
+		var c = $q.defer();
+
+		$http.get("/api/v1/students", {
+			params: { "nPag": nPag, "nItem": nItem}}).then(
 					function(response){
 						c.resolve(response.data);
 					},
@@ -362,17 +394,17 @@
 	}
 
 
-//	var onSuccessGetScenario = function(response){
-//	console.log("Getting data scenario: "+response.data);
-//	scenarios = response.data;
-//	return scenarios;
-//	}
+// var onSuccessGetScenario = function(response){
+// console.log("Getting data scenario: "+response.data);
+// scenarios = response.data;
+// return scenarios;
+// }
 
-//	var onErrorGetScenario = function(reason){
-//	console.log("Error retreaving scenario: "+reason);
-//	}
+// var onErrorGetScenario = function(reason){
+// console.log("Error retreaving scenario: "+reason);
+// }
 	
-	/* inizio GESTIONE COMPITI ----------------------------------*/
+	/* inizio GESTIONE COMPITI ---------------------------------- */
 	var createMission = function(idScenario, mission){
 		var s = $q.defer();
 
@@ -420,7 +452,7 @@
 
 		return s.promise;
 	}
-	/* fine GESTIONE COMPITI ----------------------------------*/
+	/* fine GESTIONE COMPITI ---------------------------------- */
 	
 	return {
 		postRegister: postRegister,
@@ -440,7 +472,7 @@
 		addUserToCharacter: addUserToCharacter,
 		removeUserFromCharacter: removeUserFromCharacter,
 		getPagedTeacherByRegex : getPagedTeacherByRegex,
-		/*Gesitone post*/
+		/* Gesitone post */
 		sendStatus: sendStatus,
 		getPagedPosts : getPagedPosts,
 		getSingleStatus: getSingleStatus,
@@ -451,7 +483,9 @@
 		createMission: createMission,
 		getMyMissionsInScenario : getMyMissionsInScenario,
 		getMyMissions : getMyMissions,
-		postIssue: postIssue
+		postIssue: postIssue,
+		getPagedStudents: getPagedStudents,
+		getPagedTeachers: getPagedTeachers
 		
 	}
 

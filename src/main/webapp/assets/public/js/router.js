@@ -23,7 +23,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Mescola'
+				pageTitle : 'Meschola'
 			}
 		})
 		.state('notLogged.login',{
@@ -41,7 +41,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Login - Mescola'
+				pageTitle : 'Login - Meschola'
 			}
 		})
 		.state('notLogged.policy',{
@@ -57,7 +57,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Cookie policy - Mescola'
+				pageTitle : 'Cookie policy - Meschola'
 			}
 		})
 		.state('logged',{
@@ -99,7 +99,7 @@ angular.module('smiled.application')
 			
 			},
 			data : {
-				pageTitle : 'Mescola'
+				pageTitle : 'Meschola'
 			}
 		})
 		.state('logged.dashboard.teacher',{
@@ -121,13 +121,33 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard.admin',{
+			url : "/admin",
 			views: {
 				'content@logged': {
 					templateUrl: 'assets/private/partials/dashboardAdmin.html',
-					controller: "dashboardCtrl",
-					controllerAs: "dashboard"
+					controller: "dashboardAdminCtrl",
+					controllerAs: "dashboardAdmin"
 				}
+			},
+			data : {
+				pageTitle : 'Amministrazione - Meschola'
 			}
+		})
+		.state('logged.dashboard.admin.scenarios',{
+			url : "/scenari",
+			templateUrl: "assets/private/partials/admin-scenarios.html",
+		})
+		.state('logged.dashboard.admin.users',{
+			url : "/utenti",
+			templateUrl: "assets/private/partials/admin-users.html",
+		})
+		.state('logged.dashboard.admin.characters',{
+			url : "/personaggi",
+			templateUrl: "assets/private/partials/admin-characters.html",
+		})
+		.state('logged.dashboard.admin.posts',{
+			url : "/post",
+			templateUrl: "assets/private/partials/admin-posts.html",
 		})
 		.state('logged.dashboard.scenariosList',{
 			url: "scenari",
@@ -139,7 +159,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'I miei scenari - Mescola'
+				pageTitle : 'I miei scenari - Meschola'
 			}
 		})
 		.state('logged.dashboard.studentsList',{
@@ -152,7 +172,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'I miei studenti - Mescola'
+				pageTitle : 'I miei studenti - Meschola'
 			}
 		})
 		.state('logged.dashboard.colleaguesList',{
@@ -165,7 +185,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'I miei colleghi - Mescola'
+				pageTitle : 'I miei colleghi - Meschola'
 			}
 		})
 		.state('logged.dashboard.filesList',{
@@ -178,7 +198,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Il mio materiale - Mescola'
+				pageTitle : 'Il mio materiale - Meschola'
 			}
 		})
 		.state('logged.userProfile',{
@@ -194,7 +214,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Profilo - Mescola'
+				pageTitle : 'Profilo - Meschola'
 			}
 		})
 		.state('logged.scenario',{
@@ -231,7 +251,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Mescola'
+				pageTitle : 'Meschola'
 			}
 		})
 		.state('logged.scenario.storyline',{
@@ -244,7 +264,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Storyline - Mescola'
+				pageTitle : 'Storyline - Meschola'
 			}
 		})
 		.state('logged.scenario.characters',{
@@ -257,7 +277,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'I personaggi - Mescola'
+				pageTitle : 'I personaggi - Meschola'
 			}
 		})
 		.state('logged.scenario.map',{
@@ -270,7 +290,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'La mappa - Mescola'
+				pageTitle : 'La mappa - Meschola'
 			}
 		})
 		.state('logged.scenario.charprofile',{
@@ -286,7 +306,7 @@ angular.module('smiled.application')
 				idCharacter: null
 			},
 			data : {
-				pageTitle : 'Profilo - Mescola'
+				pageTitle : 'Profilo - Meschola'
 			}
 		})
 		.state('logged.scenarioWizard',{
@@ -303,7 +323,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Gestisci scenario - Mescola'
+				pageTitle : 'Gestisci scenario - Meschola'
 			}
 		})
 		.state('logged.scenarioWizard.info',{
@@ -510,7 +530,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Mescola - Conferma registrazione'
+				pageTitle : 'Meschola - Conferma registrazione'
 			}
 		})
 		.state('notLogged.notFound',{
@@ -526,7 +546,7 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : '404 - Mescola'
+				pageTitle : '404 - Meschola'
 			}
 		});
 		
