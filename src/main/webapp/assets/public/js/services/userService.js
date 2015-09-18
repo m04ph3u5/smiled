@@ -57,10 +57,12 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 	
 	var login = function(email, password){
 		var log = $q.defer();
+		var e=encodeURIComponent(email);
+		var p=encodeURIComponent(password);
 		$http({
 			url: '/apiLogin',
 			method: 'POST',
-			data: 'j_username='+email+'&j_password='+password+"&submit=",
+			data: 'j_username='+e+'&j_password='+p+"&submit=",
 			headers: {
 				'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
 			}
