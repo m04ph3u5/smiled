@@ -18,7 +18,7 @@
 <!-- ELENCO POST update-post-on-scrool stop="scenarioPost.stopUpdatePost()" start="scenarioPost.startUpdatePost() -->
 <div class="row" update-post-on-scrool stop="scenarioPost.stopUpdatePost()" start="scenarioPost.startUpdatePost()">
 	<div data-ng-repeat="s in scenarioPost.posts">
-		<show-news-post post="s" scenario-id="{{scenarioPost.scen.id}}" 
+		<show-news-post post="s" scenario="scenarioPost.scen" 
 			logged-user= "scenario.loggedUser" current-character="scenario.currentCharacter"
 			map-id="{{scenarioPost.scen.history.mapId}}"></show-news-post>
 	</div>

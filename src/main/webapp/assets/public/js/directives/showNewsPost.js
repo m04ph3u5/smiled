@@ -5,7 +5,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			templateUrl: "assets/private/partials/show-news-post-template.html",
 			scope : {
 				post: "=",
-				scenarioId : "@",
+				scenario : "=",
 				mapId : "@",
 				currentCharacter : "=",
 				loggedUser : "="
@@ -14,7 +14,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				var self = this;
 				self.isOwner = false;
 				self.showTagBox=false;
-				self.scenario = apiService.getScenario(self.scenarioId);
+				console.log(self.scenario);
 				
 				if(self.post.imagesMetadata.length >0){
 					console.log(self.post.imagesMetadata.length);

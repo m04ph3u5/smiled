@@ -23,17 +23,17 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 //                 date.day - 32075 ;
 //        	}
         	
-        	var dateToJulianNumber = function(date){
-        		var d = angular.copy(date);
-//        		if(d.era=="A.C.")
-//        			d.year=d.year*(-1);
-        		var c0 = Math.floor((d.month-3)/12);
-        		var x4 = d.year+c0;
-        		var x3 = parseInt(x4/100);
-        		var x2 = x4%100;
-        		var x1 = d.month - 12*c0 -3;
-        		return Math.floor((146097*x3)/4) + Math.floor((36525*x2)/100) + Math.floor((153*x1 + 2)/5) + d.day + 1721119;
-        	}
+//        	var dateToJulianNumber = function(date){
+//        		var d = angular.copy(date);
+////        		if(d.era=="A.C.")
+////        			d.year=d.year*(-1);
+//        		var c0 = Math.floor((d.month-3)/12);
+//        		var x4 = d.year+c0;
+//        		var x3 = parseInt(x4/100);
+//        		var x2 = Math.abs(x4%100);
+//        		var x1 = d.month - 12*c0 -3;
+//        		return Math.floor((146097*x3)/4) + Math.floor((36525*x2)/100) + Math.floor((153*x1 + 2)/5) + d.day + 1721119;
+//        	}
         	
 //        	var julianNumberToDate = function(jd,date){
 //        		var l = jd + 68569;
@@ -55,31 +55,56 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 //    	        date.dow = (Math.floor(jd))%7;
 //        	}
         	
+//        	var julianNumberToDate = function(jd,date){
+//        		var x3 = parseInt((4*jd - 6884477)/146097);
+//        		var r3 = Math.abs((4*jd - 6884477)%146097);
+//        		
+//        		var x2 = parseInt((100*Math.floor(r3/4)+99)/36525);
+//        		var r2 = Math.abs((100*Math.floor(r3/4)+99)%36525);
+//        		
+//        		var x1 = parseInt((5*Math.floor(r2/100)+2)/153);
+//        		var r1 = Math.abs((5*Math.floor(r2/100)+2)%153);
+//        		
+//        		date.day = Math.floor(r1/5)+1;
+//        		c0 = Math.floor((x1+2)/12);
+//        		date.year = 100*x3 + x2 +c0;
+//        		date.month = x1 - 12*c0 + 3;
+//        		
+////        		 if(date.year<0){
+////     	        	date.era="A.C.";
+////     	        	date.year=date.year*(-1);
+////     	        }else{
+////     	        	date.era="";
+////     	        }
+//     	        date.dow = (Math.floor(jd))%7;
+//        	}
+        	
+        	var dateToJulianNumber = function(date){
+        		var J0 = 1721117;
+        		c0 = Math.floor((date.month-3)/12);
+        		var j1 = Math.floor((1461*(date.year+c0))/4);
+        		var j2 = Math.floor((153*date.month-1836*c0-457)/5);
+        		return j1 +j2 + date.day + J0;
+        	}
+        	
         	var julianNumberToDate = function(jd,date){
-        		var x3 = parseInt((4*jd - 6884477)/146097);
-        		var r3 = (4*jd - 6884477)%146097;
-        		var x2 = parseInt((100*Math.floor(r3/4)+99)/36525);
-        		var r2 = (100*Math.floor(r3/4)+99)%36525;
-        		var x1 = parseInt((5*Math.floor(r2/100)+2)/153);
-        		var r1 = (5*Math.floor(r2/100)+2)%153;
-        		date.day = Math.floor(r1/5)+1;
-        		c0 = Math.floor((x1+2)/12);
-        		date.year = 100*x3 + x2 +c0;
-        		date.month = x1 - 12*c0 + 3;
-//        		 if(date.year<0){
-//     	        	date.era="A.C.";
-//     	        	date.year=date.year*(-1);
-//     	        }else{
-//     	        	date.era="";
-//     	        }
-     	        date.dow = (Math.floor(jd))%7;
+        		var y2 = jd - 1721118;
+        		var k2 = 4*y2 + 3;
+        		var k1 = 5*Math.floor((k2%1461)/4)+2;
+        		var x1 = Math.floor(k1/153);
+        		var c0 = Math.floor((x1+2)/12);
+        		date.year = Math.floor(k2/1461)+c0;
+        		date.month = x1 - 12*c0 +3;
+        		date.day = Math.floor((k1%153)/5)+1;
         	}
         	
         	julianNumberToDate(parseInt(self.startDateNumber), self.startDate);
-    		julianNumberToDate(self.startDateNumber-(self.startDate.day-1),self.currentMonthDate);
+        	console.log(self.startDate);
+       		julianNumberToDate(self.startDateNumber-(self.startDate.day-1),self.currentMonthDate);
+        
         	julianNumberToDate(parseInt(self.endDateNumber), self.endDate);
         	
-        	console.log(self.startDate);
+        	console.log(self.currentMonthDate);
         	
         	var getNumDaysOfMonth = function(month, year){
         		if(month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)
