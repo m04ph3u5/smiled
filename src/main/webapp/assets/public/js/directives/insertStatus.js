@@ -333,15 +333,14 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*Function to open map*/
 			self.colorMapMarker = {};
 			self.setPositionNewPost = function(){
-			self.placeIsSet = false;
-			self.placeName = "";
-//				console.log("setPositionNewMap");
-//				var mapsArray = [];
-//				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
-//				mapsArray.push(map);
-//				Lightbox.openModal(mapsArray,0);
-				var map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
+				var map;
+				if(self.scenario.history.mapId) 
+					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
+				else
+					map = null;
+				
 				modalService.showModalOpenMap(self.newPost,map);
+
 			}
 			/*--------------------*/
 
