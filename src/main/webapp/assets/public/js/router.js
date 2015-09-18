@@ -129,9 +129,13 @@ angular.module('smiled.application')
 					controllerAs: "dashboardAdmin"
 				}
 			},
-			data : {
+			data: {
+				permissions: {
+					only: ['admin'],
+					redirectTo: 'logged.dashboard' 
+				},
 				pageTitle : 'Amministrazione - Meschola'
-			}
+			},
 		})
 		.state('logged.dashboard.admin.scenarios',{
 			url : "/scenari",
