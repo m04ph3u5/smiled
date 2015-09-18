@@ -59,17 +59,18 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		}
 		
 		if(self.scen.status=="ACTIVE"){
-			for(var i=0; i<loggedUser.openScenarios.length; i++){
-				if(loggedUser.openScenarios[i].id==self.scen.id){
-					if(loggedUser.openScenarios[i].myCharacterId){
-						var date = new Date();
-						self.hasCharacter=true;
-						self.currentCharacter.id = loggedUser.openScenarios[i].myCharacterId;
-						self.currentCharacter.name = loggedUser.openScenarios[i].myCharacterName;
-						self.currentCharacter.cover = CONSTANTS.urlCharacterCover(self.scen.id, self.currentCharacter.id)+"?"+date.toString();
+			if(loggedUser.openScenarios!=null)
+				for(var i=0; i<loggedUser.openScenarios.length; i++){
+					if(loggedUser.openScenarios[i].id==self.scen.id){
+						if(loggedUser.openScenarios[i].myCharacterId){
+							var date = new Date();
+							self.hasCharacter=true;
+							self.currentCharacter.id = loggedUser.openScenarios[i].myCharacterId;
+							self.currentCharacter.name = loggedUser.openScenarios[i].myCharacterName;
+							self.currentCharacter.cover = CONSTANTS.urlCharacterCover(self.scen.id, self.currentCharacter.id)+"?"+date.toString();
+						}
 					}
 				}
-			}
 			//if(!self.isModerator && !self.isCreator)
 				//findMyMissions();
 		}
