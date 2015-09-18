@@ -72,6 +72,7 @@ public class ScenarioController extends BaseController{
 	@Autowired
 	private ScenarioService scenarioService;
 	
+	private int maxItem = 20;
 	
 	//Ritorna l'id dello scenario creato se si è riusciti a crearlo (e prende in ingresso un oggetto ScenarioDTO)
 	//Quando viene creato, uno scenario è privo di users, collaborators e characters, ma ha il teacherCreator

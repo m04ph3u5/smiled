@@ -245,6 +245,19 @@
 		return s.promise;
 	}
 
+	var updateStatus = function(id, idStatus){
+		var s = $q.defer();
+		$http.post("/api/v1/scenarios/"+id+"/status/"+idStatus).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
 	var getPagedPosts = function(id, nPag, nItem, historicalOrder){
 		var c = $q.defer();
 
@@ -474,6 +487,7 @@
 		getPagedTeacherByRegex : getPagedTeacherByRegex,
 		/* Gesitone post */
 		sendStatus: sendStatus,
+		updateStatus: updateStatus,
 		getPagedPosts : getPagedPosts,
 		getSingleStatus: getSingleStatus,
 		addLikeToPost: addLikeToPost,

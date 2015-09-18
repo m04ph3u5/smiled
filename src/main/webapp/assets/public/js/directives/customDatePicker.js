@@ -89,13 +89,13 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	
         	var julianNumberToDate = function(jd,date){
         		var y2 = jd - 1721118;
-        		var k2 = 4*y2 + 3;
-        		var k1 = 5*Math.floor((k2%1461)/4)+2;
+        		var k2 = (4*y2) + 3;
+        		var k1 = 5*Math.floor(Math.abs(parseInt(k2%1461))/4)+2;
         		var x1 = Math.floor(k1/153);
         		var c0 = Math.floor((x1+2)/12);
-        		date.year = Math.floor(k2/1461)+c0;
-        		date.month = x1 - 12*c0 +3;
-        		date.day = Math.floor((k1%153)/5)+1;
+        		date.year = Math.floor(k2/1461) + c0;
+        		date.month = x1 -12*c0 + 3;
+        		date.day = Math.floor((Math.abs(parseInt(k1%153)))/5) + 1;
         	}
         	
         	julianNumberToDate(parseInt(self.startDateNumber), self.startDate);

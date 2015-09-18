@@ -55,6 +55,8 @@ public class UserController extends BaseController{
 	@Autowired
 	private UserDTOValidator userDTOValidator;
 	
+	private int maxItem = 20;
+	
 	@RequestMapping(value="/v1/register", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void registerUser(@RequestBody @Valid RegisterTeacherDTO registerTeacherDTO, BindingResult result)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, UserAlreadyExistsException, BadRequestException{
@@ -124,9 +126,9 @@ public class UserController extends BaseController{
 			@RequestParam(value = "nPag", required=false) Integer nPag, 
 			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
 		if(nPag==null)
-			nPag=1;
-		if(nItem==null || nItem>10 || nItem<0)
-			nItem=10;
+			nPag=0;
+		if(nItem==null || nItem>maxItem || nItem<0)
+			nItem=maxItem;
 		String userEmail = activeUser.getUsername();
 		//TODO service da fare
 		return userService.getUserMessages(userEmail, nPag, nItem);
@@ -140,9 +142,9 @@ public class UserController extends BaseController{
 			@RequestParam(value = "nPag", required=false) Integer nPag, 
 			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
 		if(nPag==null)
-			nPag=1;
-		if(nItem==null || nItem>10 || nItem<0)
-			nItem=10;
+			nPag=0;
+		if(nItem==null || nItem>maxItem || nItem<0)
+			nItem=maxItem;
 		String userEmail = activeUser.getUsername();
 		
 		//Non controllo che userId sia nella mia lista di relazioni perch� potrei averlo avuto in passato e vorrei quindi poter accedere ai messaggi tra me e quell'utente
@@ -231,8 +233,8 @@ public class UserController extends BaseController{
 			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
 		if(nPag==null)
 			nPag=0;
-		if(nItem==null || nItem>10 || nItem<=0)
-			nItem=10;
+		if(nItem==null || nItem>maxItem || nItem<=0)
+			nItem=maxItem;
 		if(regex == null || regex.isEmpty() || regex.length()<2)  
 			throw new BadRequestException();
 		Page<Reference> teachersPage = userService.getAllTeachersByRegex(regex, nPag, nItem);
@@ -257,8 +259,8 @@ public class UserController extends BaseController{
 			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
 		if(nPag==null)
 			nPag=0;
-		if(nItem==null || nItem>10 || nItem<=0)
-			nItem=10;
+		if(nItem==null || nItem>maxItem || nItem<=0)
+			nItem=maxItem;
 		return userService.getAllUsers(nPag, nItem, 3); //il terzo parametro indica che voglio tutti gli user (sia teacher che student che moderator)
 	}
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -268,8 +270,8 @@ public class UserController extends BaseController{
 			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
 		if(nPag==null)
 			nPag=0;
-		if(nItem==null || nItem>10 || nItem<=0)
-			nItem=10;
+		if(nItem==null || nItem>maxItem || nItem<=0)
+			nItem=maxItem;
 		return userService.getAllUsers(nPag, nItem, 1); //il terzo parametro indica che cerco dei teacher
 	}
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -279,8 +281,8 @@ public class UserController extends BaseController{
 			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
 		if(nPag==null)
 			nPag=0;
-		if(nItem==null || nItem>10 || nItem<=0)
-			nItem=10;
+		if(nItem==null || nItem>maxItem || nItem<=0)
+			nItem=maxItem;
 		return userService.getAllUsers(nPag, nItem, 2); //il terzo parametro indica che cerco degli student
 	}
 	/*----------------------------------------------ADMIN API END--------------------------------------- */

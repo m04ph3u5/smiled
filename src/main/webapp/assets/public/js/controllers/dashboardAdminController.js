@@ -70,14 +70,14 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	
 	self.resetTeachers = function(){
 		self.myListOfTeachers = [];
-		self.nItemTeachers=10;
+		self.nItemTeachers=nItemDefault;
 		self.nPagTeachers=0;
 		self.noMoreTeachers = "";
 		self.numTeachersFounded=0;
 	}
 	self.resetStudents = function(){
 		self.myListOfStudents = [];
-		self.nItemStudents=10;
+		self.nItemStudents=nItemDefault;
 		self.nPagStudents=0;
 		self.noMoreStudents = "";
 		self.numStudentsFounded=0;

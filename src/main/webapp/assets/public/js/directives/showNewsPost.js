@@ -14,6 +14,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				var self = this;
 				self.isOwner = false;
 				self.showTagBox=false;
+				
 				console.log(self.scenario);
 				
 				if(self.post.imagesMetadata.length >0){
@@ -146,6 +147,10 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					return CONSTANTS.urlMedia(id);
 				}
 
+				self.savePostUpdates = function(){
+					var postToSend = self.post;
+				}
+				
 				
 				/*Function to pass to autocomplete of tag-input-directive*/
 				self.search = function($query,isChar){
