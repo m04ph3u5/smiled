@@ -357,6 +357,10 @@
 		.paddingMLeft{
 			padding-left:5%;
 		}
+		.noPadding{
+			padding:0px !important;
+		}
+		
 		.goUppercase{
 			text-transform:uppercase
 		}
@@ -374,9 +378,18 @@
 			width:150px;
 			object-fit: cover;
 		}
+		.imgPreviewXM{
+			height:75px;
+			width:75px;
+			object-fit: cover;
+		}
 		.imgPreviewM{
 			height:50px;
 			width:50px;
+			object-fit: cover;
+		}
+		.imgPreviewM2{
+			height:50px;
 			object-fit: cover;
 		}
 
@@ -960,9 +973,7 @@
 			float:left;
 		}
 		
-		.noPadding{
-			padding:0px;
-		}
+
 		.noPaddingLeft{
 			padding-left:0px;
 		}
