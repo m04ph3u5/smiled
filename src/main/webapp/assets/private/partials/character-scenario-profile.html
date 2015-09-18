@@ -102,7 +102,7 @@
 						ng-show="!editDescription && characterProfile.currentChar==characterProfile.idChar
 						&& characterProfile.newDescription!=null && characterProfile.newDescription!=''"></span>
 						<span >
-							<textarea class="QuoteDescription" rows="5" ng-show="editDescription" ng-model="characterProfile.newDescription">{{characterProfile.character.description}}</textarea>				
+							<textarea class="allWidth" rows="5" ng-show="editDescription" ng-model="characterProfile.newDescription">{{characterProfile.character.description}}</textarea>				
 							<div class="pull-right btn generalButton" style="display:block" ng-click="editDescription =! editDescription; characterProfile.updateChar()" ng-show="editDescription">OK</div>
 							
 						</span>
@@ -159,7 +159,7 @@
 				</blockquote>
 				
 				<blockquote ng-show="editQuote">
-					<textarea class="QuoteDescription" ng-show="editQuote">{{characterProfile.character.quote}}</textarea>				
+					<textarea class="allWidth" ng-show="editQuote">{{characterProfile.character.quote}}</textarea>				
 					
 					<footer>{{characterProfile.character.name}}</footer>					
 				</blockquote>

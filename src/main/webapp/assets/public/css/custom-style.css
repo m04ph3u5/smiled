@@ -335,8 +335,15 @@
 		.marginLRight{
 			margin-right: 5%;
 		}
+		.marginMLeft{
+			margin-left: 1em;
+		}
 		.marginXLLeft{
 			margin-left: 20%;
+		}
+		
+		.paddingSRight{
+			padding-right:2%;
 		}
 		.paddingMRight{
 			padding-right:5%;
@@ -883,7 +890,7 @@
 			text-align: justify;
 			word-wrap: break-word;
 		}
-		.QuoteDescription{
+		.allWidth{
 			width:100%;
 		}
 		.charDescription{

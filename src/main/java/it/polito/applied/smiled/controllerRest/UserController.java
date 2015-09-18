@@ -15,10 +15,12 @@ import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.UserService;
 import it.polito.applied.smiled.validator.UserDTOValidator;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import org.springframework.data.mongodb.core.MongoDataIntegrityViolationExceptio
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -175,9 +178,20 @@ public class UserController extends BaseController{
 	public UserDTO getOneUser(@PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, UserNotFoundException{
 		//TODO gestire permessi amici
 		UserDTO userDTO;
+		boolean isAdmin = false;
 		if(!activeUser.getId().equals(userId)){
-			if(!activeUser.getRelationsId().contains(userId))
-				throw new UserNotFoundException();
+			if(!activeUser.getRelationsId().contains(userId)){
+				ArrayList<GrantedAuthority> authorities = (ArrayList<GrantedAuthority>) activeUser.getAuthorities();
+				for(int i=0; i<authorities.size(); i++){
+					if(authorities.get(i).getAuthority().equals("ROLE_ADMIN")){
+						isAdmin=true;
+						break;
+					}
+						
+				}
+				if(isAdmin==false)
+					throw new UserNotFoundException();
+			}
 			userDTO = userService.getUserById(userId);
 			
 			//userDTO.setRole(null);

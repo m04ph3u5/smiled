@@ -1,10 +1,12 @@
-angular.module('smiled.application').controller('personalProfileCtrl', ['Upload','userService', '$stateParams', 'CONSTANTS',
-                                                              function personalProfileCtrl(Upload, userService, $stateParams, CONSTANTS){
+angular.module('smiled.application').controller('personalProfileCtrl', ['Upload','userService', '$stateParams', 'CONSTANTS', '$cookies',
+                                                              function personalProfileCtrl(Upload, userService, $stateParams, CONSTANTS, $cookies){
 	
 	var self = this;
 	var id = null;
 	var role = null;
 	self.ruolo = null;
+	
+	var myIdentity = $cookies.get('myMescholaId');
 	
 	var onSuccessGetUser = function(data){
 		self.user = data;
@@ -28,7 +30,17 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		id = $stateParams.id;
 	if(id){
 		userService.getUser(id).then(onSuccessGetUser, onErrorGetUser);
-		self.url = CONSTANTS.urlUserCover(id);
+		
+		if(id == myIdentity){
+			self.url = CONSTANTS.urlMeCover;
+			self.coverLarge = CONSTANTS.urlMeCoverLarge;
+			self.isModifiable=true;
+		}
+		else{
+			self.url = CONSTANTS.urlUserCover(id);
+			self.coverLarge = CONSTANTS.urlUserCoverLarge;
+		}
+		
 	}else{
 		userService.getMe().then(onSuccessGetUser, onErrorGetUser);
 		self.url = CONSTANTS.urlMeCover;

@@ -89,6 +89,7 @@
 	<script src="/assets/public/js/controllers/registerController.js"></script>
 	<script src="/assets/public/js/controllers/registrationConfirmController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardController.js"></script>
+	<script src="/assets/public/js/controllers/dashboardAdminController.js"></script>
 	<script src="/assets/public/js/controllers/scenariosListController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioWizardController.js"></script>
 	<script src="/assets/public/js/controllers/navbarController.js"></script>
