@@ -48,7 +48,7 @@
 						</span>
 					</div>					
 					<div class="row">								
-						<div class="row" data-ng-repeat="row in showNewsPost.post.media track by $index">
+						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
 							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
 								data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
 								<img data-ng-src="{{col}}" class="imgPreviewL marginMTop" />
@@ -72,7 +72,7 @@
 						</span>
 					</div>
 					<div class="row text-left" data-ng-show="showNewsPost.post.place.text"><b>Presso:</b> <i>{{showNewsPost.post.place.text}}</i></div>			
-					<div class="row extraContent marginSTop ">
+					<div class="row marginSTop ">
 						<div class="pull-left marginSTop marginMRight">
 							<div title="Aggiungi un'immagine al post" ngf-select
 								ngf-change="showNewsPost.addImageToPost($files)"
@@ -97,7 +97,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-12 extraContent text-left">		
+					<div class="row text-left">		
 	
 						<tags-input data-ng-show="showNewsPost.showTagBox"
 							data-ng-model="showNewsPost.post.tags" display-property="name"
@@ -110,11 +110,11 @@
 			
 				
 						<div class="row">
-							<div class="row" data-ng-repeat="row in showNewsPost.post.media track by $index">
+							<div data-ng-repeat="row in showNewsPost.post.media track by $index">
 							<div data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 text-left imgToPost">
 								<img data-ng-src="{{col}}" class="imgPreviewL" />
 								<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
-										data-ng-click="showNewsPost.removeImage(image)"></span></div>
+										data-ng-click="showNewsPost.recalculateMatrix()"></span></div>
 								</div>
 							</div>
 							
@@ -135,7 +135,7 @@
 						<!-- Inserire icone -->
 						<div class="row">
 							<div data-ng-repeat="file in showNewsPost.post.filesMetadata">				
-									<div class="col-sm-2 textLeft noPadding">
+									<div class="col-sm-2 textLeft">
 										{{file.originalName}} 
 										<span data-ng-show="file.originalName" show-on-hover-parent
 											class="glyphicon glyphicon-remove"

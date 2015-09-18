@@ -1,6 +1,6 @@
-angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService', '$q',
+angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService', '$q', 'Upload',
                                                                  
-	function(CONSTANTS, apiService, Lightbox, modalService, $q){
+	function(CONSTANTS, apiService, Lightbox, modalService, $q, Upload){
 		return {
 			templateUrl: "assets/private/partials/show-news-post-template.html",
 			scope : {
@@ -113,13 +113,16 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.addImageToPost = function(file){
 					uploadMediaToPost(file,true);
 				}
-				self.removeImage =function(image){
-					for(var i=0; i<self.post.imagesMetadata.length; i++){
-						if(self.post.imagesMetadata[i].id==image.id){
-							self.post.imagesMetadata.splice(i,1);
-						}
-					}
+				self.recalculateMatrix =  function(){
+					//TO DO
 				}
+//				self.removeImage =function(image){
+//					for(var i=0; i<self.post.imagesMetadata.length; i++){
+//						if(self.post.imagesMetadata[i].id==image.id){
+//							self.post.imagesMetadata.splice(i,1);
+//						}
+//					}
+//				}
 				self.addFileToPost = function(file){
 					console.log("add File");
 					uploadMediaToPost(file,false);
@@ -149,8 +152,12 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					console.log("SEARCH");
 					var selectable;
 					self.suggestions = new Array();
-					if(isChar)
+					if(isChar){
 						selectable=self.scenario.characters;
+
+						console.log(self.scenario);
+					}
+						
 					else{
 						if(self.scenario.attendees)
 							selectable=self.scenario.attendees;
@@ -192,6 +199,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 						}else
 							throw new Error("Unsupported type");
 					}
+					console.log("EEH");
 					var result = $q.defer();
 					result.resolve(self.suggestions);
 					return result.promise;
@@ -200,9 +208,10 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				
 				/*Private function used to upload media*/
 				var uploadMediaToPost = function(file,isImage){
+					console.log("SCENARIO ID" + self.scenarioId);
 					if(file && file.length){
 						Upload.upload({
-				            url: CONSTANTS.urlMediaScenarioPost(self.scenario.id),
+				            url: CONSTANTS.urlMediaScenarioPost(self.scenarioId),
 				            headers : {
 				                'Content-Type': file.type
 				            },
@@ -219,12 +228,12 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				        	   var uploadedFile = {};
 				        	   uploadedFile.id = data.id;
 				        	   uploadedFile.name = config.file[0].name;
-				        	   self.newPost.image.push(uploadedFile);
+				        	   self.post.image.push(uploadedFile);
 				           }else{
 				        	   var uploadedFile = {};
 				        	   uploadedFile.id = data.id;
 				        	   uploadedFile.name = config.file[0].name;
-				        	   self.newPost.file.push(uploadedFile);
+				        	   self.post.file.push(uploadedFile);
 				           }
 				        });
 					}
