@@ -162,5 +162,39 @@ angular.module("smiled.application").constant("CONSTANTS",{
 			days.push(day);
 		}
 		return days;
+	},
+	"dayOfWeekString": function(day){
+		var d="";
+		switch(day){
+		case 0: {
+			d="Lun";
+			break;
+		}
+		case 1: {
+			d="Mar";
+			break;
+		}
+		case 2: {
+			d="Mer";
+			break;
+		}
+		case 3: {
+			d="Gio";
+			break;
+		}
+		case 4: {
+			d="Ven";
+			break;
+		}
+		case 5: {
+			d="Sab";
+			break;
+		}
+		case 6: {
+			d="Dom";
+			break;
+		}
+		}
+		return d;
 	}
 });
