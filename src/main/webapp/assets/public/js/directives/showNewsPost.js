@@ -12,6 +12,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			},
 			controller : function(){
 				var self = this;
+				var numMediaPerRow = 3;
 				self.isOwner = false;
 				self.showTagBox=false;
 				self.editPost=false;
@@ -19,6 +20,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.postDTO = {};
 				self.postDTO.text = self.post.text;
 				
+				self.originalTagsList = angular.copy(self.post.tags);  //la uso per riaggiornare la lista di tag nel caso annullo la modifica al post
 				
 				self.newCharactersToTags = new Array();
 				
@@ -26,7 +28,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					self.editPost = !self.editPost;
 				}
 				self.closeEditPost = function(){
-					self.postDTO.text="";
+					self.post.tags = angular.copy(self.originalTagsList);
 					self.postDTO = {};
 					self.postDTO.text = self.post.text;
 					self.editPost = !self.editPost;
@@ -45,6 +47,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				if(self.post.user.id == self.loggedUser.id){
 					self.isOwner = true;
 				}
+				if(!self.currentCharacter || !self.currentCharacter.id)
+					self.classCommentButton="disabled-div";	
 					
 				self.getMediaUrl = function(id){
 					var t = CONSTANTS.urlMedia(id);
@@ -60,8 +64,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					
 					return date.day+" / "+date.month+" / "+date.year+" "+era;
 				}
-				if(!self.currentCharacter || !self.currentCharacter.id)
-					self.classCommentButton="disabled-div";		
+					
 				
 				self.showComment=false;
 				self.showMetaComment=false;
@@ -78,7 +81,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.showMetaComment = false;
 				}
 				
-				var numMediaPerRow = 3;
+				
 				if(self.post.imagesMetadata){
 					self.post.media = new Array();
 					self.post.media[0] = new Array();
@@ -121,7 +124,39 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					uploadMediaToPost(file,true);
 				}
 				self.recalculateMatrix =  function(){
-					//TO DO
+					if(self.post.imagesMetadata.length >0){
+						self.colorImageMarker = {'color': '#89b151'};
+					}
+
+					if(self.post.place != null){
+						self.colorMapMarker = {'color': '#89b151'};
+					}
+					
+					
+					if(self.post.user.id == self.loggedUser.id){
+						self.isOwner = true;
+					}
+					if(!self.currentCharacter || !self.currentCharacter.id)
+						self.classCommentButton="disabled-div";	
+					
+					if(self.post.imagesMetadata){
+						self.post.media = new Array();
+						self.post.media[0] = new Array();
+						var col = -1;
+						var row = 0;
+						for(var j=0; j<self.post.imagesMetadata.length;j++){
+							if(j!=0 && j%numMediaPerRow==0){
+								col=0;
+								row++;
+								self.post.media[row] = new Array();
+							}else{
+								col++;
+							}
+							self.post.media[row][col] = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
+							self.post.imagesMetadata[j].url = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
+						}
+					}
+					
 				}
 //				self.removeImage =function(image){
 //					for(var i=0; i<self.post.imagesMetadata.length; i++){
@@ -193,19 +228,26 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							function(data){
 								console.log("UPDATE STATUS OK");
 								self.post = data;
+								self.originalTagsList = angular.copy(self.post.tags);
 								self.newCharactersToTags = [];
+								self.editPost = !self.editPost;
+								self.recalculateMatrix();
 							},
 							function(reason){
 								console.log("UPDATE STATUS FAILED");
+								self.editPost = !self.editPost;
 							});
 					
-					self.editPost = !self.editPost;
+					
 				}
-				
+				self.removeTag=function(index){
+					self.post.tags.splice(index,1);
+				}
 				
 				/*Function to pass to autocomplete of tag-input-directive*/
 				self.search = function($query){
 					
+					//Inserisco nella lista di selectable solamente i personaggi che non sono già presenti nella lista di tags del post
 					var selectable = new Array();
 					self.suggestions = new Array();
 					
