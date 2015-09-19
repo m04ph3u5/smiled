@@ -245,9 +245,22 @@
 		return s.promise;
 	}
 
-	var updateStatus = function(id, idStatus){
+	var updateStatus = function(id, idStatus, newStatus){
 		var s = $q.defer();
-		$http.post("/api/v1/scenarios/"+id+"/status/"+idStatus).then(
+		$http.put("/api/v1/scenarios/"+id+"/status/"+idStatus, newStatus).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
+	var deletePost = function(id, idPost){
+		var s = $q.defer();
+		$http.delete("/api/v1/scenarios/"+id+"/posts/"+idPost).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -488,6 +501,7 @@
 		/* Gesitone post */
 		sendStatus: sendStatus,
 		updateStatus: updateStatus,
+		deletePost: deletePost,
 		getPagedPosts : getPagedPosts,
 		getSingleStatus: getSingleStatus,
 		addLikeToPost: addLikeToPost,

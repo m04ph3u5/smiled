@@ -14,11 +14,25 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				var self = this;
 				self.isOwner = false;
 				self.showTagBox=false;
+				self.editPost=false;
+				self.deleted=false;
+				self.postDTO = {};
+				self.postDTO.text = self.post.text;
 				
-				console.log(self.scenario);
 				
+				self.newCharactersToTags = new Array();
+				
+				self.switchEditPost = function(){
+					self.editPost = !self.editPost;
+				}
+				self.closeEditPost = function(){
+					self.postDTO.text="";
+					self.postDTO = {};
+					self.postDTO.text = self.post.text;
+					self.editPost = !self.editPost;
+				}
+								
 				if(self.post.imagesMetadata.length >0){
-					console.log(self.post.imagesMetadata.length);
 					self.colorImageMarker = {'color': '#89b151'};
 				}
 
@@ -29,12 +43,10 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				
 				if(self.post.user.id == self.loggedUser.id){
 					self.isOwner = true;
-					//console.log("SEI IL PROPRIETARIO DI QUESTO POST");
 				}
 					
 				self.getMediaUrl = function(id){
 					var t = CONSTANTS.urlMedia(id);
-					console.log("FILE URL--------> "+t)
 					return t;
 				}
 				
@@ -52,15 +64,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				
 				self.showComment=false;
 				self.showMetaComment=false;
-//				self.switchShowGeneralComment = function(){
-//					if(!self.currentCharacter || !self.currentCharacter.id){
-//						self.switchShowMetaComment();
-//						return;
-//					}
-//					self.showComment = !self.showComment;
-//					if(self.showComment)
-//						self.showMetaComment = false;
-//				}
+
+				
 				self.switchShowMetaComment = function(){
 					self.showMetaComment = !self.showMetaComment;
 					if(self.showMetaComment)
@@ -146,65 +151,102 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					console.log("id dell'img:" + id);
 					return CONSTANTS.urlMedia(id);
 				}
-
-				self.savePostUpdates = function(){
-					var postToSend = self.post;
+				
+				self.deletePost = function(){
+					apiService.deletePost(self.scenario.id, self.post.id).then(
+							function(data){
+								console.log("DELETE POST OK");
+								self.deleted=true;
+								self.post = {};
+							},
+							function(reason){
+								console.log("DELETE POST FAILED");
+							});
+				}
+				
+				self.updateStatus = function(){
+					
+					self.postDTO.id = self.post.id;
+					
+					var newTags = new Array();
+					for(var i=0; i< self.newCharactersToTags.length; i++){
+						newTags.push(self.newCharactersToTags[i].id);
+					}
+					
+					var oldTags = new Array();
+					if(self.post.tags){		
+						for(var i=0; i< self.post.tags.length; i++){
+							oldTags.push(self.post.tags[i].id);
+						}
+					}
+					
+					console.log("vecchi tag");
+					console.log(oldTags);
+					console.log("nuovi tag");
+					console.log(newTags);
+					
+					self.postDTO.tags = newTags;
+					self.postDTO.tags = self.postDTO.tags.concat(oldTags);
+					
+					apiService.updateStatus(self.scenario.id, self.post.id, self.postDTO).then(
+							function(data){
+								console.log("UPDATE STATUS OK");
+								self.post = data;
+							},
+							function(reason){
+								console.log("UPDATE STATUS FAILED");
+							});
+					
+					self.editPost = !self.editPost;
 				}
 				
 				
 				/*Function to pass to autocomplete of tag-input-directive*/
-				self.search = function($query,isChar){
-					console.log("SEARCH");
-					var selectable;
+				self.search = function($query){
+					
+					var selectable = [];
 					self.suggestions = new Array();
-					if(isChar){
-						selectable=self.scenario.characters;
-
-						console.log(self.scenario);
-					}
-						
-					else{
-						if(self.scenario.attendees)
-							selectable=self.scenario.attendees;
-						if(self.scenario.collaborators)
-							selectable.push.apply(self.scenario.collaborators);
-						selectable.push(self.scenario.teacherCreator);
-					}
+					
+					
+//					for(var i=0; i<self.scenario.characters.length; i++){
+//							
+//						if(self.post.tags!=null){		
+//							for(var j=0; j<self.post.tags.length; j++){	
+//								
+//								if(self.scenario.characters[i].id == self.post.tags[j].id){
+//									console.log("i: "+i+" j: "+j);
+//									break;
+//								}else{
+//									selectable.push(self.scenario.characters[i]);	
+//								}
+//							}
+//						}
+//					}
+//					console.log("i selezionabili sono: ");
+//					console.log(selectable);	
+					selectable = self.scenario.characters;
+					
 					var regex = new RegExp("(^|\\s|-|'|,|\.)"+$query,"gi");
 					if(selectable){
-						if(!isChar){
-							for(var i=0; i<selectable.length; i++){
-								if(regex.test(selectable[i].firstname) || regex.test(selectable[i].lastname)){
-									var suggestion = {};
-									suggestion.name=selectable[i].lastname+" "+selectable[i].firstname;
-									suggestion.id=selectable[i].id;
-									suggestion.cover=CONSTANTS.urlUserCover(selectable[i].id);
-									self.suggestions.push(suggestion);
-								}
-							}
-						}else if(isChar){
-							console.log("search->character");
-							console.log(regex.source);
+						
+						
 
-							if(!self.scenario.id){
-								throw new Error("Unsupported type");
-							}
-							for(var i=0; i<selectable.length; i++){
-							
-								if(regex.test(selectable[i].name)){
-									var suggestion = {};
-									suggestion.name=selectable[i].name;
-									suggestion.id=selectable[i].id;
-									suggestion.cover=CONSTANTS.urlCharacterCover(self.scenario.id,selectable[i].id);
-									self.suggestions.push(suggestion);
-									console.log("search->addSuggestion "+i);
-								}
-
-							}
-						}else
+						if(!self.scenario.id){
 							throw new Error("Unsupported type");
+						}
+						for(var i=0; i<selectable.length; i++){
+							
+							if(regex.test(selectable[i].name)){
+								var suggestion = {};
+								suggestion.name=selectable[i].name;
+								suggestion.id=selectable[i].id;
+								suggestion.cover=CONSTANTS.urlCharacterCover(self.scenario.id,selectable[i].id);
+								self.suggestions.push(suggestion);
+							}
+						}
+						
 					}
-					console.log("EEH");
+	
 					var result = $q.defer();
 					result.resolve(self.suggestions);
 					return result.promise;

@@ -1,12 +1,14 @@
+<div data-ng-if="!showNewsPost.deleted">
+
 <div data-ng-if="showNewsPost.post.character" class="container-fluid">
 	<div class="col-md-12 box boxGray">
 		<div class="row marginSTop">	
 			<div class="col-xs-2 col-sm-3 col-md-2">
-				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
+				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
 					class="img-thumbnail imgPreviewL marginMRight hidden-xs visible-sm visible-md visible-lg"
 					data-ng-src="{{showNewsPost.post.character.cover}}"
 					data-err-src="assets/public/img/icon/pg.png"></img>
-				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
+				<img data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.currentCharacter}}' })"
 				class="img-thumbnail imgPreviewM marginMRight visible-xs hidden-sm hidden-md hidden-lg"
 				data-ng-src="{{showNewsPost.post.character.cover}}"
 				data-err-src="assets/public/img/icon/pg.png"></img>
@@ -16,28 +18,29 @@
 					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
 						<span class="glyphicon glyphicon-user"></span>
 						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
-						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 						
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 	
+										
 					</a>
+						
 					<div class="marginMLeft dropdown pull-right">
 						<a class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						    <li><a href="#" ng-click="">Modifica post</a></li>
-						    <li class="divider"></li>
-						    <li><a href="#" ng-click="">Modifica posizione</a></li>
-						    <li><a href="#" ng-click="">Modifica data</a></li>
-						    <li><a href="#" ng-click="">Modifica tag</a></li>
-						    <li class="divider"></li>
-						    <li><a href="#" ng-click="">Elimina</a></li>
+						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
+						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
 						 </ul>	
-					 </div>					
+					 </div>	
+					 <div data-ng-if="showNewsPost.post.lastChangeDate">
+						Modificato il: {{showNewsPost.post.lastChangeDate | date: showNewsPost.realDateFormat}}
+					</div>				
 				</span>	
 				<div class="row">					
 								
-					<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenarioId}}', idCharacter : '{{showNewsPost.currentCharacter}}' })">
+					<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.currentCharacter}}' })">
 											{{showNewsPost.post.character.name}}</a>
 					</h4>
 				</div>
-				<div ng-show="!editPost">
+				<!-- DIV di default  INIZIO --------------------------------------------------------------------------------->
+				<div  ng-show="!showNewsPost.editPost">
 					<div class="row">
 						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
 							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
@@ -66,10 +69,48 @@
 							</div>
 						</div>
 					</div>	
+					<div class="row">
+					<div class="col-xs-12 noPaddingLeft">
+					<hr></div>
+				</div>					
+				<div class="row text-left">
+					<div class="btn invisibleButton">
+						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+						scenario-id="{{showNewsPost.scenario.id}}"></like-to>
+					</div>
+					<button type="button" class="btn invisibleButton"
+						data-ng-class="showNewsPost.classCommentButton"
+						data-ng-click="showNewsPost.switchShowComment()">			
+						<span class="glyphicon glyphicon-comment marginLRight"></span>
+					Commenta
+					</button>						
+					<button type="button" class="btn invisibleButton"								
+						data-ng-click="showNewsPost.switchShowMetaComment()" >
+						<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>Suggerisci
+					</button>
+				</div>						
+				<div class="row marginSTop">
+					<summarize-info-post data-ng-if="!showNewsPost.deleted" post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
 				</div>
-				<div ng-show="editPost">
+				<div data-ng-if="showNewsPost.showComment" class="row">
+					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
+						scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter"></comment-to>
+				</div>
+				<div data-ng-if="showNewsPost.showMetaComment" class="row">
+					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
+						scenario-id="{{showNewsPost.scenario.id}}"></meta-comment-to>
+				</div>
+				</div>
+				
+	<!-- DIV di default  FINE ----------------------------------------------------------------------------------------------------------->
+				
+	<!-- DIV di update  INIZIO ---------------------------------------------------------------------------------------------------------->
+				
+				<div ng-show="showNewsPost.editPost">
+					<b style="font-size:11px;">Modifica data per ora non disponibile</b>
 					<div class="row paddingMRight">
-						<textarea class="pull-left allWidth" rows="3">{{showNewsPost.post.text | linky:'_blank'}}</textarea>
+						<textarea data-ng-model ="showNewsPost.postDTO.text" class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
+				
 					</div>
 					<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left marginSTop">
 						<b>Con: </b>
@@ -77,7 +118,7 @@
 							<a href="">{{t.firstname}}</a>
 						</span>
 					</div>
-					<div class="row text-left" data-ng-show="showNewsPost.post.place.text"><b>Presso:</b> <i>{{showNewsPost.post.place.text}}</i></div>			
+					<div class="row text-left" data-ng-show="showNewsPost.postDTO.place.text"><b>Presso:</b> <i>{{showNewsPost.postDTO.place.text}}</i></div>			
 					<div class="row marginSTop ">
 						<div class="pull-left marginSTop marginMRight">
 							<div title="Aggiungi un'immagine al post" ngf-select
@@ -106,10 +147,10 @@
 					<div class="row text-left">		
 	
 						<tags-input data-ng-show="showNewsPost.showTagBox"
-							data-ng-model="showNewsPost.post.tags" display-property="name"
-							placeholder="TAGGA UN AMICO" replace-spaces-with-dashes="false"
+							data-ng-model="showNewsPost.newCharactersToTags" display-property="name"
+							placeholder="TAGGA UN PERSONAGGIO" replace-spaces-with-dashes="false"
 							template="tag-template" add-from-autocomplete-only="true">
-						<auto-complete source="showNewsPost.search($query,true)"
+						<auto-complete source="showNewsPost.search($query)"
 							min-length="0" load-on-focus="true" load-on-empty="true"
 							max-results-to-show="32" template="autocomplete-template">
 						</auto-complete> </tags-input>
@@ -152,43 +193,17 @@
 					</div>
 					<div class="row col-xs-12">
 						<div class="pull-right">
-							<div data-ng-click="editPost =! editPost"
-								class="btn generalButton">AGGIORNA POST</div>
-							</div>
+							<button data-ng-click="showNewsPost.updateStatus()"
+								class="btn generalButton">AGGIORNA POST</button>
+							
+							<button data-ng-click="showNewsPost.closeEditPost()"
+								class="btn btn-danger">ANNULLA</button>
+						</div>
 					</div>
 				</div>
-										
-				<div class="row">
-					<div class="col-xs-12 noPaddingLeft">
-					<hr></div>
-				</div>					
-				<div class="row text-left">
-					<div class="btn invisibleButton">
-						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenarioId}}"></like-to>
-					</div>
-					<button type="button" class="btn invisibleButton"
-						data-ng-class="showNewsPost.classCommentButton"
-						data-ng-click="showNewsPost.switchShowComment()">			
-						<span class="glyphicon glyphicon-comment marginLRight"></span>
-					Commenta
-					</button>						
-					<button type="button" class="btn invisibleButton"								
-						data-ng-click="showNewsPost.switchShowMetaComment()" >
-						<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>Suggerisci
-					</button>
-				</div>						
-				<div class="row marginSTop">
-					<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
-				</div>
-				<div data-ng-if="showNewsPost.showComment" class="row">
-					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
-				</div>
-				<div data-ng-if="showNewsPost.showMetaComment" class="row">
-					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
-						scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
-				</div>
+				<!-- DIV di update  FINE --------------------------------------------------------------------------------->		
+								
+				
 			</div>
 		</div>
 	</div>
@@ -255,8 +270,8 @@
 				</div>			
 				<div class="row text-left">
 					<div class="btn invisibleButton">
-						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenarioId}}"></like-to>
+						<like-to  post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+						scenario-id="{{showNewsPost.scenario.id}}"></like-to>
 					</div>
 					<button class="btn invisibleButton"
 							data-ng-class="showNewsPost.classCommentButton" 
@@ -275,11 +290,11 @@
 				</div>	
 				<div data-ng-if="showNewsPost.showComment" class="row">
 					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to>
+						scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter"></comment-to>
 				</div>
 				<div data-ng-if="showNewsPost.showMetaComment" class="row">
 					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
-						scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to>
+						scenario-id="{{showNewsPost.scenario.id}}"></meta-comment-to>
 				</div>
 			
 			</div>
@@ -290,168 +305,7 @@
 </div>
 		
 		
-<!-- 		<div class="col-md-10 col-md-offset-2"> -->
-<!-- 			<div class="row"> -->
-<!-- 				<summarize-info-post data-ng-click="showNewsPost.switchShowComment()" post="showNewsPost.post" current-character="showNewsPost.currentCharacter"></summarize-info-post> -->
-<!-- 			</div> -->
-<!-- 			<div class="row"> -->
-<!-- 				<hr style="margin-right: 0px;" class="hrDivider"> -->
-<!-- 			</div>	 -->
-<!-- 			<div class="row">  -->
-<!-- 				<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter" -->
-<!-- 					scenario-id="{{showNewsPost.scenarioId}}"></like-to> -->
-<!-- 				<div data-ng-class="showNewsPost.classCommentButton" data-ng-click="showNewsPost.switchShowComment()" style="margin-left: 20px;" class="glyphicon glyphicon-comment pull-left">Commenta</div> -->
-<!-- 				<div data-ng-click="showNewsPost.switchShowMetaComment()" style="margin-left: 20px;" class="glyphicon glyphicon-exclamation-sign pull-left">Suggerisci</div> -->
-<!-- 			</div> -->
-<!-- 			<div data-ng-if="showNewsPost.showComment" class="row"> -->
-<!-- 				<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter" -->
-<!-- 					scenario-id="{{showNewsPost.scenarioId}}" current-character="showNewsPost.currentCharacter"></comment-to> -->
-<!-- 			</div> -->
-<!-- 			<div data-ng-if="showNewsPost.showMetaComment" class="row"> -->
-<!-- 				<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser" -->
-<!-- 					scenario-id="{{showNewsPost.scenarioId}}"></meta-comment-to> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-
-
-
-<!-- EVENTO --> 
-<!-- <div data-ng-if="!showNewsPost.post.character" class="row"> -->
-<!-- 	<div class="col-md-10 col-md-offset-1 box"> -->
-<!-- 		<div class="row"> -->
-<!-- 			<div class="pull-left col-md-8"> -->
-<!-- 				<b class="pull-left">NARRATORE</b> -->
-<!-- 			</div> -->
-<!-- 			<div class="pull-right col-md-4"> -->
-<!-- 				<label class="pull-right">{{scenarioPost.formatDate(showNewsPost.post.historicalDate)}}</label> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<div class="row rowPost"> -->
-<!-- 			<div class="col-md-2"> -->
-<!-- 				<img style="margin: 5px;" -->
-<!-- 					class="pull-left img-thumbnail imgPreviewL" -->
-<!-- 					src="assets/public/img/bookImage.png"></img> -->
-<!-- 				<div class="pull-left box box-info"> -->
-<!-- 					{{showNewsPost.post.creationDate | date: scenarioPost.realDateFormat}} <br> -->
-<!-- 					{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}} -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-
-<!-- 			<div class="col-md-10 postStatus"> -->
-<!-- 				<div class="row"> -->
-<!-- 					<p> -->
-<!-- 						<b>TIPOLOGIA EVENTO: </b>{{showNewsPost.post.type}} -->
-<!-- 					</p> -->
-<!-- 				</div> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div class="col-md-12"> -->
-<!-- 						<label class="pull-left">{{showNewsPost.post.text}}</label> -->
-<!-- 					</div> -->
-<!-- 					<div data-ng-show="showNewsPost.post.imageId"> -->
-<!-- 						<img class="imgPreviewXL" data-ng-src="{{showNewsPost.post.imageUrl}}"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<div class="col-md-10 col-md-offset-2"> -->
-<!-- 			<div data-ng-show="showNewsPost.post.tags.length>0" class="row"> -->
-<!-- 				<div style="margin-left: 35px;" class="pull-left"> -->
-<!-- 					<b>Con: </b><i><span data-ng-repeat="t in showNewsPost.post.tags"> <a -->
-<!-- 							href="">{{t.firstname}}</a> -->
-<!-- 					</span></i> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<div data-ng-show="scenario.hasCharacter" class="row" -->
-<!-- 				style="margin-left: 25px; margin-top: 7px; margin-bottom: 7px;"> -->
-<!-- 				<div data-ng-if="showNewsPost.post.youLike" data-ng-click="scenarioPost.likePost(showNewsPost.post)" -->
-<!-- 					title="Non mi piace pi�" -->
-<!-- 					class="tooltips glyphicon glyphicon-thumbs-up pull-left">Ti -->
-<!-- 					piace</div> -->
-<!-- 				<div data-ng-if="!showNewsPost.post.youLike" -->
-<!-- 					data-ng-click="scenarioPost.likePost(showNewsPost.post)" title="Mi piace!" -->
-<!-- 					class="tooltips glyphicon glyphicon-thumbs-up pull-left"></div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-
-<!-- 		<div class="row"> -->
-<!-- 			<div class="col-md-2"></div> -->
-<!-- 			<div class="col-md-10" style="text-align: center;"> -->
-<!-- 				<div class="tabComment" -->
-<!-- 					data-ng-click="scenarioPost.switchCommentTab(true)">COMMENTA</div> -->
-<!-- 				<div class="tabComment pull-right" -->
-<!-- 					data-ng-click="scenarioPost.switchCommentTab(false)" -->
-<!-- 					style="margin-right: 5px;">DIETRO LE QUINTE</div> -->
-<!-- 			</div> -->
-<!-- 			<div class="col-md-2"></div> -->
-<!-- 			<div data-ng-if="scenarioPost.commentTab" class="col-md-10" -->
-<!-- 				style="text-align: center;"> -->
-<!-- 				<div class="col-md-2"> -->
-<!-- 					<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 						class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 						data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{scenario.currentCharacter.id}}/cover" -->
-<!-- 						data-err-src="assets/public/img/cesar.png"></img> -->
-<!-- 				</div> -->
-<!-- 				<div class="col-md-10"> -->
-<!-- 					<textarea data-ng-model="showNewsPost.post.newComment" rows="2" -->
-<!-- 						style="margin: 5px;" class="col-md-12" -->
-<!-- 						placeholder="Inserisci un commento"></textarea> -->
-<!-- 					<div class="btn btn-primary btn-sm pull-right" -->
-<!-- 						data-ng-click="scenarioPost.addCommentToPost(showNewsPost.post)">COMMENTA</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row" style="margin-top: 20px; margin-bottom: 20px;"> -->
-<!-- 				</div> -->
-<!-- 				<div data-ng-repeat="c in showNewsPost.post.comments" class="row"> -->
-<!-- 					<div class="col-md-2"> -->
-<!-- 						<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 							class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 							data-ng-src="api/v1/scenarios/{{scenarioPost.scen.id}}/characters/{{c.character.id}}/cover" -->
-<!-- 							data-err-src="assets/public/img/cesar.png"></img> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-10"> -->
-<!-- 						<div style="margin: 5px;" class="col-md-10"> -->
-<!-- 							<p class="pull-left">{{c.text}}</p> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-md-1"> -->
-<!-- 							<p class="pull-right" style="font-size: x-small;">{{c.user.firstname}} -->
-<!-- 								{{c.user.lastname}}</p> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<div data-ng-if="!scenarioPost.commentTab" class="col-md-10" -->
-<!-- 				style="text-align: center;"> -->
-<!-- 				<div class="col-md-2"> -->
-<!-- 					<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 						class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 						data-ng-src="api/v1/users/{{scenario.loggedUser.id}}/cover" -->
-<!-- 						data-err-src="assets/public/img/user_ico.png"></img> -->
-<!-- 				</div> -->
-<!-- 				<div class="col-md-10"> -->
-<!-- 					<textarea data-ng-model="showNewsPost.post.newMetaComment" rows="2" -->
-<!-- 						style="margin: 5px;" class="col-md-12" -->
-<!-- 						placeholder="Dai un suggerimento ai tuoi amici"></textarea> -->
-<!-- 					<div class="btn btn-primary btn-sm pull-right" -->
-<!-- 						data-ng-click="scenarioPost.addMetaCommentToPost(showNewsPost.post)">COMMENTA</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row" style="margin-top: 20px; margin-bottom: 20px;"> -->
-<!-- 				</div> -->
-<!-- 				<div data-ng-repeat="c in showNewsPost.post.metaComments" class="row"> -->
-<!-- 					<div class="col-md-2"> -->
-<!-- 						<img style="margin: 5px; margin-left: 10px;" -->
-<!-- 							class="pull-right img-thumbnail imgPreviewM" -->
-<!-- 							data-ng-src="api/v1/users/{{c.user.id}}/cover" -->
-<!-- 							data-err-src="assets/public/img/user_ico.png"></img> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-10"> -->
-<!-- 						<div style="margin: 5px;" class="col-md-10"> -->
-<!-- 							<p class="pull-left">{{c.text}}</p> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </div> -->
+</div>
 <script type="text/ng-template" id="tag-template">
       <div class="tag-template">
  <!--       <div class="left-panel">

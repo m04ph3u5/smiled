@@ -274,7 +274,6 @@ public class ScenarioController extends BaseController{
 	public Post updateStatus(@PathVariable String id, @PathVariable String statusId, @RequestBody StatusDTO status) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		auth.setAuthenticated(false);
 		return scenarioService.updateStatus (id, statusId, status, auth);
 	}
 	
