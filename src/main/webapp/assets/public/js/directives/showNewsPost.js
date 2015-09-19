@@ -204,27 +204,26 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				/*Function to pass to autocomplete of tag-input-directive*/
 				self.search = function($query){
 					
-					var selectable = [];
+					var selectable = new Array();
 					self.suggestions = new Array();
 					
-					
-//					for(var i=0; i<self.scenario.characters.length; i++){
-//							
-//						if(self.post.tags!=null){		
-//							for(var j=0; j<self.post.tags.length; j++){	
-//								
-//								if(self.scenario.characters[i].id == self.post.tags[j].id){
-//									console.log("i: "+i+" j: "+j);
-//									break;
-//								}else{
-//									selectable.push(self.scenario.characters[i]);	
-//								}
-//							}
-//						}
-//					}
-//					console.log("i selezionabili sono: ");
-//					console.log(selectable);	
-					selectable = self.scenario.characters;
+					var founded=false;
+					for(var i=0; i<self.scenario.characters.length; i++){
+						founded=false;
+						if(self.post.tags!=null){		
+							for(var j=0; j<self.post.tags.length; j++){	
+								
+								if(self.scenario.characters[i].id == self.post.tags[j].id){
+									founded=true;
+									break;
+								}
+							}
+							if(!founded)
+								selectable.push(self.scenario.characters[i]);
+						}
+					}
+					console.log("i selezionabili sono: ");
+					console.log(selectable);	
 					
 					var regex = new RegExp("(^|\\s|-|'|,|\.)"+$query,"gi");
 					if(selectable){

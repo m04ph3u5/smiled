@@ -29,7 +29,7 @@
 						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
 						 </ul>	
 					 </div>	
-					 <div data-ng-if="showNewsPost.post.lastChangeDate">
+					 <div data-ng-if="showNewsPost.post.lastChangeDate && (showNewsPost.post.lastChangeDate != showNewsPost.post.creationDate)">
 						Modificato il: {{showNewsPost.post.lastChangeDate | date: showNewsPost.realDateFormat}}
 					</div>				
 				</span>	
