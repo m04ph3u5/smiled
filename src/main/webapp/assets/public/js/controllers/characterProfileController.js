@@ -1,10 +1,10 @@
-angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTANTS', '$scope', '$stateParams', 'apiService', 'userService',
-              function characterProfileCtrl(CONSTANTS,$scope,$stateParams, apiService, userService){
+angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTANTS', '$scope', '$stateParams', 'apiService', 'userService', 'Upload',
+              function characterProfileCtrl(CONSTANTS,$scope,$stateParams, apiService, userService, Upload){
 	
 	var self = this;
 	self.character = {};
 	//due variabili identiche perché ad api service non piaceva self.idchar
-	idChar = $stateParams.idCharacter;
+	var idChar = $stateParams.idCharacter;
 	self.idChar = idChar;
 	var scenarioId = $scope.scenario.scen.id;
 	
@@ -60,9 +60,6 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 		charDTO.bornTown= self.character.bornTown;
 		charDTO.deadTown= self.character.deadTown;
 		
-		if (self.newQuote!="" || self.newQuote!=null){		
-			console.log(self.newQuote + '\\\\\"' + self.character.quote +"       E LA CHIQUITA BANANA");
-}
 		apiService.updateCharacter(scenarioId, charDTO , idChar).then(
 				function(data){
 					self.character.name=data.name;
@@ -82,10 +79,10 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 				}
 		);
 	}
-	self.uploadCharacterCover = function(file,event,idCharacter){
-		if(file && file.length && idCharacter){
+	self.uploadCharacterCover = function(file){
+		if(file && file.length){
 			Upload.upload({
-	            url: CONSTANTS.urlCharacterCover(id,idCharacter),
+	            url: CONSTANTS.urlCharacterCover(scenarioId,idChar),
 	            headers : {
 	                'Content-Type': file.type
 	            },
@@ -97,16 +94,38 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 //	        })
 	        .success(function (data, status, headers, config) {
 	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-	            for(var i=0; i<self.scenario.characters.length; i++){
-	            	if(self.scenario.characters[i].id==idCharacter){
-	            		var d = new Date();
-	            		self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
-	            	}
-	            }
+	            var d = new Date();
+
+	            self.cover = CONSTANTS.urlCharacterCover(scenarioId, idChar)+"?"+d.toString();
+//	            for(var i=0; i<self.scenario.characters.length; i++){
+//	            	if(self.scenario.characters[i].id==idCharacter){
+//	            		var d = new Date();
+//	            		self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, idCharacter)+"?"+d.toString();
+//	            	}
+//	            }
 	        });
 		}
 	}
+	self.showDeadDatePicker = false;
+	self.switchShowDeadDate = function(){
+		if(!self.showDeadDatePicker && self.showBornDatePicker){
+			self.showBornDatePicker = false;
+		}
+		self.showDeadDatePicker = !self.showDeadDatePicker;
+	}
 	
+	self.showBornDatePicker = false;
+	self.switchShowBornDate = function(){
+		if(!self.showBornDatePicker && self.showDeadDatePicker){
+			self.showDeadDatePicker = false;
+		}
+		self.showBornDatePicker = !self.showBornDatePicker;
+	}
+	
+	self.hideDatePicker = function(){
+		self.showDeadDatePicker = false;
+		self.showBornDatePicker = false;
+	}
 //	self.getUserCover = function(){
 //		console.log("STO CERCANDO"+id)
 //		self.userCover = CONSTANTS.urlUserCover(id);				

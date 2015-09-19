@@ -1,12 +1,15 @@
 <div class="box row"
-	style="width: 250px; border: 1px; margin-right: 1%; border-color: #FFF">
+	style="width: 350px; border: 1px; margin-right: 1%; border-color: #FFF">
 	<!-- border-color:#5B5955" -->
 
 	<table>
 		<tr>
-			<td colspan="7" align=center><b><i style="margin-left: 10px; margin-right: 20px;" data-ng-click="vm.prevMonth()"
-			class="fa fa-arrow-circle-o-left"></i>
-		{{vm.getMonthString(vm.currentMonthDate.month)}} {{vm.currentMonthDate.year}} {{vm.currentMonthDate.era}}
+			<td colspan="7" align=center><b><a data-ng-click="vm.prevMonth()" href=""><i style="margin-left: 10px; margin-right: 20px;"
+			class="fa fa-arrow-circle-o-left"></i></a>
+		<a href="" data-ng-click="vm.switchToShowYears()">
+			<span data-ng-show="vm.showDays">{{vm.getMonthString(vm.currentMonthDate.month)}} {{vm.currentMonthDate.year}} {{vm.currentMonthDate.era}}</span>
+			<span data-ng-show="!vm.showDays">{{vm.yearsInterval}}</span>
+		</a>
 		<a data-ng-click="vm.nextMonth()" href=""><i style="margin-left: 20px; margin-right: 10px;"class="fa fa-arrow-circle-o-right"></i></a></b></td>
 		</tr>
 
@@ -14,7 +17,7 @@
 			<td colspan="7" align=center></td>
 		</tr>
 
-		<tr>
+		<tr data-ng-if="vm.showDays">
 			<td align=center>{{vm.getDayOfWeekString(0)}}</td>
 			<td align=center>{{vm.getDayOfWeekString(1)}}</td>
 			<td align=center>{{vm.getDayOfWeekString(2)}}</td>
@@ -24,8 +27,12 @@
 			<td align=center>{{vm.getDayOfWeekString(6)}}</td>
 		</tr>
 		
-		<tr data-ng-repeat="row in vm.days track by $index">
-			<td data-ng-repeat="col in row track by $index">{{col}}</td>
+		<tr data-ng-repeat="row in vm.days track by $index" data-ng-if="vm.showDays">
+			<td data-ng-repeat="col in row track by $index"><span data-ng-show="col" data-ng-click="vm.selectDate($parent.$index,$index)"><a href="">{{col}}</a></span></td>
+		</tr>
+		
+		<tr data-ng-repeat="row in vm.yearMatrix track by $index" data-ng-if="!vm.showDays">
+			<td data-ng-repeat="col in row track by $index"><span style="padding:5px;" data-ng-click="vm.selectYear($parent.$index,$index)"><a href="">{{col}}</a></span></td>
 		</tr>
 				
 	</table>

@@ -1,5 +1,5 @@
 
-<div class="container-fluid">
+<div class="container-fluid marginSTop marginSBottom">
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle collapsed"
@@ -28,14 +28,16 @@
 
 		<ul class="nav navbar-nav navbar-right">
 		
-			<li style="margin-top:5%" data-ui-sref="logged.issues"><a href="">Segnala un problema</a></li>
+			<li data-ui-sref="logged.issues">
+			
+				<a href="">Segnala un problema</a></li>
 		
-			<li class="dropdown" style="margin-top:5%">
+			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 					<span class="glyphicon glyphicon-bullhorn"></span>
 					<span class="caret"></span>
 				</a>
-				<ul class="dropdown-menu"  style="margin-top:5%"role="menu">
+				<ul class="dropdown-menu" role="menu">
 					<li><a href="#">Guidi Marco ha inserito un nuovo post</a></li>
 					<li><a href="#">A Rea Anna piace il post di Renzo</a></li>
 					<li><a href="#">Rea Anna ha completato un compito</a></li>
@@ -44,7 +46,7 @@
 					<li class="divider"></li>
 					<li><a href="#">Vedi tutte</a></li>
 				</ul></li>
-			<li class="dropdown"  style="margin-top:5%"><a href="#" class="dropdown-toggle"
+			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-envelope"></span><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
@@ -54,16 +56,17 @@
 					<li class="divider"></li>
 					<li><a href="#">Vedi tutti</a></li>
 				</ul></li>
-			<li>
 <!-- 				<a href=""><img src="assets/public/img/user_ico.png" class="img-circle" width="20" height="20"> Utente </a> -->
-				<a data-ui-sref="logged.userProfile({id : '{{navbar.user.id}}' })" href="">
-					<img data-ng-src="{{navbar.cover}}" 
-					data-err-src="assets/public/img/ic_teacher.png"
-					class="img-circle imgPreviewM"> 
+				<li data-ui-sref="logged.userProfile({id : '{{navbar.user.id}}' })" class="noPadding">
+					<a href="" class="noPadding">
+						<img data-ng-src="{{navbar.cover}}" 
+						data-err-src="assets/public/img/ic_teacher.png"
+						class="img-circle imgPreviewM"> 
+					
 					{{navbar.user.firstName}} {{navbar.user.lastName}}
-				</a>
+					</a>
 			</li>
-			<li class="dropdown"  style="margin-top:5%"><a href="#" class="dropdown-toggle"
+			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-cog"><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">

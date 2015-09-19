@@ -577,7 +577,7 @@ angular.module('smiled.application')
 	    $httpProvider.interceptors.push('unauthorizedInterceptor');
 		$locationProvider.html5Mode(true);
 		RestangularProvider.setBaseUrl('/api/v1');
-		RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
+		RestangularProvider.setDefaultHeaders({'Content-Type' : 'application/json'});
 	}])
 	.run(function (Permission,userService, $q, $rootScope, $stateParams, $state) {
 		

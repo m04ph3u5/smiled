@@ -30,6 +30,7 @@
 						<div class="col-sm-4 text-center">
 							<a href="">
 							<div>
+								
 								<img data-ng-src="{{c.cover}}"
 									data-err-src="assets/public/img/icon/pg.png" class="img-thumbnail imgPreviewL"
 									ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"> 
@@ -74,7 +75,7 @@
 					</div>
 					<div class="row">
 						<label class="col-xs-4">Luogo di nascita</label>
-						<input  data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
+						<input data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].bornTown">
 					</div>
 					<div class="row">
 						<label class="col-xs-4">Luogo di morte</label>

@@ -3,108 +3,88 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 		restrict: "AE",
         templateUrl: "assets/private/partials/customDatePicker.html",
         scope: {
-        	startDateNumber : "@",
-        	endDateNumber : "@",
+        	startDateNumber : "@?",
+        	endDateNumber : "@?",
         	dateNumber : "="
         },
         controller : function (){
         	var self = this;
+        	/*Se non viene passata una data iniziale il datepicker prende come valore minimo assumibile il minimo
+        	 * rappresentabile da un Julian Day Number (di seguito JDN), ovvero il 24 novembre del 4713 A.C. */
+        	if(!self.startDateNumber)
+        		self.startDateNumber=0;
+        	/*Se non viene passata una data finale il datepicker prende come valore massimo assumibile un valore di JDN
+        	 * che rappresenta l'anno 100.000 D.C */
+        	if(!self.endDateNumber)
+        		self.endDateNumber=38245427;
         	
         	console.log("CUSTOM DATE PICKER DIRECITVE");
         	self.startDate = {};
         	self.endDate = {};
         	self.currentMonthDate = {};
+        	self.days;
+        	var years = new Array();
+        	var yearPage=0;
+        	var yearPageSize=16;
+        	var maxPage=0;
+        	var yearMatrixSize=4;
+        	self.showDays=true;
+        	self.yearMatrix = new Array();
+        	for(var i=0;i<yearMatrixSize;i++){
+            	self.yearMatrix[i] = new Array();
+        	}
+
+
         	
-        	        	
-//        	var dateToJulianNumber = function(date){
-//        	     return Math.floor(( 1461 * ( date.year + 4800 + Math.floor(( date.month - 14 ) / 12) ) ) / 4) + 
-//        	     Math.floor(( 367 * ( date.month - 2 - 12 * ( Math.floor(( date.month - 14 ) / 12) ) ) ) / 12) -
-//        	     Math.floor(( 3 * ( Math.floor(( date.year + 4900 + Math.floor(( date.month - 14 ) / 12) ) / 100) ) ) / 4) +
-//                 date.day - 32075 ;
-//        	}
-        	
-//        	var dateToJulianNumber = function(date){
-//        		var d = angular.copy(date);
-////        		if(d.era=="A.C.")
-////        			d.year=d.year*(-1);
-//        		var c0 = Math.floor((d.month-3)/12);
-//        		var x4 = d.year+c0;
-//        		var x3 = parseInt(x4/100);
-//        		var x2 = Math.abs(x4%100);
-//        		var x1 = d.month - 12*c0 -3;
-//        		return Math.floor((146097*x3)/4) + Math.floor((36525*x2)/100) + Math.floor((153*x1 + 2)/5) + d.day + 1721119;
-//        	}
-        	
-//        	var julianNumberToDate = function(jd,date){
-//        		var l = jd + 68569;
-//    	        var n = Math.floor(( 4 * l ) / 146097);
-//    	        l = l - Math.floor(( 146097 * n + 3 ) / 4);
-//    	        var i = Math.floor(( 4000 * ( l + 1 ) ) / 1461001);
-//    	        l = l - Math.floor(( 1461 * i ) / 4) + 31;
-//    	        var j = Math.floor(( 80 * l ) / 2447);
-//    	        date.day = l - Math.floor(( 2447 * j ) / 80);
-//    	        l = Math.floor(j / 11);
-//    	        date.month = j + 2 - ( 12 * l );
-//    	        date.year = 100 * ( n - 49 ) + i + l;
-//    	        if(date.year<0){
-//    	        	date.era="A.C.";
-//    	        	date.year=date.year*(-1);
-//    	        }else{
-//    	        	date.era="";
-//    	        }
-//    	        date.dow = (Math.floor(jd))%7;
-//        	}
-        	
-//        	var julianNumberToDate = function(jd,date){
-//        		var x3 = parseInt((4*jd - 6884477)/146097);
-//        		var r3 = Math.abs((4*jd - 6884477)%146097);
-//        		
-//        		var x2 = parseInt((100*Math.floor(r3/4)+99)/36525);
-//        		var r2 = Math.abs((100*Math.floor(r3/4)+99)%36525);
-//        		
-//        		var x1 = parseInt((5*Math.floor(r2/100)+2)/153);
-//        		var r1 = Math.abs((5*Math.floor(r2/100)+2)%153);
-//        		
-//        		date.day = Math.floor(r1/5)+1;
-//        		c0 = Math.floor((x1+2)/12);
-//        		date.year = 100*x3 + x2 +c0;
-//        		date.month = x1 - 12*c0 + 3;
-//        		
-////        		 if(date.year<0){
-////     	        	date.era="A.C.";
-////     	        	date.year=date.year*(-1);
-////     	        }else{
-////     	        	date.era="";
-////     	        }
-//     	        date.dow = (Math.floor(jd))%7;
-//        	}
-        	
-        	var dateToJulianNumber = function(date){
-        		var J0 = 1721117;
-        		c0 = Math.floor((date.month-3)/12);
-        		var j1 = Math.floor((1461*(date.year+c0))/4);
-        		var j2 = Math.floor((153*date.month-1836*c0-457)/5);
-        		return j1 +j2 + date.day + J0;
+        	var julianNumberToDate = function(jd, date){
+        		  var l = jd + 68569;
+        	      var n = parseInt(( 4 * l ) / 146097);
+        	      l = l - parseInt(( 146097 * n + 3 ) / 4);
+        	      var i = parseInt(( 4000 * ( l + 1 ) ) / 1461001);
+        	      l = l - parseInt(( 1461 * i ) / 4) + 31;
+        	      var j = parseInt(( 80 * l ) / 2447);
+        	      date.day = l - parseInt(( 2447 * j ) / 80);
+        	      l = parseInt(j / 11);
+        	      date.month = j + 2 - ( 12 * l );
+        	      date.year = 100 * ( n - 49 ) + i + l;
+        	      date.dow = jd%7;
+        	      if(date.year<0){
+        	    	  date.year *=-1;
+        	    	  date.era = "A.C.";
+        	      }
+        	      else
+        	    	  date.era = "";
         	}
         	
-        	var julianNumberToDate = function(jd,date){
-        		var y2 = jd - 1721118;
-        		var k2 = (4*y2) + 3;
-        		var k1 = 5*Math.floor(Math.abs(parseInt(k2%1461))/4)+2;
-        		var x1 = Math.floor(k1/153);
-        		var c0 = Math.floor((x1+2)/12);
-        		date.year = Math.floor(k2/1461) + c0;
-        		date.month = x1 -12*c0 + 3;
-        		date.day = Math.floor((Math.abs(parseInt(k1%153)))/5) + 1;
+        	        	
+        	var dateToJulianNumber = function(date){
+        		  if(date.era=="A.C.")
+        			  date.year*=-1;
+        		  console.log("dateToJulianNumber: "+date.year);
+        		  var jd = parseInt(( 1461 * ( date.year + 4800 + parseInt(( date.month - 14 ) / 12) ) ) / 4) +
+                  parseInt(( 367 * ( date.month - 2 - 12 *  parseInt(( date.month - 14 ) / 12)  ) ) / 12) -
+                  parseInt(( 3 * parseInt(( date.year + 4900 + parseInt(( date.month - 14 ) / 12) ) / 100)  ) / 4) +
+                  date.day - 32075 ;
+        		return jd;
         	}
         	
         	julianNumberToDate(parseInt(self.startDateNumber), self.startDate);
         	console.log(self.startDate);
-       		julianNumberToDate(self.startDateNumber-(self.startDate.day-1),self.currentMonthDate);
-        
-        	julianNumberToDate(parseInt(self.endDateNumber), self.endDate);
+        	julianNumberToDate(self.startDateNumber-(self.startDate.day-1),self.currentMonthDate);
+           	julianNumberToDate(parseInt(self.endDateNumber), self.endDate);
         	
-        	console.log(self.currentMonthDate);
+           	
+           	var t=self.startDate.year;
+           	var k=0;
+    		while(t<self.endDate.year){
+    			years[k]=t;
+    			t++;
+    			k++;
+    		}
+    		if(years.length%(yearMatrixSize*yearMatrixSize)==0)
+    			maxPage = years.length/(yearMatrixSize*yearMatrixSize) -1;
+    		else
+    			maxPage = parseInt(years.length/(yearMatrixSize*yearMatrixSize));
         	
         	var getNumDaysOfMonth = function(month, year){
         		if(month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)
@@ -138,6 +118,13 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        			passed++;
 	        		}
 	        	}
+	        	if(inserted<=numDaysOfMonth){
+	        		self.days[5] = new Array();
+	        		for(var k=0; inserted<=numDaysOfMonth; k++){
+	        			self.days[5][k] = inserted;
+	        			inserted++;
+	        		}
+	        	}
 	        	
         	}
         	elaborateDaysOfMonth(self.currentMonthDate);
@@ -151,21 +138,90 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	}
         	
         	self.nextMonth =function(){
-        		var n = dateToJulianNumber(self.currentMonthDate);
-        		n+=getNumDaysOfMonth(self.currentMonthDate.month,self.currentMonthDate.year);
-        		julianNumberToDate(n,self.currentMonthDate);
-        		elaborateDaysOfMonth(self.currentMonthDate);
+        		if(self.showDays){
+
+	        		var n = dateToJulianNumber(self.currentMonthDate);
+	        		n+=getNumDaysOfMonth(self.currentMonthDate.month,self.currentMonthDate.year);
+	        		if(n<=self.endDateNumber){
+	        			julianNumberToDate(n,self.currentMonthDate);
+	        			elaborateDaysOfMonth(self.currentMonthDate);
+	        		}
+	        		else
+	        			console.log("No more next");//TODO cambiare classe freccia dx per non renderla più cliccabile
+        		}else{
+        			if(yearPage<maxPage){
+        				yearPage++;
+        				var index=yearPage*(yearMatrixSize*yearMatrixSize);
+        				for(var i=0; i<yearMatrixSize; i++)
+                			for(var j=0; j<yearMatrixSize && index<years.length; j++){
+                				self.yearMatrix[i][j]=years[index];
+                				console.log(self.yearMatrix[i][j]);
+                				index++;
+                			}
+        				
+        			}
+        		}
         	}
         	
         	self.prevMonth = function(){
-        		var n = dateToJulianNumber(self.currentMonthDate);
-        		n-=getNumDaysOfMonth(self.currentMonthDate.month-1,self.currentMonthDate.year);
-        		julianNumberToDate(n,self.currentMonthDate);
-        		elaborateDaysOfMonth(self.currentMonthDate);
+        		if(self.showDays){
+	        		var n = dateToJulianNumber(self.currentMonthDate);
+	        		n-=getNumDaysOfMonth(self.currentMonthDate.month-1,self.currentMonthDate.year);
+	        		if(n>=self.startDateNumber){
+	            		julianNumberToDate(n,self.currentMonthDate);
+	        			elaborateDaysOfMonth(self.currentMonthDate);
+	        		}
+	        		else
+	        			console.log("No more prev");//TODO cambiare classe freccia sx per non renderla più cliccabile
+        		}else{
+        			if(yearPage!=0){
+        				yearPage--;
+        				var index=yearPage*(yearMatrixSize*yearMatrixSize);
+        				for(var i=0; i<yearMatrixSize; i++)
+                			for(var j=0; j<yearMatrixSize && index<years.length; j++){
+                				self.yearMatrix[i][j]=years[index];
+                				console.log(self.yearMatrix[i][j]);
+                				index++;
+                			}
+        				
+        			}
+        		}
+
+        	}
+        	
+        	self.selectDate = function(row, col){
+        		console.log("Giorno scelto: "+self.days[row][col]+"/"+self.currentMonthDate.month+"/"+self.currentMonthDate.year+" "+self.currentMonthDate.era);
+        		var date = {};
+        		date.day = self.days[row][col];
+        		date.month = self.currentMonthDate.month;
+        		if(date.era=="A.C.")
+        			date.year = self.currentMonthDate.year * (-1);
+        		else
+        			date.year = self.currentMonthDate.year;
+        		self.dateNumber=dateToJulianNumber(date);
+        	}
+        	
+        	self.switchToShowYears = function(){
+        		self.showDays=false;
+        		var index = self.currentMonthDate.year-self.startDate.year;
+        		yearPage = index%(yearMatrixSize*yearMatrixSize);
+        		for(var i=0; i<yearMatrixSize; i++)
+        			for(var j=0; j<yearMatrixSize && index<years.length; j++){
+        				self.yearMatrix[i][j]=years[index];
+        				console.log(self.yearMatrix[i][j]);
+        				index++;
+        			}
+        	}
+        	
+        	self.switchToShowDays = function(){
+        		self.showDays=true;
         	}
         
         },
         controllerAs: 'vm',
-        bindToController: true
+        bindToController: true,
+        link : function(scope, elem, attrs, ctrl){
+        	
+        }
     };
 }]);
