@@ -107,7 +107,12 @@
 	<!-- DIV di update  INIZIO ---------------------------------------------------------------------------------------------------------->
 				
 				<div ng-show="showNewsPost.editPost">
-					<b style="font-size:11px;">Modifica data per ora non disponibile</b>
+					<div class="row">
+						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.historicalDate)}}
+							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
+						</p>
+					</div>
 					<div class="row paddingMRight">
 						<textarea data-ng-model ="showNewsPost.postDTO.text" class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
 				

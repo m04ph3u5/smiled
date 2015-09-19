@@ -30,6 +30,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					self.postDTO = {};
 					self.postDTO.text = self.post.text;
 					self.editPost = !self.editPost;
+					self.newCharactersToTags = [];
 				}
 								
 				if(self.post.imagesMetadata.length >0){
@@ -192,6 +193,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							function(data){
 								console.log("UPDATE STATUS OK");
 								self.post = data;
+								self.newCharactersToTags = [];
 							},
 							function(reason){
 								console.log("UPDATE STATUS FAILED");
