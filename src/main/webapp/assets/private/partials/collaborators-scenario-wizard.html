@@ -12,12 +12,22 @@
 <br>
 <div class="container-fluid">
 	<div class="row fluid">
-		<div class="col-md-3" data-ng-show="scenarioWizard.scenarioServer.collaborators.length>0">
+		<div data-ng-show="scenarioWizard.scenarioServer.collaborators.length>0">
 			<h3>Collaboratori</h3>
-			<div data-ng-repeat="c in scenarioWizard.scenarioServer.collaborators">
-				<div  show-on-hover-parent style="display:none"><span class="col-md-1 glyphicon glyphicon-trash pull-right" data-ng-click="scenarioWizard.deleteCollaborator(c)"></span></div>
-				<img data-ng-src="api/v1/users/{{c.id}}/cover" 
-						data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewL"> {{c.lastname}} {{c.firstname}} 
+			<div data-ng-repeat="c in scenarioWizard.scenarioServer.collaborators" class="col-md-4 col-xs-6">
+				<div class="row marginMTop marginSBottom">
+					<div class="col-sm-5 sideMarginThree">
+						<img data-ng-src="api/v1/users/{{c.id}}/cover" 
+								data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewL">
+					</div>
+					<div class="col-sm-7 vAlignExt">
+						<h5 class="vAlignInt">{{c.lastname}} {{c.firstname}} 
+							<span class="col-md-1 glyphicon glyphicon-trash pull-right" show-on-hover-parent style="display:none" 
+							data-ng-click="scenarioWizard.deleteCollaborator(c)"></span>
+						</h5>
+					</div>
+					
+				</div>
 			</div>
 		</div>
 	</div>

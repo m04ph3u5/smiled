@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService','userService', '$scope','$interval',
-   function dashboardCtrl(loggedUser,modalService,userService,$scope,$interval){
+angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService','userService', '$scope','$interval','apiService',
+   function dashboardCtrl(loggedUser,modalService,userService,$scope,$interval,apiService){
 	
 	var self = this;
 	//self.user = {};
@@ -90,7 +90,11 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		self.selectedUserID = userID;
 		self.showCard = true;
 	}
+	self.missionList = apiService.getMyMissions(0, 20, true, true);
+	console.log("OLEEEEEEEEE");
+
 	
+	console.log(self.missionList);
 	/*
 	self.missionList = apiService.getMyMissions(0, 20, true, true);
 	self.createMission = function(){
