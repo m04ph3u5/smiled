@@ -7,7 +7,7 @@
 			<td colspan="7" align=center><b><a data-ng-click="vm.prevMonth()" href=""><i style="margin-left: 10px; margin-right: 20px;"
 			class="fa fa-arrow-circle-o-left"></i></a>
 		<a href="" data-ng-click="vm.switchToShowYears()">
-			<span data-ng-show="vm.showDays">{{vm.getMonthString(vm.currentMonthDate.month)}} {{vm.currentMonthDate.year}} {{vm.currentMonthDate.era}}</span>
+			<span data-ng-show="vm.showDays">{{vm.currentMonthDate.title}}</span>
 			<span data-ng-show="!vm.showDays">{{vm.yearsInterval}}</span>
 		</a>
 		<a data-ng-click="vm.nextMonth()" href=""><i style="margin-left: 20px; margin-right: 10px;"class="fa fa-arrow-circle-o-right"></i></a></b></td>
@@ -28,7 +28,7 @@
 		</tr>
 		
 		<tr data-ng-repeat="row in vm.days track by $index" data-ng-if="vm.showDays">
-			<td data-ng-repeat="col in row track by $index"><span data-ng-show="col" data-ng-click="vm.selectDate($parent.$index,$index)"><a href="">{{col}}</a></span></td>
+			<td data-ng-repeat="col in row track by $index"><span data-ng-show="col" data-ng-click="vm.selectDate($parent.$index,$index)"><a data-ng-class="{'inactive-link': col.inactive}" href="">{{col.val}}</a></span></td>
 		</tr>
 		
 		<tr data-ng-repeat="row in vm.yearMatrix track by $index" data-ng-if="!vm.showDays">

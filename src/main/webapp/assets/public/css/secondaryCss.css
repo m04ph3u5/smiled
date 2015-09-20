@@ -204,6 +204,8 @@ span.clickable:hover {
 
 
 /*CUSTOM CSS FOR customDatePicker*/
-.history-date {
-
+.inactive-link {
+   pointer-events: none;
+   cursor: default;
+   color: gray;
 }

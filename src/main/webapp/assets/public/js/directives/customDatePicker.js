@@ -35,6 +35,11 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	}
 
 
+        	var emptyYearMatrix = function(){
+        		for(var i=0; i<yearMatrixSize;i++)
+        			for(var j=0; j<yearMatrixSize;j++)
+        				self.yearMatrix[i][j]="";
+        	}
         	
         	var julianNumberToDate = function(jd, date){
         		  var l = jd + 68569;
@@ -48,18 +53,11 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	      date.month = j + 2 - ( 12 * l );
         	      date.year = 100 * ( n - 49 ) + i + l;
         	      date.dow = jd%7;
-        	      if(date.year<0){
-        	    	  date.year *=-1;
-        	    	  date.era = "A.C.";
-        	      }
-        	      else
-        	    	  date.era = "";
         	}
         	
         	        	
         	var dateToJulianNumber = function(date){
-        		  if(date.era=="A.C.")
-        			  date.year*=-1;
+        		 
         		  console.log("dateToJulianNumber: "+date.year);
         		  var jd = parseInt(( 1461 * ( date.year + 4800 + parseInt(( date.month - 14 ) / 12) ) ) / 4) +
                   parseInt(( 367 * ( date.month - 2 - 12 *  parseInt(( date.month - 14 ) / 12)  ) ) / 12) -
@@ -68,24 +66,33 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		return jd;
         	}
         	
+        	var getMonthString = function(month){
+        		return CONSTANTS.monthString(month);
+        	} 
+        	
         	julianNumberToDate(parseInt(self.startDateNumber), self.startDate);
         	console.log(self.startDate);
         	julianNumberToDate(self.startDateNumber-(self.startDate.day-1),self.currentMonthDate);
            	julianNumberToDate(parseInt(self.endDateNumber), self.endDate);
+        	console.log(self.endDate);
         	
+        	var writeStringCurrent = function(){
+        		var era = self.currentMonthDate.year > 0 ? "" : " A.C.";
+        		var s = getMonthString(self.currentMonthDate.month) + " "+ Math.abs(self.currentMonthDate.year) + era;
+        		self.currentMonthDate.title=s;
+        	}
+        	
+        	writeStringCurrent();
            	
-           	var t=self.startDate.year;
+           	var st=angular.copy(self.startDate);
+           	var en=angular.copy(self.endDate);
            	var k=0;
-    		while(t<self.endDate.year){
-    			years[k]=t;
-    			t++;
+    		while(st.year<=en.year){
+    			years[k]=st.year;
+    			st.year++;
     			k++;
     		}
-    		if(years.length%(yearMatrixSize*yearMatrixSize)==0)
-    			maxPage = years.length/(yearMatrixSize*yearMatrixSize) -1;
-    		else
-    			maxPage = parseInt(years.length/(yearMatrixSize*yearMatrixSize));
-        	
+
         	var getNumDaysOfMonth = function(month, year){
         		if(month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)
         			return 31;
@@ -111,7 +118,14 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        				self.days[i][j]="";
 	        			}else{
 	        				if(inserted<=numDaysOfMonth){
-	        					self.days[i][j]=inserted;
+	        					self.days[i][j] = {};
+	        					self.days[i][j].val=inserted;
+	        					if((currentMonthDate.year==self.startDate.year && currentMonthDate.month<self.startDate.month) ||
+	        							(currentMonthDate.year==self.startDate.year && currentMonthDate.month==self.startDate.month && inserted<self.startDate.day) ||
+	        							(currentMonthDate.year==self.endDate.year && currentMonthDate.month>self.endDate.month) ||
+	        							(currentMonthDate.year==self.endDate.year && currentMonthDate.month==self.endDate.month && inserted>self.endDate.day)){
+	        						self.days[i][j].inactive=true;
+	        					}
 	        					inserted++;
 	        				}
 	        			}
@@ -121,17 +135,24 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        	if(inserted<=numDaysOfMonth){
 	        		self.days[5] = new Array();
 	        		for(var k=0; inserted<=numDaysOfMonth; k++){
-	        			self.days[5][k] = inserted;
+	        			self.days[5][k] = {};
+	        			self.days[5][k].val = inserted;
+	        			if((currentMonthDate.year==self.startDate.year && currentMonthDate.month<self.startDate.month) ||
+    							(currentMonthDate.year==self.startDate.year && currentMonthDate.month==self.startDate.month && inserted<self.startDate.day) ||
+    							(currentMonthDate.year==self.endDate.year && currentMonthDate.month>self.endDate.month) ||
+    							(currentMonthDate.year==self.endDate.year && currentMonthDate.month==self.endDate.month && inserted>self.endDate.day)){
+    						self.days[i][j].inactive=true;
+    					}
 	        			inserted++;
 	        		}
 	        	}
 	        	
+	        	writeStringCurrent();
+	        	
         	}
         	elaborateDaysOfMonth(self.currentMonthDate);
         	console.log(self.currentMonthDate);
-        	self.getMonthString = function(month){
-        		return CONSTANTS.monthString(month);
-        	}    
+           
         	
         	self.getDayOfWeekString = function(day){
         		return CONSTANTS.dayOfWeekString(day);
@@ -149,17 +170,18 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		else
 	        			console.log("No more next");//TODO cambiare classe freccia dx per non renderla più cliccabile
         		}else{
-        			if(yearPage<maxPage){
-        				yearPage++;
-        				var index=yearPage*(yearMatrixSize*yearMatrixSize);
-        				for(var i=0; i<yearMatrixSize; i++)
-                			for(var j=0; j<yearMatrixSize && index<years.length; j++){
-                				self.yearMatrix[i][j]=years[index];
-                				console.log(self.yearMatrix[i][j]);
-                				index++;
-                			}
-        				
-        			}
+            		var index = self.yearMatrix[yearMatrixSize-1][yearMatrixSize-1]+1-self.startDate.year;
+            		if(index<years.length && index>0){
+	        			emptyYearMatrix();
+	            		self.yearsInterval = ""+years[index];
+	            		console.log(self.yearMatrix[yearMatrixSize-1][yearMatrixSize-1]);
+	    				for(var i=0; i<yearMatrixSize; i++)
+	            			for(var j=0; j<yearMatrixSize && index<years.length && index>0; j++){
+	            				self.yearMatrix[i][j]=years[index];
+	            				index++;
+	            			}
+	            		self.yearsInterval +=" - "+years[index-1];
+            		}
         		}
         	}
         	
@@ -170,58 +192,76 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		if(n>=self.startDateNumber){
 	            		julianNumberToDate(n,self.currentMonthDate);
 	        			elaborateDaysOfMonth(self.currentMonthDate);
+	        		}else{
+	        			n+=self.startDate.day;
+	        			if(n>=self.startDateNumber){
+		            		julianNumberToDate(n,self.currentMonthDate);
+		        			elaborateDaysOfMonth(self.currentMonthDate);
+		        		}else{
+		        			console.log("No more prev");//TODO cambiare classe freccia sx per non renderla più cliccabile	        			
+		        		}
 	        		}
-	        		else
-	        			console.log("No more prev");//TODO cambiare classe freccia sx per non renderla più cliccabile
         		}else{
-        			if(yearPage!=0){
-        				yearPage--;
-        				var index=yearPage*(yearMatrixSize*yearMatrixSize);
-        				for(var i=0; i<yearMatrixSize; i++)
-                			for(var j=0; j<yearMatrixSize && index<years.length; j++){
-                				self.yearMatrix[i][j]=years[index];
-                				console.log(self.yearMatrix[i][j]);
-                				index++;
-                			}
-        				
-        			}
+            		var index = self.yearMatrix[0][0]-(yearMatrixSize*yearMatrixSize)-self.startDate.year;
+            		if(index<0)
+            			index=0;
+            		if(index<years.length){
+	        			emptyYearMatrix();
+	            		self.yearsInterval = ""+years[index];
+	    				for(var i=0; i<yearMatrixSize; i++)
+	            			for(var j=0; j<yearMatrixSize && index<years.length && index>=0; j++){
+	            				self.yearMatrix[i][j]=years[index];
+	            				index++;
+	            			}    
+	            		self.yearsInterval +=" - "+years[index-1];
+            		}
         		}
 
         	}
         	
         	self.selectDate = function(row, col){
-        		console.log("Giorno scelto: "+self.days[row][col]+"/"+self.currentMonthDate.month+"/"+self.currentMonthDate.year+" "+self.currentMonthDate.era);
-        		var date = {};
-        		date.day = self.days[row][col];
-        		date.month = self.currentMonthDate.month;
-        		if(date.era=="A.C.")
-        			date.year = self.currentMonthDate.year * (-1);
-        		else
-        			date.year = self.currentMonthDate.year;
-        		self.dateNumber=dateToJulianNumber(date);
+        		if(!self.days[row][col].inactive){
+            		console.log("Giorno scelto: "+self.days[row][col].val+"/"+self.currentMonthDate.string);
+	        		var date = {};
+	        		date.day = self.days[row][col].val;
+	        		date.month = self.currentMonthDate.month;
+	        		date.year = self.currentMonthDate.year;
+	        		self.dateNumber=dateToJulianNumber(date);
+        		}
         	}
         	
         	self.switchToShowYears = function(){
         		self.showDays=false;
+        		emptyYearMatrix();
         		var index = self.currentMonthDate.year-self.startDate.year;
-        		yearPage = index%(yearMatrixSize*yearMatrixSize);
+        		self.yearsInterval = ""+years[index];
         		for(var i=0; i<yearMatrixSize; i++)
         			for(var j=0; j<yearMatrixSize && index<years.length; j++){
         				self.yearMatrix[i][j]=years[index];
         				console.log(self.yearMatrix[i][j]);
         				index++;
         			}
+        		self.yearsInterval +=" - "+years[index-1];
+
         	}
         	
         	self.switchToShowDays = function(){
         		self.showDays=true;
         	}
+        	
+        	self.selectYear = function(row,col){
+        		self.currentMonthDate.year = self.yearMatrix[row][col];
+        		if(self.currentMonthDate.year==self.startDate.year)
+        			self.currentMonthDate.month==self.startDate.month;
+        		else
+        			self.currentMonthDate.month = 1;
+        		self.currentMonthDate.day = 1;
+        		self.switchToShowDays();
+    			elaborateDaysOfMonth(self.currentMonthDate);
+        	}
         
         },
         controllerAs: 'vm',
-        bindToController: true,
-        link : function(scope, elem, attrs, ctrl){
-        	
-        }
+        bindToController: true
     };
 }]);
