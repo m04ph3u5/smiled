@@ -20,7 +20,11 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			self.postDTO = {};
 			self.postDTO.text = self.post.text;
 			self.date={};
-
+			self.editButton = true;
+			
+			
+			
+			
 			self.startDate = angular.copy(self.scenario.history.startDate);
 			if(!self.startDate.afterChrist)
 				self.startDate.year*=-1;
@@ -168,9 +172,6 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				}
 
 
-				if(self.post.user.id == self.loggedUser.id){
-					self.isOwner = true;
-				}
 				if(!self.currentCharacter || !self.currentCharacter.id)
 					self.classCommentButton="disabled-div";	
 
@@ -275,6 +276,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.postDTO.text = self.post.text;
 							self.newCharactersToTags = [];
 							self.editPost = !self.editPost;
+							modalService.showModalOldCharacterChangeOnComment(self.post.character.name);
 						});
 
 
