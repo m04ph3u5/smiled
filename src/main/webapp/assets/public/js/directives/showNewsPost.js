@@ -261,6 +261,10 @@ return self.date.day+" "+s;
 						},
 						function(reason){
 							console.log("UPDATE STATUS FAILED");
+							self.post.tags = angular.copy(self.originalTagsList);
+							self.postDTO = {};
+							self.postDTO.text = self.post.text;
+							self.newCharactersToTags = [];
 							self.editPost = !self.editPost;
 						});
 
