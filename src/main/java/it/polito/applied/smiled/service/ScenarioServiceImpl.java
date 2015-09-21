@@ -1667,7 +1667,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			
 			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello event
 			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
-			u.addToSet("tags").each(tagsCharacter);
+			//u.addToSet("tags").each(tagsCharacter);
+			u.set("tags", tagsCharacter);
 		}
 		u.set("lastChangeDate", new Date());
 
