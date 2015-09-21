@@ -22,11 +22,13 @@
 		data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
 		data-err-src="assets/public/img/icon/pg.png"></img>
 	<div class="row">
-		<textarea data-ng-model="commentTo.post.newComment" rows="2"
-			class="pull-left col-xs-10 marginMTop"
-			placeholder="Inserisci un commento"></textarea>
+			<div class="col-xs-10">
+				<textarea data-ng-model="commentTo.post.newComment" rows="2"
+					class="pull-left col-xs-10 marginMTop"
+					placeholder="Inserisci un commento"></textarea>
+			</div>
 		<div class="text-right marginLRight">
-			<div class="btn generalButton btn-sm"
+			<div class="btn generalButton btn-sm marginEmS"
 				data-ng-click="commentTo.addCommentToPost()">COMMENTA</div>
 		</div>
 	</div>
