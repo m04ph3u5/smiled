@@ -1309,7 +1309,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				permit=true;
 		}
 		/*Check user is SYSTEM ADMIN*/
-			
+			//TODO
 		/**/
 		
 		/*Controllo se l'utente che chiede di fare la modifica è il creatore del post e se ha ancora i permessi
@@ -1464,7 +1464,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			
 			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
 			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
-			u.addToSet("tags").each(tagsCharacter);
+			//u.addToSet("tags").each(tagsCharacter);
+			u.set("tags", tagsCharacter);  //sostituisco la vecchia lista di tag con la nuova (questo mi permette con l'update sia di aggiungere tag che di toglierli)
 		}
 		u.set("lastChangeDate", new Date());
 
@@ -1666,7 +1667,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			
 			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello event
 			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
-			u.addToSet("tags").each(tagsCharacter);
+			//u.addToSet("tags").each(tagsCharacter);
+			u.set("tags", tagsCharacter);
 		}
 		u.set("lastChangeDate", new Date());
 
