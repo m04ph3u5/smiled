@@ -9,12 +9,21 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 		bindToController: true,
 		controller: ['$scope', function(){
 			var self = this;
-		
 			/*Initialize newPost variable*/
+			self.startDate = angular.copy(self.scenario.history.startDate);
+			console.log(self.startDate);
+			if(!self.startDate.afterChrist)
+				self.startDate.year*=-1;
+			console.log(self.startDate);
+			self.endDate = angular.copy(self.scenario.history.endDate);
+			if(!self.endDate.afterChrist)
+				self.endDate.year*=-1;
+			console.log(self.endDate);
 			self.newPost = {};
-			self.newPost.date = {};
-			self.newPost.date.afterChrist = true;
-			self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+//			self.newPost.date = {};
+//			self.newPost.date.afterChrist = true;
+			self.newPost.julianDayNumber="";
+			self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 
 			self.newPost.image = new Array();
 			self.newPost.file  = new Array();
@@ -35,45 +44,50 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*----------------------------------------------------------------*/
 			
 			var validateDate = function(){
-				var outStart=true;
-				var outEnd=true;
 				
-				if(self.newPost.date.year==self.scenario.history.startDate.year){
-					if(self.newPost.date.month==self.scenario.history.startDate.month){
-						if(self.newPost.date.day>=self.scenario.history.startDate.day){
-							outStart=false;
-						}
-					}else if(self.newPost.date.month>self.scenario.history.startDate.month){
-						outStart=false;
-					}
-				}else if(self.newPost.date.year>self.scenario.history.startDate.year){
-					outStart=false;
-				}else{
-					self.newPost.date = {};
-					self.newPost.date.afterChrist=true;
-					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
-					return false;
-				}
-				
-				if(self.newPost.date.year==self.scenario.history.endDate.year){
-					if(self.newPost.date.month==self.scenario.history.endDate.month){
-						if(self.newPost.date.day<=self.scenario.history.endDate.day){
-							outEnd=false;
-						}
-					}else if(self.newPost.date.month<self.scenario.history.endDate.month){
-						outEnd=false;
-					}
-				}else if(self.newPost.date.year<self.scenario.history.endDate.year){
-					outEnd=false;
-				}
-				
-				if(outStart || outEnd){
-					self.newPost.date = {};
-					self.newPost.date.afterChrist=true;
-					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
-					return false;
-				}else
+				if(self.newPost.julianDayNumber)
 					return true;
+				else 
+					return false;
+//				var outStart=true;
+//				var outEnd=true;
+//				
+//				if(self.newPost.date.year==self.scenario.history.startDate.year){
+//					if(self.newPost.date.month==self.scenario.history.startDate.month){
+//						if(self.newPost.date.day>=self.scenario.history.startDate.day){
+//							outStart=false;
+//						}
+//					}else if(self.newPost.date.month>self.scenario.history.startDate.month){
+//						outStart=false;
+//					}
+//				}else if(self.newPost.date.year>self.scenario.history.startDate.year){
+//					outStart=false;
+//				}else{
+//					self.newPost.date = {};
+//					self.newPost.date.afterChrist=true;
+//					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
+//					return false;
+//				}
+//				
+//				if(self.newPost.date.year==self.scenario.history.endDate.year){
+//					if(self.newPost.date.month==self.scenario.history.endDate.month){
+//						if(self.newPost.date.day<=self.scenario.history.endDate.day){
+//							outEnd=false;
+//						}
+//					}else if(self.newPost.date.month<self.scenario.history.endDate.month){
+//						outEnd=false;
+//					}
+//				}else if(self.newPost.date.year<self.scenario.history.endDate.year){
+//					outEnd=false;
+//				}
+//				
+//				if(outStart || outEnd){
+//					self.newPost.date = {};
+//					self.newPost.date.afterChrist=true;
+//					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
+//					return false;
+//				}else
+//					return true;
 			}
 			
 			/*Create new Event*/
@@ -83,7 +97,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 					self.sendPostEnable = false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
-					toSendPost.historicalDate = self.newPost.date;
+					toSendPost.julianDayNumber = self.newPost.julianDayNumber;
 					toSendPost.status = "PUBLISHED";
 					toSendPost.type = self.newPost.type;
 					toSendPost.imageMetaId = new Array();
@@ -110,8 +124,8 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								self.newPost.file=[];
 								self.newPost.place=null;
 								self.newPost.tags = [];
-								self.newPost.date={afterChrist : true};
-								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.newPost.date="";
+								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable = true;
 								//getSingleStatus in realtà ritorna un singolo post non un singolo status (ricorda che status è una specializzazione di post, come anche event)
 								apiService.getSingleStatus(self.scenario.id, data.id).then(
@@ -157,7 +171,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								self.newPost.image=[];
 								self.newPost.file=[];
 								self.newPost.date={afterChrist : true};
-								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable = true;
 							},
 							function(reason){
@@ -348,6 +362,13 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 				}
 			});
 			scope.$watch('insertEvent.newPost.place', function(val){
+				if(val && val.x && val.y){
+					ctrl.colorMapMarker = {'color': '#89b151'};
+				}else{
+					ctrl.colorMapMarker = {'color': 'dark grey'};
+				}
+			});
+			scope.$watch('insertEvent.newPost.date', function(val){
 				if(val && val.x && val.y){
 					ctrl.colorMapMarker = {'color': '#89b151'};
 				}else{

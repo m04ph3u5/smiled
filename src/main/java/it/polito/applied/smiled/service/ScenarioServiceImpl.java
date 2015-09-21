@@ -253,7 +253,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	//L'update dello ScenarioReference deve essere immediato solo per chi ha fatto la modifica (che potrebbe essere il creatore oppure un collaboratore)
 	private void updateNameInReferenceOfAllPeopleInScenario(String callerId, Scenario scenario) throws BadRequestException{
 		userRepository.updateNameOfOneScenarioReference(callerId, scenario, scenario.getName());
-		System.out.println("Il nome dello scenario è stato modificato nel reference del chiamante ed ora verrà modificato in maniera asincrona per tutti gli altri");
+		System.out.println("Il nome dello scenario ï¿½ stato modificato nel reference del chiamante ed ora verrï¿½ modificato in maniera asincrona per tutti gli altri");
 		List<String> idOfPeopleToUpdate = new ArrayList<String>();
 		if(scenario.getAttendees() != null)
 			for(int i=0; i < scenario.getAttendees().size(); i++){
@@ -1054,7 +1054,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		status.setText(statusDTO.getText());
 		status.setScenarioId(scenarioId);
 		status.setPlace(statusDTO.getPlace());
-		status.setHistoricalDate(statusDTO.getHistoricalDate());
+//		status.setHistoricalDate(statusDTO.getHistoricalDate());
+		status.setJulianDayNumber(statusDTO.getJulianDayNumber());
 		status.setSources(statusDTO.getSources());
 		List<Reference> tagsCharacter = new ArrayList<Reference>();
 		if(statusDTO.getTags()!=null){
@@ -1218,7 +1219,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Event event = new Event();
 		event.setScenarioId(scenarioId);
 		event.setPlace(eventDTO.getPlace());
-		event.setHistoricalDate(eventDTO.getHistoricalDate());
+//		event.setHistoricalDate(eventDTO.getHistoricalDate());
+		event.setJulianDayNumber(eventDTO.getJulianDayNumber());
 		event.setSources(eventDTO.getSources());
 		List<Reference> tagsCharacter = new ArrayList<Reference>();
 		if(eventDTO.getTags()!=null){
@@ -1358,8 +1360,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getText()!=null){
 			u.set("text", statusDTO.getText());
 		}
-		if(statusDTO.getHistoricalDate()!=null){
-			u.set("historicalDate", statusDTO.getHistoricalDate());
+		if(statusDTO.getJulianDayNumber()!=null){
+			u.set("julianDayNumber", statusDTO.getJulianDayNumber());
 			if(status.getStatus().equals(PostStatus.PUBLISHED))
 				updateHistoricalDate=true;
 		}
@@ -1560,8 +1562,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(eventDTO.getText()!=null){
 			u.set("text", eventDTO.getText());
 		}
-		if(eventDTO.getHistoricalDate()!=null){
-			u.set("historicalDate", eventDTO.getHistoricalDate());
+		if(eventDTO.getJulianDayNumber()!=null){
+			u.set("julianDayNumber", eventDTO.getJulianDayNumber());
 			if(event.getStatus().equals(PostStatus.PUBLISHED))
 				updateHistoricalDate=true;
 		}

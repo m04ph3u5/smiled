@@ -10,11 +10,16 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 		bindToController: true,
 		controller: ['$scope', function(){
 			var self = this;
+			self.startDate = angular.copy(self.scenario.history.startDate);
+			if(!self.startDate.afterChrist)
+				self.startDate.year*=-1;
+			self.endDate = angular.copy(self.scenario.history.endDate);
+			if(!self.endDate.afterChrist)
+				self.endDate.year*=-1;
 			/*Initialize newPost variable*/
 			self.newPost = {};
-			self.newPost.date = {};
-			self.newPost.date.afterChrist = true;
-			self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+			self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
+			self.newPost.julianDayNumber="";
 
 			self.newPost.image = new Array();
 			self.newPost.file  = new Array();
@@ -41,45 +46,50 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*----------------------------------------------------------------*/
 			
 			var validateDate = function(){
-				var outStart=true;
-				var outEnd=true;
 				
-				if(self.newPost.date.year==self.scenario.history.startDate.year){
-					if(self.newPost.date.month==self.scenario.history.startDate.month){
-						if(self.newPost.date.day>=self.scenario.history.startDate.day){
-							outStart=false;
-						}
-					}else if(self.newPost.date.month>self.scenario.history.startDate.month){
-						outStart=false;
-					}
-				}else if(self.newPost.date.year>self.scenario.history.startDate.year){
-					outStart=false;
-				}else{
-					self.newPost.date = {};
-					self.newPost.date.afterChrist=true;
-					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
-					return false;
-				}
-				
-				if(self.newPost.date.year==self.scenario.history.endDate.year){
-					if(self.newPost.date.month==self.scenario.history.endDate.month){
-						if(self.newPost.date.day<=self.scenario.history.endDate.day){
-							outEnd=false;
-						}
-					}else if(self.newPost.date.month<self.scenario.history.endDate.month){
-						outEnd=false;
-					}
-				}else if(self.newPost.date.year<self.scenario.history.endDate.year){
-					outEnd=false;
-				}
-				
-				if(outStart || outEnd){
-					self.newPost.date = {};
-					self.newPost.date.afterChrist=true;
-					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
-					return false;
-				}else
+				if(self.newPost.julianDayNumber)
 					return true;
+				else 
+					return false;
+//				var outStart=true;
+//				var outEnd=true;
+//				
+//				if(self.newPost.date.year==self.scenario.history.startDate.year){
+//					if(self.newPost.date.month==self.scenario.history.startDate.month){
+//						if(self.newPost.date.day>=self.scenario.history.startDate.day){
+//							outStart=false;
+//						}
+//					}else if(self.newPost.date.month>self.scenario.history.startDate.month){
+//						outStart=false;
+//					}
+//				}else if(self.newPost.date.year>self.scenario.history.startDate.year){
+//					outStart=false;
+//				}else{
+//					self.newPost.date = {};
+//					self.newPost.date.afterChrist=true;
+//					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
+//					return false;
+//				}
+//				
+//				if(self.newPost.date.year==self.scenario.history.endDate.year){
+//					if(self.newPost.date.month==self.scenario.history.endDate.month){
+//						if(self.newPost.date.day<=self.scenario.history.endDate.day){
+//							outEnd=false;
+//						}
+//					}else if(self.newPost.date.month<self.scenario.history.endDate.month){
+//						outEnd=false;
+//					}
+//				}else if(self.newPost.date.year<self.scenario.history.endDate.year){
+//					outEnd=false;
+//				}
+//				
+//				if(outStart || outEnd){
+//					self.newPost.date = {};
+//					self.newPost.date.afterChrist=true;
+//					self.newPost.date.formatted = CONSTANTS.historicalDateOutInterval;
+//					return false;
+//				}else
+//					return true;
 			}
 			
 			/*Create new Status*/
@@ -89,7 +99,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					self.sendPostEnable=false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
-					toSendPost.historicalDate = self.newPost.date;
+					toSendPost.julianDayNumber = self.newPost.julianDayNumber;
 					toSendPost.status = "PUBLISHED";
 					toSendPost.place = self.newPost.place;
 					toSendPost.imageMetaId = new Array();
@@ -114,8 +124,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.content="";
 								self.newPost.image=[];
 								self.newPost.file=[];
-								self.newPost.date={afterChrist : true};
-								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.newPost.julianDayNumber="";
+								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable= true;
 								self.newPost.place = null;
 								self.newPost.tags = [];
@@ -155,7 +165,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					self.sendPostEnable = false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
-					toSendPost.historicalDate = self.newPost.date;
+					toSendPost.julianDayNumber = self.newPost.julianDayNumber;
 					toSendPost.status = "DRAFT";
 					toSendPost.place = self.newPost.place;
 					toSendPost.imageMetaId = new Array();
@@ -180,8 +190,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.content="";
 								self.newPost.image=[];
 								self.newPost.file=[];
-								self.newPost.date={afterChrist : true};
-								self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
+								self.newPost.julianDayNumber="";
+								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 								self.newPost.place = null;
 								self.sendPostEnable = true;
 							},

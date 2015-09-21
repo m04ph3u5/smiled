@@ -8,7 +8,8 @@ public class PostReference {
 	
 	private String id;
 	private Date realDate;
-	private HistoricalDate historicalDate;
+//	private HistoricaDate historicalDate;
+	private Long julianDayNumber;
 	
 	public PostReference(){
 		
@@ -17,7 +18,7 @@ public class PostReference {
 	public PostReference(Post post){
 		this.id=post.getId();
 		this.realDate=post.getCreationDate();
-		this.historicalDate=post.getHistoricalDate();
+		this.julianDayNumber=post.getJulianDayNumber();
 	}
 	
 	public String getId() {
@@ -32,11 +33,19 @@ public class PostReference {
 	public void setRealDate(Date realDate) {
 		this.realDate = realDate;
 	}
-	public HistoricalDate getHistoricalDate() {
-		return historicalDate;
+//	public HistoricalDate getHistoricalDate() {
+//		return historicalDate;
+//	}
+//	public void setHistoricalDate(HistoricalDate historicalDate) {
+//		this.historicalDate = historicalDate;
+//	}
+
+	public Long getJulianDayNumber() {
+		return julianDayNumber;
 	}
-	public void setHistoricalDate(HistoricalDate historicalDate) {
-		this.historicalDate = historicalDate;
+
+	public void setJulianDayNumber(Long julianDayNumber) {
+		this.julianDayNumber = julianDayNumber;
 	}
 	
 	

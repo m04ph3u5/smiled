@@ -13,10 +13,10 @@ public abstract class Post {
 	
 	@Id
 	private String id;
-	
 	private Date creationDate;
 	private PostStatus status;
-	private HistoricalDate historicalDate;
+	//private HistoricalDate historicalDate;
+	private Long julianDayNumber;
 	private Date lastChangeDate;
 	private Reference user;
 	private List<CharacterReference> likes;
@@ -38,12 +38,12 @@ public abstract class Post {
 	public void setStatus(PostStatus status) {
 		this.status = status;
 	}
-	public HistoricalDate getHistoricalDate() {
-		return historicalDate;
-	}
-	public void setHistoricalDate(HistoricalDate historicalDate) {
-		this.historicalDate = historicalDate;
-	}
+//	public HistoricalDate getHistoricalDate() {
+//		return historicalDate;
+//	}
+//	public void setHistoricalDate(HistoricalDate historicalDate) {
+//		this.historicalDate = historicalDate;
+//	}
 	public Date getLastChangeDate() {
 		return lastChangeDate;
 	}
@@ -91,6 +91,12 @@ public abstract class Post {
 		return id;
 	}
 	
+	public Long getJulianDayNumber() {
+		return julianDayNumber;
+	}
+	public void setJulianDayNumber(Long julianDayNumber) {
+		this.julianDayNumber = julianDayNumber;
+	}
 	public void addLike(CharacterReference charRef){
 		for(int i=0; i<likes.size(); i++){
 			if(likes.get(i).getId().equals(charRef.getId())){

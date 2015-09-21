@@ -13,7 +13,8 @@ import it.polito.applied.smiled.pojo.scenario.Source;
 
 public class EventDTO {
 	private PostStatus status;
-	private HistoricalDate historicalDate;
+//	private HistoricalDate historicalDate;
+	private Long julianDayNumber;
 	private Reference user;
 	private String scenarioId;
 	private Place place;
@@ -32,14 +33,21 @@ public class EventDTO {
 	public void setStatus(PostStatus status) {
 		this.status = status;
 	}
-	public HistoricalDate getHistoricalDate() {
-		return historicalDate;
-	}
-	public void setHistoricalDate(HistoricalDate historicalDate) {
-		this.historicalDate = historicalDate;
-	}
+//	public HistoricalDate getHistoricalDate() {
+//		return historicalDate;
+//	}
+//	public void setHistoricalDate(HistoricalDate historicalDate) {
+//		this.historicalDate = historicalDate;
+//	}
+	
 	public Reference getUser() {
 		return user;
+	}
+	public Long getJulianDayNumber() {
+		return julianDayNumber;
+	}
+	public void setJulianDayNumber(Long julianDayNumber) {
+		this.julianDayNumber = julianDayNumber;
 	}
 	public void setUser(Reference user) {
 		this.user = user;

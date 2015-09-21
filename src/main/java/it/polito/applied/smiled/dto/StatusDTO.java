@@ -20,7 +20,8 @@ public class StatusDTO {
 	private ArrayList<String> fileMetaIdToDelete;
 	private List<Source> sources;
 	private PostStatus status;
-	private HistoricalDate historicalDate;
+//	private HistoricalDate historicalDate;
+	private Long julianDayNumber;
 	private Place place;
 	
 	public String getText() {
@@ -54,14 +55,21 @@ public class StatusDTO {
 	public void setStatus(PostStatus status) {
 		this.status = status;
 	}
-	public HistoricalDate getHistoricalDate() {
-		return historicalDate;
-	}
-	public void setHistoricalDate(HistoricalDate historicalDate) {
-		this.historicalDate = historicalDate;
-	}
+//	public HistoricalDate getHistoricalDate() {
+//		return historicalDate;
+//	}
+//	public void setHistoricalDate(HistoricalDate historicalDate) {
+//		this.historicalDate = historicalDate;
+//	}
+	
 	public Place getPlace() {
 		return place;
+	}
+	public Long getJulianDayNumber() {
+		return julianDayNumber;
+	}
+	public void setJulianDayNumber(Long julianDayNumber) {
+		this.julianDayNumber = julianDayNumber;
 	}
 	public void setPlace(Place place) {
 		this.place = place;
