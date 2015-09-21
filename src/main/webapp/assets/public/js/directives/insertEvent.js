@@ -341,6 +341,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*--------------------*/
 			/*Function to show/hide type box*/
 			self.showSelectType = function(){
+				console.log("showSelectType");
 				self.showViewToSelectType = !self.showViewToSelectType;
 			}
 			self.hideType = function(){
