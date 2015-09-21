@@ -161,7 +161,13 @@
 						</span>
 						<span ng-if="characterProfile.character.actualUser.id!=null">
 						<!-- <span ng-if="characterProfile.character.pastUserId!=null || characterProfile.character.actualUser.id!=null"> -->
-							<img data-ng-src="api/v1/users/{{characterProfile.character.actualUser.id}}/cover" data-err-src="assets/public/img/ic_student.png" class="imgPreviewM img-circle">
+							<a href="">
+								<img data-ng-src="api/v1/users/{{characterProfile.character.actualUser.id}}/cover" 
+								data-err-src="assets/public/img/ic_student.png" 
+								class="imgPreviewM img-circle"
+								title="{{characterProfile.character.actualUser.firstname}} {{characterProfile.character.actualUser.lastname}}" 
+								data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})">
+							</a>
 							<!-- fare chiamata all'API -->
 							<!-- 
 							<span ng-repeat="u in characterProfile.character.pastUserId" class="col-sm-2 marginSBottom">

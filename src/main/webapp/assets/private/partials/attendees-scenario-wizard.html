@@ -2,11 +2,11 @@
 <form class="form-search">
 	  <div class="inner-addon left-addon">
 		  <i class="glyphicon glyphicon-user"></i>
-		  <input type="search" ng-model="scenarioWizard.selectedUser" class="form-control input-medium search-query" placeholder="Cerca i tuoi studenti" 
+		  <input type="search" ng-model="scenarioWizard.selectedUser" class="searchBar form-control input-medium search-query" placeholder="Cerca i tuoi studenti" 
 		  typeahead="s as s.lastname+' '+s.firstname for s in scenarioWizard.selectableStudents | filter:$viewValue | limitTo:10" 
 		  typeahead-min-length='2' 
 		  typeahead-on-select='scenarioWizard.addAttendee(scenarioWizard.selectedUser)' 
-		  typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
+		  typeahead-template-url="customTemplate.html" class="form-control">
 	  </div>
 </form>
 <br>
@@ -23,9 +23,12 @@
 		<div class="col-md-4" data-ng-show="scenarioWizard.scenarioServer.attendees.length>0">
 			<label>PARTECIPANTI</label>
 			<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees" class="enlight">
-				<img data-ng-src="api/v1/users/{{s.id}}/cover" 
-						data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{s.lastname}} {{s.firstname}} 
-				<span show-on-hover-parent style="display:none" class="glyphicon glyphicon-trash marginMTop" data-ng-click="scenarioWizard.deleteAttendee(s)"></span>
+				<a href="" data-ui-sref="logged.userProfile({id: '{{s.id}}'})">
+					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
+					data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{s.lastname}} {{s.firstname}} 
+				</a>
+				<span show-on-hover-parent style="display:none" class="glyphicon glyphicon-trash marginMTop" 
+				data-ng-click="scenarioWizard.deleteAttendee(s)"></span>
 			</div>
 		</div>
 		<div class="col-md-4" data-ng-show="scenarioWizard.scenarioServer.invited.length>0">
