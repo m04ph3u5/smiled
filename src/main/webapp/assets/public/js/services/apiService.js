@@ -258,6 +258,19 @@
 		return s.promise;
 	}
 	
+	var updateEvent = function(id, idEvent, newEvent){
+		var s = $q.defer();
+		$http.put("/api/v1/scenarios/"+id+"/events/"+idEvent, newEvent).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
 	var deletePost = function(id, idPost){
 		var s = $q.defer();
 		$http.delete("/api/v1/scenarios/"+id+"/posts/"+idPost).then(
@@ -513,7 +526,8 @@
 		getMyMissions : getMyMissions,
 		postIssue: postIssue,
 		getPagedStudents: getPagedStudents,
-		getPagedTeachers: getPagedTeachers
+		getPagedTeachers: getPagedTeachers,
+		updateEvent: updateEvent
 		
 	}
 

@@ -225,6 +225,8 @@
 </div>
 
 <!-- EVENTO -->
+<div data-ng-if="!showNewsPost.deleted">
+
 <div data-ng-if="!showNewsPost.post.character" class="container-fluid">
 	<div class="col-md-12 box boxGray">
 		<div class="row marginSTop">
@@ -243,13 +245,25 @@
 						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
 						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}						
 					</a>
-					<a data-ng-if="showNewsPost.isOwner" class="glyphicon glyphicon-cog"></a>				
+						<div class="marginMLeft dropdown pull-right">
+						<a class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
+						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
+						 </ul>	
+					 </div>	
+					 <div data-ng-if="showNewsPost.post.lastChangeDate && (showNewsPost.post.lastChangeDate != showNewsPost.post.creationDate)">
+						<font size="2" color="blue">Modificato il: {{showNewsPost.post.lastChangeDate | date: showNewsPost.realDateFormat}}</font>
+					</div>		
 				</span>
 				<div class="row">
 					<h4 class="pull-left">
 						<a href="">NARRATORE</a>
 					</h4>
 				</div>
+				
+				<!--  DIV di default inizio -->
+				<div data-ng-show="!showNewsPost.editPost">
 				<div class="row">			
 					<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber)}}
 						<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
@@ -311,6 +325,120 @@
 					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
 						scenario-id="{{showNewsPost.scenario.id}}"></meta-comment-to>
 				</div>
+			</div>
+			<!-- DIV di default fine -->
+			
+			<!-- DIV di update inizio -->
+			<div data-ng-show="showNewsPost.editPost">
+				<div class="row">
+						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber)}}
+							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
+							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
+						</p>
+					</div>
+					<div class="row paddingMRight">
+						<textarea data-ng-model ="showNewsPost.postDTO.text" class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
+				
+					</div>
+					<div data-ng-show="showNewsPost.post.tags.length>0" class="row text-left marginSTop">
+						<b>Con: </b>
+						<div class="tags-wrapper">
+						<div class="tags-cloud">
+							<div data-ng-repeat="t in showNewsPost.post.tags" class="tag">
+								<span class="tagName" >
+									{{t.firstname}}
+								</span>
+								<span>
+									&nbsp;<b data-ng-click="showNewsPost.removeTag($index)" class="glyphicon glyphicon-remove"></b>
+								</span>	
+							</div>
+						</div>
+						</div>
+						
+					</div>
+							
+					<div class="row marginSTop ">
+						<div class="pull-left marginSTop marginMRight">
+<!-- 							<div title="Aggiungi un'immagine al post" ngf-select -->
+<!-- 								ngf-change="showNewsPost.addImageToPost($files)" -->
+<!-- 								class="tooltips glyphicon glyphicon-camera iconsMargin" -->
+<!-- 								data-ng-style="showNewsPost.colorImageMarker" -->
+<!-- 								data-ng-click="showNewsPost.hideTagBox()"></div> -->
+							
+<!-- 							<div title="Allega un file al post" ngf-select -->
+<!-- 								ngf-change="showNewsPost.addFileToPost($files)" -->
+<!-- 								class="tooltips glyphicon glyphicon-file iconsMargin" -->
+<!-- 								data-ng-style="showNewsPost.colorFileMarker" -->
+<!-- 								data-ng-click="showNewsPost.hideTagBox()"></div> -->
+						
+<!-- 							<div title="Aggiungi una posizione al post" -->
+<!-- 								class="tooltips glyphicon glyphicon-map-marker iconsMargin" -->
+<!-- 								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()" -->
+<!-- 								data-ng-style="showNewsPost.colorMapMarker"></div> -->
+				
+							<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="showNewsPost.colorTagsMarker"
+								title="Tagga personaggi al post"
+								data-ng-click="showNewsPost.switchShowTagBox()">
+							</div>
+						</div>
+					</div>
+					<div class="row text-left">		
+	
+						<tags-input data-ng-show="showNewsPost.showTagBox"
+							data-ng-model="showNewsPost.newCharactersToTags" display-property="name"
+							placeholder="TAGGA UN PERSONAGGIO" replace-spaces-with-dashes="false"
+							template="tag-template" add-from-autocomplete-only="true">
+						<auto-complete source="showNewsPost.search($query)"
+							min-length="0" load-on-focus="true" load-on-empty="true"
+							max-results-to-show="32" template="autocomplete-template">
+						</auto-complete> </tags-input>
+			
+				
+						<div class="row">
+							<div data-ng-repeat="row in showNewsPost.post.media track by $index">
+							<div data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 text-left imgToPost">
+								<img data-ng-src="{{col}}" class="imgPreviewL" />
+								<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
+										data-ng-click="showNewsPost.recalculateMatrix()"></span></div>
+								</div>
+							</div>
+							
+							<div data-ng-repeat="image in showNewsPost.post.image">
+								<div class="col-lg-2 col-md-3 imgToPost">
+									<img class="img imgPreviewL" ng-src="{{showNewsPost.getMedia(image.id)}}">
+									
+									
+							<!-- 					<div title="Indica le tue fonti" -->
+							<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
+							<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
+							<!-- 					<label></label> -->
+							<!-- 				</div> -->
+			
+								</div>
+							</div>
+						</div>
+						<!-- Inserire icone -->
+						<div class="row">
+							<div data-ng-repeat="file in showNewsPost.post.filesMetadata">				
+									<div class="col-sm-2 textLeft">
+										{{file.originalName}} 
+										<span data-ng-show="file.originalName" show-on-hover-parent
+											class="glyphicon glyphicon-remove"
+											data-ng-click="showNewsPost.removeFile(file)"></span>
+									</div>
+							</div>
+						</div>
+					</div>
+					<div class="row col-xs-12">
+						<div class="pull-right">
+							<button data-ng-click="showNewsPost.updateEvent()"
+								class="btn generalButton">AGGIORNA POST</button>
+							
+							<button data-ng-click="showNewsPost.closeEditPost()"
+								class="btn btn-danger">ANNULLA</button>
+						</div>
+					</div>
+			</div>
 			
 			</div>
 

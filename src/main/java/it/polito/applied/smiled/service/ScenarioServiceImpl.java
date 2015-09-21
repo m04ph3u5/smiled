@@ -1495,7 +1495,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			CustomUserDetails user) throws NotFoundException, ForbiddenException, BadRequestException, IOException {
 		/*Prelevo il post dal database e controllo che esso esista e sia di tipo Event */
 		Post post =  postRepository.findById(eventId);
-		if(post==null || !post.getClass().equals(Status.class))
+		if(post==null || !post.getClass().equals(Event.class))
 			throw new NotFoundException();
 		
 		if(post.getStatus().equals(PostStatus.DELETED))
