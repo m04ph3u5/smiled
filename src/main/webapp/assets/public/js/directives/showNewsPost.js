@@ -13,14 +13,40 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 		controller : function(){
 			var self = this;
 			var numMediaPerRow = 3;
-			self.isOwner = false;
 			self.showTagBox=false;
 			self.editPost=false;
 			self.deleted=false;
 			self.postDTO = {};
 			self.postDTO.text = self.post.text;
 			self.date={};
-			self.editButton = true;
+			
+			self.editButton = false;
+			
+			
+			var checkPermissionEdit = function(){
+				if(self.scenario.teacherCreator.id == self.loggedUser.id){
+					self.editButton = true;
+					return;
+				}
+				if(self.scenario.collaborators){
+					for (var i = 0; i< self.scenario.collaborators.length; i++){
+						if(self.scenario.collaborators[i].id == self.loggedUser.id){
+							self.editButton = true;
+							return;
+						}
+					}
+				}
+				
+				if(self.post.character && self.post.user.id == self.loggedUser.id){
+					if(self.currentCharacter.id == self.post.character.id){
+						self.editButton = true;
+						return;
+					}
+				}
+				
+			}
+			
+			checkPermissionEdit();
 			
 			
 			
@@ -59,9 +85,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			}
 
 
-			if(self.post.user.id == self.loggedUser.id){
-				self.isOwner = true;
-			}
+			
 			if(!self.currentCharacter || !self.currentCharacter.id)
 				self.classCommentButton="disabled-div";	
 

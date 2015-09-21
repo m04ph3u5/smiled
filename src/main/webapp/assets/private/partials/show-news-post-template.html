@@ -246,7 +246,7 @@
 						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}						
 					</a>
 						<div class="marginMLeft dropdown pull-right">
-						<a class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+						<a data-ng-show="showNewsPost.editButton" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
 						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
