@@ -4,7 +4,7 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         	var self = this;
         	self.posts = [];
         	var numMediaPerRow = 3;
-        	apiService.getPagedPosts($scope.scenario.scen.id, 0, 30, true).then(
+        	apiService.getPagedPosts($scope.scenario.scen.id, 0, 300, true).then(
         			function(data){
         				console.log(data);
         				self.posts = data.content;
