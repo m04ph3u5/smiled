@@ -4,7 +4,7 @@
 		<div class="pull-left">
 		<label>Scrivi come:&nbsp&nbsp</label><input type="checkbox"  checked  
 				data-size='small' bs-switch data-ng-model="insertPost.showBoxEvent"  data-on-custom-text="NARRATORE" 
-				data-off-custom-text="{{insertPost.character.name}}" >
+				data-off-custom-text="{{insertPost.character.name | limitTo:10}}" >
 			</input>
 		</div>
 		<div class="" data-ng-if="!insertPost.showBoxEvent">

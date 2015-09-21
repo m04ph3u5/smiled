@@ -17,7 +17,6 @@
 		.boxFluttuante {			
 			background-color: rgba(224, 216, 169, 0.6);
 			text-align:center;
-			color:#e8e8e8;
 			margin-top:50px;
 		}
 		input[type=date]::-webkit-inner-spin-button {
@@ -62,7 +61,7 @@
 			border-color:#5B5955;			
 			margin-bottom:20px;
 		}
-
+		
 		.navbar{
 			margin-top:1%;
 			background-color:rgba(224, 216, 169, 1);
