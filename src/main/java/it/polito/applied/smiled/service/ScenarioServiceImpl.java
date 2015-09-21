@@ -1873,13 +1873,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(post.getUser().getId().equals(activeUser.getId())){
 				if(permissionEvaluator.hasPermission(auth, status.getCharacter().getId(), "Character", "WRITE"))
 					permit=true;
-			}else{
-				if(post.getStatus().equals(PostStatus.PUBLISHED) && permissionEvaluator.hasPermission(auth, status.getScenarioId(), "Scenario", "MODERATOR")){
-					user = userRepository.findById(activeUser.getId());
-					if(user.getClass().equals(Teacher.class))
-						permit=true;
-				}
 			}
+			if(post.getStatus().equals(PostStatus.PUBLISHED) && permissionEvaluator.hasPermission(auth, status.getScenarioId(), "Scenario", "MODERATOR")){
+				user = userRepository.findById(activeUser.getId());
+				if(user.getClass().equals(Teacher.class))
+					permit=true;
+			}
+			
 				
 		}else if (post.getClass().equals(Event.class)){
 			Event event = (Event) post;
