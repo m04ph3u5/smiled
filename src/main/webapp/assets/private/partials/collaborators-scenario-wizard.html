@@ -2,11 +2,11 @@
 <form class="form-search">
 	 <div class="inner-addon left-addon">
 		<i class="glyphicon glyphicon-user"></i>
-	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="form-control input-medium search-query" placeholder="Cerca altri docenti" 
+	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="searchBar form-control input-medium search-query" placeholder="Cerca altri docenti" 
 	  		typeahead="t as t.lastname+' '+t.firstname for t in scenarioWizard.getPagedTeacherByRegex($viewValue) " 
 	  		typeahead-min-length='2' 
 	  		typeahead-on-select='scenarioWizard.addCollaborator(scenarioWizard.selectedCollaborator)'  
-	  	typeahead-template-url="customTemplate.html" class="form-control" style="width:350px;">
+	  	typeahead-template-url="customTemplate.html" class="form-control">
 	 </div>
 </form>
 <br>
@@ -16,14 +16,17 @@
 			<h3>Collaboratori</h3>
 			<div data-ng-repeat="c in scenarioWizard.scenarioServer.collaborators" class="col-md-4 col-xs-6">
 				<div class="row marginMTop marginSBottom">
-					<div class="col-sm-5 sideMarginThree">
-						<img data-ng-src="api/v1/users/{{c.id}}/cover" 
+					<div class="col-sm-5">
+						<a href=""><img data-ui-sref="logged.userProfile({id: '{{c.id}}'})" data-ng-src="api/v1/users/{{c.id}}/cover" 
 								data-err-src="assets/public/img/ic_teacher.png" class="img-circle imgPreviewL">
+						</a>
 					</div>
-					<div class="col-sm-7 vAlignExt">
-						<h5 class="vAlignInt">{{c.lastname}} {{c.firstname}} 
-							<span class="col-md-1 glyphicon glyphicon-trash pull-right" show-on-hover-parent style="display:none" 
-							data-ng-click="scenarioWizard.deleteCollaborator(c)"></span>
+					<div class="col-sm-7 marginEmS">
+						<h5><a href=""><span data-ui-sref="logged.userProfile({id: '{{c.id}}'})">{{c.lastname}} {{c.firstname}} </span></a></br>
+							<div class="text-center marginSTop"show-on-hover-parent style="display:none" >
+								<span class="glyphicon glyphicon-trash" 
+								data-ng-click="scenarioWizard.deleteCollaborator(c)"></span>
+							</div>
 						</h5>
 					</div>
 					
