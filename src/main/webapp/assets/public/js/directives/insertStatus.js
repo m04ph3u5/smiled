@@ -41,7 +41,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*Variable and function to switch open/closed historicalDatePicker*/
 			self.showDatePicker = false;
 			self.setDateNewPost = function(){
-				self.showDatePicker = !self.showDatePicker;
+//				self.showDatePicker = !self.showDatePicker;
+				modalService.showModalSetHistoryDate(self.startDate, self.endDate, self.newPost);
 			}
 			/*----------------------------------------------------------------*/
 			
@@ -94,66 +95,68 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			/*Create new Status*/
 			self.savePost = function(){
-				self.setDateNewPost();
-				if(self.sendPostEnable && self.newPost.content && validateDate()){
-					self.sendPostEnable=false;
-					var toSendPost = {};
-					toSendPost.text = self.newPost.content;
-					toSendPost.julianDayNumber = self.newPost.julianDayNumber;
-					toSendPost.status = "PUBLISHED";
-					toSendPost.place = self.newPost.place;
-					toSendPost.imageMetaId = new Array();
-					toSendPost.fileMetaId = new Array();
-					toSendPost.tags = new Array();
-					
-					for(var i=0; i<self.newPost.image.length; i++){
-						toSendPost.imageMetaId.push(self.newPost.image[i].id);
-					}
+				if(!validateDate())
+					self.setDateNewPost();
+				else{
+					if(self.sendPostEnable && self.newPost.content){
+						self.sendPostEnable=false;
+						var toSendPost = {};
+						toSendPost.text = self.newPost.content;
+						toSendPost.julianDayNumber = self.newPost.julianDayNumber;
+						toSendPost.status = "PUBLISHED";
+						toSendPost.place = self.newPost.place;
+						toSendPost.imageMetaId = new Array();
+						toSendPost.fileMetaId = new Array();
+						toSendPost.tags = new Array();
 						
-					for(var i=0; i<self.newPost.file.length; i++){
-						toSendPost.fileMetaId.push(self.newPost.file[i].id);
-					}
-					
-					for(var i=0; i<self.newPost.tags.length; i++){
-						toSendPost.tags.push(self.newPost.tags[i].id);
-					}
-					
-					apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
-							function(data){
-								console.log("sended: "+data);
-								self.newPost.content="";
-								self.newPost.image=[];
-								self.newPost.file=[];
-								self.newPost.julianDayNumber="";
-								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
-								self.sendPostEnable= true;
-								self.newPost.place = null;
-								self.newPost.tags = [];
-								apiService.getSingleStatus(self.scenario.id, data.id).then(
-										function(data){
-											self.posts.unshift(data);
-											if(self.posts[0].imageMetaId){
-												self.posts[0].imagesUrl = new Array();
-												for(var i=0; i<self.posts[0].imageMetaId.length; i++){
-													self.posts[0].imagesUrl[i].push(CONSTANTS.urlMedia(self.posts[0].imageMetaId[i]));
+						for(var i=0; i<self.newPost.image.length; i++){
+							toSendPost.imageMetaId.push(self.newPost.image[i].id);
+						}
+							
+						for(var i=0; i<self.newPost.file.length; i++){
+							toSendPost.fileMetaId.push(self.newPost.file[i].id);
+						}
+						
+						for(var i=0; i<self.newPost.tags.length; i++){
+							toSendPost.tags.push(self.newPost.tags[i].id);
+						}
+						
+						apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
+								function(data){
+									console.log("sended: "+data);
+									self.newPost.content="";
+									self.newPost.image=[];
+									self.newPost.file=[];
+									self.newPost.julianDayNumber="";
+									self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
+									self.sendPostEnable= true;
+									self.newPost.place = null;
+									self.newPost.tags = [];
+									apiService.getSingleStatus(self.scenario.id, data.id).then(
+											function(data){
+												self.posts.unshift(data);
+												if(self.posts[0].imageMetaId){
+													self.posts[0].imagesUrl = new Array();
+													for(var i=0; i<self.posts[0].imageMetaId.length; i++){
+														self.posts[0].imagesUrl[i].push(CONSTANTS.urlMedia(self.posts[0].imageMetaId[i]));
+													}
 												}
+												self.posts[0].character.cover = CONSTANTS.urlCharacterCover(self.scenario.id,self.posts[0].character.id);
+											},
+											function(reason){
+												console.log("error in insert new post in array"+reason);
 											}
-											self.posts[0].character.cover = CONSTANTS.urlCharacterCover(self.scenario.id,self.posts[0].character.id);
-										},
-										function(reason){
-											console.log("error in insert new post in array"+reason);
-										}
-								);
-							},
-							function(reason){
-								self.sendPostEnable=true;
-								console.log("error in send status: "+reason);
-							}
-					);
-				}else{
-					//TODO gestione alert errore
+									);
+								},
+								function(reason){
+									self.sendPostEnable=true;
+									console.log("error in send status: "+reason);
+								}
+						);
+					}else{
+						//TODO gestione alert errore
+					}
 				}
-			
 			}
 			/*--------------Create new post end------------------------------------------*/
 			

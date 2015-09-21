@@ -175,6 +175,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        				if(inserted<=numDaysOfMonth){
 	        					self.days[i][j] = {};
 	        					self.days[i][j].val=inserted;
+	        					self.days[i][j].selected=false;
 	        					if((currentMonthDate.year==self.startDate.year && currentMonthDate.month<self.startDate.month) ||
 	        							(currentMonthDate.year==self.startDate.year && currentMonthDate.month==self.startDate.month && inserted<self.startDate.day) ||
 	        							(currentMonthDate.year==self.endDate.year && currentMonthDate.month>self.endDate.month) ||
@@ -192,6 +193,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		for(var k=0; inserted<=numDaysOfMonth; k++){
 	        			self.days[5][k] = {};
 	        			self.days[5][k].val = inserted;
+    					self.days[5][k].selected=false;
 	        			if((currentMonthDate.year==self.startDate.year && currentMonthDate.month<self.startDate.month) ||
     							(currentMonthDate.year==self.startDate.year && currentMonthDate.month==self.startDate.month && inserted<self.startDate.day) ||
     							(currentMonthDate.year==self.endDate.year && currentMonthDate.month>self.endDate.month) ||
@@ -283,6 +285,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		date.year = self.currentMonthDate.year;
 	        		self.dateNumber=dateToJulianNumber(date);
 	        		console.log(self.dateNumber);
+	        		self.days[row][col].selected=true;
 	        		self.dateString=self.days[row][col].val+" "+self.currentMonthDate.title;
         		}
         	}

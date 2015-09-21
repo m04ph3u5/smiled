@@ -28,7 +28,7 @@
 		</tr>
 		
 		<tr data-ng-repeat="row in vm.days track by $index" data-ng-if="vm.showDays">
-			<td data-ng-repeat="col in row track by $index"><span data-ng-show="col" data-ng-click="vm.selectDate($parent.$index,$index)"><a data-ng-class="{'inactive-link': col.inactive}" href="">{{col.val}}</a></span></td>
+			<td data-ng-repeat="col in row track by $index"><span data-ng-show="col" data-ng-click="vm.selectDate($parent.$index,$index)"><a data-ng-class="{'inactive-link': col.inactive, 'selected-date': col.selected}" href="">{{col.val}}</a></span></td>
 		</tr>
 		
 		<tr data-ng-repeat="row in vm.yearMatrix track by $index" data-ng-if="!vm.showDays">

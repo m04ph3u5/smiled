@@ -38,8 +38,8 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*Variable and function to switch open/closed historicalDatePicker*/
 			self.showDatePicker = false;
 			self.setDateNewPost = function(){
-				self.showDatePicker = !self.showDatePicker;
-				
+//				self.showDatePicker = !self.showDatePicker;
+				modalService.showModalSetHistoryDate(self.startDate, self.endDate, self.newPost);
 			}
 			/*----------------------------------------------------------------*/
 			
@@ -92,66 +92,69 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			
 			/*Create new Event*/
 			self.savePost = function(){
-				self.setDateNewPost();
-				if(self.sendPostEnable && self.newPost.content && validateDate()){
-					self.sendPostEnable = false;
-					var toSendPost = {};
-					toSendPost.text = self.newPost.content;
-					toSendPost.julianDayNumber = self.newPost.julianDayNumber;
-					toSendPost.status = "PUBLISHED";
-					toSendPost.type = self.newPost.type;
-					toSendPost.imageMetaId = new Array();
-					toSendPost.fileMetaId = new Array();
-					toSendPost.tags = new Array();
-					toSendPost.place = self.newPost.place;
-					for(var i=0; i<self.newPost.image.length; i++){
-						toSendPost.imageMetaId.push(self.newPost.image[i].id);
-					}
+				if(!validateDate())
+					self.setDateNewPost();
+				else{
+					if(self.sendPostEnable && self.newPost.content){
+						self.sendPostEnable = false;
+						var toSendPost = {};
+						toSendPost.text = self.newPost.content;
+						toSendPost.julianDayNumber = self.newPost.julianDayNumber;
+						toSendPost.status = "PUBLISHED";
+						toSendPost.type = self.newPost.type;
+						toSendPost.imageMetaId = new Array();
+						toSendPost.fileMetaId = new Array();
+						toSendPost.tags = new Array();
+						toSendPost.place = self.newPost.place;
+						for(var i=0; i<self.newPost.image.length; i++){
+							toSendPost.imageMetaId.push(self.newPost.image[i].id);
+						}
+							
+						for(var i=0; i<self.newPost.file.length; i++){
+							toSendPost.fileMetaId.push(self.newPost.file[i].id);
+						}
 						
-					for(var i=0; i<self.newPost.file.length; i++){
-						toSendPost.fileMetaId.push(self.newPost.file[i].id);
-					}
-					
-					for(var i=0; i<self.newPost.tags.length; i++){
-						toSendPost.tags.push(self.newPost.tags[i].id);
-					}
-					
-					apiService.sendEvent(self.scenario.id, toSendPost).then(
-							function(data){
-								console.log("event sended: "+data);
-								self.newPost.content="";
-								self.newPost.image=[];
-								self.newPost.file=[];
-								self.newPost.place=null;
-								self.newPost.tags = [];
-								self.newPost.date="";
-								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
-								self.sendPostEnable = true;
-								//getSingleStatus in realtà ritorna un singolo post non un singolo status (ricorda che status è una specializzazione di post, come anche event)
-								apiService.getSingleStatus(self.scenario.id, data.id).then(
-										function(data){
-											self.posts.unshift(data);
-											if(self.posts[0].imageMetaId){
-												self.posts[0].imagesUrl = new Array();
-												for(var i=0; i<self.posts[0].imageMetaId.length; i++){
-													self.posts[0].imagesUrl[i].push(CONSTANTS.urlMedia(self.posts[0].imageMetaId[i]));
+						for(var i=0; i<self.newPost.tags.length; i++){
+							toSendPost.tags.push(self.newPost.tags[i].id);
+						}
+						
+						apiService.sendEvent(self.scenario.id, toSendPost).then(
+								function(data){
+									console.log("event sended: "+data);
+									self.newPost.content="";
+									self.newPost.image=[];
+									self.newPost.file=[];
+									self.newPost.place=null;
+									self.newPost.tags = [];
+									self.newPost.date="";
+									self.newPost.julianDayNumber="";
+									self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
+									self.sendPostEnable = true;
+									//getSingleStatus in realtà ritorna un singolo post non un singolo status (ricorda che status è una specializzazione di post, come anche event)
+									apiService.getSingleStatus(self.scenario.id, data.id).then(
+											function(data){
+												self.posts.unshift(data);
+												if(self.posts[0].imageMetaId){
+													self.posts[0].imagesUrl = new Array();
+													for(var i=0; i<self.posts[0].imageMetaId.length; i++){
+														self.posts[0].imagesUrl[i].push(CONSTANTS.urlMedia(self.posts[0].imageMetaId[i]));
+													}
 												}
+											},
+											function(reason){
+												console.log("error in insert new event in array");
 											}
-										},
-										function(reason){
-											console.log("error in insert new event in array");
-										}
-								);
-							},
-							function(reason){
-								self.sendPostEnable = true;
-								console.log("error in send event: "+reason);
-							}
-					);
-				}else{
-					//TODO gestione alert errore
-				}
-			
+									);
+								},
+								function(reason){
+									self.sendPostEnable = true;
+									console.log("error in send event: "+reason);
+								}
+						);
+					}else{
+						//TODO gestione alert errore
+					}
+				}			
 			}
 			/*----------------------------------------------------------------*/
 
@@ -405,6 +408,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 					ctrl.colorTypeMarker = {'color': 'dark grey'};					
 				}
 			});
+			
 		}
 	}
 }]);

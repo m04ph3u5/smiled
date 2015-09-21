@@ -109,6 +109,7 @@
 	<script src="/assets/public/js/controllers/openMapController.js"></script>
 	<script src="/assets/public/js/controllers/openMapForPostController.js"></script>
 	<script src="/assets/public/js/controllers/issuesController.js"></script>	
+	<script src="/assets/public/js/controllers/customDatePickerTemplateController.js"></script>	
 	<script src="/assets/public/js/controllers/oldCharacterChangeOnCommentController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>

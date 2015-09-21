@@ -1,0 +1,16 @@
+<div class="modal-header">
+	<h3 class="modal-title">Quando è stato scritto il post?</h3>
+	<h6>{{customDatePickerTemplate.dateString}}</h6>
+</div>
+<div class="modal-body">
+	<div style="margin-left:35px; margin-right:35px; margin-top:10px; margin-bottom:25px;" custom-date-picker start-date="customDatePickerTemplate.startDate" end-date="customDatePickerTemplate.endDate" 
+			date-number="customDatePickerTemplate.dateNumber"
+			date-string="customDatePickerTemplate.dateString"></div>	
+</div>
+<div class="modal-footer">
+	<button class="positiveButton btn" data-ng-click="customDatePickerTemplate.updateDate()"><span class="glyphicon glyphicon-floppy-save"></span>OK</button>
+	<button class="generalButton btn" data-ng-click="customDatePickerTemplate.cancel()">ANNULLA</button>
+	
+</div>
+<!-- Test commit -->
+

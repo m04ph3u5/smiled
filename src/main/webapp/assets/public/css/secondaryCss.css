@@ -209,3 +209,7 @@ span.clickable:hover {
    cursor: default;
    color: gray;
 }
+
+.selected-date {
+   background-color: #CCFF33;
+}

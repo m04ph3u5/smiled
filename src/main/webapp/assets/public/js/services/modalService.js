@@ -6,6 +6,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var post = {};
 		var scenarioMap = "";
+		var startDate = {};
+		var endDate = {};
+		var charName;
 		
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
@@ -13,6 +16,25 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceOpenMap;
 		var modalInstanceOpenMapForPost;
 		var modalInstanceOldCharacterChangeOnComment;
+		var modalInstanceSetHistoryDate;
+		
+		var optionSetHistoryDate = {
+				templateUrl: 'assets/private/partials/customDatePickerTemplate.html',
+				controller: 'customDatePickerTemplateCtrl',
+				controllerAs: 'customDatePickerTemplate',
+				size: 'sm',
+				resolve : {
+					startDate : function(){
+						return startDate;
+					},
+					endDate : function(){
+						return endDate;
+					},
+					post : function(){
+						return post;
+					}
+				}
+		}
 		
 		var optionsCreateScen = {
 				templateUrl:'assets/private/partials/createScenario.html',
@@ -213,6 +235,19 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceOldCharacterChangeOnComment.close();
 		}
 		
+		
+		var showModalSetHistoryDate = function(sDate, eDate, p){
+			startDate = sDate;
+			endDate = eDate;
+			post = p;
+			modalInstanceSetHistoryDate = $modal.open(optionSetHistoryDate);
+			return modalInstanceSetHistoryDate.result;
+		}
+	
+		var closeModalSetHistoryDate = function(){
+			modalInstanceSetHistoryDate.close();
+		}
+		
 		return {
 			createScenario : createScenario,
 			deleteScenario : deleteScenario,
@@ -228,7 +263,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showModalOpenMapForPost: showModalOpenMapForPost,
 			closeModalOpenMapForPost: closeModalOpenMapForPost,
 			showModalOldCharacterChangeOnComment: showModalOldCharacterChangeOnComment,
-			closeModalOldCharacterChangeOnComment: closeModalOldCharacterChangeOnComment
+			closeModalOldCharacterChangeOnComment: closeModalOldCharacterChangeOnComment,
+			showModalSetHistoryDate: showModalSetHistoryDate,
+			closeModalSetHistoryDate: closeModalSetHistoryDate
 		}
 }]);
 
