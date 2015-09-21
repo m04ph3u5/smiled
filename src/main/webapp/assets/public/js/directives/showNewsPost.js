@@ -1,6 +1,6 @@
-angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService', '$q', 'Upload',
+angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService', '$q', 'Upload', 'modalService',
 
-                                                                 function(CONSTANTS, apiService, Lightbox, modalService, $q, Upload){
+                                                                 function(CONSTANTS, apiService, Lightbox, modalService, $q, Upload, modalService){
 	return {
 		templateUrl: "assets/private/partials/show-news-post-template.html",
 		scope : {
@@ -21,9 +21,16 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			self.postDTO.text = self.post.text;
 			self.date={};
 
+			self.startDate = angular.copy(self.scenario.history.startDate);
+			if(!self.startDate.afterChrist)
+				self.startDate.year*=-1;
+			self.endDate = angular.copy(self.scenario.history.endDate);
+			if(!self.endDate.afterChrist)
+				self.endDate.year*=-1;
 
 			self.originalTagsList = angular.copy(self.post.tags);  //la uso per riaggiornare la lista di tag nel caso annullo la modifica al post
-
+			self.originalJulianDayNumber = angular.copy(self.post.julianDayNumber);
+			
 			self.newCharactersToTags = new Array();
 
 			self.switchEditPost = function(){
@@ -35,6 +42,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.postDTO.text = self.post.text;
 				self.editPost = !self.editPost;
 				self.newCharactersToTags = [];
+				self.post.julianDayNumber = self.originalJulianDayNumber;
+				//TODO modificare label per date dopo annullamento
 			}
 
 			if(self.post.imagesMetadata.length >0){
@@ -78,16 +87,16 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			}
 
 			self.formatDate = function(jd){
-//				if(date.afterChrist)
-//	era="D.C.";
-//else
-//	era="A.C.";
-
-//return date.day+" / "+date.month+" / "+date.year+" "+era;
-julianNumberToDate(jd, self.date);
-var era = self.date.year > 0 ? "" : " A.C.";
-var s = getMonthString(self.date.month) + " "+ Math.abs(self.date.year) + era;
-return self.date.day+" "+s;
+				//				if(date.afterChrist)
+				//	era="D.C.";
+				//else
+				//	era="A.C.";
+				
+				//return date.day+" / "+date.month+" / "+date.year+" "+era;
+				julianNumberToDate(jd, self.date);
+				var era = self.date.year > 0 ? "" : " A.C.";
+				var s = getMonthString(self.date.month) + " "+ Math.abs(self.date.year) + era;
+				return self.date.day+" "+s;
 			}
 
 
@@ -229,7 +238,7 @@ return self.date.day+" "+s;
 			self.updateStatus = function(){
 
 				self.postDTO.id = self.post.id;
-
+				self.postDTO.julianDayNumber = self.post.julianDayNumber;
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){
 					newTags.push(self.newCharactersToTags[i].id);
@@ -261,6 +270,10 @@ return self.date.day+" "+s;
 						},
 						function(reason){
 							console.log("UPDATE STATUS FAILED");
+							self.post.tags = angular.copy(self.originalTagsList);
+							self.postDTO = {};
+							self.postDTO.text = self.post.text;
+							self.newCharactersToTags = [];
 							self.editPost = !self.editPost;
 						});
 
@@ -270,6 +283,7 @@ return self.date.day+" "+s;
 			self.updateEvent = function(){
 
 				self.postDTO.id = self.post.id;
+				self.postDTO.julianDayNumber = self.post.julianDayNumber;
 
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){
@@ -307,6 +321,13 @@ return self.date.day+" "+s;
 
 
 			}
+			
+			
+			self.updateDate = function(){
+				modalService.showModalSetHistoryDate(self.startDate, self.endDate, self.post);
+			}
+			
+			
 
 			self.removeTag=function(index){
 				self.post.tags.splice(index,1);
@@ -396,6 +417,8 @@ return self.date.day+" "+s;
 					});
 				}
 			}
+			
+			
 			/*-------------------------------------------------------*/
 
 		},
