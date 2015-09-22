@@ -989,6 +989,20 @@
 		position:absolute;
 		background-color:white;
 	}
+	.cardCover{
+		height: 5em;
+		width:20em;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	
+	.profPicCard{
+		z-index:6;
+		position:absolute;
+		top:2em;
+		left:1em;
+	}
 
 /*Non ancora classificato*/
 		

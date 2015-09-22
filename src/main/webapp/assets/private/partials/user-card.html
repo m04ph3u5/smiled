@@ -1,9 +1,19 @@
-<div>
-	<div class="row" ></div>
-	<div class="img">Immagine del profilo che si sovrappone</div>
-	<h3>Nome Cognome</h3>
+<div class="container-fluid">
 	<div class="row">
-		<div class="col-xs-6">Stud/docente</div>
+		<div class="cardCover" style="background-image:url('{{userCard.userCover}}'),url('assets/public/img/cover_default.jpg')"></div>
+	</div>
+	<img class="img imgCircle imgPreviewXM profPicCard" ng-src="{{userCard.profilePicture}}"
+		err-src="assets/public/img/ic_teacher.png">
+	<div class="row marginMTop">
+		<div class="col-xs-2">
+		
+		</div>
+		<div class="col-xs-10">
+		<label>{{userCard.user.firstName+ " " + userCard.user.lastName}}</label>
+		</div>
+	</div>
+	<div class="row marginMTop">
+		<div class="col-xs-6">{{userCard.ruolo}}</div>
 		<div class="col-xs-3">N° scenari</div>
 		<div class="col-xs-3">N° compiti?</div>
 	</div>

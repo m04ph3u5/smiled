@@ -11,7 +11,6 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	var onSuccessGetUser = function(data){
 		self.user = data;
 		role = self.user.role;	
-		console.log(self.user);
 		if (role.authority=="ROLE_TEACHER")
 			self.ruolo="DOCENTE";
 		else 
