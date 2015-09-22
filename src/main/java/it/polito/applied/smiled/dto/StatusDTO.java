@@ -22,6 +22,7 @@ public class StatusDTO {
 	private PostStatus status;
 //	private HistoricalDate historicalDate;
 	private Long julianDayNumber;
+	private Integer timeNumber;
 	private Place place;
 	
 	public String getText() {
@@ -97,6 +98,12 @@ public class StatusDTO {
 	}
 	public void setFileMetaIdToDelete(ArrayList<String> fileMetaIdToDelete) {
 		this.fileMetaIdToDelete = fileMetaIdToDelete;
+	}
+	public Integer getTimeNumber() {
+		return timeNumber;
+	}
+	public void setTimeNumber(Integer timeNumber) {
+		this.timeNumber = timeNumber;
 	}
 		
 

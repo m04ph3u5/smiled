@@ -20,12 +20,21 @@ public class PostReferenceHistoricalDateComparator implements Comparator<PostRef
 	 * l'ordinamento decrescente*/
 	@Override
 	public int compare(PostReference pr1, PostReference pr2) {
-		if(pr1.getJulianDayNumber()<pr2.getJulianDayNumber())
+		if(pr1.getJulianDayNumber()>pr2.getJulianDayNumber())
 			return -1;
-		else if(pr1.getJulianDayNumber()>pr2.getJulianDayNumber())
+		else if(pr1.getJulianDayNumber()<pr2.getJulianDayNumber())
 			return 1;
-		else
-			return 0;		
+		else{
+			if(pr1.getTimeNumber()!=null && pr2.getTimeNumber()!=null){
+				if(pr1.getTimeNumber()>pr2.getTimeNumber())
+					return 1;
+				else if(pr1.getTimeNumber()<pr2.getTimeNumber())
+					return -1;
+				else
+					return 0;
+			}else
+				return 0;
+		}
 	}
 
 }

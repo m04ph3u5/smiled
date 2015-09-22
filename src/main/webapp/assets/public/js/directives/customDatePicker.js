@@ -9,12 +9,16 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	date : "=?",
         	startDate : "=?",
         	endDate : "=?",
-        	dateString : "=?"
+        	dateString : "=?",
+        	timeNumber : "=?"
         },
         controller : function (){
         	var self = this;
         	
         	var selected={};
+        	
+        	if(!self.timeNumber)
+        		self.timeNumber=0;
         	
         	if(self.startDate){
         		self.startDate.day=parseInt(self.startDate.day);
@@ -141,6 +145,13 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
            		
 
         	console.log(self.currentMonthDate);
+        	var getTimeToSeconds=function(timeNumber,t){
+        		t.hours=parseInt(timeNumber/3600);
+        		timeNumber=timeNumber%3600;
+        		t.minutes=parseInt(timeNumber/60);
+        		timeNumber=timeNumber%60;
+        		t.seconds=timeNumber;
+        	}
         	
         	var writeStringCurrent = function(){
         		var era = self.currentMonthDate.year > 0 ? "" : " a.C.";
@@ -364,19 +375,26 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	}
         	
         	
-        	self.time=0;
         	/*TIMEPICKER*/
+        	
         	var getSecondsOfTime = function(date){
         		var hour = date.getHours();
         		var minute = date.getMinutes();
         		var seconds = date.getSeconds();
         		
-        		self.time=seconds+minute*60+hour*3600;
+        		self.timeNumber=seconds+minute*60+hour*3600;
         		console.log(self.time);
         	}
-        	
-        	self.myTime = Date();
-        	getSecondsOfTime(self.myTime);
+        	if(!self.timeNumber){
+        		self.myTime = new Date();
+            	getSecondsOfTime(self.myTime);
+        	}
+        	else{
+        		var d = new Date();
+        		var t = {};
+        		getTimeToSeconds(self.timeNumber,t);
+        		self.myTime = new Date(d.getFullYear,d.getMonth(),d.getDay(), t.hours, t.minutes, t.seconds);
+        	}
         	self.changed = function () {
         		getSecondsOfTime(self.myTime);
         	};

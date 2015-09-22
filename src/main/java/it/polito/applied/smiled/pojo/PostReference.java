@@ -10,6 +10,7 @@ public class PostReference {
 	private Date realDate;
 //	private HistoricaDate historicalDate;
 	private Long julianDayNumber;
+	private Integer timeNumber;
 	
 	public PostReference(){
 		
@@ -19,6 +20,7 @@ public class PostReference {
 		this.id=post.getId();
 		this.realDate=post.getCreationDate();
 		this.julianDayNumber=post.getJulianDayNumber();
+		this.timeNumber=post.getTimeNumber();
 	}
 	
 	public String getId() {
@@ -43,9 +45,14 @@ public class PostReference {
 	public Long getJulianDayNumber() {
 		return julianDayNumber;
 	}
-
 	public void setJulianDayNumber(Long julianDayNumber) {
 		this.julianDayNumber = julianDayNumber;
+	}
+	public Integer getTimeNumber() {
+		return timeNumber;
+	}
+	public void setTimeNumber(Integer timeNumber) {
+		this.timeNumber = timeNumber;
 	}
 	
 	

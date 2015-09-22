@@ -214,6 +214,6 @@ span.clickable:hover {
    background-color: #CCFF33;
 }
 
-.glyphicon .glyphicon-chevron-up {
-	color: #89b151;
+.btn-link {
+	color: #2C6143;
 }

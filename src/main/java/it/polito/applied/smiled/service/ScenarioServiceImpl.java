@@ -1056,6 +1056,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		status.setPlace(statusDTO.getPlace());
 //		status.setHistoricalDate(statusDTO.getHistoricalDate());
 		status.setJulianDayNumber(statusDTO.getJulianDayNumber());
+		status.setTimeNumber(statusDTO.getTimeNumber());
 		status.setSources(statusDTO.getSources());
 		List<Reference> tagsCharacter = new ArrayList<Reference>();
 		if(statusDTO.getTags()!=null){
@@ -1221,6 +1222,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		event.setPlace(eventDTO.getPlace());
 //		event.setHistoricalDate(eventDTO.getHistoricalDate());
 		event.setJulianDayNumber(eventDTO.getJulianDayNumber());
+		event.setTimeNumber(eventDTO.getTimeNumber());
 		event.setSources(eventDTO.getSources());
 		List<Reference> tagsCharacter = new ArrayList<Reference>();
 		if(eventDTO.getTags()!=null){
@@ -1365,6 +1367,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(status.getStatus().equals(PostStatus.PUBLISHED))
 				updateHistoricalDate=true;
 		}
+		
+		if(statusDTO.getTimeNumber()!=null){
+			u.set("timeNumber", statusDTO.getTimeNumber());
+			if(status.getStatus().equals(PostStatus.PUBLISHED))
+				updateHistoricalDate=true;
+		}
+		
 		if(statusDTO.getPlace()!=null){
 			u.set("place", statusDTO.getPlace());
 		}
@@ -1568,6 +1577,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(event.getStatus().equals(PostStatus.PUBLISHED))
 				updateHistoricalDate=true;
 		}
+		if(eventDTO.getTimeNumber()!=null){
+			u.set("timeNumber", eventDTO.getTimeNumber());
+			if(event.getStatus().equals(PostStatus.PUBLISHED))
+				updateHistoricalDate=true;
+		}
+		
 		if(eventDTO.getPlace()!=null){
 			u.set("place", eventDTO.getPlace());
 		}
