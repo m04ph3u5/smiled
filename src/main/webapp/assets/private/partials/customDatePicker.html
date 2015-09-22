@@ -32,11 +32,11 @@
 		</tr>
 		
 		<tr data-ng-repeat="row in vm.yearMatrix track by $index" data-ng-if="!vm.showDays">
-			<td data-ng-repeat="col in row track by $index"><span style="padding:5px;" data-ng-click="vm.selectYear($parent.$index,$index)"><a href="">{{col}}</a></span></td>
+			<td data-ng-repeat="col in row track by $index"><span style="padding:5px;" data-ng-click="vm.selectYear($parent.$index,$index)"><a data-ng-show="col>=0" href="">{{col}}</a><a data-ng-show="col<0" href="">{{col*(-1)}}</a></span></td>
 		</tr>
 				
 	</table>
 
-
+	  <timepicker style="margin-left:15%;" ng-model="vm.mytime" ng-change="vm.changed()" minute-step="5" show-meridian="false"></timepicker>
 
 </div>

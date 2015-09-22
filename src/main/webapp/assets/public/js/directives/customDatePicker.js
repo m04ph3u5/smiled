@@ -14,6 +14,8 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         controller : function (){
         	var self = this;
         	
+        	var selected={};
+        	
         	if(self.startDate){
         		self.startDate.day=parseInt(self.startDate.day);
         		self.startDate.month=parseInt(self.startDate.month);
@@ -90,6 +92,11 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		return CONSTANTS.monthString(month);
         	} 
         	
+        	if(self.dateNumber){
+        		self.currentDate = {};
+        		julianNumberToDate(self.dateNumber, self.currentDate);
+        	}
+        	
         	if(self.startDateNumber)
         		julianNumberToDate(parseInt(self.startDateNumber), self.startDate);
         	else
@@ -99,7 +106,11 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	else
         		self.endDateNumber=dateToJulianNumber(self.endDate);
 
-        	julianNumberToDate(self.startDateNumber-(self.startDate.day-1),self.currentMonthDate);
+        	if(self.dateNumber){
+        		julianNumberToDate(self.dateNumber-(self.currentDate.day-1),self.currentMonthDate);
+        	}else
+        		julianNumberToDate(self.startDateNumber-(self.startDate.day-1),self.currentMonthDate);
+        		
 
 //        	if(!self.startDate)
 //        		julianNumberToDate(parseInt(self.startDateNumber), self.startDate);
@@ -132,7 +143,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	console.log(self.currentMonthDate);
         	
         	var writeStringCurrent = function(){
-        		var era = self.currentMonthDate.year > 0 ? "" : " A.C.";
+        		var era = self.currentMonthDate.year > 0 ? "" : " a.C.";
         		var s = getMonthString(self.currentMonthDate.month) + " "+ Math.abs(self.currentMonthDate.year) + era;
         		self.currentMonthDate.title=s;
         	}
@@ -162,6 +173,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	}
         	
         	var elaborateDaysOfMonth = function(currentMonthDate){
+        		selected = {};
 	        	var numDaysOfMonth = getNumDaysOfMonth(currentMonthDate.month, currentMonthDate.year);
 	        	var inserted=1;
 	        	var passed=1;
@@ -182,6 +194,11 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        							(currentMonthDate.year==self.endDate.year && currentMonthDate.month==self.endDate.month && inserted>self.endDate.day)){
 	        						self.days[i][j].inactive=true;
 	        					}
+	        					if(self.currentDate && self.currentDate.year==currentMonthDate.year && self.currentDate.month==currentMonthDate.month && self.currentDate.day==inserted){
+	        						self.days[i][j].selected=true;
+	        						selected=self.days[i][j];
+	        					}
+	        					
 	        					inserted++;
 	        				}
 	        			}
@@ -200,6 +217,10 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
     							(currentMonthDate.year==self.endDate.year && currentMonthDate.month==self.endDate.month && inserted>self.endDate.day)){
     						self.days[5][k].inactive=true;
     					}
+	        			if(self.currentDate && self.currentDate.year==currentMonthDate.year && self.currentDate.month==currentMonthDate.month && self.currentDate.day==inserted){
+    						self.days[5][k].selected=true;
+    						selected=self.days[5][k];
+	        			}
 	        			inserted++;
 	        		}
 	        	}
@@ -210,6 +231,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	elaborateDaysOfMonth(self.currentMonthDate);
         	console.log(self.currentMonthDate);
            
+        	
         	
         	self.getDayOfWeekString = function(day){
         		return CONSTANTS.dayOfWeekString(day);
@@ -231,14 +253,22 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
             		var index = self.yearMatrix[yearMatrixSize-1][yearMatrixSize-1]+1-self.startDate.year;
             		if(index<years.length && index>0){
 	        			emptyYearMatrix();
-	            		self.yearsInterval = ""+years[index];
+	        			if(years[index]>=0)
+	        				self.yearsInterval = ""+years[index];
+	        			else
+	        				self.yearsInterval = ""+Math.abs(years[index])+" a.C.";
+
 	            		console.log(self.yearMatrix[yearMatrixSize-1][yearMatrixSize-1]);
 	    				for(var i=0; i<yearMatrixSize; i++)
 	            			for(var j=0; j<yearMatrixSize && index<years.length && index>0; j++){
 	            				self.yearMatrix[i][j]=years[index];
 	            				index++;
 	            			}
-	            		self.yearsInterval +=" - "+years[index-1];
+	    				if(years[index-1]>=0)
+	    					self.yearsInterval +=" - "+years[index-1];
+	        			else
+	    					self.yearsInterval +=" - "+Math.abs(years[index-1])+" a.C.";
+	            		
             		}
         		}
         	}
@@ -265,20 +295,27 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
             			index=0;
             		if(index<years.length){
 	        			emptyYearMatrix();
-	            		self.yearsInterval = ""+years[index];
-	    				for(var i=0; i<yearMatrixSize; i++)
+	        			if(years[index]>=0)
+	        				self.yearsInterval = ""+years[index];
+	        			else
+	        				self.yearsInterval = ""+Math.abs(years[index])+" a.C.";	    				
+	        			for(var i=0; i<yearMatrixSize; i++)
 	            			for(var j=0; j<yearMatrixSize && index<years.length && index>=0; j++){
 	            				self.yearMatrix[i][j]=years[index];
 	            				index++;
 	            			}    
-	            		self.yearsInterval +=" - "+years[index-1];
-            		}
+	        				if(years[index-1]>=0)
+		    					self.yearsInterval +=" - "+years[index-1];
+		        			else
+		    					self.yearsInterval +=" - "+Math.abs(years[index-1])+" a.C.";            		}
         		}
 
         	}
         	
         	self.selectDate = function(row, col){
         		if(!self.days[row][col].inactive){
+        			if(selected)
+        				selected.selected = false;
 	        		var date = {};
 	        		date.day = self.days[row][col].val;
 	        		date.month = self.currentMonthDate.month;
@@ -286,6 +323,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		self.dateNumber=dateToJulianNumber(date);
 	        		console.log(self.dateNumber);
 	        		self.days[row][col].selected=true;
+	        		selected = self.days[row][col];
 	        		self.dateString=self.days[row][col].val+" "+self.currentMonthDate.title;
         		}
         	}
@@ -294,15 +332,20 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		self.showDays=false;
         		emptyYearMatrix();
         		var index = self.currentMonthDate.year-self.startDate.year;
-        		self.yearsInterval = ""+years[index];
+        		if(years[index]>=0)
+    				self.yearsInterval = ""+years[index];
+    			else
+    				self.yearsInterval = ""+Math.abs(years[index])+" a.C.";	    		        		
         		for(var i=0; i<yearMatrixSize; i++)
         			for(var j=0; j<yearMatrixSize && index<years.length; j++){
         				self.yearMatrix[i][j]=years[index];
         				console.log(self.yearMatrix[i][j]);
         				index++;
         			}
-        		self.yearsInterval +=" - "+years[index-1];
-
+        		if(years[index-1]>=0)
+					self.yearsInterval +=" - "+years[index-1];
+    			else
+					self.yearsInterval +=" - "+Math.abs(years[index-1])+" a.C.";
         	}
         	
         	self.switchToShowDays = function(){
@@ -319,7 +362,25 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		self.switchToShowDays();
     			elaborateDaysOfMonth(self.currentMonthDate);
         	}
-        
+        	
+        	
+        	self.time=0;
+        	/*TIMEPICKER*/
+        	var getSecondsOfTime = function(date){
+        		var hour = date.getHours();
+        		var minute = date.getMinutes();
+        		var seconds = date.getSeconds();
+        		
+        		self.time=seconds+minute*60+hour*3600;
+        		console.log(self.time);
+        	}
+        	
+        	self.myTime = Date();
+        	getSecondsOfTime(self.myTime);
+        	self.changed = function () {
+        		getSecondsOfTime(self.myTime);
+        	};
+        	/**/
         },
         controllerAs: 'vm',
         bindToController: true

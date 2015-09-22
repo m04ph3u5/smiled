@@ -10,10 +10,6 @@ Large images are scaled to fit inside the window. An optional image caption over
 
 [Demos](http://compact.github.io/angular-bootstrap-lightbox/)
 
-## API documentation
-
-[API documentation](api.md) of the services and directive in the Angular module
-
 ## Setup
 
 1. Install in one of the following ways:
@@ -42,8 +38,9 @@ Large images are scaled to fit inside the window. An optional image caption over
 
 5. Optional dependencies:
 
-  * To enable swipe navigation in the lightbox, include the [ngTouch](https://docs.angularjs.org/api/ngTouch) script before `angular-bootstrap-lightbox.js`.
-  * To show a loading bar while an image is loading, include the [angular-loading-bar](https://github.com/chieffancypants/angular-loading-bar) script before `angular-bootstrap-lightbox.js`.
+  * To enable swipe navigation in the lightbox, include the [ngTouch](https://docs.angularjs.org/api/ngTouch) script.
+  * To show a loading bar while an image is loading, include the [angular-loading-bar](https://github.com/chieffancypants/angular-loading-bar) script.
+  * For video support, include the [ng-videosharing-embed](https://github.com/erost/ng-videosharing-embed) script.
 
 ## Basic example
 
@@ -120,27 +117,56 @@ angular.module('app').config(function (LightboxProvider) {
 });
 ```
 
-For a more specific example, if you have no captions, the array can contain strings for the urls:
+### Image and modal scaling
+
+By default, images are scaled only if they are too large for the modal to contain without scrolling.
+
+If you want all images to be scaled to the maximum possible dimensions, update the `Lightbox.fullScreenMode` boolean:
 
 ```js
 angular.module('app').config(function (LightboxProvider) {
-  LightboxProvider.getImageUrl = function (imageUrl) {
-    return imageUrl;
-  };
-});
-
-angular.module('app').controller('GalleryCtrl', function ($scope, Lightbox) {
-  $scope.images = ['1.jpg', '2.jpg', '3.jpg'];
-
-  $scope.openLightboxModal = function (index) {
-    Lightbox.openModal($scope.images, index);
-  };
+  LightboxProvider.fullScreenMode = true;
 });
 ```
 
-### Setting different limits for the image and lightbox dimensions
+For more custom behaviour, see the [documentation](src/lightbox-service.js) of the methods `calculateImageDimensionLimits` and `calculateModalDimensions`.
 
-By default, images are scaled only if they are too large for the modal to contain without scrolling. To change this behaviour, see the [documentation](src/lightbox-service.js) of the following methods:
+### Videos
 
-* `LightboxProvider.calculateImageDimensionLimits`
-* `LightboxProvider.calculateModalDimensions`
+An element in the array of 'images' is considered a video if it is an object with a `type` property having the value `video` (see the [demo](http://compact.github.io/angular-bootstrap-lightbox/demo5/index.html)). To change this, write your own `LightboxProvider.isVideo` method.
+
+By default, a video is embedded directly if its url ends in `.mp4`, `.ogg`, or `.webm`. Every other url is considered a video from an external sharing service (such as YouTube). To change this check, edit the `LightboxProvider.isSharedVideo` method. The `ng-videosharing-embed` library is used for embedding shared videos if it is included in your app. You can use another video library by changing the template.
+
+For now, the maximum video dimensions are fixed at 1280x720 (16:9).
+
+## Development
+
+* [API documentation](api.md) of the services and directive in the Angular module
+
+* Setup:
+
+  ```sh
+  npm install
+  bower install
+  ```
+
+* Build:
+
+  ```sh
+  grunt
+  ```
+
+* Generate docs:
+
+  ```sh
+  grunt jsdoc2md
+  ```
+
+* Serve the GitHub Pages:
+
+  ```sh
+  git checkout gh-pages
+  git checkout master -- dist/angular-bootstrap-lightbox.min.js dist/angular-bootstrap-lightbox.min.css
+  bundle install
+  bundle exec jekyll serve
+  ```

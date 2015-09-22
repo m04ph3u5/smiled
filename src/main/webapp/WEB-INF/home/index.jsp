@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet"
 	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap/ui-bootstrap-csp.css">
+<link rel="stylesheet" href="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-csp.css">
 <link rel="stylesheet" href="/assets/public/css/custom-style.css">
 <link rel="stylesheet" href="/assets/public/css/secondaryCss.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css">

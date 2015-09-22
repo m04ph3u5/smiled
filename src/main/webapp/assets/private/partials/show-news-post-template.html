@@ -331,7 +331,7 @@
 			<!-- DIV di update inizio -->
 			<div data-ng-show="showNewsPost.editPost">
 				<div class="row">
-						<p class="pull-left" data-ng-click="showNewsPost.updateDate()"><a href="">{{showNewsPost.post.formattedDate}}</a>
+						<p class="pull-left" data-ng-click="showNewsPost.updateDate()"><a href="">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber)}}</a>
 							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
 							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
 						</p>

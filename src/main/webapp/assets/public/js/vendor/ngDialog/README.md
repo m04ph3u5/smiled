@@ -1,3 +1,4 @@
+<!-- ### LOOKING FOR MAINTAINER. PLEASE PING [@voronianski](https://twitter.com/voronianski)! -->
 # ngDialog
 
 [![build status](http://img.shields.io/travis/likeastore/ngDialog.svg)](https://travis-ci.org/likeastore/ngDialog)
@@ -5,9 +6,10 @@
 [![github tag](https://img.shields.io/github/tag/likeastore/ngDialog.svg)](https://github.com/likeastore/ngDialog/tags)
 [![Download Count](https://img.shields.io/npm/dm/ng-dialog.svg)](http://www.npmjs.com/package/ng-dialog)
 
+
 > Modal dialogs and popups provider for [Angular.js](http://angularjs.org/) applications.
 
-ngDialog is small (~2Kb), has minimalistic API, highly customizable through themes and has only Angular.js as dependency.
+ngDialog is ~10Kb, has minimalistic API, highly customizable through themes and has only Angular.js as dependency.
 
 ### [Demo](http://likeastore.github.io/ngDialog)
 
@@ -68,6 +70,28 @@ ngDialog.open({ template: 'templateId' });
 
 Also it is possible to use simple string as template together with ``plain`` option.
 
+##### Pro Tip about templates
+
+It's not always necessary to place your external html template inside ``<script>`` tag. You could put these templates into ``$templateCache`` like this:
+
+```javascript
+angular.module('dialog.templates').run([$templateCache, function($templateCache) {
+    $templateCache.put('templateId', 'template content');
+}]);
+```
+
+Then you it would be possible to include ``dialog.templates`` module into dependencies of your main module and start using this template as ``templateId``.
+
+There is no need to do these actions manually.
+You could use one of the plugins specifically for these purposes. They are available for different build systems including most popular Gulp / Grunt:
+
+- [gulp-angular-templatecache](https://github.com/miickel/gulp-angular-templatecache)
+- [gulp-ng-html2js](https://www.npmjs.com/package/gulp-ng-html2js)
+- [grunt-html2js](https://github.com/karlgoldstein/grunt-html2js)
+- [grunt-html2js](https://www.npmjs.com/package/broccoli-html2js)
+
+You could find more detailed examples on each of these pages.
+
 ##### ``plain {Boolean}``
 
 If ``true`` allows to use plain string as template, default ``false``:
@@ -100,6 +124,12 @@ ngDialog.open({
     }]
 });
 ```
+
+##### ``controllerAs {String} ``
+
+You could optionally specify `controllerAs` parameter for your controller. Then inside your template it will be possible to refer this controller by value specified by `controllerAs`.
+
+Usage of `controllerAs` syntax is currently recommended by Angular team.
 
 ##### ``resolve {Object.<string, function>=}``
 An optional map of dependencies which should be injected into the controller.
@@ -166,6 +196,8 @@ Any value passed to this function will be attached to the object which resolves 
 
 Any serializable data that you want to be stored in controller's dialog scope. (``$scope.ngDialogData``). From version `0.3.6` `$scope.ngDialogData` keeps references to the objects instead of copying them.
 
+Additionally, you will have dialog id available as ``$scope.ngDialogId``. If you are using ``$scope.ngDialogData``, it'll be also available under ``$scope.ngDialogData.ngDialogId``.
+
 ##### ``className {String}``
 
 This option allows you to control the dialog's look, you can use built-in [themes](https://github.com/likeastore/ngDialog#themes) or create your own styled modals.
@@ -180,6 +212,10 @@ ngDialog.open({
 ```
 
 Check [themes](https://github.com/likeastore/ngDialog#themes) block to learn more.
+
+##### ``disableAnimation {Boolean}``
+
+If ``true`` then animation for the dialog will be disabled, default ``false``.
 
 ##### ``overlay {Boolean}``
 
@@ -265,33 +301,37 @@ When ``true``, closing the dialog restores focus to the element that launched it
 
 When ``true``, automatically selects appropriate values for any unspecified accessibility attributes. Default value is ``true``
 
+See [Accessibility](#Accessibility) for more information.
 
 ##### ``ariaRole {String}``
 
 Specifies the value for the ``role`` attribute that should be applied to the dialog element. Default value is ``null`` (unspecified)
 
+See [Accessibility](#Accessibility) for more information.
 
-##### ``ariaLaballedById {String}``
+##### ``ariaLabelledById {String}``
 
 Specifies the value for the ``aria-labelledby`` attribute that should be applied to the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the value is not validated against the DOM. 
-##### ``ariaLaballedBySelector {String}``
+If specified, the value is not validated against the DOM. See [Accessibility](#Accessibility) for more information.
+
+##### ``ariaLabelledBySelector {String}``
 
 Specifies the CSS selector for the element to be referenced by the ``aria-labelledby`` attribute on the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the first matching element is used. 
+If specified, the first matching element is used. See [Accessibility](#Accessibility) for more information.
 
 ##### ``ariaDescribedById {String}``
 
 Specifies the value for the ``aria-describedby`` attribute that should be applied to the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the value is not validated against the DOM.
+If specified, the value is not validated against the DOM. See [Accessibility](#Accessibility) for more information.
+
 ##### ``ariaDescribedBySelector {String}``
 
 Specifies the CSS selector for the element to be referenced by the ``aria-describedby`` attribute on the dialog element. Default value is ``null`` (unspecified)
 
-If specified, the first matching element is used. 
+If specified, the first matching element is used. See [Accessibility](#Accessibility) for more information.
 
 ===
 
@@ -374,7 +414,7 @@ An Angular promise object that is resolved if the ``.confirm()`` function is use
 
 ### ``.isOpen(id)``
 
-Method accepts dialog's ``id`` and returns a ``Boolean`` value indicating whether the specified dialog is open. 
+Method accepts dialog's ``id`` and returns a ``Boolean`` value indicating whether the specified dialog is open.
 
 ===
 
@@ -387,6 +427,26 @@ Method accepts dialog's ``id`` as string argument to close specific dialog windo
 ### ``.closeAll(value)``
 
 Method manages closing all active modals on the page. Takes an optional value to resolve all of the dialog promises with.
+
+===
+
+### ``.getOpenDialogs()``
+
+Method that returns array which includes ids of opened dialogs.
+
+===
+
+### ``.setForceHtmlReload({Boolean})``
+
+Adds additional listener on every ``$locationChangeSuccess`` event and gets update version of ``html`` into dialog. Maybe useful in some rare cases when you're dependant on DOM changes, defaults to ``false``. Use it in module's config as provider instance:
+
+```javascript
+var app = angular.module('exampleApp', ['ngDialog']);
+
+app.config(function (ngDialogProvider) {
+    ngDialogProvider.setForceHtmlReload(true);
+});
+```
 
 ===
 
@@ -418,6 +478,9 @@ Some imaginary button, for example, will look like:
 </button>
 ```
 
+You could optionally use ``ng-dialog-bind-to-controller`` to bind scope you've defined via parameter of directive to controller.
+More information about bindToController is available [here](http://blog.thoughtram.io/angularjs/2015/01/02/exploring-angular-1.3-bindToController.html).
+
 Directive contains one more additional but very useful option, it's an attribute named ``ng-dialog-close-previous``. It allows you to close previously opened dialogs automatically.
 
 ## Events
@@ -439,6 +502,14 @@ $rootScope.$on('ngDialog.opened', function (e, $dialog) {
 ```
 
 ``ngDialog.closing`` is different than ``ngDialog.closed`` in that it is fired immediately when the dialog begins closing, whereas ``ngDialog.closed`` is fired after all animations are complete. Both will be fired even when animation end support is not detected.
+
+Additionally we trigger following 2 events related to loading of template for dialog:
+
+- ``ngDialog.templateLoading``
+
+- ``ngDialog.templateLoaded``
+
+In case you are loading your templates from external location, you could use above events to show some kind of loader.
 
 ## Themes
 
@@ -474,13 +545,13 @@ Dialog Content ``role`` attribute:
 
 ## CDN
 
-_ngDialog_ is available for public on [cdnjs](http://cdnjs.com/libraries/ng-dialog). For example, please use following urls for version ``0.3.12``.
+_ngDialog_ is available for public on [cdnjs](http://cdnjs.com/libraries/ng-dialog). For example, please use following urls for version ``0.4.0``.
 
 ```html
-//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.3.12/css/ngDialog.min.css
-//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.3.12/css/ngDialog-theme-default.min.css
-//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.3.12/css/ngDialog-theme-plain.min.css
-//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.3.12/js/ngDialog.min.js
+//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog.min.css
+//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-default.min.css
+//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-plain.min.css
+//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/js/ngDialog.min.js
 ```
 
 ## References

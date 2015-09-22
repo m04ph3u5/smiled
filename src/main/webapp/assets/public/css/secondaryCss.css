@@ -213,3 +213,7 @@ span.clickable:hover {
 .selected-date {
    background-color: #CCFF33;
 }
+
+.glyphicon .glyphicon-chevron-up {
+	color: #89b151;
+}

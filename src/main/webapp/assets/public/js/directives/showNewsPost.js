@@ -115,14 +115,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			}
 
 			self.formatDate = function(jd){
-				//				if(date.afterChrist)
-				//	era="D.C.";
-				//else
-				//	era="A.C.";
-				
-				//return date.day+" / "+date.month+" / "+date.year+" "+era;
 				julianNumberToDate(jd, self.date);
-				var era = self.date.year > 0 ? "" : " A.C.";
+				var era = self.date.year > 0 ? "" : " a.C.";
 				var s = getMonthString(self.date.month) + " "+ Math.abs(self.date.year) + era;
 				return self.date.day+" "+s;
 			}
