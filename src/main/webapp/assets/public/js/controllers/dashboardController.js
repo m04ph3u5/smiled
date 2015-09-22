@@ -2,6 +2,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
    function dashboardCtrl(loggedUser,modalService,userService,$scope,$interval,apiService){
 	
 	var self = this;
+	self.numScenariosToShow = 4;
 	//self.user = {};
 	
 //	userService.getUser().then(
@@ -13,7 +14,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	console.log("dashboard");
 	console.log(loggedUser);
 	self.user = loggedUser;
-	self.scenariosList = loggedUser.openScenarios;
+	self.scenariosToShow = new Array();
+	
 	self.studentsList = loggedUser.students;
 	self.showCard = false;
 	self.selectedUserID = null;
@@ -39,12 +41,52 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 
 	  return array;
 	}
+	function compareDate (a, b){
+		
+		if (a.creationDate > b.creationDate)
+			return -1;
+		if(a.creationDate < b.creationDate)
+			return 1;
+		else return 0;
+	}
+	
+	var createArrayOfScenariosToShow = function(){
+		var tmp = new Array();
+		if (self.user.openScenarios != null && self.user.creatingScenarios != null){
+			for(var i=0; i<self.user.openScenarios.length; i++){
+				self.user.openScenarios[i].isOpen=true;
+			}
+			for(var i=0; i<self.user.creatingScenarios.length; i++){
+				self.user.creatingScenarios[i].isOpen=false;
+			}
+			tmp = self.user.openScenarios.concat(self.user.creatingScenarios);
+			
+		}else if(self.user.openScenarios != null && self.user.creatingScenarios == null){
+			for(var i=0; i<self.user.openScenarios.length; i++){
+				self.user.openScenarios[i].isOpen=true;
+			}
+			tmp = self.user.openScenarios;
+		}
+		else if(self.user.openScenarios == null && self.user.creatingScenarios != null){
+			for(var i=0; i<self.user.creatingScenarios.length; i++){
+				self.user.creatingScenarios[i].isOpen=false;
+			}
+			tmp = self.user.creatingScenarios;
+		}
+		
+		tmp.sort(compareDate);
+		
+		tmp.splice(self.numScenariosToShow, (tmp.length - self.numScenariosToShow));
+		console.log(angular.copy(tmp));
+		self.scenariosToShow = tmp;
+	}
 	
 	var getLoggedUser = function(){
 		userService.getMe().then(
 	
 			function(data){
 				self.user=data;
+				createArrayOfScenariosToShow();
 				if(data.students)
 					shuffleArray(data.students);
 				if(data.colleagues)
@@ -72,6 +114,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	}
 	
     startUpdateUser();
+    createArrayOfScenariosToShow();
 	
 	$scope.$on('$destroy', function() {
       	stopUpdateUser();
