@@ -16,7 +16,7 @@ public class PostReferenceHistoricalDateComparator implements Comparator<PostRef
 //			return 0;		
 //	}
 	
-	/*Il comparator implementanto funziona in modo inverso per consentire
+	/*Il comparator implementato funziona in modo inverso per consentire
 	 * l'ordinamento decrescente*/
 	@Override
 	public int compare(PostReference pr1, PostReference pr2) {
