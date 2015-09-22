@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('userCard', [ 'CONSTANTS',
-	function(CONSTANTS){
+angular.module("smiled.application").directive('userCard', [ 'CONSTANTS', 'userService',
+	function(CONSTANTS, userService){
 		return{
 			templateUrl : "assets/private/partials/user-card.html",
 			scope : {
@@ -11,8 +11,31 @@ angular.module("smiled.application").directive('userCard', [ 'CONSTANTS',
 			},
 			controller: function(){
 				var self = this;
-				//qui dà undefined perché la crea quando non è ancora stato cliccato l'utente? come prendere il dato?
-				console.log(self.userid + "OCCHEI")
+				self.user = null;
+				self.profilePicture = null;
+				self.userCover = null;
+				self.ruolo = null;
+				self.numScen = 0;
+				userService.getUser(self.userid).then(
+						function(data){
+							self.user=data;
+							self.profilePicture = CONSTANTS.urlUserCover(self.userid);
+							self.userCover = CONSTANTS.urlUserCoverLarge(self.userid);
+							var role = self.user.role;	
+							if (role.authority=="ROLE_TEACHER")
+								self.ruolo="DOCENTE";
+							else self.ruolo="STUDENTE";
+							if(self.user.creatingScenarios != null)	self.numScen += self.user.creatingScenarios.length;
+							if(self.user.openScenarios != null)	self.numScen += self.user.openScenarios.length;
+							if(self.user.closedScenarios != null)	self.numScen += self.user.closedScenarios.length;
+
+							console.log(self.numScen +"" + self.user.creatingScenarios.length +"" + self.user.openScenarios.length +"" );
+						},
+						function(reason){
+							console.log(reason);
+						}
+				);
+				console.log(self.user);
 				//prendere lo user in base all'ID
 				//prendere il n° di scenari e di compiti dello user
 

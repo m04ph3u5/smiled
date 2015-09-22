@@ -9,7 +9,13 @@
 			padding-top : 100px;
 		}
 		
-
+		.mainContent{
+			min-width: 100%;
+			height: 100%;
+			display:table;
+			position:relative;
+			z-index:0;
+		}
 		
 		h1,h2,h3,h4{
 			font-family: 'Coustard', sans-serif;
@@ -226,6 +232,7 @@
 			/*background-color: #e5e0c3;*/
 			text-align: center;
 			padding: 1%;
+			position: relative;
 		}
 		.boxBlue {						
 			background-image: url("img_temp/dash_bg_blue.jpg");
@@ -524,7 +531,6 @@
 		
 		.singleRow{
 			height:280px;
-			overflow: hidden;
 		}
 		
 		.doubleRow{
@@ -978,14 +984,39 @@
 	    background: rgba(0, 0, 0, .6);
 	}
 
+/*User Card*/
+	.userCard{
+		z-index:5;
+		position:absolute;
+		background-color:white;
+	}
+	.cardCover{
+		height: 5em;
+		width:25em;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	
+	.profPicCard{
+		z-index:6;
+		position:absolute;
+		top:2em;
+		left:1em;
+	}
+	.cardIcon{
+		width:30px;
+	}
+	.dottedBorderTop{
+		border-width:2px 0 0 0;	
+    	border-style:dashed;
+    	border-color: #EAEAEA;
+	}
+
 /*Non ancora classificato*/
 		
 		
-		.mainContent{
-			min-width: 100%;
-			height: 100%;
-			display:table;
-		}
+
 		
 		
 		
@@ -1031,15 +1062,7 @@
 			
 		.row-fluid{
 			display:table-row;
-		}
-		
-
-		h4{
-			margin-bottom:1%;
-		}
-		
-
-		
+		}		
 		
 #footer{
 	background-color: rgba(90, 170, 137, 0.8);

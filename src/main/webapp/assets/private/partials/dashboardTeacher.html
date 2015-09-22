@@ -198,6 +198,7 @@
 					
 				</div>
 				<div class="col-sm-4 col-md-3 singleRow box boxLightgreen">
+
 					<div data-ui-sref="logged.dashboard.colleaguesList">
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/colleghi.png" class="title"></a>
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_coll.png" class="titleIcon"></a>
@@ -206,16 +207,15 @@
 						Qui verranno inseriti i propri colleghi
 					</div>
 					<div class="row">				
-						
 						<div data-ng-repeat="c in dashboard.user.colleagues | limitTo:6" class="marginMTop col-xs-4">
 							<!--  data-ui-sref="logged.userProfile({id: '{{c.id}}'})"-->
-							<a data-ui-sref="logged.userProfile({id: '{{c.id}}'})" class="marginMTop">
+							<a class="marginMTop">
 									<img title="{{c.firstname}} {{c.lastname}}" 
 									data-ng-src="api/v1/users/{{c.id}}/cover"
 									data-err-src="assets/public/img/ic_teacher.png"
 									class="img-circle imgPreviewM"
-									data-ng-click="dashboard.openUserCard(c.id)">
-									<!-- <user-card userid="{{c.id}}" ng-show="dashboard.showCard"></user-card> -->							
+									data-ng-click="dashboard.openCollCard(c.id,$index)">
+									<user-card userid="{{c.id}}" class="userCard" ng-show="dashboard.showCollCard[$index]"></user-card>							
 							</a>
 						</div>
 					</div>

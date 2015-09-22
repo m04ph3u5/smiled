@@ -277,7 +277,7 @@
 						
 					<b>Con: </b>
 					<span data-ng-repeat="t in showNewsPost.post.tags">
-						<a href="">{{t.firstname}}</a>
+						<a href="" data-ui-sref="logged.scenario.charprofile({id: '{{showNewsPost.scenario.id}}' ,idCharacter: '{{t.id}}' })">{{t.firstname}}</a>
 					</span>
 				</div>
 				<div class="row">
