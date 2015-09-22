@@ -15,7 +15,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.user = loggedUser;
 	self.scenariosList = loggedUser.openScenarios;
 	self.studentsList = loggedUser.students;
-	self.showCard = false;
+	self.showCollCard = [false,false,false,false,false,false];
 	self.selectedUserID = null;
 		
 	self.showPopUpCreationScenario = function (){
@@ -86,9 +86,13 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		
 	}	
 	
-	self.openUserCard= function(userID){
+	self.openCollCard= function(userID,index){
 		self.selectedUserID = userID;
-		self.showCard = true;
+	
+		for(i=0; i<6; i++){
+			if(i!=index) self.showCollCard[i] = false;
+		}
+		self.showCollCard[index] = !self.showCollCard[index];
 	}
 	self.missionList = apiService.getMyMissions(0, 20, true, true);
 	console.log("OLEEEEEEEEE");

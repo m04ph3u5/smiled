@@ -8,7 +8,13 @@
 			font-size:140%;
 		}
 		
-
+		.mainContent{
+			min-width: 100%;
+			height: 100%;
+			display:table;
+			position:relative;
+			z-index:0;
+		}
 		
 		h1,h2,h3,h4{
 			font-family: 'Coustard', sans-serif;
@@ -225,6 +231,7 @@
 			/*background-color: #e5e0c3;*/
 			text-align: center;
 			padding: 1%;
+			position: relative;
 		}
 		.boxBlue {						
 			background-image: url("img_temp/dash_bg_blue.jpg");
@@ -523,7 +530,6 @@
 		
 		.singleRow{
 			height:280px;
-			overflow: hidden;
 		}
 		
 		.doubleRow{
@@ -977,14 +983,17 @@
 	    background: rgba(0, 0, 0, .6);
 	}
 
+/*User Card*/
+	.userCard{
+		z-index:5;
+		position:absolute;
+		background-color:white;
+	}
+
 /*Non ancora classificato*/
 		
 		
-		.mainContent{
-			min-width: 100%;
-			height: 100%;
-			display:table;
-		}
+
 		
 		
 		
@@ -1030,15 +1039,7 @@
 			
 		.row-fluid{
 			display:table-row;
-		}
-		
-
-		h4{
-			margin-bottom:1%;
-		}
-		
-
-		
+		}		
 		
 #footer{
 	background-color: rgba(90, 170, 137, 0.8);
