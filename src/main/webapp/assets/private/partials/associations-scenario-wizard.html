@@ -39,7 +39,7 @@
 							</div>
 						</div>
 					</div>
-					<div ng-if="!scenarioWizard.isStudent(a) && a.id==scenarioWizard.scenario.teacherCreator.id">
+					<div ng-if="a.id==scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft marginMTop">
 							<div class="row">
 								<div class="col-xs-2">
@@ -96,17 +96,42 @@
 	    <div class="row marginMTop">
 		    <div class="col-xs-4 btn generalButton">
 		    	<div class="row">
-		    		<div ng-if="scenarioWizard.isStudent(a.attendee)" class="col-xs-12 col-sm-6 wizardCardPadding">
-		    			<img data-ng-src="{{a.attendee.cover}}/" 
-							data-err-src="/assets/public/img/ic_student.png" class="img-circle imgPreviewL">
+		    	
+		    		<div ng-if="scenarioWizard.isStudent(a.attendee)">
+		    			<div class="col-xs-12 col-sm-6 wizardCardPadding">
+		    				<img data-ng-src="{{a.attendee.cover}}/" 
+								data-err-src="/assets/public/img/ic_student.png" class="img-circle imgPreviewL">
+		    			</div>
+		    			<div class="col-xs-12 col-sm-6 wizardCardPadding">
+		    				<div class="marginEmS">
+								{{a.attendee.lastname}}<br>{{a.attendee.firstname}}<br>
+							</div>
+						</div>
 		    		</div>
-		    		<div ng-if="!scenarioWizard.isStudent(a.attendee)" class="col-xs-12 col-sm-6 wizardCardPadding">
-		    			<img data-ng-src="{{a.attendee.cover}}/" 
-							data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewL">
+		    		<div ng-if="!scenarioWizard.isStudent(a.attendee) && a.attendee.id!=scenarioWizard.scenario.teacherCreator.id "> 
+			    		<div class="col-xs-12 col-sm-6 wizardCardPadding">
+			    			<img data-ng-src="{{a.attendee.cover}}/" 
+								data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewL">
+			    		</div>
+			    		<div class="col-xs-12 col-sm-6 wizardCardPadding">
+		    				<div class="marginEmS">
+		    					{{a.attendee.lastname}}<br>{{a.attendee.firstname}}<br>(docente)
+		    				</div>
+		    			</div>
 		    		</div>
-		    		<div class="col-xs-12 col-sm-6 wizardCardPadding">
-		    			<div class="marginEmS">{{a.attendee.lastname}}<br>{{a.attendee.firstname}}</div>
-		    		</div>
+		    		
+		    		
+		    		<div ng-if="a.attendee.id==scenarioWizard.scenario.teacherCreator.id">
+						<div class="col-xs-12 col-sm-6 wizardCardPadding">
+							<img data-ng-src="{{a.attendee.cover}}" 
+										data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewL">
+						</div>
+						<div class="col-xs-12 col-sm-6 wizardCardPadding">
+							<div class="marginEmS">
+		    					{{a.attendee.lastname}}<br>{{a.attendee.firstname}}<br>(creatore)
+		    				</div>
+						</div>
+					</div>
 		    	</div>
 		    </div>
 		    <div class="col-xs-4 visible-lg visible-md visible-sm hidden-xs">
