@@ -29,7 +29,6 @@ angular.module("smiled.application").directive('userCard', [ 'CONSTANTS', 'userS
 							if(self.user.openScenarios != null)	self.numScen += self.user.openScenarios.length;
 							if(self.user.closedScenarios != null)	self.numScen += self.user.closedScenarios.length;
 
-							console.log(self.numScen +"" + self.user.creatingScenarios.length +"" + self.user.openScenarios.length +"" );
 						},
 						function(reason){
 							console.log(reason);
