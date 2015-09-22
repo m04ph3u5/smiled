@@ -15,6 +15,7 @@ public class EventDTO {
 	private PostStatus status;
 //	private HistoricalDate historicalDate;
 	private Long julianDayNumber;
+	private Integer timeNumber;
 	private Reference user;
 	private String scenarioId;
 	private Place place;
@@ -112,6 +113,12 @@ public class EventDTO {
 	}
 	public void setSources(List<Source> sources) {
 		this.sources = sources;
+	}
+	public Integer getTimeNumber() {
+		return timeNumber;
+	}
+	public void setTimeNumber(Integer timeNumber) {
+		this.timeNumber = timeNumber;
 	}
 	
 	

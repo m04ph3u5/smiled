@@ -17,6 +17,7 @@ public abstract class Post {
 	private PostStatus status;
 	//private HistoricalDate historicalDate;
 	private Long julianDayNumber;
+	private Integer timeNumber;
 	private Date lastChangeDate;
 	private Reference user;
 	private List<CharacterReference> likes;
@@ -97,6 +98,13 @@ public abstract class Post {
 	public void setJulianDayNumber(Long julianDayNumber) {
 		this.julianDayNumber = julianDayNumber;
 	}
+	public Integer getTimeNumber() {
+		return timeNumber;
+	}
+	public void setTimeNumber(Integer timeNumber) {
+		this.timeNumber = timeNumber;
+	}
+	
 	public void addLike(CharacterReference charRef){
 		for(int i=0; i<likes.size(); i++){
 			if(likes.get(i).getId().equals(charRef.getId())){

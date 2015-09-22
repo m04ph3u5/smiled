@@ -18,12 +18,22 @@ public class PostReverseHistoricalDateComparator implements Comparator<Post>{
 	
 	@Override
 	public int compare(Post p1, Post p2) {
-		if(p1.getJulianDayNumber()<p2.getJulianDayNumber())
+		if(p1.getJulianDayNumber()>p2.getJulianDayNumber())
 			return 1;
-		else if(p1.getJulianDayNumber()>p2.getJulianDayNumber())
+		else if(p1.getJulianDayNumber()<p2.getJulianDayNumber())
 			return -1;
-		else
-			return 0;
+		else{
+			if(p1.getTimeNumber()!=null && p2.getTimeNumber()!=null){
+				if(p1.getTimeNumber()>p2.getTimeNumber())
+					return 1;
+				else if(p1.getTimeNumber()<p2.getTimeNumber())
+					return -1;
+				else
+					return 0;
+			}else
+				return 0;
+		}
+			
 	}	
 
 }

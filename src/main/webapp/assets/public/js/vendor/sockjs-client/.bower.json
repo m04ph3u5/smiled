@@ -25,12 +25,12 @@
     "test",
     "tests"
   ],
-  "version": "1.0.2",
-  "_release": "1.0.2",
+  "version": "1.0.3",
+  "_release": "1.0.3",
   "_resolution": {
     "type": "version",
-    "tag": "v1.0.2",
-    "commit": "6a76e12999b0b1344537a9162f6c50b1eb096660"
+    "tag": "v1.0.3",
+    "commit": "c887e34e23e6b4d18e1f1ce4848cf4f8b08f5109"
   },
   "_source": "git://github.com/sockjs/sockjs-client.git",
   "_target": "*",

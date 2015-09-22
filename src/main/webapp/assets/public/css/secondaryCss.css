@@ -213,3 +213,7 @@ span.clickable:hover {
 .selected-date {
    background-color: #CCFF33;
 }
+
+.btn-link {
+	color: #2C6143;
+}
