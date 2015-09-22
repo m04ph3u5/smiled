@@ -991,7 +991,7 @@
 	}
 	.cardCover{
 		height: 5em;
-		width:20em;
+		width:25em;
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -1002,6 +1002,14 @@
 		position:absolute;
 		top:2em;
 		left:1em;
+	}
+	.cardIcon{
+		width:30px;
+	}
+	.dottedBorderTop{
+		border-width:2px 0 0 0;	
+    	border-style:dashed;
+    	border-color: #EAEAEA;
 	}
 
 /*Non ancora classificato*/

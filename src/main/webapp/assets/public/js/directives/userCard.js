@@ -15,9 +15,7 @@ angular.module("smiled.application").directive('userCard', [ 'CONSTANTS', 'userS
 				self.profilePicture = null;
 				self.userCover = null;
 				self.ruolo = null;
-			
-				//qui dà undefined perché la crea quando non è ancora stato cliccato l'utente? come prendere il dato?
-				console.log("OHIIIII SONO QUIII");
+				self.numScen = 0;
 				userService.getUser(self.userid).then(
 						function(data){
 							self.user=data;
@@ -27,6 +25,11 @@ angular.module("smiled.application").directive('userCard', [ 'CONSTANTS', 'userS
 							if (role.authority=="ROLE_TEACHER")
 								self.ruolo="DOCENTE";
 							else self.ruolo="STUDENTE";
+							if(self.user.creatingScenarios != null)	self.numScen += self.user.creatingScenarios.length;
+							if(self.user.openScenarios != null)	self.numScen += self.user.openScenarios.length;
+							if(self.user.closedScenarios != null)	self.numScen += self.user.closedScenarios.length;
+
+							console.log(self.numScen +"" + self.user.creatingScenarios.length +"" + self.user.openScenarios.length +"" );
 						},
 						function(reason){
 							console.log(reason);
