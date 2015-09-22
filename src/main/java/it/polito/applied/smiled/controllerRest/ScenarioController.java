@@ -299,7 +299,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/posts", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
-	public Page<Post> getPagedPosts(@PathVariable String id, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "historicOrder", required=false) Boolean historicOrder) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	public Page<Post> getPagedPosts(@PathVariable String id, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "historicOrder", required=false) Boolean historicOrder, @RequestParam(value = "orderDesc", required=false) Boolean orderDesc) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 
 		if(nPag==null || nPag<0)
 			nPag=0;
@@ -308,10 +308,13 @@ public class ScenarioController extends BaseController{
 		if(historicOrder==null){
 			historicOrder=false;
 		}
+		if(orderDesc==null){
+			orderDesc=true;
+		}
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		return scenarioService.getPagedPosts(id, null, nPag, nItem, historicOrder, auth);
+		return scenarioService.getPagedPosts(id, null, nPag, nItem, historicOrder, orderDesc, auth);
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)
@@ -328,7 +331,8 @@ public class ScenarioController extends BaseController{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		return scenarioService.getPagedPosts(id, characterId, nPag, nItem, historicOrder,auth);
+		//TODO considerare se possibile anche per i character richiederli in ordine discendente (penultimo parametro false).
+		return scenarioService.getPagedPosts(id, characterId, nPag, nItem, historicOrder, true, auth);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -459,7 +463,7 @@ public class ScenarioController extends BaseController{
 		if(nItem==null || nItem<=0)
 			nItem=2;
 		if(orderByDeliveryDate==null){
-			orderByDeliveryDate=true;  //di default le mie missioni nello scenario sono ordinate in base alla data di consegna, l'alternativa è la data di creazione
+			orderByDeliveryDate=true;  //di default le mie missioni nello scenario sono ordinate in base alla data di consegna, l'alternativa ï¿½ la data di creazione
 		}
 		if(onlyActive==null){
 			onlyActive=false;  //di default vedo tutte le mie missioni nello scenario in questione
@@ -499,7 +503,7 @@ public class ScenarioController extends BaseController{
 			if(nItem==null || nItem<=0)
 				nItem=5;
 			if(orderByDeliveryDate==null){
-				orderByDeliveryDate=true;  //di default le mie missioni sono ordinate in base alla data di consegna, l'alternativa è la data di creazione
+				orderByDeliveryDate=true;  //di default le mie missioni sono ordinate in base alla data di consegna, l'alternativa ï¿½ la data di creazione
 			}
 			if(onlyActive==null){
 				onlyActive=false;  //di default vedo tutte le mie missioni

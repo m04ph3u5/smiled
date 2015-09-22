@@ -4,7 +4,7 @@ import it.polito.applied.smiled.pojo.scenario.Post;
 
 import java.util.Comparator;
 
-public class PostReverseHistoricalDateComparator implements Comparator<Post>{
+public class PostReverseHistoricalDateComparatorDesc implements Comparator<Post>{
 
 //	@Override
 //	public int compare(Post p1, Post p2) {
@@ -18,15 +18,15 @@ public class PostReverseHistoricalDateComparator implements Comparator<Post>{
 	
 	@Override
 	public int compare(Post p1, Post p2) {
-		if(p1.getJulianDayNumber()>p2.getJulianDayNumber())
+		if(p1.getJulianDayNumber()<p2.getJulianDayNumber())
 			return 1;
-		else if(p1.getJulianDayNumber()<p2.getJulianDayNumber())
+		else if(p1.getJulianDayNumber()>p2.getJulianDayNumber())
 			return -1;
 		else{
 			if(p1.getTimeNumber()!=null && p2.getTimeNumber()!=null){
-				if(p1.getTimeNumber()>p2.getTimeNumber())
+				if(p1.getTimeNumber()<p2.getTimeNumber())
 					return 1;
-				else if(p1.getTimeNumber()<p2.getTimeNumber())
+				else if(p1.getTimeNumber()>p2.getTimeNumber())
 					return -1;
 				else
 					return 0;

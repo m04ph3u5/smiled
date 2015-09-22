@@ -1,7 +1,8 @@
 package it.polito.applied.smiled.repository;
 
 import it.polito.applied.smiled.pojo.PostReverseDateComparator;
-import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparator;
+import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
+import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorDesc;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
@@ -34,7 +35,7 @@ public class PostRepositoryImpl implements CustomPostRepository{
 	MongoOperations mongoOp;
 
 	@Override
-	public Page<Post> customPageableFindAll(List<String> postsId, int size, Pageable p, boolean historicOrder, String userId, boolean moderator) {
+	public Page<Post> customPageableFindAll(List<String> postsId, int size, Pageable p, boolean historicOrder, Boolean orderDesc, String userId, boolean moderator) {
 		
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").in(postsId));
@@ -52,8 +53,12 @@ public class PostRepositoryImpl implements CustomPostRepository{
 					}
 				}
 			}
-			if(historicOrder)
-				Collections.sort(posts, new PostReverseHistoricalDateComparator());
+			if(historicOrder){
+				if(orderDesc)
+					Collections.sort(posts, new PostReverseHistoricalDateComparatorDesc());
+				else
+					Collections.sort(posts, new PostReverseHistoricalDateComparatorAsc());
+			}
 			else
 				Collections.sort(posts, new PostReverseDateComparator());
 		}

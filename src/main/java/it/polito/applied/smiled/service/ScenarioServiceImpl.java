@@ -15,7 +15,8 @@ import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.PostReference;
-import it.polito.applied.smiled.pojo.PostReferenceHistoricalDateComparator;
+import it.polito.applied.smiled.pojo.PostReferenceHistoricalDateComparatorAsc;
+import it.polito.applied.smiled.pojo.PostReferenceHistoricalDateComparatorDesc;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
@@ -1145,7 +1146,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	//in caso contrario ritorna la lista paginata di post del Character con quel characterId se esiste all'interno dello Scenario con quello scenarioId
 	@Override
 	public Page<Post> getPagedPosts(String scenarioId, String characterId, Integer nPag,
-			Integer nItem, Boolean historicOrder, Authentication auth) throws NotFoundException {
+			Integer nItem, Boolean historicOrder, Boolean orderDesc, Authentication auth) throws NotFoundException, BadRequestException {
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		List<PostReference> posts;
 		/*Utilizziamo la stessa funzione per la stessa funzione per fare la get dei post dello scenario o del character*/
@@ -1163,11 +1164,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		
 		Pageable p;
-		if(historicOrder)
-			p = new PageRequest(nPag, nItem, Sort.Direction.DESC, "historicalDate");
-		else
+		if(historicOrder){
+			if(orderDesc)
+				p = new PageRequest(nPag, nItem, Sort.Direction.DESC, "julianDayNumber");
+			else
+				p = new PageRequest(nPag, nItem, Sort.Direction.ASC, "julianDayNumber");
+		}
+		else{
+			if(!orderDesc)
+				throw new BadRequestException("Impossibile ordinare data reale in modo crescente");
 			p = new PageRequest(nPag, nItem, Sort.Direction.DESC, "creationDate");
-
+		}
 		
 		 
 		if(posts==null || posts.size()==0){
@@ -1187,7 +1194,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		List<String> postsId = new ArrayList<String>();
 
 		if(historicOrder){
-			Collections.sort(posts, new PostReferenceHistoricalDateComparator());
+			if(orderDesc)
+				Collections.sort(posts, new PostReferenceHistoricalDateComparatorDesc());
+			else
+				Collections.sort(posts, new PostReferenceHistoricalDateComparatorAsc());
 		}
 		
 		int end = (size-1)-(nPag*nItem);
@@ -1203,7 +1213,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 		boolean moderator = permissionEvaluator.hasPermission(auth, scenarioId, "Scenario", "MODERATOR");
 		
-		return postRepository.customPageableFindAll(postsId,size,p,historicOrder,activeUser.getId(), moderator);
+		return postRepository.customPageableFindAll(postsId,size,p,historicOrder, orderDesc,activeUser.getId(), moderator);
 	}
 
 

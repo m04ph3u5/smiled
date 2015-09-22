@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 public interface CustomPostRepository {
 	
-	public Page<Post> customPageableFindAll(List<String> postsId, int size, Pageable p, boolean historicOrder, String userId, boolean moderator);	
+	public Page<Post> customPageableFindAll(List<String> postsId, int size, Pageable p, boolean historicOrder, Boolean orderDesc, String userId, boolean moderator);	
 	public Post updatePost(String statusId, Update u);
 	public boolean deletePost(String postId);
 	public boolean putInDeleteStatus(String id);

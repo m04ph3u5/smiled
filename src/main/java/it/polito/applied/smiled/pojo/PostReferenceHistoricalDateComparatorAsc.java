@@ -2,7 +2,7 @@ package it.polito.applied.smiled.pojo;
 
 import java.util.Comparator;
 
-public class PostReferenceHistoricalDateComparator implements Comparator<PostReference> {
+public class PostReferenceHistoricalDateComparatorAsc implements Comparator<PostReference> {
 
 //	/*Il comparator implementanto funziona in modo inverso per consentire
 //	 * l'ordinamento decrescente*/
