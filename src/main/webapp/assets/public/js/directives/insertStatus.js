@@ -20,7 +20,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			self.newPost = {};
 			self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 			self.newPost.julianDayNumber="";
-
+			self.newPost.timeNumber="";
 			self.newPost.image = new Array();
 			self.newPost.file  = new Array();
 			self.newPost.tags = new Array();
@@ -48,7 +48,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			var validateDate = function(){
 				
-				if(self.newPost.julianDayNumber)
+				if(self.newPost.julianDayNumber && self.newPost.timeNumber)
 					return true;
 				else 
 					return false;
@@ -103,6 +103,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 						var toSendPost = {};
 						toSendPost.text = self.newPost.content;
 						toSendPost.julianDayNumber = self.newPost.julianDayNumber;
+						toSendPost.timeNumber = self.newPost.timeNumber;
 						toSendPost.status = "PUBLISHED";
 						toSendPost.place = self.newPost.place;
 						toSendPost.imageMetaId = new Array();
@@ -128,6 +129,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 									self.newPost.image=[];
 									self.newPost.file=[];
 									self.newPost.julianDayNumber="";
+									self.newPost.timeNumber="";
 									self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 									self.sendPostEnable= true;
 									self.newPost.place = null;

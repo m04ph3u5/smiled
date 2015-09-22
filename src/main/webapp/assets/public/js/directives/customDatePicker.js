@@ -17,9 +17,10 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	
         	var selected={};
         	
-        	if(!self.timeNumber)
-        		self.timeNumber=0;
-        	
+//        	if(!self.timeNumber){
+//        		self.timeNumber=0;
+//        		console.log("RESET TIME NUMBER");
+//        	}
         	if(self.startDate){
         		self.startDate.day=parseInt(self.startDate.day);
         		self.startDate.month=parseInt(self.startDate.month);
@@ -145,6 +146,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
            		
 
         	console.log(self.currentMonthDate);
+        	
         	var getTimeToSeconds=function(timeNumber,t){
         		t.hours=parseInt(timeNumber/3600);
         		timeNumber=timeNumber%3600;
@@ -265,7 +267,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
             		if(index<years.length && index>0){
 	        			emptyYearMatrix();
 	        			if(years[index]>=0)
-	        				self.yearsInterval = ""+years[index];
+	        				self.yearsInterval = ""+years[index]+" d.C.";
 	        			else
 	        				self.yearsInterval = ""+Math.abs(years[index])+" a.C.";
 
@@ -276,7 +278,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	            				index++;
 	            			}
 	    				if(years[index-1]>=0)
-	    					self.yearsInterval +=" - "+years[index-1];
+	    					self.yearsInterval +=" - "+years[index-1]+" d.C.";
 	        			else
 	    					self.yearsInterval +=" - "+Math.abs(years[index-1])+" a.C.";
 	            		
@@ -307,7 +309,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
             		if(index<years.length){
 	        			emptyYearMatrix();
 	        			if(years[index]>=0)
-	        				self.yearsInterval = ""+years[index];
+	        				self.yearsInterval = ""+years[index]+" d.C.";
 	        			else
 	        				self.yearsInterval = ""+Math.abs(years[index])+" a.C.";	    				
 	        			for(var i=0; i<yearMatrixSize; i++)
@@ -316,7 +318,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	            				index++;
 	            			}    
 	        				if(years[index-1]>=0)
-		    					self.yearsInterval +=" - "+years[index-1];
+		    					self.yearsInterval +=" - "+years[index-1]+" d.C.";
 		        			else
 		    					self.yearsInterval +=" - "+Math.abs(years[index-1])+" a.C.";            		}
         		}
@@ -336,7 +338,10 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		self.days[row][col].selected=true;
 	        		selected = self.days[row][col];
 	        		self.dateString=self.days[row][col].val+" "+self.currentMonthDate.title;
-        		}
+	        		var t = {};
+	        		getTimeToSeconds(self.timeNumber,t);
+	        		self.dateString+=" "+t.hours+":"+t.minutes;
+	        	}
         	}
         	
         	self.switchToShowYears = function(){
@@ -344,7 +349,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		emptyYearMatrix();
         		var index = self.currentMonthDate.year-self.startDate.year;
         		if(years[index]>=0)
-    				self.yearsInterval = ""+years[index];
+    				self.yearsInterval = ""+years[index]+" d.C.";
     			else
     				self.yearsInterval = ""+Math.abs(years[index])+" a.C.";	    		        		
         		for(var i=0; i<yearMatrixSize; i++)
@@ -354,7 +359,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         				index++;
         			}
         		if(years[index-1]>=0)
-					self.yearsInterval +=" - "+years[index-1];
+					self.yearsInterval +=" - "+years[index-1]+" d.C.";
     			else
 					self.yearsInterval +=" - "+Math.abs(years[index-1])+" a.C.";
         	}
@@ -383,9 +388,10 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		var seconds = date.getSeconds();
         		
         		self.timeNumber=seconds+minute*60+hour*3600;
-        		console.log(self.time);
+        		console.log(self.timeNumber);
         	}
         	if(!self.timeNumber){
+        		console.log("NOT TIME NUMBER");
         		self.myTime = new Date();
             	getSecondsOfTime(self.myTime);
         	}
@@ -393,7 +399,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		var d = new Date();
         		var t = {};
         		getTimeToSeconds(self.timeNumber,t);
-        		self.myTime = new Date(d.getFullYear,d.getMonth(),d.getDay(), t.hours, t.minutes, t.seconds);
+        		self.myTime = new Date(d.getFullYear(),d.getMonth(),d.getDay(), t.hours, t.minutes, t.seconds);
         	}
         	self.changed = function () {
         		getSecondsOfTime(self.myTime);

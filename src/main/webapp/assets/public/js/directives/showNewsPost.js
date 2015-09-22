@@ -113,12 +113,27 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				date.year = 100 * ( n - 49 ) + i + l;
 				date.dow = jd%7;
 			}
+			
+			
+			var getTimeToSeconds=function(timeNumber,t){
+        		t.hours=parseInt(timeNumber/3600);
+        		timeNumber=timeNumber%3600;
+        		t.minutes=parseInt(timeNumber/60);
+        		timeNumber=timeNumber%60;
+        		t.seconds=timeNumber;
+        	}
 
-			self.formatDate = function(jd){
+			self.formatDate = function(jd, timeNumber){
 				julianNumberToDate(jd, self.date);
 				var era = self.date.year > 0 ? "" : " a.C.";
 				var s = getMonthString(self.date.month) + " "+ Math.abs(self.date.year) + era;
-				return self.date.day+" "+s;
+				var f = self.date.day+" "+s;
+				if(timeNumber){
+					var t = {};
+					getTimeToSeconds(timeNumber, t);
+					f+=" "+t.hours+":"+t.minutes;
+				}
+				return f;
 			}
 
 
@@ -258,6 +273,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 
 				self.postDTO.id = self.post.id;
 				self.postDTO.julianDayNumber = self.post.julianDayNumber;
+				self.postDTO.timeNumber = self.post.timeNumber;
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){
 					newTags.push(self.newCharactersToTags[i].id);
@@ -304,6 +320,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 
 				self.postDTO.id = self.post.id;
 				self.postDTO.julianDayNumber = self.post.julianDayNumber;
+				self.postDTO.timeNumber = self.post.timeNumber;
 
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){

@@ -23,6 +23,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 //			self.newPost.date = {};
 //			self.newPost.date.afterChrist = true;
 			self.newPost.julianDayNumber="";
+			self.newPost.timeNumber="";
 			self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 
 			self.newPost.image = new Array();
@@ -45,7 +46,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			
 			var validateDate = function(){
 				
-				if(self.newPost.julianDayNumber)
+				if(self.newPost.julianDayNumber && self.newPost.timeNumber)
 					return true;
 				else 
 					return false;
@@ -100,6 +101,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 						var toSendPost = {};
 						toSendPost.text = self.newPost.content;
 						toSendPost.julianDayNumber = self.newPost.julianDayNumber;
+						toSendPost.timeNumber = self.newPost.timeNumber;
 						toSendPost.status = "PUBLISHED";
 						toSendPost.type = self.newPost.type;
 						toSendPost.imageMetaId = new Array();
@@ -128,6 +130,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 									self.newPost.tags = [];
 									self.newPost.date="";
 									self.newPost.julianDayNumber="";
+									self.newPost.timeNumber="";
 									self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 									self.sendPostEnable = true;
 									//getSingleStatus in realtà ritorna un singolo post non un singolo status (ricorda che status è una specializzazione di post, come anche event)
