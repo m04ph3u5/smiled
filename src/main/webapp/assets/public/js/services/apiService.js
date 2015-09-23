@@ -284,11 +284,16 @@
 		return s.promise;
 	}
 	
-	var getPagedPosts = function(id, nPag, nItem, historicalOrder){
+	var getPagedPosts = function(id, nPag, nItem, historicalOrder, orderDesc){
+		
+		if(typeof orderDesc === 'undefined'){ 
+			orderDesc = true; 
+		}
+		
 		var c = $q.defer();
 
 		$http.get("/api/v1/scenarios/"+id+"/posts", {
-			params: { "nPag": nPag, "nItem": nItem, "historicOrder": historicalOrder }}).then(
+			params: { "nPag": nPag, "nItem": nItem, "historicOrder": historicalOrder, "orderDesc" : orderDesc }}).then(
 					function(response){
 						c.resolve(response.data);
 					},
@@ -299,7 +304,7 @@
 
 		return c.promise;
 	}
-	
+
 	var getPagedTeachers = function(nPag, nItem){
 		var c = $q.defer();
 
