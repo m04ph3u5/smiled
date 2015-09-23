@@ -1,17 +1,21 @@
+<div class="row marginMTop text-center">
+	<input type="checkbox" checked ng-change="scenarioStoryline.switchOrder(scenarioStoryline.showFromEnd)" 
+		bs-switch data-ng-model="scenarioStoryline.showFromEnd"  
+		data-on-custom-text="DALLA FINE ALL'INIZIO" 
+		data-off-custom-text="DALL'INIZIO ALLA FINE"
+		class="switchStoryline" ng-if="scenarioStoryline.posts">
+	<label ng-if="!scenarioStoryline.posts">Qui verranno visualizzati i post nell'ordine cronologico della storia</label>
+</div>
+
 <div class="row">
-	<div class="pull-left">
-		<select id="selectOrder" class="form-control">
-			<option data-ng-click="scenarioStoryline.switchOrder(true)">Dalla fine all'inizio</option>
-			<option data-ng-click="scenarioStoryline.switchOrder(false)">Dall'inizio alla fine</option>									
-		</select>
-	</div>
 	<div class="col-md-10 col-md-offset-1">
 		<ul class="timeline">
 			<li data-ng-class="scenarioStoryline.getPosition($index)"
 				data-ng-repeat="post in scenarioStoryline.posts track by $index">
 				<div class="timeline-badge primary">
 					<a href=""
-						title="{{post.user.firstname}} {{post.user.lastname}} - {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}"><i
+						title="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}">
+						<i popover-placement="right" popover-trigger="mouseenter" popover="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}"
 						class="glyphicon glyphicon-time invert" id=""></i></a> 
 				</div>
 				<div class="timeline-panel">
@@ -19,7 +23,7 @@
 						<div class="row">
 							<div class="col-xs-4">
 								<img class="imgPreviewM" data-ng-src="{{post.character.cover}}"
-									data-err-src="assets/public/img/ic_characters.png">
+									data-err-src="assets/public/img/icon/pg.png">
 							</div>
 							<div class="col-xs-8">
 								<a><i>{{post.character.name}}</i></a> -
@@ -53,7 +57,7 @@
 							<div class="media">
 								<a class="pull-left" href="#"> <img class="imgPreviewM"
 									data-ng-src="{{comment.character.cover}}"
-									data-err-src="assets/public/img/ic_characters.png" />
+									data-err-src="assets/public/img/icon/pg.png" />
 								</a> <span class="clickable" style="margin-bottom: 15px;"><i>{{comment.character.firstname}}</i></span>
 								<div class="media-body">
 									<p>{{comment.text}}</p>

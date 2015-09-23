@@ -6,6 +6,7 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         	self.date = {};
         	var numMediaPerRow = 3;
         	var order=true;
+        	self.showFromEnd = true;
         	
         	var getPost = function(){
 		    	apiService.getPagedPosts($scope.scenario.scen.id, 0, 300, true, order).then(
@@ -27,7 +28,7 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
 		    					}else{
 		    						self.posts[i].character = {};
 		    						self.posts[i].character.name="Narratore";
-		    						self.posts[i].character.cover="assets/public/img/bookImage.png";
+		    						self.posts[i].character.cover="assets/public/img/narr.png";
 		    						self.posts[i].isEvent = true;
 		    					}
 		    					if(self.posts[i].comments){
@@ -65,8 +66,6 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         	getPost();
         	
         	self.switchOrder = function(o){
-
-        		console.log("HOLA"+o);
         		if(o!=order){
 	        		order = o;
 	        		getPost();

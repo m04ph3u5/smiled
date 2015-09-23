@@ -11,7 +11,7 @@
 					<img ng-src="assets/public/img/titoli_dashboard/compiti.png" class="title">
 					<img ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon">
 					</h1>
-					<div ng-repeat="m in dashboard.missionList">
+					<div ng-repeat="m in dashboard.myMissions">
 						<div class="col-xs-12">{{m.title}}</div>
 					</div>
 					
@@ -215,7 +215,7 @@
 									data-err-src="assets/public/img/ic_teacher.png"
 									class="img-circle imgPreviewM"
 									data-ng-click="dashboard.openCollCard(c.id,$index)">
-									<user-card userid="{{c.id}}" class="userCard" ng-show="dashboard.showCollCard[$index]"></user-card>							
+									<user-card tabindex="{{dashboard.tab[$index]}}" userid="{{c.id}}" class="userCard" ng-show="dashboard.showCollCard[$index]" data-ng-blur="dashboard.openCollCard(c.id,$index)"></user-card>							
 							</a>
 						</div>
 					</div>
