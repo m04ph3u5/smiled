@@ -65,6 +65,8 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         	getPost();
         	
         	self.switchOrder = function(o){
+
+        		console.log("HOLA"+o);
         		if(o!=order){
 	        		order = o;
 	        		getPost();

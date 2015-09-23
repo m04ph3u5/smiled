@@ -20,7 +20,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.showCollCard = [false,false,false,false,false,false];
 	self.selectedUserID = null;
 	self.myMissions = null;
-		
+	self.tab = new Array();
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
 	};
@@ -135,12 +135,18 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	
 		for(i=0; i<6; i++){
 			if(i!=index) self.showCollCard[i] = false;
+			self.tab[i]=i+1;
 		}
 		self.showCollCard[index] = !self.showCollCard[index];
+		if(self.showCollCard[index]){
+			self.tab[index]=0;
+		}
 	}
 	apiService.getMyMissions(0, 20, true, true).then(
 		function(data){
 			self.myMissions = data;
+			console.log("MISSIONIIIIIIIIIIIIIII");
+			console.log(self.myMissions);
 		},
 		function(reason){
 			console.log(reason);
