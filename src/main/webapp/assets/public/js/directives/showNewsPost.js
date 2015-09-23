@@ -131,7 +131,11 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				if(timeNumber){
 					var t = {};
 					getTimeToSeconds(timeNumber, t);
-					f+=" "+t.hours+":"+t.minutes;
+					f+=" "+t.hours+":";
+					if(t.minutes<10)
+	        			f+="0"+t.minutes;
+	        		else
+	        			f+=t.minutes;
 				}
 				return f;
 			}

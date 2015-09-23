@@ -340,7 +340,11 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		self.dateString=self.days[row][col].val+" "+self.currentMonthDate.title;
 	        		var t = {};
 	        		getTimeToSeconds(self.timeNumber,t);
-	        		self.dateString+=" "+t.hours+":"+t.minutes;
+	        		self.dateString+=" "+t.hours+":";
+	        		if(t.minutes<10)
+	        			self.dateString+="0"+t.minutes;
+	        		else
+	        			self.dateString+=t.minutes;
 	        	}
         	}
         	
