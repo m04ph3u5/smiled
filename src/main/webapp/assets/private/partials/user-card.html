@@ -1,31 +1,33 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="cardCover" style="background-image:url('{{userCard.userCover}}'),url('assets/public/img/cover_default.jpg')"></div>
-	</div>
-	<img class="img img-circle imgPreviewXM profPicCard" ng-src="{{userCard.profilePicture}}"
-		err-src="assets/public/img/ic_teacher.png">
-	<div class="row marginMTop">
-		<div class="col-xs-2">
-		
+<div  class="userCard" >
+	<div class="container-fluid">
+		<div class="row">
+			<div class="cardCover" style="background-image:url('{{userCard.userCover}}'),url('assets/public/img/cover_default.jpg')"></div>
 		</div>
-		<div class="col-xs-10">
-				<label data-ui-sref="logged.userProfile({id: '{{userCard.userid}}'})">
-					{{userCard.user.firstName+ " " + userCard.user.lastName}}
-				</label>
+		<img class="img img-circle imgPreviewXM profPicCard" ng-src="{{userCard.profilePicture}}"
+			err-src="assets/public/img/ic_teacher.png">
+		<div class="row marginMTop">
+			<div class="col-xs-2">
+			
+			</div>
+			<div class="col-xs-10">
+					<label data-ui-sref="logged.userProfile({id: '{{userCard.userid}}'})">
+						{{userCard.user.firstName+ " " + userCard.user.lastName}}
+					</label>
+			</div>
 		</div>
-	</div>
-	<div class="row marginEmS marginMBottom dottedBorderTop">
-		<div class="col-xs-6">
-			<img class="img cardIcon" ng-if="userCard.ruolo == 'DOCENTE'" ng-src="assets/public/img/titoli_dashboard/ic_coll.png">
-			<label class="marginMTop">{{userCard.ruolo}}</label>
-		</div>
-		<div class="col-xs-3">
-			<img class="img cardIcon" ng-if="userCard.ruolo == 'DOCENTE'" ng-src="assets/public/img/titoli_dashboard/ic_scen.png">
-			<label>{{userCard.numScen}}</label>
-		</div>
-		<div class="col-xs-3">
-			<img class="img cardIcon" ng-if="userCard.ruolo == 'DOCENTE'" ng-src="assets/public/img/titoli_dashboard/ic_hw.png">
-			<label>0</label>
+		<div class="row marginEmS marginMBottom dottedBorderTop">
+			<div class="col-xs-6">
+				<img class="img cardIcon" ng-if="userCard.ruolo == 'DOCENTE'" ng-src="assets/public/img/titoli_dashboard/ic_coll.png">
+				<label class="marginMTop">{{userCard.ruolo}}</label>
+			</div>
+			<div class="col-xs-3">
+				<img class="img cardIcon" ng-if="userCard.ruolo == 'DOCENTE'" ng-src="assets/public/img/titoli_dashboard/ic_scen.png">
+				<label>{{userCard.numScen}}</label>
+			</div>
+			<div class="col-xs-3">
+				<img class="img cardIcon" ng-if="userCard.ruolo == 'DOCENTE'" ng-src="assets/public/img/titoli_dashboard/ic_hw.png">
+				<label>0</label>
+			</div>
 		</div>
 	</div>
 </div>

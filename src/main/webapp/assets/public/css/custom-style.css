@@ -998,6 +998,8 @@
 		z-index:5;
 		position:absolute;
 		background-color:white;
+		padding:0.5em;
+		border: 1px solid #EAEAEA;
 	}
 	.userCard:after{
 		        top: 50%;

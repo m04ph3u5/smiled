@@ -1,78 +1,140 @@
+<meta charset="UTF-8">
 <div class="container-fluid mainContent">	
 		<div class="row-fluid">
 		<div class ="col-lg-1"></div>
 			<div class="col-sm-12 col-lg-8 noPadding">			
 				<div class="row-fluid">
-					<div class="col-md-3 doubleRow box hidden-xs hidden-sm visible-md visible-lg">
+					<div class="col-md-3 doubleRow box boxLightblue hidden-xs hidden-sm visible-md visible-lg">
 						<h3>Appunti</h3>						
-						<div>
-							<h4>Titolo del compito</h4>
-							Qua verranno inserite le anteprime dei singoli compiti
-						</div>
+						<p>Questa sezione non è ancora attiva</p>
+						<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
 					</div>
-					<div class="col-sm-12 singleRow box visible-xs visible-sm hidden-md hidden-lg">
-						<h3>Appunti</h3>						
-						<div>
-							<h4>Titolo del compito</h4>
-							Qua verranno inserite le anteprime dei singoli compiti
-						</div>
-					</div>					
-					<div class="col-md-9 col-sm-12 singleRow box">
-							<h3>Scenari</h3>
-							<div class="leftFloat marginMTop">
-								<img src="http://www.colorhexa.com/607931.png" class="img-circle imgPreviewL">
-								<img class="overlapImg img-circle" src="http://www.wrapedecor.it/catalogue/21/99/1658/100-719%20Principale.jpg">
-								<h4>Titolo dello scenario</h4>
-							</div>							
-					</div>
-					
-						<div class="col-sm-4 col-md-3 singleRow box">
-							<h3>Personaggi</h3>
-							<div class="internalDiv">
-								<div class="table-responsive textLeft">
-									<table>
-										<tbody>
-											<tr>
-												<td><img src="http://www.colorhexa.com/607931.png" class="img-circle imgPreviewM tableMargin"></td>
-												<td>
-													<table>
-													<tbody>
-													  <tr>
-														<td><span>Nome Cognome Cognome</span></td>
-													  </tr>
-													  <tr>
-														<td><span>Nome Scenario</span></td>
-													  </tr>
-													</tbody>
-													</table>												
-												</td>
-											</tr>
-										</tbody>
-									</table>
+					<div class="col-sm-12 singleRow boxLightblue box visible-xs visible-sm hidden-md hidden-lg">
+						<h3>Appunti</h3>		
+						<p>Questa sezione non è ancora attiva</p>
+						<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
+
+					</div>	<div class="col-md-9 singleRow box boxRed hidden-xs visible-sm visible-md visible-lg">
+					<h1 data-ui-sref="logged.dashboard.scenariosList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
+					</h1>
+					<div class="row marginMTop">
+						
+						<div ng-if="dashboard.scenariosToShow.length>0">
+							
+							<div  class="col-sm-2"
+							data-ng-repeat="s in dashboard.scenariosToShow ">
+								<div ng-switch on="s.isOpen">
 									
-									<table>
-										<tbody>
-											<tr>
-												<td><img src="http://www.colorhexa.com/607931.png" class="img-circle imgPreviewM tableMargin"></td>
-												<td>
-													<table>
-														<tbody>
-														  <tr>
-															<td><span>Nome Cognome Molto Lungo</span></td>
-														  </tr>
-														  <tr>
-															<td><span>Nome Scenario</span></td>
-														  </tr>
-														</tbody>
-													</table>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>	
+									
+									<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" ng-switch-when=true>
+										
+										
+										<a href="">
+											<h5>{{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h5>
+											<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+												data-err-src="assets/public/img/icon/ic_scen.png"
+												class="img-circle imgPreviewL"/> 
+										</a>
+									</div>
+									
+									
+									
+									<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" ng-switch-when=false>
+
+										<a href="">
+											<h5><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h5>
+											<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+												data-err-src="assets/public/img/icon/ic_scen.png"
+												class="img-circle imgPreviewL"/> 
+										</a>
+										
+									</div>
+									
+
+								</div>
+								
 							</div>
+						</div>						
+						
+										
+						<div class="col-sm-2" ng-if="dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length+dashboard.user.closedScenarios > dashboard.numScenariosToShow">
+							<a ui-sref="logged.dashboard.scenariosList">
+							<img data-ng-src="assets/public/img/icon/view_more.png"								
+									class="scenDashIcon">		
+							<h5>Vedi altri</h5>
+							</a>
+					</div>
+				</div>
+			</div>
+				<div class="col-xs-12 doubleRow box boxRed visible-xs hidden-sm hidden-md hidden-lg">
+					<h1 data-ui-sref="logged.dashboard.scenariosList">
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
+					</h1>
+					<div class="row marginMTop">
+						
+						<div ng-if="dashboard.scenariosToShow.length>0">
+						
+							
+							
+							<div  class="col-sm-2"
+								data-ng-repeat="s in dashboard.scenariosToShow | limitTo:2">
+								<div ng-switch on="s.isOpen">
+									
+									
+									<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" ng-switch-when=true>
+										
+										
+										<a href="">
+											<h5>{{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h5>
+											<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+												data-err-src="assets/public/img/icon/ic_scen.png"
+												class="img-circle imgPreviewL"/> 
+										</a>
+									</div>
+									
+									
+									
+									<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" ng-switch-when=false>
+
+										<a href="">
+											<h5><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h5>
+											<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+												data-err-src="assets/public/img/icon/ic_scen.png"
+												class="img-circle imgPreviewL"/> 
+										</a>
+										
+									</div>
+									
+
+								</div>
+								
+							</div>
+						
+						
+						
+						</div>						
+						
+										
+						<div class="col-sm-2 marginMTop" ng-if="dashboard.scenariosToShow.length>2">
+							<a ui-sref="logged.dashboard.scenariosList">
+								<h4>Vedi tutti<img data-ng-src="assets/public/img/icon/view_more_vert.png"								
+										class="scenDashIcon2 marginSLeft">					
+								</h4>
+							</a>
+					</div>
+				</div>
+			</div>
+					
+						<div class="col-sm-4 col-md-3 singleRow box boxBrown">
+							<h3>Personaggi</h3>
+							Questa sezione non è ancora attiva
+							<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
+							
 						</div>
-						<div class="col-sm-8 col-md-6 singleRow box">
+						<div class="col-sm-8 col-md-6 singleRow box boxGreen">
 							<h3>Compiti</h3>
 							<div class="table-responsive textLeft">
 							<table>
@@ -100,67 +162,105 @@
 								</tbody>
 							</table>
 						</div>
-						<div class="table-responsive textLeft">
-							<table>
-								<tbody>
-									<tr>
-										<td>
-											<div class="tableMargin dateHomework">
-												<div class="fontL">4</div>
-												<div class="fontM">APR</div>
-											</div>
-										</td>
-										<td>
-											<table>
-												<tbody>
-												  <tr>
-													<td><h4>Materia</h4></td>
-												  </tr>
-												  <tr>
-													<td><span>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.</span></td>
-												  </tr>
-												 </tbody>
-											</table>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+							<div class="table-responsive textLeft">
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="tableMargin dateHomework">
+													<div class="fontL">4</div>
+													<div class="fontM">APR</div>
+												</div>
+											</td>
+											<td>
+												<table>
+													<tbody>
+													  <tr>
+														<td><h4>Materia</h4></td>
+													  </tr>
+													  <tr>
+														<td><span>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.</span></td>
+													  </tr>
+													 </tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					
 					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="col-sm-8 col-md-6 singleRow box">
+					<div class="col-sm-8 col-md-6 singleRow box boxBlue">
 						<h3>Azioni</h3>
+						<p>Questa sezione non è ancora attiva</p>
+						<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
+						
 					</div>
-					<div class="col-sm-4 col-md-3 singleRow box">
+					<div class="col-sm-4 col-md-3 singleRow box boxYellow">
+					<div data-ui-sref="logged.dashboard.studentsList">
 						<h3>Compagni</h3>
-						<table>
-							<tbody>
-								<tr>
-									<td><img src="http://www.colorhexa.com/607931.png" class="img-circle imgPreviewM tableMargin"></td>
-									<td><span>Nome Cognome</span></td>									
-								</tr>
-							</tbody>
-						</table>
 					</div>
-					<div class="col-sm-4 col-md-3 singleRow box">
-						<h3>Docenti</h3>
-						<table>
-							<tbody>
-								<tr>
-									<td><img src="http://www.colorhexa.com/607931.png" class="img-circle imgPreviewM tableMargin"></td>
-									<td><span>Nome Cognome</span></td>									
-								</tr>
-							</tbody>
-						</table>
+					<div ng-if="dashboard.user.students==null">
+						Qui verranno inseriti i propri compagni
+						
 					</div>
-					<div class="col-sm-8 col-md-12 singleRow box visible-xs visible-sm visible-md hidden-lg">
+					<div class="row">
+						<div class="col-xs-4 marginMTop" data-ng-repeat="a in dashboard.user.students | limitTo:6">
+							<a data-ui-sref="logged.userProfile({id: '{{a.id}}'})" class="marginMTop">
+									<img title="{{a.firstname}} {{a.lastname}}" 
+									data-ng-src="api/v1/users/{{a.id}}/cover"
+									data-err-src="assets/public/img/ic_student.png"
+									class="img-circle imgPreviewM">
+							</a>
+						</div>
+					</div>
+					<div class="row" ng-if="dashboard.user.students.length>6">
+						<img src="assets/public/img/icon/view_more_vert.png"class="scenDashIcon2" data-ui-sref="logged.dashboard.studentsList">
+						<span data-ui-sref="logged.dashboard.studentsList">Vedi altri</span>
+					</div>
+					
+				</div>
+					<div class="col-sm-4 col-md-3 singleRow box boxLightgreen">
+
+					<div data-ui-sref="logged.dashboard.colleaguesList">
+						<h3>Insegnanti</h3>
+					</div>
+					<div ng-if="dashboard.user.teachers==null">
+						Qui verranno inseriti i propri insegnanti
+					</div>
+					<div class="row">				
+						<div data-ng-repeat="c in dashboard.user.teachers | limitTo:6" class="marginMTop col-xs-4">
+							<!--  data-ui-sref="logged.userProfile({id: '{{c.id}}'})"-->
+							<a class="marginMTop">
+									<img title="{{c.firstname}} {{c.lastname}}" 
+									data-ng-src="api/v1/users/{{c.id}}/cover"
+									data-err-src="assets/public/img/ic_teacher.png"
+									class="img-circle imgPreviewM"
+									data-ng-click="dashboard.openCollCard(c.id,$index)">
+									<user-card tabindex="{{dashboard.tab[$index]}}" userid="{{c.id}}" ng-show="dashboard.showCollCard[$index]" data-ng-blur="dashboard.openCollCard(c.id,$index)"></user-card>							
+							</a>
+						</div>
+					</div>
+					<div class="row" ng-if="dashboard.user.colleagues.length>6">
+						<img src="assets/public/img/icon/view_more_vert.png" class="scenDashIcon2" data-ui-sref="logged.dashboard.colleaguesList">
+						<span data-ui-sref="logged.dashboard.colleaguesList">Vedi altri</span>
+					</div>
+						
+				</div>
+					<div class="col-sm-8 col-md-12 singleRow box boxBrown visible-xs visible-sm visible-md hidden-lg">
 						<h3>Premi</h3>
+						<p>Questa sezione non è ancora attiva</p>
+						<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
+						
 					</div> 
 				</div>
 			</div>
-			<div class="col-lg-2 col-md-12 tripleRow box hidden-xd hidden-sm hidden-md visible-lg">
+			<div class="col-lg-2 col-md-12 tripleRow box boxBrown hidden-xd hidden-sm hidden-md visible-lg">
 				<h3>Premi</h3>
+				<p>Questa sezione non è ancora attiva</p>
+						<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
 			</div>
 			
 		</div>  
