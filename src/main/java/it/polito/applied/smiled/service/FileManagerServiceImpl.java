@@ -117,7 +117,11 @@ public class FileManagerServiceImpl implements FileManagerService {
 		InputStream input = file.getInputStream();
 
 		byte[] targetArray = new byte[(int)file.getLength()];
-		input.read(targetArray);
+		int count = 0;
+		while(count<(int)file.getLength()){
+			int n = input.read(targetArray, count, targetArray.length);
+			count+=n;
+		}
 		return targetArray;
 	}
 
@@ -172,6 +176,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		meta.setFormat(type);
 
 		InputStream input = userCover.getInputStream();
+		System.out.println();
 		String coverName = "ul"+user.getId();
 		if(u.getProfile()==null || u.getProfile().getLargeCoverPhotoId()==null || u.getProfile().getLargeCoverPhotoId().isEmpty()){
 			GridFSFile file = gridFsManager.save(input, coverName, userCover.getContentType(), meta);
@@ -195,7 +200,11 @@ public class FileManagerServiceImpl implements FileManagerService {
 		}
 		InputStream input = file.getInputStream();
 		byte[] targetArray = new byte[(int)file.getLength()];
-		input.read(targetArray);
+		int count = 0;
+		while(count<(int)file.getLength()){
+			int n = input.read(targetArray, count, targetArray.length);
+			count+=n;
+		}
 		return targetArray;
 	}
 	
@@ -208,7 +217,12 @@ public class FileManagerServiceImpl implements FileManagerService {
 		}
 		InputStream input = file.getInputStream();
 		byte[] targetArray = new byte[(int)file.getLength()];
-		input.read(targetArray);
+		int count = 0;
+		while(count<(int)file.getLength()){
+			int n = input.read(targetArray, count, targetArray.length);
+			count+=n;
+		}
+		
 		return targetArray;
 	}
 
@@ -258,7 +272,11 @@ public class FileManagerServiceImpl implements FileManagerService {
 		InputStream input = file.getInputStream();
 
 		byte[] targetArray = new byte[(int)file.getLength()];
-		input.read(targetArray);
+		int count = 0;
+		while(count<(int)file.getLength()){
+			int n = input.read(targetArray, count, targetArray.length);
+			count+=n;
+		}
 		return targetArray;
 	}
 
@@ -476,7 +494,11 @@ public class FileManagerServiceImpl implements FileManagerService {
 		InputStream input = file.getInputStream();
 
 		byte[] targetArray = new byte[(int)file.getLength()];
-		input.read(targetArray);
+		int count = 0;
+		while(count<(int)file.getLength()){
+			int n = input.read(targetArray, count, targetArray.length);
+			count+=n;
+		}
 		return targetArray;
 	}
 
