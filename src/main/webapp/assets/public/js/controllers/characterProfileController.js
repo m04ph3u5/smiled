@@ -7,7 +7,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	var idChar = $stateParams.idCharacter;
 	self.idChar = idChar;
 	var scenarioId = $scope.scenario.scen.id;
-	
+	self.editProfile = false;
 	self.bornMonth = null;
 	self.deadMonth = null;
 	self.actualUserCover = null;
@@ -44,7 +44,11 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 			}
 	);
 	self.cover = CONSTANTS.urlCharacterCover(scenarioId, idChar);
-
+	
+	self.toggleEditProfile = function(){
+		console.log("QUI");
+		self.editProfile = !self.editProfile;		
+	}
 	
 	self.updateChar = function(){		
 		var charDTO = {};

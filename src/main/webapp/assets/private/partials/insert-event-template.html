@@ -8,7 +8,7 @@
 <!-- 			date-number="insertEvent.newPost.julianDayNumber" -->
 <!-- 			date-string="insertEvent.newPost.formattedDate" ></div> -->
 <!-- 			historical-date-picker date="insertEvent.newPost.date" -->
-<!-- custom-date-picker start-date-number="1000" end-date-number="2415021" date-number="insertEvent.dateNumber" -->
+<!-- custom-date-picker s tart-date-number="1000" end-date-number="2415021" date-number="insertEvent.dateNumber" -->
 	</div>
 </div>
 <div class="col-xs-12 marginMTop">
@@ -28,7 +28,7 @@
 					data-ng-click="insertEvent.setPositionNewPost()"
 					class="linkPost">{{insertEvent.newPost.place.text}}</span>
 			</h4>
-			<textarea id="textarea-event" placeholder="COSA E' SUCCESSO?"  class="pull-left allWidth"
+			<textarea placeholder="COSA E' SUCCESSO?"  class="pull-left allWidth"
 			rows="3" data-ng-model="insertEvent.newPost.content"></textarea>
 		</div>
 	</div>
@@ -101,19 +101,19 @@
 	</div>
 	<div class="row">
 		<div data-ng-repeat="image in insertEvent.newPost.image">
-			<div class="col-lg-2 col-md-3 imgToPost">
-				<img class="img imgPreviewL" ng-src="{{insertEvent.getMedia(image.id)}}">
-				<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
+			<div class="squareImg" style="background-image:url('{{insertEvent.getMedia(image.id)}}')">
+			<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
 					data-ng-click="insertEvent.removeImage(image)"></span></div>
-				
 			</div>
+			
 		</div>
 	</div>
 	<div class="row">
 		<div data-ng-repeat="file in insertEvent.newPost.file">
 			<div class="col-sm-2">
-				{{file.name}}
-				<span data-ng-show="file.name" show-on-hover-parent
+				<span>{{file.name | limitTo:15}}</span>
+				<span ng-if="file.name.length>15">...</span>
+				<span data-ng-show="file.name"
 					class="glyphicon glyphicon-remove"
 					data-ng-click="insertEvent.removeFile(file)"></span>
 			</div>

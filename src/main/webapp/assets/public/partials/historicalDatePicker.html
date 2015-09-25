@@ -1,15 +1,23 @@
-<div class="box row" style="border:1px; margin-right:1%; border-color:#5B5955">
-
-		<select class="form-control customInput2 "  data-ng-model="vm.date.day" data-ng-options="day.value as day.value for day in vm.days">
-		    <option value="" disabled selected style="display:none;">GIORNO</option>
+<div class=" text-center">
+	<div class="col-xs-4 pickerPadding">
+		<select class="form-control generalInput"  data-ng-model="vm.date.day" 
+		data-ng-options="day.value as day.value for day in vm.days">
+		    <option value="" disabled selected style="display:none;">GG</option>
 		</select>
- 		<select data-ng-click="vm.getDays()" class="form-control customInput2 " data-ng-model="vm.date.month" data-ng-options="month.value as month.name for month in vm.months">
-		    <option value="" disabled selected style="display:none;">MESE</option>
- 		</select>
-		<input class="generalInput" class="" type="text" data-ng-model="vm.date.year"  placeholder="ANNO"/>
-
-		<span class="btn-group col-xs-4 pull-right">
+	</div>
+	<div class="col-xs-4 pickerPadding">
+			<select data-ng-click="vm.getDays()" class="form-control generalInput " 
+			data-ng-model="vm.date.month" data-ng-options="month.value as month.name for month in vm.months">
+		    <option value="" disabled selected style="display:none;">MM</option>
+			</select>
+	</div>
+	<div class="col-xs-4 pickerPadding">
+		<input class="generalInput form-control" class="" type="text" data-ng-model="vm.date.year"  placeholder="AAAA"/>
+	</div>
+	<div class="col-xs-12 pickerPadding marginMTop">
+		<span class="btn-group">
 			<label class="btn buttonDC" data-ng-model="vm.date.afterChrist" btn-radio="false">A.C.</label>
 			<label class="btn buttonDC" data-ng-model="vm.date.afterChrist" btn-radio="true">D.C.</label>
 		</span>
+	</div>
 </div>

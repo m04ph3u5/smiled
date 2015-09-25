@@ -20,6 +20,7 @@
 			font-family: 'Coustard', sans-serif;
 			color:#212121;
 		}
+		
 		h5{
 			color:#212121;
 			font-size:16px;
@@ -362,6 +363,12 @@
 		.paddingMTop{
 			padding-top:1em;
 		}
+		.paddingSTop{
+			padding-top:0.5em;
+		}
+		.paddingSBottom{
+			padding-bottom:0.5em;
+		}
 		.paddingLTop{
 			padding-top:4em;
 		}
@@ -695,6 +702,19 @@
 			margin-top:0.5%;
 		}
 		
+		.menu a {
+		    display: inline-block;
+		    /*margin-right: 5px;*/
+		    outline: none;
+		    padding-top: 10px;
+		    padding-bottom: 10px;
+		    text-decoration: none;
+		    text-align: center;
+		}
+		.menu .active {
+			background: #AFC48B;
+		}
+		
 		.marginM{
 			margin-top: 10%;
 			margin-bottom: 10%;
@@ -825,7 +845,7 @@
 
 		.modal-dialog {
 /* 			  width: 500px; */
-			  background-color: rgba(224, 216, 169, 1);
+			  background-color: rgba(224, 216, 169, 0.9);
 		}
 		.modal-content{
 			border-radius: 0px;
@@ -928,7 +948,76 @@
 				width:30%;
 			}
 		}
+		.pickerProfile{
+			z-index:5;
+			position:absolute;
+			background-color:rgba(224, 216, 169, 0.90);
+			padding:0.3em;
+			border: 1px solid #EAEAEA;
+	    	left: 0em;
+	    	top:5em;
+	    	clear: both;
+		}
+		.pickerProfile:after, .pickerProfile:before {
+			bottom: 100%;
+			left: 40%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
 		
+		.pickerProfile:after {
+			border-color: rgba(136, 183, 213, 0);
+			border-bottom-color: rgba(224, 216, 169, 1);
+			border-width: 10px;
+			margin-left: -10px;
+		}
+		.pickerProfile:before {
+			border-color: rgba(235, 235, 235, 0);
+			border-bottom-color: #ebebeb;
+			border-width: 11px;
+			margin-left: -11px;
+		}
+		.historicalPicker{
+			z-index:5;
+			position:absolute;
+			background-color:rgba(224, 216, 169, 0.90);
+			padding:0.3em;
+			border: 1px solid #EAEAEA;
+			top: 0.5em;
+	    	left: 0em;
+	    	clear: both;
+		}
+		.historicalPicker:after, .historicalPicker:before {
+			bottom: 100%;
+			left: 40%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+		
+		.historicalPicker:after {
+			border-color: rgba(136, 183, 213, 0);
+			border-bottom-color: rgba(224, 216, 169, 1);
+			border-width: 10px;
+			margin-left: -10px;
+		}
+		.historicalPicker:before {
+			border-color: rgba(235, 235, 235, 0);
+			border-bottom-color: #ebebeb;
+			border-width: 11px;
+			margin-left: -11px;
+		}
+		.pickerPadding{
+			padding-left:5px;
+			padding-right:5px;
+		}
 /*Profilo pg*/
 
 		.marginTwenty{
@@ -992,23 +1081,64 @@
 	    display: block;
 	    background: rgba(0, 0, 0, .6);
 	}
-
+	.squareImg{
+		float:left;
+	    position: relative;
+	    width: 15%;
+	    padding-bottom : 15%; /* = width for a 1:1 aspect ratio */
+	    margin:1.66%;
+	    background-position:center center;
+	    background-repeat:no-repeat;
+	    background-size:cover;
+	}
+	.hoverContent {
+		width:100%;
+		height:100%;
+	    position: absolute;
+	    top: 0;
+	    left: initial;
+	    display: none;
+	    color: #d6d6d6;	  
+	}
+	.squareImg:hover .hoverContent {
+	    display: block;
+	    background: rgba(0, 0, 0, .6);
+	}
 /*User Card*/
 	.userCard{
 		z-index:5;
 		position:absolute;
 		background-color:white;
-		padding:0.5em;
+		padding:0.3em;
 		border: 1px solid #EAEAEA;
+		top: -2em;
+    	left: 7em;
+    	clear: both;
 	}
-	.userCard:after{
-		        top: 50%;
-			    left: -11px;
-			    margin-top: -11px;
-			    border-right-color: #999;
-			    border-right-color: rgba(0,0,0,.25);
-			    border-left-width: 0;
-	}
+	
+.userCard:after, .arrow_box:before {
+	right: 100%;
+	top: 25%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.userCard:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-right-color: #ffffff;
+	border-width: 10px;
+	margin-top: -10px;
+}
+.userCard:before {
+	border-color: rgba(234, 234, 234, 0);
+	border-right-color: #eaeaea;
+	border-width: 11px;
+	margin-top: -11px;
+}
 	.cardCover{
 		height: 5em;
 		width:25em;
@@ -1030,6 +1160,9 @@
 		border-width:2px 0 0 0;	
     	border-style:dashed;
     	border-color: #EAEAEA;
+	}
+	.cardFooter{
+		background-color:#EAEAEA;
 	}
 
 /*Non ancora classificato*/

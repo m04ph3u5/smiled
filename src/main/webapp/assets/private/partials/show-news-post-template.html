@@ -59,8 +59,8 @@
 					<div class="row">								
 						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
 							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
-								data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 noPadding text-left">
-								<img data-ng-src="{{col}}" class="imgPreviewL marginMTop" />
+								data-ng-repeat="col in row track by $index">
+								<div class="squareImg" style="background-image:url('{{col}}')"></div>
 							</div>
 						</div>
 						<div data-ng-repeat="file in showNewsPost.post.filesMetadata">
@@ -174,9 +174,9 @@
 						<div class="row">
 							<div data-ng-repeat="row in showNewsPost.post.media track by $index">
 							<div data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 text-left imgToPost">
-								<img data-ng-src="{{col}}" class="imgPreviewL" />
-								<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
-										data-ng-click="showNewsPost.recalculateMatrix()"></span></div>
+								<div class="squareImg" style="background-image:url('{{col}}')">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.recalculateMatrix()"></span></div>
 								</div>
 							</div>
 							
