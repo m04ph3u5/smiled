@@ -39,10 +39,8 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 			}
 			
 			var elaborate = function(){
-				console.log(mapPost);
 				if(mapPost){
 					mapPost.sort(compare);
-					console.log(mapPost);
 					var startDate = 0;
 					if(mapPost[0].timeNumber){
 						startDate+=parseInt(mapPost[0].timeNumber/60);
@@ -52,13 +50,9 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 						endDate+=parseInt(mapPost[mapPost.length-1].timeNumber/60);
 					}
 					
-					console.log(endDate);
-					//var step = endDate/100;
 					var actualStep = (endDate-startDate)/100;
 					var step = actualStep;
-					console.log(step);
-					console.log(startDate);
-					console.log(endDate);
+				
 					var i=0;
 					var index=0;
 					while(index<100 && i<mapPost.length){
@@ -84,13 +78,9 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 							self.toShowPost[index].push(mapPost[mapPost.length-1]);
 						}
 						index++;
-						actualStep+=step;
-						console.log("actualStep: ---------->");
-						console.log(actualStep);
-						
+						actualStep+=step;						
 					}
 				}
-				console.log(self.toShowPost.length);
 			}
 			
 			self.posts.then(
@@ -99,7 +89,7 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 						elaborate();
 					},
 					function(reason){
-						
+						console.log("Error in retrieve post");
 					}
 			);
 			
@@ -139,7 +129,7 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 				canvas.height = newHeight;
 				ctx.drawImage(map, 0, 0, map.width, map.height, 0, 0, canvas.width, newHeight);
 				original = ctx.getImageData(0,0,canvas.width, canvas.height);
-				
+			};	
 				
 //				if(scope.posts){
 //					for(var i=0; i<scope.posts.length;i++){
@@ -153,7 +143,39 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 //					}
 //				}
 				
-			};
+			
+			var drawMarker = function(n){
+				for(var i=0;i<n;i++){
+					for(var j=0; j<ctrl.toShowPost[i].length;j++){
+						if(ctrl.toShowPost[i][j].place){
+							var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
+							var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
+							ctx.drawImage(marker, x, y, markerDim, markerDim);
+						}
+					}
+				}
+			}
+			
+			var drawMarkerDelay = function(n){
+				for(var i=0;i<n;i++){
+					for(var j=0; j<ctrl.toShowPost[i].length;j++){
+						if(ctrl.toShowPost[i][j].place){
+							var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
+							var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
+							$timeout(ctx.drawImage(marker, x, y, markerDim, markerDim),1550);
+						}
+					}
+				}
+			}
+			
+			scope.$watch('dirMapScenario.slideNumber', function(newVal, oldVal){
+				ctx.putImageData(original,0,0);
+				if(newVal!=0 && newVal>oldVal){
+					drawMarkerDelay(newVal);
+				}else if(newVal!=0 && newVal<oldVal){
+					drawMarker(newVal);
+				}
+			});
 			
 //			marker.onload = function(){
 //				
