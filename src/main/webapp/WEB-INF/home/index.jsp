@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="assets/public/js/vendor/ui-slider/slider.css">
 
 <link rel="stylesheet" href="/assets/public/css/storyline.css">
   <!-- Google Web Fonts -->
@@ -77,7 +78,7 @@
 	<script src="/assets/public/js/vendor/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
 	<script src="/assets/public/js/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 	<script src="/assets/public/js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
-	
+	<script src="/assets/public/js/vendor/ui-slider/slider.js"></script>
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
 	<!-- CUSTOM SCRIPT -->
