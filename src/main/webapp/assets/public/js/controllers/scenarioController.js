@@ -9,7 +9,6 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.loggedUser = loggedUser;
     var date = new Date();
 	self.scen.cover = CONSTANTS.urlScenarioCover(self.scen.id)+"?"+date.toString();
-	
 	self.isModerator = false;
 	self.isCreator = false;
 	self.hasCharacter = false;

@@ -1,6 +1,5 @@
 package it.polito.applied.smiled.service;
 
-import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
@@ -10,12 +9,12 @@ import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
 import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
+import it.polito.applied.smiled.pojo.ExceptionOnClient;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.security.CustomUserDetails;
 
 import java.util.List;
@@ -75,4 +74,6 @@ public interface UserService {
 	
 	public Page<Reference> getAllTeachersByRegex(String regex, Integer nPag, Integer nItem) throws BadRequestException;
 	public void sendReport(CustomUserDetails activeUser, Issue issue);
+	public void addClientException(ExceptionOnClient e, String userId);
+	public Page<ExceptionOnClient> getAllClientExceptions(Integer nPag, Integer nItem) throws BadRequestException;
 }

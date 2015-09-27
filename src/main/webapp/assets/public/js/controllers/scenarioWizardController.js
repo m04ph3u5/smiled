@@ -8,6 +8,11 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		/*Variabile che contiene lo scenario prelevato dalla getScenario
 		 * self.scenario.characters è l'array di Reference a Character contenuto in scenario*/
 	 	self.scenario = {};
+	 	
+//	 	for(var i=0; i<self.blabla.length; i++){
+//	 		self.bobo = self.blabla[i];
+//	 	}
+	 	
 		var tab;
 		self.scenarioServer = {};
 		self.associated = [];

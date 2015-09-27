@@ -153,6 +153,10 @@ angular.module('smiled.application')
 			url : "/post",
 			templateUrl: "assets/private/partials/admin-posts.html",
 		})
+		.state('logged.dashboard.admin.exceptionsOnClient',{
+			url : "/eccezioni",
+			templateUrl: "assets/private/partials/admin-eccezioni.html",
+		})
 		.state('logged.dashboard.scenariosList',{
 			url: "scenari",
 			views: {

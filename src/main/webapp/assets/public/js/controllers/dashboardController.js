@@ -13,6 +13,9 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 //	);
 	console.log("dashboard");
 	console.log(loggedUser);
+	
+	
+	
 	self.user = loggedUser;
 	self.scenariosToShow = new Array();
 	

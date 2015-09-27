@@ -1,6 +1,5 @@
 package it.polito.applied.smiled.service;
 
-import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
@@ -10,7 +9,7 @@ import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
 import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
-import it.polito.applied.smiled.mailMessage.EmailMessageService;
+import it.polito.applied.smiled.pojo.ExceptionOnClient;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
@@ -19,12 +18,12 @@ import it.polito.applied.smiled.pojo.RegistrationToken;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.Student;
-import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserProfile;
+import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
 import it.polito.applied.smiled.repository.RegistrationRepository;
 import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -35,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,7 +41,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -71,6 +68,9 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	
 	@Autowired
 	private SmiledPermissionEvaluator permissionEvaluator;
+	
+	@Autowired
+	private ExceptionOnClientRepository exceptionOnClientRepository;
  
 
 	@Override
@@ -583,6 +583,30 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public void sendReport(CustomUserDetails activeUser, Issue issue) {
 		User u = userRepository.findById(activeUser.getId());
 		asyncUpdater.sendReport(u, issue);		
+	}
+
+	@Override
+	public void addClientException(ExceptionOnClient e, String userId) {
+		User u = userRepository.findById(userId);
+		Reference userRef = new Reference (u);
+		Date date = new Date();
+		e.setUser(userRef);
+		e.setDate(date);
+		exceptionOnClientRepository.insert(e);
+		
+	}
+
+	@Override
+	public Page<ExceptionOnClient> getAllClientExceptions(Integer nPag, Integer nItem) throws BadRequestException {
+		try{
+			Page<ExceptionOnClient> p = exceptionOnClientRepository.getPagingException(nPag, nItem);
+			if(p==null)
+				throw new BadRequestException();
+			
+			return p;
+		}catch(MongoException e ){
+			throw e;
+		}
 	}
 
 	

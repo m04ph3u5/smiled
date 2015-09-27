@@ -7,15 +7,13 @@ import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.exception.ForbiddenException;
-import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
+import it.polito.applied.smiled.pojo.ExceptionOnClient;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.UserService;
 import it.polito.applied.smiled.validator.UserDTOValidator;
@@ -31,9 +29,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -191,9 +187,21 @@ public class UserController extends BaseController{
 					}
 						
 				}
-				if(isAdmin==false)
-					throw new UserNotFoundException();
+				if(isAdmin==false){
+					Reference ref = new Reference();
+					ref.setId(userId);
+					boolean isRecentRelation = false;
+					UserDTO meDTO = userService.getUserById(activeUser.getId());
+					if(meDTO.getColleagues()!=null && meDTO.getColleagues().contains(ref))
+						isRecentRelation = true;
+					if(isRecentRelation==false && meDTO.getStudents()!=null && meDTO.getStudents().contains(ref))
+						isRecentRelation = true;
+					if(!isRecentRelation)
+						throw new UserNotFoundException();
+				}
+					
 			}
+			System.out.println("USER ID: "+ userId);
 			userDTO = userService.getUserById(userId);
 			
 			//userDTO.setRole(null);
@@ -285,7 +293,31 @@ public class UserController extends BaseController{
 			nItem=maxItem;
 		return userService.getAllUsers(nPag, nItem, 2); //il terzo parametro indica che cerco degli student
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/clientException", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<ExceptionOnClient> getAllClientExceptions(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>(maxItem) || nItem<=0)
+			nItem=(maxItem);
+		return userService.getAllClientExceptions(nPag, nItem);
+	}
+	
 	/*----------------------------------------------ADMIN API END--------------------------------------- */
 	
+	/*----------------------------------------------EXCEPTION ON CLIENT API START--------------------------------------- */
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/clientException", method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void sendClientException(@RequestBody ExceptionOnClient exception, @AuthenticationPrincipal CustomUserDetails activeUser){
+		System.out.println("Exception from user "+ activeUser.getUsername());
+		userService.addClientException(exception, activeUser.getId());
+	}
+	
+	/*----------------------------------------------EXCEPTION ON CLIENT API END--------------------------------------- */
 	
 }

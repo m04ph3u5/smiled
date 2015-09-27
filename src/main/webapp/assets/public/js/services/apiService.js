@@ -337,6 +337,22 @@
 		return c.promise;
 	}
 	
+	var getPagedExceptions = function(nPag, nItem){
+		var c = $q.defer();
+
+		$http.get("/api/v1/clientException", {
+			params: { "nPag": nPag, "nItem": nItem}}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
 	var getPagedTeacherByRegex = function(nPag, nItem, regex){
 		var c = $q.defer();
 
@@ -532,7 +548,8 @@
 		postIssue: postIssue,
 		getPagedStudents: getPagedStudents,
 		getPagedTeachers: getPagedTeachers,
-		updateEvent: updateEvent
+		updateEvent: updateEvent,
+		getPagedExceptions: getPagedExceptions
 		
 	}
 

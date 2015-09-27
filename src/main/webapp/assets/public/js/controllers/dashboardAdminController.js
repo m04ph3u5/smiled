@@ -11,13 +11,17 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	
 	self.nItemStudents=nItemDefault;
 	self.nItemTeachers=nItemDefault;
+	self.nItemExceptions=nItemDefault;
 	
 	self.nPagStudents=nPagDefault;
 	self.nPagTeachers=nPagDefault;
+	self.nPagExceptions=nPagDefault;
 	
 	self.myListOfTeachers = [];
 	self.myListOfStudents = [];
+	self.myListOfExceptions = [];
 	
+	self.numExceptionsFounded=0;
 	self.numTeachersFounded=0;
 	self.numStudentsFounded=0;
 	
@@ -57,6 +61,32 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     	);
 	}
 	
+	self.searchExceptions = function(){
+		if(self.nItemExceptions>maxItemDefault)
+			self.nItemExceptions=maxItemDefault;
+		apiService.getPagedExceptions(self.nPagExceptions, self.nItemExceptions).then(
+    			function(data){
+    				self.numExceptionsFounded= data.totalElements;
+    				self.myListOfExceptions = data.content;
+    				if(self.myListOfExceptions.length==0)
+    					self.noMoreExceptions = "Nessuna eccezione trovata in questa pagina";
+    				else{
+    					self.noMoreExceptions = "";
+    					console.log(self.myListOfExceptions[0]);
+    				}
+    			}, function(reason){
+    				console.log("errore");
+    				self.numExceptionsFounded= 0;
+    			}
+    	);
+	}
+	
+	self.showResetExceptions = function(){
+		if (self.myListOfExceptions.length>0 || self.nPagExceptions!=nPagDefault || self.nItemExceptions!=nItemDefault)
+			return true;
+		else return false;
+	}
+	
 	self.showResetTeachers = function(){
 		if (self.myListOfTeachers.length>0 || self.nPagTeachers!=nPagDefault || self.nItemTeachers!=nItemDefault)
 			return true;
@@ -66,6 +96,14 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		if (self.myListOfStudents.length>0 || self.nPagStudents!=nPagDefault || self.nItemStudents!=nItemDefault)
 			return true;
 		else return false;
+	}
+	
+	self.resetExceptions = function(){
+		self.myListOfExceptions = [];
+		self.nItemExceptions=nItemDefault;
+		self.nPagExceptions=0;
+		self.noMoreExceptions = "";
+		self.numExceptionsFounded=0;
 	}
 	
 	self.resetTeachers = function(){
