@@ -146,13 +146,14 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 			var drawMarker = function(n){
 				if(ctrl.toShowPost){
 					for(var i=0;i<n;i++){
-						for(var j=0; j<ctrl.toShowPost[i].length;j++){
-							if(ctrl.toShowPost[i][j].place){
-								var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
-								var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
-								ctx.drawImage(marker, x, y, markerDim, markerDim);
+						if(ctrl.toShowPost[i])
+							for(var j=0; j<ctrl.toShowPost[i].length;j++){
+								if(ctrl.toShowPost[i][j].place){
+									var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
+									var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
+									ctx.drawImage(marker, x, y, markerDim, markerDim);
+								}
 							}
-						}
 					}
 				}
 			}
@@ -160,13 +161,14 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 			var drawMarkerDelay = function(n){
 				if(ctrl.toShowPost){
 					for(var i=0;i<n;i++){
-						for(var j=0; j<ctrl.toShowPost[i].length;j++){
-							if(ctrl.toShowPost[i][j].place){
-								var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
-								var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
-								$timeout(ctx.drawImage(marker, x, y, markerDim, markerDim),1550);
+						if(ctrl.toShowPost[i])
+							for(var j=0; j<ctrl.toShowPost[i].length;j++){
+								if(ctrl.toShowPost[i][j].place){
+									var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
+									var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
+									$timeout(ctx.drawImage(marker, x, y, markerDim, markerDim),1550);
+								}
 							}
-						}
 					}
 				}
 			}
