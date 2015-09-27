@@ -60,32 +60,37 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 					console.log(startDate);
 					console.log(endDate);
 					var i=0;
-					var row=0;
-//					while(i<mapPost.length){
-//						var col=0;
-//						self.toShowPost[row]=new Array();
-//						var actualDate = (mapPost[i].juilianDayNumber-mapPost[0].julianDayNumber)*24*60;
-//						if(mapPost[i].timeNumber)
-//							actualDate+=parseInt(mapPost[i].timeNumber/60);
-//						if(actualDate>(startDate+actualStep)){
-//							i++;
-//						}
-//						while(actualDate<=(startDate+actualStep)){
-//							self.toShowPost[row][col]=mapPost[i];
-//							col++;
-//							i++;
-//							if(i<mapPost.length){
-//								actualDate = (mapPost[i].juilianDayNumber-mapPost[0].julianDayNumber)*24*60;
-//								if(mapPost[i].timeNumber)
-//									actualDate+=parseInt(mapPost[i].timeNumber/60);
-//							}else
-//								break;
-//						}
-//						row++;
-//						actualStep+=step;
-//					}
+					var index=0;
+					while(index<100 && i<mapPost.length){
+						
+						var col=0;
+						self.toShowPost[index]=new Array();
+						var actualDate = (mapPost[i].julianDayNumber-mapPost[0].julianDayNumber)*24*60;
+						if(mapPost[i].timeNumber)
+							actualDate+=parseInt(mapPost[i].timeNumber/60);
+					
+						while(actualDate<=(startDate+actualStep)){
+							self.toShowPost[index][col]=mapPost[i];
+							col++;
+							i++;
+							if(i<mapPost.length){
+								actualDate = (mapPost[i].julianDayNumber-mapPost[0].julianDayNumber)*24*60;
+								if(mapPost[i].timeNumber)
+									actualDate+=parseInt(mapPost[i].timeNumber/60);
+							}else
+								break;
+						}
+						if(index==99){
+							self.toShowPost[index].push(mapPost[mapPost.length-1]);
+						}
+						index++;
+						actualStep+=step;
+						console.log("actualStep: ---------->");
+						console.log(actualStep);
+						
+					}
 				}
-				console.log(self.toShowPost);
+				console.log(self.toShowPost.length);
 			}
 			
 			self.posts.then(
