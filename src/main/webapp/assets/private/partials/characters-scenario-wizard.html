@@ -13,11 +13,11 @@
 <br>
 <div>
 	<label>PERSONAGGI DELLO SCENARIO</label>
-	<div class="row">
-	<accordion close-others="true">
-		<div data-ng-repeat="c in scenarioWizard.scenario.characters">
-			<div class="col-sm-6">
-				<accordion-group is-open="c.isOpen" is-disabled="scenarioWizard.accordionIsDisabled">
+	<div class="row" style="position:relative;">
+	<accordion close-others="true" style="position:relative;">
+		<div data-ng-repeat="c in scenarioWizard.scenario.characters" style="position:relative;">
+			<div class="col-sm-6" style="position:relative;">
+				<accordion-group is-open="c.isOpen" is-disabled="scenarioWizard.accordionIsDisabled" style="position:relative;">
 					<accordion-heading>						
 						<div data-ng-click="scenarioWizard.openAccordion($index)">
 							<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': c.isOpen, 'glyphicon-chevron-right': !c.isOpen}"></div>	
@@ -63,15 +63,15 @@
 						<label class="col-xs-4">Data di nascita</label>
 						<span  class="col-xs-8  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowBornDate()">{{scenarioWizard.currentCharacters[$index].bornDate.formatted}}</span>
 					</div>
-					<div class="row" data-ng-show="scenarioWizard.showBornDatePicker">
-						<historical-date-picker date="scenarioWizard.currentCharacters[$index].bornDate"></historical-date-picker>
+					<div data-ng-show="scenarioWizard.showBornDatePicker" style="position:relative;">
+						<historical-date-picker class="historicalPicker" date="scenarioWizard.currentCharacters[$index].bornDate"></historical-date-picker>
 					</div>
 					<div class="row">
 						<label class="col-xs-4">Data di morte</label>
 						<span  class="col-xs-8  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowDeadDate()">{{scenarioWizard.currentCharacters[$index].deadDate.formatted}}</span>
 					</div>
-					<div class="row" data-ng-show="scenarioWizard.showDeadDatePicker">
-						<historical-date-picker date="scenarioWizard.currentCharacters[$index].deadDate"></historical-date-picker>
+					<div data-ng-show="scenarioWizard.showDeadDatePicker" style="position:relative;">
+						<historical-date-picker class="historicalPicker" date="scenarioWizard.currentCharacters[$index].deadDate"></historical-date-picker>
 					</div>
 					<div class="row">
 						<label class="col-xs-4">Luogo di nascita</label>

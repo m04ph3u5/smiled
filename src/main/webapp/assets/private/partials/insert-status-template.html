@@ -90,10 +90,10 @@
 	
 		<div class="row">
 			<div data-ng-repeat="image in insertStatus.newPost.image">
-				<div class="col-lg-2 col-md-3 imgToPost">
-					<img class="img imgPreviewL" ng-src="{{insertStatus.getMedia(image.id)}}">
-					<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
-						data-ng-click="insertStatus.removeImage(image)"></span></div>
+					<div class="squareImg" style="background-image:url('{{insertStatus.getMedia(image.id)}}')">
+					<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="insertStatus.removeImage(image)"></span></div>
+					</div>
 					
 			<!-- 					<div title="Indica le tue fonti" -->
 			<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
@@ -101,14 +101,14 @@
 			<!-- 					<label></label> -->
 			<!-- 				</div> -->
 		
-				</div>
 		</div>
 		<!-- Inserire icone -->
 		<div class="row">
 			<div data-ng-repeat="file in insertStatus.newPost.file">				
 					<div class="col-sm-2">
-						{{file.name}} 
-						<span data-ng-show="file.name" show-on-hover-parent
+						<span>{{file.name | limitTo:15}}</span>
+						<span ng-if="file.name.length>15">...</span>
+						<span data-ng-show="file.name"
 							class="glyphicon glyphicon-remove"
 							data-ng-click="insertStatus.removeFile(file)"></span>
 					</div>
