@@ -10,8 +10,7 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 		controller : function(){
 			var self = this;
 			self.toShowPost = new Array();
-			var mapPost = new Array();
-			
+			var mapPost;
 			var compare = function(p1, p2){
 				var d1 = parseInt(p1.julianDayNumber);
 				var d2 = parseInt(p2.julianDayNumber);
@@ -39,7 +38,7 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 			}
 			
 			var elaborate = function(){
-				if(mapPost){
+				if(mapPost.length){
 					mapPost.sort(compare);
 					var startDate = 0;
 					if(mapPost[0].timeNumber){
@@ -145,35 +144,41 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 				
 			
 			var drawMarker = function(n){
-				for(var i=0;i<n;i++){
-					for(var j=0; j<ctrl.toShowPost[i].length;j++){
-						if(ctrl.toShowPost[i][j].place){
-							var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
-							var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
-							ctx.drawImage(marker, x, y, markerDim, markerDim);
+				if(ctrl.toShowPost){
+					for(var i=0;i<n;i++){
+						for(var j=0; j<ctrl.toShowPost[i].length;j++){
+							if(ctrl.toShowPost[i][j].place){
+								var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
+								var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
+								ctx.drawImage(marker, x, y, markerDim, markerDim);
+							}
 						}
 					}
 				}
 			}
 			
 			var drawMarkerDelay = function(n){
-				for(var i=0;i<n;i++){
-					for(var j=0; j<ctrl.toShowPost[i].length;j++){
-						if(ctrl.toShowPost[i][j].place){
-							var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
-							var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
-							$timeout(ctx.drawImage(marker, x, y, markerDim, markerDim),1550);
+				if(ctrl.toShowPost){
+					for(var i=0;i<n;i++){
+						for(var j=0; j<ctrl.toShowPost[i].length;j++){
+							if(ctrl.toShowPost[i][j].place){
+								var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
+								var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
+								$timeout(ctx.drawImage(marker, x, y, markerDim, markerDim),1550);
+							}
 						}
 					}
 				}
 			}
 			
 			scope.$watch('dirMapScenario.slideNumber', function(newVal, oldVal){
-				ctx.putImageData(original,0,0);
-				if(newVal!=0 && newVal>oldVal){
-					drawMarkerDelay(newVal);
-				}else if(newVal!=0 && newVal<oldVal){
-					drawMarker(newVal);
+				if(newVal&&oldVal){
+					ctx.putImageData(original,0,0);
+					if(newVal!=0 && newVal>oldVal){
+						drawMarkerDelay(newVal);
+					}else if(newVal!=0 && newVal<oldVal){
+						drawMarker(newVal);
+					}
 				}
 			});
 			
