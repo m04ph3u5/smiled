@@ -3,11 +3,14 @@
 		scenario</b>
 </div>
 <div class="box" data-ng-show="scenarioMap.map">
-	<canvas map-scenario posts="scenarioMap.posts" map={{scenarioMap.map}} id="mapcanvas" width="100%" class="map-canvas"></canvas>
+	<div data-ui-slider="scenarioMap.options" data-ng-model="scenarioMap.slide" 
+		style="margin-bottom: 20px; margin-top: 20px; margin-left:10px;" id="slider"
+		class="ui-slider-handle ui-state-default ui-corner-all"></div>
+	<div id="container-canvas" style="position: absolute; width: 100%;" data-ng-show="scenarioMap.map">
+		<canvas map-scenario posts="scenarioMap.posts" map="{{scenarioMap.map}}" id="mapcanvas" 
+				class="map-canvas" slide-number="scenarioMap.slide"></canvas>
+	</div>
 </div>
-<div id="slider"></div>
-<script>
-	$(function() {
-		$("#slider").slider();
-	});
-</script>
+
+
+

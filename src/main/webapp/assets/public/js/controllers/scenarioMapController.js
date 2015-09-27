@@ -6,16 +6,21 @@ angular.module('smiled.application').controller('scenarioMapCtrl', ['CONSTANTS',
 	if(self.scen.history.mapId)
 		self.map = CONSTANTS.urlMedia(self.scen.history.mapId);
 	
-	var getPost = function(){
-		apiService.getPagedPosts(self.scen.id, 0, 300, false).then(
+	self.posts = apiService.getPagedPosts(self.scen.id, 0, 300, false);
 	
-			function(data){
-				self.posts = data.content;				
-			}, function(reason){
-				console.log("errore");
-			}
-		);
+	self.slide = 0;
+	
+	self.refreshSlide = function(){
+		console.log(self.slide);
 	}
 	
-	getPost();
+	self.options = {
+		orientation: 'horizontal',
+		min: 0,
+		max: 100,
+		range: 'min',
+		change: self.refreshSlide,
+		slide: self.refreshSlide
+	};
+	
 }]);
