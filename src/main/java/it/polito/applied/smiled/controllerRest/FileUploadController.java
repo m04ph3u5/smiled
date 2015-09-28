@@ -191,4 +191,15 @@ public class FileUploadController extends BaseController{
 			nItem=5;
 		return fileManagerService.getScenarioFilesMetadata(idScenario,nPag,nItem);
 	}
+	
+	/*--------------------------------------------------------MAP TOOL-------------------------------------------------*/
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="toolMap", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_TEACHER')")
+	public byte[] getToolMap(@RequestParam(value = "version", required=true) Integer version) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		if(version<1 || version>5)
+			throw new BadRequestException();
+		return fileManagerService.getToolMap(version);
+	}
+	
 }

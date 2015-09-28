@@ -84,6 +84,19 @@ angular.module('smiled.application')
 				pageTitle : "Segnala un problema - Meschola"
 			}
 		})
+		.state('logged.toolMap',{
+			url: '/tool-mappe',
+			views: {
+				'content@logged': {
+					templateUrl: 'assets/private/partials/toolMap.html',
+					controller: "toolMapCtrl",
+					controllerAs: "toolMap"
+				}
+			},
+			data : {
+				pageTitle : "Download tool generazione mappe - Meschola"
+			}
+		})
 		.state('logged.dashboard',{
 			url: '/dashboard',
 			views: {

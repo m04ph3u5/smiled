@@ -52,4 +52,6 @@ public interface FileManagerService {
 			CustomUserDetails user) throws HttpMediaTypeNotAcceptableException, BadRequestException, IOException;
 
 	public byte[] getUserCoverLarge(String id) throws FileNotFoundException, IOException;
+
+	public byte[] getToolMap(Integer version) throws BadRequestException, IOException;
 }
