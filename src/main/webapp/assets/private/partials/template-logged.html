@@ -1,3 +1,16 @@
-<nav data-ng-include="'/assets/private/partials/navbar.html'" data-ng-controller="navbarCtrl as navbar" class="navbar navbar-default navbar-fixed-top"></nav>
+<nav data-ng-include="'/assets/private/partials/navbar.html'" data-ng-controller="navbarCtrl as navbar" class="navbar navbar-default navbar-fixed-top navWithPad navWithoutPad"></nav>
 <div data-ui-view="content" style="padding-top : 100px;"></div>
 <div data-ng-include="'/assets/public/partials/footer.html'"></div>
+
+<script>
+	$(window).scroll(function() {
+	  if ($(document).scrollTop() > 50) {
+		  $('nav').addClass('navWithoutPad');
+		  $('nav').removeClass('navWithPad');
+		  
+	  } else {
+		  $('nav').addClass('navWithPad');
+		  $('nav').removeClass('navWithoutPad');
+	  }
+	});
+</script>

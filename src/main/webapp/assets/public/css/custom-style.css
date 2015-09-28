@@ -332,6 +332,9 @@
 		.marginXLTop{
 			margin-top: 25%;
 		}
+		.marginXSBottom{
+			margin-bottom: 0.5em;
+		}
 		.marginSBottom{
 			margin-bottom: 1%;
 		}
@@ -512,6 +515,15 @@
 		}
 		.titleNav::hover{			
 			color: #cb654f;						
+		}
+		
+		.navWithoutPad{
+			padding-top:0.3em;
+			transition: all 0.4s ease;
+		}
+		.navWithPad{
+			padding-top:3em;
+			transition: all 0.4s ease;
 		}
 /* Footer */
 
