@@ -74,6 +74,17 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Value("${file.icon}")
 	private String fileIcon;
+	
+	@Value("${win64Tool}")
+	private String win64Tool;
+	@Value("${win32Tool}")
+	private String win32Tool;
+	@Value("${macOSXTool}")
+	private String macOSXTool;
+	@Value("${linux64Tool}")
+	private String linux64Tool;
+	@Value("${linux32Tool}")
+	private String linux32Tool;
 
 	@Override
 	public void postCoverScenario(String id, MultipartFile scenarioCover, CustomUserDetails user) throws IllegalStateException, IOException, BadRequestException, HttpMediaTypeNotAcceptableException {
@@ -613,6 +624,41 @@ public class FileManagerServiceImpl implements FileManagerService {
 		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
 	}
 
+	@Override
+	public byte[] getToolMap(Integer version) throws BadRequestException, IOException {
+		String path="";
+		switch(version){
+			case 1: {
+				path=win64Tool;
+				break;
+			}
+			case 2: {
+				path=win32Tool;
+				break;
+			}
+			case 3: {
+				path=macOSXTool;
+				break;
+			}
+			case 4: {
+				path=linux64Tool;
+				break;
+			}
+			case 5: {
+				path=linux32Tool;
+				break;
+			}
+		}
+		
+		if(path.isEmpty())
+			throw new BadRequestException();
+		
+		Path p = Paths.get(path);
+		byte[] data = Files.readAllBytes(p);
+		
+		return data;
+		
+	}
 	/*--------------------------------------------------------UTILS FUNCTIONS-----------------------------------------------------------------*/
 	private String getFolderPath(String filename){
 		System.out.println(filename);
@@ -671,10 +717,5 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 		return false;
 	}
-
-	
-
-
-	
 
 }

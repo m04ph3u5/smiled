@@ -114,6 +114,7 @@
 	<script src="/assets/public/js/controllers/issuesController.js"></script>	
 	<script src="/assets/public/js/controllers/customDatePickerTemplateController.js"></script>	
 	<script src="/assets/public/js/controllers/oldCharacterChangeOnCommentController.js"></script>	
+	<script src="/assets/public/js/controllers/toolMapController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>

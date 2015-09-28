@@ -64,7 +64,7 @@
  		if(date.year<0)
  			s+=" a.C.";
  		
- 		if(t){
+ 		if(t && t.hours && t.minutes){
  			if(t.hours<10)
  				s+=" 0"+t.hours;
  			else

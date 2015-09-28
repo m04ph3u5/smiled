@@ -34,6 +34,9 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"urlPost" : function(idScenario, idPost){
 			return "api/v1/scenarios/"+idScenario+"/posts/"+idPost;
 	},
+	"urlToolMap" : function(i){
+		return "api/v1/toolMap?version="+i;
+	},
 	"urlMarker" : "assets/public/img/marker.png",
 	"monthString": function(month){
 		var m;
