@@ -1,11 +1,14 @@
-angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$timeout','$document' ,
-                                                                function(CONSTANTS, $timeout,$document){
+angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$timeout','$document', 'dateUtil',
+                                                                function(CONSTANTS, $timeout,$document, dateUtil){
 	return {
 		restrict : "A",
 		scope : {
 			posts : "=",
 			slideNumber : "=",
-			map : "@"
+			map : "@",
+			start : "=",
+			end : "=",
+			bars : "="
 		},
 		controller : function(){
 			var self = this;
@@ -40,6 +43,8 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 			var elaborate = function(){
 				if(mapPost.length){
 					mapPost.sort(compare);
+					self.start = dateUtil.dateTimeToString(mapPost[0].julianDayNumber, mapPost[0].timeNumber);
+					self.end = dateUtil.dateTimeToString(mapPost[mapPost.length-1].julianDayNumber, mapPost[mapPost.length-1].timeNumber);
 					var startDate = 0;
 					if(mapPost[0].timeNumber){
 						startDate+=parseInt(mapPost[0].timeNumber/60);
@@ -79,6 +84,13 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 						index++;
 						actualStep+=step;						
 					}
+				}
+				self.bars = new Array();
+				for(var i=0; i<100; i++){
+					if(self.toShowPost[i])
+						self.bars[i]=self.toShowPost[i].length;
+					else
+						self.bars[i]=0;
 				}
 			}
 			
@@ -130,17 +142,6 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 				original = ctx.getImageData(0,0,canvas.width, canvas.height);
 			};	
 				
-//				if(scope.posts){
-//					for(var i=0; i<scope.posts.length;i++){
-//						if(scope.posts[i].place){
-//							var x = (scope.posts[i].place.x*canvas.width)-(markerDim/2);
-//							var y = (scope.posts[i].place.y*canvas.height)-(markerDim);
-//							ctx.drawImage(marker, x, y, markerDim, markerDim);
-//							lastX=x;
-//							lastY=y;
-//						}	
-//					}
-//				}
 				
 			
 			var drawMarker = function(n){
@@ -158,26 +159,26 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 				}
 			}
 			
-			var drawMarkerDelay = function(n){
-				if(ctrl.toShowPost){
-					for(var i=0;i<n;i++){
-						if(ctrl.toShowPost[i])
-							for(var j=0; j<ctrl.toShowPost[i].length;j++){
-								if(ctrl.toShowPost[i][j].place){
-									var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
-									var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
-									$timeout(ctx.drawImage(marker, x, y, markerDim, markerDim),1550);
-								}
-							}
-					}
-				}
-			}
+//			var drawMarkerDelay = function(n){
+//				if(ctrl.toShowPost){
+//					for(var i=0;i<n;i++){
+//						if(ctrl.toShowPost[i])
+//							for(var j=0; j<ctrl.toShowPost[i].length;j++){
+//								if(ctrl.toShowPost[i][j].place){
+//									var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
+//									var y = (ctrl.toShowPost[i][j].place.y*canvas.height)-(markerDim);
+//									$timeout(ctx.drawImage(marker, x, y, markerDim, markerDim),1550);
+//								}
+//							}
+//					}
+//				}
+//			}
 			
 			scope.$watch('dirMapScenario.slideNumber', function(newVal, oldVal){
-				if(newVal&&oldVal){
+				if(oldVal){
 					ctx.putImageData(original,0,0);
 					if(newVal!=0 && newVal>oldVal){
-						drawMarkerDelay(newVal);
+						drawMarker(newVal);
 					}else if(newVal!=0 && newVal<oldVal){
 						drawMarker(newVal);
 					}

@@ -3,7 +3,7 @@ angular.module('smiled.application', ['ui.router', 'ngCookies', 'ui.bootstrap',
                                       'restangular', 'ngFileUpload', 'ui.date', 'ngDialog',
                                       'ang-drag-drop','infinite-scroll', 'ngTagsInput',
                                       'bootstrapLightbox', 'ngSanitize', 'fox.scrollReveal',
-                                      'ui.slider']);
+                                      'ui.slider', 'FBAngular']);
       
 
 
