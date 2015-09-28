@@ -79,6 +79,8 @@
 	<script src="/assets/public/js/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 	<script src="/assets/public/js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 	<script src="/assets/public/js/vendor/ui-slider/slider.js"></script>
+	<script src="/assets/public/js/vendor/angular-fullscreen/angular-fullscreen.js"></script>
+	
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
 	<!-- CUSTOM SCRIPT -->
@@ -120,6 +122,7 @@
 	<script src="/assets/public/js/services/constantService.js"></script>
 	<script src="/assets/public/js/services/alertingRegistration.js"></script>
 	<script src="/assets/public/js/services/unauthorizedInterceptor.js"></script>
+	<script src="/assets/public/js/services/dateUtil.js"></script>
 	<script src="/assets/public/js/directives/alertLogin.js"></script>
 	<script src="/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="/assets/public/js/directives/hideOnHoverParent.js"></script> 
