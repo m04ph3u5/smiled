@@ -378,6 +378,10 @@
 		.noPadding{
 			padding:0px !important;
 		}
+		.colPadding{
+			padding-right: 15px;
+			padding-left: 15px;
+		}
 		
 		.goUppercase{
 			text-transform:uppercase
@@ -1086,7 +1090,7 @@
 	    position: relative;
 	    width: 15%;
 	    padding-bottom : 15%; /* = width for a 1:1 aspect ratio */
-	    margin:1.66%;
+	    margin-right:1.66%;
 	    background-position:center center;
 	    background-repeat:no-repeat;
 	    background-size:cover;
