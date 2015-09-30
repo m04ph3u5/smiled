@@ -242,7 +242,7 @@ span.clickable:hover {
 }
 
 .chart span.bar {
-	  background: rgba(209, 236, 250, 0.75);
+	  background: #E0D8A9;
 	  width : 100%;
 	  height : 0%;
 	  display: block;
@@ -252,4 +252,20 @@ span.clickable:hover {
 	    display: block;
 	}
 
-
+.ui-widget-header {
+    background: #AFC48B !important;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover
+.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    border: 1px solid #fbd850 !important;
+    background: #89B151 !important;
+    font-weight: bold;
+    color: #89B151;
+}
+.ui-state-hover, .ui-widget-hover .ui-state-hover, .ui-widget-hover .ui-state-hover {
+    border: 1px solid #fbd850;
+    background: #89B151 !important;
+    font-weight: bold;
+    color: #89B151;
+}

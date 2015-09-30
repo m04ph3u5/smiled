@@ -65,8 +65,8 @@
   right: -14px;
   display: inline-block;
   border-top: 14px solid transparent;
-  border-left: 14px solid #fff;
-  border-right: 0 solid #fff;
+  border-left: 14px solid #E0D8A9;
+  border-right: 0 solid #E0D8A9;
   border-bottom: 14px solid transparent;
   content: " ";
 }
@@ -126,11 +126,11 @@
 }
 .timeline-footer{
     padding:20px;
-    background-color:#f4f4f4;
+    background-color:#e2ddd0;
 }
 .timeline-header{
     padding:20px;
-    background-color:#f4f4f4;
+    background-color:#e0d8a9;
 }
 .timeline-footer > a{
     cursor: pointer;
@@ -206,9 +206,7 @@
     border: none;
     margin-bottom: 0;
 }
-.timeline-images{
-  margin: 2px;
-}
+
 .videowrapper {
     float: none;
     clear: both;
