@@ -10,6 +10,7 @@ import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
 import it.polito.applied.smiled.pojo.scenario.Revision;
 import it.polito.applied.smiled.pojo.scenario.RevisionStatus;
+import it.polito.applied.smiled.pojo.scenario.Status;
 import it.polito.applied.smiled.pojo.user.User;
 
 import java.util.Collections;
@@ -182,6 +183,16 @@ public class PostRepositoryImpl implements CustomPostRepository{
 			return true;
 		else
 			return false;
+	}
+
+	@Override
+	public List<Post> findByScenarioIdAndPostStatus(String scenarioId,
+			PostStatus status) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+				.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)
+						.andOperator(Criteria.where("_class").is(Status.class.getName()))));
+		return mongoOp.find(q, Post.class);
 	}
 	
 }

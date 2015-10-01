@@ -2,6 +2,16 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
                function userService($http, $q, $cookies){
 
 
+	var lastScenarioId = "";
+	
+	var setScenarioId = function(id){
+		lastScenarioId = id;
+	}
+	
+	var getScenarioId = function(){
+		return lastScenarioId;
+	}
+	
 	
 	var getMe = function(){
 		var u = $q.defer();
@@ -100,7 +110,9 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		getMe : getMe, 
 		getUser: getUser,
 		registerObserverPersonalCover: registerObserverPersonalCover,
-		notifyPersonalCoverObservers: notifyPersonalCoverObservers
+		notifyPersonalCoverObservers: notifyPersonalCoverObservers,
+		setScenarioId : setScenarioId,
+		getScenarioId : getScenarioId
 	}
 
 	

@@ -10,6 +10,7 @@ import it.polito.applied.smiled.dto.StatusDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
+import it.polito.applied.smiled.pojo.Action;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Character;
@@ -530,6 +531,13 @@ public class ScenarioController extends BaseController{
 			return scenarioService.getMissionsOfStudent(null, activeUser.getId(), nPag, nItem, orderByDeliveryDate, onlyActive);
 			
 			
+		}
+		
+		@ResponseStatus(value = HttpStatus.OK)
+		@RequestMapping(value="/v1/scenarios/{id}/socialGraph", method=RequestMethod.GET)
+		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
+		public List<Action> getSocialGraph(@PathVariable String id) throws NotFoundException{
+			return scenarioService.getSocialGraph(id);
 		}
 		
 		

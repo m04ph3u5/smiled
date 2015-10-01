@@ -330,6 +330,19 @@ angular.module('smiled.application')
 				pageTitle : 'La mappa - Meschola'
 			}
 		})
+		.state('logged.scenario.socialGraph',{
+			url: '/relazioni',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/social-graph.html",
+					controller : "scenarioSocialGraphCtrl",
+					controllerAs : "socialGraph"
+				}
+			},
+			data : {
+				pageTitle : "Grafo delle relazioni - Meschola"
+			}
+		})
 		.state('logged.scenario.charprofile',{
 			url: '/personaggi/{idCharacter}',
 			views: {
