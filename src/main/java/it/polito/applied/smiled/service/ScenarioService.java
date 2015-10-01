@@ -13,6 +13,7 @@ import it.polito.applied.smiled.dto.StatusDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
+import it.polito.applied.smiled.pojo.Action;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Character;
@@ -107,5 +108,7 @@ public interface ScenarioService {
 	public Page<Mission> getMissionsOfTeacher(String scenarioId, String teacherId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException;
 	
 	public Page<Mission> getMissionsOfStudent(String scenarioId, String studentId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException;
+
+	public List<Action> getSocialGraph(String id) throws NotFoundException;
 	
 }

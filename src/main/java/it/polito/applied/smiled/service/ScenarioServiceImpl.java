@@ -10,6 +10,9 @@ import it.polito.applied.smiled.dto.StatusDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
+import it.polito.applied.smiled.pojo.Action;
+import it.polito.applied.smiled.pojo.ActionType;
+import it.polito.applied.smiled.pojo.AuthorActionReference;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.FileReference;
@@ -64,7 +67,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.core.Authentication;
@@ -2327,6 +2329,101 @@ public class ScenarioServiceImpl implements ScenarioService{
 		return missionRepository.getMissionsOfStudent(nPag, nItem, orderByDeliveryDate, scenarioId, studentId, onlyActive);
 		
 
+	}
+
+
+	/*Questo metodo tiene conto, per il momento, dei soli status e di tutte le interazioni ad esso associate
+	 * (tags, like, comments). Non si tiene conto degli eventi e nemmeno delle relazioni (ancora non implementate)*/
+	@Override
+	public List<Action> getSocialGraph(String id) throws NotFoundException {
+		List<Post> posts = postRepository.findByScenarioIdAndPostStatus(id, PostStatus.PUBLISHED);
+		if(posts==null)
+			throw new NotFoundException();
+		
+		List<Action> actions = new ArrayList<Action>();
+
+		for(int i=0; i<posts.size(); i++){
+			/*POST*/
+			Status s = (Status)posts.get(i);
+			Action a = new Action();
+			a.setAction(ActionType.POST);
+			AuthorActionReference authorPost = new AuthorActionReference(s.getCharacter()); 
+			a.setAuthor(authorPost);
+			a.setDate(s.getCreationDate());
+			actions.add(a);
+			
+			/*TAG AL POST*/
+			List<Reference> t = s.getTags();
+			if(t!=null && t.size()!=0){
+				for(Reference r : t){
+					Action aTag = new Action();
+					aTag.setAction(ActionType.TAG);
+					aTag.setAuthor(authorPost);
+					aTag.setDate(s.getCreationDate());
+					aTag.setObject(new AuthorActionReference(r));
+					actions.add(aTag);
+				}
+			}
+			
+			/*LIKE AL POST*/
+			List<CharacterReference> likes = s.getLikes();
+			if(likes!=null && likes.size()!=0){
+				for(CharacterReference r : likes){
+					Action aLike = new Action();
+					aLike.setAction(ActionType.LIKE);
+					aLike.setAuthor(new AuthorActionReference(r));
+					aLike.setDate(s.getCreationDate());
+					aLike.setObject(authorPost);
+					actions.add(aLike);
+				}
+			}
+			
+			/*COMMENTI AL POST*/
+			List<Comment> comments = s.getComments();
+			if(comments!=null && comments.size()!=0){
+				for(Comment c : comments){
+					Action aComment = new Action();
+					AuthorActionReference authorComment = new AuthorActionReference(c.getCharacter());
+					aComment.setAction(ActionType.COMMENT);
+					aComment.setAuthor(authorComment);
+					aComment.setDate(c.getCreationDate());
+					aComment.setObject(authorPost);
+					actions.add(aComment);
+					
+					/*TAG AL COMMENTO*/
+					List<Reference> tagComment = c.getTags();
+					if(tagComment!=null && tagComment.size()!=0){
+						for(Reference rTagComment : tagComment){
+							Action aTagComment = new Action();
+							aTagComment.setAuthor(authorComment);
+							aTagComment.setAction(ActionType.TAG);
+							aTagComment.setDate(c.getCreationDate());
+							aTagComment.setObject(new AuthorActionReference(rTagComment));
+							actions.add(aTagComment);
+						}
+					}
+					
+					/*LIKE AL COMMENTO*/
+					List<CharacterReference> likeComment = c.getLikes();
+					if(likeComment!=null && likeComment.size()!=0){
+						for(CharacterReference rLikeComment : likeComment){
+							Action aLikeComment = new Action();
+							aLikeComment.setAction(ActionType.LIKE);
+							aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
+							aLikeComment.setDate(c.getCreationDate());
+							aLikeComment.setObject(authorComment);
+							actions.add(aLikeComment);
+						}
+					}
+				}
+				
+		
+			}
+			
+		}
+		
+		Collections.sort(actions);
+		return actions;
 	}
 
 
