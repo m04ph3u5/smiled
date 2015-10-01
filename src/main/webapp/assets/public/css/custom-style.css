@@ -318,7 +318,9 @@
 			display: table-cell;
   			vertical-align: middle !important;
 		}
-		
+		.marginEmXS{
+			margin-top:0.5em;
+		}
 		.marginEmS{
 			margin-top:2em;
 		}
@@ -386,6 +388,10 @@
 		.colPadding{
 			padding-right: 15px;
 			padding-left: 15px;
+		}
+		.colPaddingScen{
+			padding-right: 15px;
+			padding-left: 20px;
 		}
 		
 		.goUppercase{
@@ -488,11 +494,16 @@
 			
 			border-left: 30px solid #cec18d;
 		}
-/* Index */
-		.fillContent{
-			padding-right:0px;
-			padding-left:0px;
+		
+		.hideOverflow{
+			overflow: hidden;
 		}
+		
+	/* Index */
+			.fillContent{
+				padding-right:0px;
+				padding-left:0px;
+			}
 
 
 /*Navbar*/
@@ -628,36 +639,7 @@
 			-webkit-margin-before: 0 em;
 	   		-webkit-margin-after: 0em;
 		}
-		@media screen  and (max-width: 1240px) and (min-width: 970px) {
-		    .dayHW{font-size:1.7em !important}
-		    .dayNameHW{font-size:0.7em !important}
-		}
-		@media screen and (max-width: 1500px) and (min-width: 1240px) {
-		    .dayHW{font-size:1.9em !important}
-		    .dayNameHW{font-size:0.9em !important}
-		    
-		}
-		@media screen and (max-width: 1800px) and (min-width: 1500px) {
-		    .dayHW{font-size:2.5em !important}
-		    .dayNameHW{font-size:1em !important}
-		}
-		@media screen and (min-width: 1800px) {
-		    .dayHW{font-size:3.2em !important}
-		    .dayNameHW{font-size:1.2em !important}
-		}
-/*		@media screen and (min-width: 1170px) {
-		    .dayHW{font-size:3em;}
-		}
-		@media screen and (min-width: 1450px) {
-		    .dayHW{font-size:1em;}
-		}
-		@media screen and (min-width: 1700px) {
-		    .dayHW{font-size:4em;}
-		}
-		@media screen and (min-width: 1800px) {		    
-		    .dayHW{font-size:8em}
-		}*/
-
+		
 /*Profilo*/
 		.profileSection{
 			margin-right:20%;
@@ -701,6 +683,19 @@
 		}
 		.overlapIconCover{		
 			width: 40px;			
+		}
+		.imgRoundResponsive{
+			width: 90%;
+		    padding-bottom : 90%;
+			/* width: 100px;
+			height: 100px; */
+			border-radius: 50%;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			
 		}
 		
 
@@ -870,7 +865,8 @@
 	    background-repeat:no-repeat;
 	    background-size:cover;
 	}
-
+	
+	
 /* Elenco scenari */
 		.sideMarginThree{
 			margin-right:3%;
@@ -982,21 +978,7 @@
 			border-color:rgba(146,134,85,0.6);	
 			padding:0px;		
 		}
-		@media screen  and (max-width: 815px){
-			.wizardCardPadding{
-				padding:0px;
-			}
-			.searchBar{
-				width:100%;
-			}
-		}
-		@media screen  and (min-width: 815px){
-			.wizardCardPadding{
-			}
-			.searchBar{
-				width:30%;
-			}
-		}
+		
 		
 		.historicalPicker{
 			z-index:5;
@@ -1034,6 +1016,11 @@
 		.pickerPadding{
 			padding-left:5px;
 			padding-right:5px;
+		}
+		
+		.iconHover{
+			margin-top:0.5em;
+			font-size:3em;		
 		}
 /*Profilo pg*/
 
@@ -1089,6 +1076,19 @@
 			border-width: 11px;
 			margin-left: -11px;
 		}
+		
+		.imgPgProfile{		    
+			position: relative;		
+			width: 90%;
+		    padding-bottom : 90%;
+			border-radius: 50%;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+		
 /* Post */
 
 	.iconsMargin{
@@ -1140,6 +1140,17 @@
 	    background-repeat:no-repeat;
 	    background-size:cover;
 	}
+	.squareCharImg{
+		float:left;
+	    position: relative;
+	    width: 12%;
+	    padding-bottom : 12%; /* = width for a 1:1 aspect ratio */
+	    margin-right:1.5%;
+	    margin-left:0.5%;
+	    background-position:center center;
+	    background-repeat:no-repeat;
+	    background-size:cover;
+	}
 	.hoverContent {
 		width:100%;
 		height:100%;
@@ -1150,6 +1161,10 @@
 	    color: #d6d6d6;	  
 	}
 	.squareImg:hover .hoverContent {
+	    display: block;
+	    background: rgba(0, 0, 0, .6);
+	}
+	.squareImgStoryline:hover .hoverContent {
 	    display: block;
 	    background: rgba(0, 0, 0, .6);
 	}
@@ -1214,10 +1229,67 @@
 		background-color:#e2ddd0;
 	}
 
+/*MEDIA SCREEN*/
+	@media screen and (max-width: 1400px) and (min-width: 1200px) {
+	/*SCENARIOS LIST*/
+	   .vAlignExt{
+	     float:left;
+	   }
+	}
+
+	@media screen  and (max-width: 767px){
+	/*SCENARIOS LIST*/
+		.imgRoundResponsive{
+			width: 50%;
+		    padding-bottom : 50%;
+		}			
+	}
+	@media screen  and (max-width: 815px){	
+	/*WIZARD*/
+		.wizardCardPadding{
+			padding:0px;
+		}
+		.searchBar{
+			width:100%;
+		}
+	}
+	@media screen  and (min-width: 815px){
+	/*WIZARD*/
+		.wizardCardPadding{
+		}
+		.searchBar{
+			width:30%;
+		}
+	}
+	@media screen  and (max-width: 1240px) and (min-width: 970px) {
+	/*DASHBOARD*/
+	    .dayHW{font-size:1.7em !important}
+	    .dayNameHW{font-size:0.7em !important}
+	}
+	
+	@media screen and (max-width: 1500px) and (min-width: 1240px) {
+	/*DASHBOARD*/
+	    .dayHW{font-size:1.9em !important}
+	    .dayNameHW{font-size:0.9em !important}
+	    
+	}
+	@media screen and (max-width: 1800px) and (min-width: 1500px) {
+	/*DASHBOARD*/
+	    .dayHW{font-size:2.5em !important}
+	    .dayNameHW{font-size:1em !important}
+	}
+	@media screen and (min-width: 1800px) {
+	/*DASHBOARD*/
+	    .dayHW{font-size:3.2em !important}
+	    .dayNameHW{font-size:1.2em !important}
+	}
+
+		
+	
+
 /*Non ancora classificato*/
 		
 		
-
 		
 		
 		

@@ -4,27 +4,37 @@
 		<a class="clickable">Visualizza altri suggerimenti</a></div>
 <div class="marginSTop">
 	<div data-ng-repeat="m in metaCommentTo.visibleComments" class="textLeft col-xs-12 noPadding">
-			<img 
-				class="pull-left img imgPreviewM marginMRight"
-				data-ng-src="api/v1/users/{{m.user.id}}/cover"
-				data-err-src="assets/public/img/ic_student.png"></img>
-		<div class="row">			
-					<label>{{m.user.firstname}} {{m.user.lastname}}</label>: {{m.text}}  <br>
-					<p style="font-size: 12px;"> {{m.creationDate| date:'dd-M-yyyy HH:mm'}} </p>
+		<div class="row">
+			<div class="col-xs-2">	
+				<img 
+					class="pull-left img imgPreviewM marginMRight"
+					data-ng-src="api/v1/users/{{m.user.id}}/cover"
+					data-err-src="assets/public/img/ic_student.png">
+			</div>
+			<div class="col-xs-10">
+				<div class="paddingMRight pull-left">			
+							<label>{{m.user.firstname}} {{m.user.lastname}}</label>: {{m.text}}  <br>
+							<p style="font-size: 12px;"> {{m.creationDate| date:'dd-M-yyyy HH:mm'}} </p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
-	<img 
-		class="pull-left img imgPreviewM marginMTop marginMRight"
-		data-ng-src="api/v1/users/{{metaCommentTo.writer.id}}/cover"
-		data-err-src="assets/public/img/ic_student.png"></img>
-
 <div class="row">
-	<textarea data-ng-model="metaCommentTo.post.newMetaComment" rows="2"
-		class="pull-left lessWidth marginMTop"
-		placeholder="Inserisci un suggerimento"></textarea>
-	<div class="text-right marginLRight">
-		<div class="btn generalButton1 btn-sm pull-right"
-			data-ng-click="metaCommentTo.addMetaCommentToPost()">SUGGERISCI</div>
+	<div class="col-xs-2">
+		<img 
+			class="pull-left img imgPreviewM marginMTop marginMRight"
+			data-ng-src="api/v1/users/{{metaCommentTo.writer.id}}/cover"
+			data-err-src="assets/public/img/ic_student.png"></img>
+	</div>
+	<div class="col-xs-10">
+		<textarea data-ng-model="metaCommentTo.post.newMetaComment" rows="2"
+			class="pull-left lessWidth marginMTop"
+			placeholder="Inserisci un suggerimento"></textarea>
 	</div>
 </div>
+<div class="text-right marginLRight marginEmXS">
+	<div class="btn generalButton1 btn-sm pull-right"
+		data-ng-click="metaCommentTo.addMetaCommentToPost()">SUGGERISCI</div>
+</div>
+

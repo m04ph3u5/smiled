@@ -26,33 +26,33 @@
 						</div>	
 					</accordion-heading>
 					
-					<div class="row">
-						<div class="col-sm-4 text-center">
-							<a href="">
-							<div>
-								
-								<img data-ng-src="{{c.cover}}"
-									data-err-src="assets/public/img/icon/pg.png" class="img-thumbnail imgPreviewL"
-									ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"> 
+					<div class="row ">
+						<div class="colPadding">
+							<div class="squareImgStoryline" ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"
+							style="background-image:url('{{c.cover}}'),url('assets/public/img/icon/pg.png')">
+								<div class="hoverContent text-center" ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')">
+									<span class="glyphicon glyphicon-camera marginMTop iconHover"></span>
+								</div>
 							</div>
-								<img data-ng-src="assets/public/img/icon/ic_camera.png" class="marginMTop img overlapIconCover"
-								ngf-select ngf-change="scenarioWizard.uploadCharacterCover($files,$event,'{{c.id}}')"> 
-							</a>
 						</div>
-						<div class="col-sm-8">
+						
+						<div class="col-xs-8">
 							<div class="row">
-								<label class="col-xs-4 col-sm-12">Nome</label>
-								<input class="generalInput col-xs-8 col-sm-12"  data-ng-model="scenarioWizard.currentCharacters[$index].name">
+								<form role="form">
+									 <div class="form-group">
+									 	<label class="col-xs-12">Nome</label>
+										<input class="generalInput col-xs-12"  data-ng-model="scenarioWizard.currentCharacters[$index].name">
+									 </div>
+									 <div class="form-group">
+									 <label class="col-xs-12">Soprannome</label>
+										<input class="generalInput col-xs-12" data-ng-model="scenarioWizard.currentCharacters[$index].nickname">
+									</div>
+								</form>
+								
 							</div>
-							<div class="row marginMTop ">
-								<label class="col-xs-4 col-sm-12">Soprannome</label>
-								<input class="generalInput col-xs-8 col-sm-12" data-ng-model="scenarioWizard.currentCharacters[$index].nickname">
-							</div>
-						</div>
-						
-						
+						</div>						
 					</div>
-					
+
 					<div class="row marginMTop">
 						<label class="col-xs-4">Biografia</label>
 						<textarea data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" rows="3" data-ng-model="scenarioWizard.currentCharacters[$index].description" placeholder="Es. Giulio Cesare, è stato un militare, console, dittatore, oratore e scrittore romano, considerato uno dei personaggi più importanti e influenti della storia"></textarea>

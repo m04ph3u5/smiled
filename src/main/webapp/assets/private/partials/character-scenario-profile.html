@@ -3,10 +3,20 @@
 <section>
 	 <div class="row text-center">
 		<div class="col-sm-4">
-			<img data-ng-src="{{characterProfile.cover}}" 
+
+		
+			<img ng-show="characterProfile.currentChar==characterProfile.idChar" 
+			data-ng-src="{{characterProfile.cover}}" 
 			data-err-src="assets/public/img/icon/pg.png"
 			class="imgPreviewXL img-circle marginTwenty"
 			ngf-select ngf-change="characterProfile.uploadCharacterCover($files)">
+			
+			
+			<img ng-show="characterProfile.currentChar!=characterProfile.idChar" 
+			data-ng-src="{{characterProfile.cover}}" 
+			data-err-src="assets/public/img/icon/pg.png"
+			class="imgPreviewXL img-circle marginTwenty">
+			
 			<div class="marginMTop" ng-show="!characterProfile.editProfile">
 				<span class="marginMTop charDescription">
 					{{characterProfile.character.quote}}					
