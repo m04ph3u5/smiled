@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService',
-                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService){
 	
 	
 	console.log("controller");
@@ -42,6 +42,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 			console.log("isCreator");
 			self.isCreator=true;
 			self.isModerator=true;
+			userService.setScenarioId(self.scen.id);
 	
 		}
 		

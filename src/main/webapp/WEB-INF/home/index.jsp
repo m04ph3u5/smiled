@@ -36,6 +36,7 @@
 <!-- End Cookie Consent plugin -->
 </head>
 <base href="/">
+
 <body data-ng-cloak>
 <div  class="">
 	
@@ -80,6 +81,11 @@
 	<script src="/assets/public/js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 	<script src="/assets/public/js/vendor/ui-slider/slider.js"></script>
 	<script src="/assets/public/js/vendor/angular-fullscreen/angular-fullscreen.js"></script>
+	<script src="/assets/public/js/support/angular-p5.js"></script>
+	<script src="assets/public/js/support/socialGraphLib/p5.js" type="text/javascript"></script>
+	<script src="assets/public/js/support/socialGraphLib/p5.dom.js" type="text/javascript"></script>
+	<script src="assets/public/js/support/socialGraphLib/p5.sound.js" type="text/javascript"></script>
+	
 	
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
@@ -115,6 +121,7 @@
 	<script src="/assets/public/js/controllers/customDatePickerTemplateController.js"></script>	
 	<script src="/assets/public/js/controllers/oldCharacterChangeOnCommentController.js"></script>	
 	<script src="/assets/public/js/controllers/toolMapController.js"></script>	
+	<script src="/assets/public/js/controllers/scenarioSocialGraphController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>
@@ -124,6 +131,7 @@
 	<script src="/assets/public/js/services/alertingRegistration.js"></script>
 	<script src="/assets/public/js/services/unauthorizedInterceptor.js"></script>
 	<script src="/assets/public/js/services/dateUtil.js"></script>
+	<script src="/assets/public/js/services/social-graph-sketch.js"></script>
 	<script src="/assets/public/js/directives/alertLogin.js"></script>
 	<script src="/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="/assets/public/js/directives/hideOnHoverParent.js"></script> 

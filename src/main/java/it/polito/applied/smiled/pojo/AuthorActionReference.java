@@ -11,7 +11,15 @@ public class AuthorActionReference {
 	
 	public AuthorActionReference(Reference ref){
 		id = ref.getId();
-		name = ref.getFirstname()+" "+ref.getLastname();
+		name="";
+		if(ref.getFirstname()!=null)
+			name = ref.getFirstname();
+		if(ref.getLastname()!=null){
+			if(!name.isEmpty())
+				name+=" "+ref.getLastname();
+			else
+				name=ref.getLastname();
+		}
 	}
 	
 	public AuthorActionReference(CharacterReference ref){
