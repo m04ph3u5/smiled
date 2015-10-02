@@ -11,7 +11,7 @@
 				data-err-src="assets/public/img/ic_student.png" ng-if="personalProfile.ruolo=='STUDENTE'"></img>
 				
 				<div class="hoverContent profilePicture" ng-if="personalProfile.isModifiable" 
-					ngf-select data-ng-click="personalProfile.uploadCover($files)">
+					ngf-select ngf-click="personalProfile.uploadCover($files)">
 					<span class="glyphicon glyphicon-camera iconHover"></span>
 				</div>
 				
@@ -28,10 +28,15 @@
 						background-position: center;
 						background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6)),url('{{personalProfile.coverLarge}}'), url('assets/public/img/cover_default.jpg')">		
 			
-		<a href=""><img data-ng-show="personalProfile.isModifiable" class="overlapIconCover img pull-right pull-bottom"
-				ng-src="assets/public/img/icon/ic_camera_white.png"				
-				ngf-select
-				ngf-change="personalProfile.uploadCoverLarge($files)"> </a>	
+		<a href="">
+		<div class="bottomCoverDiv">
+			<span data-ng-show="personalProfile.isModifiable" 
+				class="glyphicon glyphicon-camera overlapIconCover pull-right"
+					ngf-select
+					ngf-change="personalProfile.uploadCoverLarge($files)"></span>
+		</div>		
+		</a>
+					
 <!-- 		<div class="col-md-2"></div> -->
 <!-- 		<div> -->
 <!-- 			<h3>MyImage</h3> -->

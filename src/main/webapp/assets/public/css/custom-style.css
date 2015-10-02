@@ -670,6 +670,7 @@
 
 		.fixedHeight{
 			height:500px;
+			position:relative;
 		}
 		
 		.table th, .table td { 
@@ -691,7 +692,8 @@
 			width: 40px;			
 		}
 		.overlapIconCover{		
-			width: 40px;			
+			font-size:2em;
+			color:#F5F2EA;		
 		}
 		.imgRoundResponsive{
 			width: 90%;
@@ -717,7 +719,11 @@
 			-webkit-border-radius: 50%;
 			-moz-border-radius: 50%;
 		}
-
+		.bottomCoverDiv{
+			position:absolute;
+			bottom:1em;
+			right:1em;
+		}
 /*Scenario*/
 		.jumbotron{
 			background-size:cover;
