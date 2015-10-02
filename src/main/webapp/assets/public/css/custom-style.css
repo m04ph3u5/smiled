@@ -753,9 +753,12 @@
 			background: #e0d8a9;
 		}
 		.menu .active {
-			background: #AFC48B;
+			background: #CBD9D2;
 		}		
 		
+		.menuIcon{
+			height:3em;
+		}
 
 		.menu {
 			background-color:#F5F2EA;			
