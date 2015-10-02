@@ -77,6 +77,33 @@
  		
  		return s;
  	}
+ 	
+ 	var dateTimeToStringShort = function(jdn,tn){
+ 		var date = {};
+ 		var t = {};
+ 		if(jdn)
+ 			julianNumberToDate(jdn, date);	
+ 		if(tn && (typeof tn !== "undefined"))
+ 			getTimeToSeconds(tn, t);
+ 		var s="";
+ 		if(date)
+ 			s+=date.day+"/"+date.month+"/"+Math.abs(date.year);
+ 		if(date.year<0)
+ 			s+=" a.C.";
+ 		
+ 		if(t && t.hours && t.minutes){
+ 			if(t.hours<10)
+ 				s+=" 0"+t.hours;
+ 			else
+ 				s+=" "+t.hours;
+ 			if(t.minutes<10)
+ 				s+=":0"+t.minutes;
+ 			else
+ 				s+=":"+t.minutes;
+ 		}
+ 		
+ 		return s;
+ 	}
   	
   	return {
   		julianNumberToDate : julianNumberToDate,
@@ -84,7 +111,8 @@
   		getMonthString : getMonthString,
   		getTimeToSeconds : getTimeToSeconds,
   		getNumDaysOfMonth : getNumDaysOfMonth,
-  		dateTimeToString : dateTimeToString
+  		dateTimeToString : dateTimeToString,
+  		dateTimeToStringShort: dateTimeToStringShort
   	}
 	 	
  }]);

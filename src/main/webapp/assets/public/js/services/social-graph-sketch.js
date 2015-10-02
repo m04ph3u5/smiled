@@ -31,7 +31,7 @@
 		
 		p5.preload = function() {
 		  var id = userService.getScenarioId();
-		  var url = 'https://localhost:8443/api/v1/scenarios/'+id+'/socialGraph';
+		  var url = '/api/v1/scenarios/'+id+'/socialGraph';
 		  events = p5.loadJSON(url);
 		  var container = angular.element(document.querySelector('#container-graph'));
 		  w = container.width();
@@ -185,7 +185,7 @@
 			    if (d0<1) d0=1;
 			    var mass=1;
 			    ns=ranks[nodo.getId()];
-			    if (ns) mass+=ns.posts;
+			    if (ns) mass+=ns.posts/3;
 			    nodo.ax= -g*mass*dx0/d0;
 			    nodo.ay= -g*mass*dy0/d0;
 			    //calcolo la forza di repulsione reciproca tra tutte le particelle
@@ -197,10 +197,10 @@
 			      var d=p5.pow(p5.sq(dx)+p5.sq(dy),1.5);
 			      if (d<10) {
 			        //se i due nodi quasi coincidono, genero una forza intensa in una direzione casuale
-			        var a=p5.random(0,p5.TWO_PI);
-			        dx=p5.cos(a);
-			        dy=p5.sin(a);
-			        d+=0.01;
+//			        var a=p5.TWO_PI*p5.noise(p5.frameCount*0.01);
+//			        dx=p5.cos(a);
+//			        dy=p5.sin(a);
+			        d=10;
 			      }
 			      f=q*(mass+1);
 			      nodo.ax+=f*dx/d;

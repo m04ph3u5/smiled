@@ -8,7 +8,8 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 			map : "@",
 			start : "=",
 			end : "=",
-			bars : "="
+			bars : "=",
+			actual : "="
 		},
 		controller : function(){
 			var self = this;
@@ -43,8 +44,8 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 			var elaborate = function(){
 				if(mapPost.length){
 					mapPost.sort(compare);
-					self.start = dateUtil.dateTimeToString(mapPost[0].julianDayNumber, mapPost[0].timeNumber);
-					self.end = dateUtil.dateTimeToString(mapPost[mapPost.length-1].julianDayNumber, mapPost[mapPost.length-1].timeNumber);
+					self.start = dateUtil.dateTimeToStringShort(mapPost[0].julianDayNumber, mapPost[0].timeNumber);
+					self.end = dateUtil.dateTimeToStringShort(mapPost[mapPost.length-1].julianDayNumber, mapPost[mapPost.length-1].timeNumber);
 					var startDate = 0;
 					if(mapPost[0].timeNumber){
 						startDate+=parseInt(mapPost[0].timeNumber/60);
@@ -92,6 +93,7 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 					else
 						self.bars[i]=0;
 				}
+				
 			}
 			
 			self.posts.then(
@@ -142,12 +144,14 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 				original = ctx.getImageData(0,0,canvas.width, canvas.height);
 			};	
 				
-				
+			
 			
 			var drawMarker = function(n){
 				if(ctrl.toShowPost){
 					for(var i=0;i<n;i++){
-						if(ctrl.toShowPost[i])
+						if(ctrl.toShowPost[i]){
+							var alpha = Math.exp((i-n+1)*0.0135);
+							ctx.globalAlpha=alpha;
 							for(var j=0; j<ctrl.toShowPost[i].length;j++){
 								if(ctrl.toShowPost[i][j].place){
 									var x = (ctrl.toShowPost[i][j].place.x*canvas.width)-(markerDim/2);
@@ -155,7 +159,19 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 									ctx.drawImage(marker, x, y, markerDim, markerDim);
 								}
 							}
+							ctx.globalAlpha=1;
+						}
 					}
+					if(ctrl.toShowPost && ctrl.toShowPost[n-1]){
+						if(ctrl.toShowPost[n-1][0]){
+							ctrl.actual = dateUtil.dateTimeToStringShort(ctrl.toShowPost[n-1][0].julianDayNumber,ctrl.toShowPost[n-1][0].timeNumber);
+							ctrl.actual += " ("+ctrl.toShowPost[n-1].length+")";
+						}
+						else
+							ctrl.actual="";
+					}
+					else
+						ctrl.actual="";
 				}
 			}
 			
