@@ -2,32 +2,42 @@
 	<b>Ci dispiace, ancora non è stata inserita alcuna mappa per questo
 		scenario</b>
 </div>
-<div id="map-canvas-box1" class="box map-canvas-box" data-ng-show="scenarioMap.map">
+<div id="map-canvas-box1" class="box map-canvas-box"
+	data-ng-show="scenarioMap.map">
 	<div class="hoverContent textRight">
-			<a href="" data-ng-click="scenarioMap.toggleFullScreen()">
-				<span data-ng-show="!scenarioMap.isFullScreen" class="glyphicon glyphicon-fullscreen marginMTop iconsMargin"></span>
-				<span data-ng-show="scenarioMap.isFullScreen" class="glyphicon glyphicon-resize-small marginMTop iconsMargin"></span>
-			</a>
+		<a href="" data-ng-click="scenarioMap.toggleFullScreen()"> <span
+			data-ng-show="!scenarioMap.isFullScreen"
+			class="glyphicon glyphicon-fullscreen marginMTop iconsMargin"></span>
+			<span data-ng-show="scenarioMap.isFullScreen"
+			class="glyphicon glyphicon-resize-small marginMTop iconsMargin"></span>
+		</a>
 	</div>
-	<div class="row" style="margin-left:auto; margin-right: auto; width:80%;">
+	<div class="row"
+		style="margin-left: auto; margin-right: auto; width: 80%;">
 		<div class="chart">
 			<span data-ng-repeat="i in scenarioMap.bars track by $index">
-				<span class="bar" data-ng-style="{'height': scenarioMap.getHeight($index)}"></span>
+				<span class="bar"
+				data-ng-style="{'height': scenarioMap.getHeight($index)}"></span>
 			</span>
 		</div>
-	</div>	
+	</div>
 	<div class="row">
 		<div class="pull-left">{{scenarioMap.startDateString}}</div>
 		<div class="pull-right">{{scenarioMap.endDateString}}</div>
 	</div>
-	<div data-ui-slider="scenarioMap.options" data-ng-model="scenarioMap.slide" 
-		style="margin-bottom: 20px; margin-top: 20px; margin-left:auto; 
-		margin-right: auto; width:80%;" id="slider"
-		class="ui-slider-handle ui-state-default ui-corner-all"></div>
-	<div id="container-canvas" style="position: absolute; width: 100%;" data-ng-show="scenarioMap.map">
-		<canvas map-scenario posts="scenarioMap.posts" map="{{scenarioMap.map}}" id="mapcanvas" 
-				class="map-canvas" slide-number="scenarioMap.slide" start="scenarioMap.startDateString"
-				end="scenarioMap.endDateString" bars="scenarioMap.bars"></canvas>
+	<div data-ui-slider="scenarioMap.options"
+		data-ng-model="scenarioMap.slide"
+		style="margin-bottom: 25px; margin-top: 20px; margin-left: auto; margin-right: auto; width: 80%;"
+		id="slider" class="ui-slider-handle ui-state-default ui-corner-all">
+		<div id="actualDateLabel" class="text-center pull-left" style="margin-top:15px; color:black;" 
+			data-ng-style="{'margin-left' : scenarioMap.getDisplace()}">{{scenarioMap.actualDate}}</div>
+	</div>
+	<div id="container-canvas" style="position: absolute; width: 100%;"
+		data-ng-show="scenarioMap.map">
+		<canvas map-scenario posts="scenarioMap.posts"
+			map="{{scenarioMap.map}}" id="mapcanvas" class="map-canvas"
+			slide-number="scenarioMap.slide" start="scenarioMap.startDateString"
+			end="scenarioMap.endDateString" bars="scenarioMap.bars" actual="scenarioMap.actualDate"></canvas>
 	</div>
 </div>
 

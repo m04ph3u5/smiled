@@ -41,10 +41,10 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		if(self.scen.teacherCreator.id==loggedUser.id){
 			console.log("isCreator");
 			self.isCreator=true;
-			self.isModerator=true;
-			userService.setScenarioId(self.scen.id);
-	
+			self.isModerator=true;	
 		}
+		userService.setScenarioId(self.scen.id);
+
 		
 		if(!self.isModerator){
 			if(self.scen.collaborators){
