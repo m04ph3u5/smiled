@@ -1,7 +1,7 @@
 <div class="container-fluid">
 <div class="row">
 <div class="col-md-1"></div>
-	<div class="col-lg-2 col-md-3 col-sm-4 pull-left">
+	<div class="col-lg-2 col-md-3 col-sm-4">
 	 	
 		<div class="box" data-ng-show="!scenario.isCreator && !scenario.isModerator">
 			<h3>I MIEI COMPITI: </h3>
@@ -84,7 +84,10 @@
 					</p>
 				</a>
 			</div>
-		</div>		
+		</div>	
+		<div class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg">
+			<img class="img title" src="assets/public/img/icon/ic_socialgraph.png">
+		</div>	
 	</div>
 	
 	<div class="col-lg-6 col-sm-8">
@@ -96,10 +99,10 @@
 		</div>
 		<div class="container-fluid menu">
 			<div class="row text-center">
-				<a href="" class="col-xs-3" data-ui-sref=".posts" data-ui-sref-active="active"><h4>POST</h4></a>
-				<a href="" class="col-xs-3" data-ui-sref=".storyline" data-ui-sref-active="active"><h4>STORYLINE</h4></a>
-				<a href="" class="col-xs-3" data-ui-sref=".characters" data-ui-sref-active="active"><h4>PERSONAGGI</h4></a>
-				<a href="" class="col-xs-3" data-ui-sref=".map" data-ui-sref-active="active"><h4>MAPPA</h4></a>
+				<a href="" class="col-xs-3 menuBox" data-ui-sref=".posts" data-ui-sref-active="active"><h4>POST</h4></a>
+				<a href="" class="col-xs-3 menuBox" data-ui-sref=".storyline" data-ui-sref-active="active"><h4>STORYLINE</h4></a>
+				<a href="" class="col-xs-3 menuBox" data-ui-sref=".characters" data-ui-sref-active="active"><h4>PERSONAGGI</h4></a>
+				<a href="" class="col-xs-3 menuBox" data-ui-sref=".map" data-ui-sref-active="active"><h4>MAPPA</h4></a>
 			</div>
 		</div>
 <!-- 		<ul class="wizard nav nav-pills nav-justified menu"> -->
@@ -143,15 +146,11 @@
 						</p>
 					</a>
 				</div>
-				<div data-ui-sref=".socialGraph">
-					<hr>
-					<a href="">
-							<p class="marginMTop">
-							<i class="fa fa-line-chart"></i>Social graph		
-							</p>
-					</a>
-				</div>
-			</div>		
+
+			</div>
+			<div data-ui-sref=".socialGraph" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg">
+				<img class="img title" src="assets/public/img/icon/ic_socialgraph.png">
+			</div>
 		</div>
 	</div>
 </div>

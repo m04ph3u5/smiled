@@ -1100,7 +1100,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
 						console.log ("startDate.month > endDate.month ERR");
 						return false;
-					}else if(startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
 						console.log("startDate.month < endDate.month GOOD");
 						return true;
 					}else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno

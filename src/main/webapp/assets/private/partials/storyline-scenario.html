@@ -12,21 +12,26 @@
 		<ul class="timeline">
 			<li data-ng-class="scenarioStoryline.getPosition($index)"
 				data-ng-repeat="post in scenarioStoryline.posts track by $index">
-				<div class="timeline-badge primary">
+				<div ng-if="$even" class="timeline-badge primary">
+					<a href=""
+						title="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}">
+						<i popover-placement="left" popover-trigger="mouseenter" popover="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}"
+						class="glyphicon glyphicon-time"></i></a>					
+				</div>
+				<div ng-if="$odd" class="timeline-badge primary">
 					<a href=""
 						title="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}">
 						<i popover-placement="right" popover-trigger="mouseenter" popover="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}"
-						class="glyphicon glyphicon-time invert" id=""></i></a> 
+						class="glyphicon glyphicon-time"></i></a>					
 				</div>
+				
 				<div class="timeline-panel">
 					<div class="timeline-header">
-						<div class="row">
-							<div class="col-xs-4">
-								<img class="imgPreviewM" data-ng-src="{{post.character.cover}}"
-									data-err-src="assets/public/img/icon/pg.png">
-							</div>
+						<div class="row colPadding">
+							<div class="squareImgStoryline" style="background-image:url('{{post.character.cover}}'),url('assets/public/img/icon/pg.png')"></div>
+						
 							<div class="col-xs-8">
-								<a><i>{{post.character.name}}</i></a> -
+								<a href="" data-ui-sref="logged.scenario.charprofile({id : '{{post.scenarioId}}', idCharacter : '{{post.character.id}}' })"><h6>{{post.character.name}}</h6></a>
 								{{scenarioStoryline.formatDate(post.julianDayNumber)}}
 							</div>
 						</div>
@@ -37,34 +42,34 @@
 						<!-- 								src="https://www.youtube.com/embed/IuLG6WqjOEo" frameborder="0" -->
 						<!-- 								allowfullscreen=""></iframe> -->
 						<!-- 						</div> -->
+						
+					</div>
+					<div class="timeline-body">
+						<div class="row storylineText">{{post.text}}
+						</div>
 						<div data-ng-repeat="row in post.media track by $index">
-							<div class="timeline-images row">
+							<div class="row storylineText">
 								<div data-ng-click="scenarioStoryline.openPostGallery(post, $parent.$index, $index)"
-									data-ng-repeat="col in row track by $index" class="col-xs-4">
-									<img data-ng-src="{{col}}" class="img-thumbnail img-responsive" />
+									data-ng-repeat="col in row track by $index">
+									<div class="squareImgStoryline" style="background-image:url('{{col}}')"></div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="timeline-body">
-						<p>
-							<b><p class="textJustify" data-ng-bind-html="post.text | linky:'_blank'"></p></b>
-						</p>
 					</div>
 
 					<div class="timeline-footer">
-						<div data-ng-repeat="comment in post.comments">
-							<div class="media">
-								<a class="pull-left" href="#"> <img class="imgPreviewM"
-									data-ng-src="{{comment.character.cover}}"
-									data-err-src="assets/public/img/icon/pg.png" />
-								</a> <span class="clickable" style="margin-bottom: 15px;"><i>{{comment.character.firstname}}</i></span>
-								<div class="media-body">
-									<p>{{comment.text}}</p>
-								</div>
+						<div class="media" data-ng-repeat="comment in post.comments">
+							<a class="pull-left" href="#"> <img class="imgPreviewM"
+								data-ng-src="{{comment.character.cover}}"
+								data-err-src="assets/public/img/icon/pg.png" />
+							</a> <span class="clickable"><i>{{comment.character.firstname}}</i></span>
+							<div class="media-body">
+								<p>{{comment.text}}</p>
 							</div>
-							<hr>
+							<hr class="hrStoryline">
 						</div>
+						
+						
 					</div>
 				</div>
 			</li>

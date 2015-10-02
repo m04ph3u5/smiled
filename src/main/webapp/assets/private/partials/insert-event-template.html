@@ -13,11 +13,10 @@
 </div>
 <div class="col-xs-12 marginMTop">
 	<div class="row">
-		<div class="col-xs-2 col-sm-3 col-md-2">
-			<img class="img-thumbnail imgPreviewL pull-left marginMRight"
-				src="assets/public/img/narr.png"></img>
-		</div>
-		<div class="col-xs-8 col-sm-9 col-md-10">
+		<div class="squareCharImg" style="background-image:url('assets/public/img/narr.png')"></div>
+			
+
+		<div class="col-xs-10">
 			<h4 class="pull-left">Narratore
 				<span ng-if="insertEvent.tagIsSet || insertEvent.newPost.place.text">-</span> 
 				<span ng-if="insertEvent.tagIsSet" 
@@ -124,10 +123,10 @@
 	<div class="row col-md-12">
 			<div class="pull-right">
 				<div 
-					class="btn generalButton">SALVA COME BOZZA</div>
+					class="btn generalButton1">SALVA COME BOZZA</div>
 <!-- 					data-ng-click="insertEvent.draftNewPost()" -->
 				<div data-ng-click="insertEvent.savePost(); insertEvent.hideTagBox()"
-					class="btn generalButton">PUBBLICA</div>
+					class="btn positiveButton">PUBBLICA</div>
 			</div>
 		</div>
 

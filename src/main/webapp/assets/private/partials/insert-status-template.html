@@ -12,11 +12,9 @@
 	</div>
 	<div class="col-xs-12 marginMTop">
 		<div class="row">
-			<div class="col-xs-2 col-sm-3 col-md-2">
-				<img class="img-thumbnail imgPreviewL marginMRight"
-					data-ng-src="{{insertStatus.character.cover}}"
-					data-err-src="assets/public/img/icon/pg.png"></img>
-			</div>
+			<div class="squareCharImg"
+				style="background-image:url('{{insertStatus.character.cover}}'),url('assets/public/img/icon/pg.png')"></div>	
+
 		
 			<div class="col-xs-8 col-sm-9 col-md-10">
 				<h4 class="pull-left">{{insertStatus.character.name}} 
@@ -120,10 +118,10 @@
 <div class="row col-xs-12">
 	<div class="pull-right">
 		<div 
-			class="btn generalButton">SALVA COME BOZZA</div> 
+			class="btn generalButton1">SALVA COME BOZZA</div> 
 <!-- 			data-ng-click="insertStatus.draftNewPost()" -->
 		<div data-ng-click="insertStatus.savePost(); insertStatus.hideTagBox()"
-			class="btn generalButton">PUBBLICA</div>
+			class="btn positiveButton">PUBBLICA</div>
 </div>
 </div>
 	
