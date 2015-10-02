@@ -3,19 +3,19 @@
 <section>
 	 <div class="row text-center">
 		<div class="col-sm-4">
-
-		
-			<img ng-show="characterProfile.currentChar==characterProfile.idChar" 
-			data-ng-src="{{characterProfile.cover}}" 
-			data-err-src="assets/public/img/icon/pg.png"
-			class="imgPreviewXL img-circle marginTwenty"
-			ngf-select ngf-change="characterProfile.uploadCharacterCover($files)">
 			
+			<div class="marginLLeft marginMTop imgPgProfile" 
+			ng-show="characterProfile.currentChar==characterProfile.idChar" 
+				style="background-image:url({{characterProfile.cover}}),url('assets/public/img/icon/pg.png')">
+				<div class="hoverContent text-center"
+				ngf-select ngf-change="characterProfile.uploadCharacterCover($files)">
+					<span class="glyphicon glyphicon-camera marginXLTop iconHover"></span>
+				</div>
+			</div>
 			
-			<img ng-show="characterProfile.currentChar!=characterProfile.idChar" 
-			data-ng-src="{{characterProfile.cover}}" 
-			data-err-src="assets/public/img/icon/pg.png"
-			class="imgPreviewXL img-circle marginTwenty">
+			<div class="marginLLeft marginMTop imgPgProfile" ng-show="characterProfile.currentChar!=characterProfile.idChar" 
+				style="background-image:url({{characterProfile.cover}}),url('assets/public/img/icon/pg.png')">
+			</div>
 			
 			<div class="marginMTop" ng-show="!characterProfile.editProfile">
 				<span class="marginMTop charDescription">

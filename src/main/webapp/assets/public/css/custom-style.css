@@ -318,6 +318,10 @@
 			display: table-cell;
   			vertical-align: middle !important;
 		}
+		.marginM{
+			margin-top: 10%;
+			margin-bottom: 10%;
+		}
 		.marginEmXS{
 			margin-top:0.5em;
 		}
@@ -357,10 +361,16 @@
 		.marginMLeft{
 			margin-left: 1em;
 		}
+		.marginLLeft{
+			margin-left: 10%;
+		}
 		.marginXLLeft{
 			margin-left: 20%;
 		}
-		
+
+		.marginSLeft{
+			margin-left:3%;
+		}
 		.paddingSRight{
 			padding-right:2%;
 		}
@@ -673,7 +683,6 @@
 			height:250px;
 			width:250px;
 			object-fit: cover;
-			
 		}
 		.overlapIconPP{
 			position:absolute;
@@ -697,7 +706,17 @@
 			background-position: center;
 			
 		}
-		
+		.profilePicContainer{
+			position:relative;
+			display: inline-block;
+		}
+		.profilePicContainer:hover .hoverContent {
+		    display: block;
+		    background: rgba(0, 0, 0, .6);
+		    border-radius: 50%;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+		}
 
 /*Scenario*/
 		.jumbotron{
@@ -731,13 +750,7 @@
 			background: #AFC48B;
 		}		
 		
-		.marginM{
-			margin-top: 10%;
-			margin-bottom: 10%;
-		}
-		.marginSLeft{
-			margin-left:3%;
-		}
+
 		.menu {
 			background-color:#F5F2EA;			
 		}
@@ -1019,7 +1032,7 @@
 		}
 		
 		.iconHover{
-			margin-top:0.5em;
+			margin-top:35%;
 			font-size:3em;		
 		}
 /*Profilo pg*/
@@ -1079,14 +1092,22 @@
 		
 		.imgPgProfile{		    
 			position: relative;		
-			width: 90%;
-		    padding-bottom : 90%;
+			width: 80%;
+		    padding-bottom : 80%;
 			border-radius: 50%;
 			-webkit-border-radius: 50%;
 			-moz-border-radius: 50%;
 			background-size:cover;
 			background-repeat: no-repeat;
 			background-position: center;
+		}
+
+		.imgPgProfile:hover .hoverContent {
+		    display: block;
+		    background: rgba(0, 0, 0, .6);
+		    border-radius: 50%;
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
 		}
 		
 /* Post */
@@ -1240,6 +1261,11 @@
 	@media screen  and (max-width: 767px){
 	/*SCENARIOS LIST*/
 		.imgRoundResponsive{
+			width: 50%;
+		    padding-bottom : 50%;
+		}
+		.imgPgProfile{
+			margin-left:25%;
 			width: 50%;
 		    padding-bottom : 50%;
 		}			
