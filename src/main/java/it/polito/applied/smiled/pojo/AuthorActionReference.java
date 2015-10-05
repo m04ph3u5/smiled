@@ -6,7 +6,8 @@ public class AuthorActionReference {
 	private String name;
 	
 	public AuthorActionReference(){
-		
+		id="narratore";
+		name="NARRATORE";
 	}
 	
 	public AuthorActionReference(Reference ref){

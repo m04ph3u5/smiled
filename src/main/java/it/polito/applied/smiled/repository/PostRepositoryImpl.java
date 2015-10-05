@@ -5,6 +5,7 @@ import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorDesc;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
+import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
@@ -189,9 +190,11 @@ public class PostRepositoryImpl implements CustomPostRepository{
 	public List<Post> findByScenarioIdAndPostStatus(String scenarioId,
 			PostStatus status) {
 		Query q = new Query();
+		Criteria c = new Criteria();
+		c.orOperator(Criteria.where("_class").is(Status.class.getName()),Criteria.where("_class").is(Event.class.getName()));
 		q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
 				.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)
-						.andOperator(Criteria.where("_class").is(Status.class.getName()))));
+						.andOperator(c)));
 		return mongoOp.find(q, Post.class);
 	}
 	
