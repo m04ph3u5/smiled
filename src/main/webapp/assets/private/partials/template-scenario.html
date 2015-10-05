@@ -47,6 +47,9 @@
 	
 						</div>
 		</div>
+		
+	
+			
 		 <div class="box" data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
 		 	<a href="">
 		 	<div class="row marginMTop">
@@ -87,6 +90,8 @@
 		</div>	
 		<div class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg">
 			<img class="img title" src="assets/public/img/icon/ic_socialgraph.png">
+			<img class="img title marginEmS" src="assets/public/img/icon/nuovo_hw.png"
+			ng-click="scenario.showModalCreateMission(scenario.scen.id)" data-ng-show="scenario.isCreator">
 		</div>	
 	</div>
 	
@@ -163,8 +168,11 @@
 
 			</div>
 			<div data-ui-sref=".socialGraph" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg">
-				<img class="img title" src="assets/public/img/icon/ic_socialgraph.png">
+				<img class="img title" src="assets/public/img/icon/ic_socialgraph.png"><br>
+				<img class="img title marginEmS" src="assets/public/img/icon/nuovo_hw.png"
+				ng-click="scenario.showModalCreateMission(scenario.scen.id)" data-ng-show="scenario.isCreator">
 			</div>
+			
 		</div>
 	</div>
 </div>
