@@ -369,11 +369,11 @@
 			      r=ns.getRadius();
 			    if (d*0.25<r*r) {
 			      dragged=nodo;
-			      return false;
+			      return true;
 			    }
 			  }
 			  
-			  return false;
+			  return true;
 			}
 		
 		p5.mouseMoved = function() {
@@ -408,7 +408,7 @@
 			      break;
 			    }
 			  }
-			  return false;
+			  return true;
 			}
 		
 		p5.mouseReleased = function() {
@@ -419,7 +419,7 @@
 		p5.touchEnded = function() {
 			  dragged=null;
 			  draggingBar=false;
-			  return false;
+			  return true;
 			}
 
 		var shuffleNodes = function() {
