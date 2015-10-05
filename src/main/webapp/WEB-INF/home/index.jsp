@@ -115,6 +115,7 @@
 	<script src="/assets/public/js/controllers/filesListController.js"></script>
 	<script src="/assets/public/js/controllers/characterProfileController.js"></script>
 	<script src="/assets/public/js/controllers/dialogScenarioController.js"></script>
+	<script src="/assets/public/js/controllers/dialogMissionController.js"></script>
 	<script src="/assets/public/js/controllers/dialogSetDateController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioStorylineController.js"></script>
 	<script src="/assets/public/js/controllers/openMapController.js"></script>

@@ -17,6 +17,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceOpenMapForPost;
 		var modalInstanceOldCharacterChangeOnComment;
 		var modalInstanceSetHistoryDate;
+		var modalInstanceCreateMission;
 		
 		var optionSetHistoryDate = {
 				templateUrl: 'assets/private/partials/customDatePickerTemplate.html',
@@ -118,6 +119,13 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 					}
 				}
 		}
+		var optionsCreateMission = {
+				templateUrl:'assets/private/partials/createMission.html',
+				controller: 'dialogMissionCtrl',
+				controllerAs: 'dialogMission',
+				size: 'lg' 
+				
+		};
 		
 		
 		var showModalCreateScen = function(){
@@ -248,6 +256,24 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceSetHistoryDate.close();
 		}
 		
+		var showModalCreateMission = function(){
+			modalInstanceCreateMission = $modal.open(optionsCreateMission);
+			return modalInstanceCreateMission.result;
+			
+		}
+		
+		var closeModalCreateMission = function(){
+			modalInstanceCreateMission.close();
+		}
+		
+		var createMission = function(mission){
+			console.log("CREATE MISSION -----------------------");
+			 //BOZZA
+			 s = apiService.createMission(mission.scenId,mission);
+			 return s; 
+			 
+		}
+		
 		return {
 			createScenario : createScenario,
 			deleteScenario : deleteScenario,
@@ -265,7 +291,10 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showModalOldCharacterChangeOnComment: showModalOldCharacterChangeOnComment,
 			closeModalOldCharacterChangeOnComment: closeModalOldCharacterChangeOnComment,
 			showModalSetHistoryDate: showModalSetHistoryDate,
-			closeModalSetHistoryDate: closeModalSetHistoryDate
+			closeModalSetHistoryDate: closeModalSetHistoryDate,
+			createMission : createMission,
+			showModalCreateMission : showModalCreateMission,
+			closeModalCreateMission: closeModalCreateMission,
 		}
 }]);
 

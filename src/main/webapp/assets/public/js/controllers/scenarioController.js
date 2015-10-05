@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService',
-                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService){
 	
 	
 	console.log("controller");
@@ -94,6 +94,9 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 					console.log("error in creation of new mission");
 				}
 		);
+	}
+	self.showModalCreateMission = function(){
+		modalService.showModalCreateMission();
 	}
 	
 	onStartup();
