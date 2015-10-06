@@ -101,15 +101,42 @@
 		
 		</div>
 		<!-- Inserire icone -->
-		<div class="row">
-			<div data-ng-repeat="file in insertStatus.newPost.file">				
-					<div class="col-sm-2">
-						<span>{{file.name | limitTo:15}}</span>
-						<span ng-if="file.name.length>15">...</span>
-						<span data-ng-show="file.name"
-							class="glyphicon glyphicon-remove"
-							data-ng-click="insertStatus.removeFile(file)"></span>
+		<div class="row colPadding">
+			<div data-ng-repeat="file in insertStatus.newPost.file">
+				<div class="col-xs-2">
+					<div class="row">
+						<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
+							ng-if="file.fileType == 'img'">
+							<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="insertStatus.removeFile(file)"></span></div>
+						</div>
+						<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
+							ng-if="file.fileType == 'pdf'">
+							<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="insertStatus.removeFile(file)"></span></div>
+						</div>
+						<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
+							ng-if="file.fileType == 'doc'">
+							<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="insertStatus.removeFile(file)"></span></div>
+						</div>
+						<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
+							ng-if="file.fileType == 'ppt'">
+							<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="insertStatus.removeFile(file)"></span></div>
+						</div>
+						<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
+							ng-if="file.fileType == 'excel'">
+							<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="insertStatus.removeFile(file)"></span></div>
+						</div>
+						
 					</div>
+					<div class="row text-center marginEmXS">
+						<span>{{file.name | limitTo:7}}</span>
+						<span ng-if="file.name.length>7">...</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

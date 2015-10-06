@@ -9,6 +9,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var startDate = {};
 		var endDate = {};
 		var charName;
+		var scenario = {};
+		
 		
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
@@ -123,7 +125,15 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				templateUrl:'assets/private/partials/createMission.html',
 				controller: 'dialogMissionCtrl',
 				controllerAs: 'dialogMission',
-				size: 'lg' 
+				size: 'lg',
+				resolve : {
+					scenarioReferenceList : function(){
+						return scenarioReferenceList;
+					},
+					scenario : function(){
+						return scenario;
+					}
+				}
 				
 		};
 		
