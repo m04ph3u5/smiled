@@ -2343,78 +2343,159 @@ public class ScenarioServiceImpl implements ScenarioService{
 		List<Action> actions = new ArrayList<Action>();
 
 		for(int i=0; i<posts.size(); i++){
-			/*POST*/
-			Status s = (Status)posts.get(i);
-			Action a = new Action();
-			a.setAction(ActionType.POST);
-			AuthorActionReference authorPost = new AuthorActionReference(s.getCharacter()); 
-			a.setAuthor(authorPost);
-			a.setDate(s.getCreationDate());
-			actions.add(a);
 			
-			/*TAG AL POST*/
-			List<Reference> t = s.getTags();
-			if(t!=null && t.size()!=0){
-				for(Reference r : t){
-					Action aTag = new Action();
-					aTag.setAction(ActionType.TAG);
-					aTag.setAuthor(authorPost);
-					aTag.setDate(s.getCreationDate());
-					aTag.setObject(new AuthorActionReference(r));
-					actions.add(aTag);
+			
+			/*STATUS*/
+			if(posts.get(i).getClass().equals(Status.class)){
+				/*POST*/
+				Status s = (Status)posts.get(i);
+				Action a = new Action();
+				a.setAction(ActionType.POST);
+				AuthorActionReference authorPost = new AuthorActionReference(s.getCharacter()); 
+				a.setAuthor(authorPost);
+				a.setDate(s.getCreationDate());
+				actions.add(a);
+				
+				/*TAG AL POST*/
+				List<Reference> t = s.getTags();
+				if(t!=null && t.size()!=0){
+					for(Reference r : t){
+						Action aTag = new Action();
+						aTag.setAction(ActionType.TAG);
+						aTag.setAuthor(authorPost);
+						aTag.setDate(s.getCreationDate());
+						aTag.setObject(new AuthorActionReference(r));
+						actions.add(aTag);
+					}
 				}
-			}
-			
-			/*LIKE AL POST*/
-			List<CharacterReference> likes = s.getLikes();
-			if(likes!=null && likes.size()!=0){
-				for(CharacterReference r : likes){
-					Action aLike = new Action();
-					aLike.setAction(ActionType.LIKE);
-					aLike.setAuthor(new AuthorActionReference(r));
-					aLike.setDate(s.getCreationDate());
-					aLike.setObject(authorPost);
-					actions.add(aLike);
+				
+				/*LIKE AL POST*/
+				List<CharacterReference> likes = s.getLikes();
+				if(likes!=null && likes.size()!=0){
+					for(CharacterReference r : likes){
+						Action aLike = new Action();
+						aLike.setAction(ActionType.LIKE);
+						aLike.setAuthor(new AuthorActionReference(r));
+						aLike.setDate(s.getCreationDate());
+						aLike.setObject(authorPost);
+						actions.add(aLike);
+					}
 				}
-			}
-			
-			/*COMMENTI AL POST*/
-			List<Comment> comments = s.getComments();
-			if(comments!=null && comments.size()!=0){
-				for(Comment c : comments){
-					Action aComment = new Action();
-					AuthorActionReference authorComment = new AuthorActionReference(c.getCharacter());
-					aComment.setAction(ActionType.COMMENT);
-					aComment.setAuthor(authorComment);
-					aComment.setDate(c.getCreationDate());
-					aComment.setObject(authorPost);
-					actions.add(aComment);
+				
+				/*COMMENTI AL POST*/
+				List<Comment> comments = s.getComments();
+				if(comments!=null && comments.size()!=0){
+					for(Comment c : comments){
+						Action aComment = new Action();
+						AuthorActionReference authorComment = new AuthorActionReference(c.getCharacter());
+						aComment.setAction(ActionType.COMMENT);
+						aComment.setAuthor(authorComment);
+						aComment.setDate(c.getCreationDate());
+						aComment.setObject(authorPost);
+						actions.add(aComment);
+						
+						/*TAG AL COMMENTO*/
+						List<Reference> tagComment = c.getTags();
+						if(tagComment!=null && tagComment.size()!=0){
+							for(Reference rTagComment : tagComment){
+								Action aTagComment = new Action();
+								aTagComment.setAuthor(authorComment);
+								aTagComment.setAction(ActionType.TAG);
+								aTagComment.setDate(c.getCreationDate());
+								aTagComment.setObject(new AuthorActionReference(rTagComment));
+								actions.add(aTagComment);
+							}
+						}
+						
+						/*LIKE AL COMMENTO*/
+						List<CharacterReference> likeComment = c.getLikes();
+						if(likeComment!=null && likeComment.size()!=0){
+							for(CharacterReference rLikeComment : likeComment){
+								Action aLikeComment = new Action();
+								aLikeComment.setAction(ActionType.LIKE);
+								aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
+								aLikeComment.setDate(c.getCreationDate());
+								aLikeComment.setObject(authorComment);
+								actions.add(aLikeComment);
+							}
+						}
+					}
+				/*Event*/
+				}
+			}else if(posts.get(i).getClass().equals(Event.class)){
+					/*POST*/
+					Event e = (Event)posts.get(i);
+					Action a = new Action();
+					a.setAction(ActionType.POST);
+					AuthorActionReference authorPost = new AuthorActionReference(); 
+					a.setAuthor(authorPost);
+					a.setDate(e.getCreationDate());
+					actions.add(a);
 					
-					/*TAG AL COMMENTO*/
-					List<Reference> tagComment = c.getTags();
-					if(tagComment!=null && tagComment.size()!=0){
-						for(Reference rTagComment : tagComment){
-							Action aTagComment = new Action();
-							aTagComment.setAuthor(authorComment);
-							aTagComment.setAction(ActionType.TAG);
-							aTagComment.setDate(c.getCreationDate());
-							aTagComment.setObject(new AuthorActionReference(rTagComment));
-							actions.add(aTagComment);
+					/*TAG AL POST*/
+					List<Reference> t = e.getTags();
+					if(t!=null && t.size()!=0){
+						for(Reference r : t){
+							Action aTag = new Action();
+							aTag.setAction(ActionType.TAG);
+							aTag.setAuthor(authorPost);
+							aTag.setDate(e.getCreationDate());
+							aTag.setObject(new AuthorActionReference(r));
+							actions.add(aTag);
 						}
 					}
 					
-					/*LIKE AL COMMENTO*/
-					List<CharacterReference> likeComment = c.getLikes();
-					if(likeComment!=null && likeComment.size()!=0){
-						for(CharacterReference rLikeComment : likeComment){
-							Action aLikeComment = new Action();
-							aLikeComment.setAction(ActionType.LIKE);
-							aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
-							aLikeComment.setDate(c.getCreationDate());
-							aLikeComment.setObject(authorComment);
-							actions.add(aLikeComment);
+					/*LIKE AL POST*/
+					List<CharacterReference> likes = e.getLikes();
+					if(likes!=null && likes.size()!=0){
+						for(CharacterReference r : likes){
+							Action aLike = new Action();
+							aLike.setAction(ActionType.LIKE);
+							aLike.setAuthor(new AuthorActionReference(r));
+							aLike.setDate(e.getCreationDate());
+							aLike.setObject(authorPost);
+							actions.add(aLike);
 						}
 					}
+					
+					/*COMMENTI AL POST*/
+					List<Comment> comments = e.getComments();
+					if(comments!=null && comments.size()!=0){
+						for(Comment c : comments){
+							Action aComment = new Action();
+							AuthorActionReference authorComment = new AuthorActionReference(c.getCharacter());
+							aComment.setAction(ActionType.COMMENT);
+							aComment.setAuthor(authorComment);
+							aComment.setDate(c.getCreationDate());
+							aComment.setObject(authorPost);
+							actions.add(aComment);
+							
+							/*TAG AL COMMENTO*/
+							List<Reference> tagComment = c.getTags();
+							if(tagComment!=null && tagComment.size()!=0){
+								for(Reference rTagComment : tagComment){
+									Action aTagComment = new Action();
+									aTagComment.setAuthor(authorComment);
+									aTagComment.setAction(ActionType.TAG);
+									aTagComment.setDate(c.getCreationDate());
+									aTagComment.setObject(new AuthorActionReference(rTagComment));
+									actions.add(aTagComment);
+								}
+							}
+							
+							/*LIKE AL COMMENTO*/
+							List<CharacterReference> likeComment = c.getLikes();
+							if(likeComment!=null && likeComment.size()!=0){
+								for(CharacterReference rLikeComment : likeComment){
+									Action aLikeComment = new Action();
+									aLikeComment.setAction(ActionType.LIKE);
+									aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
+									aLikeComment.setDate(c.getCreationDate());
+									aLikeComment.setObject(authorComment);
+									actions.add(aLikeComment);
+								}
+							}
+						}
 				}
 				
 		

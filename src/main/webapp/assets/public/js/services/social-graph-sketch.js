@@ -40,10 +40,13 @@
 		
 		var createNodeState = function() {
 		  var ns={};
-		  ns.links=0;
+		  ns.links={};
+		  for(var id in nodi){
+			  ns.links[id]=0;
+		  }
 		  ns.posts=0;
 		  ns.getRadius = function() {
-		    return (p5.pow(ns.posts,1.5)+10)*0.75;
+		    return (p5.log(ns.posts+1)/p5.log(1.2)+10)*0.75;
 		  }
 		  return ns;
 		}
@@ -155,10 +158,14 @@
 			}
 		
 		p5.draw =function() {
+			if(p5.touchIsDown){
+				p5.mouseX=p5.touchX;
+				p5.mouseY=p5.touchY;
+			}
 			  flashingRadius*=0.95;
 			  if (draggingBar) {
-			    barra=p5.map(p5.mouseX,20,p5.width-20,0,archi.length-1);
-			    barra=p5.floor(p5.constrain(barra,0,archi.length-1));
+			    barra=p5.map(p5.mouseX,20,p5.width-20,0,archi.length);
+			    barra=p5.floor(p5.constrain(barra,0,archi.length));
 			    flashingRadius=3;
 			  } else if (dragged!==null) {
 			    dragged.setX(p5.mouseX);    
@@ -211,13 +218,13 @@
 			  for (i in nodi) {
 			    ranks[i]=createNodeState();
 			  }
-			  for (i=0; i<=barra; i++) {
+			  for (i=0; i<barra; i++) {
 			    var arco=archi[i];
 			    var n1=nodi[arco.from];
 			    var m1=nodi[arco.to];
 			    ns=ranks[arco.from];
 			    if (arco.from!==arco.to) {
-			      ns.links++;
+			      ns.links[arco.to]++;
 			      flashing=null;
 			    } else {
 			      flashing=n1;
@@ -225,14 +232,14 @@
 			    }
 			    ranks[arco.from]=ns;
 			    var ms=ranks[arco.to];
-			    if (arco.from!==arco.to) ms.links++;
+			    if (arco.from!==arco.to) ms.links[arco.from]++;
 			    ranks[arco.to]=ms;
 			    dx=n1.getX()-m1.getX();
 			    dy=n1.getY()-m1.getY();
 			    //disegno l'arco da n1 a m1 come curva di bezier di tipo quadratico
 			    p5.push();
 			      p5.noFill();
-			      p5.strokeWeight((ns.links+ms.links)*0.5);
+			      p5.strokeWeight((p5.log(ns.links[arco.to])+1)/p5.log(2));
 			      var xa=(n1.getLastX()+m1.getLastX())*0.5;
 			      var ya=(n1.getLastY()+m1.getLastY())*0.5;
 			      p5.bezier(n1.getX(),n1.getY(), xa,ya, xa,ya, m1.getX(),m1.getY());
@@ -298,21 +305,23 @@
 			    p5.stroke(0);
 			    p5.strokeWeight(1);
 			    p5.line(20,p5.height-20,p5.width-20,p5.height-20);
-			    var x4=p5.map(barra,0,archi.length-1,20, p5.width-20);
+			    var x4=p5.map(barra,0,archi.length,20, p5.width-20);
 			    var y4=p5.height-20;
-			    p5.stroke(255);
-			    p5.fill(171,190,144);
+			    p5.stroke(0);
+			    p5.colorMode(p5.HSB,255);
+			    p5.fill(36,120,196);
 			    p5.ellipse(x4,y4,20,20);
 			    p5.noStroke();
 			    for (i=10; i>0; i--) {
-			      p5.fill(171+3*i,190+3*i,144+3*i);
+			      p5.fill(36,120,226-3*i);
 			      p5.ellipse(x4-2,y4-2,i,i);
 			    }
+		            p5.colorMode(p5.RGB);
 			  p5.pop();
 			}
 		
 		p5.mousePressed = function() {
-			  var x=p5.map(barra,0,archi.length-1,20,p5.width-20);
+			  var x=p5.map(barra,0,archi.length,20,p5.width-20);
 			  var y=p5.height-20;
 			  var dx=p5.mouseX-x;
 			  var dy=p5.mouseY-y;
@@ -338,6 +347,35 @@
 			  }
 			}
 		
+		p5.touchStarted = function() {
+			  var x=p5.map(barra,0,archi.length,20,p5.width-20);
+			  var y=p5.height-20;
+			  var dx=p5.touchX-x;
+			  var dy=p5.touchY-y;
+			  var d=p5.sq(dx)+p5.sq(dy);
+			  if (d<1000) 
+			    draggingBar=true;
+			  
+
+			  for (var i in nodi) {
+			    var nodo=nodi[i];
+			    dx=p5.touchX-nodo.getX();
+			    dy=p5.touchY-nodo.getY();
+			    d=p5.sq(dx)+p5.sq(dy);
+			    var id=nodo.getId();
+			    var r=25;
+			    var ns=ranks[id];
+			    if (ns) 
+			      r=ns.getRadius();
+			    if (d*0.25<r*r) {
+			      dragged=nodo;
+			      return true;
+			    }
+			  }
+			  
+			  return true;
+			}
+		
 		p5.mouseMoved = function() {
 			  inside=null;
 			  for (var id in nodi) {
@@ -355,9 +393,33 @@
 			  }
 			}
 		
+		p5.touchMoved = function() {
+			  inside=null;
+			  for (var id in nodi) {
+			    var n=nodi[id];
+			    var ns=ranks[id];
+			    if (!ns) ns=createNodeState();
+			    var r=ns.getRadius();
+			    var dx=p5.touchX-n.getX();
+			    var dy=p5.touchY-n.getY();
+			    var d=p5.sq(dx)+p5.sq(dy);
+			    if (d*0.25<r*r) {
+			      inside=n;
+			      break;
+			    }
+			  }
+			  return true;
+			}
+		
 		p5.mouseReleased = function() {
 			  dragged=null;
 			  draggingBar=false;
+			}
+		
+		p5.touchEnded = function() {
+			  dragged=null;
+			  draggingBar=false;
+			  return true;
 			}
 
 		var shuffleNodes = function() {
@@ -372,11 +434,11 @@
 			  switch (p5.key) {
 			    case ' ':
 			    case '+':
-			      barra=p5.constrain(barra+1,0,archi.length-1);
+			      barra=p5.constrain(barra+1,0,archi.length);
 			      flashingRadius=3;
 			      break;
 			    case '-':
-			      barra=p5.constrain(barra-1,0,archi.length-1);
+			      barra=p5.constrain(barra-1,0,archi.length);
 			      flashingRadius=3;
 			      break;
 			    case 'c':
