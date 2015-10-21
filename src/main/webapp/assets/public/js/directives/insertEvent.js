@@ -246,6 +246,20 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			        	   var uploadedFile = {};
 			        	   uploadedFile.id = data.id;
 			        	   uploadedFile.name = config.file[0].name;
+			        	   var split = uploadedFile.name.split(".");
+			        	   var type = split[split.length-1];
+			        	   uploadedFile.fileType =  null;
+			        	   if(type == 'jpg' || type == 'png'){
+			        		   uploadedFile.fileType = 'img';
+			        	   }else if(type == 'pdf'){
+			        		   uploadedFile.fileType = 'pdf';
+			        	   }else if(type == 'doc' || type == 'docx' || type == 'odt' || type == 'txt'){
+			        		   uploadedFile.fileType = 'doc';
+			        	   }else if(type == 'ppt' || type == 'pptx' || type == 'odp'){
+			        		   uploadedFile.fileType = 'ppt';
+			        	   }else if(type == 'xls' || type == 'xlsx' || type == 'ods'){
+			        		   uploadedFile.fileType = 'excel';
+			        	   }
 			        	   self.newPost.file.push(uploadedFile);
 			           }
 			        });

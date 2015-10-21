@@ -1190,14 +1190,24 @@
 	    display: none;
 	    color: #d6d6d6;	  
 	}
-	.squareImg:hover .hoverContent {
+	.squareImg:hover .hoverContent, 
+	.squareImgStoryline:hover .hoverContent,
+	.squareFileIcon:hover .hoverContent  {
 	    display: block;
 	    background: rgba(0, 0, 0, .6);
 	}
-	.squareImgStoryline:hover .hoverContent {
-	    display: block;
-	    background: rgba(0, 0, 0, .6);
+	.squareFileIcon{
+		float:left;
+	    position: relative;
+	    width: 90%;
+	    padding-bottom : 90%;
+	    margin-right:1.66%;
+	    background-position:center center;
+	    background-repeat:no-repeat;
+	    background-size:cover;
 	}
+	
+	
 /*User Card*/
 	.userCard{
 		z-index:5;

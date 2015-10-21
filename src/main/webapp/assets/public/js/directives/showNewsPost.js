@@ -18,10 +18,10 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			self.deleted=false;
 			self.postDTO = {};
 			self.postDTO.text = self.post.text;
-			self.date={};
+			self.date={};				
+			self.files = new Array();
 			
 			self.editButton = false;
-			
 			
 			var checkPermissionEdit = function(){
 				if(self.scenario.teacherCreator.id == self.loggedUser.id){
@@ -238,6 +238,30 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 //			}
 //			}
 //			}
+			
+			var assignFileType = function (){
+				for (var i=0; i<self.post.filesMetadata.length; i++){
+					var myFile = {};
+					myFile.id = self.post.filesMetadata[i].id;
+					myFile.originalName = self.post.filesMetadata[i].originalName;
+					var split = myFile.originalName.split(".");
+					var type = split[split.length-1];
+					if(type == 'jpg' || type == 'png'){
+						myFile.fileType = 'img';
+					}else if(type == 'pdf'){
+						myFile.fileType = 'pdf';
+					}else if(type == 'doc' || type == 'docx' || type == 'odt' || type == 'txt'){
+						myFile.fileType = 'doc';
+					}else if(type == 'ppt' || type == 'pptx' || type == 'odp'){
+						myFile.fileType = 'ppt';
+					}else if(type == 'xls' || type == 'xlsx' || type == 'ods'){
+						myFile.fileType = 'excel';
+					}
+					self.files.push(myFile);					
+				}				
+			}
+			assignFileType();
+			
 			self.addFileToPost = function(file){
 				console.log("add File");
 				uploadMediaToPost(file,false);

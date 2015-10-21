@@ -192,5 +192,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 //		);
 	}	
 	
-	
+	self.showModalCreateMission = function(){
+		modalService.showModalCreateMission();
+	}
 }]);
