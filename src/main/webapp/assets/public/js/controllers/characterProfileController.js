@@ -101,6 +101,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	            var d = new Date();
 
 	            self.cover = CONSTANTS.urlCharacterCover(scenarioId, idChar)+"?"+d.toString();
+	            $scope.scenario.currentCharacter.cover = self.cover;
 //	            for(var i=0; i<self.scenario.characters.length; i++){
 //	            	if(self.scenario.characters[i].id==idCharacter){
 //	            		var d = new Date();

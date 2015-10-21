@@ -11,7 +11,7 @@
 				data-err-src="assets/public/img/ic_student.png" ng-if="personalProfile.ruolo=='STUDENTE'"></img>
 				
 				<div class="hoverContent profilePicture" ng-if="personalProfile.isModifiable" 
-					ngf-select ngf-click="personalProfile.uploadCover($files)">
+					ngf-select ngf-change="personalProfile.uploadCover($files)">
 					<span class="glyphicon glyphicon-camera iconHover"></span>
 				</div>
 				

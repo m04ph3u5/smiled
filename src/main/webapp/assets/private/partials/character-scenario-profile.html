@@ -4,17 +4,33 @@
 	 <div class="row text-center">
 		<div class="col-sm-4">
 			
-			<div class="marginLLeft marginMTop imgPgProfile" 
-			ng-show="characterProfile.currentChar==characterProfile.idChar" 
-				style="background-image:url({{characterProfile.cover}}),url('assets/public/img/icon/pg.png')">
-				<div class="hoverContent text-center"
-				ngf-select ngf-change="characterProfile.uploadCharacterCover($files)">
-					<span class="glyphicon glyphicon-camera marginXLTop iconHover"></span>
+<!-- 			<div class="marginLLeft marginMTop imgPgProfile"  -->
+<!-- 			ng-show="characterProfile.currentChar==characterProfile.idChar"  -->
+<!-- 				style="background-image:url({{characterProfile.cover}}),url('assets/public/img/icon/pg.png')"> -->
+<!-- 				<div class="hoverContent text-center" -->
+<!-- 				ngf-select ngf-change="characterProfile.uploadCharacterCover($files)"> -->
+<!-- 					<span class="glyphicon glyphicon-camera marginXLTop iconHover"></span> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			
+<!-- 			<div class="marginLLeft marginMTop imgPgProfile" ng-show="characterProfile.currentChar!=characterProfile.idChar"  -->
+<!-- 				style="background-image:url({{characterProfile.cover}}),url('assets/public/img/icon/pg.png')"> -->
+<!-- 			</div> -->
+			
+			<div class="profilePicContainer" ng-if="characterProfile.currentChar==characterProfile.idChar">
+				<img style="width: 200px; height:200px;"class="profilePicture img img-circle" data-ng-src="{{characterProfile.cover}}" 
+				data-err-src="assets/public/img/icon/pg.png"></img>
+				
+				<div class="hoverContent profilePicture"
+					ngf-select ngf-change="characterProfile.uploadCharacterCover($files)">
+					<span class="glyphicon glyphicon-camera iconHover"></span>
 				</div>
+				
 			</div>
 			
-			<div class="marginLLeft marginMTop imgPgProfile" ng-show="characterProfile.currentChar!=characterProfile.idChar" 
-				style="background-image:url({{characterProfile.cover}}),url('assets/public/img/icon/pg.png')">
+			<div class="profilePicContainer" ng-if="characterProfile.currentChar!=characterProfile.idChar">
+				<img style="width: 200px; height:200px; class="profilePicture img img-circle" data-ng-src="{{characterProfile.cover}}" 
+				data-err-src="assets/public/img/icon/pg.png"></img>				
 			</div>
 			
 			<div class="marginMTop" ng-show="!characterProfile.editProfile">
