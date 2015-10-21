@@ -5,6 +5,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	var id = null;
 	var role = null;
 	self.ruolo = null;
+	self.editablePassword = false;
 	
 	var myIdentity = $cookies.get('myMescholaId');
 	
@@ -91,6 +92,31 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	            self.coverLarge = CONSTANTS.urlMeCoverLarge+"?"+date.toString();    
 	            //userService.notifyPersonalCoverObservers();
 	        });
+		}
+	}
+	
+	self.editPassword = function(){
+		self.editablePassword = !self.editablePassword;
+	}
+	
+	self.modifyPassword = function(){
+		if(self.oldPassword && self.newPassword){
+			var passwordDTO = {};
+			passwordDTO.oldPassword = self.oldPassword;
+			passwordDTO.newPassword = self.newPassword;
+			userService.changePassword(passwordDTO).then(
+					function(data){
+						console.log("password correttamente modificata!");
+						self.oldPassword="";
+						self.newPassword="";
+						self.editablePassword = false;
+					},
+					function(reason){
+						console.log("errore nel cambio password");
+						self.oldPassword="";
+						self.newPassword="";
+					}
+			);
 		}
 	}
 	

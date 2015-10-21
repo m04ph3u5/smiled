@@ -98,6 +98,7 @@
 	<script src="/assets/public/js/controllers/loggedController.js"></script>
 	<script src="/assets/public/js/controllers/loginController.js"></script>
 	<script src="/assets/public/js/controllers/registerController.js"></script>
+	<script src="/assets/public/js/controllers/setPasswordController.js"></script>
 	<script src="/assets/public/js/controllers/registrationConfirmController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardAdminController.js"></script>

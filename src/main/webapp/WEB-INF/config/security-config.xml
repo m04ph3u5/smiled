@@ -44,7 +44,7 @@
 			 requires-channel="https"/>
 		<intercept-url pattern="/registrationConfirm.html"
 			access="permitAll"  requires-channel="https"/>
-		<intercept-url pattern="/setPassword.html" access="hasRole('ROLE_ANONYMOUS')"
+		<intercept-url pattern="/api/v1/firstPassword" access="hasRole('ROLE_ANONYMOUS')"
 		 requires-channel="https"/>
 <!-- 		<intercept-url pattern="/400.html" access="permitAll" -->
 <!-- 			 /> -->

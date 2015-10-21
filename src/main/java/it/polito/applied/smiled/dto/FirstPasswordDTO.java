@@ -1,5 +1,7 @@
 package it.polito.applied.smiled.dto;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,9 +22,17 @@ public class FirstPasswordDTO {
 	@Size(min=2, max=64)
 	private String lastname;
 	
+	private Date bornDate;
+	
 	@Email
 	private String email;
 	
+	public Date getBornDate() {
+		return bornDate;
+	}
+	public void setBornDate(Date borndate) {
+		this.bornDate = bornDate;
+	}
 	
 	public String getOldPassword() {
 		return oldPassword;

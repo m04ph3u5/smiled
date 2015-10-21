@@ -27,17 +27,20 @@ angular.module("smiled.application").factory('alertingRegistration',['$timeout',
 		
 		        		$timeout(function () {
 		        			removeAlert(alert);
-		        		}, 7000);
+		        		}, 5000);
 		        	}
 		 };
 
         var removeAlert = function (alert) {
-            for (var i = 0; i < currentAlerts.length; i++) {
-                if (currentAlerts[i] === alert) {
-                    currentAlerts.splice(i, 1);
-                    break;
-                }
-            }
+        	
+        	 for (var i = 0; i < currentAlerts.length; i++) {
+                    if (currentAlerts[i] === alert) {
+                        currentAlerts.splice(i, 1);
+                        break;
+                    }
+              }
+        	
+           
         };
 
         var errorHandler = function (description) {

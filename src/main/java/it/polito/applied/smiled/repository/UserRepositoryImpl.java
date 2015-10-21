@@ -99,6 +99,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		u.set("password", hashNewPassword);
 		u.set("firstName", firstPassword.getFirstname());
 		u.set("lastName", firstPassword.getLastname());
+		u.set("profile.bornDate", firstPassword.getBornDate());
 		FindAndModifyOptions options = new FindAndModifyOptions();
 		options.returnNew(true);
 		return mongoOp.findAndModify(q, u, options, User.class);

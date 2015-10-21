@@ -1,3 +1,4 @@
+package it.polito.applied.smiled.dto;
 //package it.polito.applied.smiled.controller;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
