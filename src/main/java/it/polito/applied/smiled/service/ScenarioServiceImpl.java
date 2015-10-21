@@ -111,8 +111,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
 		try{
-			//TODO trovare un modo per caricare le immagini
-			scenarioDTO.setCover(null); //Quando creo uno scenario � senza cover
+			scenarioDTO.setCover(null); 
 
 			Teacher t = (Teacher) userRepository.findByEmail(email);
 			if(t==null)
