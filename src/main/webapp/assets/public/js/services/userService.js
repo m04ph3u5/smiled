@@ -117,6 +117,19 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		return s.promise;
 	}
 	
+	var changeFirstPassword = function(firstPasswordDTO){
+		var s = $q.defer();
+		$http.put("/api/v1/firstPassword", firstPasswordDTO).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
 	
 	return {
 		login: login,
@@ -127,7 +140,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		notifyPersonalCoverObservers: notifyPersonalCoverObservers,
 		setScenarioId : setScenarioId,
 		getScenarioId : getScenarioId,
-		changePassword : changePassword
+		changePassword : changePassword,
+		changeFirstPassword : changeFirstPassword
 	}
 
 	

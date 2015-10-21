@@ -15,6 +15,19 @@ angular.module('smiled.application')
 			}
 			
 		})
+		.state('notLogged.setFirstPassword',{
+			url: "/setPassword",
+			views: {
+				'content': {
+					templateUrl: 'assets/public/partials/setPassword.html',
+					controller: "setPasswordCtrl",
+					controllerAs:"setPassword",
+				}
+			},
+			data : {
+				pageTitle : 'setPassword - Meschola'
+			}
+		})
 		.state('notLogged.welcome',{
 			url: "/",
 			views: {
@@ -42,6 +55,24 @@ angular.module('smiled.application')
 			},
 			data : {
 				pageTitle : 'Login - Meschola'
+			}
+		})
+		.state('notLogged.forgotPassword',{
+			url: "/login",
+			views: {
+				'header': {
+					templateUrl: 'assets/public/partials/navbar-login.html',
+					controller: "loginCtrl",
+					controllerAs:"login",
+				},
+				'content': {
+					templateUrl: 'assets/public/partials/forgotPartial.html',
+					controller: "forgotCtrl",
+					controllerAs:"forgot",
+				}
+			},
+			data : {
+				pageTitle : 'Recupera password - Meschola'
 			}
 		})
 		.state('notLogged.policy',{
