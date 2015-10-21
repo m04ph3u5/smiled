@@ -1,3 +1,4 @@
+package it.polito.applied.smiled.dto;
 //package it.polito.applied.smiled.controller;
 //
 //import it.polito.applied.smiled.dto.RegisterTeacherDTO;
