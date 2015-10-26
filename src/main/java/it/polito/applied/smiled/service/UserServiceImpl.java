@@ -23,6 +23,7 @@ import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserProfile;
 import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
 import it.polito.applied.smiled.repository.RegistrationRepository;
 import it.polito.applied.smiled.repository.UserRepository;
@@ -71,8 +72,10 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	
 	@Autowired
 	private ExceptionOnClientRepository exceptionOnClientRepository;
- 
-
+	
+	@Autowired
+	private NotifyService notify;
+	
 	@Override
 	public CustomUserDetails loadUserByUsername(String email)
 			throws UsernameNotFoundException, MongoException {
@@ -201,6 +204,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			/*Aggiornamenti asincroni*/
 			asyncUpdater.updateOnChangeFirstPassword(u);
 			
+			notify.createQueue(u.getId());
+			
 		}catch(MongoException e){
 			throw e;
 		}	
@@ -265,6 +270,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			throw new UserNotFoundException(email);
 		registrationRepository.delete(r);
 		asyncUpdater.sendTeacherRegistrationConfirmEmail(username, email);
+		User u = userRepository.findByEmail(email);
+		notify.createQueue(u.getId());
 	}
 
 

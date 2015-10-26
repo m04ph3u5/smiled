@@ -43,6 +43,9 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.rabbit.Notification;
+import it.polito.applied.smiled.rabbit.NotificationType;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.MissionRepository;
 import it.polito.applied.smiled.repository.PostRepository;
@@ -107,6 +110,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 	@Autowired
 	private AsyncUpdater asyncUpdater;
+	
+	@Autowired
+	private NotifyService notify;
 
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
@@ -241,7 +247,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}else{
 															
-					asyncUpdater.openScenarioOfUsers(scenarioUpdated);
+					asyncUpdater.openScenarioOfUsers(scenarioUpdated,callerId);
 					asyncUpdater.createScenarioRelationship(scenarioUpdated);
 				}
 			}
@@ -1118,7 +1124,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			userRepository.addDraftPost(user.getId(), status.getId());
 		}
 		
-
+		notify.notifyCreatePost(scenario, status);
 		
 		return new Id(status.getId());
 	}

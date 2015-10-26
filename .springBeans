@@ -9,12 +9,9 @@
 	<configs>
 		<config>src/main/webapp/WEB-INF/config/security-config.xml</config>
 		<config>src/main/webapp/WEB-INF/config/websocket-config.xml</config>
+		<config>src/main/webapp/WEB-INF/config/rabbit-config.xml</config>
 	</configs>
 	<autoconfigs>
-		<config>src/main/webapp/WEB-INF/config/servlet-config.xml</config>
-		<config>src/main/webapp/WEB-INF/config/servlet-rest-config.xml</config>
-		<config>src/main/webapp/WEB-INF/config/mongo-config.xml</config>
-		<config>src/main/webapp/WEB-INF/config/common-servlet-config.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

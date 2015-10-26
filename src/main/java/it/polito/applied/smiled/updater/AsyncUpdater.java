@@ -17,6 +17,7 @@ import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
@@ -55,6 +56,9 @@ public class AsyncUpdater {
 
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
+	
+	@Autowired
+	private NotifyService notify;
 
 	public void updateUser(User u){
 		Runnable r;
@@ -123,8 +127,8 @@ public class AsyncUpdater {
 		taskExecutor.execute(r);
 	}
 	
-	public void openScenarioOfUsers(Scenario scenarioUpdated) {
-		Runnable r = new OpenScenarioOfUsersRunnable(scenarioUpdated);
+	public void openScenarioOfUsers(Scenario scenarioUpdated, String callerId) {
+		Runnable r = new OpenScenarioOfUsersRunnable(scenarioUpdated, callerId);
 		taskExecutor.execute(r);
 		
 	}
@@ -203,9 +207,11 @@ public class AsyncUpdater {
 		private Scenario scenario;
 		private List<String> usersId;
 		private List<String> collaboratorsId;
+		private String callerId;
 		
-		public OpenScenarioOfUsersRunnable(Scenario scenario){
+		public OpenScenarioOfUsersRunnable(Scenario scenario, String callerId){
 			this.scenario=scenario;
+			this.callerId=callerId;
 		}
 		
 		@Override
@@ -286,6 +292,9 @@ public class AsyncUpdater {
 			usersId.addAll(collaboratorsId);  //questa lista contiene tutti i collaboratori e i partecipanti che non hanno ancora un personaggio associato
 			
 			userRepository.openScenarioToUsers(usersId, new ScenarioReference(scenario));
+			Reference opener = new Reference(userRepository.findById(callerId));
+			notify.notifyOpenScenario(scenario, opener);
+
 			
 		}
 	}

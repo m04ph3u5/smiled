@@ -1,7 +1,6 @@
 package it.polito.applied.smiled.pojo;
 
 import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
 
 public class Reference {

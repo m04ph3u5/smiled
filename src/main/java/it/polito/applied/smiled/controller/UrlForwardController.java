@@ -37,26 +37,26 @@ public class UrlForwardController extends BaseController{
 		return "index";
 	}
 	
-	@RequestMapping(value="setPassword", method=RequestMethod.GET)
-	public String setPassword(Model model){
-		
-		FirstPasswordDTO firstPassword = new FirstPasswordDTO();
-		model.addAttribute("firstPassword", firstPassword);
-		return "setPassword";
-	}
-	
-	@RequestMapping(value="setPassword", method=RequestMethod.POST)
-	public String setPassword(@ModelAttribute @Valid FirstPasswordDTO firstPassword, BindingResult result) throws UserNotFoundException, BadCredentialsException, MongoException, BadRequestException{
-		System.out.println("setPassword post");
-		if(result.hasErrors()){
-
-			return "setPassword";
-		}
-		
-	    userService.changeFirstPassword(firstPassword);
-		return "redirect:login";
-		
-	}
+//	@RequestMapping(value="setPassword", method=RequestMethod.GET)
+//	public String setPassword(Model model){
+//		
+//		FirstPasswordDTO firstPassword = new FirstPasswordDTO();
+//		model.addAttribute("firstPassword", firstPassword);
+//		return "setPassword";
+//	}
+//	
+//	@RequestMapping(value="setPassword", method=RequestMethod.POST)
+//	public String setPassword(@ModelAttribute @Valid FirstPasswordDTO firstPassword, BindingResult result) throws UserNotFoundException, BadCredentialsException, MongoException, BadRequestException{
+//		System.out.println("setPassword post");
+//		if(result.hasErrors()){
+//
+//			return "setPassword";
+//		}
+//		
+//	    userService.changeFirstPassword(firstPassword);
+//		return "redirect:login";
+//		
+//	}
 	
 	/*TODO gestire valori di ritorno quando vengono richieste pagine che non esistono
 	 * Si potrebbe aggiungere un header alla risposta contenente l'url richiesto di modo che si Angular,

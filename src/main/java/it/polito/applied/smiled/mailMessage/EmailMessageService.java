@@ -78,7 +78,7 @@ public class EmailMessageService {
 				+"il prof. " + teacherName+" ti ha invitato a iscriverti a MESCHOLA.\n\n"
 						+ "Per il tuo primo accesso utilizza la seguente password: \n\n" + pwd + "\n\n" 
 						  + "Segui il link in basso per inizare ad utilizzare Meschola\n\n"
-							+ domain+"setPassword.html \n\n\n"							
+							+ domain+"setPassword \n\n\n"							
 								+ "A presto\n\nMESCHOLA\n");
 		
 	
@@ -89,7 +89,7 @@ public class EmailMessageService {
 		message.setFrom(from);
 		message.setTo(to);
 		message.setSubject("Meschola! Errore sul server!!!");
-		message.setText("Si è verificato il seguente problema:\n\n " + errorMessage);
+		message.setText("Si ï¿½ verificato il seguente problema:\n\n " + errorMessage);
 				
 	
 		mailSender.send(message);
