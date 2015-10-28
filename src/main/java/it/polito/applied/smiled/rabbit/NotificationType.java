@@ -3,7 +3,7 @@ package it.polito.applied.smiled.rabbit;
 public enum NotificationType {
 	
 	/*Apertura di uno scenario
-	 * --> Tutti i partecipanti*/
+	 * --> Tutti i partecipanti   */
 	OPEN_SCENARIO,
 	
 	/*Chiusura di uno scenario
