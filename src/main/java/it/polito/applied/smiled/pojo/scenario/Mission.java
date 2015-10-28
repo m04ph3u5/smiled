@@ -11,7 +11,7 @@ public class Mission {
 	@Id
 	private String id;
 	
-	private Reference student;
+	private Reference character;
 	private Reference teacher;
 	
 	private String title;
@@ -20,20 +20,19 @@ public class Mission {
 	private String scenarioId;
 	private Date creationDate;
 	private Date lastChangeDate;
-	private Date deliveryDate;
 	
 	private MissionStatus status;
 	
-	public Reference getStudent() {
-		return student;
+	public Reference getCharacter() {
+		return character;
 	}
 
 	public String getId(){
 		return id;
 	}
 	
-	public void setStudent(Reference student) {
-		this.student = student;
+	public void setCharacter(Reference character) {
+		this.character = character;
 	}
 
 	public Reference getTeacher() {
@@ -84,13 +83,6 @@ public class Mission {
 		this.lastChangeDate = lastChangeDate;
 	}
 
-	public Date getDeliveryDate() {
-		return deliveryDate;
-	}
-
-	public void setDeliveryDate(Date deliveryDate) {
-		this.deliveryDate = deliveryDate;
-	}
 
 	public MissionStatus getStatus() {
 		return status;

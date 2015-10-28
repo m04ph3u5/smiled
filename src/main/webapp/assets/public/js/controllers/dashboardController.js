@@ -22,7 +22,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.studentsList = loggedUser.students;
 	self.showCollCard = [false,false,false,false,false,false];
 	self.selectedUserID = null;
-	self.myMissions = null;
+	
 	self.tab = new Array();
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
@@ -145,54 +145,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 			self.tab[index]=0;
 		}
 	}
-	apiService.getMyMissions(0, 20, true, true).then(
-		function(data){
-			self.myMissions = data;
-			console.log("MISSIONIIIIIIIIIIIIIII");
-			console.log(self.myMissions);
-		},
-		function(reason){
-			console.log(reason);
-		}
-	);
 	
 
 	
-	console.log(self.missionList);
-	/*
-	self.missionList = apiService.getMyMissions(0, 20, true, true);
-	self.createMission = function(){
-		var newMission = {
-				'student': "", //mettere reference vuota
-				'teacher':"", //mettere reference al prof che crea
-				'title': self.missionTitle, //prenderlo dalla vista
-				'description': "",
-				'scenarioId': "", //prenderlo dalla vista
-				'creationDate': "", //ora
-				'lastChangeDate': "", //mettere valore vuoto
-				'deliveryDate': "" //prenderlo dalla vista
-		}
-	}
-	*/
-	self.createMission = function(){
-		console.log("create mission-----> "+ self.mission);
-		console.log(self.mission.title);
-		console.log(self.mission.deliveryDate);
-		console.log(self.mission.studentId);
-//		apiService.createMission(self.scen.id, self.mission).then(
-//				function(data){
-//					self.mission.title="";
-//					self.mission.description="";
-//					self.mission.deliverydate=null;
-//					self.mission.studentId="";
-//				},
-//				function(reason){
-//					console.log("error in creation of new mission");
-//				}
-//		);
-	}	
 	
-	self.showModalCreateMission = function(){
-		modalService.showModalCreateMission();
-	}
 }]);

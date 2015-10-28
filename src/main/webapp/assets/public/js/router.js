@@ -361,13 +361,25 @@ angular.module('smiled.application')
 				pageTitle : 'La mappa - Meschola'
 			}
 		})
+		.state('logged.scenario.missions',{
+			url: '/compiti',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/missions.html",
+					controller : "scenarioMissionsCtrl",
+					controllerAs : "scenarioMissions"
+				}
+			},
+			data : {
+				pageTitle : "Compiti - Meschola"
+			}
+		})
 		.state('logged.scenario.socialGraph',{
 			url: '/relazioni',
 			views : {
 				'body' : {
 					templateUrl : "assets/private/partials/social-graph.html",
-					controller : "scenarioSocialGraphCtrl",
-					controllerAs : "socialGraph"
+					
 				}
 			},
 			data : {

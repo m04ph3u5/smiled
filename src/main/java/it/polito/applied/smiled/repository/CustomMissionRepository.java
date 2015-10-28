@@ -10,18 +10,15 @@ import org.springframework.data.mongodb.core.query.Update;
 
 public interface CustomMissionRepository {
 
-	public Page<Mission> customPageableFindAllByTeacher(List<String> missionsId, int size, Pageable p, String teacherId);
-	public Page<Mission> customPageableFindAllByStudent(List<String> missionsId, int size, Pageable p, String studentId);
 	public Mission updateMission(String missionId, Update u);
 	public boolean deleteMission(String missionId);
 	public boolean putInDeleteStatus(String id);
 	
 	
-	public Page<Mission> getMissionsOfTeacher(Integer nPag, Integer nItem,
-			boolean orderByDeliveryDate, String scenarioId, String teacherId, Boolean onlyActive);
+	public List<Mission> getMissionsOfTeacher (String scenarioId, Boolean onlyActive);
 
-	public Page<Mission> getMissionsOfStudent(Integer nPag, Integer nItem,
-			boolean orderByDeliveryDate, String scenarioId, String studentId, Boolean onlyActive);
+	public List<Mission> getMissionsOfCharacter(String characterId, Boolean onlyActive);
+	
 	
 	
 	

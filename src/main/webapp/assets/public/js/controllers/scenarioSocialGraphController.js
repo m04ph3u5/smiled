@@ -1,6 +1,6 @@
 angular.module('smiled.application').controller('scenarioSocialGraphCtrl', 
 		[
-		 function scenariosSocialGraphCtrl(){
+		 function scenarioSocialGraphCtrl(){
 	
 	var self = this;
 	

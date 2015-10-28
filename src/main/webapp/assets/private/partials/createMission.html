@@ -15,18 +15,12 @@
 					data-ng-model="dialogMission.mission.description"/>
 		</div>
 		<div class="form-group">
-			<label>SCEGLI LA DATA DI CONSEGNA</label>
-			<input ui-date="dateOptions" class="form-control" required
-				placeholder="DATA CONSEGNA" data-ng-model="dialogMission.mission.deliveryDate"></input>
-		</div>
-		<div class="form-group">
-			<label>SCEGLI L'ALUNNO</label>
-			<select id="selectAttendee" class="form-control" data-ng-model="dialogMission.mission.studentId">
-				<option value="" disabled selected>ALUNNO</option>
-				<!-- capire bene come selezionare l'alunno -->
-				<option value="{{attendee.id}}" data-ng-repeat ="attendee in dialogMission.mission.attendees">
-					<span class="tagName">{{attendee.lastname}}
-					{{attendee.firstname}}</span>
+			<label>SCEGLI IL PERSONAGGIO</label>
+			<select id="selectAttendee" class="form-control" data-ng-model="dialogMission.mission.characterId">
+				<option value="" disabled selected>Personaggio</option>
+				<!-- capire bene come selezionare il personaggio -->
+				<option value="{{character.id}}" data-ng-repeat ="character in dialogMission.scenario.characters">
+					<span class="tagName">{character.name}}</span>
 				</option>									
 
 			</select>

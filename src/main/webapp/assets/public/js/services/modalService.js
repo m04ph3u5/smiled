@@ -127,9 +127,6 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				controllerAs: 'dialogMission',
 				size: 'lg',
 				resolve : {
-					scenarioReferenceList : function(){
-						return scenarioReferenceList;
-					},
 					scenario : function(){
 						return scenario;
 					}
@@ -266,7 +263,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceSetHistoryDate.close();
 		}
 		
-		var showModalCreateMission = function(){
+		var showModalCreateMission = function(scen){
+			scenario = scen;
 			modalInstanceCreateMission = $modal.open(optionsCreateMission);
 			return modalInstanceCreateMission.result;
 			

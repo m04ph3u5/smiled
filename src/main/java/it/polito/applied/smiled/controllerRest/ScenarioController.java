@@ -453,85 +453,72 @@ public class ScenarioController extends BaseController{
 	}
 	
 	
-	//Restituisce la lista paginata di Mission del richiedente all'interno di uno specifico scenario (nel caso di Teacher le Mission assegnate, nel caso di Student le Mission ricevute)
+	//Restituisce la lista di compiti dello scenario
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/missions", method=RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
-	public Page<Mission> getPagedMyMissionsInScenario(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "orderByDeliveryDate", required=false) Boolean orderByDeliveryDate, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
+	public List<Mission> getMissionsInScenario(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
-		if(nPag==null || nPag<0)
-			nPag=0;
-		if(nItem==null || nItem<=0)
-			nItem=2;
-		if(orderByDeliveryDate==null){
-			orderByDeliveryDate=true;  //di default le mie missioni nello scenario sono ordinate in base alla data di consegna, l'alternativa � la data di creazione
-		}
 		if(onlyActive==null){
 			onlyActive=false;  //di default vedo tutte le mie missioni nello scenario in questione
 		}
 		
-		
-		List<GrantedAuthority> l = (List<GrantedAuthority>) activeUser.getAuthorities();
-		
-		for(int i=0; i<l.size(); i++){
-			if(l.get(i).getAuthority().equals("ROLE_ADMIN")){
-				System.out.println("ADMIN-> "+l.get(i).getAuthority());
-				throw new BadRequestException("Admin can't do this operation!");
-			}
-		}
-		
-		for(int i=0; i<l.size(); i++){
-			if(l.get(i).getAuthority().equals("ROLE_TEACHER")){
-				return scenarioService.getMissionsOfTeacher(id, activeUser.getId(), nPag, nItem, orderByDeliveryDate, onlyActive);
-			}
-		}
-		
-		System.out.println("id student: "+ activeUser.getId());
-		//TODO correggere gestione visualizzazione delle proprie missioni			
-		return scenarioService.getMissionsOfStudent(id, activeUser.getId(), nPag, nItem, orderByDeliveryDate, onlyActive);
-		
-		
+		return scenarioService.getMissionsOfTeacher(id, onlyActive);
 	}
 	
-	    //Restituisce la lista paginata di Mission del richiedente (nel caso di Teacher le Mission assegnate, nel caso di Student le Mission ricevute)
-		@ResponseStatus(value = HttpStatus.OK)
-		@RequestMapping(value="/v1/missions", method=RequestMethod.GET)
-		@PreAuthorize("hasRole('ROLE_USER')")
-		public Page<Mission> getPagedMyMissions(@AuthenticationPrincipal CustomUserDetails activeUser, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "orderByDeliveryDate", required=false) Boolean orderByDeliveryDate, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	//Restituisce la lista di compiti dello scenario
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/missions", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER') and ( hasPermission(#characterId, 'Character', 'WRITE')) || hasPermission(#id, 'Scenario', 'MODERATOR')")
+	public List<Mission> getMissionsOfCharacter(@PathVariable String id, @PathVariable String characterId, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 			
-			if(nPag==null || nPag<0)
-				nPag=0;
-			if(nItem==null || nItem<=0)
-				nItem=5;
-			if(orderByDeliveryDate==null){
-				orderByDeliveryDate=true;  //di default le mie missioni sono ordinate in base alla data di consegna, l'alternativa � la data di creazione
-			}
-			if(onlyActive==null){
-				onlyActive=false;  //di default vedo tutte le mie missioni
-			}
-			
-					
-			List<GrantedAuthority> l = (List<GrantedAuthority>) activeUser.getAuthorities();
-			
-			for(int i=0; i<l.size(); i++){
-				if(l.get(i).getAuthority().equals("ROLE_ADMIN")){
-					System.out.println("ADMIN-> "+l.get(i).getAuthority());
-					throw new BadRequestException("Admin can't do this operation!");
-				}
-			}
-			
-			for(int i=0; i<l.size(); i++){
-				if(l.get(i).getAuthority().equals("ROLE_TEACHER")){
-					return scenarioService.getMissionsOfTeacher(null, activeUser.getId(), nPag, nItem, orderByDeliveryDate, onlyActive);
-				}
-			}
-			
-			System.out.println("id student: "+ activeUser.getId());
-			//TODO correggere gestione visualizzazione delle proprie missioni			
-			return scenarioService.getMissionsOfStudent(null, activeUser.getId(), nPag, nItem, orderByDeliveryDate, onlyActive);
-			
-			
+		if(onlyActive==null){
+			onlyActive=false;  //di default vedo tutte le mie missioni nello scenario in questione
 		}
+		
+		return scenarioService.getMissionsOfCharacter(characterId, onlyActive);
+
+	}
+	
+//	    //Restituisce la lista paginata di Mission del richiedente (nel caso di Teacher le Mission assegnate, nel caso di Student le Mission ricevute)
+//		@ResponseStatus(value = HttpStatus.OK)
+//		@RequestMapping(value="/v1/missions", method=RequestMethod.GET)
+//		@PreAuthorize("hasRole('ROLE_USER')")
+//		public Page<Mission> getPagedMyMissions(@AuthenticationPrincipal CustomUserDetails activeUser, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "orderByDeliveryDate", required=false) Boolean orderByDeliveryDate, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+//			
+//			if(nPag==null || nPag<0)
+//				nPag=0;
+//			if(nItem==null || nItem<=0)
+//				nItem=5;
+//			if(orderByDeliveryDate==null){
+//				orderByDeliveryDate=true;  //di default le mie missioni sono ordinate in base alla data di consegna, l'alternativa � la data di creazione
+//			}
+//			if(onlyActive==null){
+//				onlyActive=false;  //di default vedo tutte le mie missioni
+//			}
+//			
+//					
+//			List<GrantedAuthority> l = (List<GrantedAuthority>) activeUser.getAuthorities();
+//			
+//			for(int i=0; i<l.size(); i++){
+//				if(l.get(i).getAuthority().equals("ROLE_ADMIN")){
+//					System.out.println("ADMIN-> "+l.get(i).getAuthority());
+//					throw new BadRequestException("Admin can't do this operation!");
+//				}
+//			}
+//			
+//			for(int i=0; i<l.size(); i++){
+//				if(l.get(i).getAuthority().equals("ROLE_TEACHER")){
+//					return scenarioService.getMissionsOfTeacher(null, activeUser.getId(), nPag, nItem, orderByDeliveryDate, onlyActive);
+//				}
+//			}
+//			
+//			System.out.println("id student: "+ activeUser.getId());
+//			//TODO correggere gestione visualizzazione delle proprie missioni			
+//			return scenarioService.getMissionsOfStudent(null, activeUser.getId(), nPag, nItem, orderByDeliveryDate, onlyActive);
+//			
+//			
+//		}
 		
 		@ResponseStatus(value = HttpStatus.OK)
 		@RequestMapping(value="/v1/scenarios/{id}/socialGraph", method=RequestMethod.GET)
