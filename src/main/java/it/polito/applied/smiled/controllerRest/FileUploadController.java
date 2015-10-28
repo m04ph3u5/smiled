@@ -5,6 +5,7 @@ import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.Id;
+import it.polito.applied.smiled.pojo.MediaDataAndContentType;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.FileManagerService;
 
@@ -15,14 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -128,12 +126,14 @@ public class FileUploadController extends BaseController{
 	//@ResponseStatus(value = HttpStatus.OK)  ByteArrayResource
 	@RequestMapping(value="media/{id}", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<ByteArrayResource> getMedia(@PathVariable String id) throws BadRequestException, IllegalStateException, NotFoundException, FileNotFoundException, ForbiddenException, IOException {
+	public ResponseEntity<ByteArrayResource> getMedia(@PathVariable String id, @RequestParam(value = "thumb", required=false) Boolean getThumb) throws BadRequestException, IllegalStateException, NotFoundException, FileNotFoundException, ForbiddenException, IOException, HttpMediaTypeNotAcceptableException {
+		if(getThumb==null)
+			getThumb=false;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		byte[] b = fileManagerService.getMedia(id,auth);
+		MediaDataAndContentType m = fileManagerService.getMedia(id,auth,getThumb);
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.IMAGE_JPEG);
-		return new ResponseEntity<ByteArrayResource>(new ByteArrayResource(b),responseHeaders, HttpStatus.OK);
+		responseHeaders.setContentType(m.getContentType());
+		return new ResponseEntity<ByteArrayResource>(new ByteArrayResource(m.getData()),responseHeaders, HttpStatus.OK);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)

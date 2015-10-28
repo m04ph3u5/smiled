@@ -19,7 +19,7 @@ public class FileMetadataDTO {
 	private Place place;
 	
 	@Null
-	private String thumb;
+	private byte[] thumb;
 	@Null
 	private String originalName;
 	@Null
@@ -40,6 +40,7 @@ public class FileMetadataDTO {
 		this.originalName=meta.getOriginalName();
 		this.creationDate=meta.getCreationDate();
 		this.lastChange=meta.getLastChange();
+		this.thumb = meta.getThumbnail();
 	}
 	
 	
@@ -68,10 +69,12 @@ public class FileMetadataDTO {
 	public void setPlace(Place place) {
 		this.place = place;
 	}
-	public String getThumb() {
+
+	public byte[] getThumb() {
 		return thumb;
 	}
-	public void setThumb(String thumb) {
+
+	public void setThumb(byte[] thumb) {
 		this.thumb = thumb;
 	}
 	

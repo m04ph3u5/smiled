@@ -171,7 +171,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					}else{
 						col++;
 					}
-					self.post.media[row][col] = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
+					self.post.media[row][col] = CONSTANTS.urlMediaThumb(self.post.imagesMetadata[j].id);
 					self.post.imagesMetadata[j].url = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
 				}
 			}

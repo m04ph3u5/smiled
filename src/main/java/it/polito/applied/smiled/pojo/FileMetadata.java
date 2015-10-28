@@ -16,6 +16,7 @@ public class FileMetadata {
 	private String originalName;
 	private Date creationDate;
 	private Date lastChange;
+	private byte[] thumbnail;
 	private String userId;
 	private String scenarioId;
 	private String characterId;
@@ -101,6 +102,12 @@ public class FileMetadata {
 	}
 	public void setPlace(Place place) {
 		this.place = place;
+	}
+	public byte[] getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(byte[] thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 	
 	

@@ -4,6 +4,7 @@ import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.MediaDataAndContentType;
 import it.polito.applied.smiled.pojo.ResourceType;
 import it.polito.applied.smiled.pojo.SupportedMedia;
 import it.polito.applied.smiled.pojo.scenario.Character;
@@ -20,7 +21,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,13 +38,12 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.multipart.MultipartFile;
@@ -476,41 +476,62 @@ public class FileManagerServiceImpl implements FileManagerService {
 		FileMetadata meta = new FileMetadata();
 		meta.setUserId(user.getId());
 		meta.setCreationDate(new Date());
-		if(isImage(type))
+		meta.setOriginalName(media.getOriginalFilename());
+		if(isImage(type)){
 			meta.setType(ResourceType.TO_CONFIRM_IMG);
+			meta.setThumbnail(saveThumbnail(media.getInputStream()));
+		}
 		else
 			meta.setType(ResourceType.TO_CONFIRM_DOC);
 		meta.setScenarioId(scenarioId);
-		meta.setOriginalName(media.getOriginalFilename());
 		meta.setFormat(type);
 		String filename = new SimpleDateFormat("yyyyMMddhhmmssSS").format(meta.getCreationDate());
 		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
-		
+	
 		return file.getFilename().toString();
 	}
 
 	@Override
-	public byte[] getMedia(String filename, Authentication auth) throws FileNotFoundException, IOException, ForbiddenException {
+	public MediaDataAndContentType getMedia(String filename, Authentication auth, Boolean getThumb) throws FileNotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException {
 		System.out.println("------------------>"+filename);
-		GridFSDBFile file = gridFsManager.readOneByName(filename);
-		if(file==null){
-			throw new FileNotFoundException();
-		}
+		
 		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
-		FileMetadata metadata = gridFsManager.getMetadata(file);
+		FileMetadata metadata = gridFsManager.getMetadata(filename);
+		if(metadata==null)
+			throw new FileNotFoundException();
 		if(!metadata.getUserId().equals(((CustomUserDetails)auth.getPrincipal()).getId()) && !permissionEvaluator.hasPermission(auth, metadata.getScenarioId(), "Scenario", "READ"))
 			throw new ForbiddenException();
 		
-		
-		InputStream input = file.getInputStream();
-
-		byte[] targetArray = new byte[(int)file.getLength()];
-		int count = 0;
-		while(count<(int)file.getLength()){
-			int n = input.read(targetArray, count, targetArray.length);
-			count+=n;
+		MediaDataAndContentType m = new MediaDataAndContentType();
+		boolean founded=false;
+		if(getThumb && metadata.getThumbnail()!=null){
+			m.setData(metadata.getThumbnail());
+			founded=true;
 		}
-		return targetArray;
+		if(!founded){
+			GridFSDBFile file = gridFsManager.readOneByName(filename);
+			if(file==null){
+				throw new FileNotFoundException();
+			}
+			
+			InputStream input = file.getInputStream();
+			
+			if(getThumb){
+				metadata.setThumbnail(saveThumbnail(input));
+				gridFsManager.updateMetadata(filename, metadata);
+			}
+	
+			byte[] targetArray = new byte[(int)file.getLength()];
+			int count = 0;
+			while(count<(int)file.getLength()){
+				int n = input.read(targetArray, count, targetArray.length);
+				count+=n;
+			}
+			
+			m.setData(targetArray);
+		}
+		m.setContentType(MediaType.parseMediaType(getContentType(metadata.getFormat())));
+		return m;
 	}
 
 	
@@ -660,19 +681,15 @@ public class FileManagerServiceImpl implements FileManagerService {
 		
 	}
 	/*--------------------------------------------------------UTILS FUNCTIONS-----------------------------------------------------------------*/
-	private String getFolderPath(String filename){
-		System.out.println(filename);
-		String folderPath=filename.substring(12, 14)+"/"+filename.substring(14, 16)+"/"+filename.substring(16, 18)+"/"+filename.substring(18,20)+"/";
-		System.out.println("folderPath: "+folderPath+filename);
-		return folderPath;
-	}
-
+	
 	private SupportedMedia validateAsImage(MultipartFile file) throws HttpMediaTypeNotAcceptableException{
 		System.out.println(file.getContentType());
 		if(file.getContentType().equals("image/jpeg"))
 			return SupportedMedia.jpg;
 		else if(file.getContentType().equals("image/png"))
 			return SupportedMedia.png;
+		else if(file.getContentType().equals("image/gif"))
+			return SupportedMedia.gif;
 		else
 			throw new HttpMediaTypeNotAcceptableException("Formato non supportato");
 	}
@@ -683,6 +700,8 @@ public class FileManagerServiceImpl implements FileManagerService {
 			return SupportedMedia.jpg;
 		else if(contentType.equals("image/png"))
 			return SupportedMedia.png;
+		else if(contentType.equals("image/gif"))
+			return SupportedMedia.gif;
 		else if(contentType.equals("application/pdf"))
 			return SupportedMedia.pdf;
 		else if(contentType.equals("application/msword"))
@@ -708,14 +727,100 @@ public class FileManagerServiceImpl implements FileManagerService {
 		else
 			throw new HttpMediaTypeNotAcceptableException("Formato non supportato");
 	}
+	
+	private String getContentType(SupportedMedia type) throws HttpMediaTypeNotAcceptableException{
+		if(type.equals(SupportedMedia.jpg))
+			return "image/jpeg";
+		else if(type.equals(SupportedMedia.png))
+			return "image/png";
+		else if(type.equals(SupportedMedia.gif))
+			return "image/gif";
+		else if(type.equals(SupportedMedia.pdf))
+			return "application/pdf";
+		else if(type.equals(SupportedMedia.doc))
+			return "application/msword";
+		else if(type.equals(SupportedMedia.docx))
+			return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+		else if(type.equals(SupportedMedia.xls))
+			return "application/vnd.ms-excel";
+		else if(type.equals(SupportedMedia.xlsx))
+			return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		else if(type.equals(SupportedMedia.ppt))
+			return "application/vnd.ms-powerpoint";
+		else if(type.equals(SupportedMedia.pptx))
+			return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+		else if(type.equals(SupportedMedia.odt))
+			return "application/vnd.oasis.opendocument.text";
+		else if(type.equals(SupportedMedia.odp))
+			return "application/vnd.oasis.opendocument.presentation";
+		else if(type.equals(SupportedMedia.ods))
+			return "application/vnd.oasis.opendocument.spreadsheet";
+		else if(type.equals(SupportedMedia.txt))
+			return "text/plain";
+		else
+			return "application/octet-stream";
+	}
 
 	private boolean isImage(SupportedMedia media){
 		if(media.equals(SupportedMedia.jpg))
 			return true;
 		if(media.equals(SupportedMedia.png))
 			return true;
+		if(media.equals(SupportedMedia.gif))
+			return true;
 
 		return false;
 	}
+	
+	private byte[] saveThumbnail(InputStream file) throws IOException{
+		System.out.println("saveThumb");
+		BufferedImage sourceImage = ImageIO.read(file);
+        int width = sourceImage.getWidth();
+        int height = sourceImage.getHeight();
+        BufferedImage img2=null;
+        if(width>height){
+            float extraSize=    height-100;
+            float percentHight = (extraSize/height)*100;
+            float percentWidth = width - ((width/100)*percentHight);
+            BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_4BYTE_ABGR);
+            Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
+            Graphics2D g2 = img.createGraphics();
+            //g2.setBackground(Color.WHITE);
+            g2.clearRect(0,0,(int)percentWidth, 100);
+            g2.setComposite(AlphaComposite.Src);
+            g2.drawImage(scaledImage, 0, 0, null);
+            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
+            img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
+
+        }else{
+            float extraSize=    width-100;
+            float percentWidth = (extraSize/width)*100;
+            float  percentHight = height - ((height/100)*percentWidth);
+            BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_4BYTE_ABGR);
+            Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
+            Graphics2D g2 = img.createGraphics();
+            //g2.setBackground(Color.WHITE);
+            g2.clearRect(0,0,100, (int)percentHight);
+            g2.setComposite(AlphaComposite.Src);
+            g2.drawImage(scaledImage, 0, 0, null);
+            img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
+            img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
+
+        }
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	ImageIO.write(img2, "png", baos);
+    	baos.flush();
+    	byte[] imageInByte = baos.toByteArray();
+    	baos.close();
+    	return imageInByte;
+        
+//		Convert BufferedImage in a Base64 String        
+//        ByteArrayOutputStream os = new ByteArrayOutputStream();
+//        OutputStream b64 = new Base64OutputStream(os);
+//        ImageIO.write(img2, "png", b64);
+//        return os.toString("UTF-8");
+	}
+
 
 }

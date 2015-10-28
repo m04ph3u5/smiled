@@ -51,7 +51,7 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
 		    								col++;
 		    							}
 		    							console.log("Row/col: "+row+" "+col);
-		    							self.posts[i].media[row][col] = CONSTANTS.urlMedia(self.posts[i].imagesMetadata[j].id);
+		    							self.posts[i].media[row][col] = CONSTANTS.urlMediaThumb(self.posts[i].imagesMetadata[j].id);
 		    							self.posts[i].imagesMetadata[j].url = CONSTANTS.urlMedia(self.posts[i].imagesMetadata[j].id);
 		    						}
 		    					}

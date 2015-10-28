@@ -28,6 +28,9 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"urlMedia" : function(id){
 		return "api/v1/media/"+id;
 	},
+	"urlMediaThumb" : function(id){
+		return "api/v1/media/"+id+"?thumb=true";
+	},
 	"urlPostMedia" : function(idScenario){
 		return "api/v1/scenarios/"+idScenario+"/media";
 	},

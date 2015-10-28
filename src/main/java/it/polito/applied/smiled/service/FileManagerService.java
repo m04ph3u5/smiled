@@ -4,9 +4,9 @@ import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
+import it.polito.applied.smiled.pojo.MediaDataAndContentType;
 import it.polito.applied.smiled.security.CustomUserDetails;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -31,7 +31,7 @@ public interface FileManagerService {
 
 	public byte[] getCharacterCover(String characterId) throws NotFoundException, IOException;
 
-	public byte[] getMedia(String id, Authentication auth) throws FileNotFoundException, IOException, ForbiddenException;
+	public MediaDataAndContentType getMedia(String id, Authentication auth, Boolean getThumb) throws FileNotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException;
 
 	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException;
 
@@ -54,4 +54,5 @@ public interface FileManagerService {
 	public byte[] getUserCoverLarge(String id) throws FileNotFoundException, IOException;
 
 	public byte[] getToolMap(Integer version) throws BadRequestException, IOException;
+
 }

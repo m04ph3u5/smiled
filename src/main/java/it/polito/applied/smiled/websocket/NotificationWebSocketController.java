@@ -20,17 +20,17 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class NotificationWebSocketController implements MessageListener{
 	
-	@Autowired
-	private ConnectionFactory connectionFactory;
+//	@Autowired
+//	private ConnectionFactory connectionFactory;
 	
 	@SubscribeMapping({"/messages"})
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public void receiveNotificationsAndMessages(@AuthenticationPrincipal CustomUserDetails user) throws Exception {
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-		container.setConnectionFactory(connectionFactory);
-		container.setQueueNames("u"+user.getId());
-		container.setMessageListener(new MessageListenerAdapter(this));
-		container.start();
+//		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+//		container.setConnectionFactory(connectionFactory);
+//		container.setQueueNames("u"+user.getId());
+//		container.setMessageListener(new MessageListenerAdapter(this));
+//		container.start();
 	}
 
 	@Override
