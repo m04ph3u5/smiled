@@ -155,6 +155,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(scenario.getDescription()!=null){
 				u.set("description", scenario.getDescription());
 			}
+			//TODO controllare
+			u.set("showRelationsToAll", scenario.isShowRelationsToAll());
+			
 			if(scenario.getHistory()!=null){
 				if(scenario.getHistory().getDescription()!=null){
 					u.set("history.description", scenario.getHistory().getDescription());

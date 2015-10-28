@@ -535,7 +535,7 @@ public class ScenarioController extends BaseController{
 		
 		@ResponseStatus(value = HttpStatus.OK)
 		@RequestMapping(value="/v1/scenarios/{id}/socialGraph", method=RequestMethod.GET)
-		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
+		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ') and (hasPermission(#id, 'Scenario', 'MODERATOR') || hasPermission(#id, 'GraphRelations', 'READ'))")
 		public List<Action> getSocialGraph(@PathVariable String id) throws NotFoundException{
 			return scenarioService.getSocialGraph(id);
 		}

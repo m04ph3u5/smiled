@@ -32,6 +32,8 @@ public class ScenarioDTO {
 	
 	private String description;
 	
+	private boolean showRelationsToAll;
+	
 	public String getName() {
 		return name;
 	}
@@ -71,6 +73,12 @@ public class ScenarioDTO {
 	}
 	public void setCover(String cover) {
 		this.cover = cover;
+	}
+	public boolean isShowRelationsToAll() {
+		return showRelationsToAll;
+	}
+	public void setShowRelationsToAll(boolean showRelationsToAll) {
+		this.showRelationsToAll = showRelationsToAll;
 	}
 	
 

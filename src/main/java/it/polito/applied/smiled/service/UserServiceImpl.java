@@ -73,8 +73,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private ExceptionOnClientRepository exceptionOnClientRepository;
 	
-	@Autowired
-	private NotifyService notify;
+//	@Autowired
+//	private NotifyService notify;
 	
 	@Override
 	public CustomUserDetails loadUserByUsername(String email)
@@ -204,8 +204,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			/*Aggiornamenti asincroni*/
 			asyncUpdater.updateOnChangeFirstPassword(u);
 			
-			notify.createQueue(u.getId());
-			
+//			notify.createQueue(u.getId());
+//			
 		}catch(MongoException e){
 			throw e;
 		}	
@@ -271,7 +271,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		registrationRepository.delete(r);
 		asyncUpdater.sendTeacherRegistrationConfirmEmail(username, email);
 		User u = userRepository.findByEmail(email);
-		notify.createQueue(u.getId());
+//		notify.createQueue(u.getId());
 	}
 
 
