@@ -57,8 +57,8 @@ public class AsyncUpdater {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 	
-	@Autowired
-	private NotifyService notify;
+//	@Autowired
+//	private NotifyService notify;
 
 	public void updateUser(User u){
 		Runnable r;
@@ -293,7 +293,7 @@ public class AsyncUpdater {
 			
 			userRepository.openScenarioToUsers(usersId, new ScenarioReference(scenario));
 			Reference opener = new Reference(userRepository.findById(callerId));
-			notify.notifyOpenScenario(scenario, opener);
+//			notify.notifyOpenScenario(scenario, opener);
 
 			
 		}

@@ -82,38 +82,13 @@ public class Reference {
 		         return true;
 		}
 		return false;
-	      
-	      
-//	      if(this.email!=null){
-//		      if( !this.email.equals(r.getEmail()))
-//		    	  return false;
-//	      }else
-//	    	  return false;
-//	      if(this.type!=null){
-//		      if(!this.type.equals(r.getType()))
-//		    	  return false;
-//	      }else
-//	    	  return false;
-//	      
-//	      
-//	      if(this.cover!=null){
-//		      if( !this.cover.equals(r.getCover()))
-//		    	  return false;
-//	      }
-//	      if(this.firstname!=null){
-//		      if( !this.firstname.equals(r.getFirstname()))
-//		    	  return false;
-//	      }
-//	      if(this.lastname!=null){
-//	    	  if( !this.lastname.equals(r.getLastname()))
-//		    	  return false;  
-//	      }
-//	     
-//	      
-//	      return true;
-//	    }
-//	    return false;
+
 	   
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.id.hashCode();
 	}
 	
 }

@@ -1,19 +1,16 @@
 package it.polito.applied.smiled.rabbit;
 
-import java.util.Date;
+import it.polito.applied.smiled.pojo.Reference;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import it.polito.applied.smiled.pojo.Reference;
 
-@Document
-public class Message {
+public class Message extends Comunication{
 	
-	private String id;
 	private String receiverId;
 	private Reference sender;
 	private String text;
-	private Date date;
+
 	
 	public String getReceiverId() {
 		return receiverId;
@@ -33,16 +30,6 @@ public class Message {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public String getId() {
-		return id;
-	}
-	
-	
+		
 	
 }

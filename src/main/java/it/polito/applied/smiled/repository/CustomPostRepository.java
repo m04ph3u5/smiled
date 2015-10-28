@@ -20,7 +20,7 @@ public interface CustomPostRepository {
 	public boolean deletePost(String postId);
 	public boolean putInDeleteStatus(String id);
 	public boolean addRevision(String postId, String scenarioId, Revision revision);
-	public boolean addComment(String idScenario, String postId, CommentInterface comment);
+	public Post addComment(String idScenario, String postId, CommentInterface comment);
 	public boolean updateComment(String idScenario, String postId, CommentInterface comment);
 	public boolean removeComment(String idScenario, String postId, CommentInterface comment);
 	public List<Post> findByScenarioIdAndPostStatus(String scenarioId, PostStatus status);

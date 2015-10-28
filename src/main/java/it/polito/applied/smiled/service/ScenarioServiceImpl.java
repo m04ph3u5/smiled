@@ -111,8 +111,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Autowired
 	private AsyncUpdater asyncUpdater;
 	
-	@Autowired
-	private NotifyService notify;
+//	@Autowired
+//	private NotifyService notify;
 
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
@@ -246,7 +246,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 						}
 					}
 				}else{
-															
 					asyncUpdater.openScenarioOfUsers(scenarioUpdated,callerId);
 					asyncUpdater.createScenarioRelationship(scenarioUpdated);
 				}
@@ -1120,11 +1119,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 			PostReference postReference = new PostReference(status);
 			scenarioRepository.addPostToScenario(scenarioId, postReference);
 			characterRepository.addPostToCharacter(character.getId(), postReference);
+//			notify.notifyCreatePost(scenario, status);
 		}else{
 			userRepository.addDraftPost(user.getId(), status.getId());
 		}
 		
-		notify.notifyCreatePost(scenario, status);
 		
 		return new Id(status.getId());
 	}
@@ -1295,6 +1294,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(event.getStatus().equals(PostStatus.PUBLISHED)){
 			PostReference postReference = new PostReference(event);
 			scenarioRepository.addPostToScenario(scenarioId, postReference);
+//			notify.notifyCreatePost(scenario, event);
 		}else{
 			userRepository.addDraftPost(activeUser.getId(), event.getId());
 		}
@@ -1998,9 +1998,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Reference userReference = new Reference(user);
 		
 		Comment comment = new Comment(charRef, commentDTO, userReference, scenario);
-		if(!postRepository.addComment(idScenario, postId, comment))
+		Post p = postRepository.addComment(idScenario, postId, comment);
+		if(p==null)
 			throw new BadRequestException();
 		
+//		notify.notifyNewComment(scenario, p, comment);
 		return new Id(comment.getId());
 	}
 	
@@ -2017,9 +2019,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Reference userReference = new Reference(user);
 		
 		MetaComment metaComment = new MetaComment(commentDTO, userReference, scenario);
-		if(!postRepository.addComment(idScenario, postId, metaComment))
+		Post p = postRepository.addComment(idScenario, postId, metaComment); 
+		if(p==null)
 			throw new BadRequestException();
-		
+//		notify.notifyNewMetaComment(scenario, p, metaComment);
 		return new Id(metaComment.getId());
 	}
 
@@ -2276,6 +2279,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		post.addLike(charRef);
 		postRepository.save(post);
+//		notify.notifyLikeToPost(scenario, post, charRef);
 	}
 
 

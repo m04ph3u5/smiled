@@ -45,7 +45,8 @@
 						
 					</div>
 					<div class="timeline-body">
-						<div class="row storylineText">{{post.text}}
+						<div class="row storylineText">
+						<p class="textJustify" data-ng-bind-html="post.text | linky:'_blank'"></p>
 						</div>
 						<div data-ng-repeat="row in post.media track by $index">
 							<div class="row storylineText">

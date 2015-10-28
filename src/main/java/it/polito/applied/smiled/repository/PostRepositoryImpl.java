@@ -121,7 +121,7 @@ public class PostRepositoryImpl implements CustomPostRepository{
 	}
 
 	@Override
-	public boolean addComment(String idScenario, String postId, CommentInterface comment) {
+	public Post addComment(String idScenario, String postId, CommentInterface comment) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").is(postId)
 				.andOperator(Criteria.where("scenarioId").is(idScenario)));
@@ -135,11 +135,7 @@ public class PostRepositoryImpl implements CustomPostRepository{
 			u.addToSet("metaComments", m);
 		}
 		
-		WriteResult w = mongoOp.updateFirst(q, u, Post.class);
-		if(w.isUpdateOfExisting())
-			return true;
-		else
-			return false;
+		return mongoOp.findAndModify(q, u, Post.class);
 	}
 	
 	@Override

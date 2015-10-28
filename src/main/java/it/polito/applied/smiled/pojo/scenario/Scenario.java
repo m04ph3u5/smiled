@@ -106,6 +106,14 @@ public class Scenario {
 	public void setCharacters(List<CharacterReference> characters) {
 		this.characters = characters;
 	}
+	
+	public CharacterReference getCharacter(String id){
+		for(CharacterReference c : characters){
+			if(c.getId().equals(id))
+				return c;
+		}
+		return null;
+	}
 
 	public String getId() {
 		return id;

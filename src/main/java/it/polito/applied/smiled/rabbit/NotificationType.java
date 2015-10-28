@@ -19,6 +19,11 @@ public enum NotificationType {
 	 * 		tutti quelli che sono taggati, tutti quelli che hanno commentato*/
 	COMMENT_TO_POST,
 	
+	/*Suggerimento ad un post 
+	 * 	--> Creatore post, chi interpreta il personaggio (se != da creatore), 
+	 * 		tutti quelli che hanno metacommentato*/
+	METACOMMENT_TO_POST,
+	
 	/*Like ad un post
 	 * 	--> Creatore post, chi interpreta il personaggio (se != da creatore), 
 	 * 		tutti quelli che sono taggati*/

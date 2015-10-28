@@ -1,18 +1,13 @@
 package it.polito.applied.smiled.rabbit;
 
-import java.util.Date;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-public class Notification {
+public class Notification extends Comunication{
 	
-	private String id;
 	private String targetId;
 	private NotificationType verb;
 	private NotifyReference info;
 	private String objectId;
-	private Date date;
 	
 
 	public String getTargetId() {
@@ -33,15 +28,6 @@ public class Notification {
 	}
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
-	}
-	public String getId() {
-		return id;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
 	}
 	
 	public NotifyReference getInfo() {
