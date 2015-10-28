@@ -1,0 +1,9 @@
+<div data-ng-if="scenario.isCreator || scenario.isModerator">
+Docente. Compiti assegnati:
+<div data-ng-repeat="m in scenarioMissions.myMissions">{{m.title}}</div>
+</div>
+
+<div data-ng-if="!scenario.isCreator && !scenario.isModerator">
+Studente. Compiti ricevuti:
+<div data-ng-repeat="m in scenarioMissions.myMissions">{{m.title}}</div>
+</div>

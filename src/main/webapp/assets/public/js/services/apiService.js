@@ -479,12 +479,11 @@
 		return s.promise;
 	}
 	
-	var getMyMissionsInScenario = function(idScenario, nPag, nItem, orderByDeliveryDate, onlyActive){
+	var getMyMissionsInScenario = function(idScenario, onlyActive){
 		var s = $q.defer();
 
 		$http.get("/api/v1/scenarios/"+idScenario+"/missions", {
-			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
-						"onlyActive": onlyActive }}).then(
+			params: { "onlyActive": onlyActive }}).then(
 					function(response){
 						s.resolve(response.data);
 					},
@@ -496,22 +495,22 @@
 		return s.promise;
 	}
 	
-	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
-		var s = $q.defer();
-
-		$http.get("/api/v1/missions", {
-			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
-						"onlyActive": onlyActive }}).then(
-					function(response){
-						s.resolve(response.data);
-					},
-					function(reason){
-						s.reject(reason);
-					}
-			);
-
-		return s.promise;
-	}
+//	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
+//		var s = $q.defer();
+//
+//		$http.get("/api/v1/missions", {
+//			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
+//						"onlyActive": onlyActive }}).then(
+//					function(response){
+//						s.resolve(response.data);
+//					},
+//					function(reason){
+//						s.reject(reason);
+//					}
+//			);
+//
+//		return s.promise;
+//	}
 	/* fine GESTIONE COMPITI ---------------------------------- */
 	
 	return {
@@ -544,7 +543,7 @@
 		sendEvent: sendEvent,
 		createMission: createMission,
 		getMyMissionsInScenario : getMyMissionsInScenario,
-		getMyMissions : getMyMissions,
+		//getMyMissions : getMyMissions,
 		postIssue: postIssue,
 		getPagedStudents: getPagedStudents,
 		getPagedTeachers: getPagedTeachers,

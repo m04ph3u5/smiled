@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.repository;
 
+import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.Mission;
@@ -27,20 +28,6 @@ public class MissionRepositoryImpl implements CustomMissionRepository{
 	MongoOperations mongoOp;
 	
 	@Override
-	public Page<Mission> customPageableFindAllByTeacher(
-			List<String> missionsId, int size, Pageable p, String teacherId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Page<Mission> customPageableFindAllByStudent(
-			List<String> missionsId, int size, Pageable p, String studentId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Mission updateMission(String missionId, Update u) {
 		// TODO Auto-generated method stub
 		return null;
@@ -59,62 +46,33 @@ public class MissionRepositoryImpl implements CustomMissionRepository{
 	}
 
 	@Override
-	public Page<Mission> getMissionsOfTeacher(Integer nPag, Integer nItem, boolean orderByDeliveryDate, String scenarioId,
-			String teacherId, Boolean onlyActive) {
+	public List<Mission> getMissionsOfTeacher(String scenarioId, Boolean onlyActive) {
 		
-		ObjectId t = new ObjectId(teacherId);
+		
 		Query query = new Query();
 		
 		if(scenarioId!=null)
-			query.addCriteria(Criteria.where("teacher.id").is(t)
-				.andOperator(Criteria.where("scenarioId").is(scenarioId)));
-		else
-			query.addCriteria(Criteria.where("teacher.id").is(t));
+			query.addCriteria(Criteria.where("scenarioId").is(scenarioId));
+		
 		if(onlyActive)
 			query.addCriteria(Criteria.where("status").is(MissionStatus.STARTED).orOperator(Criteria.where("status").is(MissionStatus.SOLICITED)));
 		
-		long size = mongoOp.count(query, Mission.class);
-		
-		Pageable pag;
-		if(orderByDeliveryDate)
-			pag = new PageRequest(nPag , nItem, Direction.ASC,"deliveryDate");
-		else
-			pag = new PageRequest(nPag , nItem, Direction.ASC,"creationDate");
-		query.with(pag);
-		
-		
-		List<Mission> listMission = mongoOp.find(query, Mission.class);
-		return new PageImpl<Mission>(listMission, pag, size);
+		return mongoOp.find(query, Mission.class);
 		
 		
 	}
 
 	@Override
-	public Page<Mission> getMissionsOfStudent(Integer nPag, Integer nItem, boolean orderByDeliveryDate, String scenarioId,
-			String studentId, Boolean onlyActive) {
-		ObjectId s = new ObjectId(studentId);
+	public List<Mission> getMissionsOfCharacter(String characterId, Boolean onlyActive) {
+		ObjectId s = new ObjectId(characterId);
 		Query query = new Query();
-		if(scenarioId!=null)
-			query.addCriteria(Criteria.where("student.id").is(s)
-					.andOperator(Criteria.where("scenarioId").is(scenarioId)));
-		else
-			query.addCriteria(Criteria.where("student.id").is(s));
-		
-		if(onlyActive)
-			query.addCriteria(Criteria.where("status").is(MissionStatus.STARTED).orOperator(Criteria.where("status").is(MissionStatus.SOLICITED)));
-		
-		long size = mongoOp.count(query, Mission.class);
-		
-		Pageable pag;
-		if(orderByDeliveryDate)
-			pag = new PageRequest(nPag , nItem, Direction.ASC,"deliveryDate");
-		else
-			pag = new PageRequest(nPag , nItem, Direction.ASC,"creationDate");
-		query.with(pag);
-		
-		
-		List<Mission> listMission = mongoOp.find(query, Mission.class);
-		return new PageImpl<Mission>(listMission, pag, size);
+		if(characterId!= null){
+			query.addCriteria(Criteria.where("character.id").is(s));
+			if(onlyActive)
+				query.addCriteria(Criteria.where("status").is(MissionStatus.STARTED).orOperator(Criteria.where("status").is(MissionStatus.SOLICITED)));
+			return mongoOp.find(query, Mission.class);
+		}
+		return null;
 	}
 
 }

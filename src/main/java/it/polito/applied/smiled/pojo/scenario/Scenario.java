@@ -35,6 +35,8 @@ public class Scenario {
 	private List<Reference> collaborators;
 	private List<Reference> invited;
 	
+	private boolean showRelationsToAll;
+	
 	/*TODO
 	 * Valutare inizializzazione liste (fondemantale nel caso di operazioni in memoria, con aggiunta metodi add, remove dalle liste)*/
 	
@@ -171,6 +173,15 @@ public class Scenario {
 	public void setInvited(List<Reference> invited) {
 		this.invited = invited;
 	}
+
+	public boolean isShowRelationsToAll() {
+		return showRelationsToAll;
+	}
+
+	public void setShowRelationsToAll(boolean showRelationsToAll) {
+		this.showRelationsToAll = showRelationsToAll;
+	}
+
 	
 	
 }

@@ -2,14 +2,13 @@ package it.polito.applied.smiled.security;
 
 import it.polito.applied.smiled.pojo.Permission;
 import it.polito.applied.smiled.pojo.Role;
-import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.repository.PermissionRepository;
 import it.polito.applied.smiled.repository.RelationPermissionRepository;
+import it.polito.applied.smiled.repository.ScenarioRepository;
 
 import java.io.Serializable;
-import java.lang.annotation.Target;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,9 @@ public class SmiledPermissionEvaluator implements PermissionEvaluator{
 	
 	@Autowired
 	private RelationPermissionRepository relationPermissionRepository;
+	
+	@Autowired
+	private ScenarioRepository scenarioRepository;
 	
 	/*Per i permessi in lettura (READ) controlliamo le liste presenti in memoria caricate all'atto del login. Se queste non danno risultato positivo
 	 * si va a interrogare la collections dei permessi, così come nei casi di operazioni non in lettura*/
@@ -86,8 +88,15 @@ public class SmiledPermissionEvaluator implements PermissionEvaluator{
 			else if(targetType.equals("Scenario")){
 				if(user.containsOpenScenario((String)targetId) || user.containsClosedScenario((String)targetId) || user.containsCreatingScenario((String)targetId))
 					founded=true;
+			}else if(targetType.equals("GraphRelations")){
+				Scenario scen = scenarioRepository.findById(targetId.toString());
+				if(scen.isShowRelationsToAll())
+					return true;
+				else{
+					return false;
+				}
 			}else
-				return false; //se il targetType è diverso da User, Scenario non chiamo il repository ma ritorno false a prescindere
+				return false; //se il targetType è diverso da User, Scenario e graphrelations non chiamo il repository ma ritorno false a prescindere
 		}
 		if(founded)
 			return true;

@@ -6,19 +6,19 @@ import java.util.Date;
 
 public class MissionDTO {
 
-	private String studentId;
+	private String characterId;
 	
 	private String title;
 	private String description;
 	
-	private Date deliveryDate;
 	private MissionStatus status;
 	
-	public String getStudentId() {
-		return studentId;
+	
+	public String getCharacterId() {
+		return characterId;
 	}
-	public void setStudentId(String studentId) {
-		this.studentId = studentId;
+	public void setCharacterId(String characterId) {
+		this.characterId = characterId;
 	}
 	public String getTitle() {
 		return title;
@@ -32,12 +32,7 @@ public class MissionDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getDeliveryDate() {
-		return deliveryDate;
-	}
-	public void setDeliveryDate(Date deliveryDate) {
-		this.deliveryDate = deliveryDate;
-	}
+	
 	public MissionStatus getStatus() {
 		return status;
 	}

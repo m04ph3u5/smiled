@@ -30,6 +30,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var currentCharacterIndex = -1;
 		var getMePromise = $q.defer();
 		
+		
 		//GET ME
 		userService.getMe().then(
 			function(data){
@@ -315,6 +316,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			scenarioDTO.name = self.scenario.name;
 			scenarioDTO.description = self.scenario.description;
 			scenarioDTO.history = self.scenario.history;
+			scenarioDTO.showRelationsToAll = self.scenario.showRelationsToAll;
 			if(id==null){
 				if(infoValidate()){
 					apiService.createScenario(scenarioDTO).then(
@@ -1040,10 +1042,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 			if(!self.scenario.description){
 				console.log("infoValidate ---> description");
-				if(self.scenarioServer.name){
-					self.scenario.name=self.scenarioServer.name;
+				if(self.scenarioServer.description){
+					self.scenario.description=self.scenarioServer.description;
 				}else{
-					self.scenario.name="";
+					self.scenario.description="";
 				}
 			}
 			if(!self.scenario.history || !self.scenario.history.startDate){

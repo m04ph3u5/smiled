@@ -155,6 +155,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(scenario.getDescription()!=null){
 				u.set("description", scenario.getDescription());
 			}
+			//TODO controllare
+			u.set("showRelationsToAll", scenario.isShowRelationsToAll());
+			
 			if(scenario.getHistory()!=null){
 				if(scenario.getHistory().getDescription()!=null){
 					u.set("history.description", scenario.getHistory().getDescription());
@@ -2294,21 +2297,29 @@ public class ScenarioServiceImpl implements ScenarioService{
 	public String addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser)throws BadRequestException {
 		Scenario scenario = scenarioRepository.findById(id);
 		User t = userRepository.findById(activeUser.getId());
-		User s = userRepository.findById(mission.getStudentId());
-		if(scenario==null || t==null || s==null)
-			throw new BadRequestException();
+		Reference characterRef;
+		Reference teacherRef;
 		
-		Reference studentRef = new Reference (s);
-		Reference teacherRef = new Reference (t);
+		if(mission.getCharacterId() == null || mission.getCharacterId() == "-1"){
+			characterRef = null;
+		}else{
+			Character c = characterRepository.findById(mission.getCharacterId());
+			if(scenario==null || t==null || c==null)
+				throw new BadRequestException();
+			characterRef = new Reference (c);
+		}
+		
+		
+		
+		teacherRef = new Reference (t);
 		
 		Mission m = new Mission();
 		m.setTeacher(teacherRef);
-		m.setStudent(studentRef);
+		m.setCharacter(characterRef);
 		
 		Date creation = new Date();
 		m.setCreationDate(creation);
 		m.setLastChangeDate(creation);
-		m.setDeliveryDate(mission.getDeliveryDate());
 		m.setScenarioId(id);
 		
 		m.setTitle(mission.getTitle());
@@ -2322,20 +2333,19 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Page<Mission> getMissionsOfTeacher(String scenarioId,
-			String teacherId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException {
+	public List<Mission> getMissionsOfTeacher(String scenarioId, Boolean onlyActive) throws BadRequestException {
 	
-		return missionRepository.getMissionsOfTeacher(nPag, nItem, orderByDeliveryDate, scenarioId, teacherId, onlyActive);
+		return missionRepository.getMissionsOfTeacher(scenarioId, onlyActive);
 		
 		
 	}
 
 
 	@Override
-	public Page<Mission> getMissionsOfStudent(String scenarioId,
-			String studentId, Integer nPag, Integer nItem, Boolean orderByDeliveryDate, Boolean onlyActive) throws BadRequestException {
-		
-		return missionRepository.getMissionsOfStudent(nPag, nItem, orderByDeliveryDate, scenarioId, studentId, onlyActive);
+	public List<Mission> getMissionsOfCharacter(String characterId, Boolean onlyActive) throws BadRequestException {
+		//TODO da fare
+	
+		return missionRepository.getMissionsOfCharacter(characterId, onlyActive);
 		
 
 	}
