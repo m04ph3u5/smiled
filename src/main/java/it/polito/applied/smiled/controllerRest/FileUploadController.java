@@ -20,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -122,13 +125,15 @@ public class FileUploadController extends BaseController{
 	
 	/*----------------------------------------------------MEDIA-----------------------------------------------------------*/
 	
-	@ResponseStatus(value = HttpStatus.OK)
+	//@ResponseStatus(value = HttpStatus.OK)  ByteArrayResource
 	@RequestMapping(value="media/{id}", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ByteArrayResource getMedia(@PathVariable String id) throws BadRequestException, IllegalStateException, NotFoundException, FileNotFoundException, ForbiddenException, IOException {
+	public ResponseEntity<ByteArrayResource> getMedia(@PathVariable String id) throws BadRequestException, IllegalStateException, NotFoundException, FileNotFoundException, ForbiddenException, IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		byte[] b = fileManagerService.getMedia(id,auth);
-		return new ByteArrayResource(b);
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setContentType(MediaType.IMAGE_JPEG);
+		return new ResponseEntity<ByteArrayResource>(new ByteArrayResource(b),responseHeaders, HttpStatus.OK);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
