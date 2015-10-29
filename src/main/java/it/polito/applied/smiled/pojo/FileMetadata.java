@@ -18,6 +18,7 @@ public class FileMetadata {
 	private Date lastChange;
 	private byte[] thumbnail;
 	private String userId;
+	private Boolean trusted;
 	private String scenarioId;
 	private String characterId;
 	private String coverId;
@@ -108,6 +109,12 @@ public class FileMetadata {
 	}
 	public void setThumbnail(byte[] thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+	public Boolean isTrusted() {
+		return trusted;
+	}
+	public void setTrusted(Boolean trusted) {
+		this.trusted = trusted;
 	}
 	
 	

@@ -158,65 +158,24 @@ public class GridFsManagerImpl implements GridFsManager{
 		}
 		return metas;
 	}
-
 	
-	private void generateThumb(InputStream input, String filename,
-			String contentType, DBObject metadata) throws IOException {
-		// TODO Auto-generated method stub
-			BufferedImage sourceImage = ImageIO.read(input);
-			int width = sourceImage.getWidth();
-			int height = sourceImage.getHeight();
-			BufferedImage img2=null;
-			if(width>height){
-				float extraSize=    height-100;
-				float percentHight = (extraSize/height)*100;
-				float percentWidth = width - ((width/100)*percentHight);
-				BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_4BYTE_ABGR);
-				Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
-				Graphics2D g2 = img.createGraphics();
-				//g2.setBackground(Color.WHITE);
-				g2.clearRect(0,0,(int)percentWidth, 100);
-				g2.setComposite(AlphaComposite.Src);
-				g2.drawImage(scaledImage, 0, 0, null);
-				img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
-				img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
-
-			}else{
-				float extraSize=    width-100;
-				float percentWidth = (extraSize/width)*100;
-				float  percentHight = height - ((height/100)*percentWidth);
-				BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_4BYTE_ABGR);
-				Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
-				Graphics2D g2 = img.createGraphics();
-				//g2.setBackground(Color.WHITE);
-				g2.clearRect(0,0,100, (int)percentHight);
-				g2.setComposite(AlphaComposite.Src);
-				g2.drawImage(scaledImage, 0, 0, null);
-				img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
-				img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
-
-			}
-			
-			String thumbName = "thumb"+filename;
-			byte[] buffer = ((DataBufferByte)(img2).getRaster().getDataBuffer()).getData();
-			ByteArrayInputStream in = new ByteArrayInputStream(buffer);
-			gridFsOperation.store(in, thumbName, "image/png", metadata);
-		
-		}
-
 	@Override
-	public void saveThumb(String filename) throws IOException {
+	public List<FileMetadata> findScenarioTrustedMedia(String idScenario) {
 		Query q = new Query();
-		q.addCriteria(Criteria.where("filename").is(filename));
-		GridFSDBFile file = gridFsOperation.findOne(q);
-		generateThumb(file.getInputStream(), filename, file.getContentType(), file.getMetaData());
+		q.addCriteria(Criteria.where("metadata.scenarioId").is(idScenario).andOperator(Criteria.where("metadata.trusted").is(true)));
+		List<GridFSFile> files = mongoOperations.find(q, GridFSFile.class, "fs.files");
+		List<FileMetadata> metas = new ArrayList<FileMetadata>();
+		for(GridFSFile f : files){
+			metas.add(mongoOperations.getConverter().read(FileMetadata.class, f.getMetaData()));
+		}
+		return metas;
 	}
 
+	
 	@Override
 	public void confirmImage(String filename, FileMetadata f) throws IOException {
 		f.setType(ResourceType.IMAGE);
 		updateMetadata(filename, f);
-		saveThumb(filename);		
 	}
 
 	@Override
@@ -267,7 +226,5 @@ public class GridFsManagerImpl implements GridFsManager{
 		updateMetadata(filename, meta);
 		
 		return meta;
-	}
-
-	
+	}	
 }

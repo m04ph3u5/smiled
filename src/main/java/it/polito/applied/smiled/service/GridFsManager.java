@@ -33,8 +33,8 @@ public interface GridFsManager {
 	List<FileMetadata> findScenarioImage(String idScenario, Pageable p);
 
 	List<FileMetadata> findScenarioFile(String idScenario, Pageable p);
-
-	void saveThumb(String filename) throws IOException;
+	
+	List<FileMetadata> findScenarioTrustedMedia(String idScenario);
 
 	void confirmImage(String filename, FileMetadata f) throws IOException;
 

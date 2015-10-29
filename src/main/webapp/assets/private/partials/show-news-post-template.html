@@ -54,7 +54,7 @@
 						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
 							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
 								data-ng-repeat="col in row track by $index">
-								<div class="squareImg" style="background-image:url('{{col}}')"></div>
+								<div class="squareImg" style="background-image:url('{{col}}'); cursor:pointer;"></div>
 							</div>
 						</div>
 						<div data-ng-repeat="file in showNewsPost.files">
@@ -293,7 +293,7 @@
 						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
 							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
 								data-ng-repeat="col in row track by $index">
-								<div class="squareImg" style="background-image:url('{{col}}')"></div>
+								<div class="squareImg" style="background-image:url('{{col}}'); cursor:pointer;"></div>
 							</div>
 						</div>
 						<div data-ng-repeat="file in showNewsPost.files">

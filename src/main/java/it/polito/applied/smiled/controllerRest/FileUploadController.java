@@ -11,6 +11,7 @@ import it.polito.applied.smiled.service.FileManagerService;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -145,12 +146,12 @@ public class FileUploadController extends BaseController{
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="scenarios/{idScenario}/media/{idMedia}/meta", method=RequestMethod.PUT)
-	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'WRITE')")
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
 	public void postMediaMetadata(@PathVariable String idScenario, @PathVariable String idMedia, @RequestBody @Valid FileMetadataDTO mediaMeta, BindingResult result) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException, ForbiddenException{
 		if(result.hasErrors())
 			throw new BadRequestException();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		fileManagerService.postMediaMetadata(idMedia, mediaMeta, auth);
+		fileManagerService.postMediaMetadata(idMedia, mediaMeta, auth, true);
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -175,27 +176,36 @@ public class FileUploadController extends BaseController{
 		return fileManagerService.getUserFilesMetadata(user,nPag,nItem);
 	}
 	
-	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="scenarios/{idScenario}/media/image/meta", method=RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'READ')")
-	public Page<FileMetadataDTO> getScenarioImagesMetadata(@PathVariable String idScenario, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
-		if(nPag==null || nPag<0)
-			nPag=0;
-		if(nItem==null || nItem<=0)
-			nItem=5;
-		return fileManagerService.getScenarioImageMetadata(idScenario,nPag,nItem);
-	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="scenarios/{idScenario}/media/files/meta", method=RequestMethod.GET)
+	@RequestMapping(value="scenarios/{idScenario}/media/trusted/meta", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'READ')")
-	public Page<FileMetadataDTO> getScenarioFilesMetadata(@PathVariable String idScenario, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
-		if(nPag==null || nPag<0)
-			nPag=0;
-		if(nItem==null || nItem<=0)
-			nItem=5;
-		return fileManagerService.getScenarioFilesMetadata(idScenario,nPag,nItem);
+	public List<FileMetadataDTO> getScenarioTrustedMediaMetadata(@PathVariable String idScenario) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		
+		return fileManagerService.getTrustedScenarioMediaMetadata(idScenario);
 	}
+	
+//	@ResponseStatus(value = HttpStatus.OK)
+//	@RequestMapping(value="scenarios/{idScenario}/media/image/meta", method=RequestMethod.GET)
+//	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'READ')")
+//	public Page<FileMetadataDTO> getScenarioImagesMetadata(@PathVariable String idScenario, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+//		if(nPag==null || nPag<0)
+//			nPag=0;
+//		if(nItem==null || nItem<=0)
+//			nItem=5;
+//		return fileManagerService.getScenarioImageMetadata(idScenario,nPag,nItem);
+//	}
+//	
+//	@ResponseStatus(value = HttpStatus.OK)
+//	@RequestMapping(value="scenarios/{idScenario}/media/files/meta", method=RequestMethod.GET)
+//	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'READ')")
+//	public Page<FileMetadataDTO> getScenarioFilesMetadata(@PathVariable String idScenario, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+//		if(nPag==null || nPag<0)
+//			nPag=0;
+//		if(nItem==null || nItem<=0)
+//			nItem=5;
+//		return fileManagerService.getScenarioFilesMetadata(idScenario,nPag,nItem);
+//	}
 	
 	/*--------------------------------------------------------MAP TOOL-------------------------------------------------*/
 	@ResponseStatus(value = HttpStatus.OK)

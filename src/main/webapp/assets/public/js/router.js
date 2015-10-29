@@ -374,6 +374,19 @@ angular.module('smiled.application')
 				pageTitle : "Compiti - Meschola"
 			}
 		})
+		.state('logged.scenario.resources',{
+			url: '/materiali',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/resources-scenario.html",
+					controller : "scenarioResourcesCtrl",
+					controllerAs : "scenarioResources"
+				}
+			},
+			data : {
+				pageTitle : "Materiali - Meschola"
+			}
+		})
 		.state('logged.scenario.socialGraph',{
 			url: '/relazioni',
 			views : {

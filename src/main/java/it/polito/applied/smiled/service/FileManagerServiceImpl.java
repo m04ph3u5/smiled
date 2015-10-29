@@ -537,7 +537,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	
 	@Override
 	public void postMediaMetadata(String filename, FileMetadataDTO fileMetaDTO,
-			Authentication auth) throws BadRequestException, ForbiddenException, IOException {
+			Authentication auth, Boolean trusted) throws BadRequestException, ForbiddenException, IOException {
 		
 		FileMetadata fileMeta = gridFsManager.getMetadata(filename);
 		
@@ -547,20 +547,13 @@ public class FileManagerServiceImpl implements FileManagerService {
 		if(!fileMeta.getUserId().equals(user.getId()))
 			throw new ForbiddenException();
 
-		if(fileMetaDTO.getCharacterId()!=null){
-			if(!permissionEvaluator.hasPermission(auth, fileMetaDTO.getCharacterId(), "Character", "WRITE"))
-				throw new ForbiddenException();
-		}
-
-		
 		if(fileMetaDTO.getPlace()!=null)
 			fileMeta.setPlace(fileMetaDTO.getPlace());
 		if(fileMetaDTO.getTags()!=null)
 			fileMeta.setTags(fileMetaDTO.getTags());
 		if(fileMetaDTO.getDescription()!=null)
 			fileMeta.setDescription(fileMetaDTO.getDescription());
-		if(fileMetaDTO.getCharacterId()!=null)
-			fileMeta.setCharacterId(fileMetaDTO.getCharacterId());
+		
 		fileMeta.setLastChange(new Date());
 		if(isImage(fileMeta.getFormat())){
 			fileMeta.setType(ResourceType.IMAGE);
@@ -568,6 +561,8 @@ public class FileManagerServiceImpl implements FileManagerService {
 		else
 			fileMeta.setType(ResourceType.DOCUMENT);
 
+		fileMeta.setTrusted(trusted);
+		
 		gridFsManager.updateMetadata(filename, fileMeta);
 	}
 
@@ -610,40 +605,45 @@ public class FileManagerServiceImpl implements FileManagerService {
 	}
 
 	@Override
-	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
-			Integer nPag, Integer nItem) throws IOException {
-		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = gridFsManager.findScenarioImage(idScenario,p);
-		System.out.println("My media number: "+list.size());
-		Iterator<FileMetadata> it = list.iterator();
-		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
-		while(it.hasNext()){
-			FileMetadata meta = it.next(); 
-			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-//			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
-//			byte[] data = Files.readAllBytes(file);
-//			metaDTO.setThumb(new String(Base64.encode(data)));
-			fileMetaList.add(metaDTO);
-		}
-		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
+	public List<FileMetadataDTO> getTrustedScenarioMediaMetadata(String idScenario) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-	@Override
-	public Page<FileMetadataDTO> getScenarioFilesMetadata(String idScenario,
-			Integer nPag, Integer nItem) throws IOException {
-		Pageable p =  new PageRequest(nPag,nItem);
-		List<FileMetadata>  list = gridFsManager.findScenarioFile(idScenario,p);
-		System.out.println("My media number: "+list.size());
-		Iterator<FileMetadata> it = list.iterator();
-		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
-		while(it.hasNext()){
-			FileMetadata meta = it.next(); 
-			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
-//			metaDTO.setThumb(fileIcon);
-			fileMetaList.add(metaDTO);
-		}
-		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
-	}
+//	@Override
+//	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
+//			Integer nPag, Integer nItem) throws IOException {
+//		Pageable p =  new PageRequest(nPag,nItem);
+//		List<FileMetadata>  list = gridFsManager.findScenarioImage(idScenario,p);
+//		System.out.println("My media number: "+list.size());
+//		Iterator<FileMetadata> it = list.iterator();
+//		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
+//		while(it.hasNext()){
+//			FileMetadata meta = it.next(); 
+//			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
+////			Path file = Paths.get(path+"thumb/"+getFolderPath(meta.getId())+meta.getId()+"."+meta.getFormat());
+////			byte[] data = Files.readAllBytes(file);
+////			metaDTO.setThumb(new String(Base64.encode(data)));
+//			fileMetaList.add(metaDTO);
+//		}
+//		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
+//	}
+//
+//	@Override
+//	public Page<FileMetadataDTO> getScenarioFilesMetadata(String idScenario,
+//			Integer nPag, Integer nItem) throws IOException {
+//		Pageable p =  new PageRequest(nPag,nItem);
+//		List<FileMetadata>  list = gridFsManager.findScenarioFile(idScenario,p);
+//		System.out.println("My media number: "+list.size());
+//		Iterator<FileMetadata> it = list.iterator();
+//		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
+//		while(it.hasNext()){
+//			FileMetadata meta = it.next(); 
+//			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
+////			metaDTO.setThumb(fileIcon);
+//			fileMetaList.add(metaDTO);
+//		}
+//		return new PageImpl<FileMetadataDTO>(fileMetaList,p,fileMetaList.size());
+//	}
 
 	@Override
 	public byte[] getToolMap(Integer version) throws BadRequestException, IOException {
@@ -821,6 +821,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 //        ImageIO.write(img2, "png", b64);
 //        return os.toString("UTF-8");
 	}
+
 
 
 }

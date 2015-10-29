@@ -9,6 +9,7 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -35,18 +36,20 @@ public interface FileManagerService {
 
 	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException;
 
-	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMeta, Authentication user) throws BadRequestException, ForbiddenException, IOException;
+	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMeta, Authentication user, Boolean trusted) throws BadRequestException, ForbiddenException, IOException;
 
 	public Page<FileMetadataDTO> getUserImageMetadata(CustomUserDetails user, int nPag, int nItem) throws IOException;
 
 	public Page<FileMetadataDTO> getUserFilesMetadata(CustomUserDetails user,
 			Integer nPag, Integer nItem) throws IOException;
 
-	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
-			Integer nPag, Integer nItem) throws IOException;
-
-	public Page<FileMetadataDTO> getScenarioFilesMetadata(String idScenario,
-			Integer nPag, Integer nItem) throws IOException;
+//	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
+//			Integer nPag, Integer nItem) throws IOException;
+//
+//	public Page<FileMetadataDTO> getScenarioFilesMetadata(String idScenario,
+//			Integer nPag, Integer nItem) throws IOException;
+	
+	public List<FileMetadataDTO> getTrustedScenarioMediaMetadata(String idScenario);
 
 	public void postCoverLargeUser(MultipartFile userCover,
 			CustomUserDetails user) throws HttpMediaTypeNotAcceptableException, BadRequestException, IOException;
