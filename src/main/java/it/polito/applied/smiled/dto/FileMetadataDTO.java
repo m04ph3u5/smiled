@@ -2,6 +2,7 @@ package it.polito.applied.smiled.dto;
 
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.SupportedMedia;
 import it.polito.applied.smiled.pojo.scenario.Place;
 
 import java.util.Date;
@@ -17,6 +18,8 @@ public class FileMetadataDTO {
 	private List<Reference> tags;
 	private String description;
 	private Place place;
+	private SupportedMedia format;
+ 
 	
 	@Null
 	private byte[] thumb;
@@ -26,13 +29,15 @@ public class FileMetadataDTO {
 	private Date creationDate;
 	@Null
 	private Date lastChange;
+	@Null
+	private String teacherId;
 	
 	public FileMetadataDTO(){
 		
 	}
 	
 	public FileMetadataDTO(FileMetadata meta){
-		this.name=meta.getId()+"."+meta.getFormat();
+		this.name=meta.getOriginalName();
 		this.characterId=meta.getCharacterId();
 		this.tags=meta.getTags();
 		this.description=meta.getDescription();
@@ -40,6 +45,8 @@ public class FileMetadataDTO {
 		this.originalName=meta.getOriginalName();
 		this.creationDate=meta.getCreationDate();
 		this.lastChange=meta.getLastChange();
+		this.teacherId=meta.getUserId();
+		this.format = meta.getFormat();
 		this.thumb = meta.getThumbnail();
 	}
 	
@@ -76,6 +83,14 @@ public class FileMetadataDTO {
 
 	public void setThumb(byte[] thumb) {
 		this.thumb = thumb;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

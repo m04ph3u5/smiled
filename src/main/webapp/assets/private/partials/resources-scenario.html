@@ -1,15 +1,51 @@
 <h1>Materiali didattici</h1>
 
-<div style="margin-top:20px; border-style: dashed;
-    border-width: 5px; width:100%" data-ng-if="scenarioResources.uploadable">
-	<div ngf-drop="scenarioResources.uploadFiles($files)" class="drop-box text-center"
-	  ngf-drag-over-class="dragover">
+<div style="margin-top:20px; margin-bottom:20px;" class="drop-file-zone" data-ng-if="scenarioResources.uploadable">
+	<div data-ngf-drop="scenarioResources.uploadFiles($files)" class="drop-box text-center"
+	  data-ngf-drag-over-class="dragover">
 	  <h6>Trascina qui i file da caricare</h6>
 	  <br>
 	  oppure
 	  <br>
-	  <span style="margin-top:20px; margin-bottom:20px;" class="btn btn-primary">Seleziona</span>
-	 </div>
-<div>
+	  <span style="margin-top:20px; margin-bottom:20px;" class="btn positiveButton"
+	  data-ngf-select data-ngf-change="scenarioResources.uploadFiles($files)">Seleziona</span>
+	  <br>
+	  (max 20MB)
+	</div>
+</div>
 
+<div class="progress" style="width:75%; margin:auto;" data-ng-show="scenarioResources.showProgressBar">
+  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" 
+  	aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;" data-ng-style="{'width' : scenarioResources.widthProgressBar}">
+    {{scenarioResources.newFile.progress}}%
+  </div>
+</div>
+<div style="width:75%; margin:auto;" data-ng-show="scenarioResources.showProgressBar">
+	<span class="btn warningButton" data-ng-show="scenarioResources.showCancelButton" data-ng-click="scenarioResources.abortUpload()" style="cursor:pointer;">Annulla</span>
+	<span data-ng-show="scenarioResources.newFile.progress==100">Upload completato</span>
+ 	<span>{{scenarioResources.error}}</span>
+</div>
+
+<div style="margin-top: 20px;" data-ng-show="scenarioResources.showMetaBox">
+	<div class="row pull-right"><span data-ng-click="scenarioResources.hideMetaBox()" style="cursor:pointer;" class="glyphicon glyphicon-remove"></span></div>
+	<div class="col-md-3"><b>Nome file</b></div>
+	<div class="col-md-9"> {{scenarioResources.newFile.name}} </div>
+	<br>
+	<div class="col-md-3"><b>Descrizione</b></div>
+	<div class="col-md-9"> 
+		<textarea rows="3" style="width:100%" class="resource-text-area" data-ng-model="scenarioResources.newFile.description"></textarea> 
+	</div>
+	<div class="row pull-right"><span class="btn positiveButton" data-ng-click="scenarioResources.saveMeta()">Salva</span></div>
+</div>
+
+<div style="margin-top:20px;">
+	<h4 data-ng-show="scenarioResources.uploadable">File caricati</h4>
+	<div class="row table-like" data-ng-repeat="f in scenarioResources.files">
+		<div class="col-md-2"><b>{{f.name}}</b></div>
+		<div class="col-md-2"><img data-ng-src="f.thumb"></div>
+		<div class="col-md-4">{{f.description}}</div>
+		<div class="col-md-2">{{f.creationDate | date: scenarioResources.realDateFormat}}</div>
+		<div class="col-md-2">{{f.user}}</div>
+		
+	</div>
 </div>

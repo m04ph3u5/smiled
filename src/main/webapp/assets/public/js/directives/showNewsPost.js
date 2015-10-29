@@ -246,7 +246,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					myFile.originalName = self.post.filesMetadata[i].originalName;
 					var split = myFile.originalName.split(".");
 					var type = split[split.length-1];
-					if(type == 'jpg' || type == 'png'){
+					if(type == 'jpg' || type == 'png' || type == 'gif'){
 						myFile.fileType = 'img';
 					}else if(type == 'pdf'){
 						myFile.fileType = 'pdf';

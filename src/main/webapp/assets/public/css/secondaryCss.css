@@ -269,3 +269,17 @@ span.clickable:hover {
     font-weight: bold;
     color: #89B151;
 }
+
+/*MATERIALI*/
+.table-like {
+	border-width: 1px;
+	border-style: solid;
+	width: 100%;
+	margin : 1px;
+}
+
+.drop-file-zone {
+	border-width: 5px;
+	border-style: dashed;
+	width:100%;
+}

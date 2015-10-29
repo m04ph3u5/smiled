@@ -171,7 +171,7 @@ public class GridFsManagerImpl implements GridFsManager{
 		return metas;
 	}
 
-	
+		
 	@Override
 	public void confirmImage(String filename, FileMetadata f) throws IOException {
 		f.setType(ResourceType.IMAGE);
@@ -226,5 +226,7 @@ public class GridFsManagerImpl implements GridFsManager{
 		updateMetadata(filename, meta);
 		
 		return meta;
-	}	
+	}
+
+	
 }

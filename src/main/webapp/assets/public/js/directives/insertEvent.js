@@ -249,7 +249,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			        	   var split = uploadedFile.name.split(".");
 			        	   var type = split[split.length-1];
 			        	   uploadedFile.fileType =  null;
-			        	   if(type == 'jpg' || type == 'png'){
+			        	   if(type == 'jpg' || type == 'png' || type == "gif"){
 			        		   uploadedFile.fileType = 'img';
 			        	   }else if(type == 'pdf'){
 			        		   uploadedFile.fileType = 'pdf';
