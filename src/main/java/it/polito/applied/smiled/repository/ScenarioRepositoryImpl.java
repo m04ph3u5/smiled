@@ -4,6 +4,7 @@ import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Character;
+import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
 
@@ -359,9 +360,6 @@ public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 		else
 			return false;		
 	}
-
-	
-
 	
 	
 }

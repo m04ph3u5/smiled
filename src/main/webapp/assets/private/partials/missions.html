@@ -1,9 +1,39 @@
-<div data-ng-if="scenario.isCreator || scenario.isModerator">
-Docente. Compiti assegnati:
-<div data-ng-repeat="m in scenarioMissions.myMissions">{{m.title}}</div>
+
+<div >
+	<div class="row">
+	<h3>Missione dello scenario:</h3>
+		<div class="col-xs-12 box boxBrown">
+				<insert-mission 
+					id-scenario-veloce= "{{scenario.scen.id}}"
+					scenario="scenario.scen"
+					is-moderator="scenario.isModerator"
+					is-creator="scenario.isCreator">
+				</insert-mission>	
+			
+		</div>
+			
+	</div>
+
+	<div class="row" >
+		<hr class="hrDivider">
+	</div>
+	
+	<div class="row">
+	<h3 data-ng-if="scenario.isCreator || scenario.isModerator">Missioni dei personaggi:</h3>
+	<h3 data-ng-if="!scenario.isCreator && !scenario.isModerator && scenarioMissions.myCharacter">Missione del mio personaggio:</h3>
+	<div data-ng-repeat="c in scenarioMissions.characters">
+		<div class="col-xs-12 box boxBrown">
+				<insert-mission 
+					id-scenario-veloce= "{{scenario.scen.id}}"
+					scenario="scenario.scen"
+					character="c"
+					is-moderator="scenario.isModerator"
+					is-creator="scenario.isCreator">
+				</insert-mission>	
+		</div>
+	</div>
+	</div>
 </div>
 
-<div data-ng-if="!scenario.isCreator && !scenario.isModerator">
-Studente. Compiti ricevuti:
-<div data-ng-repeat="m in scenarioMissions.myMissions">{{m.title}}</div>
-</div>
+
+

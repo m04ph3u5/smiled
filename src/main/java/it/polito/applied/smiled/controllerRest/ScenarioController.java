@@ -434,51 +434,51 @@ public class ScenarioController extends BaseController{
 		scenarioService.addLikeToPost(id, postId, auth);
 	}
 	
-	
-	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="/v1/scenarios/{id}/missions/{missionId}", method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	@RequestMapping(value="/v1/scenarios/{id}/mission", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public Post updateMission(@PathVariable String id, @RequestBody MissionDTO mission) throws MongoException, NotFoundException, BadRequestException{
-
-		return null;
+	public Scenario insertMissionToScen(@PathVariable String id, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
+		//TODO - Validate MissionDTO
+		return scenarioService.addMissionToScenario(id, mission, activeUser);
+		
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@RequestMapping(value="/v1/scenarios/{id}/missions", method=RequestMethod.POST)
+	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/mission", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public Id insertMission(@PathVariable String id, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
+	public Character insertMissionToChar(@PathVariable String id, @PathVariable String characterId, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
-		String idS =scenarioService.addMissionToScenario(id, mission, activeUser);
-		return new Id(idS);
+		return scenarioService.addMissionToCharacter(characterId, mission, activeUser);
+		
 	}
 	
 	
-	//Restituisce la lista di compiti dello scenario
-	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="/v1/scenarios/{id}/missions", method=RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public List<Mission> getMissionsInScenario(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
-		
-		if(onlyActive==null){
-			onlyActive=false;  //di default vedo tutte le mie missioni nello scenario in questione
-		}
-		
-		return scenarioService.getMissionsOfTeacher(id, onlyActive);
-	}
-	
-	//Restituisce la lista di compiti dello scenario
-	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/missions", method=RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_USER') and ( hasPermission(#characterId, 'Character', 'WRITE')) || hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public List<Mission> getMissionsOfCharacter(@PathVariable String id, @PathVariable String characterId, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
-			
-		if(onlyActive==null){
-			onlyActive=false;  //di default vedo tutte le mie missioni nello scenario in questione
-		}
-		
-		return scenarioService.getMissionsOfCharacter(characterId, onlyActive);
-
-	}
+//	//Restituisce la lista di compiti dello scenario
+//	@ResponseStatus(value = HttpStatus.OK)
+//	@RequestMapping(value="/v1/scenarios/{id}/missions", method=RequestMethod.GET)
+//	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
+//	public List<Mission> getMissions(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+//		
+//		if(onlyActive==null){
+//			onlyActive=false;  //di default vedo tutte le missioni nello scenario in questione
+//		}
+//		
+//		return scenarioService.getMissionsOfTeacher(id, onlyActive);
+//	}
+//	
+//	//Restituisce la lista di compiti dello scenario
+//	@ResponseStatus(value = HttpStatus.OK)
+//	@RequestMapping(value="/v1/scenarios/{id}/myMissions", method=RequestMethod.GET)
+//	@PreAuthorize("hasRole('ROLE_USER')")
+//	public List<Mission> getMyMissions(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser, @RequestParam(value = "onlyActive", required=false) Boolean onlyActive) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+//			
+//		if(onlyActive==null){
+//			onlyActive=false;  //di default vedo tutte le missioni nello scenario in questione
+//		}
+//		
+//		return scenarioService.getMyMissions(id, activeUser.getId(), onlyActive);
+//
+//	}
 	
 //	    //Restituisce la lista paginata di Mission del richiedente (nel caso di Teacher le Mission assegnate, nel caso di Student le Mission ricevute)
 //		@ResponseStatus(value = HttpStatus.OK)

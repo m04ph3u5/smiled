@@ -30,7 +30,6 @@ import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Mission;
-import it.polito.applied.smiled.pojo.scenario.MissionStatus;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
 import it.polito.applied.smiled.pojo.scenario.Relation;
@@ -43,11 +42,7 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
-import it.polito.applied.smiled.rabbit.Notification;
-import it.polito.applied.smiled.rabbit.NotificationType;
-import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
-import it.polito.applied.smiled.repository.MissionRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
@@ -93,9 +88,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Autowired
 	private PostRepository postRepository;
 	
-	@Autowired
-	private MissionRepository missionRepository;
-
 	@Autowired 
 	private UserService userService;
 	
@@ -2294,60 +2286,54 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public String addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser)throws BadRequestException {
-		Scenario scenario = scenarioRepository.findById(id);
+	public Scenario addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser)throws BadRequestException {
+		
+		
 		User t = userRepository.findById(activeUser.getId());
-		Reference characterRef;
 		Reference teacherRef;
-		
-		if(mission.getCharacterId() == null || mission.getCharacterId() == "-1"){
-			characterRef = null;
-		}else{
-			Character c = characterRepository.findById(mission.getCharacterId());
-			if(scenario==null || t==null || c==null)
-				throw new BadRequestException();
-			characterRef = new Reference (c);
-		}
-		
-		
-		
 		teacherRef = new Reference (t);
-		
+		if(t==null)
+			throw new BadRequestException();
+
 		Mission m = new Mission();
 		m.setTeacher(teacherRef);
-		m.setCharacter(characterRef);
 		
-		Date creation = new Date();
-		m.setCreationDate(creation);
-		m.setLastChangeDate(creation);
-		m.setScenarioId(id);
+		Date lastChange = new Date();
+		m.setLastChangeDate(lastChange);
 		
 		m.setTitle(mission.getTitle());
 		m.setDescription(mission.getDescription());
-		m.setStatus(MissionStatus.STARTED);
 		
-		Mission miss = missionRepository.save(m);
+		Update u = new Update();
+		u.set("mission", m);
 		
-		return miss.getId();
-	}
-
-
-	@Override
-	public List<Mission> getMissionsOfTeacher(String scenarioId, Boolean onlyActive) throws BadRequestException {
-	
-		return missionRepository.getMissionsOfTeacher(scenarioId, onlyActive);
+		return scenarioRepository.updateScenario(id, u);
+		
 		
 		
 	}
-
-
-	@Override
-	public List<Mission> getMissionsOfCharacter(String characterId, Boolean onlyActive) throws BadRequestException {
-		//TODO da fare
 	
-		return missionRepository.getMissionsOfCharacter(characterId, onlyActive);
+	@Override
+	public Character addMissionToCharacter(String idCharacter, MissionDTO mission, CustomUserDetails activeUser)throws BadRequestException {
 		
-
+		User t = userRepository.findById(activeUser.getId());
+		Reference teacherRef;
+		teacherRef = new Reference (t);
+		if(t==null)
+			throw new BadRequestException();
+		
+		Mission m = new Mission();
+		m.setTeacher(teacherRef);
+		
+		Date lastChange = new Date();
+		m.setLastChangeDate(lastChange);
+		
+		m.setTitle(mission.getTitle());
+		m.setDescription(mission.getDescription());
+		Update u = new Update();
+		u.set("mission", m);
+		return characterRepository.updateCharacter(idCharacter, u);
+		
 	}
 
 

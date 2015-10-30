@@ -1,9 +1,11 @@
 package it.polito.applied.smiled.repository;
 
-import java.util.List;
-
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.scenario.Character;
+import it.polito.applied.smiled.pojo.scenario.Mission;
+
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,6 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-
-import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.pojo.user.User;
 
 import com.mongodb.WriteResult;
 
@@ -128,8 +126,9 @@ public class CharacterRepositoryImpl implements CustomCharacterRepository{
 	@Override
 	public List<Character> getAllCharactersFromScenario(String scenarioId) {
 		Query q = new Query();
-		q.addCriteria(Criteria.where("idScenario").is(scenarioId));
+		q.addCriteria(Criteria.where("idScenario").is(scenarioId).andOperator((Criteria.where("deleted").is(false))));
 		return mongoOp.find(q, Character.class);
 		
 	}
+
 }

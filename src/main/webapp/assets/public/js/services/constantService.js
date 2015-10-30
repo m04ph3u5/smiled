@@ -18,12 +18,9 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	},
 	"urlScenarioCover" : function(id){
 						 	return "api/v1/scenarios/"+id+"/cover";
-						 },
+	},
 	"urlCharacterCover" : function(idScenario, idCharacter){
 		 					return "api/v1/scenarios/"+idScenario+"/characters/"+idCharacter+"/cover";
-		 				  },
-	"urlMediaScenarioPost": function(idScenario){
-								return "api/v1/scenarios/"+idScenario+"/media";
 	},
 	"urlMedia" : function(id){
 		return "api/v1/media/"+id;

@@ -1,0 +1,77 @@
+	<div class="col-xs-12 marginMTop">
+		<div class="row">
+			
+			<span data-ng-if="insertMission.character" class="pull-right marginMRight text-right" >						
+					<font size="2" color="#868686">Interpretato da: </font><a data-ng-if="insertMission.character.actualUser" href="" data-ui-sref="logged.userProfile({id : '{{insertMission.character.actualUser.id}}'})">
+						<span class="glyphicon glyphicon-user"></span>
+						{{insertMission.character.actualUser.firstname}} {{insertMission.character.actualUser.lastname}}								
+						
+					</a>
+					<a data-ng-if="!insertMission.character.actualUser" href="" data-ui-sref="logged.scenarioWizard.associations({id : '{{insertMission.idScenarioVeloce}}'})">
+						<span class="glyphicon glyphicon-user"></span>
+						Nessuno sta interpretando questo personaggio								
+					</a>
+					
+					<div data-ng-if="insertMission.mission">
+						<font size="2" color="#868686">Missione assegnata il: </font>
+						<a href="">{{insertMission.mission.lastChangeDate | date: insertMission.realDateFormat}}</a><br> 
+						<font size="2" color="#868686">da: </font>
+						<a  href="" data-ui-sref="logged.userProfile({id : '{{insertMission.mission.teacher.id}}'})">
+						{{insertMission.mission.teacher.firstname}} {{insertMission.mission.teacher.lastname}}
+						</a>
+						
+					</div>
+			
+		 	</span>	
+		 	
+		 	<span data-ng-if="!insertMission.character" class="pull-right marginMRight text-right" >						
+					
+					<div data-ng-if="insertMission.mission">
+						<font size="2" color="#868686">Missione assegnata il: </font>
+						<a href="">{{insertMission.mission.lastChangeDate | date: insertMission.realDateFormat}}</a><br> 
+						<font size="2" color="#868686">da: </font>
+						<a  href="" data-ui-sref="logged.userProfile({id : '{{insertMission.mission.teacher.id}}'})">
+						{{insertMission.mission.teacher.firstname}} {{insertMission.mission.teacher.lastname}}</font>
+						</a>
+					</div>
+			
+		 	</span>	
+		 	
+				
+			<div  class="squareCharImg" data-ng-style="{'background-image': insertMission.urlCover}" ></div>	
+			<h4 class="pull-left" data-ng-if="insertMission.character"><a href=""  data-ui-sref="logged.scenario.charprofile({id : '{{insertMission.scenario.id}}', idCharacter : '{{insertMission.character.id}}' })">
+											{{insertMission.character.name}}</a>
+											
+			<h4 class="pull-left" data-ng-if="!insertMission.character"><a href=""  data-ui-sref="logged.scenario.posts({id : '{{insertMission.idScenarioVeloce}}'})">
+											{{insertMission.scenario.name}}</a>
+			</h4>
+			<div class="col-xs-8 col-sm-9 col-md-10">
+				<h4 class="pull-left">TITOLO</h4>
+				<input data-ng-if="insertMission.isCreator || insertMission.isModerator" type="text" class="pull-left allWidth" placeholder="Inserisci titolo..."
+				 data-ng-model="insertMission.mission.title"></input>
+				 
+				 <p data-ng-if="!insertMission.isCreator && !insertMission.isModerator" class="pull-left allWidth missionParagraph" >
+				 {{insertMission.mission.title}}</p>
+				 
+				 <h4 class="pull-left">DESCRIZIONE</h4>
+				<textarea data-ng-if="insertMission.isCreator || insertMission.isModerator" class="pull-left allWidth" placeholder="Inserisci descrizione compito..."
+				rows="3" data-ng-model="insertMission.mission.description"></textarea>
+				
+				<p data-ng-if="!insertMission.isCreator && !insertMission.isModerator" class="pull-left allWidth missionParagraph" >
+				 {{insertMission.mission.description}}</p>
+			</div>	
+			
+						
+		</div>	
+	</div>
+
+<div class="row col-xs-12" style="margin-top:5px;">
+	<div class="pull-right">
+
+		<div data-ng-if="insertMission.isCreator || insertMission.isModerator" data-ng-click="insertMission.saveMission()"
+			class="btn positiveButton">ASSEGNA</div>
+</div>
+</div>
+	
+
+

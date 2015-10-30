@@ -1390,7 +1390,9 @@
 }
 
 
-
+.missionParagraph {
+	text-align:left;
+}
 
 .inner-addon { 
     position: relative; 

@@ -29,8 +29,7 @@
 		var p = $q.defer();
 		$http.get('/api/v1/scenarios/'+idScenario).then(
 				function(response){
-					console.log("-------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-					console.log(response.data);
+					
 					p.resolve(response.data);
 				},
 				function(reason){
@@ -133,6 +132,20 @@
 		return c.promise;
 	}
 
+	var getAllCharactersFromScen = function(id){
+		var c = $q.defer();
+
+		$http.get("/api/v1/scenarios/"+id+"/characters").then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+
+		return c.promise;
+	}
 	var getCharacter = function(id, idCharacter){
 		var c = $q.defer();
 		$http.get("/api/v1/scenarios/"+id+"/characters/"+idCharacter).then(
@@ -185,20 +198,7 @@
 		return c.promise;
 	} 
 
-	var getAllCharactersFromScen = function(id){
-		var c = $q.defer();
-
-		$http.get("/api/v1/scenarios/"+id+"/characters").then(
-				function(response){
-					c.resolve(response.data);
-				},
-				function(reason){
-					c.reject(reason);
-				}
-		);
-
-		return c.promise;
-	}
+	
 
 	var addUserToCharacter = function(id, userId, characterId){
 		var c = $q.defer();
@@ -465,10 +465,10 @@
 // }
 	
 	/* inizio GESTIONE COMPITI ---------------------------------- */
-	var createMission = function(idScenario, mission){
+	var addMissionToScenario = function(idScenario, mission){
 		var s = $q.defer();
 
-		$http.post("/api/v1/scenarios/"+idScenario+"/missions", mission).then(
+		$http.post("/api/v1/scenarios/"+idScenario+"/mission", mission).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -479,38 +479,20 @@
 		return s.promise;
 	}
 	
-	var getMyMissionsInScenario = function(idScenario, onlyActive){
+	var addMissionToCharacter = function(idScenario, idCharacter, mission){
 		var s = $q.defer();
 
-		$http.get("/api/v1/scenarios/"+idScenario+"/missions", {
-			params: { "onlyActive": onlyActive }}).then(
-					function(response){
-						s.resolve(response.data);
-					},
-					function(reason){
-						s.reject(reason);
-					}
-			);
-
+		$http.post("/api/v1/scenarios/"+idScenario+"/characters/"+idCharacter+"/mission", mission).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
 		return s.promise;
 	}
-	
-//	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
-//		var s = $q.defer();
-//
-//		$http.get("/api/v1/missions", {
-//			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
-//						"onlyActive": onlyActive }}).then(
-//					function(response){
-//						s.resolve(response.data);
-//					},
-//					function(reason){
-//						s.reject(reason);
-//					}
-//			);
-//
-//		return s.promise;
-//	}
+
 	/* fine GESTIONE COMPITI ---------------------------------- */
 	
 	return {
@@ -541,9 +523,8 @@
 		sendCommentToPost: sendCommentToPost,
 		sendMetaCommentToPost: sendMetaCommentToPost,
 		sendEvent: sendEvent,
-		createMission: createMission,
-		getMyMissionsInScenario : getMyMissionsInScenario,
-		//getMyMissions : getMyMissions,
+		addMissionToScenario: addMissionToScenario,
+		addMissionToCharacter: addMissionToCharacter,
 		postIssue: postIssue,
 		getPagedStudents: getPagedStudents,
 		getPagedTeachers: getPagedTeachers,

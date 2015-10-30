@@ -141,6 +141,7 @@
 	<script src="/assets/public/js/directives/showOnHoverParent.js"></script> 
 	<script src="/assets/public/js/directives/hideOnHoverParent.js"></script> 
 	<script src="/assets/public/js/directives/insertStatus.js"></script> 
+	<script src="/assets/public/js/directives/insertMission.js"></script> 
 	<script src="/assets/public/js/directives/insertEvent.js"></script> 
 	<script src="/assets/public/js/directives/insertPost.js"></script> 
 	<script src="/assets/public/js/directives/tagBox.js"></script> 

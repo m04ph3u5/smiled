@@ -44,6 +44,8 @@ public class Character {
 	private String idScenario;
 	private List<PostReference> posts;
 	
+	private Mission mission;
+	
 	//TODO settare valore al momento della creazione
 	private String createdBy;
 	
@@ -69,6 +71,16 @@ public class Character {
 		this.nickname=c.getNickname();
 	}
 	
+	public Mission getMission() {
+		return mission;
+	}
+
+
+	public void setMission(Mission mission) {
+		this.mission = mission;
+	}
+
+
 	public String getName() {
 		return name;
 	}

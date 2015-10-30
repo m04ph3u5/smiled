@@ -8,32 +8,14 @@ import org.springframework.data.annotation.Id;
 
 public class Mission {
 	
-	@Id
-	private String id;
-	
-	private Reference character;
+
 	private Reference teacher;
 	
 	private String title;
 	private String description;
 	
-	private String scenarioId;
-	private Date creationDate;
 	private Date lastChangeDate;
 	
-	private MissionStatus status;
-	
-	public Reference getCharacter() {
-		return character;
-	}
-
-	public String getId(){
-		return id;
-	}
-	
-	public void setCharacter(Reference character) {
-		this.character = character;
-	}
 
 	public Reference getTeacher() {
 		return teacher;
@@ -41,14 +23,6 @@ public class Mission {
 
 	public void setTeacher(Reference teacher) {
 		this.teacher = teacher;
-	}
-
-	public String getScenarioId() {
-		return scenarioId;
-	}
-
-	public void setScenarioId(String scenarioId) {
-		this.scenarioId = scenarioId;
 	}
 
 	public String getTitle() {
@@ -67,14 +41,6 @@ public class Mission {
 		this.description = description;
 	}
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
 	public Date getLastChangeDate() {
 		return lastChangeDate;
 	}
@@ -82,15 +48,4 @@ public class Mission {
 	public void setLastChangeDate(Date lastChangeDate) {
 		this.lastChangeDate = lastChangeDate;
 	}
-
-
-	public MissionStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(MissionStatus status) {
-		this.status = status;
-	}
-
-	
 }

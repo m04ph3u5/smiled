@@ -37,6 +37,8 @@ public class Scenario {
 	
 	private boolean showRelationsToAll;
 	
+	private Mission mission;
+	
 	/*TODO
 	 * Valutare inizializzazione liste (fondemantale nel caso di operazioni in memoria, con aggiunta metodi add, remove dalle liste)*/
 	
@@ -53,6 +55,15 @@ public class Scenario {
 		creationDate = new Date();
 	}
 	
+	
+	public Mission getMission() {
+		return mission;
+	}
+
+	public void setMission(Mission mission) {
+		this.mission = mission;
+	}
+
 	public String getName() {
 		return name;
 	}

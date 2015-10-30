@@ -103,11 +103,9 @@ public interface ScenarioService {
 
 	public List<Character> getAllCharacters(String scenarioId);
 
-	public String addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
+	public Scenario addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
 	
-	public List<Mission> getMissionsOfTeacher(String scenarioId, Boolean onlyActive) throws BadRequestException;
-	
-	public List<Mission> getMissionsOfCharacter(String characterId, Boolean onlyActive) throws BadRequestException;
+	public Character addMissionToCharacter(String idCharacter, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
 
 	public List<Action> getSocialGraph(String id) throws NotFoundException;
 
