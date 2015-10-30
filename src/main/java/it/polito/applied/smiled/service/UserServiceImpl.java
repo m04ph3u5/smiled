@@ -31,6 +31,9 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 import it.polito.applied.smiled.updater.AsyncUpdater;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -249,11 +252,17 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			try{
 				RegistrationToken registration = new RegistrationToken(teacher.getEmail());
 				registrationRepository.save(registration);
-				asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName()+" "+teacher.getLastName(), teacher.getEmail(),registration.getToken().toString());
+				String encodedEmail = URLEncoder.encode(teacher.getEmail(), "UTF-8").replaceAll("\\~", "%7E")
+		                .replaceAll("\\.", "%2E")
+		                .replaceAll("\\-", "%2D");
+				asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName()+" "+teacher.getLastName(), encodedEmail,registration.getToken().toString());
 			}catch(MongoDataIntegrityViolationException e){
 				/*Eccezione che in teoria non dovrebbe mai verificarsi, in quanto abbiamo già controllato che non esista uno user con quella email
 				 * al passo precedente*/
 				throw e;
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}catch(MongoException e){
 			throw e;
@@ -290,7 +299,9 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 
 	private RegistrationToken checkValidityTokenAndEmail(String token, String email) throws MongoException, InvalidRegistrationTokenException, RegistrationTokenExpiredException{
 		try{
-			RegistrationToken r = registrationRepository.findByTokenAndEmail(token, email);
+			String decodedEmail  = URLDecoder.decode(email, "UTF-8");
+	                
+			RegistrationToken r = registrationRepository.findByTokenAndEmail(token, decodedEmail);
 			if(r==null)
 				throw new InvalidRegistrationTokenException(token, email,userRepository);
 
@@ -303,6 +314,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			return r;
 		}catch(MongoException e){
 			throw e;
+		} catch (UnsupportedEncodingException e) {
+			throw new InvalidRegistrationTokenException(token, email,userRepository);
 		}
 	}
 

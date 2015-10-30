@@ -2,12 +2,12 @@ package it.polito.applied.smiled.dto;
 
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.SupportedMedia;
 import it.polito.applied.smiled.pojo.scenario.Place;
 
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 public class FileMetadataDTO {
@@ -17,6 +17,8 @@ public class FileMetadataDTO {
 	private List<Reference> tags;
 	private String description;
 	private Place place;
+	private SupportedMedia format;
+ 
 	
 	@Null
 	private byte[] thumb;
@@ -26,13 +28,15 @@ public class FileMetadataDTO {
 	private Date creationDate;
 	@Null
 	private Date lastChange;
+	@Null
+	private String teacherId;
 	
 	public FileMetadataDTO(){
 		
 	}
 	
 	public FileMetadataDTO(FileMetadata meta){
-		this.name=meta.getId()+"."+meta.getFormat();
+		this.name=meta.getId();
 		this.characterId=meta.getCharacterId();
 		this.tags=meta.getTags();
 		this.description=meta.getDescription();
@@ -40,6 +44,8 @@ public class FileMetadataDTO {
 		this.originalName=meta.getOriginalName();
 		this.creationDate=meta.getCreationDate();
 		this.lastChange=meta.getLastChange();
+		this.teacherId=meta.getUserId();
+		this.format = meta.getFormat();
 		this.thumb = meta.getThumbnail();
 	}
 	
@@ -76,6 +82,54 @@ public class FileMetadataDTO {
 
 	public void setThumb(byte[] thumb) {
 		this.thumb = thumb;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public SupportedMedia getFormat() {
+		return format;
+	}
+
+	public void setFormat(SupportedMedia format) {
+		this.format = format;
+	}
+
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getLastChange() {
+		return lastChange;
+	}
+
+	public void setLastChange(Date lastChange) {
+		this.lastChange = lastChange;
+	}
+
+	public String getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(String teacherId) {
+		this.teacherId = teacherId;
 	}
 	
 	

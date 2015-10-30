@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class FileMetadata {
 
-	@Id
 	private String id;
 	private String originalName;
 	private Date creationDate;
@@ -68,6 +67,11 @@ public class FileMetadata {
 	public String getId() {
 		return id;
 	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public ResourceType getType() {
 		return type;
 	}

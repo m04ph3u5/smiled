@@ -524,6 +524,36 @@
 		return s.promise;
 	}
 	
+	var postTrustedMediaMetadata = function(idScenario, idMedia, metadata){
+		var s = $q.defer();
+
+		$http.put("/api/v1/scenarios/"+idScenario+"/media/"+idMedia+"/meta", metadata).then(
+					function(response){
+						s.resolve(response.data);
+					},
+					function(reason){
+						s.reject(reason);
+					}
+			);
+
+		return s.promise;
+	}
+	
+	var getTrustedMediaMetadata = function(idScenario){
+		var s = $q.defer();
+
+		$http.get("/api/v1/scenarios/"+idScenario+"/media/trusted/meta").then(
+					function(response){
+						s.resolve(response.data);
+					},
+					function(reason){
+						s.reject(reason);
+					}
+			);
+
+		return s.promise;
+	}
+	
 //	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
 //		var s = $q.defer();
 //

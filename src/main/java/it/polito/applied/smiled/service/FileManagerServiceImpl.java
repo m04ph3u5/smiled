@@ -471,20 +471,28 @@ public class FileManagerServiceImpl implements FileManagerService {
 	
 	
 	@Override
-	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException {
+	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId, boolean trusted) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException {
 		SupportedMedia type = validateAsMedia(media);
 		FileMetadata meta = new FileMetadata();
 		meta.setUserId(user.getId());
 		meta.setCreationDate(new Date());
 		meta.setOriginalName(media.getOriginalFilename());
 		if(isImage(type)){
-			meta.setType(ResourceType.TO_CONFIRM_IMG);
+			if(!trusted)
+				meta.setType(ResourceType.TO_CONFIRM_IMG);
+			else
+				meta.setType(ResourceType.IMAGE);
 			meta.setThumbnail(saveThumbnail(media.getInputStream()));
 		}
-		else
-			meta.setType(ResourceType.TO_CONFIRM_DOC);
+		else{
+			if(!trusted)
+				meta.setType(ResourceType.TO_CONFIRM_DOC);
+			else
+				meta.setType(ResourceType.DOCUMENT);
+		}
 		meta.setScenarioId(scenarioId);
 		meta.setFormat(type);
+		meta.setTrusted(trusted);
 		String filename = new SimpleDateFormat("yyyyMMddhhmmssSS").format(meta.getCreationDate());
 		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
 	
@@ -606,9 +614,17 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Override
 	public List<FileMetadataDTO> getTrustedScenarioMediaMetadata(String idScenario) {
-		// TODO Auto-generated method stub
-		return null;
+		List<FileMetadata> list = gridFsManager.findScenarioTrustedMedia(idScenario);
+		Iterator<FileMetadata> it = list.iterator();
+		List<FileMetadataDTO> fileMetaList = new ArrayList<FileMetadataDTO>();
+		while(it.hasNext()){
+			FileMetadata meta = it.next(); 
+			FileMetadataDTO metaDTO = new FileMetadataDTO(meta);
+			fileMetaList.add(metaDTO);
+		}
+		return fileMetaList;
 	}
+			
 //	@Override
 //	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
 //			Integer nPag, Integer nItem) throws IOException {
@@ -725,7 +741,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		else if(contentType.equals("text/plain"))
 			return SupportedMedia.txt;
 		else
-			throw new HttpMediaTypeNotAcceptableException("Formato non supportato");
+			throw new HttpMediaTypeNotAcceptableException(file.getContentType()+" formato non supportato");
 	}
 	
 	private String getContentType(SupportedMedia type) throws HttpMediaTypeNotAcceptableException{

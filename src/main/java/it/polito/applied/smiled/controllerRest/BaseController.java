@@ -122,6 +122,7 @@ public abstract class BaseController {
 		ErrorInfo error = new ErrorInfo();
 		error.setStatusCode("400");
 		System.out.println("HttpMediaTypeNotAcceptableException: "+e.getMessage());
+		error.setMessage(e.getMessage());
 		return error;
 	}
 	

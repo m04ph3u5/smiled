@@ -34,7 +34,7 @@ public interface FileManagerService {
 
 	public MediaDataAndContentType getMedia(String id, Authentication auth, Boolean getThumb) throws FileNotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException;
 
-	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException;
+	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario, boolean b) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException;
 
 	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMeta, Authentication user, Boolean trusted) throws BadRequestException, ForbiddenException, IOException;
 

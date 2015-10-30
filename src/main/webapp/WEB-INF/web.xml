@@ -99,8 +99,8 @@
 			<location>C:\\Users\\andrea\\Documents\\tmp\\</location>
 
 
-			<max-file-size>10485760</max-file-size>
-			<max-request-size>20971520</max-request-size>
+			<max-file-size>20971520</max-file-size>
+			<max-request-size>41943040</max-request-size>
 		</multipart-config>
 	</servlet>
 

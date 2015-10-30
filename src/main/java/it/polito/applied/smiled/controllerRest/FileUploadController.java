@@ -141,7 +141,14 @@ public class FileUploadController extends BaseController{
 	@RequestMapping(value="scenarios/{idScenario}/media", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'WRITE')")
 	public Id postMedia(@PathVariable String idScenario, @RequestPart("file") MultipartFile media, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
-		return new Id(fileManagerService.postMedia(media, user, idScenario));
+		return new Id(fileManagerService.postMedia(media, user, idScenario, false));
+	}
+	
+	@ResponseStatus(value = HttpStatus.CREATED)
+	@RequestMapping(value="scenarios/{idScenario}/trustedMedia", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
+	public Id postTrustedMedia(@PathVariable String idScenario, @RequestPart("file") MultipartFile media, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
+		return new Id(fileManagerService.postMedia(media, user, idScenario, true));
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -184,6 +191,7 @@ public class FileUploadController extends BaseController{
 		
 		return fileManagerService.getTrustedScenarioMediaMetadata(idScenario);
 	}
+	
 	
 //	@ResponseStatus(value = HttpStatus.OK)
 //	@RequestMapping(value="scenarios/{idScenario}/media/image/meta", method=RequestMethod.GET)
