@@ -624,7 +624,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		}
 		return fileMetaList;
 	}
-		
+			
 //	@Override
 //	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
 //			Integer nPag, Integer nItem) throws IOException {
@@ -741,7 +741,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		else if(contentType.equals("text/plain"))
 			return SupportedMedia.txt;
 		else
-			throw new HttpMediaTypeNotAcceptableException("Formato non supportato");
+			throw new HttpMediaTypeNotAcceptableException(file.getContentType()+" formato non supportato");
 	}
 	
 	private String getContentType(SupportedMedia type) throws HttpMediaTypeNotAcceptableException{

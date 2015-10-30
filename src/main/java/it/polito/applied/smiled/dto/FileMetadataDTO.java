@@ -8,7 +8,6 @@ import it.polito.applied.smiled.pojo.scenario.Place;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 public class FileMetadataDTO {
@@ -37,7 +36,7 @@ public class FileMetadataDTO {
 	}
 	
 	public FileMetadataDTO(FileMetadata meta){
-		this.name=meta.getOriginalName();
+		this.name=meta.getId();
 		this.characterId=meta.getCharacterId();
 		this.tags=meta.getTags();
 		this.description=meta.getDescription();
@@ -91,6 +90,46 @@ public class FileMetadataDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public SupportedMedia getFormat() {
+		return format;
+	}
+
+	public void setFormat(SupportedMedia format) {
+		this.format = format;
+	}
+
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getLastChange() {
+		return lastChange;
+	}
+
+	public void setLastChange(Date lastChange) {
+		this.lastChange = lastChange;
+	}
+
+	public String getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(String teacherId) {
+		this.teacherId = teacherId;
 	}
 	
 	

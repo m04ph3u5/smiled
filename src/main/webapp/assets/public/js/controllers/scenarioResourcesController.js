@@ -12,19 +12,60 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 	self.error="";
 	self.files = [];
 	
-	self.realDateFormat = CONSTANTS.realDateFormatWithoutHour;
+	self.realDateFormat = CONSTANTS.realDateFormatWithHour;
 	
 	var up;
 	
-	apiService.getTrustedMediaMetadata(self.scen.id).then(
-		function(response){
-			self.files = response;
-			console.log(self.files);
-		},
-		function(reason){
-			console.log("ERRORE DOWNLOAD METADATA");
-		}
-	);
+	var getResourceType = function(format){
+		if(format=="jpg" || format=="png" || format=="gif")
+			return "img";
+		if(format=="pdf")
+			return "pdf";
+		if(format=="doc" || format =="docx" || format=="odt" || format=="txt")
+			return "doc";
+		if(format=="ppt" || format=="pptx" || format=="odp")
+			return "ppt";
+		if(format="xls" || format=="xlsx" || format=="ods")
+			return "excel";
+		
+		
+		return "doc";
+		
+	}
+	
+	var uploadMediaList = function(){
+		apiService.getTrustedMediaMetadata(self.scen.id).then(
+	
+			function(response){
+				self.files = response;
+				if(self.files){
+					for(var i=0; i<self.files.length; i++){
+						
+						self.files[i].type = getResourceType(self.files[i].format);
+						
+						if(self.files[i].teacherId==self.scen.teacherCreator.id){
+							self.files[i].user = self.scen.teacherCreator.firstname+" "+self.scen.teacherCreator.lastname;
+							continue;
+						}else{
+							if(self.scen.collaborators){
+								for(var j=0; j<self.scen.collaborators; j++){
+									if(self.files[i].teacherId==self.scen.collaborators[j].id){
+										self.files[i].user = self.scen.collaborators[j].firstname+" "+self.scencollaborators[j].lastname;
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			function(reason){
+				console.log("ERRORE DOWNLOAD METADATA");
+			}
+		);
+	}
+	
+	uploadMediaList();
 	
 	self.uploadFiles = function(file){
 		self.error="";
@@ -44,19 +85,15 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 					self.showMetaBox=true;
 					self.newFile.name = resp.config.file[0].name;
 					self.newFile.id=resp.data.id;
-					var file = {};
-					file.name = resp.config.file[0].name;
-					file.creationDate = new Date();
-					file.user = $scope.scenario.loggedUser.firstname+" "+$scope.scenario.loggedUser.lasttname;
-					console.log(file);
-					self.files.push(angular.copy(file));
-					file = {};
+					uploadMediaList();
 				},
 				/*FAIL*/
 				function(reason){
 					console.log("UPLOAD FAILED");
+					console.log(reason);
 					self.newFile.progress = 0;
-					self.error="Upload fallito. Si prega di riprovare."
+					self.error="Upload fallito ("+reason.data.message+"). Si prega di riprovare.";
+					self.showCancelButton=false;
 				},
 				/*PROGRESS*/
 				function(evt){
@@ -97,4 +134,9 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 		self.newFile = {};
 		self.newFile.progress=0;
 	}
+	
+	self.getMediaUrl = function(id){
+		return CONSTANTS.urlMedia(id);
+	}
+
 }]);

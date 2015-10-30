@@ -273,13 +273,42 @@ span.clickable:hover {
 /*MATERIALI*/
 .table-like {
 	border-width: 1px;
-	border-style: solid;
+	border-style: dotted;
 	width: 100%;
 	margin : 1px;
+	padding : 5px;
+	cursor: pointer;
+	word-wrap: break-word;
+	vertical-align : middle;
+	font-size : 0.9em;
+}
+
+.table-like-header {
+	background-color : #E0D8A9;
+	width: 100%;
+	margin : 1px;
+	padding : 5px;
+	vertical-align : middle;
+	word-wrap: break-word;
+	font-weight: bold;
+	font-size : 0.9em;
 }
 
 .drop-file-zone {
 	border-width: 5px;
 	border-style: dashed;
 	width:100%;
+}
+
+.squareResourceIcon{
+		padding : 100%;
+	    background-position:center center;
+	    background-repeat:no-repeat;
+	    background-size:cover;
+}
+
+.dropdown-menu{
+	border-width: 2px;
+	border-style: double;
+	border-color : #89B151;
 }

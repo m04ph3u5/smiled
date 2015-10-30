@@ -90,6 +90,7 @@ public class GridFsManagerImpl implements GridFsManager{
 		q.addCriteria(Criteria.where("filename").is(filename));
 		GridFSFile metaFile = mongoOperations.findOne(q, GridFSFile.class, "fs.files");
 		FileMetadata metadata = mongoOperations.getConverter().read(FileMetadata.class, metaFile.getMetaData());
+		metadata.setId(metaFile.getFilename());
 		return metadata;
 	}
 
@@ -166,7 +167,10 @@ public class GridFsManagerImpl implements GridFsManager{
 		List<GridFSFile> files = mongoOperations.find(q, GridFSFile.class, "fs.files");
 		List<FileMetadata> metas = new ArrayList<FileMetadata>();
 		for(GridFSFile f : files){
-			metas.add(mongoOperations.getConverter().read(FileMetadata.class, f.getMetaData()));
+			FileMetadata meta = mongoOperations.getConverter().read(FileMetadata.class, f.getMetaData());
+			meta.setId(f.getFilename());
+			metas.add(meta);
+			
 		}
 		return metas;
 	}
