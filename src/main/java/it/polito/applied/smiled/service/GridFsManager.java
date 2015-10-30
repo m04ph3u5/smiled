@@ -50,4 +50,6 @@ public interface GridFsManager {
 
 	GridFSDBFile readOneById(String name);
 
+	void deleteMedia(String idMedia, boolean trusted);
+
 }

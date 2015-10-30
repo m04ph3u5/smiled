@@ -30,10 +30,13 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	},
 	"urlMetaMediaScenarioPost": function(idScenario, idMedia){
 		return "api/v1/scenarios/"+idScenario+"/media/"+idMedia+"/meta";
-},
+	},
 	"urlTrustedMediaScenario": function(idScenario){
 		return "api/v1/scenarios/"+idScenario+"/media/trusted/meta";
-},
+	},
+	"urlDeleteTrustedMedia" : function(idScenario, idMedia){
+		return "api/v1/scenarios/"+idScenario+"/trustedMedia/"+idMedia;
+	},
 	"urlMedia" : function(id){
 		return "api/v1/media/"+id;
 	},

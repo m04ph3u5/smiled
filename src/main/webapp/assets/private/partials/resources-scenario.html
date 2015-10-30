@@ -1,4 +1,5 @@
 <h1>Materiali didattici</h1>
+<a id="update-description"></a>
 
 <div style="margin-top:20px; margin-bottom:20px;" class="drop-file-zone" data-ng-if="scenarioResources.uploadable">
 	<div data-ngf-drop="scenarioResources.uploadFiles($files)" class="drop-box text-center"
@@ -35,35 +36,46 @@
 	<div class="col-md-9"> 
 		<textarea rows="3" style="width:100%" class="resource-text-area" data-ng-model="scenarioResources.newFile.description"></textarea> 
 	</div>
-	<div class="row pull-right"><span style="margin-right:20px;" class="btn positiveButton" data-ng-click="scenarioResources.saveMeta()">Salva</span></div>
+	<div class="row pull-right"><span style="margin-right:20px;" class="btn positiveButton" data-ng-click="scenarioResources.saveMeta()">Salva descrizione</span></div>
 </div>
 
 <div class="row" style="margin:auto;">
 	<h4 data-ng-if="scenarioResources.uploadable">File caricati</h4>
-	<div class="row table-like-header">
+	<div class="row table-like-header visible-lg visible-md hidden-sm hidden-xs">
 		<div class="col-md-4 text-center">File</div>
 		<div class="col-md-4 text-center">Descrizione</div>
 		<div class="col-md-2 text-center">Data</div>
-		<div class="col-md-2 text-center">Propietario</div>
+		<div class="col-md-2 text-center">Docente</div>
 	</div>
 	<div class="row table-like dropdown" data-ng-repeat="f in scenarioResources.files track by $index">
 		<div class="row dropdown-toggle" data-toggle="dropdown">
-			<div class="col-md-1">
+			<div class="col-md-1 hidden-sm visible-md visible-lg hidden-xs">
 				<div data-ng-show="f.type=='img'" class="squareResourceIcon" style="background-image:url(data:image/png;base64,{{f.thumb}});"></div>
 				<div data-ng-show="f.type == 'pdf'" class="squareResourceIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')"></div>
 				<div data-ng-show="f.type == 'doc'" class="squareResourceIcon" style="background-image:url('assets/public/img/files/ic_doc.png')"></div>
 				<div data-ng-show="f.type == 'ppt'" class="squareResourceIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')"></div>
 				<div data-ng-show="f.type == 'excel'" class="squareResourceIcon" style="background-image:url('assets/public/img/files/ic_excel.png')"></div>
 			</div>
-			<div class="col-md-3"><b>{{f.originalName}}</b></div>
-			<div class="col-md-4">{{f.description}}</div>
-			<div class="col-md-2">{{f.creationDate | date: scenarioResources.realDateFormat}}</div>
-			<div class="col-md-2">{{f.user}}</div>
+			<div class="col-sm-12 visible-sm hidden-md hidden-lg visible-xs">
+				<div data-ng-show="f.type=='img'" class="squareCharImg" style="background-image:url(data:image/png;base64,{{f.thumb}});"></div>
+				<div data-ng-show="f.type == 'pdf'" class="squareCharImg" style="background-image:url('assets/public/img/files/ic_pdf.png')"></div>
+				<div data-ng-show="f.type == 'doc'" class="squareCharImg" style="background-image:url('assets/public/img/files/ic_doc.png')"></div>
+				<div data-ng-show="f.type == 'ppt'" class="squareCharImg" style="background-image:url('assets/public/img/files/ic_ppt.png')"></div>
+				<div data-ng-show="f.type == 'excel'" class="squareCharImg" style="background-image:url('assets/public/img/files/ic_excel.png')"></div>
+				<div>Nome: <b>{{f.originalName}}</b></div>
+				<div data-ng-show="f.description">Descrizione: {{f.description}}</div>
+				<div>Data: {{f.creationDate | date: scenarioResources.realDateFormat}}</div>
+				<div>Docente: {{f.user}}</div>
+			</div>
+			<div class="col-md-3 hidden-sm visible-md visible-lg hidden-xs"><b>{{f.originalName}}</b></div>
+			<div class="col-md-4 hidden-sm visible-md visible-lg hidden-xs">{{f.description}}</div>
+			<div class="col-md-2 hidden-sm visible-md visible-lg hidden-xs">{{f.creationDate | date: scenarioResources.realDateFormat}}</div>
+			<div class="col-md-2 hidden-sm visible-md visible-lg hidden-xs">{{f.user}}</div>
 		</div>
 		<ul class="dropdown-menu pull-right">
         	<li><a href="{{scenarioResources.getMediaUrl(f.name)}}" target="_self" download="{{f.originalName}}">Scarica</a></li>
-        	<li data-ng-if="scenarioResources.uploadable"><a href="">Modifica</a></li>
-        	<li data-ng-if="scenarioResources.uploadable"><a href="">Elimina</a></li>
+        	<li data-ng-if="scenarioResources.uploadable"><a data-ng-click="scenarioResources.updateFile($index)" href="">Modifica</a></li>
+        	<li data-ng-if="scenarioResources.uploadable"><a data-ng-click="scenarioResources.removeFile($index)" href="">Elimina</a></li>
       	</ul>
 		
 	</div>

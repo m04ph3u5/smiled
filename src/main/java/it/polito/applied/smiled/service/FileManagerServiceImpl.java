@@ -624,7 +624,13 @@ public class FileManagerServiceImpl implements FileManagerService {
 		}
 		return fileMetaList;
 	}
-			
+		
+	@Override
+	public void deleteTrustedMedia(String idMedia) {
+		gridFsManager.deleteMedia(idMedia, true);
+	}
+	
+	
 //	@Override
 //	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
 //			Integer nPag, Integer nItem) throws IOException {
@@ -837,7 +843,5 @@ public class FileManagerServiceImpl implements FileManagerService {
 //        ImageIO.write(img2, "png", b64);
 //        return os.toString("UTF-8");
 	}
-
-
 
 }

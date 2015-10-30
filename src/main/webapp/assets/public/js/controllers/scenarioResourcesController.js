@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload',
-              function scenarioResourcesCtrl(CONSTANTS,$scope, apiService,Upload){
+angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload', '$location', '$anchorScroll', 'modalService',
+              function scenarioResourcesCtrl(CONSTANTS,$scope, apiService,Upload, $location, $anchorScroll, modalService){
 	var self = this;
 	self.scen = $scope.scenario.scen;
 	self.uploadable = $scope.scenario.isCreator || $scope.scenario.isModerator;
@@ -113,11 +113,15 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 	self.saveMeta = function(){
 		var metaDTO = {};
 		metaDTO.description = self.newFile.description;
-		console.log(self.newFile.id);
 		apiService.postTrustedMediaMetadata(self.scen.id, self.newFile.id, metaDTO).then(
 				function(data){
 					self.showMetaBox = false;
 					self.showProgressBar = false;
+					for(var i=0; i<self.files.length; i++){
+						if(self.files[i].name==self.newFile.id){
+							self.files[i].description = self.newFile.description;
+						}
+					}
 					self.newFile = {};
 					self.newFile.progress=0;
 				},
@@ -138,5 +142,36 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 	self.getMediaUrl = function(id){
 		return CONSTANTS.urlMedia(id);
 	}
+	
+	self.updateFile = function(index){
+		$location.hash("update-description");
+	    $anchorScroll();
+		self.showMetaBox=true;
+		console.log("UPDATE");
+		self.newFile.name = self.files[index].originalName;
+		self.newFile.id = self.files[index].name;
+		self.newFile.description = self.files[index].description;
+	}
+	
+	self.removeFile =function(index){
+		modalService.showModalDeleteResource(self.files[index]).then(
+				function(response){
+					console.log("DELETE");
+					apiService.deleteTrustedMedia(self.scen.id, self.files[index].name).then(
+							function(response){
+								console.log("REMOVED");
+								self.files.splice(index, 1);
+							},
+							function(reason){
+								
+							}
+					);
+				},
+				function(reason){
+					console.log("CANCEL");
+				}
+		);
+	}
+	
 
 }]);

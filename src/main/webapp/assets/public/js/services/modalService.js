@@ -10,6 +10,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var endDate = {};
 		var charName;
 		var scenario = {};
+		var file = {};
 		
 		
 		var modalInstanceCreateScen;
@@ -20,6 +21,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceOldCharacterChangeOnComment;
 		var modalInstanceSetHistoryDate;
 		var modalInstanceCreateMission;
+		var modalInstanceDeleteResource;
 		
 		var optionSetHistoryDate = {
 				templateUrl: 'assets/private/partials/customDatePickerTemplate.html',
@@ -129,6 +131,19 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				resolve : {
 					scenario : function(){
 						return scenario;
+					}
+				}
+				
+		};
+		
+		var optionsDeleteResource = {
+				templateUrl:'assets/private/partials/deleteResource.html',
+				controller: 'deleteResourceCtrl',
+				controllerAs: 'deleteResource',
+				size: 'sm',
+				resolve : {
+					file : function(){
+						return file;
 					}
 				}
 				
@@ -282,6 +297,16 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			 
 		}
 		
+		var showModalDeleteResource = function(resource){
+			file = resource;
+			modalInstanceDeleteResource = $modal.open(optionsDeleteResource);
+			return modalInstanceDeleteResource.result;
+		}
+	
+		var closeModalDeleteResource = function(){
+			modalInstanceDeleteResource.close();
+		}
+			
 		return {
 			createScenario : createScenario,
 			deleteScenario : deleteScenario,
@@ -303,6 +328,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			createMission : createMission,
 			showModalCreateMission : showModalCreateMission,
 			closeModalCreateMission: closeModalCreateMission,
+			showModalDeleteResource : showModalDeleteResource,
+			closeModalDeleteResource : closeModalDeleteResource
 		}
 }]);
 

@@ -554,6 +554,21 @@
 		return s.promise;
 	}
 	
+	var deleteTrustedMedia = function(idScenario, idMedia){
+		var s = $q.defer();
+
+		$http.delete("/api/v1/scenarios/"+idScenario+"/trustedMedia/"+idMedia).then(
+					function(response){
+						s.resolve(response.data);
+					},
+					function(reason){
+						s.reject(reason);
+					}
+			);
+
+		return s.promise;
+	}
+	
 //	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
 //		var s = $q.defer();
 //
@@ -608,7 +623,8 @@
 		updateEvent: updateEvent,
 		getPagedExceptions: getPagedExceptions,
 		postTrustedMediaMetadata: postTrustedMediaMetadata,
-		getTrustedMediaMetadata: getTrustedMediaMetadata
+		getTrustedMediaMetadata: getTrustedMediaMetadata,
+		deleteTrustedMedia: deleteTrustedMedia
 		
 	}
 

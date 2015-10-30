@@ -192,6 +192,14 @@ public class FileUploadController extends BaseController{
 		return fileManagerService.getTrustedScenarioMediaMetadata(idScenario);
 	}
 	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="scenarios/{idScenario}/trustedMedia/{idMedia}", method=RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
+	public void deleteTrustedMedia(@PathVariable String idScenario, @PathVariable String idMedia) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+		
+		fileManagerService.deleteTrustedMedia(idMedia);
+	}
+	
 	
 //	@ResponseStatus(value = HttpStatus.OK)
 //	@RequestMapping(value="scenarios/{idScenario}/media/image/meta", method=RequestMethod.GET)

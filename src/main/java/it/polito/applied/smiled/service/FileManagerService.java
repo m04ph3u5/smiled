@@ -58,4 +58,6 @@ public interface FileManagerService {
 
 	public byte[] getToolMap(Integer version) throws BadRequestException, IOException;
 
+	public void deleteTrustedMedia(String idMedia);
+
 }

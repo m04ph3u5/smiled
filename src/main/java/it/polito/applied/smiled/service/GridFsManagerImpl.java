@@ -232,5 +232,18 @@ public class GridFsManagerImpl implements GridFsManager{
 		return meta;
 	}
 
+	@Override
+	public void deleteMedia(String idMedia, boolean onlyTrusted) {
+		Query q = new Query();
+		System.out.println("deleteMedia: "+idMedia);
+		if(onlyTrusted)
+			q.addCriteria(Criteria.where("files_id").is(new ObjectId(idMedia)).andOperator(Criteria.where("trusted").is(true)));
+		else
+			q.addCriteria(Criteria.where("files_id").is(new ObjectId(idMedia)));
+		
+		gridFsOperation.delete(q);
+		
+	}
+
 	
 }
