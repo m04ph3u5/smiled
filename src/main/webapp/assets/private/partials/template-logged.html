@@ -7,10 +7,15 @@
 	  if ($(document).scrollTop() > 50) {
 		  $('nav').addClass('navWithoutPad');
 		  $('nav').removeClass('navWithPad');
+		  $('#leftSide').addClass('sideLessPad');
+		  $('#leftSide').removeClass('sideMorePad');
+
 		  
 	  } else {
 		  $('nav').addClass('navWithPad');
 		  $('nav').removeClass('navWithoutPad');
+		  $('#leftSide').removeClass('sideLessPad');
+		  $('#leftSide').addClass('sideMorePad');
 	  }
 	});
 </script>
