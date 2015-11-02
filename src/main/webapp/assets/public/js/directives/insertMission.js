@@ -37,8 +37,7 @@ angular.module("smiled.application").directive("insertMission", [ 'CONSTANTS', '
 					
 			}
 			
-			console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			console.log(self.mission);
+			
 			self.saveMission = function(){
 				if(self.character){
 					console.log("saving mission character...");
@@ -79,6 +78,39 @@ angular.module("smiled.application").directive("insertMission", [ 'CONSTANTS', '
 			self.deleteModifyMission = function(){
 				self.newMission = angular.copy(self.mission);
 				$timeout(function(){self.dirty=false;},200);
+				
+			}
+			
+			self.deleteMission = function(){
+				console.log("delete mission");
+				if(self.character){
+					apiService.deleteMissionToCharacter(self.scenario.id, self.character.id).then(
+							function(data){
+								self.mission = null;
+								self.newMission = null;
+								self.dirty=false;
+							},
+							function(reason){
+								console.log("error in delete mission to character");
+								self.newMission = null;
+								self.dirty=false;
+							}
+					);
+				}else{
+					apiService.deleteMissionToScenario(self.scenario.id).then(
+							function(data){
+								self.mission = null;
+								self.newMission = null;
+								self.dirty=false;
+							},
+							function(reason){
+								console.log("error in delete mission to scenario");
+								self.mission = null;
+								self.newMission = null;
+								self.dirty=false;
+							}
+					);
+				}
 				
 			}
 			

@@ -468,7 +468,21 @@
 	var addMissionToScenario = function(idScenario, mission){
 		var s = $q.defer();
 
-		$http.post("/api/v1/scenarios/"+idScenario+"/mission", mission).then(
+		$http.put("/api/v1/scenarios/"+idScenario+"/mission", mission).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
+	var deleteMissionToScenario = function(idScenario){
+		var s = $q.defer();
+
+		$http.delete("/api/v1/scenarios/"+idScenario+"/mission").then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -482,7 +496,7 @@
 	var addMissionToCharacter = function(idScenario, idCharacter, mission){
 		var s = $q.defer();
 
-		$http.post("/api/v1/scenarios/"+idScenario+"/characters/"+idCharacter+"/mission", mission).then(
+		$http.put("/api/v1/scenarios/"+idScenario+"/characters/"+idCharacter+"/mission", mission).then(
 				function(response){
 					s.resolve(response.data);
 				},
@@ -493,6 +507,19 @@
 		return s.promise;
 	}
 
+	var deleteMissionToCharacter = function(idScenario, idCharacter){
+		var s = $q.defer();
+
+		$http.delete("/api/v1/scenarios/"+idScenario+"/characters/"+idCharacter+"/mission").then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
 	
 	var postTrustedMediaMetadata = function(idScenario, idMedia, metadata){
 		var s = $q.defer();
@@ -617,6 +644,8 @@
 		sendEvent: sendEvent,
 		addMissionToScenario: addMissionToScenario,
 		addMissionToCharacter: addMissionToCharacter,
+		deleteMissionToScenario: deleteMissionToScenario,
+		deleteMissionToCharacter: deleteMissionToCharacter,
 		postIssue: postIssue,
 		getPagedStudents: getPagedStudents,
 		getPagedTeachers: getPagedTeachers,

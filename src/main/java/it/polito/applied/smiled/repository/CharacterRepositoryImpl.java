@@ -131,4 +131,17 @@ public class CharacterRepositoryImpl implements CustomCharacterRepository{
 		
 	}
 
+	@Override
+	public boolean deleteMissionToCharacter(String idCharacter) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("_id").is(new ObjectId(idCharacter)));
+		Update u = new Update();
+		u.set("mission", null);
+		WriteResult w = mongoOp.updateFirst(q, u, Character.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
+	}
+
 }

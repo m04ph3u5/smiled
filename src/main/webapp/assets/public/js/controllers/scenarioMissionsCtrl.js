@@ -1,6 +1,6 @@
-angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$stateParams','apiService','$scope',
+angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$stateParams','apiService','$scope', 'CONSTANTS',
                                                                          
-		 function scenarioMissionsCtrl($stateParams, apiService, $scope){
+		 function scenarioMissionsCtrl($stateParams, apiService, $scope, CONSTANTS){
 	
 			 var self = this;
 			 console.log("scenarioMissionsCtrl---------------");
@@ -14,7 +14,9 @@ angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$state
 				apiService.getScenario($stateParams.id).then(
 						function(data){
 	
-							$scope.scenario.scen = data;	
+							$scope.scenario.scen = data;
+							var date = new Date();
+							$scope.scenario.scen.cover = CONSTANTS.urlScenarioCover($scope.scenario.scen.id)+"?"+date.toString();
 						},
 						function(reason){
 							console.log("error in find scenario");
