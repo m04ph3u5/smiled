@@ -317,7 +317,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			scenarioDTO.description = self.scenario.description;
 			scenarioDTO.history = self.scenario.history;
 			scenarioDTO.showRelationsToAll = self.scenario.showRelationsToAll;
+			
 			if(id==null){
+				scenarioDTO.showRelationsToAll = true;
 				if(infoValidate()){
 					apiService.createScenario(scenarioDTO).then(
 							function(data){

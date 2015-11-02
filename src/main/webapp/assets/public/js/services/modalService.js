@@ -201,7 +201,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			 var scenarioDTO = {};
 			 scenarioDTO.name = scenario.title;
 			 scenarioDTO.history = history;
-			 			 
+			 scenarioDTO.showRelationsToAll = scenario.showRelationsToAll;	
+			
 			 s = apiService.createScenario(scenarioDTO);
 			 return s; 
 			 

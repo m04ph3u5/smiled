@@ -115,8 +115,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(t==null)
 				throw new BadRequestException();			
 			Reference ref = new Reference(t);
-
+			System.out.println("scenarioDTO: "+ scenarioDTO.isShowRelationsToAll());
 			Scenario scenario = new Scenario(scenarioDTO,ref);
+			System.out.println("scenario: "+ scenario.isShowRelationsToAll());
 			scenario = scenarioRepository.insert(scenario);
 			int n = userRepository.createScenarioToUser(t.getId(),new ScenarioReference(scenario));
 			if(n!=1){
@@ -170,13 +171,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 				u.set("status", scenario.getStatus());
 			}
 
-			//Non faccio l'update dell'url della cover ( TODO :probabilmente ci sar� un' API apposta per caricare le immagini)
-
+			Scenario oldScenario = scenarioRepository.findById(id);
 			scenarioUpdated = scenarioRepository.updateScenario(id, u);
 			if(scenarioUpdated == null)
 				throw new BadRequestException();
-			if(scenario.getName()!=null){
-				u.set("name", scenario.getName());
+			if(scenario.getName()!=null && !oldScenario.getName().equals(scenarioUpdated.getName())){
 				updateNameInReferenceOfAllPeopleInScenario(callerId, scenarioUpdated);
 			}
 			
