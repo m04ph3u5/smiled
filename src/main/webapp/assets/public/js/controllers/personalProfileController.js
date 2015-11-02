@@ -32,19 +32,22 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		userService.getUser(id).then(onSuccessGetUser, onErrorGetUser);
 		
 		if(id == myIdentity){
-			self.url = CONSTANTS.urlMeCover;
-			self.coverLarge = CONSTANTS.urlMeCoverLarge;
+			var d = new Date();
+			self.url = CONSTANTS.urlMeCover+"?"+d.toString();
+			self.coverLarge = CONSTANTS.urlMeCoverLarge+"?"+d.toString();
 			self.isModifiable=true;
 		}
 		else{
-			self.url = CONSTANTS.urlUserCover(id);
-			self.coverLarge = CONSTANTS.urlUserCoverLarge;
+			var d = new Date();
+			self.url = CONSTANTS.urlUserCover(id)+"?"+d.toString();
+			self.coverLarge = CONSTANTS.urlUserCoverLarge(id)+"?"+d.toString();
 		}
 		
 	}else{
 		userService.getMe().then(onSuccessGetUser, onErrorGetUser);
-		self.url = CONSTANTS.urlMeCover;
-		self.coverLarge = CONSTANTS.urlMeCoverLarge;
+		var d = new Date();
+		self.url = CONSTANTS.urlMeCover+"?"+d.toString();
+		self.coverLarge = CONSTANTS.urlMeCoverLarge+"?"+d.toString();
 		self.isModifiable=true;
 	}
 	

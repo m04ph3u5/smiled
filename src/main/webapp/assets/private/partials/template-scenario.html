@@ -50,7 +50,7 @@
 		
 	
 			
-		 <div class="box" data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
+		 <div id="leftSide" class="box sideMorePad hidden-xs hidden-sm hidden-md visible-lg " data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
 		 	<a href="">
 		 	<div class="row marginMTop">
 		 		<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/icon/pg.png" 
@@ -65,8 +65,16 @@
 				<button class="btn generalButton" type="button"><span class="glyphicon glyphicon-search"></span></button>
 			</span>
 		</div> -->
-		<div class="box visible-xs visible-sm visible-md hidden-lg">
-			
+		<div class="box visible-xs visible-sm visible-md hidden-lg" data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
+			 	<a href="">
+				 	<div class="row">
+				 		<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/icon/pg.png" 
+									class="img-circle imgPreviewXL">
+					</div>
+					<p class="highlightText sideMarginThree">{{scenario.currentCharacter.name}}</p>
+				</a>			
+			</div>	
+		<div class="box boxGray visible-xs visible-sm visible-md hidden-lg">
 			<label> {{scenario.scen.name}}</label><br>
 				Creato da: <label> {{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</label><br>
 				<hr>
@@ -86,20 +94,21 @@
 						Gestisci scenario		
 					</p>
 				</a>
+				<br>
 			</div>
 		</div>	
-		<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll">
-			<img class="img title" src="assets/public/img/icon/ic_socialgraph.png">
-		</div>
-		<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".missions" >
-			<img class="img title marginEmS" src="assets/public/img/titoli_dashboard/ic_hw.png">
-			<img class="img title marginEmS" src="assets/public/img/titoli_dashboard/compiti.png">	
+		<div class="box visible-xs visible-sm visible-md hidden-lg">
+			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll">
+				<img class="img imgSmallTemplate" src="assets/public/img/icon/ic_socialgraph.png">
+			</div>
+			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".missions" >
+				<img class="img imgSmallTemplate marginEmS" src="assets/public/img/icon/ic_hws.png">
+			</div>
+			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".resources">
+				<img class="img imgSmallTemplate marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
+			</div>	
 		</div>
 		
-		<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".resources">
-			<img class="img title marginEmS" src="assets/public/img/icon/ic_material.png">
-			<img class="img title marginEmS" src="assets/public/img/titoli_dashboard/materiali.png">	
-		</div>	
 	</div>
 	
 	<div class="col-lg-6 col-sm-8">
@@ -179,13 +188,11 @@
 				<img class="img title" src="assets/public/img/icon/ic_socialgraph.png">
 		    </div>
 		    <div style="cursor:pointer" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg" data-ui-sref=".missions" >
-				<img class="img title marginEmS" src="assets/public/img/titoli_dashboard/ic_hw.png">
-			<img class="img title marginEmS" src="assets/public/img/titoli_dashboard/compiti.png">
+				<img class="img title marginEmS" src="assets/public/img/icon/ic_hws.png">
 		    </div>
 		    	
 			 <div style="cursor:pointer" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg" data-ui-sref=".resources">
 				<img class="img title marginEmS" src="assets/public/img/icon/ic_material.png">
-				<img class="img title marginEmS" src="assets/public/img/titoli_dashboard/materiali.png">		
 			</div>
 			
 			

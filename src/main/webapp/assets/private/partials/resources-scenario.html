@@ -41,12 +41,13 @@
 
 <div class="row" style="margin:auto;">
 	<h4 data-ng-if="scenarioResources.uploadable">File caricati</h4>
-	<div class="row table-like-header visible-lg visible-md hidden-sm hidden-xs">
+	<div data-ng-show="scenarioResources.files.length!=0" class="row table-like-header visible-lg visible-md hidden-sm hidden-xs">
 		<div class="col-md-4 text-center">File</div>
 		<div class="col-md-4 text-center">Descrizione</div>
 		<div class="col-md-2 text-center">Data</div>
 		<div class="col-md-2 text-center">Docente</div>
 	</div>
+	<div data-ng-show="scenarioResources.files.length==0">Non è stato ancora caricato alcun materiale didattico</div>
 	<div class="row table-like dropdown" data-ng-repeat="f in scenarioResources.files track by $index">
 		<div class="row dropdown-toggle" data-toggle="dropdown">
 			<div class="col-md-1 hidden-sm visible-md visible-lg hidden-xs">

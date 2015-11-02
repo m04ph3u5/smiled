@@ -96,14 +96,14 @@ public class FileUploadController extends BaseController{
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="users/{id}/cover", method=RequestMethod.GET)
-	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
+	@PreAuthorize("(principal.getId().equals(#id)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#id, 'User', 'READ'))")
 	public ByteArrayResource getUserCover(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
 		return new ByteArrayResource(fileManagerService.getUserCover(id));
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="users/{id}/coverLarge", method=RequestMethod.GET)
-	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
+	@PreAuthorize("(principal.getId().equals(#id)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#id, 'User', 'READ'))")
 	public ByteArrayResource getUserCoverLarge(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
 		return new ByteArrayResource(fileManagerService.getUserCoverLarge(id));
 	}
