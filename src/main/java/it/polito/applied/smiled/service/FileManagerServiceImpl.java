@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -494,6 +495,10 @@ public class FileManagerServiceImpl implements FileManagerService {
 		meta.setFormat(type);
 		meta.setTrusted(trusted);
 		String filename = new SimpleDateFormat("yyyyMMddhhmmssSS").format(meta.getCreationDate());
+		filename+=(user.getId().substring(17));
+		Random r = new Random();
+		filename+=r.nextInt(10);
+		filename+=r.nextInt(10);
 		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
 	
 		return file.getFilename().toString();
@@ -627,7 +632,8 @@ public class FileManagerServiceImpl implements FileManagerService {
 		
 	@Override
 	public void deleteTrustedMedia(String idMedia) {
-		gridFsManager.deleteMedia(idMedia, true);
+		//GridFSFile meta = gridFsManager.getOriginalMetadata(idMedia);
+		gridFsManager.deleteMedia(idMedia);
 	}
 	
 	
@@ -746,6 +752,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 			return SupportedMedia.ods;
 		else if(contentType.equals("text/plain"))
 			return SupportedMedia.txt;
+		
 		else
 			throw new HttpMediaTypeNotAcceptableException(file.getContentType()+" formato non supportato");
 	}

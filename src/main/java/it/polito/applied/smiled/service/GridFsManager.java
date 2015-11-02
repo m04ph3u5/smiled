@@ -2,6 +2,7 @@ package it.polito.applied.smiled.service;
 
 import it.polito.applied.smiled.pojo.FileMetadata;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -20,7 +21,9 @@ public interface GridFsManager {
 
 	void toOldCover(GridFSFile oldCover);
 
-	FileMetadata getMetadata(String filename);
+	FileMetadata getMetadata(String filename) throws FileNotFoundException;
+	
+	GridFSFile getOriginalMetadata(String filename);
 
 	void updateMetadata(String filename, FileMetadata fileMeta);
 
@@ -42,14 +45,14 @@ public interface GridFsManager {
 
 	FileMetadata confirmImage(String string) throws IOException;
 
-	FileMetadata confirmFile(String string);
+	FileMetadata confirmFile(String string) throws FileNotFoundException;
 
-	FileMetadata putImageInDeleteStatus(String string);
+	FileMetadata putImageInDeleteStatus(String string) throws FileNotFoundException;
 
-	FileMetadata putFileInDeleteStatus(String string);
+	FileMetadata putFileInDeleteStatus(String string) throws FileNotFoundException;
 
 	GridFSDBFile readOneById(String name);
 
-	void deleteMedia(String idMedia, boolean trusted);
+	void deleteMedia(String idMedia);
 
 }
