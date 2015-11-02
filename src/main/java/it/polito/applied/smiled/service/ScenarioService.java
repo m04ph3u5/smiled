@@ -108,6 +108,10 @@ public interface ScenarioService {
 	public Character addMissionToCharacter(String idCharacter, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
 
 	public List<Action> getSocialGraph(String id) throws NotFoundException;
+	
+	public boolean deleteMissionToCharacter(String idCharacter)throws BadRequestException;
+	
+	public boolean deleteMissionToScenario(String idScenario)throws BadRequestException;
 
 	
 }
