@@ -2335,6 +2335,20 @@ public class ScenarioServiceImpl implements ScenarioService{
 		return characterRepository.updateCharacter(idCharacter, u);
 		
 	}
+	
+	@Override
+	public boolean deleteMissionToScenario(String idScenario)
+			throws BadRequestException {
+		return scenarioRepository.deleteMissionToScenario(idScenario);
+	}
+	
+	@Override
+	public boolean deleteMissionToCharacter(String idCharacter)throws BadRequestException {
+		
+		
+		 return characterRepository.deleteMissionToCharacter(idCharacter);
+		
+	}
 
 
 	/*Questo metodo tiene conto, per il momento, dei soli status e di tutte le interazioni ad esso associate
@@ -2511,6 +2525,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Collections.sort(actions);
 		return actions;
 	}
+
+
+	
 
 
 	

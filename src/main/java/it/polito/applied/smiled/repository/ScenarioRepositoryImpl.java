@@ -361,5 +361,17 @@ public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 			return false;		
 	}
 	
+	@Override
+	public boolean deleteMissionToScenario(String idScenario) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("_id").is(new ObjectId(idScenario)));
+		Update u = new Update();
+		u.set("mission", null);
+		WriteResult w = mongoOp.updateFirst(q, u, Scenario.class);
+		if(w.isUpdateOfExisting())
+			return true;
+		else
+			return false;
+	}
 	
 }

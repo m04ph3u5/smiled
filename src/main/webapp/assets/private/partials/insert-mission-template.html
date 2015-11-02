@@ -12,6 +12,12 @@
 						Nessuno sta interpretando questo personaggio								
 					</a>
 					
+					<div data-ng-if="!insertMission.mission">
+						<font size="2" color="#868686">Missione non assegnata </font>
+						
+					</div>
+					
+					
 					<div data-ng-if="insertMission.mission">
 						<font size="2" color="#868686">Missione assegnata il: </font>
 						<a href="">{{insertMission.mission.lastChangeDate | date: insertMission.realDateFormat}}</a><br> 
@@ -25,6 +31,12 @@
 		 	</span>	
 		 	
 		 	<span data-ng-if="!insertMission.character" class="pull-right marginMRight text-right" >						
+					
+					
+					<div data-ng-if="!insertMission.mission">
+						<font size="2" color="#868686">Missione non assegnata </font>
+						
+					</div>
 					
 					<div data-ng-if="insertMission.mission">
 						<font size="2" color="#868686">Missione assegnata il: </font>
@@ -47,14 +59,14 @@
 			</h4>
 			<div class="col-xs-8 col-sm-9 col-md-10">
 				<h4 class="pull-left">TITOLO</h4>
-				<input data-ng-if="insertMission.isCreator || insertMission.isModerator" type="text" class="pull-left allWidth" placeholder="Inserisci titolo..."
+				<input data-ng-if="insertMission.isCreator || insertMission.isModerator" type="text" class="pull-left allWidth" placeholder="Inserisci un titolo..."
 				 data-ng-model="insertMission.newMission.title"></input>
 				 
 				 <p data-ng-if="!insertMission.isCreator && !insertMission.isModerator" class="pull-left allWidth missionParagraph" >
 				 {{insertMission.mission.title}}<span data-ng-if="!insertMission.mission.title">Nessun titolo</span></p>
 				 
 				 <h4 class="pull-left">DESCRIZIONE</h4>
-				<textarea data-ng-if="insertMission.isCreator || insertMission.isModerator" class="pull-left allWidth" placeholder="Inserisci descrizione compito..."
+				<textarea data-ng-if="insertMission.isCreator || insertMission.isModerator" class="pull-left allWidth" placeholder="Inserisci una descrizione..."
 				rows="3" data-ng-model="insertMission.newMission.description"></textarea>
 				
 				<p data-ng-if="!insertMission.isCreator && !insertMission.isModerator" class="pull-left allWidth missionParagraph" >
@@ -71,7 +83,10 @@
 		<div data-ng-if="insertMission.dirty && (insertMission.isCreator || insertMission.isModerator)" data-ng-click="insertMission.saveMission()"
 			class="btn positiveButton">ASSEGNA</div>
 			<div data-ng-if="insertMission.dirty && (insertMission.isCreator || insertMission.isModerator)" data-ng-click="insertMission.deleteModifyMission()"
-			class="btn positiveButton">ANNULLA MODIFICA</div>
+			class="btn warningButton">ANNULLA MODIFICA</div>
+			
+			<div data-ng-if="insertMission.mission && (insertMission.isCreator || insertMission.isModerator)" data-ng-click="insertMission.deleteMission()"
+			class="btn warningButton">ANNULLA MISSIONE</div>
 </div>
 </div>
 	
