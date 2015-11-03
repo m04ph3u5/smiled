@@ -24,6 +24,7 @@
 			<a data-ng-if="personalProfile.isModifiable"  href="" data-ng-click="personalProfile.editPassword()">Cambia password</a>
 			
 			    
+			
 		</div>
 		<div class="col-sm-7 col-md-6 col-lg-5 box fixedHeight imgProfile"
 				style="background-size: cover;
@@ -54,10 +55,13 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="form-group" data-ng-if="personalProfile.editablePassword">
-					<label for="oldP">Vecchia password</label><input data-ng-model="personalProfile.oldPassword" class="form-control" type="text" id="oldP"></input>
-					<label for="newP">Nuova password</label><input data-ng-model="personalProfile.newPassword" class="form-control" type="text" id="newP"></input>
-					<button data-ng-click="personalProfile.modifyPassword()">Cambia</button>
+		<div class="col-md-1 col-lg-2"></div>
+		<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" data-ng-if="personalProfile.editablePassword">
+			
+				<label for="oldP">Vecchia password</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
+				<label for="newP">Nuova password</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword" class="form-control" id="newP"></input>
+				<br>
+				<button data-ng-click="personalProfile.modifyPassword()">Cambia</button>
 		</div>
 	</div>
 </div>
