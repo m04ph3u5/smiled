@@ -331,3 +331,7 @@ span.clickable:hover {
 .imgSmallTemplate {
 	width: 45px;
 }
+
+.imgMediumTemplate {
+	width: 60px;
+}

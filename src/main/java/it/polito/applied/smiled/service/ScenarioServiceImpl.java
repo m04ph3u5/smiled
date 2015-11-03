@@ -57,6 +57,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2245,7 +2246,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public void addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException {
+	public boolean addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException {
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 		Post post = postRepository.findById(postId);
 		
@@ -2272,7 +2273,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new BadRequestException();
 		
 		post.addLike(charRef);
-		postRepository.save(post);
+		Post newPost = postRepository.save(post);
+		
+		Set<CharacterReference> likes = newPost.getLikes();
+		if(likes!=null)
+			for(CharacterReference c : likes){
+				if(c.getUserId().equals(user.getId()))
+					return true;
+			}
+		
+		return false;
 //		notify.notifyLikeToPost(scenario, post, charRef);
 	}
 
@@ -2388,7 +2398,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 				
 				/*LIKE AL POST*/
-				List<CharacterReference> likes = s.getLikes();
+				Set<CharacterReference> likes = s.getLikes();
 				if(likes!=null && likes.size()!=0){
 					for(CharacterReference r : likes){
 						Action aLike = new Action();
@@ -2464,7 +2474,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 					
 					/*LIKE AL POST*/
-					List<CharacterReference> likes = e.getLikes();
+					Set<CharacterReference> likes = e.getLikes();
 					if(likes!=null && likes.size()!=0){
 						for(CharacterReference r : likes){
 							Action aLike = new Action();

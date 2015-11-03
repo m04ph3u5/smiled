@@ -45,10 +45,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import com.mongodb.MongoException;
 
@@ -95,6 +99,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			throw e;
 		}
 		CustomUserDetails actualUser = new CustomUserDetails(user);
+				
 		System.out.println(actualUser.getUsername()+" loggedIn");
 		return actualUser;
 	}
@@ -155,11 +160,11 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 
 	@Override
-	public void changePassword(String userEmail, String oldPassword, String newPassword) throws MongoException, BadCredentialsException, UserNotFoundException, BadRequestException {
-
+	public User changePassword(String userEmail, String oldPassword, String newPassword) throws MongoException, BadCredentialsException, UserNotFoundException, BadRequestException {
+		User u = null;
 		try{
-
-			if(!checkOldPassword(userEmail,oldPassword,false))
+			u = checkOldPassword(userEmail,oldPassword,false);
+			if(u==null)
 				throw new BadCredentialsException();
 
 			String hashNewPassword=passwordEncoder.encode(newPassword);
@@ -170,14 +175,17 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 
 		}catch(MongoException e){
 			throw e;
-		}	
+		}
+		
+		return u;
 	}
 
 	@Override
-	public void changeFirstPassword(FirstPasswordDTO firstPassword) throws UserNotFoundException, BadCredentialsException, BadRequestException {
+	public User changeFirstPassword(FirstPasswordDTO firstPassword) throws UserNotFoundException, BadCredentialsException, BadRequestException {
+		User user = null;
 		try{
-
-			if(!checkOldPassword(firstPassword.getEmail(), firstPassword.getOldPassword(),true))
+			user = checkOldPassword(firstPassword.getEmail(), firstPassword.getOldPassword(),true);
+			if(user==null)
 				throw new BadCredentialsException();
 
 			String hashNewPassword=passwordEncoder.encode(firstPassword.getNewPassword());
@@ -212,12 +220,15 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}catch(MongoException e){
 			throw e;
 		}	
+		
+		return user;
 	}
 
 	@Override
-	public void registerTeacher(RegisterTeacherDTO teacher) throws UserAlreadyExistsException , MongoException, BadRequestException, MongoDataIntegrityViolationException {
+	public User registerTeacher(RegisterTeacherDTO teacher) throws UserAlreadyExistsException , MongoException, BadRequestException, MongoDataIntegrityViolationException {
 		/*Tutti i metodi che accedono ai repository sono all'interno di blocchi try/catch, 
 		 * così da catchare eventuali eccezioni sul DB (MongoException)*/
+		User inserted = null;
 		try{
 			/*SALVA UTENTE NEL REPOSITORY USER*/		
 			User u = new Teacher();
@@ -239,7 +250,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			u.setProfile(profile);
 
 			try{
-				userRepository.insert(u);
+				inserted = userRepository.insert(u);
 			}catch(MongoDataIntegrityViolationException e){
 				//TODO
 				/*Inserire report eccezione (in tutte le eccezioni di questa classe)*/
@@ -267,6 +278,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}catch(MongoException e){
 			throw e;
 		}
+		
+		return inserted;
 	}
 
 	@Override
@@ -370,7 +383,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 	}
 
-	private boolean checkOldPassword(String userEmail, String oldPassword, boolean first) throws UserNotFoundException{
+	private User checkOldPassword(String userEmail, String oldPassword, boolean first) throws UserNotFoundException{
 
 		User u = userRepository.findByEmail(userEmail);
 		if(u==null)
@@ -378,14 +391,14 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 
 		if(first){
 			if(u.getStatus()!=UserStatus.STATUS_PENDING_DEFAULT_PASSWORD)
-				return false;
+				return null;
 		}
 
 		/*Metodo di BCrypt per comparare una password in chiaro (oldPassword), con la sua versione hashata (u.getPassword()))*/
 		if(passwordEncoder.matches(oldPassword, u.getPassword()))
-			return true;
+			return u;
 		else
-			return false;
+			return null;
 	}
 
 	@Override

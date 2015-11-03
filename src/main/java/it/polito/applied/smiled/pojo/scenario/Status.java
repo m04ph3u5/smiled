@@ -2,6 +2,7 @@ package it.polito.applied.smiled.pojo.scenario;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -32,7 +33,7 @@ public class Status extends Post{
 	public Status(){
 		this.setCreationDate(new Date());
 		this.setLastChangeDate(this.getCreationDate());
-		this.setLikes(new ArrayList<CharacterReference>());
+		this.setLikes(new HashSet<CharacterReference>());
 		this.setComments(new ArrayList<Comment>());
 		this.setMetaComments(new ArrayList<MetaComment>());
 		this.setRevision(new Revision());

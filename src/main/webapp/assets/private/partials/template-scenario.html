@@ -2,11 +2,6 @@
 <div class="row">
 <div class="col-md-1"></div>
 	<div class="col-lg-2 col-md-3 col-sm-4">
-	 	
-		<div class="box" data-ng-show="!scenario.isCreator && !scenario.isModerator">
-			<h3>I MIEI COMPITI: </h3>
-  			<!--<div data-ng-repeat="scenario.myMissions"></div>  -->
-		</div>
 		<!-- <div class="box" data-ng-show="scenario.isCreator">
 			<h3>CREA NUOVO COMPITO: </h3>
 						<div class="marginMTop">
@@ -97,7 +92,18 @@
 				<br>
 			</div>
 		</div>	
-		<div class="box visible-xs visible-sm visible-md hidden-lg">
+		<div class="box hidden-xs hidden-sm visible-md hidden-lg">
+			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll">
+				<img class="img imgMediumTemplate" src="assets/public/img/icon/ic_socialgraph.png">
+			</div>
+			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".missions" >
+				<img class="img imgMediumTemplate marginEmS" src="assets/public/img/icon/ic_hws.png">
+			</div>
+			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".resources">
+				<img class="img imgMediumTemplate marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
+			</div>	
+		</div>
+		<div class="box hidden-xs visible-sm hidden-md hidden-lg">
 			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll">
 				<img class="img imgSmallTemplate" src="assets/public/img/icon/ic_socialgraph.png">
 			</div>
@@ -107,6 +113,18 @@
 			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".resources">
 				<img class="img imgSmallTemplate marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>	
+		</div>
+		
+		<div class="row visible-xs hidden-sm hidden-md hidden-lg text-center">
+			<div style="cursor:pointer;" class="col-xs-4" data-ui-sref=".missions" >
+				<img class="img imgSmallTemplate " src="assets/public/img/icon/ic_hws.png">
+			</div>
+			<div style="cursor:pointer;" class="col-xs-4" data-ui-sref=".resources">
+				<img class="img imgSmallTemplate " src="assets/public/img/icon/ic_mat_clip.png">
+			</div>	
+			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="col-xs-4 " data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll">
+				<img class="img imgSmallTemplate" src="assets/public/img/icon/ic_socialgraph.png">
+			</div>
 		</div>
 		
 	</div>
@@ -192,7 +210,7 @@
 		    </div>
 		    	
 			 <div style="cursor:pointer" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg" data-ui-sref=".resources">
-				<img class="img title marginEmS" src="assets/public/img/icon/ic_material.png">
+				<img class="img title marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>
 			
 			
