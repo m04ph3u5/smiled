@@ -561,16 +561,21 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							console.log("failed update character: "+reason);
 						}
 						);
-					}else{ //il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
-						/*TO CONTINUE*/
+					}else{ //la validazione delle info digitate è fallita
 						//TODO
+						console.log("validazione fallita");
+						self.currentCharacters[currentCharacterIndex].bornDate = angular.copy(self.charactersServer[currentCharacterIndex].bornDate);
+						self.currentCharacters[currentCharacterIndex].deadDate = angular.copy(self.charactersServer[currentCharacterIndex].deadDate);
 						if(currentCharacterIndex!=i)
 							currentCharacterIndex=i;
 						else
 							currentCharacterIndex=-1;
 					}
-				}else{ //la validazione delle info digitate è fallita
+				}else{ 
+					console.log("nessun cambiamento");
 					   //TODO
+					//il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
+					/*TO CONTINUE*/
 					if(currentCharacterIndex!=i)
 						currentCharacterIndex=i;
 					else
@@ -997,8 +1002,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var isEquivalent =  function(a, b) {
 			console.log("isEquivalent");
-			
-			
+	
 			if(a.name != b.name){
 				return false;
 			}
@@ -1138,7 +1142,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						return false;
 						console.log("startDate.month < endDate.month GOOD");
 						return true;
-					}else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
+					}else if(
+						startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
+						console.log("startDate.month < endDate.month GOOD");
+						return true;
+					}
+					else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
 						console.log("data inizio e fine con stesso anno e stesso mese");
 						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
 							console.log("startDate.day > endDate.day ERR");
@@ -1254,7 +1263,24 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var isCurrentCharacterValid = function(char){
+			if(char.deadDate && !checkDate(char.deadDate.year))
+				return false;
+			if(char.bornDate && !checkDate(char.bornDate.year))
+				return false;
+			if(char.deadDate && char.bornDate){
+				if(!checkIfEndIsAfterStart(char.bornDate, char.deadDate)){
+					return false;
+				}
+			}
 			return true;
+		}
+		
+		var checkDate = function(year){
+			if(isNaN(year)){
+				return false;
+			}else{
+				return true;
+			}  
 		}
 
 		onStartup();
