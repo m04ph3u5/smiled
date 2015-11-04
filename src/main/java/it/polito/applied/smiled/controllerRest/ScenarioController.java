@@ -483,7 +483,9 @@ public class ScenarioController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public Scenario insertMissionToScen(@PathVariable String id, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
-		return scenarioService.addMissionToScenario(id, mission, activeUser);
+		Scenario s = scenarioService.addMissionToScenario(id, mission, activeUser);
+		logService.logUpdateScenarioMission(id, activeUser.getId());
+		return s;
 		
 	}
 	
@@ -493,30 +495,36 @@ public class ScenarioController extends BaseController{
 	public Character insertMissionToChar(@PathVariable String id, @PathVariable String characterId, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
 		
-		return scenarioService.addMissionToCharacter(characterId, mission, activeUser);
+		Character c = scenarioService.addMissionToCharacter(characterId, mission, activeUser);
+		logService.logUpdateCharacterMission(id, activeUser.getId(), characterId);
+
+		return c;
 		
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/mission", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public void deleteMissionToChar(@PathVariable String id, @PathVariable String characterId) throws MongoException, NotFoundException, BadRequestException{
+	public void deleteMissionToChar(@PathVariable String id, @PathVariable String characterId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
 		
 		if (!scenarioService.deleteMissionToCharacter(characterId))
 				throw new BadRequestException();
+		
+		logService.logRemoveCharacterMission(id, activeUser.getId(), characterId);
 		
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/mission", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public void deleteMissionToScenario(@PathVariable String id) throws MongoException, NotFoundException, BadRequestException{
+	public void deleteMissionToScenario(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
 		
 		if (!scenarioService.deleteMissionToScenario(id))
 				throw new BadRequestException();
-		
+		logService.logRemoveScenarioMission(id, activeUser.getId());
+
 	}
 	
 //	//Restituisce la lista di compiti dello scenario

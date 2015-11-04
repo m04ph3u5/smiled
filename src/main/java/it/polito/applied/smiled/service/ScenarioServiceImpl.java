@@ -104,6 +104,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Autowired
 	private AsyncUpdater asyncUpdater;
 	
+	@Autowired
+	private LogService logService;
+	
 //	@Autowired
 //	private NotifyService notify;
 

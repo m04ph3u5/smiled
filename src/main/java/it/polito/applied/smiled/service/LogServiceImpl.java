@@ -337,6 +337,135 @@ public class LogServiceImpl implements LogService{
 		logRepo.save(log);					
 	}
 
+	@Override
+	public void logUpdateScenarioMission(String scenarioId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(scenarioId);
+		log.setType(LogType.UP_MISSION_SCEN);
+		logRepo.save(log);				
+	}
+
+	@Override
+	public void logUpdateCharacterMission(String scenarioId, String userId,
+			String characterId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(characterId);
+		log.setType(LogType.UP_MISSION_CHAR);
+		logRepo.save(log);					
+	}
+
+	@Override
+	public void logRemoveCharacterMission(String scenarioId, String userId,
+			String characterId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(characterId);
+		log.setType(LogType.DEL_MISSION_CHAR);
+		logRepo.save(log);			
+	}
+
+	@Override
+	public void logRemoveScenarioMission(String scenarioId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(scenarioId);
+		log.setType(LogType.DEL_MISSION_SCEN);
+		logRepo.save(log);				
+	}
+
+	@Override
+	public void logUpdateScenarioCover(String scenarioId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(scenarioId);
+		log.setType(LogType.UP_SCEN_COVER);
+		logRepo.save(log);					
+	}
+
+	@Override
+	public void logUpdateUserCover(String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(null);
+		log.setUserId(userId);
+		log.setRefer(userId);
+		log.setType(LogType.UP_USER_COVER);
+		logRepo.save(log);					
+	}
+
+	@Override
+	public void logUpdateUserCoverLarge(String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(null);
+		log.setUserId(userId);
+		log.setRefer(userId);
+		log.setType(LogType.UP_USER_COVER_L);
+		logRepo.save(log);					
+	}
+
+	@Override
+	public void logUpdateCharacterCover(String scenarioId, String userId,
+			String characterId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(characterId);
+		log.setType(LogType.UP_CHAR_COVER);
+		logRepo.save(log);					
+	}
+
+	@Override
+	public void logAddTrustedMedia(String idScenario, String userId,
+			String idMedia) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(idScenario);
+		log.setUserId(userId);
+		log.setRefer(idMedia);
+		log.setType(LogType.NEW_TRUST_FILE);
+		logRepo.save(log);				
+	}
+
+	@Override
+	public void logRemoveTrustedMedia(String idScenario, String userId,
+			String idMedia) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(idScenario);
+		log.setUserId(userId);
+		log.setRefer(idMedia);
+		log.setType(LogType.DEL_TRUST_FILE);
+		logRepo.save(log);			
+	}
+
+	@Override
+	public void logUpdateTrustedMedia(String idScenario, String userId,
+			String idMedia) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(idScenario);
+		log.setUserId(userId);
+		log.setRefer(idMedia);
+		log.setType(LogType.UP_TRUST_FILE);
+		logRepo.save(log);					
+	}
+	
+	
+
 
 
 	
