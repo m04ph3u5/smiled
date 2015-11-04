@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface CustomLogSessionRepository {
 	public List<LogSession> findByUserInDate(String userId, Date start, Date end) throws BadRequestException;
-	public List<String> findLoggedUser();
-	public List<String> findLoggedUserInDate(Date start, Date end);
-	public Date totalLoggedTimeOfUser(String userId);
-	public Date totalLoggedTimeOfUserInDate(String userId, Date start, Date end);
+	public List<LogSession> findLoggedUsers();
+	public List<LogSession> findLoggedUsersInDate(Date start, Date end) throws BadRequestException;
+	public Long totalLoggedTimeOfUser(String userId);
+	public Long totalLoggedTimeOfUserInDate(String userId, Date start, Date end);
 }

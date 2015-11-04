@@ -255,8 +255,9 @@ public class ScenarioController extends BaseController{
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
 		characterDTO.setId(characterId);
+		System.out.println("Character prima: "+ characterDTO.getBornDate().getDay());
 		Character c = scenarioService.updateCharacter(id, characterDTO);
-		logService.logUpdateCharacterProfile(id, activeUser.getId(), c.getId());
+		System.out.println("Character dopo: "+ c.getBornDate().getDay());		logService.logUpdateCharacterProfile(id, activeUser.getId(), c.getId());
 		return c;
 	}
 	

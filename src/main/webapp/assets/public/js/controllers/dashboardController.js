@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService','userService', '$scope','$interval','apiService',
-   function dashboardCtrl(loggedUser,modalService,userService,$scope,$interval,apiService){
+angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','modalService','userService', '$scope','$interval','apiService', 'CONSTANTS',
+   function dashboardCtrl(loggedUser,modalService,userService,$scope,$interval,apiService, CONSTANTS){
 	
 	var self = this;
 	self.numScenariosToShow = 4;
@@ -22,6 +22,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	self.studentsList = loggedUser.students;
 	self.showCollCard = [false,false,false,false,false,false];
 	self.selectedUserID = null;
+	self.myCharacters = new Array()
 	
 	self.tab = new Array();
 	self.showPopUpCreationScenario = function (){
@@ -54,6 +55,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		else return 0;
 	}
 	
+	
 	var createArrayOfScenariosToShow = function(){
 		var tmp = new Array();
 		if (self.user.openScenarios != null && self.user.creatingScenarios != null){
@@ -66,8 +68,19 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 			tmp = self.user.openScenarios.concat(self.user.creatingScenarios);
 			
 		}else if(self.user.openScenarios != null && self.user.creatingScenarios == null){
+			self.myCharacters = [];
 			for(var i=0; i<self.user.openScenarios.length; i++){
 				self.user.openScenarios[i].isOpen=true;
+				console.log("createArrayOfScenariosToShow IN");
+				console.log(self.user.openScenarios[i]);
+				if(self.user.openScenarios[i].myCharacterId){
+					var character = {};
+					character.scenarioId = self.user.openScenarios[i].id;
+					character.id = self.user.openScenarios[i].myCharacterId;
+					character.name = self.user.openScenarios[i].myCharacterName;
+					character.cover = CONSTANTS.urlCharacterCover(self.user.openScenarios[i].id, self.user.openScenarios[i].myCharacterId);
+					self.myCharacters.push(character);
+				}
 			}
 			tmp = self.user.openScenarios;
 		}
@@ -95,6 +108,8 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 					shuffleArray(data.students);
 				if(data.colleagues)
 					shuffleArray(data.colleagues);
+				if(self.myCharacters)
+					shuffleArray(self.myCharacters);
 			}, function(reason){
 				console.log("errore");
 			}

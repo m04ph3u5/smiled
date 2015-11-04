@@ -1,7 +1,7 @@
 <div class="container-fluid">
 <div class="row">
 <div class="col-md-1"></div>
-	<div class="col-lg-2 col-md-3 col-sm-4">
+<div class="col-lg-2 col-md-3 col-sm-4">
 		<!-- <div class="box" data-ng-show="scenario.isCreator">
 			<h3>CREA NUOVO COMPITO: </h3>
 						<div class="marginMTop">
@@ -43,17 +43,23 @@
 						</div>
 		</div> -->
 		
-	
+		<div id="leftSide" class="box">
+			<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/icon/pg.png" 
+								class="img-circle imgPreviewXL">
+			<p class="highlightText text-center" style="word-wrap:break-word;" data-ng-bind-html="scenario.currentCharacter.name | linky:'_blank'"></p>
+		</div>
 			
-		 <div id="leftSide" class="box sideMorePad hidden-xs hidden-sm hidden-md visible-lg " data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
-		 	<a href="">
-		 	<div class="row marginMTop">
-		 		<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/icon/pg.png" 
-							class="img-circle imgPreviewXL">
-			</div>
-			<p class="highlightText sideMarginThree">{{scenario.currentCharacter.name}}</p>
-			</a>			
-		</div>		
+<!-- 		 <div id="leftSide" class="sideMorePad hidden-xs hidden-sm hidden-md visible-lg" data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })"> -->
+<!-- 		 	<div class="row marginMTop"> -->
+<!-- 		 		<div class="col-sm-12"> -->
+<!-- 			 		<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/icon/pg.png"  -->
+<!-- 								class="img-circle imgPreviewXL"> -->
+<!-- 				</div> -->
+<!-- 				<div class="col-sm-12"> -->
+<!-- 					<p class="highlightText" data-ng-bind-html="scenario.currentCharacter.name | linky:'_blank'"></p> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div>		 -->
 		<!-- <div class="box input-group visible-xs visible-sm visible-md hidden-lg">
 			<input type="text" class="form-control" placeholder="Cerca nello scenario...">
 			<span class="input-group-btn">
