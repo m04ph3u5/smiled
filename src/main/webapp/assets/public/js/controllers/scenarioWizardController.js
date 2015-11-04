@@ -137,16 +137,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(self.scenario.characters)
 				for(var i=0;i<self.scenario.characters.length;i++){
 					self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
+					self.scenarioServer.characters[i].cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
 				}
 			if(self.scenario.attendees)
 				for(var i=0;i<self.scenario.attendees.length; i++){
 					self.scenario.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
+					self.scenarioServer.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
 				}
 			if(self.scenario.collaborators)
 				for(var i=0;i<self.scenario.collaborators.length; i++){
 					self.scenario.collaborators[i].cover = CONSTANTS.urlUserCover(self.scenario.collaborators[i].id);
+					self.scenarioServer.collaborators[i].cover = CONSTANTS.urlUserCover(self.scenario.collaborators[i].id);
 				}
 			self.scenario.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
+			self.scenarioServer.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
 			self.map = CONSTANTS.urlMedia(self.scenario.history.mapId);
 		}
 		
@@ -339,6 +343,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					apiService.updateScenario(scenarioDTO, id).then(
 							function(data){
 								self.scenarioServer = data;
+								self.scenario.history = angular.copy(data.history);
+								updateCover();
 								console.log("then saveInfo updateScenario");
 							},
 							function(reason){
@@ -577,9 +583,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var checkHistoricalDate = function(charDTO){
-			if(!charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
+			
+			if(charDTO.bornDate && !charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
 				charDTO.bornDate = null;
-			if(!charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
+			if(charDTO.deadDate && !charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
 				charDTO.deadDate = null;
 		}
 		
@@ -599,7 +606,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.scenario.collaborators.push(angular.copy(data));
 							if(self.notAssociatedAttendees==null)
 								self.notAssociatedAttendees = new Array();
-							self.notAssociatedAttendees.push(angular.copy(data));
+							var newCollaborator = angular.copy(data);
+							newCollaborator.cover = CONSTANTS.urlUserCover(data.id);
+							self.notAssociatedAttendees.push(newCollaborator);
 						}, 
 					function(reason){
 							console.log("chiamata alle api NOT OK");
@@ -988,7 +997,30 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var isEquivalent =  function(a, b) {
 			console.log("isEquivalent");
-			var ret = angular.equals(a,b);
+			
+			
+			if(a.name != b.name){
+				return false;
+			}
+			if( a.description != b.description){
+				return false;
+			}
+				
+			r = angular.equals(a.history, b.history);
+			if (r == false){
+				return false;
+			}
+				
+			if( a.showRelationsToAll != b.showRelationsToAll){
+				return false;
+			}
+			
+
+			return true;
+//			var ret = angular.equals(a,b);
+//			console.log(ret);
+//			console.log(a);
+//			console.log(b);
 //			console.log(a);
 //			console.log(b);
 //			// Create arrays of property names
@@ -1016,7 +1048,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //		    // are considered equivalent
 //		    console.log("isEquivalent ---> return true");
 //		    return true;
-			return ret;
+//			return ret;
 		}
 		
 		var infoValidate = function(){
@@ -1183,22 +1215,28 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				return true;
 			if(newChar.nickname!=oldChar.nickname)
 				return true;
-			if(newChar.bornDate.day!=oldChar.bornDate.day)
-				return true;
-			if(newChar.bornDate.month!=oldChar.bornDate.month)
-				return true;
-			if(newChar.bornDate.year!=oldChar.bornDate.year)
-				return true;
-			if(newChar.bornDate.afterChrist!=oldChar.bornDate.afterChrist)
-				return true;
-			if(newChar.deadDate.day!=oldChar.deadDate.day)
-				return true;
-			if(newChar.deadDate.month!=oldChar.deadDate.month)
-				return true;
-			if(newChar.deadDate.year!=oldChar.deadDate.year)
-				return true;
-			if(newChar.deadDate.afterChrist!=oldChar.deadDate.afterChrist)
-				return true;
+			
+			if(newChar.bornDate && oldChar.bornDate){
+				if(newChar.bornDate.day!=oldChar.bornDate.day)
+					return true;
+				if(newChar.bornDate.month!=oldChar.bornDate.month)
+					return true;
+				if(newChar.bornDate.year!=oldChar.bornDate.year)
+					return true;
+				if(newChar.bornDate.afterChrist!=oldChar.bornDate.afterChrist)
+					return true;
+				
+			}if(newChar.deadDate && oldChar.deadDate){
+				if(newChar.deadDate.day!=oldChar.deadDate.day)
+					return true;
+				if(newChar.deadDate.month!=oldChar.deadDate.month)
+					return true;
+				if(newChar.deadDate.year!=oldChar.deadDate.year)
+					return true;
+				if(newChar.deadDate.afterChrist!=oldChar.deadDate.afterChrist)
+					return true;
+			}
+			
 			if(newChar.bornTown!=oldChar.bornTown)
 				return true;
 			if(newChar.deadTown!=oldChar.deadTown)
