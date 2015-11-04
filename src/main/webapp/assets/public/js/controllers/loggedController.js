@@ -5,6 +5,7 @@ angular.module('smiled.application').controller('loggedCtrl', ['loggedUser', '$s
 		console.log(loggedUser);
 		console.log(loggedUser.role.authority);
 		
+		
 		if(loggedUser.role.authority=="ROLE_ADMIN"){
 			console.log("ADMIN");
 			$state.go('logged.dashboard.admin.users');

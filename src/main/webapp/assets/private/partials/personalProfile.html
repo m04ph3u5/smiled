@@ -58,8 +58,9 @@
 		<div class="col-md-1 col-lg-2"></div>
 		<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" data-ng-if="personalProfile.editablePassword">
 			
-				<label for="oldP">Vecchia password</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
-				<label for="newP">Nuova password</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword" class="form-control" id="newP"></input>
+				<label for="oldP">Vecchia password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
+				<label for="newP">Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword" class="form-control" id="newP"></input>
+				<label for="newP2">Ripeti Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword2" class="form-control" id="newP2"></input>
 				<br>
 				<button data-ng-click="personalProfile.modifyPassword()">Cambia</button>
 		</div>

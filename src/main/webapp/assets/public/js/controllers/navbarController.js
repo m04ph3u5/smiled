@@ -7,6 +7,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	userService.getMe().then(		
 		function(data){
 			self.user=data;
+			
 			if(self.user.role.authority=="ROLE_TEACHER" || self.user.role.authority=="ROLE_ADMIN"){
 				self.basicCover=CONSTANTS.basicTeacherCover;
 			}

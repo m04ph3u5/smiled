@@ -318,6 +318,7 @@ public class ScenarioController extends BaseController{
 	public Post getPost(@PathVariable String id, @PathVariable String postId) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
 		return scenarioService.getPost (id,postId, auth);
 	}
 	

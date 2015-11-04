@@ -29,23 +29,25 @@
 		
 			<li data-ui-sref="logged.issues">
 			
-				<a href="">Segnala un problema</a></li>
-			<li><a data-ui-sref="logged.dashboard"href=""><span class="glyphicon glyphicon-home"></span></a></li>
+				<a tooltip="Segnala un problema" href="">Segnala un problema</a></li>
+			<li>
+				<a data-ui-sref="logged.dashboard" tooltip="Home" href=""><span class="glyphicon glyphicon-home"></span></a></li>
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+				<a href="#"  class="dropdown-toggle" tooltip="Notifiche" data-toggle="dropdown" role="button" aria-expanded="false">
 					<span class="glyphicon glyphicon-bullhorn"></span>
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Guidi Marco ha inserito un nuovo post</a></li>
-					<li><a href="#">A Rea Anna piace il post di Renzo</a></li>
-					<li><a href="#">Rea Anna ha completato un compito</a></li>
-					<li><a href="#">Bello Antonio ha commentato il suo post</a></li>
+					<li><a href="#">Notifica 1</a></li>
+					<li><a href="#">Notifica 2</a></li>
+					<li><a href="#">Notifica 3</a></li>
+					<li><a href="#">Notifica 4</a></li>
 					
 					<li class="divider"></li>
 					<li><a href="#">Vedi tutte</a></li>
 				</ul></li>
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
+			<li class="dropdown">
+				<a tooltip="Messaggi" href="#" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-envelope"></span><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
@@ -54,24 +56,39 @@
 					<li><a href="#">Messaggio 3</a></li>
 					<li class="divider"></li>
 					<li><a href="#">Vedi tutti</a></li>
-				</ul></li>
+				</ul>
+			</li>
 <!-- 				<a href=""><img src="assets/public/img/user_ico.png" class="img-circle" width="20" height="20"> Utente </a> -->
-				<li data-ui-sref="logged.userProfile({id : '{{navbar.user.id}}' })" class="noPadding">
-					<a href="" class="noPadding">
+			<li data-ui-sref="logged.userProfile({id : '{{navbar.user.id}}' })" class="noPadding">
+					<a tooltip="Docente" data-ng-if="navbar.user.role.authority == 'ROLE_TEACHER'" href="" class="noPadding">
+					<img data-ng-src="{{navbar.cover}}" 
+						data-err-src="{{navbar.basicCover}}"
+						class="img-circle imgPreviewM"> 
+					{{navbar.user.firstName}} {{navbar.user.lastName}} 
+					
+					</a>
+					<a tooltip="Studente" data-ng-if="navbar.user.role.authority == 'ROLE_USER'" href="" class="noPadding">
+					<img data-ng-src="{{navbar.cover}}" 
+						data-err-src="{{navbar.basicCover}}"
+						class="img-circle imgPreviewM"> 
+					{{navbar.user.firstName}} {{navbar.user.lastName}} 
+					
+					</a>
+					<a tooltip="Amministratore" data-ng-if="navbar.user.role.authority == 'ROLE_ADMIN'" href="" class="noPadding">
 						<img data-ng-src="{{navbar.cover}}" 
 						data-err-src="{{navbar.basicCover}}"
 						class="img-circle imgPreviewM"> 
+					{{navbar.user.firstName}} {{navbar.user.lastName}} 
 					
-					{{navbar.user.firstName}} {{navbar.user.lastName}}
 					</a>
 			</li>
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
+			<li class="dropdown">
+				<a tooltip="Impostazioni" href="#" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-cog"><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Invita un collega</a></li>
+					<li data-ng-if="navbar.user.role.authority == 'ROLE_TEACHER'"><a href="#">Invita un collega</a></li>
 					<li><a href="#">Modifica profilo</a></li>
-					<li><a href="#">Crea nuovo compito</a></li>
 					<li class="divider"></li>
 					<li><a href="" data-ng-click="navbar.logout()">Log Out</a></li>
 				</ul></li>
