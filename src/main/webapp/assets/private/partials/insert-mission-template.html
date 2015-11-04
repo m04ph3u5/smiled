@@ -1,3 +1,5 @@
+<div data-ng-if="!insertMission.formMission" data-ng-click="insertMission.openFormMission()" style="cursor:pointer;">
+
 	<div class="col-xs-12 marginMTop">
 		<div class="row">
 			
@@ -9,7 +11,89 @@
 					</a>
 					<a data-ng-if="!insertMission.character.actualUser" href="" data-ui-sref="logged.scenarioWizard.associations({id : '{{insertMission.idScenarioVeloce}}'})">
 						<span class="glyphicon glyphicon-user"></span>
-						Nessuno sta interpretando questo personaggio								
+						Nessuno 							
+					</a>
+					
+					
+					<div data-ng-if="!insertMission.mission">
+						<font size="2" color="#868686">Missione non assegnata </font>
+						
+					</div>
+					
+					
+					<div data-ng-if="insertMission.mission">
+						<font size="2" color="#868686">Missione assegnata il: </font>
+						<a href="">{{insertMission.mission.lastChangeDate | date: insertMission.realDateFormat}}</a><br> 
+						<font size="2" color="#868686">da: </font>
+						<a  href="" data-ui-sref="logged.userProfile({id : '{{insertMission.mission.teacher.id}}'})">
+						{{insertMission.mission.teacher.firstname}} {{insertMission.mission.teacher.lastname}}
+						</a>
+						
+					</div>
+			
+		 	</span>	
+		 	
+		 	<span data-ng-if="!insertMission.character" class="pull-right marginMRight text-right" >
+		 	<div data-ng-if="insertMission.scenario.attendees.length>0">					
+					<font size="2" color="#868686">Interpretato da: </font>
+						<a data-ng-if="insertMission.isModerator || insertMission.isCreator" href="" data-ui-sref="logged.scenarioWizard.attendees({id : '{{insertMission.idScenarioVeloce}}'})">
+							<span class="glyphicon glyphicon-user"></span>
+							{{insertMission.scenario.attendees.length}} <span data-ng-if="insertMission.scenario.attendees.length>1">studenti</span><span data-ng-if="insertMission.scenario.attendees.length==1">persona</span>								
+						
+						</a>
+						<a data-ng-if="!insertMission.isModerator && !insertMission.isCreator" href="" >
+							<span class="glyphicon glyphicon-user"></span>
+							{{insertMission.scenario.attendees.length}} <span data-ng-if="insertMission.scenario.attendees.length>1">studenti</span><span data-ng-if="insertMission.scenario.attendees.length==1">persona</span>								
+						
+						</a>
+			</div>		
+					<div data-ng-if="!insertMission.mission">
+						<font size="2" color="#868686">Missione non assegnata </font>
+						
+					</div>
+					
+					<div data-ng-if="insertMission.mission">
+						<font size="2" color="#868686">Missione assegnata il: </font>
+						<a href="">{{insertMission.mission.lastChangeDate | date: insertMission.realDateFormat}}</a><br> 
+						<font size="2" color="#868686">da: </font>
+						<a  href="" data-ui-sref="logged.userProfile({id : '{{insertMission.mission.teacher.id}}'})">
+						{{insertMission.mission.teacher.firstname}} {{insertMission.mission.teacher.lastname}}</font>
+						</a>
+					</div>
+			
+		 	</span>	
+		 	
+				
+			<div  class="squareCharImg" data-ng-style="{'background-image': insertMission.urlCover}" ></div>	
+			<h4 class="pull-left" data-ng-if="insertMission.character"><a href=""  data-ui-sref="logged.scenario.charprofile({id : '{{insertMission.scenario.id}}', idCharacter : '{{insertMission.character.id}}' })">
+											{{insertMission.character.name}}</a>
+											
+			<h4 class="pull-left" data-ng-if="!insertMission.character"><a href=""  data-ui-sref="logged.scenario.posts({id : '{{insertMission.idScenarioVeloce}}'})">
+											{{insertMission.scenario.name}}</a>
+			</h4>
+			
+		</div>	
+		<span class="glyphicon glyphicon-chevron-down"></span>
+	</div>
+</div>
+<div data-ng-if="insertMission.formMission"  >	
+	<div class="col-xs-12 marginMTop">
+		<div class="row">
+			
+			<span data-ng-if="insertMission.character" class="pull-right marginMRight text-right" >						
+					<font size="2" color="#868686">Interpretato da: </font><a data-ng-if="insertMission.character.actualUser" href="" data-ui-sref="logged.userProfile({id : '{{insertMission.character.actualUser.id}}'})">
+						<span class="glyphicon glyphicon-user"></span>
+						{{insertMission.character.actualUser.firstname}} {{insertMission.character.actualUser.lastname}}								
+						
+					</a>
+					<a data-ng-if=" (insertMission.isModerator || insertMission.isCreator) && !insertMission.character.actualUser" href="" data-ui-sref="logged.scenarioWizard.associations({id : '{{insertMission.idScenarioVeloce}}'})">
+						<span class="glyphicon glyphicon-user"></span>
+						Nessuno								
+					</a>
+					
+					<a data-ng-if="!insertMission.isModerator && !insertMission.isCreator && !insertMission.character.actualUser" href="">
+						<span class="glyphicon glyphicon-user"></span>
+						Nessuno								
 					</a>
 					
 					<div data-ng-if="!insertMission.mission">
@@ -32,7 +116,19 @@
 		 	
 		 	<span data-ng-if="!insertMission.character" class="pull-right marginMRight text-right" >						
 					
-					
+					<div data-ng-if="insertMission.scenario.attendees.length>0">					
+						<font size="2" color="#868686">Interpretato da: </font>
+						<a data-ng-if="insertMission.isModerator || insertMission.isCreator" href="" data-ui-sref="logged.scenarioWizard.attendees({id : '{{insertMission.idScenarioVeloce}}'})">
+							<span class="glyphicon glyphicon-user"></span>
+							{{insertMission.scenario.attendees.length}} <span data-ng-if="insertMission.scenario.attendees.length>1">studenti</span><span data-ng-if="insertMission.scenario.attendees.length==1">persona</span>								
+							
+						</a>
+						<a data-ng-if="!insertMission.isModerator && !insertMission.isCreator" href="">
+							<span class="glyphicon glyphicon-user"></span>
+							{{insertMission.scenario.attendees.length}} <span data-ng-if="insertMission.scenario.attendees.length>1">studenti</span><span data-ng-if="insertMission.scenario.attendees.length==1">persona</span>								
+							
+						</a>
+					</div>	
 					<div data-ng-if="!insertMission.mission">
 						<font size="2" color="#868686">Missione non assegnata </font>
 						
@@ -88,7 +184,12 @@
 			<div data-ng-if="insertMission.mission && (insertMission.isCreator || insertMission.isModerator)" data-ng-click="insertMission.deleteMission()"
 			class="btn warningButton">ANNULLA MISSIONE</div>
 </div>
+
 </div>
-	
+<div class="col-xs-12 marginMTop">
+	<span class="glyphicon glyphicon-chevron-up" style="cursor:pointer;" data-ng-click="insertMission.closeFormMission()"></span>
+</div>
+
+</div>	
 
 

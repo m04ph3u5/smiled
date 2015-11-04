@@ -14,6 +14,16 @@ angular.module("smiled.application").directive("insertMission", [ 'CONSTANTS', '
 			var self = this;
 			self.dirty = false;
 			self.realDateFormat = CONSTANTS.realDateFormatWithHour;
+			self.formMission = false;
+			
+			self.openFormMission = function(){
+				self.formMission = true;
+			}
+			
+			self.closeFormMission = function(){
+				self.formMission = false;
+			}
+			
 			if(self.character){
 				if(self.character.mission){
 					self.mission= self.character.mission;
