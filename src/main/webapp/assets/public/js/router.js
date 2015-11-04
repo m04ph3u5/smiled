@@ -429,7 +429,11 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Gestisci scenario - Meschola'
+				pageTitle : 'Gestisci scenario - Meschola',
+				permissions: {
+					only: ['teacher','admin'],
+					redirectTo: 'logged.dashboard' 
+				}
 			}
 		})
 		.state('logged.scenarioWizard.info',{

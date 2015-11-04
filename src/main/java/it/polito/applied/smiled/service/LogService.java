@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Reference;
 
 import java.util.List;
@@ -60,6 +61,29 @@ public interface LogService {
 	public void logAddLikeToPost(String scenarioId, String userId, String postId);
 
 	public void logRemoveLikeToPost(String scenarioId, String userId, String postId);
+
+	public void logUpdateScenarioMission(String scenarioId, String userId);
+
+	public void logUpdateCharacterMission(String scenarioId, String userId, String characterId);
+
+	public void logRemoveCharacterMission(String scenarioId, String userId, String characterId);
+
+	public void logRemoveScenarioMission(String scenarioId, String userId);
+
+	public void logUpdateScenarioCover(String scenarioId, String userId);
+
+	public void logUpdateUserCover(String userId);
+
+	public void logUpdateUserCoverLarge(String userId);
+
+	public void logUpdateCharacterCover(String scenarioId, String userId, String characterId);
+
+	public void logAddTrustedMedia(String idScenario, String userId, String idMedia);
+
+	public void logRemoveTrustedMedia(String idScenario, String userId, String idMedia);
+
+	public void logUpdateTrustedMedia(String idScenario, String userId,
+			String idMedia);
 
 
 }
