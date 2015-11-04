@@ -1,4 +1,4 @@
-<div data-ng-if="!insertMission.formMission" data-ng-click="insertMission.openFormMission()" style="cursor:pointer;">
+<div data-ng-if="!insertMission.formMission" >
 
 	<div class="col-xs-12 marginMTop">
 		<div class="row">
@@ -73,7 +73,7 @@
 			</h4>
 			
 		</div>	
-		<span class="glyphicon glyphicon-chevron-down"></span>
+		<span class="glyphicon glyphicon-chevron-down" data-ng-click="insertMission.openFormMission()" style="cursor:pointer;"></span>
 	</div>
 </div>
 <div data-ng-if="insertMission.formMission"  >	

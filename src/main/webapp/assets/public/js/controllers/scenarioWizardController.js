@@ -137,16 +137,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(self.scenario.characters)
 				for(var i=0;i<self.scenario.characters.length;i++){
 					self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
+					self.scenarioServer.characters[i].cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
 				}
 			if(self.scenario.attendees)
 				for(var i=0;i<self.scenario.attendees.length; i++){
 					self.scenario.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
+					self.scenarioServer.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
 				}
 			if(self.scenario.collaborators)
 				for(var i=0;i<self.scenario.collaborators.length; i++){
 					self.scenario.collaborators[i].cover = CONSTANTS.urlUserCover(self.scenario.collaborators[i].id);
+					self.scenarioServer.collaborators[i].cover = CONSTANTS.urlUserCover(self.scenario.collaborators[i].id);
 				}
 			self.scenario.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
+			self.scenarioServer.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
 			self.map = CONSTANTS.urlMedia(self.scenario.history.mapId);
 		}
 		
@@ -339,6 +343,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					apiService.updateScenario(scenarioDTO, id).then(
 							function(data){
 								self.scenarioServer = data;
+								self.scenario.history = angular.copy(data.history);
+								updateCover();
 								console.log("then saveInfo updateScenario");
 							},
 							function(reason){
@@ -555,16 +561,21 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							console.log("failed update character: "+reason);
 						}
 						);
-					}else{ //il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
-						/*TO CONTINUE*/
+					}else{ //la validazione delle info digitate è fallita
 						//TODO
+						console.log("validazione fallita");
+						self.currentCharacters[currentCharacterIndex].bornDate = angular.copy(self.charactersServer[currentCharacterIndex].bornDate);
+						self.currentCharacters[currentCharacterIndex].deadDate = angular.copy(self.charactersServer[currentCharacterIndex].deadDate);
 						if(currentCharacterIndex!=i)
 							currentCharacterIndex=i;
 						else
 							currentCharacterIndex=-1;
 					}
-				}else{ //la validazione delle info digitate è fallita
+				}else{ 
+					console.log("nessun cambiamento");
 					   //TODO
+					//il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
+					/*TO CONTINUE*/
 					if(currentCharacterIndex!=i)
 						currentCharacterIndex=i;
 					else
@@ -577,9 +588,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var checkHistoricalDate = function(charDTO){
-			if(!charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
+			
+			if(charDTO.bornDate && !charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
 				charDTO.bornDate = null;
-			if(!charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
+			if(charDTO.deadDate && !charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
 				charDTO.deadDate = null;
 		}
 		
@@ -599,7 +611,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.scenario.collaborators.push(angular.copy(data));
 							if(self.notAssociatedAttendees==null)
 								self.notAssociatedAttendees = new Array();
-							self.notAssociatedAttendees.push(angular.copy(data));
+							var newCollaborator = angular.copy(data);
+							newCollaborator.cover = CONSTANTS.urlUserCover(data.id);
+							self.notAssociatedAttendees.push(newCollaborator);
 						}, 
 					function(reason){
 							console.log("chiamata alle api NOT OK");
@@ -988,7 +1002,29 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var isEquivalent =  function(a, b) {
 			console.log("isEquivalent");
-			var ret = angular.equals(a,b);
+	
+			if(a.name != b.name){
+				return false;
+			}
+			if( a.description != b.description){
+				return false;
+			}
+				
+			r = angular.equals(a.history, b.history);
+			if (r == false){
+				return false;
+			}
+				
+			if( a.showRelationsToAll != b.showRelationsToAll){
+				return false;
+			}
+			
+
+			return true;
+//			var ret = angular.equals(a,b);
+//			console.log(ret);
+//			console.log(a);
+//			console.log(b);
 //			console.log(a);
 //			console.log(b);
 //			// Create arrays of property names
@@ -1016,7 +1052,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //		    // are considered equivalent
 //		    console.log("isEquivalent ---> return true");
 //		    return true;
-			return ret;
+//			return ret;
 		}
 		
 		var infoValidate = function(){
@@ -1106,7 +1142,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						return false;
 						console.log("startDate.month < endDate.month GOOD");
 						return true;
-					}else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
+					}else if(
+						startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
+						console.log("startDate.month < endDate.month GOOD");
+						return true;
+					}
+					else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
 						console.log("data inizio e fine con stesso anno e stesso mese");
 						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
 							console.log("startDate.day > endDate.day ERR");
@@ -1183,22 +1224,28 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				return true;
 			if(newChar.nickname!=oldChar.nickname)
 				return true;
-			if(newChar.bornDate.day!=oldChar.bornDate.day)
-				return true;
-			if(newChar.bornDate.month!=oldChar.bornDate.month)
-				return true;
-			if(newChar.bornDate.year!=oldChar.bornDate.year)
-				return true;
-			if(newChar.bornDate.afterChrist!=oldChar.bornDate.afterChrist)
-				return true;
-			if(newChar.deadDate.day!=oldChar.deadDate.day)
-				return true;
-			if(newChar.deadDate.month!=oldChar.deadDate.month)
-				return true;
-			if(newChar.deadDate.year!=oldChar.deadDate.year)
-				return true;
-			if(newChar.deadDate.afterChrist!=oldChar.deadDate.afterChrist)
-				return true;
+			
+			if(newChar.bornDate && oldChar.bornDate){
+				if(newChar.bornDate.day!=oldChar.bornDate.day)
+					return true;
+				if(newChar.bornDate.month!=oldChar.bornDate.month)
+					return true;
+				if(newChar.bornDate.year!=oldChar.bornDate.year)
+					return true;
+				if(newChar.bornDate.afterChrist!=oldChar.bornDate.afterChrist)
+					return true;
+				
+			}if(newChar.deadDate && oldChar.deadDate){
+				if(newChar.deadDate.day!=oldChar.deadDate.day)
+					return true;
+				if(newChar.deadDate.month!=oldChar.deadDate.month)
+					return true;
+				if(newChar.deadDate.year!=oldChar.deadDate.year)
+					return true;
+				if(newChar.deadDate.afterChrist!=oldChar.deadDate.afterChrist)
+					return true;
+			}
+			
 			if(newChar.bornTown!=oldChar.bornTown)
 				return true;
 			if(newChar.deadTown!=oldChar.deadTown)
@@ -1216,7 +1263,24 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var isCurrentCharacterValid = function(char){
+			if(char.deadDate && !checkDate(char.deadDate.year))
+				return false;
+			if(char.bornDate && !checkDate(char.bornDate.year))
+				return false;
+			if(char.deadDate && char.bornDate){
+				if(!checkIfEndIsAfterStart(char.bornDate, char.deadDate)){
+					return false;
+				}
+			}
 			return true;
+		}
+		
+		var checkDate = function(year){
+			if(isNaN(year)){
+				return false;
+			}else{
+				return true;
+			}  
 		}
 
 		onStartup();
