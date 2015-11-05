@@ -19,27 +19,29 @@
 					</h1>					
 			</div>
 			<div class="boxRed box text-left dashSection">
-				<h2>Scenari in creazione</h2>
-				<div ng-if='scenariosList.user.creatingScenarios==null' class="emptyContent">Qui verranno inseriti gli scenari in creazione</div>			
-				
+				<div data-ng-hide="scenariosList.user.role.authority=='ROLE_USER'">
+					<h2>Scenari in creazione</h2>
+					<div data-ng-if='scenariosList.user.creatingScenarios==null || scenariosList.user.creatingScenarios.length==0' class="emptyContent">Qui verranno inseriti gli scenari in creazione</div>			
+					
 					<div class="row sideMarginThree">
-					<div data-ng-repeat="s in scenariosList.user.creatingScenarios" >
-						<a href=""><div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
-							<div class="row marginMTop marginSBottom" ng-mousehover="">
-								
-								<div class="col-sm-5">
-									<div class="imgRoundResponsive" 
-									style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
-									url('assets/public/img/icon/ic_scen.png')"></div>
-								</div>
-								<div class="col-sm-7 vAlignExt">
-									<div class="vAlignInt">
-										<h4 style="margin-bottom:0px;">{{s.name}}</h4>
-										<label>Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</label>								
+						<div data-ng-repeat="s in scenariosList.user.creatingScenarios" >
+							<a href=""><div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
+								<div class="row marginMTop marginSBottom" ng-mousehover="">
+									
+									<div class="col-sm-5">
+										<div class="imgRoundResponsive" 
+										style="background-image:url('api/v1/scenarios/{{s.id}}/cover'),
+										url('assets/public/img/icon/ic_scen.png')"></div>
+									</div>
+									<div class="col-sm-7 vAlignExt">
+										<div class="vAlignInt">
+											<h4 style="margin-bottom:0px;">{{s.name}}</h4>
+											<label>Creato il: {{s.creationDate | date: scenariosList.realDateWithoutHour}}</label>								
+										</div>
 									</div>
 								</div>
-							</div>
-						</div></a>	
+							</div></a>	
+						</div>
 					</div>
 				</div>
 				<h2>Scenari attivi</h2>

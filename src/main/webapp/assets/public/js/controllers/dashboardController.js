@@ -65,7 +65,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 			for(var i=0; i<self.user.creatingScenarios.length; i++){
 				self.user.creatingScenarios[i].isOpen=false;
 			}
-			tmp = self.user.openScenarios.concat(self.user.creatingScenarios);
+			tmp = angular.copy(self.user.openScenarios).concat(angular.copy(self.user.creatingScenarios));
 			
 		}else if(self.user.openScenarios != null && self.user.creatingScenarios == null){
 			self.myCharacters = [];
@@ -82,13 +82,13 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 					self.myCharacters.push(character);
 				}
 			}
-			tmp = self.user.openScenarios;
+			tmp = angular.copy(self.user.openScenarios);
 		}
 		else if(self.user.openScenarios == null && self.user.creatingScenarios != null){
 			for(var i=0; i<self.user.creatingScenarios.length; i++){
 				self.user.creatingScenarios[i].isOpen=false;
 			}
-			tmp = self.user.creatingScenarios;
+			tmp = angular.copy(self.user.creatingScenarios);
 		}
 		
 		tmp.sort(compareDate);
