@@ -76,7 +76,7 @@
 					<div class="row marginMTop">						
 						<div data-ng-if="dashboard.scenariosToShow.length>0">							
 							<div  class="col-xs-6"
-							data-ng-repeat="s in dashboard.scenariosToShow ">
+							data-ng-repeat="s in dashboard.scenariosToShow">
 								<div data-ng-switch data-on="s.isOpen">
 									<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" data-ng-switch-when=true>							
 										<a href="">
@@ -89,7 +89,7 @@
 								</div>
 							</div>
 						</div>		
-						<div class="row" data-ng-if="dashboard.user.openScenarios.length > dashboard.numScenariosToShow">
+						<div class="col-xs-6" data-ng-if="dashboard.user.openScenarios.length > dashboard.numScenariosToShow">
 							<a data-ui-sref="logged.dashboard.scenariosList">
 								<img data-ng-src="assets/public/img/icon/view_more.png"								
 										class="scenDashIcon">		
@@ -106,6 +106,8 @@
 					<p>Questa sezione non è ancora attiva</p>
 					<img data-ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
 				</div>
+				
+				<!-- PERSONAGGI -->
 				<div class="col-md-3 col-sm-4 singleRow box boxYellow">
 					<h3>Personaggi</h3>
 					<div ng-if="dashboard.myCharacters==null || dashboard.myCharacters.length==0">
@@ -117,25 +119,33 @@
 									<img title="{{c.name}}" 
 									data-ng-src="{{c.cover}}"
 									data-err-src="assets/public/img/icon/pg.png"
-									class="img-circle imgPreviewM"> {{c.name | limitTo:10}}
+									class="img-circle imgPreviewM">
 							</a>
 						</div>
+						<div data-ui-sref="logged.userProfile({id : '{{dashboard.loggedUser.id}}'})" style="cursor:pointer;" class="row" data-ng-if="dashboard.myCharacters.length>6">
+							<img src="assets/public/img/icon/view_more_vert.png" class="scenDashIcon2">
+							<div class="hidden-xs visible-sm visible-md visible-lg ">Vedi altri</div>
+						</div>
 					</div>
-<!-- 					<div class="row" ng-if="dashboard.user.students.length>6"> -->
-<!-- 						<img src="assets/public/img/icon/view_more_vert.png"class="scenDashIcon2" data-ui-sref="logged.dashboard.studentsList"> -->
-<!-- 						<span data-ui-sref="logged.dashboard.studentsList">Vedi altri</span> -->
-<!-- 					</div> -->
 				</div>
+				
+				<!-- COMPITI -->
 				<div class="col-md-6 col-sm-8 singleRow box boxLightblue">
 					<h3>Compiti</h3>
 				</div>
 			</div>
+			
+			
 			<div class="row">
+			
+				<!-- PREMI -->
 				<div class="col-md-6 col-sm-12 singleRow box boxLightgreen">
 					<h3>Premi</h3>						
 					<p>Questa sezione non è ancora attiva</p>
 					<img data-ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
 				</div>
+				
+				<!-- COMPAGNI -->
 				<div class="col-md-3 col-sm-6 singleRow box boxBlue">
 					<h3>Compagni</h3>
 						<div ng-if="dashboard.user.friends==null">
@@ -157,6 +167,8 @@
 						<span data-ui-sref="logged.dashboard.studentsList">Vedi altri</span>
 					</div>
 				</div>
+				
+				<!-- INSEGNANTI -->
 				<div class="col-md-3 col-sm-6 singleRow box boxBrown">
 					<h3>Insegnanti</h3>
 					<div ng-if="dashboard.user.teachers==null">

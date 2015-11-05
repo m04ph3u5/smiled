@@ -2,7 +2,11 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
    function dashboardCtrl(loggedUser,modalService,userService,$scope,$interval,apiService, CONSTANTS){
 	
 	var self = this;
-	self.numScenariosToShow = 4;
+	if(loggedUser.role.authority=="ROLE_USER")
+		self.numScenariosToShow = 5;
+	else
+		self.numScenariosToShow = 4;
+
 	//self.user = {};
 	
 //	userService.getUser().then(
