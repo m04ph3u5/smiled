@@ -7,16 +7,16 @@
 	<div data-ng-repeat="c in commentTo.visibleComments" class="textLeft col-xs-12 noPadding">
 		<div class="row">
 			<div class="col-xs-2">
-				<img class="pull-left img imgPreviewM marginMRight"
+				<img style="cursor:pointer" class="pull-left img imgPreviewM marginMRight"
 				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{c.character.id}}/cover"
-				data-err-src="assets/public/img/icon/pg.png"></img>
+				data-err-src="assets/public/img/icon/pg.png" data-ui-sref="logged.scenario.charprofile({id: '{{commentTo.scenarioId}}' ,idCharacter: '{{c.character.id}}' })"></img>
 			</div>
 			<div class="col-xs-10">
 				<div class="paddingMRight pull-left">
-					<label>{{c.character.firstname}}</label>: {{c.text}}
+					<label><a style="cursor:pointer" href="" data-ui-sref="logged.scenario.charprofile({id: '{{commentTo.scenarioId}}' ,idCharacter: '{{c.character.id}}' })">{{c.character.firstname}}</a></label>: {{c.text}}
 					<p style="font-size: 12px;"><span class="glyphicon glyphicon-user marginSRight"></span>
-					{{c.user.firstname}}
-					{{c.user.lastname}}  {{c.creationDate| date:'dd-M-yyyy HH:mm'}}</p>
+					<a href="" data-ui-sref="logged.userProfile({id : '{{c.user.id}}'})">{{c.user.firstname}}
+					{{c.user.lastname}}</a>  {{c.creationDate| date:'dd-M-yyyy HH:mm'}}</p>
 				</div>
 			</div>
 		</div>	
@@ -28,7 +28,9 @@
 <div data-ng-show="commentTo.showInsert">
 	<div class="row">
 		<div class="col-xs-2">
-			<img class="pull-left img imgPreviewM marginMTop marginMRight"
+			<img style="cursor:pointer"
+				data-ui-sref="logged.scenario.charprofile({id: '{{commentTo.scenarioId}}' ,idCharacter: '{{commentTo.currentCharacter.id}}' })"
+				class="pull-left img imgPreviewM marginMTop marginMRight"
 				data-ng-src="api/v1/scenarios/{{commentTo.scenarioId}}/characters/{{commentTo.currentCharacter.id}}/cover"
 				data-err-src="assets/public/img/icon/pg.png"></img>
 		</div>

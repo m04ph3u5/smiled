@@ -32,11 +32,13 @@
 				<div class="timeline-panel">
 					<div class="timeline-header">
 						<div class="row colPadding">
-							<div class="squareImgStoryline" style="background-image:url('{{post.character.cover}}'),url('assets/public/img/icon/pg.png')"></div>
-						
+							<div data-ng-if="post.character.id" href="" class="squareImgStoryline" data-ui-sref="logged.scenario.charprofile({id : '{{post.scenarioId}}', idCharacter : '{{post.character.id}}' })" style=" cursor:pointer; background-image:url('{{post.character.cover}}'),url('assets/public/img/icon/pg.png');"></div>
+							<div data-ng-if="!post.character.id" href="" class="squareImgStoryline" style=" cursor:pointer; background-image:url('{{post.character.cover}}'),url('assets/public/img/icon/pg.png');"></div>
+							
 							<div class="col-xs-8">
-								<a href="" data-ui-sref="logged.scenario.charprofile({id : '{{post.scenarioId}}', idCharacter : '{{post.character.id}}' })"><h6>{{post.character.name}}</h6></a>
-								{{scenarioStoryline.formatDate(post.julianDayNumber)}}
+								<a data-ng-if="post.character.id" href="" data-ui-sref="logged.scenario.charprofile({id : '{{post.scenarioId}}', idCharacter : '{{post.character.id}}' })"><h6>{{post.character.name}}</h6></a>
+								<a data-ng-if="!post.character.id" href=""><h6>{{post.character.name}}</h6></a>
+								<div class="text-center">{{scenarioStoryline.formatDate(post.julianDayNumber, post.timeNumber)}}</div>
 							</div>
 						</div>
 					</div>

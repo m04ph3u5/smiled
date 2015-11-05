@@ -96,8 +96,15 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         	      date.year = 100 * ( n - 49 ) + i + l;
         	      date.dow = jd%7;
         	}
+			var getTimeToSeconds=function(timeNumber,t){
+        		t.hours=parseInt(timeNumber/3600);
+        		timeNumber=timeNumber%3600;
+        		t.minutes=parseInt(timeNumber/60);
+        		timeNumber=timeNumber%60;
+        		t.seconds=timeNumber;
+        	}
 			
-			self.formatDate = function(jd){
+			self.formatDate = function(jd, timeNumber){
 //				if(date.afterChrist)
 //					era="D.C.";
 //				else
@@ -107,7 +114,16 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
 				julianNumberToDate(jd, self.date);
         		var era = self.date.year > 0 ? "" : " A.C.";
         		var s = getMonthString(self.date.month) + " "+ Math.abs(self.date.year) + era;
-        		return self.date.day+" "+s;
+        		s = self.date.day+" "+s;
+        		var time = {};
+        		getTimeToSeconds(timeNumber, time);
+        		
+        		s+=" "+time.hours+":";
+				if(time.minutes<10)
+        			s+="0"+time.minutes;
+        		else
+        			s+=time.minutes;
+        		return s;
 			}
         	
         	self.realDateFormatWithHour = CONSTANTS.realDateFormatWithHour;

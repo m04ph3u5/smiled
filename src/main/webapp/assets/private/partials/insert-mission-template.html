@@ -64,7 +64,9 @@
 		 	</span>	
 		 	
 				
-			<div  class="squareCharImg" data-ng-style="{'background-image': insertMission.urlCover}" ></div>	
+			<div data-ng-if="insertMission.character" class="squareCharImg" data-ui-sref="logged.scenario.charprofile({id : '{{insertMission.scenario.id}}', idCharacter : '{{insertMission.character.id}}' })" data-ng-style="{'background-image': insertMission.urlCover};" style=" cursor:pointer;" ></div>	
+			<div data-ng-if="!insertMission.character" class="squareCharImg" data-ui-sref="logged.scenario.posts({id : '{{insertMission.idScenarioVeloce}}'})" data-ng-style="{'background-image': insertMission.urlCover};" style=" cursor:pointer;" ></div>	
+			
 			<h4 class="pull-left" data-ng-if="insertMission.character"><a href=""  data-ui-sref="logged.scenario.charprofile({id : '{{insertMission.scenario.id}}', idCharacter : '{{insertMission.character.id}}' })">
 											{{insertMission.character.name}}</a>
 											
@@ -145,8 +147,9 @@
 			
 		 	</span>	
 		 	
+			<div data-ng-if="insertMission.character" class="squareCharImg" data-ui-sref="logged.scenario.charprofile({id : '{{insertMission.scenario.id}}', idCharacter : '{{insertMission.character.id}}' })" data-ng-style="{'background-image': insertMission.urlCover};" style=" cursor:pointer;" ></div>	
+			<div data-ng-if="!insertMission.character" class="squareCharImg" data-ui-sref="logged.scenario.posts({id : '{{insertMission.idScenarioVeloce}}'})" data-ng-style="{'background-image': insertMission.urlCover};" style=" cursor:pointer;" ></div>	
 				
-			<div  class="squareCharImg" data-ng-style="{'background-image': insertMission.urlCover}" ></div>	
 			<h4 class="pull-left" data-ng-if="insertMission.character"><a href=""  data-ui-sref="logged.scenario.charprofile({id : '{{insertMission.scenario.id}}', idCharacter : '{{insertMission.character.id}}' })">
 											{{insertMission.character.name}}</a>
 											
