@@ -319,6 +319,7 @@ span.clickable:hover {
 	position : fixed;
 	padding-top:3.0em;
 	transition: all 0.4s ease;
+	width : 15%;
 }
 
 .sideLessPad {
@@ -326,6 +327,7 @@ span.clickable:hover {
 	padding-top:0.3em;
 	transition: all 0.4s ease;
 	display: block;
+	width : 15%;
 }
 
 .imgSmallTemplate {
