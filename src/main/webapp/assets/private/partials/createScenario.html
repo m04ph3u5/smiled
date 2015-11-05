@@ -14,10 +14,10 @@
 	
 		<input class="col-xs-3 form-control customInput" type="text" data-ng-model="dialogScenario.scenario.startDate.year"  placeholder="ANNO"/>
 		
-		<select data-ng-click="dialogScenario.getStartDays()" class="col-xs-3 form-control customInput2" data-ng-model="dialogScenario.scenario.startDate.month" data-ng-options="month.value as month.name for month in dialogScenario.startDate.months">
+		<select style="cursor:pointer" data-ng-click="dialogScenario.getStartDays()" class="col-xs-3 form-control customInput2" data-ng-model="dialogScenario.scenario.startDate.month" data-ng-options="month.value as month.name for month in dialogScenario.startDate.months">
  			 <option value="" disabled selected style="display:none;">MESE</option>
  		</select>
-		<select class="col-xs-3 form-control customInput2"  data-ng-model="dialogScenario.scenario.startDate.day" data-ng-options="day.value as day.value for day in dialogScenario.startDate.days">
+		<select style="cursor:pointer" class="col-xs-3 form-control customInput2"  data-ng-model="dialogScenario.scenario.startDate.day" data-ng-options="day.value as day.value for day in dialogScenario.startDate.days">
 		    <option value="" disabled selected style="display:none;">GIORNO</option>
  		</select>
  		
@@ -34,10 +34,10 @@
 	
 		<input class="col-xs-3 form-control customInput" type="text" data-ng-model="dialogScenario.scenario.endDate.year"  placeholder="ANNO"/>
 		
-		<select data-ng-click="dialogScenario.getEndDays()" class="col-xs-3 form-control customInput2" data-ng-model="dialogScenario.scenario.endDate.month" data-ng-options="month.value as month.name for month in dialogScenario.endDate.months">
+		<select style="cursor:pointer" data-ng-click="dialogScenario.getEndDays()" class="col-xs-3 form-control customInput2" data-ng-model="dialogScenario.scenario.endDate.month" data-ng-options="month.value as month.name for month in dialogScenario.endDate.months">
  			 <option value="" disabled selected style="display:none;">MESE</option>
  		</select>
-		<select class="col-xs-3 form-control customInput2"  data-ng-model="dialogScenario.scenario.endDate.day" data-ng-options="day.value as day.value for day in dialogScenario.endDate.days">
+		<select style="cursor:pointer" class="col-xs-3 form-control customInput2"  data-ng-model="dialogScenario.scenario.endDate.day" data-ng-options="day.value as day.value for day in dialogScenario.endDate.days">
 		    <option value="" disabled selected style="display:none;">GIORNO</option>
  		</select>
  		

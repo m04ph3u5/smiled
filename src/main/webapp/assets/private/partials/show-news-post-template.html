@@ -16,8 +16,8 @@
 										
 					</a>
 						
-					<div data-ng-show="showNewsPost.editButton"  class="marginMLeft dropdown pull-right">
-						<a class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+					<div  data-ng-show="showNewsPost.editButton"  class="marginMLeft dropdown pull-right">
+						<a style="cursor:pointer;" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
 						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
@@ -85,7 +85,7 @@
 					<hr class="colPadding"></div>
 				</div>					
 				<div class="row colPaddingScen text-left">
-					<div class="btn invisibleButton">
+					<div data-ng-class="showNewsPost.classCommentButton" class="btn invisibleButton">
 						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
 						scenario-id="{{showNewsPost.scenario.id}}"></like-to>
 					</div>
@@ -255,7 +255,7 @@
 						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}						
 					</a>
 						<div class="marginMLeft dropdown pull-right">
-						<a data-ng-show="showNewsPost.editButton" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+						<a style="cursor:pointer;" data-ng-show="showNewsPost.editButton" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
 						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
@@ -325,7 +325,7 @@
 						</div>
 					</div>			
 					<div class="row colPaddingScen text-left">
-						<div class="btn invisibleButton">
+						<div data-ng-class="showNewsPost.classCommentButton" class="btn invisibleButton">
 							<like-to  post="showNewsPost.post" liker="showNewsPost.currentCharacter"
 							scenario-id="{{showNewsPost.scenario.id}}"></like-to>
 						</div>

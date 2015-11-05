@@ -1,8 +1,8 @@
 angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiService', '$stateParams', '$state', 
                                                                        '$location', '$scope', '$element', 'userService', 
                                                                        'Upload', 'CONSTANTS', '$q','modalService',
-                                                                       '$timeout',
-   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS, $q, modalService, $timeout){
+                                                                       '$timeout', 'alertingGeneric',
+   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS, $q, modalService, $timeout, alertingGeneric){
 	
 	 	var self = this;
 		/*Variabile che contiene lo scenario prelevato dalla getScenario
@@ -343,7 +343,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					apiService.updateScenario(scenarioDTO, id).then(
 							function(data){
 								self.scenarioServer = data;
-								self.scenario.history = angular.copy(data.history);
+								self.scenario = angular.copy(data);
 								updateCover();
 								console.log("then saveInfo updateScenario");
 							},
@@ -1054,26 +1054,55 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //		    return true;
 //			return ret;
 		}
-		
-		var infoValidate = function(){
+		var dateValidate = function(){
+			
+			//controllo se data inizio è valida
+			if(self.scenario.history && self.scenario.history.startDate.year && !checkDate(self.scenario.history.startDate.year) ){
+				console.log("data inizio non valida");
+				alertingGeneric.addWarning("Data non valida");
+				self.scenario.history.startDate = angular.copy(self.scenarioServer.history.startDate);
+				self.scenario.history.endDate = angular.copy(self.scenarioServer.history.endDate);
+				return false;
+			}
+			//controllo se la data fine è valida
+			if(self.scenario.history && self.scenario.history.endDate.year && !checkDate(self.scenario.history.endDate.year)){
+				console.log("data fine non valida");
+				alertingGeneric.addWarning("Data non valida");
+				self.scenario.history.startDate = angular.copy(self.scenarioServer.history.startDate);
+				self.scenario.history.endDate = angular.copy(self.scenarioServer.history.endDate);
+				return false;
+			}
 			
 			//controllo che data fine non preceda data inizio
-			if(self.scenario.history && self.scenario.history.startDate && self.scenario.history.endDate){
+			if(self.scenario.history && self.scenario.history.startDate && self.scenario.history.endDate ){
+				
+
 				if (!checkIfEndIsAfterStart(self.scenario.history.startDate , self.scenario.history.endDate )){
-					self.scenario.history.startDate = self.scenarioServer.history.startDate;
-					self.scenario.history.endDate = self.scenarioServer.history.endDate;
+					self.scenario.history.startDate = angular.copy(self.scenarioServer.history.startDate);
+					self.scenario.history.endDate = angular.copy(self.scenarioServer.history.endDate);
 					return false;
 				}
 					
 			}
+			return true;
+		}
+		
+		
+		var infoValidate = function(){
+			
+			//valido le date 
+			if (!dateValidate())
+				return false;
+			
 			var ret=true;
 			console.log("infoValidate");
 			
 			if(!self.scenario.name || self.scenario.name.length<2){
 				console.log("infoValidate ---> name");
+				alertingGeneric.addWarning("Il nome dello scenario deve essere di almeno 2 caratteri");
 				ret=false;
 				if(self.scenarioServer.name){
-					self.scenario.name=self.scenarioServer.name;
+					self.scenario.name= angular.copy(self.scenarioServer.name);
 				}else{
 					self.scenario.name="";
 				}
@@ -1081,7 +1110,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(!self.scenario.description){
 				console.log("infoValidate ---> description");
 				if(self.scenarioServer.description){
-					self.scenario.description=self.scenarioServer.description;
+					self.scenario.description=angular.copy(self.scenarioServer.description);
 				}else{
 					self.scenario.description="";
 				}
@@ -1090,7 +1119,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("infoValidate ---> startdate");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.startDate){
-					self.scenario.history.startDate=self.scenarioServer.history.startDate;
+					self.scenario.history.startDate=angular.copy(self.scenarioServer.history.startDate);
 				}else{
 					self.scenario.history.startDate="";
 				}
@@ -1099,7 +1128,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("infoValidate ---> enddate");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.endDate){
-					self.scenario.history.endDate=self.scenarioServer.history.endDate;
+					self.scenario.history.endDate=angular.copy(self.scenarioServer.history.endDate);
 				}else{
 					self.scenario.history.endDate="";
 				}
@@ -1109,12 +1138,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					console.log("infoValidate ---> 4");
 					ret=false;
 					if(self.scenarioServer.history && self.scenarioServer.history.endDate){
-						self.scenario.history.endDate=self.scenarioServer.history.endDate;
+						self.scenario.history.endDate=angular.copy(self.scenarioServer.history.endDate);
 					}else{
 						self.scenario.history.endDate="";
 					}
 					if(self.scenarioServer.history && self.scenarioServer.history.startDate){
-						self.scenario.history.startDate=self.scenarioServer.history.startDate;
+						self.scenario.history.startDate=angular.copy(self.scenarioServer.history.startDate);
 					}else{
 						self.scenario.history.startDate="";
 					}
@@ -1132,6 +1161,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("entrambe dopo cristo");
 				if(startDate.year > endDate.year){  //startDate.year > endDate.year ERR
 					console.log ("startDate.year > endDate.year ERR");
+					alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 					return false;
 				}else if (startDate.year < endDate.year){ //startDate.year > endDate.year GOOD
 					console.log("startDate.year > endDate.year GOOD");
@@ -1139,6 +1169,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}else{   //data inizio e fine hanno lo stesso anno, quindi guardo al mese!
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
 						console.log ("startDate.month > endDate.month ERR");
+						alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 						return false;
 						console.log("startDate.month < endDate.month GOOD");
 						return true;
@@ -1151,6 +1182,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						console.log("data inizio e fine con stesso anno e stesso mese");
 						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
 							console.log("startDate.day > endDate.day ERR");
+							alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 							return false;
 						}
 						else if(startDate.day < endDate.day){ //startDate.day < endDate.day GOOD
@@ -1167,6 +1199,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("entrambe avanti cristo");
 				if(startDate.year < endDate.year){  //startDate.year < endDate.year ERR
 					console.log ("startDate.year < endDate.year ERR");
+					alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 					return false;
 				}else if (startDate.year > endDate.year){ //startDate.year > endDate.year GOOD
 					console.log("startDate.year > endDate.year GOOD");
@@ -1174,6 +1207,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}else{   //data inizio e fine hanno lo stesso anno, quindi guardo al mese!
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
 						console.log ("startDate.month > endDate.month ERR");
+						alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 						return false;
 					}else if(startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
 						console.log("startDate.month < endDate.month GOOD");
@@ -1182,6 +1216,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						console.log("data inizio e fine con stesso anno e stesso mese");
 						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
 							console.log("startDate.day > endDate.day ERR");
+							alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 							return false;
 						}
 						else if(startDate.day < endDate.day){ //startDate.day < endDate.day GOOD
@@ -1199,20 +1234,22 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 			else{																				//inizio d.c. e fine a.c. SICURAMENTE ERRATO
 				console.log("inizio d.c. e fine a.c. ERRORE SICURO");
+				alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 				return false;
 			}
 		}
 		
-		var checkDate = function(date){
-			// regular expression to match required date format
-			var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-
-		    if(date != '' && !date.match(re)) {
-		      return false;
-		    }
-		    else
-		    	return true;    
-		}
+//		var checkDate = function(date){
+//			// regular expression to match required date format
+//			var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
+//
+//		    if(date != '' && !date.match(re)) {
+//		    	alertingGeneric.addWarning("Data non corretta");
+//		    	return false;
+//		    }
+//		    else
+//		    	return true;    
+//		}
 		
 		var extractEmails = function(text){
 		    return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
@@ -1263,11 +1300,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var isCurrentCharacterValid = function(char){
-			if(char.deadDate && !checkDate(char.deadDate.year))
+			console.log(char.deadDate);
+			console.log(char.bornDate);
+			if(char.deadDate.year && !checkDate(char.deadDate.year))
 				return false;
-			if(char.bornDate && !checkDate(char.bornDate.year))
+			if(char.bornDate.year && !checkDate(char.bornDate.year))
 				return false;
-			if(char.deadDate && char.bornDate){
+			if(char.deadDate && char.bornDate && char.deadDate.year && char.bornDate.year){
 				if(!checkIfEndIsAfterStart(char.bornDate, char.deadDate)){
 					return false;
 				}

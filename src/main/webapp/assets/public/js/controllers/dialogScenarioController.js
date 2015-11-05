@@ -159,9 +159,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 		}else{
 			return true;
 		}
-	    	
-	    
-	    
+    
 	}
 	
 	
