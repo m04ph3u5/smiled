@@ -7,13 +7,15 @@
 		<div class="row">
 			<div class="col-xs-2">	
 				<img 
+					style="cursor:pointer"
+					data-ui-sref="logged.userProfile({id : '{{m.user.id}}'})"
 					class="pull-left img imgPreviewM marginMRight"
 					data-ng-src="api/v1/users/{{m.user.id}}/cover"
 					data-err-src="assets/public/img/ic_student.png">
 			</div>
 			<div class="col-xs-10">
 				<div class="paddingMRight pull-left">			
-							<label>{{m.user.firstname}} {{m.user.lastname}}</label>: {{m.text}}  <br>
+							<label><a style="cursor:pointer" href="" data-ui-sref="logged.userProfile({id : '{{m.user.id}}'})">{{m.user.firstname}} {{m.user.lastname}}</a></label>: {{m.text}}  <br>
 							<p style="font-size: 12px;"> {{m.creationDate| date:'dd-M-yyyy HH:mm'}} </p>
 				</div>
 			</div>
@@ -22,7 +24,8 @@
 </div>
 <div class="row">
 	<div class="col-xs-2">
-		<img 
+		<img style="cursor:pointer"
+			data-ui-sref="logged.userProfile({id : '{{writer.id}}'})"
 			class="pull-left img imgPreviewM marginMTop marginMRight"
 			data-ng-src="api/v1/users/{{metaCommentTo.writer.id}}/cover"
 			data-err-src="assets/public/img/ic_student.png"></img>
