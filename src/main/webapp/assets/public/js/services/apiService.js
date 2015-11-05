@@ -581,6 +581,22 @@
 		return s.promise;
 	}
 	
+	var getMyMissions = function(){
+		var s = $q.defer();
+
+		$http.get("/api/v1/missions").then(
+					function(response){
+						s.resolve(response.data);
+					},
+					function(reason){
+						s.reject(reason);
+					}
+			);
+
+		return s.promise;
+	}
+	
+	
 	var deleteTrustedMedia = function(idScenario, idMedia){
 		var s = $q.defer();
 
@@ -653,7 +669,8 @@
 		getPagedExceptions: getPagedExceptions,
 		postTrustedMediaMetadata: postTrustedMediaMetadata,
 		getTrustedMediaMetadata: getTrustedMediaMetadata,
-		deleteTrustedMedia: deleteTrustedMedia
+		deleteTrustedMedia: deleteTrustedMedia,
+		getMyMissions : getMyMissions
 		
 	}
 

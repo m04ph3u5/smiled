@@ -529,6 +529,13 @@ public class ScenarioController extends BaseController{
 
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/missions", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<MissionDTO> getMyMissions(@AuthenticationPrincipal CustomUserDetails activeUser){
+		return scenarioService.getUserMissions(activeUser);
+	}
+	
 //	//Restituisce la lista di compiti dello scenario
 //	@ResponseStatus(value = HttpStatus.OK)
 //	@RequestMapping(value="/v1/scenarios/{id}/missions", method=RequestMethod.GET)

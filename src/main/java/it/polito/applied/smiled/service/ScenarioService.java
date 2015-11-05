@@ -113,5 +113,7 @@ public interface ScenarioService {
 	
 	public boolean deleteMissionToScenario(String idScenario)throws BadRequestException;
 
+	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser);
+
 	
 }

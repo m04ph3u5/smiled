@@ -1,5 +1,7 @@
 package it.polito.applied.smiled.repository;
 
+import java.util.List;
+
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.Reference;
@@ -41,5 +43,6 @@ public interface CustomScenarioRepository {
 			String userToDelete);
 	public boolean deleteMissionToScenario(String idScenario);
 	
-	
+	public List<Scenario> getMissionsOfScenarios(List<String> scenariosId);
+
 }
