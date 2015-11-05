@@ -2,8 +2,21 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
    function dashboardCtrl(loggedUser,modalService,userService,$scope,$interval,apiService, CONSTANTS){
 	
 	var self = this;
-	if(loggedUser.role.authority=="ROLE_USER")
+	var originalUser = angular.copy(loggedUser);
+	
+	if(loggedUser.role.authority=="ROLE_USER"){
 		self.numScenariosToShow = 5;
+		apiService.getMyMissions().then(
+				function(data){
+					self.myMissions = data;
+					console.log(self.myMissions);
+				},
+				function(reason){
+					console.log("Error retrieve missions");
+					console.log(reason);
+				}
+		);
+	}
 	else
 		self.numScenariosToShow = 4;
 
@@ -106,14 +119,17 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		userService.getMe().then(
 	
 			function(data){
-				self.user=data;
-				createArrayOfScenariosToShow();
-				if(data.students)
-					shuffleArray(data.students);
-				if(data.colleagues)
-					shuffleArray(data.colleagues);
-				if(self.myCharacters)
-					shuffleArray(self.myCharacters);
+				if(!angular.equals(originalUser, data)){
+					self.user=data;
+					originalUser = angular.copy(self.user);
+					createArrayOfScenariosToShow();
+					if(data.students)
+						shuffleArray(data.students);
+					if(data.colleagues)
+						shuffleArray(data.colleagues);
+					if(self.myCharacters)
+						shuffleArray(self.myCharacters);
+				}
 			}, function(reason){
 				console.log("errore");
 			}

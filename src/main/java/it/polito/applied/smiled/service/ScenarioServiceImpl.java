@@ -2539,6 +2539,51 @@ public class ScenarioServiceImpl implements ScenarioService{
 	}
 
 
+	@Override
+	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser) {
+		User u = userRepository.findById(activeUser.getId());
+		List<ScenarioReference> scenariosRef = u.getOpenScenarios();
+		List<String> scenariosId = new ArrayList<String>();
+		List<String> charactersId = new ArrayList<String>();
+		Map<String,MissionDTO> map = new HashMap<String,MissionDTO>();
+		if(scenariosRef!=null){
+			for(ScenarioReference s : scenariosRef){
+				scenariosId.add(s.getId());
+				map.put("s"+s.getId(), new MissionDTO(s.getId(), s.getName()));
+				if(s.getMyCharacterId()!=null && !s.getMyCharacterId().equals("")){
+					charactersId.add(s.getMyCharacterId());
+					map.put("c"+s.getMyCharacterId(), new MissionDTO(s.getId(), s.getName()));
+				}
+			}
+		}
+		List<Character> characters = characterRepository.getMissionsOfCharacters(charactersId);
+		List<MissionDTO> missions = new ArrayList<MissionDTO>();
+		for(Character c : characters){
+			if(c.getMission()!=null){
+				MissionDTO m = map.get("c"+c.getId());
+				m.setAssignDate(c.getMission().getLastChangeDate());
+				m.setCharacterId(c.getId());
+				m.setCharacterName(c.getName());
+				m.setDescription(c.getMission().getDescription());
+				m.setTitle(c.getMission().getTitle());
+				missions.add(m);
+			}
+		}
+		List<Scenario> scenarios = scenarioRepository.getMissionsOfScenarios(scenariosId);
+		for(Scenario s : scenarios){
+			if(s.getMission()!=null){
+				MissionDTO m = map.get("s"+s.getId());
+				m.setAssignDate(s.getMission().getLastChangeDate());
+				m.setDescription(s.getMission().getDescription());
+				m.setTitle(s.getMission().getTitle());
+				missions.add(m);
+			}
+		}
+		
+		return missions;
+	}
+
+
 	
 
 

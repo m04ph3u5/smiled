@@ -22,5 +22,6 @@ public interface CustomCharacterRepository {
 	public boolean setCover(String userId, String coverId);
 	public List<Character> getAllCharactersFromScenario(String scenarioId);
 	public boolean deleteMissionToCharacter(String idCharacter);
+	public List<Character> getMissionsOfCharacters(List<String> charactersId);
 
 }
