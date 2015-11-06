@@ -8,8 +8,25 @@
 				<!-- APPUNTI LG/MD -->		
 				<div class="col-md-3 doubleRow box boxGreen hidden-xs hidden-sm visible-md visible-lg hideOverflow">
 					<h3>Appunti</h3>						
-					<p>Questa sezione non è ancora attiva</p>
-					<img data-ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
+					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite i tuoi appunti</p>
+					<div data-ng-repeat="d in dashboard.myDraft">
+						<div style="margin-bottom: 10px;" class="row">
+							<div data-ng-show="d.character" class="col-md-3">
+								<img title="{{d.character.name}}"	data-ng-src="{{d.character.cover}}" data-err-src="assets/public/img/icon/pg.png"
+									class="imgPreviewM">
+							</div>
+							<div data-ng-hide="d.character" class="col-md-3">
+								<img data-ng-src="assets/public/img/narr.png" class="imgPreviewM">
+							</div>
+							<div class="col-md-9">
+								<div class="row">{{d.scenarioName}} - 
+									<span data-ng-show="d.character">{{d.character.name}}</span>
+									<span data-ng-hide="d.character">NARRATORE</span>
+								</div>
+								<div class="row textJustify">{{d.text | limitTo:50}}</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				
 				<!-- SCENARIO LG/MD/SM -->				

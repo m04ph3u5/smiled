@@ -596,6 +596,26 @@
 		return s.promise;
 	}
 	
+	var getMyDraft = function(preview){
+		var s = $q.defer();
+		var url;
+		if(preview)
+			url="/api/v1/draft?preview=true";
+		else
+			url="/api/v1/draft";
+		$http.get(url).then(
+					function(response){
+						s.resolve(response.data);
+					},
+					function(reason){
+						s.reject(reason);
+					}
+			);
+
+		return s.promise;
+	}
+	
+	
 	
 	var deleteTrustedMedia = function(idScenario, idMedia){
 		var s = $q.defer();
@@ -670,7 +690,8 @@
 		postTrustedMediaMetadata: postTrustedMediaMetadata,
 		getTrustedMediaMetadata: getTrustedMediaMetadata,
 		deleteTrustedMedia: deleteTrustedMedia,
-		getMyMissions : getMyMissions
+		getMyMissions : getMyMissions,
+		getMyDraft : getMyDraft
 		
 	}
 

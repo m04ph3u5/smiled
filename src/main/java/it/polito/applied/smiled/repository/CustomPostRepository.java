@@ -1,6 +1,5 @@
 package it.polito.applied.smiled.repository;
 
-import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
@@ -24,5 +23,7 @@ public interface CustomPostRepository {
 	public boolean updateComment(String idScenario, String postId, CommentInterface comment);
 	public boolean removeComment(String idScenario, String postId, CommentInterface comment);
 	public List<Post> findByScenarioIdAndPostStatus(String scenarioId, PostStatus status);
+	public List<Post> findByIds(List<String> toRetrieveListIds);
+
 
 }

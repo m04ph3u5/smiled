@@ -193,5 +193,12 @@ public class PostRepositoryImpl implements CustomPostRepository{
 						.andOperator(c)));
 		return mongoOp.find(q, Post.class);
 	}
+
+	@Override
+	public List<Post> findByIds(List<String> toRetrieveListIds) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").in(toRetrieveListIds));
+		return mongoOp.find(q, Post.class);
+	}
 	
 }
