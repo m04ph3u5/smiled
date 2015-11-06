@@ -652,8 +652,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.addCollaborator = function(collaborator){
-			console.log("addCollaboratorToScenario: ");
-			console.log(collaborator);
+			
 			
 			apiService.addCollaboratorToScenario(collaborator.id, id).then(
 					function(data){
@@ -668,12 +667,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							if(self.notAssociatedAttendees==null)
 								self.notAssociatedAttendees = new Array();
 							var newCollaborator = angular.copy(data);
+							alertingGeneric.addSuccess(newCollaborator.firstname + " "+ newCollaborator.lastname +" aggiunto correttamente");
 							newCollaborator.cover = CONSTANTS.urlUserCover(data.id);
 							self.notAssociatedAttendees.push(newCollaborator);
 						}, 
 					function(reason){
-							console.log("chiamata alle api NOT OK");
-							console.log(reason);
+							alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
 					});
 		}
 		
@@ -702,7 +701,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						self.emailList=null;
 						self.selectedUser="";
 						console.log(attendee);
-						alertingGeneric.addSuccess(attendee.firstname + " "+ attendee.lastname +" invitato correttamente");
+						alertingGeneric.addSuccess(attendee.firstname + " "+ attendee.lastname +" aggiunto correttamente");
 						for(var j=0; j<self.selectableStudents.length; j++){
 							if(self.selectableStudents[j].id==attendee.id){
 								self.selectableStudents.splice(j,1);
@@ -711,6 +710,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 					},
 					function(reason){
+						alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
 						
 					}
 			);

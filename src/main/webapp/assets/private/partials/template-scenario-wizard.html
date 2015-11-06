@@ -11,8 +11,8 @@
 
 <div class="col-lg-8">
 
-		<center><h1>{{scenarioWizard.title}}</h1></center>
-
+		<center style="cursor:pointer;" data-ng-if="!scenarioWizard.isScenarioActive()"><h1><a href="">{{scenarioWizard.title}}</a></h1></center>
+	    <center style="cursor:pointer;" data-ng-if="scenarioWizard.isScenarioActive()" data-ng-click="scenarioWizard.enterInScenario()"><h1><a href="">{{scenarioWizard.title}}</a></h1></center>
 	
 	    <div class="text-center">
 	        <div class="wizard row">
