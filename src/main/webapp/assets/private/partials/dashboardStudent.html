@@ -110,7 +110,7 @@
 				<!-- PERSONAGGI -->
 				<div class="col-md-3 col-sm-4 singleRow box boxYellow">
 					<h3>Personaggi</h3>
-					<div ng-if="dashboard.myCharacters==null || dashboard.myCharacters.length==0">
+					<div data-ng-if="dashboard.myCharacters==null || dashboard.myCharacters.length==0">
 						Qui verranno inseriti i propri personaggi
 					</div>
 					<div class="row">
@@ -129,25 +129,70 @@
 					</div>
 				</div>
 				
-				<!-- COMPITI -->
-				<div class="col-md-6 col-sm-8 singleRow box boxLightblue">
-					<h3>Compiti</h3>
-					<div class="row">
+				<!-- COMPITI MD/LG-->
+				<div class="col-md-6 col-sm-8 hidden-xs hidden-sm visible-md visible-lg singleRow box boxLightblue">
+					<h3 data-ui-sref="logged.dashboard.missionsList" style="cursor:pointer;">
+						Compiti
+						<img data-ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIconSmall">					
+					</h3>
+					<div class="row" data-ng-repeat="m in dashboard.myMissions | limitTo: 3">
 						<div class="col-sm-2 col-xs-2">
-							<div class='square-box'>
+							<div style="cursor:pointer;" data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})" class='square-box'>
     							<div class='square-content'>
-    								<div><span>26<br>mar</span></div>
+    								<div><span>{{m.assignDate | date : dashboard.missionDateFormatDay}}<br>{{m.assignDate | date : dashboard.missionDateFormatMonth}}</span></div>
     							</div>
     						</div>
 						</div>
 						<div class="col-xs-10 col-sm-10 text-left">
-							<h4>L'incontro tra Belle, Lumière e Tockins</h4>
-							<p><i>La Bella e la Bestia</i> - Bella</p>
+							<h4 data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})">
+								<a href="" style="color:#232323;">
+									<span data-ng-show="m.title">{{m.title | limitTo: 40}}<span data-ng-show="m.title.length>40">...</span></span>
+									<span data-ng-hide="m.title">{{m.description | limitTo: 40}}<span data-ng-show="m.description.length>40">...</span></span>
+								</a>
+							</h4>
+							<p >
+								<i data-ui-sref="logged.scenario.posts({id : '{{m.scenarioId}}'})"><a class="blueLink" href="">{{m.scenarioName}}</a></i>
+								<span data-ng-show="m.characterName"> - 
+									<span data-ui-sref="logged.scenario.charprofile({id : '{{m.scenarioId}}', idCharacter : '{{m.characterId}}'})"><a class="blueLink" href="">{{m.characterName}}</a></span>
+								</span>
 							</p>
 						</div>
 					</div>
 				</div>
+				
+				<!-- COMPITI SM/XS-->
+				<div class="col-md-6 col-sm-8 visible-xs visible-sm hidden-md hidden-lg singleRow box boxLightblue">
+					<h3 data-ui-sref="logged.dashboard.missionsList" style="cursor:pointer;">
+						Compiti
+						<img data-ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIconSmall">					
+					</h3>
+					<div class="row" data-ng-repeat="m in dashboard.myMissions | limitTo: 2">
+						<div class="col-sm-2 col-xs-2">
+							<div style="cursor:pointer;" data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})" class='square-box'>
+    							<div class='square-content'>
+    								<div><span>{{m.assignDate | date : dashboard.missionDateFormatDay}}<br>{{m.assignDate | date : dashboard.missionDateFormatMonth}}</span></div>
+    							</div>
+    						</div>
+						</div>
+						<div class="col-xs-10 col-sm-10 text-left">
+							<h4 data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})">
+								<a href="" style="color:#232323;">
+									<span data-ng-show="m.title">{{m.title | limitTo: 50}}<span data-ng-show="m.title.length>50">...</span></span>
+									<span data-ng-hide="m.title">{{m.description | limitTo: 50}}<span data-ng-show="m.description.length>40">...</span></span>
+								</a>
+							</h4>
+							<p>
+								<i data-ui-sref="logged.scenario.posts({id : '{{m.scenarioId}}'})"><a class="blueLink" href="">{{m.scenarioName}}</a></i>
+								<span data-ng-show="m.characterName"> - 
+									<span data-ui-sref="logged.scenario.charprofile({id : '{{m.scenarioId}}', idCharacter : '{{m.characterId}}'})"><a class="blueLink" href="">{{m.characterName}}</a></span>
+								</span>
+							</p>
+						</div>
+					</div>
+				</div>
+				
 			</div>
+			
 			
 			
 			<div class="row">
