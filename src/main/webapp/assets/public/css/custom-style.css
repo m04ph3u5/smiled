@@ -632,6 +632,9 @@
     	.titleIcon{
     		height:40px;
     	}
+    	.titleIconSmall{
+    		height:20px;
+    	}
     	.fileIcon{
     		height:130px;
     	}

@@ -4,12 +4,14 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	var self = this;
 	var originalUser = angular.copy(loggedUser);
 	
+	self.missionDateFormatDay = CONSTANTS.realDateFormatOnlyDay;
+	self.missionDateFormatMonth = CONSTANTS.realDateFormatOnlyMonth;
+	
 	if(loggedUser.role.authority=="ROLE_USER"){
 		self.numScenariosToShow = 5;
 		apiService.getMyMissions().then(
 				function(data){
 					self.myMissions = data;
-					console.log(self.myMissions);
 				},
 				function(reason){
 					console.log("Error retrieve missions");
@@ -63,6 +65,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 
 	  return array;
 	}
+	
 	function compareDate (a, b){
 		
 		if (a.creationDate > b.creationDate)

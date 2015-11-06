@@ -373,3 +373,12 @@ span.clickable:hover {
     color: white;
     font-weight : bold;
 }
+
+/*LINK MISSION DASHBOARD STUDENT*/
+.blueLink {
+	color : #275656;
+}
+
+.blueLink:hover, .blueLink:focus {
+	color: #059072;
+}
