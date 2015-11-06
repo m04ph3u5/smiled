@@ -21,14 +21,16 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
 
         var addAlert = function (type, message) {
         	
-        	if(currentAlerts.length==0){
-        		var alert = { type: type, message: message };
-        		currentAlerts.push(alert);
+        	if(currentAlerts.length>0)
+        		currentAlerts.splice(0, 1);
+  
+    		var alert = { type: type, message: message };
+    		currentAlerts.push(alert);
 
-        		$timeout(function () {
-        			removeAlert(alert);
-        		}, 5000);
-        	}
+    		$timeout(function () {
+    			removeAlert(alert);
+    		}, 5000);
+        	
         };
 
         var removeAlert = function (alert) {

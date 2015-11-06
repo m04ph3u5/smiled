@@ -602,6 +602,11 @@
 			display: inline;
 			margin-right:2%;
     	}
+    	.customInput3{
+			width:15%;
+			display: inline;
+			margin-right:2%;
+    	}
 
     	.buttonAC, .buttonDC{
     		background-color:#E2DDD0;

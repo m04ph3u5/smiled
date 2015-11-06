@@ -1,3 +1,4 @@
+<alertgeneric></alertgeneric>
 <label>CERCA TRA I TUOI STUDENTI</label>
 <form class="form-search">
 	  <div class="inner-addon left-addon">
@@ -28,7 +29,7 @@
 					data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{s.lastname}} {{s.firstname}} 
 				</a>
 				<span show-on-hover-parent style="display:none" class="glyphicon glyphicon-trash marginMTop" 
-				data-ng-click="scenarioWizard.deleteAttendee(s)"></span>
+				data-ng-click="scenarioWizard.showPopUpDeleteAttendee(s) "></span>
 			</div>
 		</div>
 		<div class="col-md-4" data-ng-show="scenarioWizard.scenarioServer.invited.length>0">
@@ -37,7 +38,7 @@
 					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
 						data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM marginMTop"> 
 						<u>{{s.email}}</u>
-						<span show-on-hover-parent style="display:none;" class="pickRow glyphicon glyphicon-trash" data-ng-click="scenarioWizard.deleteInvited(s)"></span></div>
+						<span show-on-hover-parent style="display:none;" class="pickRow glyphicon glyphicon-trash" data-ng-click="scenarioWizard.showPopUpDeleteAttendee(s) "></span></div>
 			</div>
 		</div>
 	</div>

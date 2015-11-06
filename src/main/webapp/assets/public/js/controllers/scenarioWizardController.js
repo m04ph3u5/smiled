@@ -22,13 +22,14 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.emailList;
 		self.accordionIsDisabled=true;
 		self.user;
-		self.selectableStudents;
+		self.selectableStudents = [];
 		//self.selectableCollaborators = new Array();
 		self.currentCharacters = []; //qui ci vanno le modifiche temporanee al character i-esimo. Questo ci permette di decidere se effettuare o meno la put sul server nel momento in cui andiamo a chiudere l'accordion
 		self.charactersServer = []; //array di character cosi come sono sul server
 		self.map;
 		var currentCharacterIndex = -1;
 		var getMePromise = $q.defer();
+		var id = $stateParams.id;
 		
 		
 		//GET ME
@@ -37,41 +38,42 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				self.user = data;
 				var userCopy = angular.copy(self.user);
 				self.selectableStudents = userCopy.students;
-				//self.selectableCollaborators = userCopy.colleagues;
+			
 				getMePromise.resolve();
+				getScenario();
 			}
 		);
 		
-		//GET SCENARIO
-		var id = $stateParams.id;
-		
-		if(id==null){
-			self.title="Crea nuovo scenario";
-		}else{
-			self.charging = true;
-			apiService.getScenario(id).then(
-					function(data){
-						self.scenarioServer = data;
-						self.scenario = angular.copy(data);
-						
-						self.title = data.name;
-						
-						updateSelectableAttendees();
-						//aggiorno le cover dei characters dello scenario
-						updateCover();
-						//updateSelectableCollaborators();
-						
-						updateAssociated();
+		var getScenario = function(){
+			//GET SCENARIO
+			if(id==null){
+				self.title="Crea nuovo scenario";
+			}else{
+				self.charging = true;
+				apiService.getScenario(id).then(
+						function(data){
+							self.scenarioServer = data;
+							self.scenario = angular.copy(data);
+							
+							self.title = data.name;
+							
+							updateSelectableAttendees();
+							//aggiorno le cover dei characters dello scenario
+							updateCover();
+							//updateSelectableCollaborators();
+							
+							updateAssociated();
 
-						retrieveCharacterAndOrder();
-					
-					}, function(reason){
-						console.log("errore");
-						$state.go("logged.dashboard");
-					}
-			);
-			self.scenarioCover = CONSTANTS.urlScenarioCover(id);
-			
+							retrieveCharacterAndOrder();
+						
+						}, function(reason){
+							console.log("errore");
+							$state.go("logged.dashboard");
+						}
+				);
+				self.scenarioCover = CONSTANTS.urlScenarioCover(id);
+				
+			}
 		}
 		
 		self.isScenarioActive = function(){
@@ -81,23 +83,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			else 
 				return false;
 		}
-		self.iAmCreator = function(){
-
-//			console.log("------------------------------------------->>>>>>>>>>>>>>>>>>>>>");
-//			console.log(self.scenarioServer);
-//			console.log(self.scenarioServer.teacherCreator.id);
-//			console.log(self.user.id);
-//			if(self.scenarioServer.teacherCreator.id == self.user.id){
-//				console.log("I AM CREATORRRRRRRRRRR");
-//				return true;
-//			}
-//			else{
-//				console.log("i am not creatorrrrrrrrrr");
-//				return false;
-//			}
-			return true;
-
-		}
+		
 		var retrieveCharacterAndOrder = function(){
 			
 			apiService.getAllCharactersFromScen(id).then(
@@ -215,7 +201,19 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				modalService.showModalDeleteScen(self.scenario);
 		};
 		
-		
+		self.showPopUpDeleteAttendee = function (a){
+			modalService.showModalDeleteAttendee(a).then(
+					function(response){
+						if(response.firstname)
+							self.deleteAttendee(response);
+						else
+							self.deleteInvited(response);
+						alertingGeneric.addSuccess("Partecipante rimosso");
+						
+					}, function(reason){
+						console.log("annullata operazione");
+					});
+		};
 		
 		var reInsertInSelectable = function(s){
 			console.log("reInsertInSelectable");
@@ -346,9 +344,11 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								self.scenario = angular.copy(data);
 								updateCover();
 								console.log("then saveInfo updateScenario");
+								alertingGeneric.addSuccess("Scenario modificato");
 							},
 							function(reason){
 								console.log("Errore update scenario");
+								alertingGeneric.addWarning("Modifica scenario fallita");
 							}
 					);
 				}else
@@ -359,13 +359,21 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.inviteStudents = function(){
 			var emails = extractEmails(self.emailList);
 			var emailsDTO=[];
-			for(var i=0; i<emails.length; i++){
-				console.log(emails[i]);
-				emailsDTO.push({"email": emails[i]});
+			if(emails){
+				for(var i=0; i<emails.length; i++){
+					console.log(emails[i]);
+					emailsDTO.push({"email": emails[i]});
+				}
 			}
-			if(emailsDTO.length>0 && id!=null){
+			
+			if(emailsDTO && emailsDTO.length>0 && id!=null){
 				apiService.addUsersToScenario(emailsDTO,id).then(
 						function(data){
+							if(data.length==1){
+								alertingGeneric.addSuccess("Studente invitato correttamente");
+							}else if(data.length > 1){
+								alertingGeneric.addSuccess("Studenti invitati correttamente");
+							}
 							for(var i=0; i<data.length; i++){
 								if(data[i].firstname!=null){
 									data[i].cover = CONSTANTS.urlUserCover(data[i].id);
@@ -383,11 +391,15 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								}
 							}
 							self.emailList=null;
+							updateSelectableAttendees();
 						},
 						function(reason){
 							
 						}
 				);
+			}else{
+				alertingGeneric.addWarning("Inserire almeno una email valida");
+				self.emailList=null;
 			}
 		}
 		
@@ -645,6 +657,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 						self.emailList=null;
 						self.selectedUser="";
+						console.log(attendee);
+						alertingGeneric.addSuccess(attendee.firstname + " "+ attendee.lastname +" invitato correttamente");
 						for(var j=0; j<self.selectableStudents.length; j++){
 							if(self.selectableStudents[j].id==attendee.id){
 								self.selectableStudents.splice(j,1);
@@ -1021,38 +1035,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 
 			return true;
-//			var ret = angular.equals(a,b);
-//			console.log(ret);
-//			console.log(a);
-//			console.log(b);
-//			console.log(a);
-//			console.log(b);
-//			// Create arrays of property names
-//		    var aProps = Object.getOwnPropertyNames(a);
-//		    var bProps = Object.getOwnPropertyNames(b);
-//
-//		    // If number of properties is different,
-//		    // objects are not equivalent
-//		    if (aProps.length != bProps.length) {
-//		    	console.log("different length");
-//		        return false;
-//		    }
-//
-//		    for (var i = 0; i < aProps.length; i++) {
-//		        var propName = aProps[i];
-//
-//		        // If values of same property are not equal,
-//		        // objects are not equivalent
-//		        if (a[propName] !== b[propName]) {
-//		            return false;
-//		        }
-//		    }
-//
-//		    // If we made it this far, objects
-//		    // are considered equivalent
-//		    console.log("isEquivalent ---> return true");
-//		    return true;
-//			return ret;
+
 		}
 		var dateValidate = function(){
 			
@@ -1060,16 +1043,16 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(self.scenario.history && self.scenario.history.startDate.year && !checkDate(self.scenario.history.startDate.year) ){
 				console.log("data inizio non valida");
 				alertingGeneric.addWarning("Data non valida");
-				self.scenario.history.startDate = angular.copy(self.scenarioServer.history.startDate);
-				self.scenario.history.endDate = angular.copy(self.scenarioServer.history.endDate);
+				self.scenario = angular.copy(self.scenarioServer);
+				
 				return false;
 			}
 			//controllo se la data fine è valida
 			if(self.scenario.history && self.scenario.history.endDate.year && !checkDate(self.scenario.history.endDate.year)){
 				console.log("data fine non valida");
 				alertingGeneric.addWarning("Data non valida");
-				self.scenario.history.startDate = angular.copy(self.scenarioServer.history.startDate);
-				self.scenario.history.endDate = angular.copy(self.scenarioServer.history.endDate);
+				self.scenario = angular.copy(self.scenarioServer);
+				
 				return false;
 			}
 			
@@ -1078,8 +1061,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				
 
 				if (!checkIfEndIsAfterStart(self.scenario.history.startDate , self.scenario.history.endDate )){
-					self.scenario.history.startDate = angular.copy(self.scenarioServer.history.startDate);
-					self.scenario.history.endDate = angular.copy(self.scenarioServer.history.endDate);
+					self.scenario = angular.copy(self.scenarioServer);
+					
 					return false;
 				}
 					
@@ -1101,20 +1084,17 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("infoValidate ---> name");
 				alertingGeneric.addWarning("Il nome dello scenario deve essere di almeno 2 caratteri");
 				ret=false;
-				if(self.scenarioServer.name){
-					self.scenario.name= angular.copy(self.scenarioServer.name);
-				}else{
-					self.scenario.name="";
-				}
+				self.scenario= angular.copy(self.scenarioServer);
+				
 			}
-			if(!self.scenario.description){
-				console.log("infoValidate ---> description");
-				if(self.scenarioServer.description){
-					self.scenario.description=angular.copy(self.scenarioServer.description);
-				}else{
-					self.scenario.description="";
-				}
-			}
+//			if(!self.scenario.description){
+//				console.log("infoValidate ---> description");
+//				if(self.scenarioServer.description){
+//					self.scenario.description=angular.copy(self.scenarioServer.description);
+//				}else{
+//					self.scenario.description="";
+//				}
+//			}
 			if(!self.scenario.history || !self.scenario.history.startDate){
 				console.log("infoValidate ---> startdate");
 				ret=false;
