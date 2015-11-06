@@ -5,6 +5,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	var self = this;
 	self.scenario = {};
 	self.scenToDelete = modalService.getScenToDelete();
+	self.attendeeToDelete = modalService.getAttendeeToDelete();
 	self.scenario.startDate = {};
 	self.scenario.endDate = {};
 	self.scenario.showRelationsToAll = true;

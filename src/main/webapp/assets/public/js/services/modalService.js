@@ -3,6 +3,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var scenario = {
 				
 		};
+		var attendee = {
+				
+		};
 		
 		var post = {};
 		var scenarioMap = "";
@@ -15,6 +18,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
+		var modalInstanceDeleteAttendee;
 		var modalInstanceSetDate;
 		var modalInstanceOpenMap;
 		var modalInstanceOpenMapForPost;
@@ -51,6 +55,12 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var optionsDeleteScen = {
 				templateUrl:'assets/private/partials/deleteScenario.html',
+				controller: 'dialogScenarioCtrl',
+				controllerAs: 'dialogScenario',
+		};
+		
+		var optionsDeleteAttendee = {
+				templateUrl:'assets/private/partials/deleteAttendee.html',
 				controller: 'dialogScenarioCtrl',
 				controllerAs: 'dialogScenario',
 		};
@@ -167,9 +177,21 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			
 		}
 		
+		var showModalDeleteAttendee = function(a){
+			attendee = a;
+			modalInstanceDeleteAttendee = $modal.open(optionsDeleteAttendee);
+			return modalInstanceDeleteAttendee.result;
+			
+		}
+		
 		var closeModalDeleteScen = function(){
 			console.log("DELETE SCENARIO");
 			modalInstanceDeleteScen.close();
+		}
+		
+		var closeModalDeleteAttendee = function(){
+			console.log("DELETE ATTENDEE");
+			modalInstanceDeleteAttendee.close();
 		}
 		
 		var createScenario = function(scenario){
@@ -210,13 +232,23 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var deleteScenario = function(){
 			console.log(scenario);
-			 s = apiService.deleteScenario(scenario.id);
-			 return s; 
+			s = apiService.deleteScenario(scenario.id);
+			return s; 
+			 
+		}
+		
+		var deleteAttendee = function(){
+			console.log("delete");
+			console.log(attendee);
 			 
 		}
 		
 		var getScenToDelete = function(){
 			return scenario;
+		}
+		
+		var getAttendeeToDelete = function(){
+			return attendee;
 		}
 		
 		//first serve a specificare (nel caso di set date) se si cerca di modificare la data di inizio o di fine dello scenario
@@ -315,7 +347,10 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalCreateScen: closeModalCreateScen,
 			showModalDeleteScen : showModalDeleteScen,
 			closeModalDeleteScen: closeModalDeleteScen,
+			showModalDeleteAttendee : showModalDeleteAttendee,
+			closeModalDeleteAttendee: closeModalDeleteAttendee,
 			getScenToDelete : getScenToDelete,
+			getAttendeeToDelete: getAttendeeToDelete,
 			showPopUpSetDate : showPopUpSetDate,
 			closeModalSetDate : closeModalSetDate,
 			showModalOpenMap : showModalOpenMap,

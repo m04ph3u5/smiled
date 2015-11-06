@@ -1,0 +1,11 @@
+<div class="modal-header">
+	<h4 class="modal-title">Rimuovi partecipante</h4>
+</div>
+<div class="modal-body">
+	<label>Sei sicuro di voler rimuovere {{dialogScenario.attendeeToDelete.firstname}} {{dialogScenario.attendeeToDelete.lastname}}  <span data-ng-show="!dialogScenario.attendeeToDelete.firstname" >{{dialogScenario.attendeeToDelete.email}}</span>?</label>
+</div>
+<div class="modal-footer">
+	<button class="btn warningButton" data-ng-click="$close(dialogScenario.attendeeToDelete)">RIMUOVI</button>
+	<button class="btn generalButton1" data-ng-click="$dismiss()">ANNULLA</button>
+	
+</div>
