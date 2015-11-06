@@ -6,6 +6,12 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var attendee = {
 				
 		};
+		var character = {
+				
+		};
+		var collaborator = {
+				
+		};
 		
 		var post = {};
 		var scenarioMap = "";
@@ -19,6 +25,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
 		var modalInstanceDeleteAttendee;
+		var modalInstanceDeleteCollaborator;
 		var modalInstanceSetDate;
 		var modalInstanceOpenMap;
 		var modalInstanceOpenMapForPost;
@@ -61,6 +68,18 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var optionsDeleteAttendee = {
 				templateUrl:'assets/private/partials/deleteAttendee.html',
+				controller: 'dialogScenarioCtrl',
+				controllerAs: 'dialogScenario',
+		};
+		
+		var optionsDeleteCollaborator = {
+				templateUrl:'assets/private/partials/deleteCollaborator.html',
+				controller: 'dialogScenarioCtrl',
+				controllerAs: 'dialogScenario',
+		};
+		
+		var optionsDeleteCharacter = {
+				templateUrl:'assets/private/partials/deleteCharacter.html',
 				controller: 'dialogScenarioCtrl',
 				controllerAs: 'dialogScenario',
 		};
@@ -183,15 +202,33 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			return modalInstanceDeleteAttendee.result;
 			
 		}
+		var showModalDeleteCollaborator = function(c){
+			collaborator = c;
+			modalInstanceDeleteCollaborator = $modal.open(optionsDeleteCollaborator);
+			return modalInstanceDeleteCollaborator.result;
+			
+		}
+		var showModalDeleteCharacter = function(c){
+			character = c;
+			modalInstanceDeleteCharacter = $modal.open(optionsDeleteCharacter);
+			return modalInstanceDeleteCharacter.result;
+			
+		}
 		
 		var closeModalDeleteScen = function(){
-			console.log("DELETE SCENARIO");
 			modalInstanceDeleteScen.close();
 		}
 		
 		var closeModalDeleteAttendee = function(){
-			console.log("DELETE ATTENDEE");
 			modalInstanceDeleteAttendee.close();
+		}
+		
+		var closeModalDeleteCollaborator = function(){
+			modalInstanceDeleteCollaborator.close();
+		}
+		
+		var closeModalDeleteCharacter = function(){
+			modalInstanceDeleteCharacter.close();
 		}
 		
 		var createScenario = function(scenario){
@@ -249,6 +286,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var getAttendeeToDelete = function(){
 			return attendee;
+		}
+		
+		var getCollaboratorToDelete = function(){
+			return collaborator;
+		}
+		
+		var getCharacterToDelete = function(){
+			return character;
 		}
 		
 		//first serve a specificare (nel caso di set date) se si cerca di modificare la data di inizio o di fine dello scenario
@@ -349,8 +394,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalDeleteScen: closeModalDeleteScen,
 			showModalDeleteAttendee : showModalDeleteAttendee,
 			closeModalDeleteAttendee: closeModalDeleteAttendee,
+			showModalDeleteCollaborator : showModalDeleteCollaborator,
+			closeModalDeleteCollaborator : closeModalDeleteCollaborator,
+			showModalDeleteCharacter : showModalDeleteCharacter,
+			closeModalDeleteCharacter: closeModalDeleteCharacter,
 			getScenToDelete : getScenToDelete,
 			getAttendeeToDelete: getAttendeeToDelete,
+			getCollaboratorToDelete: getCollaboratorToDelete,
+			getCharacterToDelete: getCharacterToDelete,
 			showPopUpSetDate : showPopUpSetDate,
 			closeModalSetDate : closeModalSetDate,
 			showModalOpenMap : showModalOpenMap,

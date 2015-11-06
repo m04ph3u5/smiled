@@ -211,7 +211,30 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						alertingGeneric.addSuccess("Partecipante rimosso");
 						
 					}, function(reason){
-						console.log("annullata operazione");
+						console.log("Rimozione partecipante annullata");
+					});
+		};
+		
+		self.showPopUpDeleteCollaborator = function (c){
+			modalService.showModalDeleteCollaborator(c).then(
+					function(response){
+						
+						self.deleteCollaborator(response);	
+						alertingGeneric.addSuccess("Collaboratore rimosso");
+						
+					}, function(reason){
+						console.log("Rimozione collaboratore annullata");
+					});
+		};
+		
+		self.showPopUpDeleteCharacter = function (c){
+			modalService.showModalDeleteCharacter(c).then(
+					function(response){
+						self.deleteCharacter(c);
+						alertingGeneric.addSuccess("Personaggio rimosso");
+						
+					}, function(reason){
+						console.log("Rimozione personaggio annullata");
 					});
 		};
 		
@@ -453,6 +476,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(self.newCharacter && self.newCharacter.name.length>2){
 				apiService.addCharacterToScenario(self.newCharacter,id).then(
 						function(data){
+							var name = angular.copy(self.newCharacter.name);
 							self.newCharacter.id = data.id;
 							//self.newCharacter.status=false;
 							if(self.scenario.characters==null || self.scenario.characters=="")
@@ -474,9 +498,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.newCharacter.cover = null;
 							self.newCharacter.name = "";
 							self.newCharacter.id = null;
+							console.log(name);
+							alertingGeneric.addSuccess("Il personaggio " + name +" e' stato creato correttamente");
+							
 						},
 						function(reason){
-							
+							alertingGeneric.addWarning("Non è stato possibile creare il personaggio " + self.newCharacter.name);
 						}
 				);
 			}
@@ -530,11 +557,11 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 			console.log("openAccordion");
 			if(currentCharacterIndex!=-1){
+				
 				if(isUpdatedCharacter(self.currentCharacters[currentCharacterIndex], self.charactersServer[currentCharacterIndex])){
 					if(isCurrentCharacterValid(self.currentCharacters[currentCharacterIndex])){
 						//va fatta la put delle nuove informazioni ed alla fine va gestito l'aggiornamento del currentCharacter
-						console.log("PUT PUT PUT PUT PUT");
-						console.log(i);
+						
 						if(i!=currentCharacterIndex){
 							syncCurrentCharacter(i, self.charactersServer[i]);
 						}
@@ -543,7 +570,18 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						apiService.updateCharacter(id, charDTO , self.charactersServer[currentCharacterIndex].id).then(
 								function(data){
 									self.charactersServer[currentCharacterIndex] = data;
-									self.scenario.characters[currentCharacterIndex].name = data.name;
+									var cover = angular.copy(self.scenario.characters[currentCharacterIndex].cover);
+									self.scenario.characters[currentCharacterIndex] = angular.copy(self.charactersServer[currentCharacterIndex]);
+									self.scenario.characters[currentCharacterIndex].cover = cover;
+									if(!data.bornDate){
+										self.scenario.characters[currentCharacterIndex].bornDate = {};
+										self.scenario.characters[currentCharacterIndex].bornDate.afterChrist = true;
+									}
+									if(!data.deadDate){
+										self.scenario.characters[currentCharacterIndex].deadDate = {};
+										self.scenario.characters[currentCharacterIndex].deadDate.afterChrist = true;
+									}
+									
 									if(self.scenario.characters[currentCharacterIndex].userId!=null){
 										console.log("toUPDATE --------> ")
 										for(var k=0; i<self.associations.length; k++){
@@ -566,18 +604,24 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 										currentCharacterIndex=i;
 									else
 										currentCharacterIndex=-1;
-									console.log("Character aggiornato");
+									alertingGeneric.addSuccess("Il personaggio " + data.name + " e' stato modificato correttamente");
+									
 								}
-						,function(reason){
-							//TODO
-							console.log("failed update character: "+reason);
-						}
+							,function(reason){
+								alertingGeneric.addWarning("Non e' stato possibile modificare il personaggio ");
+								var cover = angular.copy(self.currentCharacters[currentCharacterIndex].cover);
+								var date = 
+								self.currentCharacters[currentCharacterIndex] = angular.copy(self.charactersServer[currentCharacterIndex]);
+								self.currentCharacters[currentCharacterIndex].cover = cover;
+							}
 						);
 					}else{ //la validazione delle info digitate è fallita
 						//TODO
-						console.log("validazione fallita");
-						self.currentCharacters[currentCharacterIndex].bornDate = angular.copy(self.charactersServer[currentCharacterIndex].bornDate);
-						self.currentCharacters[currentCharacterIndex].deadDate = angular.copy(self.charactersServer[currentCharacterIndex].deadDate);
+						alertingGeneric.addWarning("Non e' stato possibile modificare il personaggio");
+						var cover = angular.copy(self.currentCharacters[currentCharacterIndex].cover);
+						self.currentCharacters[currentCharacterIndex] = angular.copy(self.charactersServer[currentCharacterIndex]);
+						self.currentCharacters[currentCharacterIndex].cover = cover;
+						
 						if(currentCharacterIndex!=i)
 							currentCharacterIndex=i;
 						else
@@ -608,8 +652,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		self.addCollaborator = function(collaborator){
-			console.log("addCollaboratorToScenario: ");
-			console.log(collaborator);
+			
 			
 			apiService.addCollaboratorToScenario(collaborator.id, id).then(
 					function(data){
@@ -624,12 +667,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							if(self.notAssociatedAttendees==null)
 								self.notAssociatedAttendees = new Array();
 							var newCollaborator = angular.copy(data);
+							alertingGeneric.addSuccess(newCollaborator.firstname + " "+ newCollaborator.lastname +" aggiunto correttamente");
 							newCollaborator.cover = CONSTANTS.urlUserCover(data.id);
 							self.notAssociatedAttendees.push(newCollaborator);
 						}, 
 					function(reason){
-							console.log("chiamata alle api NOT OK");
-							console.log(reason);
+							alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
 					});
 		}
 		
@@ -658,7 +701,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						self.emailList=null;
 						self.selectedUser="";
 						console.log(attendee);
-						alertingGeneric.addSuccess(attendee.firstname + " "+ attendee.lastname +" invitato correttamente");
+						alertingGeneric.addSuccess(attendee.firstname + " "+ attendee.lastname +" aggiunto correttamente");
 						for(var j=0; j<self.selectableStudents.length; j++){
 							if(self.selectableStudents[j].id==attendee.id){
 								self.selectableStudents.splice(j,1);
@@ -667,6 +710,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 					},
 					function(reason){
+						alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
 						
 					}
 			);
@@ -742,6 +786,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								/*TODO valutares*/
 								self.scenarioServer.characters.splice(i,1);
 								manageAssociationOnCharacterDeletion(c);
+								currentCharacterIndex = -1;
 							}
 						}
 					},
@@ -1280,8 +1325,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var isCurrentCharacterValid = function(char){
-			console.log(char.deadDate);
-			console.log(char.bornDate);
+			
 			if(char.deadDate.year && !checkDate(char.deadDate.year))
 				return false;
 			if(char.bornDate.year && !checkDate(char.bornDate.year))
