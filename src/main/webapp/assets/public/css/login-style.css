@@ -1,5 +1,110 @@
-		
-		
+/*NAVBAR*/
+	.navbar{
+		padding-top:1%;
+		background-color:#F5F2EA;
+		border: none;
+		border-radius:0px;
+		color: #5B5955;
+	}
+	.navbar-default .navbar-brand {
+		color: #5B5955;
+	}
+	.titleNav{
+		font-family: 'Coustard', sans-serif;
+		font-size:20px;
+		color: #cb654f;						
+	}
+	.titleNav{
+		font-size:20px;
+		color: #cb654f;						
+	}
+	.titleNav::hover{			
+		color: #cb654f;						
+	}
+	
+	.navWithoutPad{
+		padding-top:0.3em;
+		transition: all 0.4s ease;
+	}
+	.navWithPad{
+		padding-top:3em;
+		transition: all 0.4s ease;
+	}
+				
+/*TITLE*/
+	.bigLogo{
+		width:80%;
+		margin-left: 20%;
+	}
+	
+	.mescholaTitle{
+		font-family: 'Coustard', sans-serif;
+		font-size:4vw;
+		color: #cb654f;
+		margin-left: 20vw;	
+	}
+	
+	.mescholaSubtitle{
+		font-family: 'Raleway', sans-serif;
+		font-size: 2vw;
+		text-align: right;
+		padding-left: 15vw;
+	}
+	
+	.rowTitle{
+		display:flex;
+	}
+	
+ 	.titleContainer{
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-end;
+		padding-bottom:3%;
+	}
+	 
+/*VIDEO AND FORM SECTION*/
+	.aspectRatio{
+		position: relative;
+		width: 100%;
+		height:0;
+		padding-bottom:51%;
+		margin-top: 5vw;
+	}
+	.aspectRatio iframe {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		left: 0; top: 0;
+	}
+	
+	.boxForm{
+		background-color: #ded5b1;
+		text-align:center;
+		color: #404b41;
+		padding:3vw;
+	}
+	.formTitle{
+		font-family: 'Coustard', sans-serif;
+		font-size:2.5vw;
+		color: #404b41;
+	}
+	label{
+		color: #404b41;
+	}
+	
+	.ctaFirst{
+		color: #FFFFFF;
+		background-color: #248a73;
+		font-family: 'Coustard', sans-serif;
+		font-size:3vw;
+	}
+	.freccia{
+		margin-top:5vw;
+		width:70%;
+		margin-left:20%;
+	}
+	
+	
 		.divLanding{
 			background-color:#A2B776;
 			border-radius: 25px;
@@ -61,19 +166,40 @@
 			border-color:#5B5955;			
 			margin-bottom:20px;
 		}
+
 		
-		.navbar{
-			margin-top:1%;
-			background-color:rgba(224, 216, 169, 1);
-			border: none;
-			 color: #5B5955;
-		}
-		.navbar-default .navbar-brand {
-			color: #5B5955;
-		}
 		.login{
 			margin-bottom:0px;
 		}
-		body{
-			background-color:rgba(224, 216, 169, 1);
-		}
+		
+
+
+/*MEDIA QUERIES*/
+@media screen  and (max-width: 767px){
+	.mescholaTitle{
+		font-family: 'Coustard', sans-serif;
+		font-size:6vw;
+		color: #cb654f;
+		margin-left: 2vm;	
+	}
+	
+	.mescholaSubtitle{
+		font-size: 3vw;
+		text-align: right;
+		margin-right: 0.1vw;
+		padding-left: 1em;
+	}
+	
+	.formTitle{
+		font-size:4vw;
+	}
+	
+	.boxForm{
+		margin-top: 4%;		
+	}
+	
+	.ctaFirst{
+		font-size: 4vw;
+	}
+		
+}	

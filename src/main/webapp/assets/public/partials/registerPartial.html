@@ -1,53 +1,69 @@
 
-
 <link href='https://fonts.googleapis.com/css?family=Open+Sans'
 	rel='stylesheet' type='text/css'>
 <link href="/assets/public/css/login-style.css" rel='stylesheet'
 	type='text/css'>
 
-	
+<div class="container-fluid">
+	<div class="row rowTitle">		
+		<div class="col-md-3 col-xs-4">
+			<img src="assets/public/img/calderone1.png" class="img bigLogo" data-ui-sref="notLogged.login">
+		</div>
+		<div class="col-md-9 col-xs-8 titleContainer">
+			<div class="row mescholaTitle"><i>me</i>schola</div>
+			<div class="row mescholaSubtitle">La piattaforma capace di rendere vivi<br> fatti, argomenti e persone attraverso il <i>role-play</i></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="aspectRatio">
+				<iframe src="https://www.youtube.com/embed/4Bvs72zs608" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<img src="assets/public/img/icon/freccia big.png" class="freccia hidden-xs visible-sm visible-md visible-lg">
+		</div>
+		<div class="col-sm-1"></div>
+		<div class="col-sm-5">
+			<div class="boxForm">
+				<div class="formTitle">ISCRIZIONE DOCENTE</div>
+				<label>Informazioni personali</label>
+				<alertregistration></alertregistration>
+				<form role="form" novalidate>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="NOME"
+							data-ng-model="register.user.firstName" ></input>
+						<div class="form-group"></div>
+						<input type="text" class="form-control" placeholder="COGNOME"
+							data-ng-model="register.user.lastName" ></input>
+					</div>
+					<div class="form-group">
+						<form class="form-inline">
+							<div class="form-group">
+								<input ui-date="dateOptions" class="form-control" 
+									data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
+							</div>
+					</div>
+					<div class="form-group">
+						<label>Account</label> <input type="text" class="form-control"
+							placeholder="EMAIL" data-ng-model="register.user.email" ></input>
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="PASSWORD"
+							data-ng-model="register.user.password" ></input>
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control"
+							placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"></input>
+					</div>						
+					<button data-ng-click="register.postRegister()"
+						class="btn ctaFirst">Entra nella storia!</button>
+				</form>	
+			</div>
+		</div>
+	</div>
+</div>
 <div class="container-fluid bg fill">
 	<div class="row">
 		<div class="col-md-1"></div>
-		<div class="col-md-3 boxFluttuante">
-			<h3>ISCRIZIONE DOCENTE</h3>
-			<label>Informazioni personali</label>
-			<alertregistration></alertregistration>
-			<form role="form" novalidate>
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="NOME"
-						data-ng-model="register.user.firstName" ></input>
-					<div class="form-group"></div>
-					<input type="text" class="form-control" placeholder="COGNOME"
-						data-ng-model="register.user.lastName" ></input>
-				</div>
-				<div class="form-group">
-					<form class="form-inline">
-						<div class="form-group">
-							<input ui-date="dateOptions" class="form-control" 
-								data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
-						</div>
-				</div>
-
-
-				<div class="form-group">
-					<label>Account</label> <input type="text" class="form-control"
-						placeholder="EMAIL" data-ng-model="register.user.email" ></input>
-				</div>
-				<div class="form-group">
-					<input type="password" class="form-control" placeholder="PASSWORD"
-						data-ng-model="register.user.password" ></input>
-				</div>
-				<div class="form-group">
-					<input type="password" class="form-control"
-						placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"
-						></input>
-				</div>
-				
-				<button data-ng-click="register.postRegister()"
-					class="btn generalButton marginMBottom">REGISTRATI</button>
-			</form>
-
-		</div>
+		
 	</div>
 </div>
