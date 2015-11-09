@@ -15,6 +15,7 @@ import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.security.CustomUserDetails;
 
@@ -77,4 +78,5 @@ public interface UserService {
 	public void sendReport(CustomUserDetails activeUser, Issue issue);
 	public void addClientException(ExceptionOnClient e, String userId);
 	public Page<ExceptionOnClient> getAllClientExceptions(Integer nPag, Integer nItem) throws BadRequestException;
+	public List<Post> getDraft(CustomUserDetails activeUser, Boolean preview);
 }

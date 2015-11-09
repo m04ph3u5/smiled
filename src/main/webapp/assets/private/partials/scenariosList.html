@@ -2,20 +2,20 @@
 	<div class="row">
 		<div class="col-lg-1"></div>
 		<div class="col-lg-1">
-			<a href=""><div data-ui-sref="logged.dashboard" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
-				<img ng-src="assets/public/img/icon/back.png" class="sideIcon marginXXLTop">
-				<img ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title marginMTop">			
-			</div></a>
-			<a href=""><div data-ng-click="scenariosList.showPopUpCreationScenario()" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
-				<img ng-src="assets/public/img/icon/nuovo scenario.png" class="sideIcon marginXLTop">
-				<img ng-src="assets/public/img/titoli_dashboard/crea nuovo scenario.png" class="title marginMTop">			
-			</div></a>
+			<div style="cursor:pointer;" data-ui-sref="logged.dashboard" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
+				<img data-ng-src="assets/public/img/icon/back.png" class="sideIcon marginXXLTop">
+				<img data-ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title marginMTop">			
+			</div>
+			<div data-ng-hide="scenariosList.user.role.authority=='ROLE_USER'" style="cursor:pointer;" data-ng-click="scenariosList.showPopUpCreationScenario()" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
+				<img data-ng-src="assets/public/img/icon/nuovo scenario.png" class="sideIcon marginXLTop">
+				<img data-ng-src="assets/public/img/titoli_dashboard/crea nuovo scenario.png" class="title marginMTop">			
+			</div>
 		</div>
 		<div class="col-sm-12 col-lg-8">
 			<div class="row text-center">				
 					<h1>
-						<img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title">
-						<img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon">
+						<img data-ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title">
+						<img data-ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon">
 					</h1>					
 			</div>
 			<div class="boxRed box text-left dashSection">
@@ -25,8 +25,8 @@
 					
 					<div class="row sideMarginThree">
 						<div data-ng-repeat="s in scenariosList.user.creatingScenarios" >
-							<a href=""><div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
-								<div class="row marginMTop marginSBottom" ng-mousehover="">
+							<div style="cursor:pointer;" class="col-md-4 col-xs-6"  data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })">
+								<div class="row marginMTop marginSBottom" data-ng-mousehover="">
 									
 									<div class="col-sm-5">
 										<div class="imgRoundResponsive" 
@@ -40,15 +40,15 @@
 										</div>
 									</div>
 								</div>
-							</div></a>	
+							</div>
 						</div>
 					</div>
 				</div>
 				<h2>Scenari attivi</h2>
-				<div ng-if='scenariosList.user.openScenarios==null' class="emptyContent">Qui verranno inseriti gli scenari attivi</div>
+				<div data-ng-if='scenariosList.user.openScenarios==null' class="emptyContent">Qui verranno inseriti gli scenari attivi</div>
 				<div class="row sideMarginThree">
 					<div data-ng-repeat="s in scenariosList.user.openScenarios" >
-						<a href=""><div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
+						<div style="cursor:pointer;" class="col-md-4 col-xs-6"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom">
 								<div class="col-sm-5">
 									<div class="imgRoundResponsive" 
@@ -62,13 +62,13 @@
 									</div>
 								</div>
 							</div>
-						</div></a>	
+						</div>
 					</div>
 				</div>		
 				<h2>Scenari conclusi</h2>
-				<div ng-if='scenariosList.user.closedScenarios==null' class="emptyContent">Qui verranno inseriti gli scenari conclusi</div>
+				<div data-ng-if='scenariosList.user.closedScenarios==null' class="emptyContent">Qui verranno inseriti gli scenari conclusi</div>
 				<div class="row sideMarginThree">
-					<a href=""><div data-ng-repeat="s in scenariosList.user.closedScenarios" >				
+					<div style="cursor:pointer;" data-ng-repeat="s in scenariosList.user.closedScenarios" >				
 						<div class="col-md-4 col-xs-6"  data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })">
 							<div class="row marginMTop marginSBottom">
 								<div class="col-sm-5">
@@ -84,37 +84,29 @@
 									</div>
 							</div>
 						</div>	
-					</div></a>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row hidden-lg visible-md visible-sm hidden-xs marginMTop">
-			<a href="">
-				<div data-ui-sref="logged.dashboard" class="col-sm-6 text-right">
-					<img ng-src="assets/public/img/icon/back.png" class="sideIcon">
-					<img ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title sideMarginThree">			
-				</div>
-			</a>
-			<a href="">
-				<div data-ng-click="scenariosList.showPopUpCreationScenario()" class="col-sm-6 text-left">
-					<img ng-src="assets/public/img/icon/nuovo scenario.png" class="sideIcon sideMarginThree">
-					<img ng-src="assets/public/img/titoli_dashboard/crea nuovo scenario.png" class="title marginMTop">			
-				</div>
-			</a>
+			<div style="cursor:pointer;" data-ui-sref="logged.dashboard" class="col-sm-6 text-right">
+				<img data-ng-src="assets/public/img/icon/back.png" class="sideIcon">
+				<img data-ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title sideMarginThree">			
+			</div>
+			<div data-ng-hide="scenariosList.user.role.authority=='ROLE_USER'" style="cursor:pointer;" data-ng-click="scenariosList.showPopUpCreationScenario()" class="col-sm-6 text-left">
+				<img data-ng-src="assets/public/img/icon/nuovo scenario.png" class="sideIcon sideMarginThree">
+				<img data-ng-src="assets/public/img/titoli_dashboard/crea nuovo scenario.png" class="title marginMTop">			
+			</div>
 		</div>		
 		<div class="row hidden-lg hidden-md hidden-sm visible-xs text-center marginMTop">
-			<a href="">
-				<div data-ui-sref="logged.dashboard">
-					<img ng-src="assets/public/img/icon/back.png" class="sideIcon">
-					<img ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title ">			
-				</div>
-			</a>
-			<a href="">
-				<div data-ng-click="dashboard.showPopUpCreationScenario()">
-					<img ng-src="assets/public/img/icon/nuovo scenario.png" class="sideIcon marginMTop">
-					<img ng-src="assets/public/img/titoli_dashboard/crea nuovo scenario.png" class="title marginMTop">			
-				</div>
-			</a>
+			<div style="cursor:pointer;" data-ui-sref="logged.dashboard">
+				<img data-ng-src="assets/public/img/icon/back.png" class="sideIcon">
+				<img data-ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title ">			
+			</div>
+			<div style="cursor:pointer;" data-ng-hide="scenariosList.user.role.authority=='ROLE_USER'" data-ng-click="dashboard.showPopUpCreationScenario()">
+				<img data-ng-src="assets/public/img/icon/nuovo scenario.png" class="sideIcon marginMTop">
+				<img data-ng-src="assets/public/img/titoli_dashboard/crea nuovo scenario.png" class="title marginMTop">			
+			</div>
 		</div>		
 	</div>
 

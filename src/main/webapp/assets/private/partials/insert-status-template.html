@@ -27,7 +27,7 @@
 						data-ng-click="insertStatus.setPositionNewPost()"
 						class="linkPost">{{insertStatus.newPost.place.text}}</span>
 				</h4>
-				<textarea class="pull-left allWidth" placeholder="A COSA STAVI PENSANDO?"
+				<textarea id="textContentStatus" class="pull-left allWidth" placeholder="A COSA STAVI PENSANDO?"
 				rows="3" data-ng-model="insertStatus.newPost.content"></textarea>
 			</div>				
 		</div>	
@@ -144,12 +144,14 @@
 </div>
 <div class="row col-xs-12">
 	<div class="pull-right">
-		<div 
+		<div data-ng-click="insertStatus.draftNewPost(); insertStatus.hideTagBox()"
 			class="btn generalButton1">SALVA COME BOZZA</div> 
 <!-- 			data-ng-click="insertStatus.draftNewPost()" -->
 		<div data-ng-click="insertStatus.savePost(); insertStatus.hideTagBox()"
 			class="btn positiveButton">PUBBLICA</div>
 </div>
+</div>
+
 </div>
 	
 

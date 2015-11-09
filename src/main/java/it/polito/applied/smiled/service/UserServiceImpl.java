@@ -18,6 +18,7 @@ import it.polito.applied.smiled.pojo.RegistrationToken;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Character;
+import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
@@ -25,6 +26,7 @@ import it.polito.applied.smiled.pojo.user.UserProfile;
 import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
+import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.RegistrationRepository;
 import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -37,6 +39,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -79,6 +82,11 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	
 	@Autowired
 	private ExceptionOnClientRepository exceptionOnClientRepository;
+	
+	@Autowired
+	private PostRepository postRepository;
+	
+	private final int PREVIEW=3;
 	
 //	@Autowired
 //	private NotifyService notify;
@@ -640,6 +648,27 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}catch(MongoException e ){
 			throw e;
 		}
+	}
+
+	@Override
+	public List<Post> getDraft(CustomUserDetails activeUser, Boolean preview) {
+		User u = userRepository.findById(activeUser.getId());
+		List<String> draft = u.getDraftPostsId();
+		
+		if(draft==null || draft.size()==0)
+			return new ArrayList<Post>();
+		
+		if(preview){
+			List<String> previewDraft = new ArrayList<String>();
+			Random r = new Random();
+			int i=0;
+			while(i<PREVIEW && i<draft.size()){
+				previewDraft.add(draft.remove((int)Math.floor(r.nextDouble()*(draft.size()))));
+				i++;
+			}
+			return postRepository.findByIds(previewDraft);
+		}
+		return postRepository.findByIds(draft);
 	}
 
 	

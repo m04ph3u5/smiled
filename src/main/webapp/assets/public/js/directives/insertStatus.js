@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService',
-                                     function(CONSTANTS, apiService, Upload, $q, modalService){
+angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService', 'alertingGeneric',
+                                     function(CONSTANTS, apiService, Upload, $q, modalService, alertingGeneric){
 	return {
 		templateUrl: "assets/private/partials/insert-status-template.html",
 		scope : {
@@ -157,7 +157,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								}
 						);
 					}else{
-						//TODO gestione alert errore
+						angular.element(document.querySelector('#textContentStatus')).focus();
 					}
 				}
 			}
@@ -168,15 +168,17 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*AGGIUNGERE CONTROLLO DATE - guarda validateDAte()*/
 			self.draftNewPost = function(){
 				if(self.sendPostEnable && self.newPost.content){
-					self.sendPostEnable = false;
+					self.sendPostEnable=false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
 					toSendPost.julianDayNumber = self.newPost.julianDayNumber;
+					toSendPost.timeNumber = self.newPost.timeNumber;
 					toSendPost.status = "DRAFT";
 					toSendPost.place = self.newPost.place;
 					toSendPost.imageMetaId = new Array();
 					toSendPost.fileMetaId = new Array();
 					toSendPost.tags = new Array();
+					
 					for(var i=0; i<self.newPost.image.length; i++){
 						toSendPost.imageMetaId.push(self.newPost.image[i].id);
 					}
@@ -189,25 +191,28 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 						toSendPost.tags.push(self.newPost.tags[i].id);
 					}
 					apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
-							
 							function(data){
-								
-								console.log("drafted: "+data);
+								console.log("sended draft: "+data);
 								self.newPost.content="";
 								self.newPost.image=[];
 								self.newPost.file=[];
 								self.newPost.julianDayNumber="";
+								self.newPost.timeNumber="";
 								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
+								self.sendPostEnable= true;
 								self.newPost.place = null;
-								self.sendPostEnable = true;
-							},
+								self.newPost.tags = [];
+								
+								alertingGeneric.addSuccess("Bozza salvata con successo.");
+					},
 							function(reason){
-								self.sendPostEnable = true;
+								self.sendPostEnable=true;
 								console.log("error in send status: "+reason);
+								alertingGeneric.addWarning("Impossibile salvare la bozza. Riprova per favore.");
 							}
 					);
 				}else{
-					//TODO gestione alert errore
+					angular.element(document.querySelector('#textContentStatus')).focus();
 				}	
 			}
 			/*--------------Create draft post end------------------------------------------*/

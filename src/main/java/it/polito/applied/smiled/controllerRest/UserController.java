@@ -15,6 +15,7 @@ import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.LogSession;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.repository.LogSessionRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -268,6 +269,15 @@ public class UserController extends BaseController{
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void sendReport(@RequestBody Issue issue, @AuthenticationPrincipal CustomUserDetails activeUser){
 		userService.sendReport(activeUser, issue);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/draft", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public List<Post> getDraft(@RequestParam (value = "preview", required=false) Boolean preview,@AuthenticationPrincipal CustomUserDetails activeUser){
+		if(preview==null)
+			preview=false;
+		return userService.getDraft(activeUser, preview);
 	}
 	
 	/*----------------------------------------------ADMIN API START--------------------------------------- */
