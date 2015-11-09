@@ -2,7 +2,7 @@
 <div >
 	
 	<div class="row">
-	<h3>Missione dello scenario:</h3>
+	<h3><i>Missione dello scenario</i></h3>
 		<div class="col-xs-12 box boxBrown">
 				<insert-mission 
 					id-scenario-veloce= "{{scenario.scen.id}}"
@@ -24,8 +24,8 @@
 		</work-spinner>
 	</div>
 	<div class="row">
-	<h3 data-ng-if="scenario.isCreator || scenario.isModerator">Missioni dei personaggi:</h3>
-	<h3 data-ng-if="!scenario.isCreator && !scenario.isModerator && scenarioMissions.myCharacter">Missione del mio personaggio:</h3>
+	<h3 data-ng-if="scenario.isCreator || scenario.isModerator"><i>Missioni dei personaggi</i></h3>
+	<h3 data-ng-if="!scenario.isCreator && !scenario.isModerator && scenarioMissions.myCharacter"><i>Missione del mio personaggio</i></h3>
 	<div data-ng-repeat="c in scenarioMissions.characters">
 		<div class="col-xs-12 box boxBrown">
 				<insert-mission 
