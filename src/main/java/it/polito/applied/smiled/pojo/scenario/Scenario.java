@@ -52,6 +52,7 @@ public class Scenario {
 		description = s.getDescription();
 		//cover=s.getCover();
 		this.teacherCreator = teacherCreator;
+		this.showRelationsToAll = s.isShowRelationsToAll();
 		creationDate = new Date();
 	}
 	

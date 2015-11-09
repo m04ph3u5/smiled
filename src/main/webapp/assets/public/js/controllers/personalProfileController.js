@@ -32,19 +32,22 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		userService.getUser(id).then(onSuccessGetUser, onErrorGetUser);
 		
 		if(id == myIdentity){
-			self.url = CONSTANTS.urlMeCover;
-			self.coverLarge = CONSTANTS.urlMeCoverLarge;
+			var d = new Date();
+			self.url = CONSTANTS.urlMeCover+"?"+d.toString();
+			self.coverLarge = CONSTANTS.urlMeCoverLarge+"?"+d.toString();
 			self.isModifiable=true;
 		}
 		else{
-			self.url = CONSTANTS.urlUserCover(id);
-			self.coverLarge = CONSTANTS.urlUserCoverLarge;
+			var d = new Date();
+			self.url = CONSTANTS.urlUserCover(id)+"?"+d.toString();
+			self.coverLarge = CONSTANTS.urlUserCoverLarge(id)+"?"+d.toString();
 		}
 		
 	}else{
 		userService.getMe().then(onSuccessGetUser, onErrorGetUser);
-		self.url = CONSTANTS.urlMeCover;
-		self.coverLarge = CONSTANTS.urlMeCoverLarge;
+		var d = new Date();
+		self.url = CONSTANTS.urlMeCover+"?"+d.toString();
+		self.coverLarge = CONSTANTS.urlMeCoverLarge+"?"+d.toString();
 		self.isModifiable=true;
 	}
 	
@@ -101,22 +104,32 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	
 	self.modifyPassword = function(){
 		if(self.oldPassword && self.newPassword){
-			var passwordDTO = {};
-			passwordDTO.oldPassword = self.oldPassword;
-			passwordDTO.newPassword = self.newPassword;
-			userService.changePassword(passwordDTO).then(
-					function(data){
-						console.log("password correttamente modificata!");
-						self.oldPassword="";
-						self.newPassword="";
-						self.editablePassword = false;
-					},
-					function(reason){
-						console.log("errore nel cambio password");
-						self.oldPassword="";
-						self.newPassword="";
-					}
-			);
+			if(self.newPassword == self.newPassword2){
+				var passwordDTO = {};
+				passwordDTO.oldPassword = self.oldPassword;
+				passwordDTO.newPassword = self.newPassword;
+				userService.changePassword(passwordDTO).then(
+						function(data){
+							console.log("password correttamente modificata!");
+							self.oldPassword="";
+							self.newPassword="";
+							self.newPassword2="";
+							self.editablePassword = false;
+						},
+						function(reason){
+							console.log("errore nel cambio password");
+							self.oldPassword="";
+							self.newPassword="";
+							self.newPassword2="";
+						}
+				);
+			}else{
+				console.log("Errore - le due password non corrispondono!!!");
+				self.oldPassword="";
+				self.newPassword="";
+				self.newPassword2="";
+			}
+			
 		}
 	}
 	

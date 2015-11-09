@@ -8,6 +8,7 @@ import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.MediaDataAndContentType;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.FileManagerService;
+import it.polito.applied.smiled.service.LogService;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,6 +48,9 @@ public class FileUploadController extends BaseController{
 	
 	@Autowired
 	private FileManagerService fileManagerService;
+	
+	@Autowired
+	private LogService logService;
 
 	
 	/*----------------------------------------------------COVER-----------------------------------------------------------*/
@@ -57,6 +61,7 @@ public class FileUploadController extends BaseController{
 	public void uploadCoverScenario(@PathVariable String id, @RequestPart("file") MultipartFile scenarioCover, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
 		System.out.println("POST COVER");
 		fileManagerService.postCoverScenario(id, scenarioCover, user);
+		logService.logUpdateScenarioCover(id, user.getId());
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -71,6 +76,7 @@ public class FileUploadController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public void uploadMeCover(@RequestPart("file") MultipartFile userCover, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
 		fileManagerService.postCoverUser(userCover, user);
+		logService.logUpdateUserCover(user.getId());
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -78,6 +84,7 @@ public class FileUploadController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public void uploadMeCoverLarge(@RequestPart("file") MultipartFile userCover, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
 		fileManagerService.postCoverLargeUser(userCover, user);
+		logService.logUpdateUserCoverLarge(user.getId());
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -96,14 +103,14 @@ public class FileUploadController extends BaseController{
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="users/{id}/cover", method=RequestMethod.GET)
-	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
+	@PreAuthorize("(principal.getId().equals(#id)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#id, 'User', 'READ'))")
 	public ByteArrayResource getUserCover(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
 		return new ByteArrayResource(fileManagerService.getUserCover(id));
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="users/{id}/coverLarge", method=RequestMethod.GET)
-	@PreAuthorize("(principal.getId().equals(#userId)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#userId, 'User', 'READ'))")
+	@PreAuthorize("(principal.getId().equals(#id)) or (hasRole('ROLE_TEACHER')) or (hasRole('ROLE_USER') and hasPermission(#id, 'User', 'READ'))")
 	public ByteArrayResource getUserCoverLarge(@PathVariable String id) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
 		return new ByteArrayResource(fileManagerService.getUserCoverLarge(id));
 	}
@@ -113,6 +120,7 @@ public class FileUploadController extends BaseController{
 	@PreAuthorize("(hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')) or (hasRole('ROLE_USER') and hasPermission(#characterId, 'Character', 'WRITE'))")
 	public void uploadCharacterCover(@PathVariable String id, @PathVariable String characterId, @RequestPart("file") MultipartFile characterCover, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
 		fileManagerService.postCoverCharacter(characterCover, id, characterId, user);
+		logService.logUpdateCharacterCover(id, user.getId(), characterId);
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -148,7 +156,9 @@ public class FileUploadController extends BaseController{
 	@RequestMapping(value="scenarios/{idScenario}/trustedMedia", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
 	public Id postTrustedMedia(@PathVariable String idScenario, @RequestPart("file") MultipartFile media, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException{
-		return new Id(fileManagerService.postMedia(media, user, idScenario, true));
+		Id idMedia = new Id(fileManagerService.postMedia(media, user, idScenario, true));
+		logService.logAddTrustedMedia(idScenario, user.getId(), idMedia.getId());
+		return idMedia;
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -159,6 +169,7 @@ public class FileUploadController extends BaseController{
 			throw new BadRequestException();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		fileManagerService.postMediaMetadata(idMedia, mediaMeta, auth, true);
+		logService.logUpdateTrustedMedia(idScenario, ((CustomUserDetails)auth.getPrincipal()).getId(), idMedia);
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -195,9 +206,10 @@ public class FileUploadController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="scenarios/{idScenario}/trustedMedia/{idMedia}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
-	public void deleteTrustedMedia(@PathVariable String idScenario, @PathVariable String idMedia) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
+	public void deleteTrustedMedia(@PathVariable String idScenario, @PathVariable String idMedia, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException, IllegalStateException, IOException, NotFoundException{
 		
 		fileManagerService.deleteTrustedMedia(idMedia);
+		logService.logRemoveTrustedMedia(idScenario, user.getId(), idMedia);
 	}
 	
 	

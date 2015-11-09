@@ -1,23 +1,33 @@
-angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS',
-                                                              function navbarCtrl(userService,$state, CONSTANTS){
+angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope',
+                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope){
 	
 	
 	var self = this;
+	console.log("NAVBAR LOGGED CONTROLLER");
 	userService.getMe().then(		
 		function(data){
 			self.user=data;
+			
+			if(self.user.role.authority=="ROLE_TEACHER" || self.user.role.authority=="ROLE_ADMIN"){
+				self.basicCover=CONSTANTS.basicTeacherCover;
+			}
+			else if(self.user.role.authority=="ROLE_USER"){
+				self.basicCover=CONSTANTS.basicStudentCover;				
+			}
+			
 		},
 		function(reason){
 			console.log(reason);
 		}
 	);
 	
-	self.cover = CONSTANTS.urlMeCover;
-
 	var updateCover = function(){
 		var date = new Date();
 		self.cover = CONSTANTS.urlMeCover+"?"+date.toString();
 	}
+	
+	updateCover();
+
 	
 	userService.registerObserverPersonalCover(updateCover);
 	
@@ -46,6 +56,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	function logout(){
 		userService.logout().then(
 				function(data){
+					self.cover="";
 					$state.go('notLogged.login');
 				},
 				function(reason){
@@ -63,6 +74,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	self.logout = logout;
 	
 	//isLoggedUpdate();
+	
 	
 
 }]);

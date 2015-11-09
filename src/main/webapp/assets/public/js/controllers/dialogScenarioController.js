@@ -5,8 +5,12 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	var self = this;
 	self.scenario = {};
 	self.scenToDelete = modalService.getScenToDelete();
+	self.attendeeToDelete = modalService.getAttendeeToDelete();
+	self.collaboratorToDelete = modalService.getCollaboratorToDelete();
+	self.characterToDelete = modalService.getCharacterToDelete();
 	self.scenario.startDate = {};
 	self.scenario.endDate = {};
+	self.scenario.showRelationsToAll = true;
 	self.scenario.startDate.afterChrist = true;
 	self.scenario.endDate.afterChrist = true;
 	self.startDate = {};
@@ -26,6 +30,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 		else if(checkIfEndIsAfterStart(self.scenario.startDate, self.scenario.endDate) == false)
 			alertingGeneric.addWarning("La data di fine non puo' precedere la data di inizio");
 		else{
+			
 			var s= modalService.createScenario(self.scenario);
 			s.then(function(data){
 				 alertingGeneric.addSuccess("ScenarioCreato");
@@ -157,9 +162,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 		}else{
 			return true;
 		}
-	    	
-	    
-	    
+    
 	}
 	
 	

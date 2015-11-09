@@ -16,8 +16,8 @@
 										
 					</a>
 						
-					<div data-ng-show="showNewsPost.editButton"  class="marginMLeft dropdown pull-right">
-						<a class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+					<div  data-ng-show="showNewsPost.editButton"  class="marginMLeft dropdown pull-right">
+						<a style="cursor:pointer;" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
 						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
@@ -85,7 +85,7 @@
 					<hr class="colPadding"></div>
 				</div>					
 				<div class="row colPaddingScen text-left">
-					<div class="btn invisibleButton">
+					<div data-ng-class="showNewsPost.classCommentButton" class="btn invisibleButton">
 						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
 						scenario-id="{{showNewsPost.scenario.id}}"></like-to>
 					</div>
@@ -239,7 +239,7 @@
 
 <!-- EVENTO -->
 <div data-ng-if="!showNewsPost.deleted">
-
+				
 <div data-ng-if="!showNewsPost.post.character" class="container-fluid">
 	<div class="col-md-12 box boxGray">
 		<div class="row marginSTop">
@@ -255,7 +255,7 @@
 						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}						
 					</a>
 						<div class="marginMLeft dropdown pull-right">
-						<a data-ng-show="showNewsPost.editButton" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+						<a style="cursor:pointer;" data-ng-show="showNewsPost.editButton" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
 						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
@@ -319,55 +319,61 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row colPaddingScen">
-					<div class="col-xs-12 noPaddingLeft">
-					<hr class="colPaddingScen"></div>
-				</div>			
-				<div class="row colPaddingScen text-left">
-					<div class="btn invisibleButton">
-						<like-to  post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenario.id}}"></like-to>
+					<div class="row colPaddingScen">
+						<div class="col-xs-12 noPaddingLeft">
+							<hr class="colPaddingScen">
+						</div>
+					</div>			
+					<div class="row colPaddingScen text-left">
+						<div data-ng-class="showNewsPost.classCommentButton" class="btn invisibleButton">
+							<like-to  post="showNewsPost.post" liker="showNewsPost.currentCharacter"
+							scenario-id="{{showNewsPost.scenario.id}}"></like-to>
+						</div>
+						<button class="btn invisibleButton"
+								data-ng-class="showNewsPost.classCommentButton" 
+								data-ng-click="showNewsPost.switchShowComment()">
+							<span class="glyphicon glyphicon-comment marginLRight"></span>
+							Commenta
+						</button>
+						<button class="btn invisibleButton"
+								data-ng-click="showNewsPost.switchShowMetaComment()">
+							<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>
+							Suggerisci
+						</button>				
 					</div>
-					<button class="btn invisibleButton"
-							data-ng-class="showNewsPost.classCommentButton" 
-							data-ng-click="showNewsPost.switchShowComment()">
-						<span class="glyphicon glyphicon-comment marginLRight"></span>
-						Commenta
-					</button>
-					<button class="btn invisibleButton"
-							data-ng-click="showNewsPost.switchShowMetaComment()">
-						<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>
-						Suggerisci
-					</button>				
+					<div class="row colPaddingScen marginSTop">
+						<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
+					</div>	
+					<div data-ng-if="showNewsPost.showComment" class="row">
+						<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
+							scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter"></comment-to>
+					</div>
+					<div data-ng-if="showNewsPost.showMetaComment" class="row">
+						<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
+							scenario-id="{{showNewsPost.scenario.id}}"></meta-comment-to>
+					</div>
 				</div>
-				<div class="row colPaddingScen marginSTop">
-					<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
-				</div>	
-				<div data-ng-if="showNewsPost.showComment" class="row">
-					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter"></comment-to>
-				</div>
-				<div data-ng-if="showNewsPost.showMetaComment" class="row">
-					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
-						scenario-id="{{showNewsPost.scenario.id}}"></meta-comment-to>
-				</div>
-			</div>
+				
+			
 			<!-- DIV di default fine -->
 			
 			<!-- DIV di update inizio -->
+		
+					
 			<div data-ng-show="showNewsPost.editPost">
 				<div class="row colPaddingScen">
 						<p class="pull-left" data-ng-click="showNewsPost.updateDate()"><a href="">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
 							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
 							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
 						</p>
-					</div>
-					<div class="row paddingMRight colPaddingScen">
-						<textarea data-ng-model ="showNewsPost.postDTO.text" class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
+				</div>
+				<div class="row colPaddingScen paddingMRight">
+					<textarea data-ng-model ="showNewsPost.postDTO.text" class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
 				
-					</div>
-					<div data-ng-show="showNewsPost.post.tags.length>0" class="row colPaddingScentext-left marginSTop">
+				</div>
+			
+
+				<div data-ng-show="showNewsPost.post.tags.length>0" class="row colPaddingScen text-left marginSTop">
 						<b>Con: </b>
 						<div class="tags-wrapper">
 						<div class="tags-cloud">
@@ -382,7 +388,7 @@
 						</div>
 						</div>
 						
-					</div>
+				</div>
 							
 					<div class="row marginSTop colPaddingScen">
 						<div class="pull-left marginSTop marginMRight">
@@ -472,15 +478,10 @@
 						</div>
 					</div>
 			</div>
-			
-			</div>
-
 		</div>
-
+		</div>
 	</div>
-</div>
-		
-		
+</div>				
 </div>
 <script type="text/ng-template" id="tag-template">
       <div class="tag-template">

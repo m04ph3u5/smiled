@@ -15,6 +15,8 @@ import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.security.CustomUserDetails;
 
 import java.util.List;
@@ -28,11 +30,11 @@ public interface UserService {
 
 	public UserDTO getOneself(String userEmail) throws UserNotFoundException, MongoException;
 	public UserDTO updateUserProfile(String userEmail, UserDTO userDTO) throws MongoException, BadRequestException;
-	public void changePassword(String userEmail, String oldPassword, String newPassword) throws MongoException, BadCredentialsException, UserNotFoundException, BadRequestException;
-	public void changeFirstPassword(FirstPasswordDTO firstPassword) throws UserNotFoundException, BadCredentialsException, BadRequestException;
+	public User changePassword(String userEmail, String oldPassword, String newPassword) throws MongoException, BadCredentialsException, UserNotFoundException, BadRequestException;
+	public User changeFirstPassword(FirstPasswordDTO firstPassword) throws UserNotFoundException, BadCredentialsException, BadRequestException;
 
 
-	public void registerTeacher(RegisterTeacherDTO teacher) throws MongoException, UserAlreadyExistsException, BadRequestException, MongoDataIntegrityViolationException;
+	public User registerTeacher(RegisterTeacherDTO teacher) throws MongoException, UserAlreadyExistsException, BadRequestException, MongoDataIntegrityViolationException;
 	public void deleteExpiredRegistrationAccount(String userEmail);
 	public void confirmRegistration(String token, String email) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException;
 	
@@ -76,4 +78,5 @@ public interface UserService {
 	public void sendReport(CustomUserDetails activeUser, Issue issue);
 	public void addClientException(ExceptionOnClient e, String userId);
 	public Page<ExceptionOnClient> getAllClientExceptions(Integer nPag, Integer nItem) throws BadRequestException;
+	public List<Post> getDraft(CustomUserDetails activeUser, Boolean preview);
 }

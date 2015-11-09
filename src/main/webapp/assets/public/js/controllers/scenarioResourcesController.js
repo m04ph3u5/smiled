@@ -48,7 +48,7 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 							continue;
 						}else{
 							if(self.scen.collaborators){
-								for(var j=0; j<self.scen.collaborators; j++){
+								for(var j=0; j<self.scen.collaborators.length; j++){
 									if(self.files[i].teacherId==self.scen.collaborators[j].id){
 										self.files[i].user = self.scen.collaborators[j].firstname+" "+self.scencollaborators[j].lastname;
 										break;

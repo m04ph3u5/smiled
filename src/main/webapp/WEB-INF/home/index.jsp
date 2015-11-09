@@ -54,6 +54,7 @@
 		src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="/assets/public/js/vendor/jquery-ui/jquery-ui.min.js"></script>
 	<script src="/assets/public/js/vendor/angular/angular.min.js"></script>
+	<script src="/assets/public/js/support/angular-locale_it-it.js"></script>
 	<script src="/assets/public/js/vendor/angular-ui-date/src/date.js"></script>
 		
 	<script
@@ -128,6 +129,7 @@
 	<script src="/assets/public/js/controllers/scenarioMissionsCtrl.js"></script>	
 	<script src="/assets/public/js/controllers/scenarioResourcesController.js"></script>	
 	<script src="/assets/public/js/controllers/deleteResourceController.js"></script>	
+	<script src="/assets/public/js/controllers/personalMissionController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>

@@ -2,6 +2,7 @@ package it.polito.applied.smiled.pojo.scenario;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
@@ -19,7 +20,7 @@ public class Relation extends Post{
 	public Relation(){
 		this.setCreationDate(new Date());
 		this.setLastChangeDate(this.getCreationDate());
-		this.setLikes(new ArrayList<CharacterReference>());
+		this.setLikes(new HashSet<CharacterReference>());
 		this.setComments(new ArrayList<Comment>());
 		this.setMetaComments(new ArrayList<MetaComment>());
 		this.setRevision(new Revision());

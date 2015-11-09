@@ -1,11 +1,12 @@
+<alertgeneric></alertgeneric>
 <div class="container-fluid">
 	<div class="row">
 		<label for="characterName">INSERISCI IL NOME DEL NUOVO PERSONAGGIO</label>
-		<div class="input-group">
-	      <input type="text" id="characterName" class="form-control" 
+		<div class="input-group col-sm-8">
+	      <input type="search" id="characterName" class="form-control generalInput " 
 	      placeholder="ES: GIULIO CESARE" data-ng-model="scenarioWizard.newCharacter.name">
 	      <span class="input-group-btn">
-	       	 <button class=" btn generalButton1" data-ng-click="scenarioWizard.addCharacter()" type="button"><span class="glyphicon glyphicon-sunglasses"></span> CREA PERSONAGGIO</button>
+	       	 <button class=" btn generalButton1" data-ng-click="scenarioWizard.addCharacter()" type="button"><span class="glyphicon glyphicon-sunglasses"></span> CREA</button>
 	      </span>
 	    </div>
 	</div>
@@ -20,7 +21,7 @@
 				<accordion-group is-open="c.isOpen" is-disabled="scenarioWizard.accordionIsDisabled" style="position:relative;">
 					<accordion-heading>						
 						<div data-ng-click="scenarioWizard.openAccordion($index)">
-							<div class="pull-right glyphicon" data-ng-class="{'glyphicon-chevron-down': c.isOpen, 'glyphicon-chevron-right': !c.isOpen}"></div>	
+							<div class="pull-right " data-ng-class="{'glyphicon glyphicon-chevron-right': !c.isOpen}"><button data-ng-if="c.isOpen" class="generalButton1 btn pull-right" style="margin-top:5px; font-family: 'Raleway', sans-serif;"><span class="glyphicon glyphicon-floppy-save"></span> SALVA</button></div>	
 							<img ng-src="{{c.cover}}" err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">
 							<b>{{c.name}}</b>
 						</div>	
@@ -61,14 +62,14 @@
 					
 					<div class="row marginMTop">
 						<label class="col-xs-4">Data di nascita</label>
-						<span  class="col-xs-8  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowBornDate()">{{scenarioWizard.currentCharacters[$index].bornDate.formatted}}</span>
+						<div class="col-xs-8 "><span  class=" glyphicon glyphicon-calendar marginMRight" data-ng-click="scenarioWizard.switchShowBornDate()"></span><span>{{scenarioWizard.currentCharacters[$index].bornDate.formatted}}</span></div>
 					</div>
 					<div data-ng-show="scenarioWizard.showBornDatePicker" style="position:relative;">
 						<historical-date-picker class="historicalPicker" date="scenarioWizard.currentCharacters[$index].bornDate"></historical-date-picker>
 					</div>
 					<div class="row">
 						<label class="col-xs-4">Data di morte</label>
-						<span  class="col-xs-8  glyphicon glyphicon-calendar" data-ng-click="scenarioWizard.switchShowDeadDate()">{{scenarioWizard.currentCharacters[$index].deadDate.formatted}}</span>
+						<div class="col-xs-8 "><span  class="glyphicon glyphicon-calendar marginMRight" data-ng-click="scenarioWizard.switchShowDeadDate()"></span><span>{{scenarioWizard.currentCharacters[$index].deadDate.formatted}}</span></div>
 					</div>
 					<div data-ng-show="scenarioWizard.showDeadDatePicker" style="position:relative;">
 						<historical-date-picker class="historicalPicker" date="scenarioWizard.currentCharacters[$index].deadDate"></historical-date-picker>
@@ -94,10 +95,10 @@
 						<input data-ng-click="scenarioWizard.hideDatePicker()" class="col-xs-8 generalInput" data-ng-model="scenarioWizard.currentCharacters[$index].role" placeholder="Es. Re - Papa">
 					</div>
 					<div class="row text-center">						
-						<div class="pickRow col-md-9 uploadSpan btn warningButton btn-file"
-						data-ng-click="scenarioWizard.deleteCharacter(c)"> 
-							<span class="glyphicon glyphicon-trash" data-ng-click="scenarioWizard.deleteCharacter(c)"></span>
-							ELIMINA PERSONAGGIO
+						<div class="pickRow uploadSpan btn warningButton btn-file pull-right marginEmS marginMRight"
+						 data-ng-click="scenarioWizard.showPopUpDeleteCharacter(c) "> 
+							<span class="glyphicon glyphicon-trash "></span>
+							ELIMINA 
 						</div>
 					</div>
 				</div>
@@ -107,8 +108,8 @@
 	</div>
 </div>
 <a href="">
-<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">
+<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.checkOpenAccordion()">
 </a>
 <a href="">
-<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.associations" data-ng-click="scenarioWizard.saveInfo()">
+<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.associations" data-ng-click="scenarioWizard.checkOpenAccordion()">
 </a>

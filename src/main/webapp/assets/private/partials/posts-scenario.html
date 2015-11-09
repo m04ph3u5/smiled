@@ -3,7 +3,7 @@
 	<div class="row">
 		<hr class="hrDivider">
 	</div>	
-		
+	<alertgeneric></alertgeneric>	
 	<div>
 		<insert-post 
 			character="scenario.currentCharacter" 
@@ -16,6 +16,11 @@
 
 
 <!-- ELENCO POST update-post-on-scrool stop="scenarioPost.stopUpdatePost()" start="scenarioPost.startUpdatePost() -->
+<div class="box">
+	<work-spinner>
+		<img width="40px" height="40px" src="/assets/public/img/p_spinner.gif" />
+	</work-spinner>
+</div>
 <div class="row" update-post-on-scrool stop="scenarioPost.stopUpdatePost()" start="scenarioPost.startUpdatePost()">
 	<div data-ng-repeat="s in scenarioPost.posts">
 		<show-news-post post="s" scenario="scenarioPost.scen" 

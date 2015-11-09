@@ -6,26 +6,33 @@
 	<label for="startDate"><span data-ng-if="dialogSetDate.start">DATA INIZIO</span><span data-ng-if="!dialogSetDate.start">DATA FINE</span></label>
 	
 	<div class="form-group row pickRow" id="startDate">
-	
-		<input class="col-xs-3 form-control customInput" type="text" data-ng-model="dialogSetDate.newDate.year"  placeholder="ANNO"/>
 		
-		<select data-ng-click="dialogSetDate.getDays()" class="col-xs-3 form-control customInput2" data-ng-model="dialogSetDate.newDate.month" data-ng-options="month.value as month.name for month in dialogSetDate.months">
- 			 <option value="" disabled selected style="display:none;">MESE</option>
- 		</select>
-		<select class="col-xs-3 form-control customInput2"  data-ng-model="dialogSetDate.newDate.day" data-ng-options="day.value as day.value for day in dialogSetDate.days">
+		
+		
+		<select id="day" class="col-xs-2 form-control customInput3" data-ng-model="dialogSetDate.newDate.day" data-ng-options="day.value as day.value for day in dialogSetDate.days">
 		    <option value="" disabled selected style="display:none;">GIORNO</option>
  		</select>
  		
-
-		<span class="btn-group">
+		
+		<select id="month" data-ng-click="dialogSetDate.getDays()" class="col-xs-3 form-control customInput2" data-ng-model="dialogSetDate.newDate.month" data-ng-options="month.value as month.name for month in dialogSetDate.months">
+ 			 <option value="" disabled selected style="display:none;">MESE</option>
+ 		</select>
+ 		
+ 		
+		<input id="year" class="col-xs-3 form-control customInput" type="text" data-ng-model="dialogSetDate.newDate.year"  placeholder="ANNO"/>
+		
+		<span class="btn-group" >
 			<label class="btn buttonDC" data-ng-model="dialogSetDate.newDate.afterChrist" btn-radio="false">A.C.</label>
 			<label class="btn buttonDC" data-ng-model="dialogSetDate.newDate.afterChrist" btn-radio="true">D.C.</label>
 		</span>
 		
+		</div>
+ 		
+
+		
+		
 	</div>
 
-	
-	<alertgeneric></alertgeneric>
 	
 </div>
 <div class="modal-footer">

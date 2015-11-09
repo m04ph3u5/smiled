@@ -12,9 +12,14 @@ import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.ExceptionOnClient;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.LogSession;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.repository.LogSessionRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.service.LogService;
 import it.polito.applied.smiled.service.UserService;
 import it.polito.applied.smiled.validator.UserDTOValidator;
 
@@ -51,6 +56,9 @@ public class UserController extends BaseController{
 	@Autowired
 	private UserDTOValidator userDTOValidator;
 	
+	@Autowired
+	private LogService logService;
+	
 	private int maxItem = 20;
 	
 	@RequestMapping(value="/v1/register", method=RequestMethod.POST)
@@ -59,7 +67,8 @@ public class UserController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException();
 		}
-		userService.registerTeacher(registerTeacherDTO);
+		User u = userService.registerTeacher(registerTeacherDTO);
+		logService.logRegisterTeacher(u.getId());
 	}
 
 	
@@ -82,8 +91,9 @@ public class UserController extends BaseController{
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
 		
-		return userService.updateUserProfile(activeUser.getUsername(), updateUserDTO);
-		
+		UserDTO u = userService.updateUserProfile(activeUser.getUsername(), updateUserDTO);
+		logService.logUpdateUserProfile(u.getId());
+		return u;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -96,7 +106,8 @@ public class UserController extends BaseController{
 		}
 	    String userEmail = activeUser.getUsername();
 	    //La validazione logica della oldPassword viene fatta direttamente nella changePassword (piu' efficiente)
-	    userService.changePassword(userEmail, changePassword.getOldPassword(), changePassword.getNewPassword());
+	    User u = userService.changePassword(userEmail, changePassword.getOldPassword(), changePassword.getNewPassword());
+	    logService.logChangePassword(u.getId());
 	}
 	
 	//URL utilizzato da non loggati per modificare password scadute (es. al primo accesso)
@@ -112,7 +123,9 @@ public class UserController extends BaseController{
 		}
 		firstPassword.setEmail(firstPassword.getEmail().toLowerCase());
 		
-	    userService.changeFirstPassword(firstPassword);
+	    User u = userService.changeFirstPassword(firstPassword);
+	    logService.logConfirmRegisterStudent(u.getId());
+	    
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -256,6 +269,15 @@ public class UserController extends BaseController{
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void sendReport(@RequestBody Issue issue, @AuthenticationPrincipal CustomUserDetails activeUser){
 		userService.sendReport(activeUser, issue);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/draft", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public List<Post> getDraft(@RequestParam (value = "preview", required=false) Boolean preview,@AuthenticationPrincipal CustomUserDetails activeUser){
+		if(preview==null)
+			preview=false;
+		return userService.getDraft(activeUser, preview);
 	}
 	
 	/*----------------------------------------------ADMIN API START--------------------------------------- */

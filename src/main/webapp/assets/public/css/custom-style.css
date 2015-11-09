@@ -602,6 +602,11 @@
 			display: inline;
 			margin-right:2%;
     	}
+    	.customInput3{
+			width:15%;
+			display: inline;
+			margin-right:2%;
+    	}
 
     	.buttonAC, .buttonDC{
     		background-color:#E2DDD0;
@@ -626,6 +631,9 @@
     	}
     	.titleIcon{
     		height:40px;
+    	}
+    	.titleIconSmall{
+    		height:20px;
     	}
     	.fileIcon{
     		height:130px;

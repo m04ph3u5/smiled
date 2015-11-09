@@ -1,0 +1,54 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-1">					
+		</div>
+		<div class="col-lg-1">
+			<div style="cursor:pointer;" data-ui-sref="logged.dashboard" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
+				<img data-ng-src="assets/public/img/icon/back.png" class="sideIcon marginXXLTop">
+				<img data-ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title marginMTop">			
+			</div>	
+		</div>		
+		<div class="col-sm-12 col-lg-8">
+			<div class="row text-center">				
+					<h1>
+						<span>COMPITI</span>
+						<img data-ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon">
+					</h1>					
+			</div>
+			<div class="box boxLightblue dashSection">
+				<div class="row sideMarginThree">
+					
+					<div class="row" data-ng-repeat="m in personalMission.myMissions">
+						<div class="col-sm-2 col-xs-2">
+							<div style="cursor:pointer;" data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})" class='square-box'>
+    							<div class='square-content'>
+    								<div><span>{{m.assignDate | date : personalMission.missionDateFormatDay}}<br>{{m.assignDate | date : personalMission.missionDateFormatMonth}}</span></div>
+    							</div>
+    						</div>
+						</div>
+						<div class="col-xs-10 col-sm-10 text-left">
+							<h4>{{m.title}}</h4>
+							<p class="textJustify" style="word-wrap: break-word;">{{m.description}}</p>
+							<p >
+								<i data-ui-sref="logged.scenario.posts({id : '{{m.scenarioId}}'})"><a class="blueLink" href="">{{m.scenarioName}}</a></i>
+								<span data-ng-show="m.characterName"> - 
+									<span data-ui-sref="logged.scenario.charprofile({id : '{{m.scenarioId}}', idCharacter : '{{m.characterId}}'})"><a class="blueLink" href="">{{m.characterName}}</a></span>
+								</span>
+							</p>
+						</div>
+					</div>
+					
+					<div data-ng-if="personalMission.myMissions==null || personalMissions.myMissions.length==0" class="emptyContent">
+						Qui verranno inseriti i propri compiti					
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row hidden-lg visible-md visible-sm visible-xs text-center marginMTop">
+			<div data-ui-sref="logged.dashboard">
+				<img data-ng-src="assets/public/img/icon/back.png" class="sideIcon">
+				<img data-ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title">			
+			</div>			
+		</div>		
+	</div>
+</div>

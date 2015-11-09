@@ -42,5 +42,20 @@ public class CharacterReference {
 		this.userId = userId;
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		if (o instanceof CharacterReference){
+			CharacterReference c = (CharacterReference) o;
+			if(c.getId().equals(this.id))
+				return true;
+			else
+				return false;
+		}
+		return false;
+	}
 	
+	@Override
+	public int hashCode() {
+		return this.id.hashCode();
+	}
 }

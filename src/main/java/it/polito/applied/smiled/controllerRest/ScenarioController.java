@@ -20,6 +20,7 @@ import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.service.LogService;
 import it.polito.applied.smiled.service.ScenarioService;
 import it.polito.applied.smiled.validator.CharacterDTOPostValidator;
 import it.polito.applied.smiled.validator.CharacterDTOPutValidator;
@@ -73,6 +74,9 @@ public class ScenarioController extends BaseController{
 	@Autowired
 	private ScenarioService scenarioService;
 	
+	@Autowired
+	private LogService logService;
+	
 	private int maxItem = 20;
 	
 	//Ritorna l'id dello scenario creato se si è riusciti a crearlo (e prende in ingresso un oggetto ScenarioDTO)
@@ -94,6 +98,7 @@ public class ScenarioController extends BaseController{
 		}
 						
 		Id id = new Id(scenarioService.createScenario(scenarioDTO,activeUser.getUsername()));
+		logService.logCreateScenario(id.getId(), activeUser.getId());
 		return id;
 	}
 	
@@ -116,7 +121,9 @@ public class ScenarioController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}*/
-		return scenarioService.updateScenario(id, scenarioDTO,activeUser.getId());
+		Scenario s = scenarioService.updateScenario(id, scenarioDTO,activeUser.getId());
+		logService.logUpdateScenarioInfo(id, activeUser.getId());
+		return s;
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -135,11 +142,12 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value="/v1/scenarios/{id}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'CREATOR')")
-	public void deleteScenario(@PathVariable String id) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
+	public void deleteScenario(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
 		if(id == null)
 			throw new BadRequestException();
 		
 		scenarioService.removeScenario(id);
+		logService.logDeleteScenario(id, activeUser.getId());
 	}
 	
 	//Aggiungo una lista di partecipanti allo scenario  
@@ -152,8 +160,9 @@ public class ScenarioController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException();
 		}	
-		
-		return scenarioService.subscribeStudentIfNotPresent(studentsEmail, activeUser.getId(), id);
+		List<Reference> list = scenarioService.subscribeStudentIfNotPresent(studentsEmail, activeUser.getId(), id);
+		logService.logNewAttendees(id, activeUser.getId(), list);
+		return list;
 	}
 	
 	
@@ -163,8 +172,9 @@ public class ScenarioController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_TEACHER')and hasPermission(#id, 'Scenario', 'CREATOR')")
 	public Reference addCollaboratorToScenario(@PathVariable String id, @PathVariable String idCollaborator , @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 
-		
-		return scenarioService.addCollaboratorToScenario(idCollaborator, id);
+		Reference r = scenarioService.addCollaboratorToScenario(idCollaborator, id);
+		logService.logNewCollaborator(id, activeUser.getId(), r);
+		return r;
 	}
 
   
@@ -172,9 +182,10 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value="/v1/scenarios/{id}/users/{userId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public void removeOneStudent(@PathVariable String id, @PathVariable String userId) throws MongoException, BadRequestException, ForbiddenException{
+	public void removeOneStudent(@PathVariable String id, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException{
 		
 		scenarioService.removeUserFromScenario(id,userId);
+		logService.logRemoveAttendee(id, activeUser.getId(), userId);
 	}
 	
 	//Tolgo uno specifico collaboratore dallo scenario e valuto il parametro "putInAttendeesList"
@@ -182,10 +193,11 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value="/v1/scenarios/{id}/collaborators/{collaboratorId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'CREATOR')")
-	public void removeOneCollaborator(@PathVariable String id, @PathVariable String collaboratorId, @RequestParam(value = "putInAttendeesList", required=false) Boolean putInAttendeesList) throws MongoException, BadRequestException, ForbiddenException{	
+	public void removeOneCollaborator(@PathVariable String id, @PathVariable String collaboratorId, @RequestParam(value = "putInAttendeesList", required=false) Boolean putInAttendeesList, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException{	
 		if(putInAttendeesList==null)
 			putInAttendeesList=false;
 		scenarioService.removeCollaboratorFromScenario(id, collaboratorId, putInAttendeesList);
+		logService.logRemoveCollaborator(id, activeUser.getId(), collaboratorId);
 	}
 	
 	//Creo e aggiungo un nuovo personaggio allo scenario  
@@ -204,8 +216,10 @@ public class ScenarioController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException();
 		}
-
-		return scenarioService.addCharacterToScenario(characterDTO, scenarioId, activeUser.getId());
+		
+		Id id = scenarioService.addCharacterToScenario(characterDTO, scenarioId, activeUser.getId());
+		logService.logNewCharacter(scenarioId, activeUser.getId(), id.getId());
+		return id;
 	}
 	//Creo e aggiungo un nuovo personaggio allo scenario  
 	@ResponseStatus(value = HttpStatus.OK)
@@ -230,7 +244,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}", method=RequestMethod.PUT)
 	@PreAuthorize("(hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')) or (hasRole('ROLE_USER') and hasPermission(#characterId, 'Character', 'WRITE'))")
-	public Character updateCharacter(@PathVariable String id, @PathVariable String characterId, @RequestBody CharacterDTO characterDTO, BindingResult result) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
+	public Character updateCharacter(@PathVariable String id, @PathVariable String characterId, @RequestBody CharacterDTO characterDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 		/*Sulle PUT effettuiamo solo validazioni custom,  
 		 * in quanto � possibile modificare arbitrariamente solo alcuni campi
 		 * e lasciare altri a null quando si fa una update
@@ -241,31 +255,39 @@ public class ScenarioController extends BaseController{
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
 		characterDTO.setId(characterId);
-		return scenarioService.updateCharacter(id, characterDTO);
+	
+		Character c = scenarioService.updateCharacter(id, characterDTO);
+				
+		logService.logUpdateCharacterProfile(id, activeUser.getId(), c.getId());
+		return c;
 	}
 	
 	//Tolgo uno specifico character dallo scenario
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public void removeOneCharacter(@PathVariable String id, @PathVariable String characterId) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{	
+	public void removeOneCharacter(@PathVariable String id, @PathVariable String characterId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{	
 		scenarioService.removeCharacterFromScenario(id, characterId);
+		logService.logRemoveCharacter(id, activeUser.getId(), characterId);
+
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/users/{userId}", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public Character updateUserCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
-		
-		return scenarioService.updateUserCharacter(id, characterId, userId);
+	public Character updateUserCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
+		Character c = scenarioService.updateUserCharacter(id, characterId, userId);
+		logService.logNewAssociation(id, activeUser.getId(), c.getId());
+		return c;
 	}
 	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/users/{userId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public void removeUserFromCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
-		
+	public void removeUserFromCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 		scenarioService.removeUserFromCharacter(id, characterId, userId);
+		logService.logRemoveAssociation(id, activeUser.getId(), characterId);
+		
 	}
 	
 	//gestione dei permessi complicata e per questo pi� onerosa rispetto alle altre in termini di query al db
@@ -275,7 +297,9 @@ public class ScenarioController extends BaseController{
 	public Post updateStatus(@PathVariable String id, @PathVariable String statusId, @RequestBody StatusDTO status) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return scenarioService.updateStatus (id, statusId, status, auth);
+		Post p = scenarioService.updateStatus (id, statusId, status, auth);
+		logService.logUpdatePost(id, ((CustomUserDetails) auth.getPrincipal()).getId(), p.getId());
+		return p;
 	}
 	
 	//TODO modificare gestione permessi
@@ -285,7 +309,9 @@ public class ScenarioController extends BaseController{
 	public Id insertStatus(@PathVariable String id, @PathVariable String characterId, @RequestBody StatusDTO status) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return scenarioService.insertStatus (id, characterId, status, auth);
+		Id idPost = scenarioService.insertStatus (id, characterId, status, auth);
+		logService.logInsertPost(id, ((CustomUserDetails) auth.getPrincipal()).getId(), idPost.getId());
+		return idPost;
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -294,6 +320,7 @@ public class ScenarioController extends BaseController{
 	public Post getPost(@PathVariable String id, @PathVariable String postId) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
 		return scenarioService.getPost (id,postId, auth);
 	}
 	
@@ -340,8 +367,9 @@ public class ScenarioController extends BaseController{
 	@RequestMapping(value="/v1/scenarios/{id}/events", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public Id insertEvent(@PathVariable String id, @RequestBody EventDTO event, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
-
-		return scenarioService.insertEvent (id, event, activeUser);
+		Id idEvent = scenarioService.insertEvent (id, event, activeUser);
+		logService.logInsertPost(id, activeUser.getId(), idEvent.getId());
+		return idEvent; 
 	}
 	
 	//Come sempre le PUT sono pi� onerose. In questo caso l'update pu� essere fatto o dal creatore dell'evento oppure da un Moderator di tipo Teacher dello Scenario
@@ -350,16 +378,19 @@ public class ScenarioController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public Post updateEvent(@PathVariable String id, @PathVariable String eventId, @RequestBody EventDTO event, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 
-		return scenarioService.updateEvent (id, eventId, event, activeUser);
+		Post p =  scenarioService.updateEvent (id, eventId, event, activeUser);
+		logService.logUpdatePost(id, activeUser.getId(), p.getId());
+		return p;
 	}
 	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value="/v1/scenarios/{id}/posts/{postId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'WRITE')")
-	public void deletePost(@PathVariable String id, @PathVariable String postId) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
+	public void deletePost(@PathVariable String id, @PathVariable String postId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.deletePost(id, postId, auth);
+		logService.logDeletePost(id, activeUser.getId(), postId);
 	}
 	
 	//permette ai moderatori di inserire e di modificare una revisione ad un Post
@@ -367,6 +398,7 @@ public class ScenarioController extends BaseController{
 	@RequestMapping(value="/v1/scenarios/{id}/posts/{postId}/revisions", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public void insertRevision(@PathVariable String id, @PathVariable String postId, @RequestBody RevisionDTO revision, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+		//TODO aggiungere gestione Log
 
 		scenarioService.insertRevision (id, postId, revision, activeUser);
 	}
@@ -377,7 +409,9 @@ public class ScenarioController extends BaseController{
 	public Id insertComment(@PathVariable String id, @PathVariable String postId, @RequestBody CommentDTO commentDTO) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return scenarioService.insertComment (id, postId, commentDTO, auth);
+		Id commentId = scenarioService.insertComment (id, postId, commentDTO, auth);
+		logService.logNewComment(id, ((CustomUserDetails) auth.getPrincipal()).getId(), postId, commentId.getId());
+		return commentId;
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -386,7 +420,9 @@ public class ScenarioController extends BaseController{
 	public CommentInterface updateComment(@PathVariable String id, @PathVariable String postId, @PathVariable String commentId, @RequestBody CommentDTO commentDTO) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return scenarioService.updateComment (id, postId, commentId, commentDTO, auth, false);
+		CommentInterface comment = scenarioService.updateComment (id, postId, commentId, commentDTO, auth, false);
+		logService.logUpdateComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, commentId);
+		return comment;
 	}
 	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -396,6 +432,7 @@ public class ScenarioController extends BaseController{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.deleteComment(id, postId, commentId, auth, false);
+		logService.logDeleteComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, commentId);
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -404,7 +441,9 @@ public class ScenarioController extends BaseController{
 	public Id insertMetaComment(@PathVariable String id, @PathVariable String postId, @RequestBody CommentDTO commentDTO) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return scenarioService.insertMetaComment (id, postId, commentDTO, auth);
+		Id metaId = scenarioService.insertMetaComment (id, postId, commentDTO, auth);
+		logService.logNewMetaComment(id, ((CustomUserDetails) auth.getPrincipal()).getId(), postId, metaId.getId());
+		return metaId;
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -413,7 +452,9 @@ public class ScenarioController extends BaseController{
 	public CommentInterface updateMetaComment(@PathVariable String id, @PathVariable String postId, @PathVariable String metaCommentId, @RequestBody CommentDTO commentDTO) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return scenarioService.updateComment (id, postId, metaCommentId, commentDTO, auth, true);
+		CommentInterface comment = scenarioService.updateComment (id, postId, metaCommentId, commentDTO, auth, true);
+		logService.logUpdateMetaComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, metaCommentId);
+		return comment;
 	}
 	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -423,6 +464,8 @@ public class ScenarioController extends BaseController{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.deleteComment(id, postId, metaCommentId, auth, true);
+		logService.logDeleteMetaComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, metaCommentId);
+
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -431,7 +474,11 @@ public class ScenarioController extends BaseController{
 	public void addLikeToPost(@PathVariable String id, @PathVariable String postId) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		scenarioService.addLikeToPost(id, postId, auth);
+		if(scenarioService.addLikeToPost(id, postId, auth)){
+			logService.logAddLikeToPost(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId);
+		}else{
+			logService.logRemoveLikeToPost(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId);
+		}
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -439,7 +486,9 @@ public class ScenarioController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public Scenario insertMissionToScen(@PathVariable String id, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
-		return scenarioService.addMissionToScenario(id, mission, activeUser);
+		Scenario s = scenarioService.addMissionToScenario(id, mission, activeUser);
+		logService.logUpdateScenarioMission(id, activeUser.getId());
+		return s;
 		
 	}
 	
@@ -449,30 +498,43 @@ public class ScenarioController extends BaseController{
 	public Character insertMissionToChar(@PathVariable String id, @PathVariable String characterId, @RequestBody MissionDTO mission, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
 		
-		return scenarioService.addMissionToCharacter(characterId, mission, activeUser);
+		Character c = scenarioService.addMissionToCharacter(characterId, mission, activeUser);
+		logService.logUpdateCharacterMission(id, activeUser.getId(), characterId);
+
+		return c;
 		
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/mission", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public void deleteMissionToChar(@PathVariable String id, @PathVariable String characterId) throws MongoException, NotFoundException, BadRequestException{
+	public void deleteMissionToChar(@PathVariable String id, @PathVariable String characterId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
 		
 		if (!scenarioService.deleteMissionToCharacter(characterId))
 				throw new BadRequestException();
+		
+		logService.logRemoveCharacterMission(id, activeUser.getId(), characterId);
 		
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/mission", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
-	public void deleteMissionToScenario(@PathVariable String id) throws MongoException, NotFoundException, BadRequestException{
+	public void deleteMissionToScenario(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException{
 		//TODO - Validate MissionDTO
 		
 		if (!scenarioService.deleteMissionToScenario(id))
 				throw new BadRequestException();
-		
+		logService.logRemoveScenarioMission(id, activeUser.getId());
+
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/missions", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<MissionDTO> getMyMissions(@AuthenticationPrincipal CustomUserDetails activeUser){
+		return scenarioService.getUserMissions(activeUser);
 	}
 	
 //	//Restituisce la lista di compiti dello scenario

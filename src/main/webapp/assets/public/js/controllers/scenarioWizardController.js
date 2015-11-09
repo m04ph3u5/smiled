@@ -1,8 +1,8 @@
 angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiService', '$stateParams', '$state', 
                                                                        '$location', '$scope', '$element', 'userService', 
                                                                        'Upload', 'CONSTANTS', '$q','modalService',
-                                                                       '$timeout',
-   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS, $q, modalService, $timeout){
+                                                                       '$timeout', 'alertingGeneric',
+   function scenarioWizardCtrl(apiService, $stateParams, $state, $location, $scope, $element, userService, Upload, CONSTANTS, $q, modalService, $timeout, alertingGeneric){
 	
 	 	var self = this;
 		/*Variabile che contiene lo scenario prelevato dalla getScenario
@@ -22,13 +22,14 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.emailList;
 		self.accordionIsDisabled=true;
 		self.user;
-		self.selectableStudents;
+		self.selectableStudents = [];
 		//self.selectableCollaborators = new Array();
 		self.currentCharacters = []; //qui ci vanno le modifiche temporanee al character i-esimo. Questo ci permette di decidere se effettuare o meno la put sul server nel momento in cui andiamo a chiudere l'accordion
 		self.charactersServer = []; //array di character cosi come sono sul server
 		self.map;
 		var currentCharacterIndex = -1;
 		var getMePromise = $q.defer();
+		var id = $stateParams.id;
 		
 		
 		//GET ME
@@ -37,41 +38,42 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				self.user = data;
 				var userCopy = angular.copy(self.user);
 				self.selectableStudents = userCopy.students;
-				//self.selectableCollaborators = userCopy.colleagues;
+			
 				getMePromise.resolve();
+				getScenario();
 			}
 		);
 		
-		//GET SCENARIO
-		var id = $stateParams.id;
-		
-		if(id==null){
-			self.title="Crea nuovo scenario";
-		}else{
-			self.charging = true;
-			apiService.getScenario(id).then(
-					function(data){
-						self.scenarioServer = data;
-						self.scenario = angular.copy(data);
-						
-						self.title = data.name;
-						
-						updateSelectableAttendees();
-						//aggiorno le cover dei characters dello scenario
-						updateCover();
-						//updateSelectableCollaborators();
-						
-						updateAssociated();
+		var getScenario = function(){
+			//GET SCENARIO
+			if(id==null){
+				self.title="Crea nuovo scenario";
+			}else{
+				self.charging = true;
+				apiService.getScenario(id).then(
+						function(data){
+							self.scenarioServer = data;
+							self.scenario = angular.copy(data);
+							
+							self.title = data.name;
+							
+							updateSelectableAttendees();
+							//aggiorno le cover dei characters dello scenario
+							updateCover();
+							//updateSelectableCollaborators();
+							
+							updateAssociated();
 
-						retrieveCharacterAndOrder();
-					
-					}, function(reason){
-						console.log("errore");
-						$state.go("logged.dashboard");
-					}
-			);
-			self.scenarioCover = CONSTANTS.urlScenarioCover(id);
-			
+							retrieveCharacterAndOrder();
+						
+						}, function(reason){
+							console.log("errore");
+							$state.go("logged.dashboard");
+						}
+				);
+				self.scenarioCover = CONSTANTS.urlScenarioCover(id);
+				
+			}
 		}
 		
 		self.isScenarioActive = function(){
@@ -81,23 +83,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			else 
 				return false;
 		}
-		self.iAmCreator = function(){
-
-//			console.log("------------------------------------------->>>>>>>>>>>>>>>>>>>>>");
-//			console.log(self.scenarioServer);
-//			console.log(self.scenarioServer.teacherCreator.id);
-//			console.log(self.user.id);
-//			if(self.scenarioServer.teacherCreator.id == self.user.id){
-//				console.log("I AM CREATORRRRRRRRRRR");
-//				return true;
-//			}
-//			else{
-//				console.log("i am not creatorrrrrrrrrr");
-//				return false;
-//			}
-			return true;
-
-		}
+		
 		var retrieveCharacterAndOrder = function(){
 			
 			apiService.getAllCharactersFromScen(id).then(
@@ -137,16 +123,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(self.scenario.characters)
 				for(var i=0;i<self.scenario.characters.length;i++){
 					self.scenario.characters[i].cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
+					self.scenarioServer.characters[i].cover = CONSTANTS.urlCharacterCover(id, self.scenario.characters[i].id);
 				}
 			if(self.scenario.attendees)
 				for(var i=0;i<self.scenario.attendees.length; i++){
 					self.scenario.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
+					self.scenarioServer.attendees[i].cover = CONSTANTS.urlUserCover(self.scenario.attendees[i].id);
 				}
 			if(self.scenario.collaborators)
 				for(var i=0;i<self.scenario.collaborators.length; i++){
 					self.scenario.collaborators[i].cover = CONSTANTS.urlUserCover(self.scenario.collaborators[i].id);
+					self.scenarioServer.collaborators[i].cover = CONSTANTS.urlUserCover(self.scenario.collaborators[i].id);
 				}
 			self.scenario.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
+			self.scenarioServer.teacherCreator.cover = CONSTANTS.urlUserCover(self.scenario.teacherCreator.id);
 			self.map = CONSTANTS.urlMedia(self.scenario.history.mapId);
 		}
 		
@@ -211,7 +201,42 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				modalService.showModalDeleteScen(self.scenario);
 		};
 		
+		self.showPopUpDeleteAttendee = function (a){
+			modalService.showModalDeleteAttendee(a).then(
+					function(response){
+						if(response.firstname)
+							self.deleteAttendee(response);
+						else
+							self.deleteInvited(response);
+						alertingGeneric.addSuccess("Partecipante rimosso");
+						
+					}, function(reason){
+						console.log("Rimozione partecipante annullata");
+					});
+		};
 		
+		self.showPopUpDeleteCollaborator = function (c){
+			modalService.showModalDeleteCollaborator(c).then(
+					function(response){
+						
+						self.deleteCollaborator(response);	
+						alertingGeneric.addSuccess("Collaboratore rimosso");
+						
+					}, function(reason){
+						console.log("Rimozione collaboratore annullata");
+					});
+		};
+		
+		self.showPopUpDeleteCharacter = function (c){
+			modalService.showModalDeleteCharacter(c).then(
+					function(response){
+						self.deleteCharacter(c);
+						alertingGeneric.addSuccess("Personaggio rimosso");
+						
+					}, function(reason){
+						console.log("Rimozione personaggio annullata");
+					});
+		};
 		
 		var reInsertInSelectable = function(s){
 			console.log("reInsertInSelectable");
@@ -317,7 +342,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			scenarioDTO.description = self.scenario.description;
 			scenarioDTO.history = self.scenario.history;
 			scenarioDTO.showRelationsToAll = self.scenario.showRelationsToAll;
+			
 			if(id==null){
+				scenarioDTO.showRelationsToAll = true;
 				if(infoValidate()){
 					apiService.createScenario(scenarioDTO).then(
 							function(data){
@@ -337,10 +364,14 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					apiService.updateScenario(scenarioDTO, id).then(
 							function(data){
 								self.scenarioServer = data;
+								self.scenario = angular.copy(data);
+								updateCover();
 								console.log("then saveInfo updateScenario");
+								alertingGeneric.addSuccess("Scenario modificato");
 							},
 							function(reason){
 								console.log("Errore update scenario");
+								alertingGeneric.addWarning("Modifica scenario fallita");
 							}
 					);
 				}else
@@ -351,13 +382,21 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.inviteStudents = function(){
 			var emails = extractEmails(self.emailList);
 			var emailsDTO=[];
-			for(var i=0; i<emails.length; i++){
-				console.log(emails[i]);
-				emailsDTO.push({"email": emails[i]});
+			if(emails){
+				for(var i=0; i<emails.length; i++){
+					console.log(emails[i]);
+					emailsDTO.push({"email": emails[i]});
+				}
 			}
-			if(emailsDTO.length>0 && id!=null){
+			
+			if(emailsDTO && emailsDTO.length>0 && id!=null){
 				apiService.addUsersToScenario(emailsDTO,id).then(
 						function(data){
+							if(data.length==1){
+								alertingGeneric.addSuccess("Studente invitato correttamente");
+							}else if(data.length > 1){
+								alertingGeneric.addSuccess("Studenti invitati correttamente");
+							}
 							for(var i=0; i<data.length; i++){
 								if(data[i].firstname!=null){
 									data[i].cover = CONSTANTS.urlUserCover(data[i].id);
@@ -375,11 +414,15 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								}
 							}
 							self.emailList=null;
+							updateSelectableAttendees();
 						},
 						function(reason){
 							
 						}
 				);
+			}else{
+				alertingGeneric.addWarning("Inserire almeno una email valida");
+				self.emailList=null;
 			}
 		}
 		
@@ -433,6 +476,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			if(self.newCharacter && self.newCharacter.name.length>2){
 				apiService.addCharacterToScenario(self.newCharacter,id).then(
 						function(data){
+							var name = angular.copy(self.newCharacter.name);
 							self.newCharacter.id = data.id;
 							//self.newCharacter.status=false;
 							if(self.scenario.characters==null || self.scenario.characters=="")
@@ -454,9 +498,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.newCharacter.cover = null;
 							self.newCharacter.name = "";
 							self.newCharacter.id = null;
+							console.log(name);
+							alertingGeneric.addSuccess("Il personaggio " + name +" e' stato creato correttamente");
+							
 						},
 						function(reason){
-							
+							alertingGeneric.addWarning("Non è stato possibile creare il personaggio " + self.newCharacter.name);
 						}
 				);
 			}
@@ -510,11 +557,11 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 			console.log("openAccordion");
 			if(currentCharacterIndex!=-1){
+				
 				if(isUpdatedCharacter(self.currentCharacters[currentCharacterIndex], self.charactersServer[currentCharacterIndex])){
 					if(isCurrentCharacterValid(self.currentCharacters[currentCharacterIndex])){
 						//va fatta la put delle nuove informazioni ed alla fine va gestito l'aggiornamento del currentCharacter
-						console.log("PUT PUT PUT PUT PUT");
-						console.log(i);
+						
 						if(i!=currentCharacterIndex){
 							syncCurrentCharacter(i, self.charactersServer[i]);
 						}
@@ -523,7 +570,18 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						apiService.updateCharacter(id, charDTO , self.charactersServer[currentCharacterIndex].id).then(
 								function(data){
 									self.charactersServer[currentCharacterIndex] = data;
-									self.scenario.characters[currentCharacterIndex].name = data.name;
+									var cover = angular.copy(self.scenario.characters[currentCharacterIndex].cover);
+									self.scenario.characters[currentCharacterIndex] = angular.copy(self.charactersServer[currentCharacterIndex]);
+									self.scenario.characters[currentCharacterIndex].cover = cover;
+									if(!data.bornDate){
+										self.scenario.characters[currentCharacterIndex].bornDate = {};
+										self.scenario.characters[currentCharacterIndex].bornDate.afterChrist = true;
+									}
+									if(!data.deadDate){
+										self.scenario.characters[currentCharacterIndex].deadDate = {};
+										self.scenario.characters[currentCharacterIndex].deadDate.afterChrist = true;
+									}
+									
 									if(self.scenario.characters[currentCharacterIndex].userId!=null){
 										console.log("toUPDATE --------> ")
 										for(var k=0; i<self.associations.length; k++){
@@ -546,23 +604,34 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 										currentCharacterIndex=i;
 									else
 										currentCharacterIndex=-1;
-									console.log("Character aggiornato");
+									alertingGeneric.addSuccess("Il personaggio " + data.name + " e' stato modificato correttamente");
+									
 								}
-						,function(reason){
-							//TODO
-							console.log("failed update character: "+reason);
-						}
+							,function(reason){
+								alertingGeneric.addWarning("Non e' stato possibile modificare il personaggio ");
+								var cover = angular.copy(self.currentCharacters[currentCharacterIndex].cover);
+								var date = 
+								self.currentCharacters[currentCharacterIndex] = angular.copy(self.charactersServer[currentCharacterIndex]);
+								self.currentCharacters[currentCharacterIndex].cover = cover;
+							}
 						);
-					}else{ //il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
-						/*TO CONTINUE*/
+					}else{ //la validazione delle info digitate è fallita
 						//TODO
+						alertingGeneric.addWarning("Non e' stato possibile modificare il personaggio");
+						var cover = angular.copy(self.currentCharacters[currentCharacterIndex].cover);
+						self.currentCharacters[currentCharacterIndex] = angular.copy(self.charactersServer[currentCharacterIndex]);
+						self.currentCharacters[currentCharacterIndex].cover = cover;
+						
 						if(currentCharacterIndex!=i)
 							currentCharacterIndex=i;
 						else
 							currentCharacterIndex=-1;
 					}
-				}else{ //la validazione delle info digitate è fallita
+				}else{ 
+					console.log("nessun cambiamento");
 					   //TODO
+					//il current character non differisce rispetto alle info che sono sul server quindi non è necessario fare la put sul server
+					/*TO CONTINUE*/
 					if(currentCharacterIndex!=i)
 						currentCharacterIndex=i;
 					else
@@ -575,15 +644,15 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var checkHistoricalDate = function(charDTO){
-			if(!charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
+			
+			if(charDTO.bornDate && !charDTO.bornDate.year && !charDTO.bornDate.month && !charDTO.bornDate.day)
 				charDTO.bornDate = null;
-			if(!charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
+			if(charDTO.deadDate && !charDTO.deadDate.year && !charDTO.deadDate.month && !charDTO.deadDate.day)
 				charDTO.deadDate = null;
 		}
 		
 		self.addCollaborator = function(collaborator){
-			console.log("addCollaboratorToScenario: ");
-			console.log(collaborator);
+			
 			
 			apiService.addCollaboratorToScenario(collaborator.id, id).then(
 					function(data){
@@ -597,11 +666,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.scenario.collaborators.push(angular.copy(data));
 							if(self.notAssociatedAttendees==null)
 								self.notAssociatedAttendees = new Array();
-							self.notAssociatedAttendees.push(angular.copy(data));
+							var newCollaborator = angular.copy(data);
+							alertingGeneric.addSuccess(newCollaborator.firstname + " "+ newCollaborator.lastname +" aggiunto correttamente");
+							newCollaborator.cover = CONSTANTS.urlUserCover(data.id);
+							self.notAssociatedAttendees.push(newCollaborator);
 						}, 
 					function(reason){
-							console.log("chiamata alle api NOT OK");
-							console.log(reason);
+							alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
 					});
 		}
 		
@@ -629,6 +700,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 						self.emailList=null;
 						self.selectedUser="";
+						console.log(attendee);
+						alertingGeneric.addSuccess(attendee.firstname + " "+ attendee.lastname +" aggiunto correttamente");
 						for(var j=0; j<self.selectableStudents.length; j++){
 							if(self.selectableStudents[j].id==attendee.id){
 								self.selectableStudents.splice(j,1);
@@ -637,6 +710,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 					},
 					function(reason){
+						alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
 						
 					}
 			);
@@ -712,6 +786,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								/*TODO valutares*/
 								self.scenarioServer.characters.splice(i,1);
 								manageAssociationOnCharacterDeletion(c);
+								currentCharacterIndex = -1;
 							}
 						}
 					},
@@ -986,73 +1061,90 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		var isEquivalent =  function(a, b) {
 			console.log("isEquivalent");
-			var ret = angular.equals(a,b);
-//			console.log(a);
-//			console.log(b);
-//			// Create arrays of property names
-//		    var aProps = Object.getOwnPropertyNames(a);
-//		    var bProps = Object.getOwnPropertyNames(b);
-//
-//		    // If number of properties is different,
-//		    // objects are not equivalent
-//		    if (aProps.length != bProps.length) {
-//		    	console.log("different length");
-//		        return false;
-//		    }
-//
-//		    for (var i = 0; i < aProps.length; i++) {
-//		        var propName = aProps[i];
-//
-//		        // If values of same property are not equal,
-//		        // objects are not equivalent
-//		        if (a[propName] !== b[propName]) {
-//		            return false;
-//		        }
-//		    }
-//
-//		    // If we made it this far, objects
-//		    // are considered equivalent
-//		    console.log("isEquivalent ---> return true");
-//		    return true;
-			return ret;
+	
+			if(a.name != b.name){
+				return false;
+			}
+			if( a.description != b.description){
+				return false;
+			}
+				
+			r = angular.equals(a.history, b.history);
+			if (r == false){
+				return false;
+			}
+				
+			if( a.showRelationsToAll != b.showRelationsToAll){
+				return false;
+			}
+			
+
+			return true;
+
 		}
-		
-		var infoValidate = function(){
+		var dateValidate = function(){
+			
+			//controllo se data inizio è valida
+			if(self.scenario.history && self.scenario.history.startDate.year && !checkDate(self.scenario.history.startDate.year) ){
+				console.log("data inizio non valida");
+				alertingGeneric.addWarning("Data non valida");
+				self.scenario = angular.copy(self.scenarioServer);
+				
+				return false;
+			}
+			//controllo se la data fine è valida
+			if(self.scenario.history && self.scenario.history.endDate.year && !checkDate(self.scenario.history.endDate.year)){
+				console.log("data fine non valida");
+				alertingGeneric.addWarning("Data non valida");
+				self.scenario = angular.copy(self.scenarioServer);
+				
+				return false;
+			}
 			
 			//controllo che data fine non preceda data inizio
-			if(self.scenario.history && self.scenario.history.startDate && self.scenario.history.endDate){
+			if(self.scenario.history && self.scenario.history.startDate && self.scenario.history.endDate ){
+				
+
 				if (!checkIfEndIsAfterStart(self.scenario.history.startDate , self.scenario.history.endDate )){
-					self.scenario.history.startDate = self.scenarioServer.history.startDate;
-					self.scenario.history.endDate = self.scenarioServer.history.endDate;
+					self.scenario = angular.copy(self.scenarioServer);
+					
 					return false;
 				}
 					
 			}
+			return true;
+		}
+		
+		
+		var infoValidate = function(){
+			
+			//valido le date 
+			if (!dateValidate())
+				return false;
+			
 			var ret=true;
 			console.log("infoValidate");
 			
 			if(!self.scenario.name || self.scenario.name.length<2){
 				console.log("infoValidate ---> name");
+				alertingGeneric.addWarning("Il nome dello scenario deve essere di almeno 2 caratteri");
 				ret=false;
-				if(self.scenarioServer.name){
-					self.scenario.name=self.scenarioServer.name;
-				}else{
-					self.scenario.name="";
-				}
+				self.scenario= angular.copy(self.scenarioServer);
+				
 			}
-			if(!self.scenario.description){
-				console.log("infoValidate ---> description");
-				if(self.scenarioServer.description){
-					self.scenario.description=self.scenarioServer.description;
-				}else{
-					self.scenario.description="";
-				}
-			}
+//			if(!self.scenario.description){
+//				console.log("infoValidate ---> description");
+//				if(self.scenarioServer.description){
+//					self.scenario.description=angular.copy(self.scenarioServer.description);
+//				}else{
+//					self.scenario.description="";
+//				}
+//			}
 			if(!self.scenario.history || !self.scenario.history.startDate){
 				console.log("infoValidate ---> startdate");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.startDate){
-					self.scenario.history.startDate=self.scenarioServer.history.startDate;
+					self.scenario.history.startDate=angular.copy(self.scenarioServer.history.startDate);
 				}else{
 					self.scenario.history.startDate="";
 				}
@@ -1061,7 +1153,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("infoValidate ---> enddate");
 				ret=false;
 				if(self.scenarioServer.history && self.scenarioServer.history.endDate){
-					self.scenario.history.endDate=self.scenarioServer.history.endDate;
+					self.scenario.history.endDate=angular.copy(self.scenarioServer.history.endDate);
 				}else{
 					self.scenario.history.endDate="";
 				}
@@ -1071,12 +1163,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					console.log("infoValidate ---> 4");
 					ret=false;
 					if(self.scenarioServer.history && self.scenarioServer.history.endDate){
-						self.scenario.history.endDate=self.scenarioServer.history.endDate;
+						self.scenario.history.endDate=angular.copy(self.scenarioServer.history.endDate);
 					}else{
 						self.scenario.history.endDate="";
 					}
 					if(self.scenarioServer.history && self.scenarioServer.history.startDate){
-						self.scenario.history.startDate=self.scenarioServer.history.startDate;
+						self.scenario.history.startDate=angular.copy(self.scenarioServer.history.startDate);
 					}else{
 						self.scenario.history.startDate="";
 					}
@@ -1094,6 +1186,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("entrambe dopo cristo");
 				if(startDate.year > endDate.year){  //startDate.year > endDate.year ERR
 					console.log ("startDate.year > endDate.year ERR");
+					alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 					return false;
 				}else if (startDate.year < endDate.year){ //startDate.year > endDate.year GOOD
 					console.log("startDate.year > endDate.year GOOD");
@@ -1101,13 +1194,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}else{   //data inizio e fine hanno lo stesso anno, quindi guardo al mese!
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
 						console.log ("startDate.month > endDate.month ERR");
+						alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 						return false;
 						console.log("startDate.month < endDate.month GOOD");
 						return true;
-					}else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
+					}else if(
+						startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
+						console.log("startDate.month < endDate.month GOOD");
+						return true;
+					}
+					else{  //data inizio e data fine hanno stesso anno e stesso mese, quindi guardo al giorno
 						console.log("data inizio e fine con stesso anno e stesso mese");
 						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
 							console.log("startDate.day > endDate.day ERR");
+							alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 							return false;
 						}
 						else if(startDate.day < endDate.day){ //startDate.day < endDate.day GOOD
@@ -1124,6 +1224,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				console.log("entrambe avanti cristo");
 				if(startDate.year < endDate.year){  //startDate.year < endDate.year ERR
 					console.log ("startDate.year < endDate.year ERR");
+					alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 					return false;
 				}else if (startDate.year > endDate.year){ //startDate.year > endDate.year GOOD
 					console.log("startDate.year > endDate.year GOOD");
@@ -1131,6 +1232,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}else{   //data inizio e fine hanno lo stesso anno, quindi guardo al mese!
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
 						console.log ("startDate.month > endDate.month ERR");
+						alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 						return false;
 					}else if(startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
 						console.log("startDate.month < endDate.month GOOD");
@@ -1139,6 +1241,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						console.log("data inizio e fine con stesso anno e stesso mese");
 						if(startDate.day > endDate.day){  //startDate.day > endDate.day ERR
 							console.log("startDate.day > endDate.day ERR");
+							alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 							return false;
 						}
 						else if(startDate.day < endDate.day){ //startDate.day < endDate.day GOOD
@@ -1156,20 +1259,22 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 			else{																				//inizio d.c. e fine a.c. SICURAMENTE ERRATO
 				console.log("inizio d.c. e fine a.c. ERRORE SICURO");
+				alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 				return false;
 			}
 		}
 		
-		var checkDate = function(date){
-			// regular expression to match required date format
-			var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-
-		    if(date != '' && !date.match(re)) {
-		      return false;
-		    }
-		    else
-		    	return true;    
-		}
+//		var checkDate = function(date){
+//			// regular expression to match required date format
+//			var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
+//
+//		    if(date != '' && !date.match(re)) {
+//		    	alertingGeneric.addWarning("Data non corretta");
+//		    	return false;
+//		    }
+//		    else
+//		    	return true;    
+//		}
 		
 		var extractEmails = function(text){
 		    return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
@@ -1181,22 +1286,28 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				return true;
 			if(newChar.nickname!=oldChar.nickname)
 				return true;
-			if(newChar.bornDate.day!=oldChar.bornDate.day)
-				return true;
-			if(newChar.bornDate.month!=oldChar.bornDate.month)
-				return true;
-			if(newChar.bornDate.year!=oldChar.bornDate.year)
-				return true;
-			if(newChar.bornDate.afterChrist!=oldChar.bornDate.afterChrist)
-				return true;
-			if(newChar.deadDate.day!=oldChar.deadDate.day)
-				return true;
-			if(newChar.deadDate.month!=oldChar.deadDate.month)
-				return true;
-			if(newChar.deadDate.year!=oldChar.deadDate.year)
-				return true;
-			if(newChar.deadDate.afterChrist!=oldChar.deadDate.afterChrist)
-				return true;
+			
+			if(newChar.bornDate && oldChar.bornDate){
+				if(newChar.bornDate.day!=oldChar.bornDate.day)
+					return true;
+				if(newChar.bornDate.month!=oldChar.bornDate.month)
+					return true;
+				if(newChar.bornDate.year!=oldChar.bornDate.year)
+					return true;
+				if(newChar.bornDate.afterChrist!=oldChar.bornDate.afterChrist)
+					return true;
+				
+			}if(newChar.deadDate && oldChar.deadDate){
+				if(newChar.deadDate.day!=oldChar.deadDate.day)
+					return true;
+				if(newChar.deadDate.month!=oldChar.deadDate.month)
+					return true;
+				if(newChar.deadDate.year!=oldChar.deadDate.year)
+					return true;
+				if(newChar.deadDate.afterChrist!=oldChar.deadDate.afterChrist)
+					return true;
+			}
+			
 			if(newChar.bornTown!=oldChar.bornTown)
 				return true;
 			if(newChar.deadTown!=oldChar.deadTown)
@@ -1214,7 +1325,25 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		}
 		
 		var isCurrentCharacterValid = function(char){
+			
+			if(char.deadDate.year && !checkDate(char.deadDate.year))
+				return false;
+			if(char.bornDate.year && !checkDate(char.bornDate.year))
+				return false;
+			if(char.deadDate && char.bornDate && char.deadDate.year && char.bornDate.year){
+				if(!checkIfEndIsAfterStart(char.bornDate, char.deadDate)){
+					return false;
+				}
+			}
 			return true;
+		}
+		
+		var checkDate = function(year){
+			if(isNaN(year)){
+				return false;
+			}else{
+				return true;
+			}  
 		}
 
 		onStartup();

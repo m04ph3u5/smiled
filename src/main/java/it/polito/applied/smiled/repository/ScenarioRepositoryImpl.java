@@ -373,5 +373,14 @@ public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 		else
 			return false;
 	}
+
+	@Override
+	public List<Scenario> getMissionsOfScenarios(List<String> scenariosId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").in(scenariosId));
+		q.fields().include("id");
+		q.fields().include("mission");
+		return mongoOp.find(q, Scenario.class);
+	}
 	
 }

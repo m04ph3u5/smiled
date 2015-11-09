@@ -57,6 +57,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Autowired
 	private AsyncUpdater asyncUpdater;
 	
+	@Autowired
+	private LogService logService;
+	
 //	@Autowired
 //	private NotifyService notify;
 
@@ -115,8 +119,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(t==null)
 				throw new BadRequestException();			
 			Reference ref = new Reference(t);
-
+			System.out.println("scenarioDTO: "+ scenarioDTO.isShowRelationsToAll());
 			Scenario scenario = new Scenario(scenarioDTO,ref);
+			System.out.println("scenario: "+ scenario.isShowRelationsToAll());
 			scenario = scenarioRepository.insert(scenario);
 			int n = userRepository.createScenarioToUser(t.getId(),new ScenarioReference(scenario));
 			if(n!=1){
@@ -170,13 +175,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 				u.set("status", scenario.getStatus());
 			}
 
-			//Non faccio l'update dell'url della cover ( TODO :probabilmente ci sar� un' API apposta per caricare le immagini)
-
+			Scenario oldScenario = scenarioRepository.findById(id);
 			scenarioUpdated = scenarioRepository.updateScenario(id, u);
 			if(scenarioUpdated == null)
 				throw new BadRequestException();
-			if(scenario.getName()!=null){
-				u.set("name", scenario.getName());
+			if(scenario.getName()!=null && !oldScenario.getName().equals(scenarioUpdated.getName())){
 				updateNameInReferenceOfAllPeopleInScenario(callerId, scenarioUpdated);
 			}
 			
@@ -2246,7 +2249,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public void addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException {
+	public boolean addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException {
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 		Post post = postRepository.findById(postId);
 		
@@ -2273,7 +2276,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new BadRequestException();
 		
 		post.addLike(charRef);
-		postRepository.save(post);
+		Post newPost = postRepository.save(post);
+		
+		Set<CharacterReference> likes = newPost.getLikes();
+		if(likes!=null)
+			for(CharacterReference c : likes){
+				if(c.getUserId().equals(user.getId()))
+					return true;
+			}
+		
+		return false;
 //		notify.notifyLikeToPost(scenario, post, charRef);
 	}
 
@@ -2389,7 +2401,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 				
 				/*LIKE AL POST*/
-				List<CharacterReference> likes = s.getLikes();
+				Set<CharacterReference> likes = s.getLikes();
 				if(likes!=null && likes.size()!=0){
 					for(CharacterReference r : likes){
 						Action aLike = new Action();
@@ -2465,7 +2477,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 					
 					/*LIKE AL POST*/
-					List<CharacterReference> likes = e.getLikes();
+					Set<CharacterReference> likes = e.getLikes();
 					if(likes!=null && likes.size()!=0){
 						for(CharacterReference r : likes){
 							Action aLike = new Action();
@@ -2524,6 +2536,51 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		Collections.sort(actions);
 		return actions;
+	}
+
+
+	@Override
+	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser) {
+		User u = userRepository.findById(activeUser.getId());
+		List<ScenarioReference> scenariosRef = u.getOpenScenarios();
+		List<String> scenariosId = new ArrayList<String>();
+		List<String> charactersId = new ArrayList<String>();
+		Map<String,MissionDTO> map = new HashMap<String,MissionDTO>();
+		if(scenariosRef!=null){
+			for(ScenarioReference s : scenariosRef){
+				scenariosId.add(s.getId());
+				map.put("s"+s.getId(), new MissionDTO(s.getId(), s.getName()));
+				if(s.getMyCharacterId()!=null && !s.getMyCharacterId().equals("")){
+					charactersId.add(s.getMyCharacterId());
+					map.put("c"+s.getMyCharacterId(), new MissionDTO(s.getId(), s.getName()));
+				}
+			}
+		}
+		List<Character> characters = characterRepository.getMissionsOfCharacters(charactersId);
+		List<MissionDTO> missions = new ArrayList<MissionDTO>();
+		for(Character c : characters){
+			if(c.getMission()!=null){
+				MissionDTO m = map.get("c"+c.getId());
+				m.setAssignDate(c.getMission().getLastChangeDate());
+				m.setCharacterId(c.getId());
+				m.setCharacterName(c.getName());
+				m.setDescription(c.getMission().getDescription());
+				m.setTitle(c.getMission().getTitle());
+				missions.add(m);
+			}
+		}
+		List<Scenario> scenarios = scenarioRepository.getMissionsOfScenarios(scenariosId);
+		for(Scenario s : scenarios){
+			if(s.getMission()!=null){
+				MissionDTO m = map.get("s"+s.getId());
+				m.setAssignDate(s.getMission().getLastChangeDate());
+				m.setDescription(s.getMission().getDescription());
+				m.setTitle(s.getMission().getTitle());
+				missions.add(m);
+			}
+		}
+		
+		return missions;
 	}
 
 

@@ -215,7 +215,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard.studentsList',{
-			url: "studenti",
+			url: "/studenti",
 			views: {
 				'content@logged': {
 					templateUrl: "assets/private/partials/studentsList.html",
@@ -228,7 +228,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard.colleaguesList',{
-			url: "colleghi",
+			url: "/colleghi",
 			views: {
 				'content@logged': {
 					templateUrl: "assets/private/partials/colleaguesList.html",
@@ -238,6 +238,19 @@ angular.module('smiled.application')
 			},
 			data : {
 				pageTitle : 'I miei colleghi - Meschola'
+			}
+		})
+		.state('logged.dashboard.missionsList',{
+			url: "/compiti",
+			views: {
+				'content@logged': {
+					templateUrl: "assets/private/partials/personalMissionsList.html",
+					controller: 'personalMissionCtrl',
+					controllerAs: 'personalMission'
+				}
+			},
+			data : {
+				pageTitle : 'I miei compiti - Meschola'
 			}
 		})
 		.state('logged.dashboard.filesList',{
@@ -429,7 +442,11 @@ angular.module('smiled.application')
 				}
 			},
 			data : {
-				pageTitle : 'Gestisci scenario - Meschola'
+				pageTitle : 'Gestisci scenario - Meschola',
+				permissions: {
+					only: ['teacher','admin'],
+					redirectTo: 'logged.dashboard' 
+				}
 			}
 		})
 		.state('logged.scenarioWizard.info',{

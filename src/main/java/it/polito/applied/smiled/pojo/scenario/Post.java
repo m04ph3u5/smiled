@@ -6,6 +6,8 @@ import it.polito.applied.smiled.pojo.Reference;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 
@@ -20,7 +22,7 @@ public abstract class Post {
 	private Integer timeNumber;
 	private Date lastChangeDate;
 	private Reference user;
-	private List<CharacterReference> likes;
+	private Set<CharacterReference> likes;
 	private List<Comment> comments;
 	private List<MetaComment> metaComments;
 	private String scenarioId;
@@ -57,12 +59,7 @@ public abstract class Post {
 	public void setUser(Reference user) {
 		this.user = user;
 	}
-	public List<CharacterReference> getLikes() {
-		return likes;
-	}
-	public void setLikes(List<CharacterReference> likes) {
-		this.likes = likes;
-	}
+	
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -105,14 +102,17 @@ public abstract class Post {
 		this.timeNumber = timeNumber;
 	}
 	
+	public Set<CharacterReference> getLikes() {
+		return likes;
+	}
+	public void setLikes(Set<CharacterReference> likes) {
+		this.likes = likes;
+	}
 	public void addLike(CharacterReference charRef){
-		for(int i=0; i<likes.size(); i++){
-			if(likes.get(i).getId().equals(charRef.getId())){
-				likes.remove(i);
-				return;
-			}
-		}
-		this.likes.add(charRef);
+		if(likes.contains(charRef))
+			likes.remove(charRef);
+		else
+			likes.add(charRef);
 	}
 		
 }

@@ -1,3 +1,4 @@
+<alertgeneric></alertgeneric>
 <label>CERCA TRA I TUOI STUDENTI</label>
 <form class="form-search">
 	  <div class="inner-addon left-addon">
@@ -11,24 +12,24 @@
 </form>
 <br>
 <div class="container-fluid">
-<div class="row">
-	<label>OPPURE INSERISCI LE EMAIL DEGLI STUDENTI CHE VUOI INVITARE</label>
-	<textarea data-ng-model="scenarioWizard.emailList" class="form-control" rows="3" placeholder="ES: studente1@email.it studente2@email.it ..."></textarea>
-	<br>
-	<div class="pull-right">
-	<button class="btn generalButton1" data-ng-click="scenarioWizard.inviteStudents()"><span class="glyphicon glyphicon-send"></span> INVITA</button>
+	<div class="row">
+		<label>OPPURE INSERISCI LE EMAIL DEGLI STUDENTI CHE VUOI INVITARE</label>
+		<textarea data-ng-model="scenarioWizard.emailList" class="form-control" rows="3" placeholder="ES: studente1@email.it studente2@email.it ..."></textarea>
+		
+		<div class="pull-right">
+		<button class="btn generalButton1" data-ng-click="scenarioWizard.inviteStudents()"><span class="glyphicon glyphicon-send"></span> INVITA</button>
+		</div>
 	</div>
-</div>
 	<div class="row">
 		<div class="col-md-4" data-ng-show="scenarioWizard.scenarioServer.attendees.length>0">
-			<label>PARTECIPANTI</label>
+			<h4>PARTECIPANTI</h4>
 			<div data-ng-repeat="s in scenarioWizard.scenarioServer.attendees" class="enlight">
 				<a href="" data-ui-sref="logged.userProfile({id: '{{s.id}}'})">
 					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
 					data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{s.lastname}} {{s.firstname}} 
 				</a>
 				<span show-on-hover-parent style="display:none" class="glyphicon glyphicon-trash marginMTop" 
-				data-ng-click="scenarioWizard.deleteAttendee(s)"></span>
+				data-ng-click="scenarioWizard.showPopUpDeleteAttendee(s) "></span>
 			</div>
 		</div>
 		<div class="col-md-4" data-ng-show="scenarioWizard.scenarioServer.invited.length>0">
@@ -37,17 +38,18 @@
 					<img data-ng-src="api/v1/users/{{s.id}}/cover" 
 						data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM marginMTop"> 
 						<u>{{s.email}}</u>
-						<span show-on-hover-parent style="display:none;" class="pickRow glyphicon glyphicon-trash" data-ng-click="scenarioWizard.deleteInvited(s)"></span></div>
+						<span show-on-hover-parent style="display:none;" class="pickRow glyphicon glyphicon-trash" data-ng-click="scenarioWizard.showPopUpDeleteAttendee(s) "></span>
 			</div>
+		</div>
 		</div>
 	</div>
 </div>
 </div>
 <a href="">
-<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.info" data-ng-click="scenarioWizard.saveInfo()">
+<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.info" >
 </a>
 <a href="">
-<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.characters" data-ng-click="scenarioWizard.saveInfo()">
+<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.characters" >
 </a>
 
 <script type="text/ng-template" id="customTemplate.html">

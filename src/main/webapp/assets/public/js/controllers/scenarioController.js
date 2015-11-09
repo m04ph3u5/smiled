@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService',
-                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll){
 	
 	
 	console.log("controller");
@@ -65,5 +65,10 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	
 	
 	onStartup();
+	
+	self.goToBody = function(){
+		$location.hash("body-content");
+	    $anchorScroll();
+	}
 
 }]);

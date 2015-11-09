@@ -483,7 +483,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 				meta.setType(ResourceType.TO_CONFIRM_IMG);
 			else
 				meta.setType(ResourceType.IMAGE);
-			meta.setThumbnail(saveThumbnail(media.getInputStream()));
+			meta.setThumbnail(saveThumbnail(media.getInputStream(),(int) media.getSize()));
 		}
 		else{
 			if(!trusted)
@@ -530,7 +530,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 			InputStream input = file.getInputStream();
 			
 			if(getThumb){
-				metadata.setThumbnail(saveThumbnail(input));
+				metadata.setThumbnail(saveThumbnail(input, (int)file.getLength()));
 				gridFsManager.updateMetadata(filename, metadata);
 			}
 	
@@ -801,12 +801,25 @@ public class FileManagerServiceImpl implements FileManagerService {
 		return false;
 	}
 	
-	private byte[] saveThumbnail(InputStream file) throws IOException{
+	private byte[] saveThumbnail(InputStream file, int length) throws IOException{
 		System.out.println("saveThumb");
 		BufferedImage sourceImage = ImageIO.read(file);
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
         BufferedImage img2=null;
+        
+        
+        if(width<100 && height<100){
+        	byte[] targetArray = new byte[length];
+    		int count = 0;
+    		while(count<length){
+    			int n = file.read(targetArray, count, targetArray.length);
+    			count+=n;
+    		}
+    		return targetArray;
+        }
+        
+        
         if(width>height){
             float extraSize=    height-100;
             float percentHight = (extraSize/height)*100;
@@ -833,7 +846,10 @@ public class FileManagerServiceImpl implements FileManagerService {
             g2.setComposite(AlphaComposite.Src);
             g2.drawImage(scaledImage, 0, 0, null);
             img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_4BYTE_ABGR);
-            img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
+            if(width==height)
+                img2 = img.getSubimage(0, 0, 99, 99);
+            else
+            	img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
 
         }
         

@@ -8,6 +8,7 @@ import it.polito.applied.smiled.pojo.Reference;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public class Event extends Post{
 	public Event(){
 		this.setCreationDate(new Date());
 		this.setLastChangeDate(this.getCreationDate());
-		this.setLikes(new ArrayList<CharacterReference>());
+		this.setLikes(new HashSet<CharacterReference>());
 		this.setComments(new ArrayList<Comment>());
 		this.setMetaComments(new ArrayList<MetaComment>());
 		this.setRevision(new Revision());

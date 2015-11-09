@@ -144,4 +144,15 @@ public class CharacterRepositoryImpl implements CustomCharacterRepository{
 			return false;
 	}
 
+	@Override
+	public List<Character> getMissionsOfCharacters(List<String> charactersId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").in(charactersId));
+		q.fields().include("id");
+		q.fields().include("mission");
+		q.fields().include("name"); 
+		q.fields().include("idScenario");
+		return mongoOp.find(q, Character.class);
+	}
+
 }

@@ -99,7 +99,7 @@ public interface ScenarioService {
 	public void deleteComment(String id, String postId, String commentId,
 			Authentication auth, boolean isMetaComment) throws NotFoundException, ForbiddenException;
 
-	public void addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException;
+	public boolean addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException;
 
 	public List<Character> getAllCharacters(String scenarioId);
 
@@ -112,6 +112,8 @@ public interface ScenarioService {
 	public boolean deleteMissionToCharacter(String idCharacter)throws BadRequestException;
 	
 	public boolean deleteMissionToScenario(String idScenario)throws BadRequestException;
+
+	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser);
 
 	
 }

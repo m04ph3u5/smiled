@@ -11,11 +11,11 @@
 				drag-channel="attendees" drop-channel="characters"
 				on-drop-success="scenarioWizard.dropSuccessHandlerCharacter($event, $index, scenarioWizard.scenarioServer.attendees)"
 				ng-repeat="a in scenarioWizard.notAssociatedAttendees track by $index">
-				<div class="row">	
+				<div class="row" >	
 					<div class="col-sm-3 col-xs-12"></div>
 					<div ng-if=" scenarioWizard.isStudent(a)">
 						<div class="col-sm-6 col-xs-12 btn generalButton textLeft marginMTop">
-							<div class="row">
+							<div class="row" style="cursor:move">
 								<div class="col-xs-2">
 									<img data-ng-src="{{a.cover}}" 
 										data-err-src="/assets/public/img/ic_student.png" class="img-circle imgPreviewM">
@@ -28,7 +28,7 @@
 					</div>
 					<div ng-if="!scenarioWizard.isStudent(a) && a.id!=scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft marginMTop">
-							<div class="row">
+							<div class="row" style="cursor:move">
 								<div class="col-xs-2">
 									<img data-ng-src="{{a.cover}}" 
 										data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewM">
@@ -41,7 +41,7 @@
 					</div>
 					<div ng-if="a.id==scenarioWizard.scenario.teacherCreator.id">
 						<div class="col-sm-6 col-xs-12 btn generalButton1 textLeft marginMTop">
-							<div class="row">
+							<div class="row" style="cursor:move">
 								<div class="col-xs-2">
 									<img data-ng-src="{{a.cover}}" 
 										data-err-src="/assets/public/img/ic_teacher.png" class="img-circle imgPreviewM">
@@ -67,7 +67,7 @@
 				<div class="row">
 					<div class="col-sm-3 col-xs-12"></div>
 					<div class="col-sm-6 col-xs-12 btn generalButton textLeft marginMTop">
-						<div class="row">
+						<div class="row" style="cursor:move">
 							<div class="col-xs-4">
 								<img data-ng-src="{{c.cover}}" 
 									data-err-src="/assets/public/img/icon/pg.png" class="img-circle imgPreviewM"> 
@@ -95,7 +95,7 @@
     	<div data-ng-repeat="a in scenarioWizard.associations">
 	    <div class="row marginMTop">
 		    <div class="col-xs-4 btn generalButton">
-		    	<div class="row">
+		    	<div class="row" style="cursor:not-allowed">
 		    	
 		    		<div ng-if="scenarioWizard.isStudent(a.attendee)">
 		    			<div class="col-xs-12 col-sm-6 wizardCardPadding">
@@ -134,16 +134,16 @@
 					</div>
 		    	</div>
 		    </div>
-		    <div class="col-xs-4 visible-lg visible-md visible-sm hidden-xs">
+		    <div style="cursor:pointer;" class="col-xs-4 visible-lg visible-md visible-sm hidden-xs" >
 				<img hide-on-hover-parent data-ng-src="/assets/public/img/ic_association.png" class="linkImg" width="150px">
 				<img show-on-hover-parent style="display:none" data-ng-src="/assets/public/img/ic_association_del.png" class="linkImg" width="150px" data-ng-click="scenarioWizard.removeAssociation(a)">
 			</div>
-    		<div class="col-xs-4 hidden-lg hidden-md hidden-sm visible-xs">
+    		<div style="cursor:pointer;" class="col-xs-4 hidden-lg hidden-md hidden-sm visible-xs">
 				<img hide-on-hover-parent data-ng-src="/assets/public/img/ic_association_sm.png" class="linkImg2" width="75px">
 				<img show-on-hover-parent style="display:none" data-ng-src="/assets/public/img/ic_association_del_sm.png" class="linkImg2" width="75px" data-ng-click="scenarioWizard.removeAssociation(a)">
 			</div>
 			<div class="col-xs-4 btn generalButton">
-				<div class="row">
+				<div class="row" style="cursor:not-allowed">
 					<div class="col-xs-12 col-sm-6 wizardCardPadding">
 						<img data-ng-src="{{a.character.cover}}" 
 						data-err-src="/assets/public/img/icon/pg.png" class="img-circle imgPreviewL">
@@ -158,8 +158,8 @@
     </div>
 
 <a href="">
-<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.characters" data-ng-click="scenarioWizard.saveInfo()">
+<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.characters" >
 </a>
 <a href="">
-<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.collaborators" data-ng-click="scenarioWizard.saveInfo()">
+<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.collaborators" >
 </a>

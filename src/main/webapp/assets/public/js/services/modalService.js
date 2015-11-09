@@ -3,6 +3,15 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var scenario = {
 				
 		};
+		var attendee = {
+				
+		};
+		var character = {
+				
+		};
+		var collaborator = {
+				
+		};
 		
 		var post = {};
 		var scenarioMap = "";
@@ -15,6 +24,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
+		var modalInstanceDeleteAttendee;
+		var modalInstanceDeleteCollaborator;
 		var modalInstanceSetDate;
 		var modalInstanceOpenMap;
 		var modalInstanceOpenMapForPost;
@@ -51,6 +62,24 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var optionsDeleteScen = {
 				templateUrl:'assets/private/partials/deleteScenario.html',
+				controller: 'dialogScenarioCtrl',
+				controllerAs: 'dialogScenario',
+		};
+		
+		var optionsDeleteAttendee = {
+				templateUrl:'assets/private/partials/deleteAttendee.html',
+				controller: 'dialogScenarioCtrl',
+				controllerAs: 'dialogScenario',
+		};
+		
+		var optionsDeleteCollaborator = {
+				templateUrl:'assets/private/partials/deleteCollaborator.html',
+				controller: 'dialogScenarioCtrl',
+				controllerAs: 'dialogScenario',
+		};
+		
+		var optionsDeleteCharacter = {
+				templateUrl:'assets/private/partials/deleteCharacter.html',
 				controller: 'dialogScenarioCtrl',
 				controllerAs: 'dialogScenario',
 		};
@@ -167,9 +196,39 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			
 		}
 		
+		var showModalDeleteAttendee = function(a){
+			attendee = a;
+			modalInstanceDeleteAttendee = $modal.open(optionsDeleteAttendee);
+			return modalInstanceDeleteAttendee.result;
+			
+		}
+		var showModalDeleteCollaborator = function(c){
+			collaborator = c;
+			modalInstanceDeleteCollaborator = $modal.open(optionsDeleteCollaborator);
+			return modalInstanceDeleteCollaborator.result;
+			
+		}
+		var showModalDeleteCharacter = function(c){
+			character = c;
+			modalInstanceDeleteCharacter = $modal.open(optionsDeleteCharacter);
+			return modalInstanceDeleteCharacter.result;
+			
+		}
+		
 		var closeModalDeleteScen = function(){
-			console.log("DELETE SCENARIO");
 			modalInstanceDeleteScen.close();
+		}
+		
+		var closeModalDeleteAttendee = function(){
+			modalInstanceDeleteAttendee.close();
+		}
+		
+		var closeModalDeleteCollaborator = function(){
+			modalInstanceDeleteCollaborator.close();
+		}
+		
+		var closeModalDeleteCharacter = function(){
+			modalInstanceDeleteCharacter.close();
 		}
 		
 		var createScenario = function(scenario){
@@ -201,7 +260,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			 var scenarioDTO = {};
 			 scenarioDTO.name = scenario.title;
 			 scenarioDTO.history = history;
-			 			 
+			 scenarioDTO.showRelationsToAll = scenario.showRelationsToAll;	
+			
 			 s = apiService.createScenario(scenarioDTO);
 			 return s; 
 			 
@@ -209,13 +269,31 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var deleteScenario = function(){
 			console.log(scenario);
-			 s = apiService.deleteScenario(scenario.id);
-			 return s; 
+			s = apiService.deleteScenario(scenario.id);
+			return s; 
+			 
+		}
+		
+		var deleteAttendee = function(){
+			console.log("delete");
+			console.log(attendee);
 			 
 		}
 		
 		var getScenToDelete = function(){
 			return scenario;
+		}
+		
+		var getAttendeeToDelete = function(){
+			return attendee;
+		}
+		
+		var getCollaboratorToDelete = function(){
+			return collaborator;
+		}
+		
+		var getCharacterToDelete = function(){
+			return character;
 		}
 		
 		//first serve a specificare (nel caso di set date) se si cerca di modificare la data di inizio o di fine dello scenario
@@ -314,7 +392,16 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalCreateScen: closeModalCreateScen,
 			showModalDeleteScen : showModalDeleteScen,
 			closeModalDeleteScen: closeModalDeleteScen,
+			showModalDeleteAttendee : showModalDeleteAttendee,
+			closeModalDeleteAttendee: closeModalDeleteAttendee,
+			showModalDeleteCollaborator : showModalDeleteCollaborator,
+			closeModalDeleteCollaborator : closeModalDeleteCollaborator,
+			showModalDeleteCharacter : showModalDeleteCharacter,
+			closeModalDeleteCharacter: closeModalDeleteCharacter,
 			getScenToDelete : getScenToDelete,
+			getAttendeeToDelete: getAttendeeToDelete,
+			getCollaboratorToDelete: getCollaboratorToDelete,
+			getCharacterToDelete: getCharacterToDelete,
 			showPopUpSetDate : showPopUpSetDate,
 			closeModalSetDate : closeModalSetDate,
 			showModalOpenMap : showModalOpenMap,
