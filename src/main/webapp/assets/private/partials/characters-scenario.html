@@ -12,51 +12,50 @@
 		
 		<div data-ng-if="scenario.showBoxInfo">
 		
-			<div class= "row marginSLeft">
-				<div class="col-xs-6 marginMTop">
-					
-					<label>Creatore: </label>
-					<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})" data-ng-src="api/v1/users/{{scenario.scen.teacherCreator.id}}/cover" data-err-src="assets/public/img/ic_teacher.png"
-							class="img-circle imgPreviewL"> 
-					</div>
-					<span style="cursor:pointer" class="sideMarginThree" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})">{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</span>
-		
-				</div>
-				<div class="col-xs-6 marginMTop " >
-					<label>Data attivazione scenario: </label>
-					<span data-ng-if="!scenario.scen.startDate">Data non disponibile</span>
-					{{scenario.scen.startDate}}
-				</div>
+			<div class= "row marginMTop ">
+				<label>Creatore: </label>
+				<img style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})" data-ng-src="api/v1/users/{{scenario.scen.teacherCreator.id}}/cover" data-err-src="assets/public/img/ic_teacher.png"
+							class="img-circle imgPreviewL marginMLeft"> 
+				<span style="cursor:pointer;" class="marginMLeft" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})">{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</span>
+				
 			</div>
-			
-			<div class= "row marginSLeft">
-				<div class="col-xs-6 marginMTop " >
+			<div class="row">
+				<div class= "row marginMTop">
 					<label>Nome: </label>
 					{{scenario.scen.name}}
 				</div>
-				<div class="col-xs-6 marginMTop " >
-					<label>Descrizione: </label>
+			
+				<div class= "row marginMTop">
+					<label>Descrizione: </label> <span data-ng-if="!scenario.scen.description">Descrizione non disponibile</span>
 					{{scenario.scen.description}}
 				</div>
-			</div>
-		
-			<div class= "row marginSLeft">
-				<div data-ng-if="scenario.scen.history.startDate" class="col-xs-6 marginMTop " >
-					<label>Inizio della storia: </label>
-					{{scenario.scen.history.startDate.day}}/{{scenario.scen.history.startDate.month}}/{{scenario.scen.history.startDate.year}} <span data-ng-if="!scenario.scen.history.startDate.afterChrist"> a.C.</span>
+				
+				<div class= "row marginMTop">
+					<label>Data attivazione scenario: </label>
+					<span data-ng-if="!scenario.scen.startDate">Data non disponibile</span>
+					{{scenario.scen.startDate}}
+				</div>	
+				
+				<div class= "row marginMTop">
+					<div data-ng-if="scenario.scen.history.startDate" class="col-xs-6  " >
+						<label>Inizio della storia: </label>
+						{{scenario.scen.history.startDate.day}}/{{scenario.scen.history.startDate.month}}/{{scenario.scen.history.startDate.year}} <span data-ng-if="!scenario.scen.history.startDate.afterChrist"> a.C.</span>
+					</div>
+					<div data-ng-if="scenario.scen.history.endDate" class="col-xs-6  " >
+						<label>Fine della storia: </label>
+						{{scenario.scen.history.endDate.day}}/{{scenario.scen.history.endDate.month}}/{{scenario.scen.history.endDate.year}} <span data-ng-if="!scenario.scen.history.endDate.afterChrist"> a.C.</span>
+					</div>
 				</div>
-				<div data-ng-if="scenario.scen.history.endDate" class="col-xs-6 marginMTop " >
-					<label>Fine della storia: </label>
-					{{scenario.scen.history.endDate.day}}/{{scenario.scen.history.endDate.month}}/{{scenario.scen.history.endDate.year}} <span data-ng-if="!scenario.scen.history.endDate.afterChrist"> a.C.</span>
-				</div>
+			
 			</div>
+			
 		</div>
 		
 		
 	</div>
 	
 	<div class="box boxGray textCenter row">
-	<h4>Personaggi
+	<h4>Personaggi 
 	<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.characters({id: '{{scenario.scen.id}}'})"></span>
 	</a>
 	</h4>
@@ -64,10 +63,10 @@
 	<span data-ng-if="scenario.showBoxCharacters" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="scenario.closeBoxCharacters()" style="cursor:pointer;"></span>
 					
 	<div data-ng-if="scenario.showBoxCharacters">
-			<span data-ng-if="!scenarioCharacters.associations || scenarioCharacters.associations.length==0">
+			<span data-ng-if="!scenarioCharacters.scen.characters || scenarioCharacters.scen.characters.length==0">
 				Non ci sono personaggi
 			</span>
-			<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="a in scenarioCharacters.associations">
+			<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="a in scenarioCharacters.scen.characters">
 				<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })" data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/icon/pg.png"
 					class="img-circle imgPreviewL"> 
 				</div>

@@ -62,12 +62,12 @@
 					</span>
 					<span>{{characterProfile.character.bornTown}}</span>
 					<span ng-if="characterProfile.character.bornTown!=null && characterProfile.character.bornDate!=null">, </span>
-					<span>{{characterProfile.character.bornDate.day}} {{characterProfile.getBornMonth()}} {{characterProfile.character.bornDate.year}} <span data-ng-if="characterProfile.character.bornDate.afterChrist">d.C.</span><span data-ng-if="!characterProfile.character.bornDate.afterChrist">a.C.</span></span>
+					<span>{{characterProfile.character.bornDate.day}} {{characterProfile.getBornMonth()}} {{characterProfile.character.bornDate.year}} <span data-ng-if="characterProfile.character.bornDate.afterChrist">d.C.</span><span data-ng-if="characterProfile.character.bornDate && !characterProfile.character.bornDate.afterChrist">a.C.</span></span>
 					<span ng-if="(characterProfile.character.bornTown!=null || characterProfile.character.bornDate!=null)
 					&& (characterProfile.character.deadDate!=null || characterProfile.character.deadTown!=null)"> - </span>
 					<span>{{characterProfile.character.deadTown}}</span>
 					<span ng-if="characterProfile.character.deadDate!=null && characterProfile.character.deadTown!=null">, </span>		
-					<span>{{characterProfile.character.deadDate.day}} {{characterProfile.getDeadMonth()}} {{characterProfile.character.deadDate.year}} <span data-ng-if="characterProfile.character.deadDate.afterChrist">d.C.</span><span data-ng-if="!characterProfile.character.deadDate.afterChrist">a.C.</span></span>
+					<span>{{characterProfile.character.deadDate.day}} {{characterProfile.getDeadMonth()}} {{characterProfile.character.deadDate.year}} <span data-ng-if="characterProfile.character.deadDate.afterChrist">d.C.</span><span data-ng-if="characterProfile.character.deadDate && !characterProfile.character.deadDate.afterChrist">a.C.</span></span>
 					<span ng-if="characterProfile.character.deadDate!=null || characterProfile.character.deadTown!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 					</i>
 				
@@ -112,13 +112,11 @@
 					</span>	
 				</div>
 				<div class=" marginMTop textJustify">
-					<label>Precedentemente interpretato da: </label>
-					<span data-ng-if="!characterProfile.viewPastUsers" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="characterProfile.openViewPastUsers()" style="cursor:pointer;"></span>
+					<label>Precedentemente interpretato da: </label> <span class=" marginMTop textJustify" data-ng-if="characterProfile.numberOfPastUsers==0"> nessuno</span>
+					<span data-ng-if="!characterProfile.viewPastUsers && characterProfile.numberOfPastUsers>0" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="characterProfile.openViewPastUsers()" style="cursor:pointer;"></span>
 					<span data-ng-if="characterProfile.viewPastUsers" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="characterProfile.closeViewPastUsers()" style="cursor:pointer;"></span>
 				</div>
-				<div class=" marginMTop textJustify" data-ng-if="characterProfile.numberOfPastUsers==0 && characterProfile.viewPastUsers">
-				nessuno
-				</div>
+				
 				<div class=" marginMTop textJustify" data-ng-if="characterProfile.numberOfPastUsers>0 && characterProfile.viewPastUsers">
 					
 						<div data-ng-repeat="(key, value) in characterProfile.character.pastUserId ">
