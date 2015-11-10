@@ -314,10 +314,6 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					}
 				}
 
-				console.log("vecchi tag");
-				console.log(oldTags);
-				console.log("nuovi tag");
-				console.log(newTags);
 
 				self.postDTO.tags = newTags;
 				self.postDTO.tags = self.postDTO.tags.concat(oldTags);
@@ -330,6 +326,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.newCharactersToTags = [];
 							self.editPost = !self.editPost;
 							self.recalculateMatrix();
+							self.post.character.cover = CONSTANTS.urlCharacterCover(self.scenario.id,self.post.character.id);
+
 						},
 						function(reason){
 							console.log("UPDATE STATUS FAILED");
