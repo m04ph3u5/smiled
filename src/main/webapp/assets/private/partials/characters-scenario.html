@@ -55,7 +55,8 @@
 	</div>
 	
 	<div class="box boxGray textCenter row">
-	<h4>Personaggi 
+	<h4>Personaggi <span data-ng-if="scenario.scen.characters">({{scenario.scen.characters.length}})</span>
+	<span data-ng-if="!scenario.scen.characters">(0)</span>
 	<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.characters({id: '{{scenario.scen.id}}'})"></span>
 	</a>
 	</h4>
@@ -77,7 +78,8 @@
 	</div>
 	
 	<div class="box boxGray textCenter row">
-	<h4>Partecipanti
+	<h4>Partecipanti <span data-ng-if="scenario.scen.attendees">({{scenario.scen.attendees.length}})</span>
+	<span data-ng-if="!scenario.scen.attendees">(0)</span>
 	<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.attendees({id: '{{scenario.scen.id}}'})"></span>
 	</a>
 	</h4>
@@ -98,7 +100,8 @@
 	</div>
 	</div>
 	<div class="box boxGray textCenter row">
-		<h4>Collaboratori
+		<h4>Collaboratori <span data-ng-if="scenario.scen.collaborators">({{scenario.scen.collaborators.length}})</span>
+		<span data-ng-if="!scenario.scen.collaborators">(0)</span>
 		<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.collaborators({id: '{{scenario.scen.id}}'})"></span>
 		</a>
 		</h4>
