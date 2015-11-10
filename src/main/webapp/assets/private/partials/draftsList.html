@@ -1,0 +1,62 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-1">					
+		</div>
+		<div class="col-lg-1">
+			<div style="cursor:pointer;" data-ui-sref="logged.dashboard" class="row visible-lg hidden-md hidden-sm hidden-xs text-center">
+				<img data-ng-src="assets/public/img/icon/back.png" class="sideIcon marginXXLTop">
+				<img data-ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title marginMTop">			
+			</div>	
+		</div>		
+		<div class="col-sm-12 col-lg-9">
+			<div class="row text-center">				
+					<h1>
+						<span>BOZZE</span>
+					</h1>					
+			</div>
+			<div class="col-md-5 hidden-xs hidden-sm visible-md visible-lg">
+				<div style="max-height: 250px; overflow-y: scroll;" class="box boxGreen dashSection">
+					<div class="col-md-12" data-ng-repeat="d in draftsList.myDraft">
+						<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
+							<div class="row">
+								<div data-ng-show="d.character" class="col-md-3">
+									<img style="margin-left: 10px;" title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
+										data-err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">	
+								</div>
+								<div data-ng-hide="d.character" class="col-md-3">
+									<img style="margin-left: 10px;" data-ng-src="assets/public/img/narr.png" class="imgPreviewM">
+								</div>
+								<div class="col-md-offset-1 col-md-8 text-left">
+									<div class="row">
+										<span style="font-size: 1.2em;" data-ng-show="d.character"><b>{{d.character.name}}</b></span>
+										<span style="font-size: 1.2em;" data-ng-hide="d.character"><b>NARRATORE</b></span>
+									</div>
+									<div class="row">
+										<span>{{d.scenarioName}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row text-left">
+								<div class="col-md-offset-1 col-md-10" style="font-size: 0.9em;">
+								{{d.text | limitTo : 57}}<span data-ng-show="d.text.length>57">...</span>
+									<div class="row" data-ng-show="d.text.length<30"><br></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-7">
+				<div data-ui-view="body"></div>
+			</div>
+			
+		</div>
+		<div class="row hidden-lg visible-md visible-sm visible-xs text-center marginMTop">
+			<div data-ui-sref="logged.dashboard">
+				<img data-ng-src="assets/public/img/icon/back.png" class="sideIcon">
+				<img data-ng-src="assets/public/img/titoli_dashboard/torna alla dashboard.png" class="title">			
+			</div>			
+		</div>		
+	</div>
+</div>

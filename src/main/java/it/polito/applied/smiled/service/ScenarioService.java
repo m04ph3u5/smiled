@@ -72,14 +72,14 @@ public interface ScenarioService {
 	public void removeUserFromCharacter(String id, String characterId,
 			String userId) throws NotFoundException, BadRequestException;
 
-	public Id insertStatus(String idScenario, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException;
+	public Id insertStatus(String idScenario, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException, NotFoundException;
 
 	public Post getPost(String id, String postId, Authentication auth) throws NotFoundException;
 
 	public Page<Post> getPagedPosts(String scenarioId, String characterId, Integer nPag,
 			Integer nItem, Boolean historicOrder, Boolean orderDesc, Authentication auth) throws NotFoundException, BadRequestException;
 
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException;
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException, NotFoundException;
 
 	public Post updateStatus(String id, String statusId, StatusDTO status, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException, IOException;
 

@@ -999,7 +999,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Id insertStatus(String scenarioId, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException {
+	public Id insertStatus(String scenarioId, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
 		
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
 		
@@ -1222,7 +1222,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException {
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
 		
 
 		Scenario scenario = scenarioRepository.findById(scenarioId);

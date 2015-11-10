@@ -2,6 +2,7 @@ package it.polito.applied.smiled.controllerRest;
 
 import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.ErrorInfo;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.Id;
@@ -10,7 +11,6 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.FileManagerService;
 import it.polito.applied.smiled.service.LogService;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -135,11 +135,32 @@ public class FileUploadController extends BaseController{
 	//@ResponseStatus(value = HttpStatus.OK)  ByteArrayResource
 	@RequestMapping(value="media/{id}", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<ByteArrayResource> getMedia(@PathVariable String id, @RequestParam(value = "thumb", required=false) Boolean getThumb) throws BadRequestException, IllegalStateException, NotFoundException, FileNotFoundException, ForbiddenException, IOException, HttpMediaTypeNotAcceptableException {
+	public ResponseEntity<?> getMedia(@PathVariable String id, @RequestParam(value = "thumb", required=false) Boolean getThumb) {
 		if(getThumb==null)
 			getThumb=false;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		MediaDataAndContentType m = fileManagerService.getMedia(id,auth,getThumb);
+		MediaDataAndContentType m;
+		try {
+			m = fileManagerService.getMedia(id,auth,getThumb);
+		} catch (HttpMediaTypeNotAcceptableException | IOException e) {
+			System.out.println(e.getMessage());
+			ErrorInfo error = new ErrorInfo();
+			error.setStatusCode("400");
+			error.setMessage(e.getMessage());
+			return new ResponseEntity<ErrorInfo>(error, HttpStatus.BAD_REQUEST);
+		} catch(NotFoundException e){
+			System.out.println(e.getMessage());
+			ErrorInfo error = new ErrorInfo();
+			error.setStatusCode("404");
+			error.setMessage(e.getMessage());
+			return new ResponseEntity<ErrorInfo>(error, HttpStatus.NOT_FOUND);
+		} catch(ForbiddenException e){
+			System.out.println(e.getMessage());
+			ErrorInfo error = new ErrorInfo();
+			error.setStatusCode("403");
+			error.setMessage(e.getMessage());
+			return new ResponseEntity<ErrorInfo>(error, HttpStatus.FORBIDDEN);
+		}
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(m.getContentType());
 		return new ResponseEntity<ByteArrayResource>(new ByteArrayResource(m.getData()),responseHeaders, HttpStatus.OK);
@@ -164,7 +185,7 @@ public class FileUploadController extends BaseController{
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="scenarios/{idScenario}/media/{idMedia}/meta", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
-	public void postMediaMetadata(@PathVariable String idScenario, @PathVariable String idMedia, @RequestBody @Valid FileMetadataDTO mediaMeta, BindingResult result) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException, ForbiddenException{
+	public void postMediaMetadata(@PathVariable String idScenario, @PathVariable String idMedia, @RequestBody @Valid FileMetadataDTO mediaMeta, BindingResult result) throws BadRequestException, IllegalStateException, IOException, HttpMediaTypeNotAcceptableException, ForbiddenException, NotFoundException{
 		if(result.hasErrors())
 			throw new BadRequestException();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

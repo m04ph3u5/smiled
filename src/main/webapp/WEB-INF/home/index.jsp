@@ -130,6 +130,8 @@
 	<script src="/assets/public/js/controllers/scenarioResourcesController.js"></script>	
 	<script src="/assets/public/js/controllers/deleteResourceController.js"></script>	
 	<script src="/assets/public/js/controllers/personalMissionController.js"></script>	
+	<script src="/assets/public/js/controllers/draftsListController.js"></script>	
+	<script src="/assets/public/js/controllers/editDraftController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>
@@ -165,6 +167,7 @@
 	<script src="/assets/public/js/directives/mapScenario.js"></script>
 	<script src="/assets/public/js/directives/customDatePicker.js"></script>
 	<script src="/assets/public/js/directives/userCard.js"></script>
+	<script src="/assets/public/js/directives/editDraftPost.js"></script>
 	<script src="/assets/public/js/support/jqSupport.js"></script>
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->

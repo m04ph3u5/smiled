@@ -1,0 +1,34 @@
+<div class="col-md-12 box boxGray">
+	<div class="row marginSTop">
+		<div class="colPadding">
+			<!-- FOTO PERSONAGGIO -->
+			<div data-ng-show="editDraftPost.post.character" class="squareCharImg" 
+				data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.scenario.id}}', idCharacter : '{{editDraftPost.post.character.id}}' })"
+				style="background-image:url('{{showNewsPost.post.character.cover}}'), url('assets/public/img/icon/pg.png')"></div>
+			<!-- FOTO NARRATORE -->	
+			<div data-ng-hide="editDraftPost.post.character" class="squareCharImg" style="background-image:url('assets/public/img/narr.png')"></div>
+			
+			<div class="col-xs-12 col-sm-10">
+				<span class="pull-right marginMRight">						
+					Ultima modifica: {{editDraftPost.post.lastChangeDate | date: editDraftPost.realDateFormat}}	
+				</span>
+				<div class="row colPaddingScen">					
+					<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.scenario.id}}', idCharacter : '{{editDraftPost.post.character.id}}' })">
+						{{editDraftPost.post.character.name}}</a>
+					</h4>
+				</div>
+				<div class="row colPaddingScen">
+					<p class="pull-left">
+						<span data-ng-show="editDraft.post.place.text"> - presso <i>{{editDraftPost.post.place.text}}</i></span>
+						<a><span style="cursor:pointer" title="Georeferenzia il post"
+								class="tooltips glyphicon glyphicon-map-marker"
+								data-ng-click="editDraftPost.updatePositionPost()"></span></a>
+					</p>
+				</div>
+<!-- 				<div class="row colPaddingScen paddingMRight"> -->
+<!-- 					<textarea data-ng-model ="editDraftPost.postDTO.text" class="pull-left allWidth" rows="3">{{editDraftPost.postDTO.text}}</textarea> -->
+<!-- 				</div> -->
+			</div>
+		</div>
+	</div>
+</div>

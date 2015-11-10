@@ -3,6 +3,7 @@ package it.polito.applied.smiled.service;
 import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.MediaDataAndContentType;
 import it.polito.applied.smiled.pojo.ResourceType;
@@ -505,7 +506,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	}
 
 	@Override
-	public MediaDataAndContentType getMedia(String filename, Authentication auth, Boolean getThumb) throws FileNotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException {
+	public MediaDataAndContentType getMedia(String filename, Authentication auth, Boolean getThumb) throws NotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException {
 		System.out.println("------------------>"+filename);
 		
 		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
@@ -550,7 +551,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	
 	@Override
 	public void postMediaMetadata(String filename, FileMetadataDTO fileMetaDTO,
-			Authentication auth, Boolean trusted) throws BadRequestException, ForbiddenException, IOException {
+			Authentication auth, Boolean trusted) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
 		
 		FileMetadata fileMeta = gridFsManager.getMetadata(filename);
 		

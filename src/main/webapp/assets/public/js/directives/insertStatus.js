@@ -370,7 +370,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			self.setPositionNewPost = function(){
 				var map;
 				if(self.scenario.history.mapId) 
-					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
+					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)};
 				else
 					map = null;
 				
