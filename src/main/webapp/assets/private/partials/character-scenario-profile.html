@@ -1,6 +1,21 @@
 
 <aside></aside>
-<section>
+<section style="margin-top:20px;">
+	
+	<div class="row text-center">
+		<div class="row ">
+					<h2>{{characterProfile.character.name}}</h2>
+					<p ng-show="!characterProfile.editProfile">
+						<span ng-show="characterProfile.character.nickname!=null && characterProfile.character.nickname!=''">
+							<i> 
+							<span data-ng-if="characterProfile.character.gender != 'F'">detto </span>
+							<span data-ng-if="characterProfile.character.gender == 'F'">detta </span>
+							 {{characterProfile.character.nickname}} </i>
+						</span>
+					
+					</p>
+		</dvi>
+	</div>
 	 <div class="row text-center">
 		<div class="col-sm-4">
 			
@@ -29,142 +44,187 @@
 			</div>
 			
 			<div class="profilePicContainer" ng-if="characterProfile.currentChar!=characterProfile.idChar">
-				<img style="width: 200px; height:200px; class="profilePicture img img-circle" data-ng-src="{{characterProfile.cover}}" 
+				<img style="width: 200px; height:200px;" class="profilePicture img img-circle" data-ng-src="{{characterProfile.cover}}" 
 				data-err-src="assets/public/img/icon/pg.png"></img>				
 			</div>
 			
-			<div class="marginMTop" ng-show="!characterProfile.editProfile">
-				<span class="marginMTop charDescription">
-					{{characterProfile.character.quote}}					
+			<div class="marginMTop">
+				<span class="marginMTop charDescription" data-ng-show="characterProfile.character.quote">
+					<i>"{{characterProfile.character.quote}}"</i>				
 				</span>
-				<p class="quoteChar" ng-hide="characterProfile.newQuote==null || characterProfile.newQuote==''"><i>- {{characterProfile.character.name}}</i></p>
 			</div>
 		</div>
 		<div class="col-sm-8">
-			
-			<span class="row">
-				<h1>{{characterProfile.character.name}}</h1>
-			</span>
-			<div class="row" ng-show="!characterProfile.editProfile">
-				<span ng-if="characterProfile.character.nickname!=null && characterProfile.character.nickname!=''">"</span>
-				{{characterProfile.character.nickname}}
-				<span ng-if="characterProfile.character.nickname!=null && characterProfile.character.nickname!=''">"</span>	
-			</div>				
-			<div class="box boxGray paddingMTop" ng-show="!characterProfile.editProfile">					
+					
+			<div class="box boxGray paddingMTop sidePaddingThree" ng-show="!characterProfile.editProfile">					
 					<i><span ng-if="characterProfile.character.bornDate!=null || characterProfile.character.bornTown!=null" class="glyphicons glyphicons-stroller" aria-hidden="true">
 						<img class="customGlyph" src="assets/public/img/glyph/stroller.png">
 					</span>
 					<span>{{characterProfile.character.bornTown}}</span>
 					<span ng-if="characterProfile.character.bornTown!=null && characterProfile.character.bornDate!=null">, </span>
-					<span>{{characterProfile.character.bornDate.day}} {{characterProfile.bornMonth}} {{characterProfile.character.bornDate.year}}</span>
+					<span>{{characterProfile.character.bornDate.day}} {{characterProfile.getBornMonth()}} {{characterProfile.character.bornDate.year}} <span data-ng-if="characterProfile.character.bornDate.afterChrist">d.C.</span><span data-ng-if="characterProfile.character.bornDate && !characterProfile.character.bornDate.afterChrist">a.C.</span></span>
 					<span ng-if="(characterProfile.character.bornTown!=null || characterProfile.character.bornDate!=null)
 					&& (characterProfile.character.deadDate!=null || characterProfile.character.deadTown!=null)"> - </span>
 					<span>{{characterProfile.character.deadTown}}</span>
 					<span ng-if="characterProfile.character.deadDate!=null && characterProfile.character.deadTown!=null">, </span>		
-					<span>{{characterProfile.character.deadDate.day}} {{characterProfile.deadMonth}} {{characterProfile.character.deadDate.year}}</span>
+					<span>{{characterProfile.character.deadDate.day}} {{characterProfile.getDeadMonth()}} {{characterProfile.character.deadDate.year}} <span data-ng-if="characterProfile.character.deadDate.afterChrist">d.C.</span><span data-ng-if="characterProfile.character.deadDate && !characterProfile.character.deadDate.afterChrist">a.C.</span></span>
 					<span ng-if="characterProfile.character.deadDate!=null || characterProfile.character.deadTown!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 					</i>
-				<div class="charDescription marginMTop">
-					<span>{{characterProfile.character.description}}</span>
+				
+				<div data-ng-if="characterProfile.character.role != null && characterProfile.character.role !=''" class="marginMTop textJustify">
+					<label>Ruolo:</label>
+					<span data-ng-bind-html="characterProfile.character.role"></span>
 					
 				</div>
-				<div class="marginMTop">
-					<label>Ruolo:</label>
-					<span>{{characterProfile.character.role}}</span>
-					<span ng-show="characterProfile.character.role == null || characterProfile.character.role ==''">{{characterProfile.character.name}} non ha nessun ruolo</span>
+				<div data-ng-if="characterProfile.character.gender != 'false' && characterProfile.character.gender != null" class="marginMTop textJustify">
+					<label>Sesso:</label>
+					<span >{{characterProfile.character.gender}}</span>
+					
 				</div>
-				<div class="row marginMBottom marginMTop">
-					<label class="marginMTop">Interpretato da: </label>
-					<span ng-if="characterProfile.character.actualUser.id==null">
-						<i>nessuno sta interpretando questo personaggio</i>
+				<div data-ng-if="characterProfile.character.description!=null && characterProfile.character.description!=''" class="charDescription marginMTop textJustify">
+					<label>Biografia: </label>
+					<span data-ng-if="!characterProfile.viewBiography" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="characterProfile.openViewBiography()" style="cursor:pointer;"></span>
+					<span data-ng-if="characterProfile.viewBiography" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="characterProfile.closeViewBiography()" style="cursor:pointer;"></span>
+					<span  data-ng-if="characterProfile.viewBiography" data-ng-bind-html="characterProfile.character.description"></span>
+					
+				</div>
+				<div class=" marginMTop textJustify ">
+					<label class="marginMTop">Attualmente interpretato da: </label>
+					<span data-ng-if="characterProfile.character.actualUser.id==null">
+						nessuno
 					</span>
-					<span ng-if="characterProfile.character.actualUser.id!=null">
-					<!-- <span ng-if="characterProfile.character.pastUserId!=null || characterProfile.character.actualUser.id!=null"> -->
-						<a href="">
-							<img data-ng-src="api/v1/users/{{characterProfile.character.actualUser.id}}/cover" 
-							data-err-src="assets/public/img/ic_student.png" 
-							class="imgPreviewM img-circle"
-							title="{{characterProfile.character.actualUser.firstname}} {{characterProfile.character.actualUser.lastname}}" 
-							data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})">
+					
+					<span class="marginSLeft" data-ng-if="characterProfile.character.actualUser.id!=null"   >
+						<img data-ng-src="api/v1/users/{{characterProfile.character.actualUser.id}}/cover" 
+						data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})"
+						data-err-src="assets/public/img/ic_student.png" 
+						class="imgPreviewM img-circle"
+						style="cursor:pointer;"
+						title="{{characterProfile.character.actualUser.firstname}} {{characterProfile.character.actualUser.lastname}}" 
+						>
+						<a href="" style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})">
+							{{characterProfile.character.actualUser.firstname}}	{{characterProfile.character.actualUser.lastname}}			
 						</a>
-						<!-- fare chiamata all'API -->
-						<!-- 
-						<span ng-repeat="u in characterProfile.character.pastUserId" class="col-sm-2 marginSBottom">
-							<img data-ng-src="api/v1/users/{{u}}/cover" data-err-src="assets/public/img/ic_student.png" class="imgPreviewM img-circle">
-						</span>
-						 -->
-					</span>
+						<div class="marginSLeft row marginMTop">
+							<div class="marginMTop col-xs-3"></div>
+							<div class="marginMTop col-xs-9"><label>a partire da: </label> {{characterProfile.character.actualUserStart | date:'dd-MM-yyyy (HH:mm)'}}</div>
+						</div>
+					</span>	
 				</div>
+				<div class=" marginMTop textJustify">
+					<label>Precedentemente interpretato da: </label> <span class=" marginMTop textJustify" data-ng-if="characterProfile.numberOfPastUsers==0"> nessuno</span>
+					<span data-ng-if="!characterProfile.viewPastUsers && characterProfile.numberOfPastUsers>0" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="characterProfile.openViewPastUsers()" style="cursor:pointer;"></span>
+					<span data-ng-if="characterProfile.viewPastUsers" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="characterProfile.closeViewPastUsers()" style="cursor:pointer;"></span>
+				</div>
+				
+				<div class=" marginMTop textJustify" data-ng-if="characterProfile.numberOfPastUsers>0 && characterProfile.viewPastUsers">
+					
+						<div data-ng-repeat="(key, value) in characterProfile.character.pastUserId ">
+						
+							<div class="marginSLeft row marginMTop"   >
+
+								<div style="cursor:pointer;" class="col-xs-3" data-ui-sref="logged.userProfile({id: '{{key}}'})">
+									<img data-ng-src="api/v1/users/{{key}}/cover" 
+									data-err-src="assets/public/img/ic_student.png" 
+									class="imgPreviewM img-circle">
+								</div>
+								<div class="col-xs-9">
+									<span data-ng-repeat="interval in value"><label>a partire da: </label> {{interval.startDate | date:'dd-MM-yyyy (HH:mm)'}}<br><label>fino a: </label> {{interval.endDate | date:'dd-MM-yyyy (HH:mm)'}}<br></span>
+									<hr>
+								</div>
+							</div>	
+						</div>
+						
+				</div>
+				
+				
 			</div>
 			<div class="box boxGray paddingMTop" ng-show="characterProfile.editProfile">
-			 <form class="form-horizontal" role="form">
-			    <div class="form-group">
-			      <label class="control-label col-sm-4">CITAZIONE:</label>
-			      <div class="col-sm-8">
-			        <input type="text" class="form-control" ng-model="characterProfile.newQuote">
+			 <form class="form-horizontal paddingSLeft" role="form">
+			    <div class="form-group ">
+			      <label class="control-label control-label-custom col-sm-4 ">CITAZIONE:</label>
+			      <div class="col-sm-7 paddingSRight">
+			        <input type="text" class="form-control " ng-model="characterProfile.newCharacter.quote">
 			      </div>
 			    </div>
 			    <div class="form-group">
-			      <label class="control-label col-sm-4">SOPRANNOME:</label>
-			      <div class="col-sm-8">          
-			        <input type="text" class="form-control" ng-model="characterProfile.newNickname">
+			      <label class="control-label control-label-custom col-sm-4">SOPRANNOME:</label>
+			      <div class="col-sm-7 paddingSRight">          
+			        <input type="text" class="form-control" ng-model="characterProfile.newCharacter.nickname">
 			      </div>
 			    </div>
 			    <div class="form-group">
-			      <label class="control-label col-sm-4">RUOLO:</label>
-			      <div class="col-sm-8">          
-			        <input type="text" class="form-control" ng-model="characterProfile.newRole">
+			      <label class="control-label control-label-custom col-sm-4">RUOLO:</label>
+			      <div class="col-sm-7 paddingSRight">          
+			        <input type="text" class="form-control" ng-model="characterProfile.newCharacter.role">
+			      </div>
+			    </div>
+			    <div class="form-group ">
+			      <label class="control-label control-label-custom col-sm-4">SESSO:</label>
+			      <div class="col-sm-7 paddingSRight">  
+			      	<div class="onoffswitch">
+					    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked ng-model="characterProfile.genderBool">
+					    <label class="onoffswitch-label" for="myonoffswitch">
+					        <span class="onoffswitch-inner"></span>
+					        <span class="onoffswitch-switch"></span>
+					    </label>
+					</div>        
+				
+			        
+			      </div>
+			    </div>
+			    
+			    
+			    <div class="form-group">
+			      <h4 class="control-label-custom marginMLeft"><img class="customGlyph" src="assets/public/img/glyph/stroller.png"> Nascita</h4>
+			      <label class="control-label control-label-custom col-xs-4">DATA:</label>
+			      <div class="col-xs-7 paddingLRight paddingSTop">          
+				        <span class="glyphicon glyphicon-calendar" data-ng-click="characterProfile.switchShowBornDate()"></span>
+						{{characterProfile.character.bornDate.day}} {{characterProfile.getBornMonth()}} {{characterProfile.character.bornDate.year}}
+						<historical-date-picker class="pickerProfile" data-ng-show="characterProfile.showBornDatePicker" 
+							date="characterProfile.newCharacter.bornDate"> 
+						</historical-date-picker>
 			      </div>
 			    </div>
 			    <div class="form-group">
-					<div class="col-xs-6">
-						<h4><img class="customGlyph" src="assets/public/img/glyph/stroller.png"> Nascita</h4>
-						<div class="row">
-							<span class="glyphicon glyphicon-calendar" data-ng-click="characterProfile.switchShowBornDate()"></span>
-							{{characterProfile.character.bornDate.day}} {{characterProfile.bornMonth}} {{characterProfile.character.bornDate.year}}
-							<historical-date-picker class="pickerProfile" data-ng-show="characterProfile.showBornDatePicker" 
-								date="characterProfile.character.bornDate"> 
-							</historical-date-picker>
-						</div>
-						<div class="row">
-							<div class="col-sm-5">
-								<label class="control-label col-sm-3">LUOGO:</label>
-							</div>
-							<div class="col-sm-7">
-								<input data-ng-click="characterProfile.hideDatePicker()" type="text" class="form-control"
-								data-ng-model="characterProfile.character.bornTown">
-							</div>
-						</div>
+			     	<label class="control-label control-label-custom col-sm-4">LUOGO:</label>
+				    <div class="col-sm-7">
+						<input data-ng-click="characterProfile.hideDatePicker()" type="text" class="form-control"
+						data-ng-model="characterProfile.newCharacter.bornTown">
 					</div>
-					<div class="col-xs-6">
-						<h4><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Morte</h4>
-						<div class="row marginMTop">
-							<span class="glyphicon glyphicon-calendar" data-ng-click="characterProfile.switchShowDeadDate()"></span>
-							{{characterProfile.character.deadDate.day}} {{characterProfile.deadMonth}} {{characterProfile.character.deadDate.year}}
-							<historical-date-picker  class="pickerProfile" data-ng-show="characterProfile.showDeadDatePicker" 
-								date="characterProfile.character.deadDate">
-							</historical-date-picker>
-						</div>
-						<div class="row">
-							<div class="col-sm-5">
-								<label class="control-label col-sm-3">LUOGO:</label>
-							</div>
-							<div class="col-sm-7">
-								<input data-ng-click="characterProfile.hideDatePicker()" type="text" class="form-control"
-								data-ng-model="characterProfile.character.deadTown">
-							</div>
-						</div>							
+			    </div>
+					
+					
+				<div class="form-group">
+					<h4 class="control-label-custom marginMLeft"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Morte</h4>	
+			      <label class="control-label control-label-custom col-xs-4">DATA:</label>
+			      <div class="col-xs-7 paddingLRight paddingSTop">          
+				        <span class="glyphicon glyphicon-calendar" data-ng-click="characterProfile.switchShowDeadDate()"></span>
+						{{characterProfile.character.deadDate.day}} {{characterProfile.getDeadMonth()}} {{characterProfile.character.deadDate.year}}
+						<historical-date-picker class="pickerProfile" data-ng-show="characterProfile.showDeadDatePicker" 
+							date="characterProfile.newCharacter.deadDate"> 
+						</historical-date-picker>
+			      </div>
+			    </div>
+			    <div class="form-group">
+			     	<label class="control-label control-label-custom col-sm-4">LUOGO:</label>
+				    <div class="col-sm-7">
+						<input data-ng-click="characterProfile.hideDatePicker()" type="text" class="form-control"
+						data-ng-model="characterProfile.newCharacter.deadTown">
 					</div>
+			    </div>	
+			    	
+				<div class="form-group">
+				      <label class="control-label control-label-custom col-sm-4">BIOGRAFIA:</label>
+				      <div class="col-sm-7 paddingSRight">          
+				        	<textarea rows="5" type="text" class="form-control" data-ng-model="characterProfile.newCharacter.description"></textarea>
+				      </div>
 				</div>
 			</form>
-			<form role="form">
-			    <div class="form-group">
-			    	<div class="form-group">
-				      <label class="col-sm-4">BIOGRAFIA:</label>
-				      <textarea class="form-control" rows="5" ng-model="characterProfile.newDescription"></textarea>				
-				    </div>        
-			    </div>
-			</form>
+			
+			
+			    
+			
 		</div>
 		<div class="marginMTop" ng-show="characterProfile.currentChar==characterProfile.idChar">
 			<div class="row" ng-show="!characterProfile.editProfile">
@@ -193,7 +253,7 @@
 					</div>
 					<div class="col-sm-4">
 						<img src="assets/public/img/char_profile/ic_discard_act.png" 
-						ng-click="characterProfile.toggleEditProfile()" style="height:100px;">
+						ng-click="characterProfile.toggleEditProfile(); characterProfile.deleteUpdateChar()" style="height:100px;">
 					</div>					
 				</div>
 			</div>
