@@ -119,9 +119,11 @@
 				
 				<div ng-show="showNewsPost.editPost">
 					<div class="row colPaddingScen">
-						<p class="pull-left" data-ng-click="showNewsPost.updateDate()"><a href="">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
+						<p class="pull-left"><a href="" data-ng-click="showNewsPost.updateDate()">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
 							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
+							<a><span style="cursor:pointer" title="Georeferenzia il post"
+									class="tooltips glyphicon glyphicon-map-marker"
+									data-ng-click="showNewsPost.updatePositionPost(); insertStatus.hideTagBox()"></span></a>
 						</p>
 					</div>
 					<div class="row colPaddingScen paddingMRight">
@@ -362,9 +364,11 @@
 					
 			<div data-ng-show="showNewsPost.editPost">
 				<div class="row colPaddingScen">
-						<p class="pull-left" data-ng-click="showNewsPost.updateDate()"><a href="">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
+						<p class="pull-left"><a data-ng-click="showNewsPost.updateDate()" href="">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
 							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
+							<a><span style="cursor:pointer" title="Georeferenzia il post"
+									class="tooltips glyphicon glyphicon-map-marker"
+									data-ng-click="showNewsPost.updatePositionPost(); insertStatus.hideTagBox()"></span></a>
 						</p>
 				</div>
 				<div class="row colPaddingScen paddingMRight">

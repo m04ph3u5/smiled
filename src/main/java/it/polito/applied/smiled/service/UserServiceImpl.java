@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private PostRepository postRepository;
 	
-	private final int PREVIEW=3;
+	private final int PREVIEW=4;
 	
 //	@Autowired
 //	private NotifyService notify;

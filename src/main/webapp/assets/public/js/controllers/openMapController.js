@@ -8,7 +8,8 @@ angular.module("smiled.application").controller('openMapCtrl', [ 'post', 'scenar
 		else
 			self.map=null;
 		console.log("---------------> MAPPA: "+self.map);
-		self.stylePin = {'visibility' : 'hidden'};
+		if(!self.post.place || !self.post.place.x || !self.post.place.y)
+			self.stylePin = {'visibility' : 'hidden'};
 		self.pinPoint = function(event){
 			console.log(event);
 			var pin = {};

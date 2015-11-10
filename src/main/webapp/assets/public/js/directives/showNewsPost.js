@@ -273,13 +273,14 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					}
 				}
 			}
-			self.setPositionPost = function(){
-				console.log(self.post);
-				self.placeIsSet = false;
-				self.placeName = "";
-				var map = {'url': CONSTANTS.urlMedia(self.mapId)+".jpg"};
+			
+			self.updatePositionPost = function(){
+				var map = null;
+				if(self.mapId)
+					map = {'url': CONSTANTS.urlMedia(self.mapId)};
 				modalService.showModalOpenMap(self.post,map);
 			}
+			
 			self.getMedia = function(id){
 				console.log("id dell'img:" + id);
 				return CONSTANTS.urlMedia(id);
@@ -302,6 +303,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.postDTO.id = self.post.id;
 				self.postDTO.julianDayNumber = self.post.julianDayNumber;
 				self.postDTO.timeNumber = self.post.timeNumber;
+				self.postDTO.place = self.post.place;
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){
 					newTags.push(self.newCharactersToTags[i].id);
@@ -347,6 +349,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.postDTO.id = self.post.id;
 				self.postDTO.julianDayNumber = self.post.julianDayNumber;
 				self.postDTO.timeNumber = self.post.timeNumber;
+				self.postDTO.place = self.post.place;
 
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){

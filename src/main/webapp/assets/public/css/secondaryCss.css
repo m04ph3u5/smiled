@@ -382,3 +382,14 @@ span.clickable:hover {
 .blueLink:hover, .blueLink:focus {
 	color: #059072;
 }
+
+/*FINTO BOX APPUNTI IN DASHBOARD*/
+.boxFakeDraft {
+	background-color:rgba(245, 242, 234, 0.5);
+/* 	padding-left : 100%; */
+/* 	padding-right : 100%; */
+	padding-top : 2%;
+	padding-bottom : 2%;
+	margin-bottom : 5px;
+	margin-top  : 5px;
+}

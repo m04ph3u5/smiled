@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.ResourceType;
 
@@ -75,12 +76,12 @@ public class GridFsManagerImpl implements GridFsManager{
 	}
 
 	@Override
-	public FileMetadata getMetadata(String filename) throws FileNotFoundException {
+	public FileMetadata getMetadata(String filename) throws NotFoundException {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("filename").is(filename));
 		GridFSDBFile file = gridFsOperation.findOne(q);
 		if(file==null)
-			throw new FileNotFoundException();
+			throw new NotFoundException();
 		FileMetadata metadata = mongoOperations.getConverter().read(FileMetadata.class, file.getMetaData());
 		metadata.setId(file.getFilename());
 		return metadata;
