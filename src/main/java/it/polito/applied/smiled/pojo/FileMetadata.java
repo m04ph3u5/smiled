@@ -121,5 +121,4 @@ public class FileMetadata {
 		this.trusted = trusted;
 	}
 	
-	
 }

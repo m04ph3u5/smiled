@@ -60,4 +60,7 @@ public interface FileManagerService {
 
 	public void deleteTrustedMedia(String idMedia);
 
+	public void deleteMedia(CustomUserDetails user, String idMedia,
+			String postId) throws NotFoundException, ForbiddenException, FileNotFoundException;
+
 }

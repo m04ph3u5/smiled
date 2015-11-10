@@ -5,17 +5,13 @@ angular.module('smiled.application').controller('editDraftCtrl', ['loggedUser', 
 	self.user = loggedUser;
 	self.post = {};
 	
-	var postId = $stateParams.postId;
-	
+	self.postId = $stateParams.postId;
+
 	var onStartUp = function(){
 		if(drafts){
-			for(var i=0; i<drafts.length; i++){
-				if(drafts[i].id==postId){
-					self.post = drafts[i];
-					if(self.post.character)
-						self.post.character.cover = CONSTANTS.urlCharacterCover(self.post.scenarioId, self.post.character.id);
-					break;
-				}
+			self.drafts = drafts;
+			for(var i=0; i<self.drafts.length; i++){
+				self.drafts[i].character.cover = CONSTANTS.urlCharacterCover(self.drafts[i].scenarioId, self.drafts[i].character.id);
 			}
 		}
 	}

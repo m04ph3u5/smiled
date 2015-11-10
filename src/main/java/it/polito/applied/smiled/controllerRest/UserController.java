@@ -273,7 +273,7 @@ public class UserController extends BaseController{
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="v1/draft", method=RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@ResponseStatus(value = HttpStatus.OK)
 	public List<Post> getDraft(@RequestParam (value = "preview", required=false) Boolean preview,@AuthenticationPrincipal CustomUserDetails activeUser){
 		if(preview==null)
 			preview=false;

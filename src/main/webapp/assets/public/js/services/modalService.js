@@ -33,6 +33,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceSetHistoryDate;
 		var modalInstanceCreateMission;
 		var modalInstanceDeleteResource;
+		var modalInstanceDeletePost;
 		
 		var optionSetHistoryDate = {
 				templateUrl: 'assets/private/partials/customDatePickerTemplate.html',
@@ -176,6 +177,11 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 					}
 				}
 				
+		};
+		
+		var optionsDeletePost = {
+				templateUrl:'assets/private/partials/deletePost.html',
+				size: 'sm'
 		};
 		
 		
@@ -384,6 +390,15 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var closeModalDeleteResource = function(){
 			modalInstanceDeleteResource.close();
 		}
+		
+		var showModalDeletePost = function(){
+			modalInstanceDeletePost = $modal.open(optionsDeletePost);
+			return modalInstanceDeletePost.result;
+		}
+	
+		var closeModalDeletePost = function(){
+			modalInstanceDeletePost.close();
+		}
 			
 		return {
 			createScenario : createScenario,
@@ -416,7 +431,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showModalCreateMission : showModalCreateMission,
 			closeModalCreateMission: closeModalCreateMission,
 			showModalDeleteResource : showModalDeleteResource,
-			closeModalDeleteResource : closeModalDeleteResource
+			closeModalDeleteResource : closeModalDeleteResource,
+			showModalDeletePost : showModalDeletePost,
+			closeModalDeletePost : closeModalDeletePost
 		}
 }]);
 

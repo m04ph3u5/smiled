@@ -2,14 +2,13 @@ angular.module("smiled.application").controller('openMapCtrl', [ 'post', 'scenar
 	function openMapCtrl(post, scenarioMap, modalService){
 		var self = this;
 		self.post = post;
-		var oldPlace = post.place;
+		var oldPlace = angular.copy(post.place);
 		if(scenarioMap)
 			self.map = scenarioMap.url;
 		else
 			self.map=null;
 		console.log("---------------> MAPPA: "+self.map);
-		if(!self.post.place || !self.post.place.x || !self.post.place.y)
-			self.stylePin = {'visibility' : 'hidden'};
+		self.stylePin = {'visibility' : 'hidden'};
 		self.pinPoint = function(event){
 			console.log(event);
 			var pin = {};

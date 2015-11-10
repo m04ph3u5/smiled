@@ -16,8 +16,6 @@ public class StatusDTO {
 	private List<String> tags;
 	private ArrayList<String> imageMetaId;
 	private ArrayList<String> fileMetaId;
-	private ArrayList<String> imageMetaIdToDelete;
-	private ArrayList<String> fileMetaIdToDelete;
 	private List<Source> sources;
 	private PostStatus status;
 //	private HistoricalDate historicalDate;
@@ -87,18 +85,7 @@ public class StatusDTO {
 	public void setFileMetaId(ArrayList<String> fileMetaId) {
 		this.fileMetaId = fileMetaId;
 	}
-	public ArrayList<String> getImageMetaIdToDelete() {
-		return imageMetaIdToDelete;
-	}
-	public void setImageMetaIdToDelete(ArrayList<String> imageMetaIdToDelete) {
-		this.imageMetaIdToDelete = imageMetaIdToDelete;
-	}
-	public ArrayList<String> getFileMetaIdToDelete() {
-		return fileMetaIdToDelete;
-	}
-	public void setFileMetaIdToDelete(ArrayList<String> fileMetaIdToDelete) {
-		this.fileMetaIdToDelete = fileMetaIdToDelete;
-	}
+	
 	public Integer getTimeNumber() {
 		return timeNumber;
 	}
