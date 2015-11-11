@@ -393,3 +393,7 @@ span.clickable:hover {
 	margin-bottom : 5px;
 	margin-top  : 5px;
 }
+
+.row-fluid {
+	    white-space: nowrap;
+}

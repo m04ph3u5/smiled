@@ -21,8 +21,8 @@
 				<div data-ng-hide="editDraftPost.post.character" class="squareCharImg" style="background-image:url('assets/public/img/narr.png')"></div>
 		
 				<div class="row colPaddingScen">					
-					<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.scenario.id}}', idCharacter : '{{editDraftPost.post.character.id}}' })">
-						{{editDraftPost.post.character.name}}</a>
+					<h4 class="pull-left"><a data-ng-show="editDraftPost.post.character" href="" data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.scenario.id}}', idCharacter : '{{editDraftPost.post.character.id}}' })">
+						{{editDraftPost.post.character.name}}</a><span data-ng-hide="editDraftPost.post.character">NARRATORE</span>
 						<span data-ng-if="editDraftPost.tagIsSet || editDraftPost.place.text">-</span> 
 						<span data-ng-if="editDraftPost.tagIsSet" data-ng-click="editDraftPost.switchShowTagBox()"> 
 						con <span class="linkPost">{{editDraftPost.stringTags}}</span></span>
@@ -31,7 +31,9 @@
 							data-ng-click="editDraftPost.updatePositionPost()"
 							class="linkPost">{{editDraftPost.newPost.place.text}}</span>
 					</h4>
-					<textarea id="textContentStatus" class="pull-left allWidth" placeholder="A COSA STAVI PENSANDO?"
+					<textarea data-ng-show="editDraftPost.post.character" id="textContentStatus" class="pull-left allWidth" placeholder="A COSA STAVI PENSANDO?"
+						rows="3" data-ng-model="editDraftPost.newPost.text"></textarea>
+					<textarea data-ng-hide="editDraftPost.post.character" id="textContentStatus" class="pull-left allWidth" placeholder="COSA E' SUCCESSO?"
 						rows="3" data-ng-model="editDraftPost.newPost.text"></textarea>
 				</div>
 			</div>
@@ -126,7 +128,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<div class="row col-xs-12">
 			<div class="pull-right">
 				<div data-ng-click="editDraftPost.draftNewPost(false); editDraftPost.hideTagBox()"

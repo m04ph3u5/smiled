@@ -5,34 +5,37 @@
 		<div class="col-lg-1"></div>
 		<div class="col-sm-12 col-lg-10">
 			<div class="row">
-				<div
-					class="col-md-3 doubleRow box boxGreen hidden-xs hidden-sm visible-md visible-lg hideOverflow">
-					<h1>
-					<img ng-src="assets/public/img/titoli_dashboard/materiali.png" class="title">
-					<img ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon">
-					</h1>
-					<div ng-repeat="m in dashboard.myMissions">
-						<div class="col-xs-12">{{m.title}}</div>
-					</div>
-					
-					<p ng-if="dashboard.missionList==null">Qui verranno inseriti i propri compiti</p>
-					<div class="row">
-						<div class="col-xs-4">
-							<div class="wrapperDivSquared">
-								<div class="wrapperContent">
-									<p class="dayHW">26</p>
-									<p class="dayNameHW">MAR</p>
-								</div>					
+				<div class="col-md-3 doubleRow box boxGreen hidden-xs hidden-sm visible-md visible-lg hideOverflow">
+					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">Bozze</h3>	
+					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
+					<div class="col-md-12" data-ng-repeat="d in dashboard.myDraft">
+						<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
+							<div class="row">
+								<div data-ng-show="d.character" class="col-md-3">
+									<img style="margin-left: 10px;" title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
+										data-err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">	
+								</div>
+								<div data-ng-hide="d.character" class="col-md-3">
+									<img style="margin-left: 10px;" data-ng-src="assets/public/img/narr.png" class="imgPreviewM">
+								</div>
+								<div class="col-md-offset-1 col-md-8 text-left">
+									<div class="row">
+										<span style="font-size: 1.2em;" data-ng-show="d.character"><b>{{d.character.name}}</b></span>
+										<span style="font-size: 1.2em;" data-ng-hide="d.character"><b>NARRATORE</b></span>
+									</div>
+									<div class="row">
+										<span>{{d.scenarioName}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row text-left">
+								<div class="col-md-offset-1 col-md-10" style="font-size: 0.9em;">
+								{{d.text | limitTo : 57}}<span data-ng-show="d.text.length>57">...</span>
+									<div class="row" data-ng-show="d.text.length<30"><br></div>
+								</div>
 							</div>
 						</div>
-						<div class="col-xs-8 text-left">
-							<h4>L'incontro tra Belle, Lumière e Tockins</h4>
-							<p>
-								<i>La Bella e la Bestia</i></p>
-							<p>	<b>Studente:</b> Antonio Maggiora
-							</p>
-						</div>
-					</div>
+					</div>	
 				</div>
 				<div
 					class="col-sm-12 singleRow box boxGreen visible-xs visible-sm hidden-md hidden-lg hideOverflow">
@@ -197,55 +200,12 @@
 				</div>
 				<div class="col-sm-4 col-md-3 singleRow box boxLightblue">
 					<div>
-						<img ng-src="assets/public/img/titoli_dashboard/nuovo.png" class="titleIcon">
-						<img ng-src="assets/public/img/titoli_dashboard/compito.png" class="titleIcon">
+						<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">Compiti</h3>	
+						<p>Questa sezione sarà presto attiva!</p>
+						<div class="row">
+							<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
+						</div>
 					</div>
-					<img class="img title marginEmS" src="assets/public/img/icon/nuovo_hw_dark.png"
-				ng-click="dashboard.showModalCreateMission(scenario.scen.id)">
-					 <!-- <div class="">
-						<form role="form">
-							<div class="form-group">
-								<input type="text" class="form-control" id="email" ng-model="dashboard.mission.title"
-									placeholder="TITOLO DEL COMPITO">
-							</div>
-							<div class="form-group">
-								<select id="selectAttendee" class="form-control" data-ng-model="scenario.mission.scenID"
-								ng-change="dashboard.scenarioChanged()">
-									<option value="" disabled selected>SCEGLI SCENARIO</option>
-									<option value="{{s.id}}" data-ng-repeat ="s in dashboard.user.openScenarios">
-										<span class="tagName">{{s.name}}
-										</span>
-									</option>									
-				
-								</select>
-							</div>			
-							<div class="form-group">
-								<select id="selectAttendee" class="form-control" data-ng-model="dashboard.mission.studentId"
-								ng-change="dashboard.studentChanged()">
-									<option value="" disabled selected>SCEGLI ALUNNO</option>
-									<option value="{{s.id}}" data-ng-repeat ="s in studentsList">
-										<span class="tagName">{{s.lastname}}
-										{{s.firstname}}</span>
-									</option>
-								</select>
-							</div>			
-							<div class="form-group">
-								<form class="form-horizontal" role="form">
-									<div class="form-group">
-										<form class="form-inline">
-											<div class="form-group">
-												<input ui-date="dateOptions" class="form-control" required
-													data-ng-model="dashboard.mission.deliveryDate"
-													placeholder="DATA CONSEGNA COMPITO"></input>
-											</div>
-										</form>
-									</div>
-								</form>
-							</div>
-							
-							<button type="submit" class="confirm btn generalButton" ng-click="dashboard.createMission()">ASSEGNA</button>
-						</form>
-					</div> -->
 				</div>
 				
 				<div class="col-sm-8 col-md-6 singleRow box boxBlue hidden-xs visible-sm visible-md visible-lg">
