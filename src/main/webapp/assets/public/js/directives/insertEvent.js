@@ -164,17 +164,17 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*--------------Create draft post start------------------------------------------*/
 			self.draftNewPost = function(){
 				if(self.sendPostEnable && self.newPost.content){
-					self.sendPostEnable = false;
+					self.sendPostEnable=false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
 					toSendPost.julianDayNumber = self.newPost.julianDayNumber;
 					toSendPost.timeNumber = self.newPost.timeNumber;
 					toSendPost.status = "DRAFT";
-					toSendPost.type = self.newPost.type;
+					toSendPost.place = self.newPost.place;
 					toSendPost.imageMetaId = new Array();
 					toSendPost.fileMetaId = new Array();
 					toSendPost.tags = new Array();
-					toSendPost.place = self.newPost.place;
+					
 					for(var i=0; i<self.newPost.image.length; i++){
 						toSendPost.imageMetaId.push(self.newPost.image[i].id);
 					}
@@ -186,25 +186,23 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 					for(var i=0; i<self.newPost.tags.length; i++){
 						toSendPost.tags.push(self.newPost.tags[i].id);
 					}
-					apiService.sendStatus(self.scenario.id, toSendPost).then(
-							
+					apiService.sendEvent(self.scenario.id, toSendPost).then(
 							function(data){
-								console.log("event draft sended: "+data);
+								console.log("sended draft: "+data);
 								self.newPost.content="";
 								self.newPost.image=[];
 								self.newPost.file=[];
-								self.newPost.place=null;
-								self.newPost.tags = [];
-								self.newPost.date="";
 								self.newPost.julianDayNumber="";
 								self.newPost.timeNumber="";
 								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
-								self.sendPostEnable = true;
+								self.sendPostEnable= true;
+								self.newPost.place = null;
+								self.newPost.tags = [];
 								
 								alertingGeneric.addSuccess("Bozza salvata con successo.");
-							},
+					},
 							function(reason){
-								self.sendPostEnable = true;
+								self.sendPostEnable=true;
 								console.log("error in send status: "+reason);
 								alertingGeneric.addWarning("Impossibile salvare la bozza. Riprova per favore.");
 							}
@@ -222,11 +220,20 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			}
 			
 			self.removeImage =function(image){
-				for(var i=0; i<self.newPost.image.length; i++){
-					if(self.newPost.image[i].id==image.id){
-						self.newPost.image.splice(i,1);
+				var id = angular.copy(image.id)
+				apiService.deleteMedia(id).then(
+					function(data){
+						for(var i=0; i<self.newPost.image.length; i++){
+							if(self.newPost.image[i].id==id){
+								self.newPost.image.splice(i,1);
+								console.log("Immagine eliminato")
+							}
+						}
+					},
+					function(reason){
+						console.log("Impossibile eliminare immagine");
 					}
-				}
+				);
 			}
 			/*------------------------------------------*/
 			
@@ -236,11 +243,20 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 				uploadMediaToPost(file,false);
 			}
 			self.removeFile =function(file){
-				for(var i=0; i<self.newPost.file.length; i++){
-					if(self.newPost.file[i].id==file.id){
-						self.newPost.file.splice(i,1);
-					}
-				}
+				var id = angular.copy(file.id);
+				apiService.deleteMedia(id).then(
+						function(data){
+							for(var i=0; i<self.newPost.file.length; i++){
+								if(self.newPost.file[i].id==id){
+									self.newPost.file.splice(i,1);
+									console.log("File eliminato")
+								}
+							}
+						},
+						function(reason){
+							console.log("Impossibile eliminare file");
+						}
+				);			
 			}
 			/*------------------------------------------*/
 			

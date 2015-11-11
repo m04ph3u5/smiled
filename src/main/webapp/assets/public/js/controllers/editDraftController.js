@@ -11,7 +11,8 @@ angular.module('smiled.application').controller('editDraftCtrl', ['loggedUser', 
 		if(drafts){
 			self.drafts = drafts;
 			for(var i=0; i<self.drafts.length; i++){
-				self.drafts[i].character.cover = CONSTANTS.urlCharacterCover(self.drafts[i].scenarioId, self.drafts[i].character.id);
+				if(self.drafts[i].character)
+					self.drafts[i].character.cover = CONSTANTS.urlCharacterCover(self.drafts[i].scenarioId, self.drafts[i].character.id);
 			}
 		}
 	}

@@ -223,12 +223,22 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			}
 			
 			self.removeImage =function(image){
-				for(var i=0; i<self.newPost.image.length; i++){
-					if(self.newPost.image[i].id==image.id){
-						self.newPost.image.splice(i,1);
+				var id = angular.copy(image.id)
+				apiService.deleteMedia(id).then(
+					function(data){
+						for(var i=0; i<self.newPost.image.length; i++){
+							if(self.newPost.image[i].id==id){
+								self.newPost.image.splice(i,1);
+								console.log("Immagine eliminato")
+							}
+						}
+					},
+					function(reason){
+						console.log("Impossibile eliminare immagine");
 					}
-				}
+				);
 			}
+			
 			self.getMedia = function(id){
 				console.log("id dell'img:" + id);
 				return CONSTANTS.urlMedia(id);
@@ -241,11 +251,20 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				uploadMediaToPost(file,false);
 			}
 			self.removeFile =function(file){
-				for(var i=0; i<self.newPost.file.length; i++){
-					if(self.newPost.file[i].id==file.id){
-						self.newPost.file.splice(i,1);
-					}
-				}
+				var id = angular.copy(file.id);
+				apiService.deleteMedia(id).then(
+						function(data){
+							for(var i=0; i<self.newPost.file.length; i++){
+								if(self.newPost.file[i].id==id){
+									self.newPost.file.splice(i,1);
+									console.log("File eliminato")
+								}
+							}
+						},
+						function(reason){
+							console.log("Impossibile eliminare file");
+						}
+				);			
 			}
 			/*------------------------------------------*/
 			

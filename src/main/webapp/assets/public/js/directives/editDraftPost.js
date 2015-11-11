@@ -347,9 +347,23 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 				
 				/*AGGIUNGERE CONTROLLO DATE - guarda validateDAte()*/
 				self.draftNewPost = function(publish){
-					if(self.sendPostEnable && self.newPost.text){
+					var savable=true;
+					var toSendPost = {};
+
+					if(publish){
+						if(!validateDate()){
+							self.setDateNewPost();
+							savable=false;
+						}
+						else{
+							toSendPost.status = "PUBLISHED";
+						}
+					}
+					else
+						toSendPost.status = "DRAFT";
+					
+					if(savable && self.sendPostEnable && self.newPost.text){
 						self.sendPostEnable=false;
-						var toSendPost = {};
 						toSendPost.text = self.newPost.text;
 						toSendPost.julianDayNumber = self.newPost.julianDayNumber;
 						toSendPost.timeNumber = self.newPost.timeNumber;
@@ -357,12 +371,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 						toSendPost.imageMetaId = new Array();
 						toSendPost.fileMetaId = new Array();
 						toSendPost.tags = new Array();
-						
-						if(publish)
-							toSendPost.status = "PUBLISHED";
-						else
-							toSendPost.status = "DRAFT";
-
 						
 						for(var i=0; i<self.newPost.image.length; i++){
 							toSendPost.imageMetaId.push(self.newPost.image[i].id);
@@ -376,30 +384,50 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 							toSendPost.tags.push(self.newPost.tags[i].id);
 						}
 						
-						
-						apiService.updateStatus(self.scenario.id, self.post.id, toSendPost).then(
-								function(data){
-									console.log("sended draft: "+data);
-									self.sendPostEnable= true;
-									self.post = data;
-									for(var i=0; i<self.posts.length; i++){
-										if(self.posts[i].id==self.post.id){
-											self.posts[i] = self.post;
-											self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.posts[i].scenarioId, self.posts[i].character.id);
-											break;
+						if(self.post.character){
+							apiService.updateStatus(self.scenario.id, self.post.id, toSendPost).then(
+									function(data){
+										console.log("sended draft: "+data);
+										self.sendPostEnable= true;
+										self.post = data;
+										for(var i=0; i<self.posts.length; i++){
+											if(self.posts[i].id==self.post.id){
+												self.posts[i] = self.post;
+												self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.posts[i].scenarioId, self.posts[i].character.id);
+												break;
+											}
 										}
+										if(publish){
+											$state.go("logged.scenario.posts", {"id" : self.scenario.id});
+										}
+									},
+									function(reason){
+										self.sendPostEnable=true;
+										console.log("error in send status: "+reason);
 									}
-									self.newPost.toDeleteImage = [];
-									self.newPost.toDeleteFile = [];
-									if(publish){
-										$state.go("logged.scenario.posts", {"id" : self.scenario.id});
+							);
+						}else{
+							apiService.updateEvent(self.scenario.id, self.post.id, toSendPost).then(
+									function(data){
+										console.log("sended draft: "+data);
+										self.sendPostEnable= true;
+										self.post = data;
+										for(var i=0; i<self.posts.length; i++){
+											if(self.posts[i].id==self.post.id){
+												self.posts[i] = self.post;
+												break;
+											}
+										}
+										if(publish){
+											$state.go("logged.scenario.posts", {"id" : self.scenario.id});
+										}
+									},
+									function(reason){
+										self.sendPostEnable=true;
+										console.log("error in send status: "+reason);
 									}
-								},
-								function(reason){
-									self.sendPostEnable=true;
-									console.log("error in send status: "+reason);
-								}
-						);
+							);
+						}
 						
 					}else{
 						angular.element(document.querySelector('#textContentStatus')).focus();

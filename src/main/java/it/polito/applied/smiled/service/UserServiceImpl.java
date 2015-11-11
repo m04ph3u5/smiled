@@ -658,7 +658,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		if(draft==null || draft.size()==0)
 			return new ArrayList<Post>();
 		
-		if(preview){
+		if(preview && draft.size()>PREVIEW){
 			List<String> previewDraft = new ArrayList<String>();
 			Random r = new Random();
 			int i=0;
