@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService', 'alertingGeneric',
-                                     function(CONSTANTS, apiService, Upload, $q, modalService, alertingGeneric){
+angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService', 'alertingScenario',
+                                     function(CONSTANTS, apiService, Upload, $q, modalService, alertingScenario){
 	return {
 		templateUrl: "assets/private/partials/insert-event-template.html",
 		scope : {
@@ -201,12 +201,12 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								self.newPost.formattedDate=CONSTANTS.insertHistoricalDate;
 								self.sendPostEnable = true;
 								
-								alertingGeneric.addSuccess("Bozza salvata con successo.");
+								alertingScenario.addSuccess("Bozza salvata con successo.");
 							},
 							function(reason){
 								self.sendPostEnable = true;
 								console.log("error in send status: "+reason);
-								alertingGeneric.addWarning("Impossibile salvare la bozza. Riprova per favore.");
+								alertingScenario.addWarning("Impossibile salvare la bozza. Riprova per favore.");
 							}
 					);
 				}else{
