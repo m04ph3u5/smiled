@@ -41,6 +41,18 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		return u.promise;
 	}
 	
+	var updateMe = function(userDTO){
+		var s = $q.defer();
+		$http.put("/api/v1/me", userDTO).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
 
 	var logout = function(){
 		var log = $q.defer()
@@ -141,7 +153,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		setScenarioId : setScenarioId,
 		getScenarioId : getScenarioId,
 		changePassword : changePassword,
-		changeFirstPassword : changeFirstPassword
+		changeFirstPassword : changeFirstPassword,
+		updateMe : updateMe
 	}
 
 	
