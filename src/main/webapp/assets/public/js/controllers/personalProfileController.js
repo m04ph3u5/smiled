@@ -11,6 +11,9 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	self.dateFormat = CONSTANTS.realDateFormatWithoutHour;
 	self.isModifiable=false;
 	self.user = {};
+	self.oldPassword="";
+	self.newPassword="";
+	self.newPassword2 = "";
 	
 	var myIdentity = $cookies.get('myMescholaId');
 	
