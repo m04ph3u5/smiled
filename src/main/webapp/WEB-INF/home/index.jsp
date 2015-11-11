@@ -137,6 +137,7 @@
 	<script src="/assets/public/js/services/modalService.js"></script>
 	<script src="/assets/public/js/services/alertingLogin.js"></script>
 	<script src="/assets/public/js/services/alertingGeneric.js"></script>
+	<script src="/assets/public/js/services/alertingScenario.js"></script>
 	<script src="/assets/public/js/services/constantService.js"></script>
 	<script src="/assets/public/js/services/alertingRegistration.js"></script>
 	<script src="/assets/public/js/services/unauthorizedInterceptor.js"></script>
@@ -152,6 +153,7 @@
 	<script src="/assets/public/js/directives/tagBox.js"></script> 
 	<script src="/assets/public/js/directives/alertRegistration.js"></script>
 	<script src="/assets/public/js/directives/alertGeneric.js"></script>
+	<script src="/assets/public/js/directives/alertScenario.js"></script>
 	<script src="/assets/public/js/directives/workSpinner.js"></script>
 	<script src="/assets/public/js/directives/historicalDatePicker.js"></script>
 	<script src="/assets/public/js/directives/showNewsPost.js"></script>
