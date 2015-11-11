@@ -1405,7 +1405,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			u.set("sources", statusDTO.getSources());
 		}
 		
-		if(statusDTO.getImageMetaId()!=null){
+		
+		if(statusDTO.getImageMetaId()!=null && statusDTO.getImageMetaId().size()!=0){
 			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<statusDTO.getImageMetaId().size();i++){
 				FileMetadata f = gridFsManager.confirmImage(statusDTO.getImageMetaId().get(i));
@@ -1422,7 +1423,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			u.addToSet("imagesMetadata").each(newImageMeta);
 		}
 		
-		if(statusDTO.getFileMetaId()!=null){
+		if(statusDTO.getFileMetaId()!=null && statusDTO.getFileMetaId().size()!=0){
 			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
 			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
 				FileMetadata f = gridFsManager.confirmFile(statusDTO.getFileMetaId().get(i));
@@ -1439,39 +1440,43 @@ public class ScenarioServiceImpl implements ScenarioService{
 			u.addToSet("filesMetadata").each(newFileMeta);
 		}
 		
-		if(statusDTO.getImageMetaIdToDelete()!=null){
-			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
-			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
-				FileMetadata f = gridFsManager.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
-				if(f==null)
-					throw new BadRequestException();
-				Reference metaUserRef = new Reference();
-				metaUserRef.setId(f.getUserId());
-				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-					//TODO fare undo di confirmImage
-					throw new ForbiddenException();
-				}
-				newMetadata[i]=f;
-			}
-			u.pullAll("imagesMetadata",newMetadata);
-		}
+//		if(statusDTO.getImageMetaIdToDelete()!=null && statusDTO.getImageMetaIdToDelete().size()!=0){
+//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
+//			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
+//				System.out.println("ELIMINA: "+statusDTO.getImageMetaIdToDelete().get(i));
+//				FileMetadata f = gridFsManager.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
+//				if(f==null)
+//					throw new BadRequestException();
+//				Reference metaUserRef = new Reference();
+//				metaUserRef.setId(f.getUserId());
+//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+//					//TODO fare undo di confirmImage
+//					throw new ForbiddenException();
+//				}
+//				newMetadata[i]=f;
+//			}
+//			u.pullAll("imagesMetadata",newMetadata);
+//			
+//		}
+//		
+//		if(statusDTO.getFileMetaIdToDelete()!=null && statusDTO.getFileMetaIdToDelete().size()!=0){
+//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
+//			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
+//				FileMetadata f = gridFsManager.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
+//				if(f==null)
+//					throw new BadRequestException();
+//				Reference metaUserRef = new Reference();
+//				metaUserRef.setId(f.getUserId());
+//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+//					//TODO fare undo di confirmImage
+//					throw new ForbiddenException();
+//				}
+//				newMetadata[i]=f;
+//			}
+//			u.pullAll("filesMetadata",newMetadata);
+//		}
 		
-		if(statusDTO.getFileMetaIdToDelete()!=null){
-			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
-			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
-				FileMetadata f = gridFsManager.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
-				if(f==null)
-					throw new BadRequestException();
-				Reference metaUserRef = new Reference();
-				metaUserRef.setId(f.getUserId());
-				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-					//TODO fare undo di confirmImage
-					throw new ForbiddenException();
-				}
-				newMetadata[i]=f;
-			}
-			u.pullAll("filesMetadata",newMetadata);
-		}
+		
 		if(statusDTO.getTags()!=null){
 			List<Reference> tagsCharacter = new ArrayList<Reference>();
 			for(int i=0;i<statusDTO.getTags().size(); i++){

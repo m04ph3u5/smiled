@@ -204,6 +204,17 @@ public class FileUploadController extends BaseController{
 		return fileManagerService.getUserImageMetadata(user,nPag,nItem);
 	}
 	
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="me/media/{idMedia}", method=RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public void deleteMedia(@AuthenticationPrincipal CustomUserDetails user, @PathVariable String idMedia, @RequestParam(value = "postId", required=false) String postId) throws BadRequestException, IllegalStateException, IOException, NotFoundException, ForbiddenException{
+		if(postId=="")
+			postId=null;
+
+		fileManagerService.deleteMedia(user,idMedia,postId);
+	}
+	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="me/media/files/meta", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")

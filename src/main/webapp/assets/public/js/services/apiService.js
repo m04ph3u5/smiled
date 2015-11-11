@@ -632,6 +632,26 @@
 		return s.promise;
 	}
 	
+	var deleteMedia = function(idMedia, postId){
+		var s = $q.defer();
+		var url;
+		if(!postId)
+			url = "/api/v1/me/media/"+idMedia;
+		else
+			url = "/api/v1/me/media/"+idMedia+"?postId="+postId;
+				
+		$http.delete(url).then(
+					function(response){
+						s.resolve(response.data);
+					},
+					function(reason){
+						s.reject(reason);
+					}
+			);
+
+		return s.promise;
+	}
+	
 //	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
 //		var s = $q.defer();
 //
@@ -691,7 +711,8 @@
 		getTrustedMediaMetadata: getTrustedMediaMetadata,
 		deleteTrustedMedia: deleteTrustedMedia,
 		getMyMissions : getMyMissions,
-		getMyDraft : getMyDraft
+		getMyDraft : getMyDraft,
+		deleteMedia : deleteMedia
 		
 	}
 

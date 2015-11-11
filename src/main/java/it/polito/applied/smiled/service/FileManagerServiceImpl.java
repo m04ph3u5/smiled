@@ -13,6 +13,7 @@ import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.FileMetadataRepository;
+import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -64,6 +65,9 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PostRepository postRepository;
 
 	@Autowired
 	private CharacterRepository characterRepository;
@@ -500,6 +504,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 		Random r = new Random();
 		filename+=r.nextInt(10);
 		filename+=r.nextInt(10);
+		meta.setId(filename);
 		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
 	
 		return file.getFilename().toString();
@@ -512,6 +517,8 @@ public class FileManagerServiceImpl implements FileManagerService {
 		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
 		FileMetadata metadata = gridFsManager.getMetadata(filename);
 		if(metadata==null)
+			throw new FileNotFoundException();
+		if(metadata.getType().equals(ResourceType.DELETED_DOC) || metadata.getType().equals(ResourceType.DELETED_IMG))
 			throw new FileNotFoundException();
 		if(!metadata.getUserId().equals(((CustomUserDetails)auth.getPrincipal()).getId()) && !permissionEvaluator.hasPermission(auth, metadata.getScenarioId(), "Scenario", "READ"))
 			throw new ForbiddenException();
@@ -637,6 +644,29 @@ public class FileManagerServiceImpl implements FileManagerService {
 		gridFsManager.deleteMedia(idMedia);
 	}
 	
+
+	@Override
+	public void deleteMedia(CustomUserDetails user, String idMedia,
+			String postId) throws NotFoundException, ForbiddenException, FileNotFoundException {
+		FileMetadata f = gridFsManager.getMetadata(idMedia);
+		if(!f.getUserId().equals(user.getId()))
+			throw new ForbiddenException();
+		
+		if(f.getType().equals(ResourceType.TO_CONFIRM_DOC) || f.getType().equals(ResourceType.DOCUMENT)){
+			gridFsManager.putFileInDeleteStatus(idMedia);
+			if(postId!=null){
+				postRepository.deleteFileFromPost(postId, f);
+			}
+		}else{
+			gridFsManager.putImageInDeleteStatus(idMedia);
+			if(postId!=null){
+				postRepository.deleteImageFromPost(postId, f);
+			}
+		}
+		
+		
+			
+	}
 	
 //	@Override
 //	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
@@ -867,5 +897,6 @@ public class FileManagerServiceImpl implements FileManagerService {
 //        ImageIO.write(img2, "png", b64);
 //        return os.toString("UTF-8");
 	}
+
 
 }

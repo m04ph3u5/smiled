@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.repository;
 
+import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.PostReverseDateComparator;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorDesc;
@@ -199,6 +200,27 @@ public class PostRepositoryImpl implements CustomPostRepository{
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").in(toRetrieveListIds));
 		return mongoOp.find(q, Post.class);
+	}
+
+	@Override
+	public void deleteFileFromPost(String postId, FileMetadata f) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(postId));
+		Update u = new Update();
+		u.pull("filesMetadata", f);
+		
+		mongoOp.updateFirst(q, u, Post.class);
+		
+	}
+
+	@Override
+	public void deleteImageFromPost(String postId, FileMetadata f) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(postId));
+		Update u = new Update();
+		u.pull("imagesMetadata", f);
+		
+		mongoOp.updateFirst(q, u, Post.class);		
 	}
 	
 }

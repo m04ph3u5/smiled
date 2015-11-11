@@ -1,34 +1,175 @@
-<div class="col-md-12 box boxGray">
+<div class="col-xs-12 box boxGray">
 	<div class="row marginSTop">
 		<div class="colPadding">
-			<!-- FOTO PERSONAGGIO -->
-			<div data-ng-show="editDraftPost.post.character" class="squareCharImg" 
-				data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.scenario.id}}', idCharacter : '{{editDraftPost.post.character.id}}' })"
-				style="background-image:url('{{showNewsPost.post.character.cover}}'), url('assets/public/img/icon/pg.png')"></div>
-			<!-- FOTO NARRATORE -->	
-			<div data-ng-hide="editDraftPost.post.character" class="squareCharImg" style="background-image:url('assets/public/img/narr.png')"></div>
 			
-			<div class="col-xs-12 col-sm-10">
-				<span class="pull-right marginMRight">						
+			<div class="col-xs-12 text-right">
+				<label style="font-size: 1em;" data-ng-click="editDraftPost.setDateNewPost()">{{editDraftPost.newPost.formattedDate}}</label>
+				<span data-ng-click="editDraftPost.setDateNewPost()"
+					class="glyphicon glyphicon-calendar "></span>
+				<br>
+				<span style="font-size: 0.8em; color: blue;">						
 					Ultima modifica: {{editDraftPost.post.lastChangeDate | date: editDraftPost.realDateFormat}}	
-				</span>
+				</span>		
+			</div>
+			
+			<div class="col-xs-12">
+				<!-- FOTO PERSONAGGIO -->
+				<div data-ng-show="editDraftPost.post.character" class="squareCharImg" 
+					data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.scenario.id}}', idCharacter : '{{editDraftPost.post.character.id}}' })"
+					style="background-image:url('{{showNewsPost.post.character.cover}}'), url('assets/public/img/icon/pg.png')"></div>
+				<!-- FOTO NARRATORE -->	
+				<div data-ng-hide="editDraftPost.post.character" class="squareCharImg" style="background-image:url('assets/public/img/narr.png')"></div>
+		
 				<div class="row colPaddingScen">					
 					<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.scenario.id}}', idCharacter : '{{editDraftPost.post.character.id}}' })">
 						{{editDraftPost.post.character.name}}</a>
+						<span data-ng-if="editDraftPost.tagIsSet || editDraftPost.place.text">-</span> 
+						<span data-ng-if="editDraftPost.tagIsSet" data-ng-click="editDraftPost.switchShowTagBox()"> 
+						con <span class="linkPost">{{editDraftPost.stringTags}}</span></span>
+						<span data-ng-if="editDraftPost.tagIsSet && editDraftPost.newPost.place.text">, </span> 
+						<span data-ng-if="editDraftPost.newPost.place.text" 
+							data-ng-click="editDraftPost.updatePositionPost()"
+							class="linkPost">{{editDraftPost.newPost.place.text}}</span>
 					</h4>
+					<textarea id="textContentStatus" class="pull-left allWidth" placeholder="A COSA STAVI PENSANDO?"
+						rows="3" data-ng-model="editDraftPost.newPost.text"></textarea>
 				</div>
-				<div class="row colPaddingScen">
-					<p class="pull-left">
-						<span data-ng-show="editDraft.post.place.text"> - presso <i>{{editDraftPost.post.place.text}}</i></span>
-						<a><span style="cursor:pointer" title="Georeferenzia il post"
-								class="tooltips glyphicon glyphicon-map-marker"
-								data-ng-click="editDraftPost.updatePositionPost()"></span></a>
-					</p>
-				</div>
-<!-- 				<div class="row colPaddingScen paddingMRight"> -->
-<!-- 					<textarea data-ng-model ="editDraftPost.postDTO.text" class="pull-left allWidth" rows="3">{{editDraftPost.postDTO.text}}</textarea> -->
-<!-- 				</div> -->
 			</div>
+
+			<div class="col-xs-12 extraContent marginSTop ">
+				<div class="pull-left marginSTop marginMRight">
+					<div style="cursor:pointer" title="Aggiungi un'immagine al post" data-ngf-select
+						data-ngf-change="editDraftPost.addImageToNewPost($files)"
+						class="tooltips glyphicon glyphicon-camera iconsMargin"
+						data-ng-style="editDraftPost.colorImageMarker"
+						data-ng-click="editDraftPost.hideTagBox()"></div>
+					
+					<div style="cursor:pointer" title="Allega un file al post" data-ngf-select
+						data-ngf-change="editDraftPost.addFileToNewPost($files)"
+						class="tooltips glyphicon glyphicon-file iconsMargin"
+						data-ng-style="editDraftPost.colorFileMarker"
+						data-ng-click="editDraftPost.hideTagBox()"></div>
+					
+				
+					<div style="cursor:pointer" title="Aggiungi una posizione al post"
+						class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+						data-ng-click="editDraftPost.updatePositionPost(); editDraftPost.hideTagBox()"
+						data-ng-style="editDraftPost.colorMapMarker"></div>
+				
+					<div style="cursor:pointer" class="tooltips glyphicon glyphicon-tags iconsMargin" 
+						data-ng-style="editDraftPost.colorTagsMarker"
+						title="Tagga personaggi al post"
+						data-ng-click="editDraftPost.switchShowTagBox()">
+					</div>
+				</div>
+				
+			</div>		
+
+			
+			<div class="col-xs-12 extraContent text-left">		
+	
+				<tags-input data-ng-show="editDraftPost.showTagBox"
+					data-ng-model="editDraftPost.newPost.tags" display-property="name"
+					placeholder="TAGGA UN PERSONAGGIO" replace-spaces-with-dashes="false"
+					template="tag-template" add-from-autocomplete-only="true">
+				<auto-complete source="editDraftPost.search($query,true)"
+					min-length="0" load-on-focus="true" load-on-empty="true"
+					max-results-to-show="32" template="autocomplete-template">
+				</auto-complete> </tags-input>
+	
+			
+				<div style="cursor:pointer" class="row colPadding">
+					<div data-ng-repeat="image in editDraftPost.newPost.image">
+							<div class="squareImg" style="background-image:url('{{editDraftPost.getMedia(image.id)}}')">
+							<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+									data-ng-click="editDraftPost.removeImage(image)"></span></div>
+							</div>				
+				</div>
+				<!-- Inserire icone -->
+				<div style="cursor:pointer" class="row colPadding">
+					<div data-ng-repeat="file in editDraftPost.newPost.file">
+						<div class="col-xs-2">
+							<div class="row">
+								<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
+									data-ng-if="file.fileType == 'img'">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+									data-ng-click="editDraftPost.removeFile(file)"></span></div>
+								</div>
+								<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
+									data-ng-if="file.fileType == 'pdf'">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+									data-ng-click="editDraftPost.removeFile(file)"></span></div>
+								</div>
+								<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
+									data-ng-if="file.fileType == 'doc'">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+									data-ng-click="editDraftPost.removeFile(file)"></span></div>
+								</div>
+								<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
+									data-ng-if="file.fileType == 'ppt'">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+									data-ng-click="editDraftPost.removeFile(file)"></span></div>
+								</div>
+								<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
+									data-ng-if="file.fileType == 'excel'">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+									data-ng-click="editDraftPost.removeFile(file)"></span></div>
+								</div>
+								
+							</div>
+							<div class="row text-center marginEmXS">
+								<span>{{file.name | limitTo:7}}</span>
+								<span data-ng-if="file.name.length>7">...</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row col-xs-12">
+			<div class="pull-right">
+				<div data-ng-click="editDraftPost.draftNewPost(false); editDraftPost.hideTagBox()"
+					class="btn generalButton1">SALVA</div> 
+				<div data-ng-click="editDraftPost.draftNewPost(true); editDraftPost.hideTagBox()"
+					class="btn positiveButton">PUBBLICA</div>
+			</div>
+		</div>
+		<div style="margin-top:10px;" class="row col-xs-12">
+			<div class="pull-right">
+<!-- 				<div data-ng-click="editDraftPost.cancel(); editDraftPost.hideTagBox()" -->
+<!-- 					class="btn warningButton">ANNULLA</div>  -->
+				<div data-ng-click="editDraftPost.deletePost(); editDraftPost.hideTagBox()"
+					class="btn warningButton">ELIMINA</div>
+			</div>
+		</div>
+		
+
 		</div>
 	</div>
 </div>
+
+
+
+<script type="text/ng-template" id="tag-template">
+      <div class="tag-template">
+ <!--       <div class="left-panel">
+          <img class="imgPreviewM" data-ng-src="{{data.cover}}" data-err-src="assets/public/img/icon/pg.png"/>
+        </div> -->
+        <div class="right-panel">
+          <span>{{$getDisplayText()}}</span>
+          <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
+        </div>
+      </div>
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+      <div class="autocomplete-template">
+        <div class="left-panel">
+          <img class="imgPreviewM" data-ng-src="{{data.cover}}" data-err-src="assets/public/img/icon/pg.png"/>
+        </div>
+        <div class="right-panel">
+          <span ng-bind-html="$highlight($getDisplayText())"></span>
+        </div>
+      </div>
+</script>
