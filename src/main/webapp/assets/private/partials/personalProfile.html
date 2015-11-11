@@ -3,15 +3,15 @@
 		<div class="col-md-1 col-lg-2"></div>
 		<div class="col-sm-5 col-md-4 col-lg-3 box boxBrown" id="imgProfile">
 			<h2 class="goUppercase">{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h2>
-			<div class="profilePicContainer">
+			<div class="profilePicContainer" style="cursor:pointer;">
 				<img class="profilePicture img img-circle" data-ng-src="{{personalProfile.url}}" 
-				data-err-src="assets/public/img/ic_teacher.png" ng-if="personalProfile.ruolo=='DOCENTE'"></img>
+				data-err-src="assets/public/img/ic_teacher.png" data-ng-if="personalProfile.ruolo=='DOCENTE'"></img>
 				
 				<img class="profilePicture img img-circle" data-ng-src="{{personalProfile.url}}" 
-				data-err-src="assets/public/img/ic_student.png" ng-if="personalProfile.ruolo=='STUDENTE'"></img>
+				data-err-src="assets/public/img/ic_student.png" data-ng-if="personalProfile.ruolo=='STUDENTE'"></img>
 				
-				<div class="hoverContent profilePicture" ng-if="personalProfile.isModifiable" 
-					ngf-select ngf-change="personalProfile.uploadCover($files)">
+				<div class="hoverContent profilePicture" data-ng-if="personalProfile.isModifiable" 
+					data-ngf-select data-ngf-change="personalProfile.uploadCover($files)">
 					<span class="glyphicon glyphicon-camera iconHover"></span>
 				</div>
 				
@@ -19,11 +19,17 @@
 			
 						
 			<h4>{{personalProfile.ruolo}}</h4>
-			<p ng-if="personalProfile.user.profile.bornDate!=null">Data di nascita: {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</p>
-			<!--  <h4>Scuola, materie insegnate / preferite, Interessi, Citazione</h4>-->
-			<a data-ng-if="personalProfile.isModifiable"  href="" data-ng-click="personalProfile.editPassword()">Cambia password</a>
+			<p data-ng-if="personalProfile.user.email!=null">Email: {{personalProfile.user.email}} </p>
+			<p data-ng-if="personalProfile.user.profile.quote!=null">Citazione: {{personalProfile.user.profile.quote}} </p>
+			<p data-ng-if="personalProfile.user.profile.gender!=null">Sesso: {{personalProfile.user.profile.gender}} </p>
+			<p data-ng-if="personalProfile.user.profile.bornDate!=null">Data di nascita: {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</p>	
+			<p data-ng-if="personalProfile.user.profile.bornCity!=null">Città di nascita: {{personalProfile.user.profile.bornCity}} </p>
+			<p data-ng-if="personalProfile.user.profile.actualCity!=null">Città attuale: {{personalProfile.user.profile.actualCity}} </p>
+			<p data-ng-if="personalProfile.user.profile.school!=null">Scuola: {{personalProfile.user.profile.school}} </p>
 			
-			    
+			
+			<!--  <h4>Scuola, materie insegnate / preferite, Interessi, Citazione</h4>--> 
+			<a data-ng-if="personalProfile.isModifiable" href="" data-ng-click="personalProfile.switchEditPassword()">Cambia password</p>  
 			
 		</div>
 		<div class="col-sm-7 col-md-6 col-lg-5 box fixedHeight imgProfile"
@@ -54,9 +60,120 @@
 <!-- 		</div> -->
 		</div>
 	</div>
-	<div class="row">
+	
+	
+	<div class="row" data-ng-if="personalProfile.isModifiable && personalProfile.editPassword">
 		<div class="col-md-1 col-lg-2"></div>
-		<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" data-ng-if="personalProfile.editablePassword">
+		<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" >
+			<label for="oldP">Vecchia password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
+			<label for="newP">Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword" class="form-control" id="newP"></input>
+			<label for="newP2">Ripeti Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword2" class="form-control" id="newP2"></input>	
+			<br>
+			<button class="btn btn-success" data-ng-click="personalProfile.modifyPassword()">Salva</button>	
+			<button class="btn btn-warning" data-ng-click="personalProfile.deleteModifyPassword()">Annulla</button>	
+		</div>
+	</div>
+	
+	<div class="row" data-ng-if="personalProfile.isModifiable && personalProfile.editProfile">
+		<div class="col-md-1 col-lg-2"></div>
+		<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" >
+		
+		
+			<form class="form-horizontal paddingSLeft" role="form">
+			    <div class="form-group ">
+			      <label class="control-label control-label-custom col-sm-4 ">CITAZIONE:</label>
+			      <div class="col-sm-7 paddingSRight">
+			        <input type="text" class="form-control " ng-model="personalProfile.modifiedUser.quote">
+			      </div>
+			    </div>
+			    <div class="form-group ">
+			      <label class="control-label control-label-custom col-sm-4">SESSO:</label>
+			      <div class="col-sm-7 paddingSRight onoffswitch">  
+			      	<div class="onoffswitch">
+					    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked ng-model="personalProfile.genderBool">
+					    <label class="onoffswitch-label" for="myonoffswitch">
+					        <span class="onoffswitch-inner"></span>
+					        <span class="onoffswitch-switch"></span>
+					    </label>
+					</div>        
+			      </div>
+			    </div>
+			    <div class="form-group">
+			      <label class="control-label control-label-custom col-sm-4">DATA NASCITA:</label>
+			      <div class="col-sm-7 paddingSRight">          
+			        <input type="text" class="form-control" ng-model="personalProfile.modifiedUser.profile.bornDate | date">
+			      </div>
+			    </div>
+			    <div class="form-group">
+			      <label class="control-label control-label-custom col-sm-4">CITTA' NASCITA:</label>
+			      <div class="col-sm-7 paddingSRight">          
+			        <input type="text" class="form-control" ng-model="personalProfile.modifiedUser.profile.bornCity">
+			      </div>
+			    </div>
+			    <div class="form-group">
+			      <label class="control-label control-label-custom col-sm-4">CITTA' ATTUALE:</label>
+			      <div class="col-sm-7 paddingSRight">          
+			        <input type="text" class="form-control" ng-model="personalProfile.modifiedUser.profile.actualCity">
+			      </div>
+			    </div>
+			    <div class="form-group">
+			      <label class="control-label control-label-custom col-sm-4">SCUOLA:</label>
+			      <div class="col-sm-7 paddingSRight">          
+			        <input type="text" class="form-control" ng-model="personalProfile.modifiedUser.profile.school">
+			      </div>
+			    </div>
+			    
+			   
+			    
+			    
+			    
+			</form>
+
+		</div>
+	</div>
+		
+	<div class="row" data-ng-if="personalProfile.isModifiable">
+		<div class="col-md-1 col-lg-2"></div>
+			<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" >
+				<div class="marginMTop">
+					<div class="row" ng-show="!personalProfile.editProfile">
+							<div style="cursor:no-drop;" class="col-sm-4">
+								<img src="assets/public/img/char_profile/ic_edit_inact.png"
+								style="height:100px;" 	/>					
+<!-- 								ng-click="personalProfile.showEditProfile()"  -->
+								
+							</div>
+							<div style="cursor:no-drop;" class="col-sm-4">
+								<img src="assets/public/img/char_profile/ic_save_inact.png" 
+								style="height:100px;">
+							</div>
+							<div style="cursor:no-drop;" class="col-sm-4">
+								<img src="assets/public/img/char_profile/ic_discard_inact.png" 
+								style="height:100px;">
+							</div>
+							
+					</div>
+						<div class="row" ng-show="personalProfile.editProfile">
+							<div style="cursor:no-drop;" class="col-sm-4">
+								<img src="assets/public/img/char_profile/ic_edit_inact.png" 
+								style="height:100px;">
+							</div>
+							<div style="cursor:pointer;" class="col-sm-4">
+								<img src="assets/public/img/char_profile/ic_save_act.png" 
+								data-ng-click="personalProfile.updateUser(); personalProfile.closeEditProfile(); " style="height:100px;">
+							</div>
+							<div style="cursor:pointer;" class="col-sm-4">
+								<img src="assets/public/img/char_profile/ic_discard_act.png" 
+								ng-click="personalProfile.deleteUpdateUser(); personalProfile.closeEditProfile();" style="height:100px;">
+							</div>					
+						</div>
+				</div>
+			</div>
+	</div>
+	
+	<div class="row" data-ng-if="personalProfile.editablePassword">
+		<div class="col-md-1 col-lg-2"></div>
+		<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" >
 			
 				<label for="oldP">Vecchia password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
 				<label for="newP">Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword" class="form-control" id="newP"></input>
@@ -65,4 +182,5 @@
 				<button data-ng-click="personalProfile.modifyPassword()">Cambia</button>
 		</div>
 	</div>
+	
 </div>
