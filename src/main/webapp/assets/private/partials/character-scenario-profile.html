@@ -14,7 +14,7 @@
 						</span>
 					
 					</p>
-		</dvi>
+		</div>
 	</div>
 	 <div class="row text-center">
 		<div class="col-sm-4">
@@ -32,7 +32,7 @@
 <!-- 				style="background-image:url({{characterProfile.cover}}),url('assets/public/img/icon/pg.png')"> -->
 <!-- 			</div> -->
 			
-			<div class="profilePicContainer" ng-if="characterProfile.currentChar==characterProfile.idChar">
+			<div style="cursor:pointer;" class="profilePicContainer" ng-if="characterProfile.currentChar==characterProfile.idChar">
 				<img style="width: 200px; height:200px;"class="profilePicture img img-circle" data-ng-src="{{characterProfile.cover}}" 
 				data-err-src="assets/public/img/icon/pg.png"></img>
 				
@@ -58,7 +58,7 @@
 					
 			<div class="box boxGray paddingMTop sidePaddingThree" ng-show="!characterProfile.editProfile">					
 					<i><span ng-if="characterProfile.character.bornDate!=null || characterProfile.character.bornTown!=null" class="glyphicons glyphicons-stroller" aria-hidden="true">
-						<img class="customGlyph" src="assets/public/img/glyph/stroller.png">
+						
 					</span>
 					<span>{{characterProfile.character.bornTown}}</span>
 					<span ng-if="characterProfile.character.bornTown!=null && characterProfile.character.bornDate!=null">, </span>
@@ -68,9 +68,7 @@
 					<span>{{characterProfile.character.deadTown}}</span>
 					<span ng-if="characterProfile.character.deadDate!=null && characterProfile.character.deadTown!=null">, </span>		
 					<span>{{characterProfile.character.deadDate.day}} {{characterProfile.getDeadMonth()}} {{characterProfile.character.deadDate.year}} <span data-ng-if="characterProfile.character.deadDate.afterChrist">d.C.</span><span data-ng-if="characterProfile.character.deadDate && !characterProfile.character.deadDate.afterChrist">a.C.</span></span>
-					<span ng-if="characterProfile.character.deadDate!=null || characterProfile.character.deadTown!=null" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 					</i>
-				
 				<div data-ng-if="characterProfile.character.role != null && characterProfile.character.role !=''" class="marginMTop textJustify">
 					<label>Ruolo:</label>
 					<span data-ng-bind-html="characterProfile.character.role"></span>
@@ -86,30 +84,34 @@
 					<span data-ng-if="!characterProfile.viewBiography" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="characterProfile.openViewBiography()" style="cursor:pointer;"></span>
 					<span data-ng-if="characterProfile.viewBiography" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="characterProfile.closeViewBiography()" style="cursor:pointer;"></span>
 					<span  data-ng-if="characterProfile.viewBiography" data-ng-bind-html="characterProfile.character.description"></span>
-					
+					<hr>
 				</div>
+				
 				<div class=" marginMTop textJustify ">
-					<label class="marginMTop">Attualmente interpretato da: </label>
-					<span data-ng-if="characterProfile.character.actualUser.id==null">
-						nessuno
-					</span>
+					<div class="marginMTop"><label >Attualmente interpretato da: </label>
 					
-					<span class="marginSLeft" data-ng-if="characterProfile.character.actualUser.id!=null"   >
-						<img data-ng-src="api/v1/users/{{characterProfile.character.actualUser.id}}/cover" 
-						data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})"
-						data-err-src="assets/public/img/ic_student.png" 
-						class="imgPreviewM img-circle"
-						style="cursor:pointer;"
-						title="{{characterProfile.character.actualUser.firstname}} {{characterProfile.character.actualUser.lastname}}" 
-						>
-						<a href="" style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})">
-							{{characterProfile.character.actualUser.firstname}}	{{characterProfile.character.actualUser.lastname}}			
-						</a>
-						<div class="marginSLeft row marginMTop">
-							<div class="marginMTop col-xs-3"></div>
-							<div class="marginMTop col-xs-9"><label>a partire da: </label> {{characterProfile.character.actualUserStart | date:'dd-MM-yyyy (HH:mm)'}}</div>
-						</div>
-					</span>	
+						<span data-ng-if="characterProfile.character.actualUser.id==null">
+							nessuno
+						</span>
+					</div>
+					<div class="marginMTop">
+						<span class="marginSLeft " data-ng-if="characterProfile.character.actualUser.id!=null"   >
+							<img data-ng-src="api/v1/users/{{characterProfile.character.actualUser.id}}/cover" 
+							data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})"
+							data-err-src="assets/public/img/ic_student.png" 
+							class="imgPreviewM img-circle"
+							style="cursor:pointer;"
+							title="{{characterProfile.character.actualUser.firstname}} {{characterProfile.character.actualUser.lastname}}" 
+							>
+							<a href="" style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{characterProfile.character.actualUser.id}}'})">
+								{{characterProfile.character.actualUser.firstname}}	{{characterProfile.character.actualUser.lastname}}			
+							</a>
+							<div class="marginSLeft row ">
+								<div class="marginMTop col-xs-2"></div>
+								<div class="marginMTop col-xs-10"><label>a partire dal: </label> {{characterProfile.character.actualUserStart | date:'dd-MM-yyyy (HH:mm)'}}</div>
+							</div>
+						</span>	
+					</div>
 				</div>
 				<div class=" marginMTop textJustify">
 					<label>Precedentemente interpretato da: </label> <span class=" marginMTop textJustify" data-ng-if="characterProfile.numberOfPastUsers==0"> nessuno</span>
@@ -129,7 +131,7 @@
 									class="imgPreviewM img-circle">
 								</div>
 								<div class="col-xs-9">
-									<span data-ng-repeat="interval in value"><label>a partire da: </label> {{interval.startDate | date:'dd-MM-yyyy (HH:mm)'}}<br><label>fino a: </label> {{interval.endDate | date:'dd-MM-yyyy (HH:mm)'}}<br></span>
+									<span data-ng-repeat="interval in value"><label>a partire dal: </label> {{interval.startDate | date:'dd-MM-yyyy (HH:mm)'}}<br><label>fino al: </label> {{interval.endDate | date:'dd-MM-yyyy (HH:mm)'}}<br></span>
 									<hr>
 								</div>
 							</div>	

@@ -7,7 +7,7 @@
 		<div id="leftSide" style="cursor:pointer;" data-ng-show="scenario.hasCharacter" class="box hidden-xs hidden-sm hidden-md visible-lg" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
 			<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/icon/pg.png" 
 								class="img-circle imgPreviewXL">
-			<b><p class="highlightText text-center" style="word-wrap:break-word;" data-ng-bind-html="scenario.currentCharacter.name | linky:'_blank'"></p></b>
+			<b><a href=""><p class="highlightText text-center" style="word-wrap:break-word;" data-ng-bind-html="scenario.currentCharacter.name | linky:'_blank'"></p></a></b>
 			
 		</div>
 			
