@@ -171,6 +171,7 @@
 	<script src="/assets/public/js/directives/userCard.js"></script>
 	<script src="/assets/public/js/directives/editDraftPost.js"></script>
 	<script src="/assets/public/js/support/jqSupport.js"></script>
+	<script src="/assets/public/js/support/datepicker.js"></script>
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->
 	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>  

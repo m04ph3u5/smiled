@@ -5,8 +5,10 @@
 		<div class="col-lg-1"></div>
 		<div class="col-sm-12 col-lg-10">
 			<div class="row">
+			
+				<!-- BOZZE MD/LG -->
 				<div class="col-md-3 doubleRow box boxGreen hidden-xs hidden-sm visible-md visible-lg hideOverflow">
-					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">Bozze</h3>	
+					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">BOZZE</h3>	
 					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
 					<div class="col-md-12" data-ng-repeat="d in dashboard.myDraft">
 						<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
@@ -37,58 +39,47 @@
 						</div>
 					</div>	
 				</div>
-				<div
-					class="col-sm-12 singleRow box boxGreen visible-xs visible-sm hidden-md hidden-lg hideOverflow">
-					<h1>
-						<img ng-src="assets/public/img/titoli_dashboard/compiti.png" class="title">
-						<img ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon">
-					</h1>
-					
-					
-				</div>
-				<div class="col-md-9 singleRow box boxRed hidden-xs visible-sm visible-md visible-lg hideOverflow">
+				
+				
+				<!-- SCENARIO MD/LG -->
+				<div class="col-md-9 singleRow box boxRed hidden-xs hidden-sm visible-md visible-lg hideOverflow">
 					
 					<h1 data-ui-sref="logged.dashboard.scenariosList">
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
+						<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+						<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
 					</h1>
 					<div class="row marginMTop">
-						<a href="">
-							<div class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
-								<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
-								
-									<img href="" src="assets/public/img/icon/nuovo scenario.png"
-										class="img scenDashIcon">								
-									<h4>Crea scenario</h4>
-							</div>
-						</a>
-						<div ng-if="dashboard.scenariosToShow.length>0">
+						<div style="cursor:pointer;" class="col-sm-2" data-ng-click="dashboard.showPopUpCreationScenario()">
+							<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
+							
+								<img src="assets/public/img/icon/nuovo scenario.png"
+									class="img scenDashIcon">								
+								<h4>Crea scenario</h4>
+						</div>
+						<div data-ng-if="dashboard.scenariosToShow.length>0">
 							<div  class="col-sm-2"
 							data-ng-repeat="s in dashboard.scenariosToShow ">
-								<div ng-switch on="s.isOpen">
-									<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" ng-switch-when=true>
+								<div data-ng-switch on="s.isOpen">
+									<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" data-ng-switch-when=true>
 										<a href="">
 											
 											<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 												data-err-src="assets/public/img/icon/ic_scen.png"
 												class="img-circle imgPreviewL"/> 
-											<h5>{{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h5>
+											<h5>{{s.name | limitTo:15}} <span data-ng-if="s.name.length>15">...</span></h5>
 										</a>
 									</div>
-									<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" ng-switch-when=false>
-										<a href="">
-											
-											<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-												data-err-src="assets/public/img/icon/ic_scen.png"
-												class="img-circle imgPreviewL"/> 
-											<h5><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h5>
-										</a>
+									<div style="cursor:pointer;" data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" data-ng-switch-when=false>
+										<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+											data-err-src="assets/public/img/icon/ic_scen.png"
+											class="img-circle imgPreviewL"/> 
+										<h5><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span data-ng-if="s.name.length>15">...</span></h5>
 									</div>
 								</div>
 							</div>
 						</div>						
-						<div class="col-sm-2" ng-if="dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length+dashboard.user.closedScenarios > dashboard.numScenariosToShow">
-							<a ui-sref="logged.dashboard.scenariosList">
+						<div class="col-sm-2" data-ng-if="dashboard.user.creatingScenarios.length+dashboard.user.openScenarios.length+dashboard.user.closedScenarios > dashboard.numScenariosToShow">
+							<a href="" data-ui-sref="logged.dashboard.scenariosList">
 							<img data-ng-src="assets/public/img/icon/view_more.png"								
 									class="scenDashIcon">		
 							<h5>Vedi altri</h5>
@@ -97,57 +88,110 @@
 					</div>
 					
 			</div>
-			<div class="col-xs-12 doubleRow box boxRed visible-xs hidden-sm hidden-md hidden-lg hideOverflow">
+			
+			<!-- SCENARIO SM/XS -->
+			<div class="col-xs-12 doubleRow box boxRed visible-xs visible-sm hidden-md hidden-lg hideOverflow">
 				<h1 data-ui-sref="logged.dashboard.scenariosList">
-					<a href=""><img ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
-					<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
+					<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+					<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
 				</h1>
-				<div class="row marginMTop">
-					<a href="">
-						<div class="col-xs-6" data-ng-click="dashboard.showPopUpCreationScenario()">
-							<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
-							<img href="" src="assets/public/img/icon/nuovo scenario.png"
-								class="img scenDashIcon">								
-								<h4>Crea scenario</h4>		
-						</div>
-					</a>
-				<div ng-if="dashboard.scenariosToShow.length>0">			
-					<div  class="col-xs-6"
-						data-ng-repeat="s in dashboard.scenariosToShow | limitTo:3">
-						<div ng-switch on="s.isOpen">
-							<div data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" ng-switch-when=true>
-								<a href="">
-									
+				<div style="cursor:pointer;" class="row marginMTop">
+					<div class="col-xs-6" data-ng-click="dashboard.showPopUpCreationScenario()">
+						<!--	ng-click="dashboard.showPopUpCreationScenario()" -->
+						<img src="assets/public/img/icon/nuovo scenario.png"
+							class="img scenDashIcon">								
+							<h4>Crea scenario</h4>		
+					</div>
+					<div data-ng-if="dashboard.scenariosToShow.length>0">			
+						<div  class="col-xs-6"
+							data-ng-repeat="s in dashboard.scenariosToShow | limitTo:3">
+							<div data-ng-switch on="s.isOpen">
+								<div style="cursor:pointer;" data-ui-sref="logged.scenario.posts({id : '{{s.id}}' })" data-ng-switch-when=true>										
 									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
 										data-err-src="assets/public/img/icon/ic_scen.png"
 										class="img-circle imgPreviewL"/> 
-									<h4>{{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h4>
-								</a>
+									<h4>{{s.name | limitTo:15}} <span data-ng-if="s.name.length>15">...</span></h4>
+								</div>
+								<div style="cursor:pointer;" data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" data-ng-switch-when=false>
+									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+										data-err-src="assets/public/img/icon/ic_scen.png"
+										class="img-circle imgPreviewL"/> 
+									<h4><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span data-ng-if="s.name.length>15">...</span></h4>
+								</div>
 							</div>
-							<div data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" ng-switch-when=false>
-
-								<a href="">
-									
-									<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-										data-err-src="assets/public/img/icon/ic_scen.png"
-										class="img-circle imgPreviewL"/> 
-									<h4><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span ng-if="s.name.length>15">...</span></h4>
-								</a>
+						</div>
+					</div>																
+					<div class="row marginMTop" data-ng-if="dashboard.scenariosToShow.length>3" style="position:relative;">
+						<a href="" data-ui-sref="logged.dashboard.scenariosList">
+							<h4>Vedi tutti<img data-ng-src="assets/public/img/icon/view_more_vert.png"								
+									class="scenDashIcon2 marginSLeft">					
+							</h4>
+						</a>
+					</div>
+				</div>
+			</div>
+		
+				<!-- BOZZE SM -->
+				<div class="col-sm-12 singleRow box boxGreen hidden-xs visible-sm hidden-md hidden-lg hideOverflow">
+					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">BOZZE</h3>						
+					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
+					<div class="row">
+						<div class="col-sm-4" data-ng-repeat="d in dashboard.myDraft | limitTo: 3">
+							<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
+								<div class="row">
+									<img title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
+										data-err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">	
+								</div>
+								<div class="row">
+									<span style="font-size: 1.2em;" data-ng-show="d.character"><b>{{d.character.name}}</b></span>
+									<span style="font-size: 1.2em;" data-ng-hide="d.character"><b>NARRATORE</b></span>
+								</div>	
+								<div class="row">
+									<span>{{d.scenarioName}}</span>
+								</div>
+								<hr>
+								<div class="row" style="font-size: 0.9em;">
+									{{d.text | limitTo : 57}}<span data-ng-show="d.text.length>57">...</span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>																
-				<div class="row marginMTop" ng-if="dashboard.scenariosToShow.length>3" style="position:relative;">
-					<a ui-sref="logged.dashboard.scenariosList">
-						<h4>Vedi tutti<img data-ng-src="assets/public/img/icon/view_more_vert.png"								
-								class="scenDashIcon2 marginSLeft">					
-						</h4>
-					</a>
 				</div>
-			</div>
-		</div>
 				
+				<!-- BOZZE XS -->
+				<div class="col-xs-12 doubleRow box boxGreen visible-xs hidden-sm hidden-md hidden-lg hideOverflow">
+					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">BOZZE</h3>						
+					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
+					<div class="col-xs-12" data-ng-repeat="d in dashboard.myDraft">
+						<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
+							<div class="row">
+								<div data-ng-show="d.character" class="col-xs-3">
+									<img style="margin-left: 10px;" title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
+										data-err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">	
+								</div>
+								<div data-ng-hide="d.character" class="col-xs-3">
+									<img style="margin-left: 10px;" data-ng-src="assets/public/img/narr.png" class="imgPreviewM">
+								</div>
+								<div class="col-xs-offset-1 col-xs-8 text-left">
+									<div class="row">
+										<span style="font-size: 1.2em;" data-ng-show="d.character"><b>{{d.character.name}}</b></span>
+										<span style="font-size: 1.2em;" data-ng-hide="d.character"><b>NARRATORE</b></span>
+									</div>
+									<div class="row">
+										<span>{{d.scenarioName}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row text-left">
+								<div class="col-xs-offset-1 col-xs-10" style="font-size: 0.9em;">
+									{{d.text | limitTo : 57}}<span data-ng-show="d.text.length>57">...</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				
+				<!-- ALUNNI -->
 				<div class="col-sm-4 col-md-3 singleRow box boxYellow hideOverflow">
 					<div data-ui-sref="logged.dashboard.studentsList">
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/alunni.png" class="title"></a>
@@ -172,7 +216,9 @@
 					</div>
 					
 				</div>
-				<div class="col-sm-4 col-md-3 singleRow box boxLightgreen">
+				
+				<!-- COLLEGHI -->
+				<div class="col-sm-4 col-md-3 singleRow box boxLightgreen hideOverflow">
 					<div data-ui-sref="logged.dashboard.colleaguesList">
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/colleghi.png" class="title"></a>
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_coll.png" class="titleIcon"></a>
@@ -198,9 +244,27 @@
 						<span data-ui-sref="logged.dashboard.colleaguesList">Vedi altri</span>
 					</div>
 				</div>
-				<div class="col-sm-4 col-md-3 singleRow box boxLightblue">
+				
+				
+				
+				
+				
+				<!-- Azioni -->
+				<div class="col-xs-12 col-sm-8 col-md-9 singleRow box boxBrown">
+					<h3>
+						STATISTICHE
+						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_att.png" class="titleIcon"></a>
+					</h3>
+					<p>Questa sezione sarà presto attiva!</p>
+					<div class="row">
+						<img ng-src="assets/public/img/icon/wip2.png" class="img fileIcon">
+					</div>
+				</div>
+			
+				<!-- MATERIALI LG/MD/SM -->
+				<div style="top: -280px; margin-bottom: -280px;" class="col-sm-4 col-md-3 doubleRow box boxLightblue hideOverflow hidden-xs visible-sm visible-md visible-lg">
 					<div>
-						<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">Compiti</h3>	
+						<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">MATERIALI</h3>	
 						<p>Questa sezione sarà presto attiva!</p>
 						<div class="row">
 							<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
@@ -208,60 +272,17 @@
 					</div>
 				</div>
 				
-				<div class="col-sm-8 col-md-6 singleRow box boxBlue hidden-xs visible-sm visible-md visible-lg">
-					<!-- <h1 data-ui-sref="logged.dashboard.filesList"> -->
-					<h1>
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/materiali.png" class="title"></a>
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon"></a>
-					</h1>
-					<p>Questa sezione sarà presto attiva!</p>
-					<div class="row">
-						<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
-					</div>
-					<!-- <div class="row marginMTop">
-						<div class="col-sm-4">
-							<img ng-src="assets/public/img/icon/ic_excel.png" class="img fileIcon">
-							<h4>Titolo del file</h4>
+					<!-- MATERIALI XS -->
+				<div  class="col-xs-12 doubleRow box boxLightblue hideOverflow visible-xs hidden-sm hidden-md hidden-lg">
+					<div>
+						<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">MATERIALI</h3>	
+						<p>Questa sezione sarà presto attiva!</p>
+						<div class="row">
+							<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
 						</div>
-					</div> -->
+					</div>
 				</div>
-				<div class="col-sm-8 col-md-6 doubleRow box boxBlue visible-xs hidden-sm hidden-md hidden-lg">
-					<!-- <h1 data-ui-sref="logged.dashboard.filesList"> -->
-					<h1>
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/materiali.png" class="title"></a>
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon"></a>
-					</h1>
-					<p>Questa sezione sarà presto attiva!</p>
-					<div class="row">
-						<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
-					</div>
-					<!-- <div class="row marginLTop">
-						<img ng-src="assets/public/img/icon/ic_word.png" class="img fileIcon">
-						<h4>Titolo del file</h4>
-					</div>
-					<div class="row marginLTop">
-						<img ng-src="assets/public/img/icon/ic_excel.png" class="img fileIcon">
-						<h4>Titolo del file</h4>
-					</div>
-					<a ui-sref="logged.dashboard.filesList" class="marginLTop">	
-						<h4>Vedi altri</h4>
-					</a> -->
-				</div>
-				
-				<div class="col-sm-4 col-md-6 singleRow box boxBrown">
-					<h1>
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/azioni.png" class="titleIcon"></a>
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_att.png" class="titleIcon"></a>
-					</h1>
-					<p>Questa sezione sarà presto attiva!</p>
-					<div class="row">
-						<img ng-src="assets/public/img/icon/wip2.png" class="img fileIcon">
-					</div>
-					<!--  <ul class="list-group">
-						<li class="list-group-item"><a href=""></a></li>
-						
-					</ul>-->
-				</div>
+								
 			</div>
 		</div>
 		<div class="col-lg-1"></div>
