@@ -23,8 +23,8 @@
 			<p data-ng-if="personalProfile.user.profile.quote!=null">Citazione: {{personalProfile.user.profile.quote}} </p>
 			<p data-ng-if="personalProfile.user.profile.gender!=null">Sesso: {{personalProfile.user.profile.gender}} </p>
 			<p data-ng-if="personalProfile.user.profile.bornDate!=null">Data di nascita: {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}}</p>	
-			<p data-ng-if="personalProfile.user.profile.bornCity!=null">Città di nascita: {{personalProfile.user.profile.bornCity}} </p>
-			<p data-ng-if="personalProfile.user.profile.actualCity!=null">Città attuale: {{personalProfile.user.profile.actualCity}} </p>
+			<p data-ng-if="personalProfile.user.profile.bornCity!=null">Cittï¿½ di nascita: {{personalProfile.user.profile.bornCity}} </p>
+			<p data-ng-if="personalProfile.user.profile.actualCity!=null">Cittï¿½ attuale: {{personalProfile.user.profile.actualCity}} </p>
 			<p data-ng-if="personalProfile.user.profile.school!=null">Scuola: {{personalProfile.user.profile.school}} </p>
 			
 			
@@ -65,7 +65,9 @@
 	<div class="row" data-ng-if="personalProfile.isModifiable && personalProfile.editPassword">
 		<div class="col-md-1 col-lg-2"></div>
 		<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" >
-			<label for="oldP">Vecchia password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
+			<input type="text" style="display:none">
+			<input type="password" style="display:none">
+			<label for="oldP">Vecchia password:</label><input autocomplete="off" style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
 			<label for="newP">Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword" class="form-control" id="newP"></input>
 			<label for="newP2">Ripeti Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword2" class="form-control" id="newP2"></input>	
 			<br>
