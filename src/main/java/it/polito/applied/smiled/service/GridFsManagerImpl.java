@@ -274,5 +274,13 @@ public class GridFsManagerImpl implements GridFsManager{
 		gridFsOperation.delete(q);
 	}
 
+	@Override
+	public void deleteListOfMedia(List<String> idsMedia) {
+		Query q = new Query();
+		q.addCriteria(GridFsCriteria.whereFilename().in(idsMedia));
+			
+		gridFsOperation.delete(q);
+	}
+
 	
 }

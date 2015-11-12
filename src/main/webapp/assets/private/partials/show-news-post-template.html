@@ -5,7 +5,7 @@
 		<div class="row marginSTop">
 			<div class="colPadding">
 				<div class="squareCharImg" data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.post.character.id}}' })"
-					style="background-image:url('{{showNewsPost.post.character.cover}}'), url('assets/public/img/icon/pg.png')"></div>	
+					style="background-image:url('{{showNewsPost.post.character.cover}}'), url('assets/public/img/icon/pg.png'); cursor:pointer;"></div>	
 			</div>
 			<div class="col-xs-12 col-sm-10">
 				<span class="pull-right marginMRight" href="">						
@@ -38,7 +38,7 @@
 					<div class="row colPaddingScen">
 						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}
 							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-							<a><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
+							<a><span style="cursor:pointer;" data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
 						</p>
 					</div>
 					<div class="row text-left paddingMRight colPaddingScen">
@@ -183,28 +183,15 @@
 							max-results-to-show="32" template="autocomplete-template">
 						</auto-complete> </tags-input>
 					</div>
-				
+				<div>
 					<div class="row colPaddingScen">							
 						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-						<div data-ng-repeat="col in row track by $index" class="text-left imgToPost colPadding">
-							<div class="squareImg" style="background-image:url('{{col}}')">
-								<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
-										data-ng-click="showNewsPost.recalculateMatrix()"></span></div>
-							</div>
-						</div>
-						
-						<div data-ng-repeat="image in showNewsPost.post.image">
-							<div class="col-lg-2 col-md-3 imgToPost">
-								<img class="img imgPreviewL" ng-src="{{showNewsPost.getMedia(image.id)}}">
-								
-								
-						<!-- 					<div title="Indica le tue fonti" -->
-						<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
-						<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
-						<!-- 					<label></label> -->
-						<!-- 				</div> -->
-		
-							</div>
+							<div data-ng-repeat="col in row track by $index" class="text-left imgToPost colPadding">
+								<div class="squareImg" style="background-image:url('{{col}}')">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeImage($parent.$index, $index);"></span></div>
+								</div>
+							</div>	
 						</div>
 					</div>
 					<!-- Inserire icone -->
@@ -269,7 +256,7 @@
 				</span>
 				<div class="row colPaddingScen">
 					<h4 class="pull-left">
-						<a href="">NARRATORE</a>
+						<a href="">Narratore</a>
 					</h4>
 				</div>
 				

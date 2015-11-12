@@ -32,9 +32,9 @@ public interface FileManagerService {
 
 	public byte[] getCharacterCover(String characterId) throws NotFoundException, IOException;
 
-	public MediaDataAndContentType getMedia(String id, Authentication auth, Boolean getThumb) throws IOException, ForbiddenException, HttpMediaTypeNotAcceptableException, NotFoundException;
+	public MediaDataAndContentType getMedia(String id, Authentication auth, Boolean getThumb) throws IOException, ForbiddenException, HttpMediaTypeNotAcceptableException, NotFoundException, BadRequestException;
 
-	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario, boolean b) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException;
+	public String postMedia(MultipartFile media, CustomUserDetails user, String idScenario, boolean b) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException, BadRequestException;
 
 	public void postMediaMetadata(String idMedia, FileMetadataDTO fileMeta, Authentication user, Boolean trusted) throws BadRequestException, ForbiddenException, IOException, NotFoundException;
 
@@ -62,5 +62,10 @@ public interface FileManagerService {
 
 	public void deleteMedia(CustomUserDetails user, String idMedia,
 			String postId) throws NotFoundException, ForbiddenException, FileNotFoundException;
+
+	public void deleteListOfMedia(List<String> mediaToDelete);
+
+	public void putListOfImagesInDelete(List<String> mediaToDelete) throws FileNotFoundException;
+	public void putListOfFilesInDelete(List<String> mediaToDelete) throws FileNotFoundException;
 
 }

@@ -56,4 +56,6 @@ public interface GridFsManager {
 
 	void deleteMedia(String idMedia);
 
+	void deleteListOfMedia(List<String> idsMedia);
+
 }

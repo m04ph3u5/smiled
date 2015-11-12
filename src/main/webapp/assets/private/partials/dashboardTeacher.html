@@ -8,19 +8,19 @@
 			
 				<!-- BOZZE MD/LG -->
 				<div class="col-md-3 doubleRow box boxGreen hidden-xs hidden-sm visible-md visible-lg hideOverflow">
-					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">BOZZE</h3>	
+					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">Bozze</h3>						
 					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
 					<div class="col-md-12" data-ng-repeat="d in dashboard.myDraft">
 						<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
 							<div class="row">
 								<div data-ng-show="d.character" class="col-md-3">
 									<img style="margin-left: 10px;" title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
-										data-err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">	
+										data-err-src="assets/public/img/icon/pg.png" class="imgPreviewM">	
 								</div>
 								<div data-ng-hide="d.character" class="col-md-3">
 									<img style="margin-left: 10px;" data-ng-src="assets/public/img/narr.png" class="imgPreviewM">
 								</div>
-								<div class="col-md-offset-1 col-md-8 text-left">
+								<div class="col-md-offset-2 col-md-7 col-lg-offset-1 col-lg-8 text-left">
 									<div class="row">
 										<span style="font-size: 1.2em;" data-ng-show="d.character"><b>{{d.character.name}}</b></span>
 										<span style="font-size: 1.2em;" data-ng-hide="d.character"><b>NARRATORE</b></span>
@@ -30,14 +30,17 @@
 									</div>
 								</div>
 							</div>
-							<div class="row text-left">
-								<div class="col-md-offset-1 col-md-10" style="font-size: 0.9em;">
-								{{d.text | limitTo : 57}}<span data-ng-show="d.text.length>57">...</span>
+							<div class="row text-left" style="white-space : normal">
+								<div class="col-md-offset-1 col-md-10" style="word-wrap: break-word; font-size: 0.9em;">
+								{{d.text | limitTo : 54}}<span data-ng-show="d.text.length>54">...</span>
 									<div class="row" data-ng-show="d.text.length<30"><br></div>
 								</div>
 							</div>
 						</div>
-					</div>	
+					</div>
+					<div data-ui-sref="logged.dashboard.draft" style="cursor:pointer;" class="col-md-12" data-ng-if="dashboard.myDraft.length==4">
+						<img src="assets/public/img/icon/view_more_vert.png" class="scenDashIcon2" style="margin: auto;">
+					</div>
 				</div>
 				
 				
@@ -137,24 +140,35 @@
 					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
 					<div class="row">
 						<div class="col-sm-4" data-ng-repeat="d in dashboard.myDraft | limitTo: 3">
-							<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
+							<div style="cursor:pointer; min-height:150px;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
 								<div class="row">
-									<img title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
-										data-err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">	
+									<div data-ng-show="d.character" class="col-sm-3">
+										<img style="margin-left: 10px;" title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
+											data-err-src="assets/public/img/icon/pg.png" class="imgPreviewM">	
+									</div>
+									<div data-ng-hide="d.character" class="col-sm-3">
+										<img style="margin-left: 10px;" data-ng-src="assets/public/img/narr.png" class="imgPreviewM">
+									</div>
+									<div class="col-sm-offset-1 col-sm-8 text-left">
+										<div class="row">
+											<span style="font-size: 1.2em;" data-ng-show="d.character"><b>{{d.character.name}}</b></span>
+											<span style="font-size: 1.2em;" data-ng-hide="d.character"><b>NARRATORE</b></span>
+										</div>
+										<div class="row">
+											<span>{{d.scenarioName}}</span>
+										</div>
+									</div>
 								</div>
-								<div class="row">
-									<span style="font-size: 1.2em;" data-ng-show="d.character"><b>{{d.character.name}}</b></span>
-									<span style="font-size: 1.2em;" data-ng-hide="d.character"><b>NARRATORE</b></span>
-								</div>	
-								<div class="row">
-									<span>{{d.scenarioName}}</span>
-								</div>
-								<hr>
-								<div class="row" style="font-size: 0.9em;">
-									{{d.text | limitTo : 57}}<span data-ng-show="d.text.length>57">...</span>
+								<div class="row text-left" style="white-space: normal;">
+									<div class="col-sm-offset-1 col-sm-10" style="word-wrap: break-word; font-size: 0.9em;">
+										{{d.text | limitTo : 120}}<span data-ng-show="d.text.length>120">...</span>
+									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+					<div data-ui-sref="logged.dashboard.draft" style="cursor:pointer;" class="col-sm-12" data-ng-if="dashboard.myDraft.length>3">
+						<img src="assets/public/img/icon/view_more_vert.png" class="scenDashIcon2" style="margin:auto;">
 					</div>
 				</div>
 				
@@ -167,7 +181,7 @@
 							<div class="row">
 								<div data-ng-show="d.character" class="col-xs-3">
 									<img style="margin-left: 10px;" title="{{d.character.name}}" data-ng-src="{{d.character.cover}}" 
-										data-err-src="assets/public/img/icon/pg.png" class="img-circle imgPreviewM">	
+										data-err-src="assets/public/img/icon/pg.png" class="imgPreviewM">	
 								</div>
 								<div data-ng-hide="d.character" class="col-xs-3">
 									<img style="margin-left: 10px;" data-ng-src="assets/public/img/narr.png" class="imgPreviewM">
@@ -182,12 +196,16 @@
 									</div>
 								</div>
 							</div>
-							<div class="row text-left">
-								<div class="col-xs-offset-1 col-xs-10" style="font-size: 0.9em;">
+							<div class="row text-left" style="white-space: normal;">
+								<div class="col-xs-offset-1 col-xs-10" style="word-wrap: break-word; font-size: 0.9em;">
 									{{d.text | limitTo : 57}}<span data-ng-show="d.text.length>57">...</span>
+									<div class="row" data-ng-show="d.text.length<30"><br></div>
 								</div>
 							</div>
 						</div>
+					</div>
+					<div data-ui-sref="logged.dashboard.draft" style="cursor:pointer;" class="col-xs-12" data-ng-if="dashboard.myDraft.length==4">
+						<img src="assets/public/img/icon/view_more_vert.png" class="scenDashIcon2" style="margin-top: 5px;">
 					</div>
 				</div>
 				
@@ -210,9 +228,8 @@
 							</a>
 						</div>
 					</div>
-					<div class="row" ng-if="dashboard.user.students.length>6">
-						<img src="assets/public/img/icon/view_more_vert.png"class="scenDashIcon2" data-ui-sref="logged.dashboard.studentsList">
-						<span data-ui-sref="logged.dashboard.studentsList">Vedi altri</span>
+					<div class="row" data-ng-if="dashboard.user.students.length>6" style="cursor: pointer;">
+						<img src="assets/public/img/icon/view_more_vert.png" style="margin:auto;" class="scenDashIcon2" data-ui-sref="logged.dashboard.studentsList">
 					</div>
 					
 				</div>
@@ -239,9 +256,8 @@
 							</a>
 						</div>
 					</div>
-					<div class="row" ng-if="dashboard.user.colleagues.length>6">
-						<img src="assets/public/img/icon/view_more_vert.png" class="scenDashIcon2" data-ui-sref="logged.dashboard.colleaguesList">
-						<span data-ui-sref="logged.dashboard.colleaguesList">Vedi altri</span>
+					<div class="row" ng-if="dashboard.user.colleagues.length>6" style="cursor: pointer;">
+						<img src="assets/public/img/icon/view_more_vert.png" style="margin:auto;" class="scenDashIcon2" data-ui-sref="logged.dashboard.colleaguesList">
 					</div>
 				</div>
 				

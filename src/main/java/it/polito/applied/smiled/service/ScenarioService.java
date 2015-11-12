@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public interface ScenarioService {
 	public Post updateEvent(String id, String eventId, EventDTO event,
 			CustomUserDetails activeUser) throws NotFoundException, ForbiddenException, BadRequestException, IOException;
 
-	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException;
+	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException, FileNotFoundException;
 
 	public void insertRevision(String id, String postId, RevisionDTO revision,
 			CustomUserDetails activeUser) throws BadRequestException;

@@ -270,47 +270,60 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			/*Private function used to upload media*/
 			var uploadMediaToPost = function(file,isImage){
+				console.log(file);
 				if(file && file.length){
-					Upload.upload({
-			            url: CONSTANTS.urlMediaScenarioPost(self.scenario.id),
-			            headers : {
-			                'Content-Type': file.type
-			            },
-			            file: file
-			        })
-//			            .progress(function (evt) {
-//			            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//			            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-//			        })
-			        .success(function (data, status, headers, config) {
-			           console.log("SUCCESS UPLOAD");
-			           console.log(data);
-			           if(isImage){
-				           var uploadedFile = {};
-			        	   uploadedFile.id = data.id;
-			        	   uploadedFile.name = config.file[0].name;
-			        	   self.newPost.image.push(uploadedFile);
-			           }else{
-				           var uploadedFile = {};
-				           uploadedFile.id = data.id;
-				           uploadedFile.name = config.file[0].name;
-			        	   var split = uploadedFile.name.split(".");
-			        	   var type = split[split.length-1];
-			        	   uploadedFile.fileType =  null;
-			        	   if(type == 'jpg' || type == 'png' || type=='gif'){
-			        		   uploadedFile.fileType = 'img';
-			        	   }else if(type == 'pdf'){
-			        		   uploadedFile.fileType = 'pdf';
-			        	   }else if(type == 'doc' || type == 'docx' || type == 'odt' || type == 'txt'){
-			        		   uploadedFile.fileType = 'doc';
-			        	   }else if(type == 'ppt' || type == 'pptx' || type == 'odp'){
-			        		   uploadedFile.fileType = 'ppt';
-			        	   }else if(type == 'xls' || type == 'xlsx' || type == 'ods'){
-			        		   uploadedFile.fileType = 'excel';
-			        	   }
-			        	   self.newPost.file.push(uploadedFile);
-			           }
-			        });
+					if(isImage && !(file[0].type=="image/png") && !(file[0].type=="image/gif") && !(file[0].type=="image/jpg") && !(file[0].type=="image/jpeg")){
+						alertingScenario.addWarning("Formato non valido per le immagini.");
+					}else{
+						Upload.upload({
+				            url: CONSTANTS.urlMediaScenarioPost(self.scenario.id),
+				            headers : {
+				                'Content-Type': file.type
+				            },
+				            file: file
+				        })
+//				            .progress(function (evt) {
+//				            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//				            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//				        })
+				        .then(
+				        function (data, status, headers, config) {
+				           console.log("SUCCESS UPLOAD");
+				           console.log(data);
+				           if(isImage){
+					           var uploadedFile = {};
+				        	   uploadedFile.id = data.id;
+				        	   uploadedFile.name = config.file[0].name;
+				        	   self.newPost.image.push(uploadedFile);
+				           }else{
+					           var uploadedFile = {};
+					           uploadedFile.id = data.id;
+					           uploadedFile.name = config.file[0].name;
+				        	   var split = uploadedFile.name.split(".");
+				        	   var type = split[split.length-1];
+				        	   uploadedFile.fileType =  null;
+				        	   if(type == 'jpg' || type == 'png' || type=='gif'){
+				        		   uploadedFile.fileType = 'img';
+				        	   }else if(type == 'pdf'){
+				        		   uploadedFile.fileType = 'pdf';
+				        	   }else if(type == 'doc' || type == 'docx' || type == 'odt' || type == 'txt'){
+				        		   uploadedFile.fileType = 'doc';
+				        	   }else if(type == 'ppt' || type == 'pptx' || type == 'odp'){
+				        		   uploadedFile.fileType = 'ppt';
+				        	   }else if(type == 'xls' || type == 'xlsx' || type == 'ods'){
+				        		   uploadedFile.fileType = 'excel';
+				        	   }
+				        	   self.newPost.file.push(uploadedFile);
+				           }
+				        },function(reason){
+				        	if(reason.status=="400" || reason.status=="406"){
+								alertingScenario.addWarning("Formato non supportato.");
+				        	}else{
+				        		alertingScenario.addWarning("C'è stato un errore, non è stato possibile caricare il file. Riprova per favore.");
+				        	}				        
+				        });
+					}
+					
 				}
 			}
 			/*-----------------------------------------------------*/

@@ -1,4 +1,5 @@
-angular.module('smiled.application').factory('alertingScenario',['$timeout', function($timeout) {
+angular.module('smiled.application').factory('alertingScenario',['$timeout', '$location', '$anchorScroll',
+    function($timeout, $location, $anchorScroll) {
         
         var currentAlerts = [];
         var alertTypes = ["success", "info", "warning", "danger"];
@@ -26,6 +27,8 @@ angular.module('smiled.application').factory('alertingScenario',['$timeout', fun
   
     		var alert = { type: type, message: message };
     		currentAlerts.push(alert);
+    		$location.hash("topBox");
+			$anchorScroll();
 
     		$timeout(function () {
     			removeAlert(alert);

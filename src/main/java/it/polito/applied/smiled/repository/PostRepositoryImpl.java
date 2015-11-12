@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.repository;
 
 import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.PostReverseDateComparator;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorDesc;
@@ -203,7 +204,7 @@ public class PostRepositoryImpl implements CustomPostRepository{
 	}
 
 	@Override
-	public void deleteFileFromPost(String postId, FileMetadata f) {
+	public void deleteFileFromPost(String postId, FileReference f) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").is(postId));
 		Update u = new Update();
@@ -214,7 +215,7 @@ public class PostRepositoryImpl implements CustomPostRepository{
 	}
 
 	@Override
-	public void deleteImageFromPost(String postId, FileMetadata f) {
+	public void deleteImageFromPost(String postId, FileReference f) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").is(postId));
 		Update u = new Update();

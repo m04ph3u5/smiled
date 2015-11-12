@@ -27,6 +27,7 @@ import it.polito.applied.smiled.validator.CharacterDTOPutValidator;
 import it.polito.applied.smiled.validator.ScenarioDTOPostValidator;
 import it.polito.applied.smiled.validator.ScenarioDTOPutValidator;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -386,7 +387,7 @@ public class ScenarioController extends BaseController{
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value="/v1/scenarios/{id}/posts/{postId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'WRITE')")
-	public void deletePost(@PathVariable String id, @PathVariable String postId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
+	public void deletePost(@PathVariable String id, @PathVariable String postId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException, FileNotFoundException{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.deletePost(id, postId, auth);

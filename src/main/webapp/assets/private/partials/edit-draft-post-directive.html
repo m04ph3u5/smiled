@@ -1,3 +1,4 @@
+<div class="col-xs-12 box boxGray"><h3>{{editDraftPost.post.scenarioName}}</h3></div>
 <div class="col-xs-12 box boxGray">
 	<div class="row marginSTop">
 		<div class="colPadding">
@@ -14,11 +15,12 @@
 			
 			<div class="col-xs-12">
 				<!-- FOTO PERSONAGGIO -->
-				<div style="cursor:pointer;" data-ng-show="editDraftPost.post.character" class="squareCharImg" 
-					data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.post.scenarioId}}', idCharacter : '{{editDraftPost.post.character.id}}' })"
-					style="background-image:url('{{editDraftPost.post.character.cover}}'), url('assets/public/img/icon/pg.png')"></div>
+				<div data-ng-show="editDraftPost.post.character" class="squareCharImgMin" 
+					style="cursor:pointer; background-image : url('{{editDraftPost.post.character.cover}}'), url('assets/public/img/icon/pg.png')"
+					data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.post.scenarioId}}', idCharacter : '{{editDraftPost.post.character.id}}' })"></div>
+					
 				<!-- FOTO NARRATORE -->	
-				<div style="cursor:pointer;" data-ng-hide="editDraftPost.post.character" class="squareCharImg" style="background-image:url('assets/public/img/narr.png')"></div>
+				<div data-ng-hide="editDraftPost.post.character" class="squareCharImgMin" style="cursor:pointer; background-image : url('assets/public/img/narr.png')"></div>
 		
 				<div class="row colPaddingScen">					
 					<h4 class="pull-left"><a data-ng-show="editDraftPost.post.character" href="" data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.post.scenarioId}}', idCharacter : '{{editDraftPost.post.character.id}}' })">
@@ -134,12 +136,6 @@
 					class="btn generalButton1">SALVA</div> 
 				<div data-ng-click="editDraftPost.draftNewPost(true); editDraftPost.hideTagBox()"
 					class="btn positiveButton">PUBBLICA</div>
-			</div>
-		</div>
-		<div style="margin-top:10px;" class="row col-xs-12">
-			<div class="pull-right">
-<!-- 				<div data-ng-click="editDraftPost.cancel(); editDraftPost.hideTagBox()" -->
-<!-- 					class="btn warningButton">ANNULLA</div>  -->
 				<div data-ng-click="editDraftPost.deletePost(); editDraftPost.hideTagBox()"
 					class="btn warningButton">ELIMINA</div>
 			</div>

@@ -142,24 +142,31 @@ public class FileUploadController extends BaseController{
 		MediaDataAndContentType m;
 		try {
 			m = fileManagerService.getMedia(id,auth,getThumb);
-		} catch (HttpMediaTypeNotAcceptableException | IOException e) {
-			System.out.println(e.getMessage());
-			ErrorInfo error = new ErrorInfo();
-			error.setStatusCode("400");
-			error.setMessage(e.getMessage());
-			return new ResponseEntity<ErrorInfo>(error, HttpStatus.BAD_REQUEST);
 		} catch(NotFoundException e){
-			System.out.println(e.getMessage());
 			ErrorInfo error = new ErrorInfo();
 			error.setStatusCode("404");
 			error.setMessage(e.getMessage());
 			return new ResponseEntity<ErrorInfo>(error, HttpStatus.NOT_FOUND);
 		} catch(ForbiddenException e){
-			System.out.println(e.getMessage());
 			ErrorInfo error = new ErrorInfo();
 			error.setStatusCode("403");
 			error.setMessage(e.getMessage());
 			return new ResponseEntity<ErrorInfo>(error, HttpStatus.FORBIDDEN);
+		} catch (BadRequestException e) {
+			ErrorInfo error = new ErrorInfo();
+			error.setStatusCode("400");
+			error.setMessage("Il file caricato non è in un formato adatto. "+e.getMessage());
+			return new ResponseEntity<ErrorInfo>(error, HttpStatus.BAD_REQUEST);
+		} catch (HttpMediaTypeNotAcceptableException e) {
+			ErrorInfo error = new ErrorInfo();
+			error.setStatusCode("406");
+			error.setMessage(e.getMessage());
+			return new ResponseEntity<ErrorInfo>(error, HttpStatus.NOT_ACCEPTABLE);
+		} catch (IOException e) {
+			ErrorInfo error = new ErrorInfo();
+			error.setStatusCode("500");
+			error.setMessage(e.getMessage());
+			return new ResponseEntity<ErrorInfo>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(m.getContentType());

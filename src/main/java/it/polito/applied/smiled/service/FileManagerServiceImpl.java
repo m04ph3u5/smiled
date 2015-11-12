@@ -5,6 +5,7 @@ import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.MediaDataAndContentType;
 import it.polito.applied.smiled.pojo.ResourceType;
 import it.polito.applied.smiled.pojo.SupportedMedia;
@@ -477,7 +478,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	
 	
 	@Override
-	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId, boolean trusted) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException {
+	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId, boolean trusted) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException, BadRequestException {
 		SupportedMedia type = validateAsMedia(media);
 		FileMetadata meta = new FileMetadata();
 		meta.setUserId(user.getId());
@@ -511,7 +512,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	}
 
 	@Override
-	public MediaDataAndContentType getMedia(String filename, Authentication auth, Boolean getThumb) throws NotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException {
+	public MediaDataAndContentType getMedia(String filename, Authentication auth, Boolean getThumb) throws NotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException, BadRequestException {
 		System.out.println("------------------>"+filename);
 		
 		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
@@ -652,15 +653,21 @@ public class FileManagerServiceImpl implements FileManagerService {
 		if(!f.getUserId().equals(user.getId()))
 			throw new ForbiddenException();
 		
+		FileReference ref = new FileReference(idMedia, f.getOriginalName());
+		
 		if(f.getType().equals(ResourceType.TO_CONFIRM_DOC) || f.getType().equals(ResourceType.DOCUMENT)){
-			gridFsManager.putFileInDeleteStatus(idMedia);
 			if(postId!=null){
-				postRepository.deleteFileFromPost(postId, f);
+				gridFsManager.putFileInDeleteStatus(idMedia);
+				postRepository.deleteFileFromPost(postId, ref);
+			}else{
+				gridFsManager.deleteMedia(idMedia);
 			}
 		}else{
-			gridFsManager.putImageInDeleteStatus(idMedia);
 			if(postId!=null){
-				postRepository.deleteImageFromPost(postId, f);
+				gridFsManager.putImageInDeleteStatus(idMedia);
+				postRepository.deleteImageFromPost(postId, ref);
+			}else{
+				gridFsManager.deleteMedia(idMedia);
 			}
 		}
 		
@@ -832,9 +839,13 @@ public class FileManagerServiceImpl implements FileManagerService {
 		return false;
 	}
 	
-	private byte[] saveThumbnail(InputStream file, int length) throws IOException{
+	private byte[] saveThumbnail(InputStream file, int length) throws IOException, BadRequestException{
 		System.out.println("saveThumb");
 		BufferedImage sourceImage = ImageIO.read(file);
+	
+		if(sourceImage==null)
+			throw new BadRequestException("Il file caricato non è un'immagine.");
+		
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
         BufferedImage img2=null;
@@ -897,6 +908,31 @@ public class FileManagerServiceImpl implements FileManagerService {
 //        ImageIO.write(img2, "png", b64);
 //        return os.toString("UTF-8");
 	}
+
+	@Override
+	public void deleteListOfMedia(List<String> mediaToDelete) {
+		gridFsManager.deleteListOfMedia(mediaToDelete);
+	}
+
+	@Override
+	public void putListOfImagesInDelete(List<String> mediaToDelete) throws FileNotFoundException {
+		if(mediaToDelete!=null){
+			for(String s : mediaToDelete){
+				gridFsManager.putImageInDeleteStatus(s);
+			}
+		}
+	}
+
+	@Override
+	public void putListOfFilesInDelete(List<String> mediaToDelete) throws FileNotFoundException {
+		if(mediaToDelete!=null){
+			for(String s : mediaToDelete){
+				gridFsManager.putFileInDeleteStatus(s);
+			}
+		}		
+	}
+
+	
 
 
 }

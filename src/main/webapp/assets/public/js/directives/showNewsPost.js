@@ -225,19 +225,33 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 						}else{
 							col++;
 						}
-						self.post.media[row][col] = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
+						self.post.media[row][col] = CONSTANTS.urlMediaThumb(self.post.imagesMetadata[j].id);
 						self.post.imagesMetadata[j].url = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
 					}
 				}
 
 			}
-//			self.removeImage =function(image){
-//			for(var i=0; i<self.post.imagesMetadata.length; i++){
-//			if(self.post.imagesMetadata[i].id==image.id){
-//			self.post.imagesMetadata.splice(i,1);
-//			}
-//			}
-//			}
+
+			self.removeImage =function(row, col){
+				var index = (row*numMediaPerRow)+col;
+				console.log(index);
+				var id = angular.copy(self.post.imagesMetadata[index].id);
+				apiService.deleteMedia(id, self.post.id).then(
+					function(data){
+						for(var i=0; i<self.post.imagesMetadata.length; i++){
+							console.log(self.post.imagesMetadata[i]);
+						}
+						self.post.imagesMetadata.splice(index,1);
+						for(var i=0; i<self.post.imagesMetadata.length; i++){
+							console.log(self.post.imagesMetadata[i]);
+						}
+						self.recalculateMatrix();
+					},
+					function(reason){
+						console.log("Impossibile eliminare immagine");
+					}
+				);
+			}
 			
 			var assignFileType = function (){
 				for (var i=0; i<self.post.filesMetadata.length; i++){

@@ -1,6 +1,6 @@
 package it.polito.applied.smiled.repository;
 
-import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
@@ -25,7 +25,7 @@ public interface CustomPostRepository {
 	public boolean removeComment(String idScenario, String postId, CommentInterface comment);
 	public List<Post> findByScenarioIdAndPostStatus(String scenarioId, PostStatus status);
 	public List<Post> findByIds(List<String> toRetrieveListIds);
-	public void deleteFileFromPost(String postId, FileMetadata f);
-	public void deleteImageFromPost(String postId, FileMetadata f);
+	public void deleteFileFromPost(String postId, FileReference f);
+	public void deleteImageFromPost(String postId, FileReference f);
 
 }

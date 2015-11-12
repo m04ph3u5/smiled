@@ -662,7 +662,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			List<String> previewDraft = new ArrayList<String>();
 			Random r = new Random();
 			int i=0;
-			while(i<PREVIEW && i<draft.size()){
+			int size = draft.size();
+			while(i<PREVIEW && i<size){
 				previewDraft.add(draft.remove((int)Math.floor(r.nextDouble()*(draft.size()))));
 				i++;
 			}

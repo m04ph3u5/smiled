@@ -59,23 +59,14 @@ public abstract class BaseController {
 		return error;
 	}
 	
-//	@ExceptionHandler(NotFoundException.class)
-//	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-//	public ErrorInfo handleNotFoundException(NotFoundException e){
-//		ErrorInfo error = new ErrorInfo();
-//		error.setMessage(e.getMessage());
-//		error.setStatusCode("404");
-//		/*DA INSERIRE URL*/
-//		return error;
-//	}
-	
 	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<ErrorInfo> handleNotFoundExceptionResponseEntity(NotFoundException e){
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ErrorInfo handleNotFoundException(NotFoundException e){
 		ErrorInfo error = new ErrorInfo();
 		error.setMessage(e.getMessage());
 		error.setStatusCode("404");
 		/*DA INSERIRE URL*/
-		return new ResponseEntity<ErrorInfo>(error, HttpStatus.NOT_FOUND);
+		return error;
 	}
 	
 	@ExceptionHandler(BadCredentialsException.class)
@@ -127,7 +118,7 @@ public abstract class BaseController {
 	
 	
 	@ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorInfo handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException e){
 		ErrorInfo error = new ErrorInfo();
 		error.setStatusCode("400");

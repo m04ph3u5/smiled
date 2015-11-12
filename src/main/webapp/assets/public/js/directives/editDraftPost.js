@@ -21,6 +21,11 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 					for(var i=0;i<self.posts.length; i++){
 						if(self.posts[i].id==self.postId){
 							self.post = self.posts[i];
+							console.log("POST FOUNDED: "+self.post.id);
+							if(self.post.character){
+								self.post.character.cover = CONSTANTS.urlCharacterCover(self.post.scenarioId, self.post.character.id);
+								console.log(self.post.character.cover);
+							}
 							break;
 						}
 					}
@@ -83,6 +88,7 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 				}
 				
 				updateMediaAndTagOnStart();
+				
 				apiService.getScenario(self.post.scenarioId).then(
 						function(data){
 							self.scenario = data;

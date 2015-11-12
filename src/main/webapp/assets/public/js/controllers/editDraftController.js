@@ -1,22 +1,9 @@
-angular.module('smiled.application').controller('editDraftCtrl', ['loggedUser', 'drafts', 'apiService', 'CONSTANTS', '$stateParams',
-    function editDraftCtrl(loggedUser, drafts, apiService, CONSTANTS, $stateParams){
+angular.module('smiled.application').controller('editDraftCtrl', ['loggedUser', 'drafts', '$stateParams',
+    function editDraftCtrl(loggedUser, drafts, $stateParams){
 	
 	var self = this;
 	self.user = loggedUser;
-	self.post = {};
-	
+	self.drafts = drafts;
 	self.postId = $stateParams.postId;
 
-	var onStartUp = function(){
-		if(drafts){
-			self.drafts = drafts;
-			for(var i=0; i<self.drafts.length; i++){
-				if(self.drafts[i].character)
-					self.drafts[i].character.cover = CONSTANTS.urlCharacterCover(self.drafts[i].scenarioId, self.drafts[i].character.id);
-			}
-		}
-	}
-	
-	onStartUp();
-	
 }]);
