@@ -2,14 +2,16 @@
 <div class="container-fluid mainContent">
 	<!-- Added test commit -->
 	<div class="row-fluid">
-		<div style="font-family:kids">UHAUHAUHA</div>
 		<div class="col-lg-1"></div>
 		<div class="col-sm-12 col-lg-10">
 			<div class="row">
 			
 				<!-- BOZZE MD/LG -->
 				<div class="col-md-3 doubleRow box boxGreen hidden-xs hidden-sm visible-md visible-lg hideOverflow">
-					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">Bozze</h3>						
+					<h1 data-ui-sref="logged.dashboard.draft" class="dashTitle">
+						BOZZE
+						<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon"></a>
+					</h1>						
 					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
 					<div class="col-md-12" data-ng-repeat="d in dashboard.myDraft">
 						<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
@@ -48,8 +50,8 @@
 				<!-- SCENARIO MD/LG -->
 				<div class="col-md-9 singleRow box boxRed hidden-xs hidden-sm visible-md visible-lg hideOverflow">
 					
-					<h1 data-ui-sref="logged.dashboard.scenariosList">
-						<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+					<h1 data-ui-sref="logged.dashboard.scenariosList" class="dashTitle">
+						SCENARI
 						<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
 					</h1>
 					<div class="row marginMTop">
@@ -95,8 +97,8 @@
 			
 			<!-- SCENARIO SM/XS -->
 			<div class="col-xs-12 doubleRow box boxRed visible-xs visible-sm hidden-md hidden-lg hideOverflow">
-				<h1 data-ui-sref="logged.dashboard.scenariosList">
-					<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/scenari.png" class="title"></a>
+				<h1 data-ui-sref="logged.dashboard.scenariosList" class="dashTitle">
+					SCENARI
 					<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_scen.png" class="titleIcon"></a>
 				</h1>
 				<div style="cursor:pointer;" class="row marginMTop">
@@ -137,7 +139,10 @@
 		
 				<!-- BOZZE SM -->
 				<div class="col-sm-12 singleRow box boxGreen hidden-xs visible-sm hidden-md hidden-lg hideOverflow">
-					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">BOZZE</h3>						
+					<h1 data-ui-sref="logged.dashboard.draft" class="dashTitle">
+						BOZZE
+						<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon"></a>
+					</h1>						
 					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
 					<div class="row">
 						<div class="col-sm-4" data-ng-repeat="d in dashboard.myDraft | limitTo: 3">
@@ -175,7 +180,10 @@
 				
 				<!-- BOZZE XS -->
 				<div class="col-xs-12 doubleRow box boxGreen visible-xs hidden-sm hidden-md hidden-lg hideOverflow">
-					<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">BOZZE</h3>						
+					<h1 data-ui-sref="logged.dashboard.draft" class="dashTitle">
+						BOZZE
+						<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_hw.png" class="titleIcon"></a>
+					</h1>					
 					<p data-ng-hide="dashboard.myDraft || dashboard.myDraft.length==0">Qui saranno inserite le tue bozze</p>
 					<div class="col-xs-12" data-ng-repeat="d in dashboard.myDraft">
 						<div style="cursor:pointer;" class="boxFakeDraft" data-ui-sref="logged.dashboard.draft.edit({postId : '{{d.id}}' })">
@@ -212,10 +220,10 @@
 				
 				<!-- ALUNNI -->
 				<div class="col-sm-4 col-md-3 singleRow box boxYellow hideOverflow">
-					<div data-ui-sref="logged.dashboard.studentsList">
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/alunni.png" class="title"></a>
+					<h1 class="dashTitle" data-ui-sref="logged.dashboard.studentsList">
+						ALUNNI
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_stud.png" class="titleIcon"></a>
-					</div>
+					</h1>
 					<div ng-if="dashboard.user.students==null">
 						Qui verranno inseriti i propri alunni
 					</div>
@@ -237,10 +245,10 @@
 				
 				<!-- COLLEGHI -->
 				<div class="col-sm-4 col-md-3 singleRow box boxLightgreen">
-					<div data-ui-sref="logged.dashboard.colleaguesList">
-						<a href=""><img ng-src="assets/public/img/titoli_dashboard/colleghi.png" class="title"></a>
+					<h1 data-ui-sref="logged.dashboard.colleaguesList" class="dashTitle">
+						COLLEGHI
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_coll.png" class="titleIcon"></a>
-					</div>
+					</h1>
 					<div ng-if="dashboard.user.colleagues==null">
 						Qui verranno inseriti i propri colleghi
 					</div>
@@ -268,10 +276,10 @@
 				
 				<!-- Azioni -->
 				<div class="col-xs-12 col-sm-8 col-md-9 singleRow box boxBrown">
-					<h3>
+					<h1 class="dashTitle">
 						STATISTICHE
 						<a href=""><img ng-src="assets/public/img/titoli_dashboard/ic_att.png" class="titleIcon"></a>
-					</h3>
+					</h1>
 					<p>Questa sezione sarà presto attiva!</p>
 					<div class="row">
 						<img ng-src="assets/public/img/icon/wip2.png" class="img fileIcon">
@@ -281,7 +289,10 @@
 				<!-- MATERIALI LG/MD/SM -->
 				<div style="top: -280px; margin-bottom: -280px;" class="col-sm-4 col-md-3 doubleRow box boxLightblue hideOverflow hidden-xs visible-sm visible-md visible-lg">
 					<div>
-						<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">MATERIALI</h3>	
+						<h1 class="dashTitle">
+							MATERIALI
+							<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon"></a>
+						</h1>	
 						<p>Questa sezione sarà presto attiva!</p>
 						<div class="row">
 							<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">
@@ -292,7 +303,10 @@
 					<!-- MATERIALI XS -->
 				<div  class="col-xs-12 doubleRow box boxLightblue hideOverflow visible-xs hidden-sm hidden-md hidden-lg">
 					<div>
-						<h3 data-ui-sref="logged.dashboard.draft" style="margin-bottom:10px; cursor:pointer">MATERIALI</h3>	
+						<h1 class="dashTitle">
+							MATERIALI
+							<a href=""><img data-ng-src="assets/public/img/titoli_dashboard/ic_mat.png" class="titleIcon"></a>
+						</h1>	
 						<p>Questa sezione sarà presto attiva!</p>
 						<div class="row">
 							<img ng-src="assets/public/img/icon/wip4.png" class="img fileIcon">

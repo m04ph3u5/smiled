@@ -32,8 +32,9 @@
 			font-size:1.3em;
 		}
 		@font-face {
-		   font-family: kids;
-		   src: url(assets/public/font/DK Lemon Yellow Sun.otf);
+		   font-family: dashfont;
+		   src: url("font/dash.ttf");
+		   font-weight: bold;
 		}
 		input[type=text]:focus,
 		input[type=email]:focus,
@@ -271,6 +272,13 @@
 		}
 		.boxLightgreen {						
 			background-image: url("img_temp/dash_bg_lightgreen.jpg");
+			background-size:cover;
+			background-repeat: no-repeat;
+			background-position: center; 			
+		}
+		
+		.boxApplegreen {						
+			background-image: url("img_temp/dash_bg_applegreen.jpg");
 			background-size:cover;
 			background-repeat: no-repeat;
 			background-position: center; 			
@@ -552,6 +560,10 @@
 		.dashSection{
 			min-height:500px;
 		}
+		.dashSectionTitle{
+			font-family:dashfont;
+			font-size:50px;
+		}
 		#freccia{
 			height:60px;
 			width:250px; 
@@ -618,6 +630,12 @@
 		    margin-top: 1%;
 	}
 /* Dashboard */
+		.dashTitle{
+			font-family:dashfont;
+			font-size:45px;
+			margin-top: 10px;
+			cursor:pointer;
+		}
 
 		.overlapImg{
 			position:absolute;
@@ -693,6 +711,7 @@
     	}
     	.titleIcon{
     		height:40px;
+    		margin-top: -10px;
     	}
     	.titleIconSmall{
     		height:20px;
