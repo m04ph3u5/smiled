@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private PostRepository postRepository;
 	
-	private final int PREVIEW=3;
+	private final int PREVIEW=4;
 	
 //	@Autowired
 //	private NotifyService notify;
@@ -658,11 +658,12 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		if(draft==null || draft.size()==0)
 			return new ArrayList<Post>();
 		
-		if(preview){
+		if(preview && draft.size()>PREVIEW){
 			List<String> previewDraft = new ArrayList<String>();
 			Random r = new Random();
 			int i=0;
-			while(i<PREVIEW && i<draft.size()){
+			int size = draft.size();
+			while(i<PREVIEW && i<size){
 				previewDraft.add(draft.remove((int)Math.floor(r.nextDouble()*(draft.size()))));
 				i++;
 			}

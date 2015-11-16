@@ -10,8 +10,44 @@ public class UserProfile {
 	protected String coverPhotoId;
 	protected String largeCoverPhotoId;
 	protected Date bornDate;
+	protected String bornCity;
+	protected String actualCity;
+	protected String school;
+	protected String quote;
 	
 	
+	public String getQuote() {
+		return quote;
+	}
+
+	public void setQuote(String quote) {
+		this.quote = quote;
+	}
+
+	public String getBornCity() {
+		return bornCity;
+	}
+
+	public void setBornCity(String bornCity) {
+		this.bornCity = bornCity;
+	}
+
+	public String getActualCity() {
+		return actualCity;
+	}
+
+	public void setActualCity(String actualCity) {
+		this.actualCity = actualCity;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
 	public String getGender() {
 		return gender;
 	}

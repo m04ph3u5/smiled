@@ -5,13 +5,22 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	var id = null;
 	var role = null;
 	self.ruolo = null;
-	self.editablePassword = false;
+	self.editProfile = false;
+	self.editPassword = false;
+	self.modifiedUser = {};
+	self.dateFormat = CONSTANTS.realDateFormatWithoutHour;
+	self.isModifiable=false;
+	self.user = {};
+	self.oldPassword="";
+	self.newPassword="";
+	self.newPassword2 = "";
 	
 	var myIdentity = $cookies.get('myMescholaId');
 	
 	var onSuccessGetUser = function(data){
 		self.user = data;
-		role = self.user.role;	
+		role = self.user.role;
+		self.modifiedUser = angular.copy(self.user);
 		if (role.authority=="ROLE_TEACHER")
 			self.ruolo="DOCENTE";
 		else 
@@ -22,10 +31,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		console.log("Error getting user personalProfile: "+reason);
 	}
 	
-	self.dateFormat = CONSTANTS.realDateFormatWithoutHour;
-	self.isModifiable=false;
 
-	
 	if($stateParams.id)
 		id = $stateParams.id;
 	if(id){
@@ -52,7 +58,18 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	}
 	
 	
-	
+	self.updateMe = function(){
+		userService.updateMe(userDTO).then(
+				function(data){
+					console.log("updateMe correct");
+					
+				},
+				function(reason){
+					console.log("errore nell'updateMe");
+					
+				}
+		);
+	}
 	
 	self.uploadCover = function(file){
 		if(file && file.length){
@@ -98,11 +115,38 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		}
 	}
 	
-	self.editPassword = function(){
-		self.editablePassword = !self.editablePassword;
+	self.switchEditPassword = function(){
+		self.editProfile = false;
+		self.editPassword = !self.editPassword;
+		
 	}
 	
+	
+	self.showEditProfile = function(){
+		self.editPassword = false;
+		self.editProfile = true;
+	}
+	
+	self.closeEditProfile = function(){
+		self.editProfile = false;
+	}
+	self.updateUser = function(){
+		console.log("UPDATE USER");
+
+	}
+	self.deleteUpdateUser = function(){
+		self.modifiedUser = angular.copy(self.user);
+		console.log("DELETE UPDATE USER");
+	}
+	
+	self.deleteModifyPassword = function(){
+		self.oldPassword="";
+		self.newPassword="";
+		self.newPassword2 = "";
+		self.editPassword=false;
+	}
 	self.modifyPassword = function(){
+		
 		if(self.oldPassword && self.newPassword){
 			if(self.newPassword == self.newPassword2){
 				var passwordDTO = {};

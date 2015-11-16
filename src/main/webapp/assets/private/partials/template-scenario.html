@@ -7,7 +7,8 @@
 		<div id="leftSide" style="cursor:pointer;" data-ng-show="scenario.hasCharacter" class="box hidden-xs hidden-sm hidden-md visible-lg" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })">
 			<img data-ng-src="{{scenario.currentCharacter.cover}}" data-err-src="assets/public/img/icon/pg.png" 
 								class="img-circle imgPreviewXL">
-			<p class="highlightText text-center" style="word-wrap:break-word;" data-ng-bind-html="scenario.currentCharacter.name | linky:'_blank'"></p>
+			<b><a href=""><p class="highlightText text-center" style="word-wrap:break-word;" data-ng-bind-html="scenario.currentCharacter.name | linky:'_blank'"></p></a></b>
+			
 		</div>
 			
 <!-- 		 <div id="leftSide" class="sideMorePad hidden-xs hidden-sm hidden-md visible-lg" data-ng-show="scenario.hasCharacter" data-ui-sref="logged.scenario.charprofile({id : '{{scenario.scen.id}}', idCharacter : '{{scenario.currentCharacter.id}}' })"> -->
@@ -98,17 +99,33 @@
 	
 	<div class="col-lg-6 col-sm-8">
 		<div class="jumbotron" style="
-		background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6)),url('{{scenario.scen.cover}}'), url('assets/public/img/cover_scen_default.jpg')">		
-			<h1 class="text-center">{{scenario.scen.name}}</h1>
-			<!-- p da mostrare solo per moderator -->
-<!-- 			<p id="uploadSpan" ngf-select ngf-change="uploadCover($files)"><span class="glyphicon glyphicon-camera"></span></p> -->
+			background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6)),url('{{scenario.scen.cover}}'), url('assets/public/img/cover_scen_default.jpg')">		
+			
+			
+			<div class="container" style="width:100%;">
+       			 <div class="row">
+            			<div class="col-md-6 ">
+            				<h1 >{{scenario.scen.name}}</h1>
+            			</div>
+            	</div>
+            	<span style="font-size:1.4em; cursor:pointer;" data-ng-if="scenario.isModerator" class="pull-right glyphicon glyphicon-camera" id="uploadSpan" ngf-select ngf-change="scenario.uploadCover($files)">
+				</span>
+            </div>
+		
+			
+				
+						
+		
+			
+			
 		</div>
+			
 		<div class="container-fluid menu">
 			<div class="row text-center hidden-xs visible-sm visible-md visible-lg">
 				<a href="" class="col-xs-3 menuBox" data-ui-sref=".posts" data-ui-sref-active="active"><h4>POST</h4></a>
 				<a href="" class="col-xs-3 menuBox" data-ui-sref=".storyline" data-ui-sref-active="active"><h4>STORYLINE</h4></a>
-				<a href="" class="col-xs-3 menuBox" data-ui-sref=".characters" data-ui-sref-active="active"><h4>PERSONAGGI</h4></a>
 				<a href="" class="col-xs-3 menuBox" data-ui-sref=".map" data-ui-sref-active="active"><h4>MAPPA</h4></a>
+				<a href="" class="col-xs-3 menuBox" data-ui-sref=".characters" data-ui-sref-active="active"><h4>INFO</h4></a>
 			</div>
 			<div class="row text-center visible-xs hidden-sm hidden-md hidden-lg">
 				<a href="" class="col-xs-3 menuBox" data-ui-sref=".posts" data-ui-sref-active="active">
@@ -117,11 +134,12 @@
 				<a href="" class="col-xs-3 menuBox" data-ui-sref=".storyline" data-ui-sref-active="active">
 					<img class="menuIcon" src="assets/public/img/icon/ic_menu_storyline.png">
 				</a>
-				<a href="" class="col-xs-3 menuBox" data-ui-sref=".characters" data-ui-sref-active="active">
-					<img class="menuIcon" src="assets/public/img/icon/ic_menu_pg.png">
-				</a>
+				
 				<a href="" class="col-xs-3 menuBox" data-ui-sref=".map" data-ui-sref-active="active">
 					<img class="menuIcon" src="assets/public/img/icon/ic_menu_map.png">
+				</a>
+				<a href="" class="col-xs-3 menuBox" data-ui-sref=".characters" data-ui-sref-active="active">
+					<img class="menuIcon" src="assets/public/img/icon/ic_menu_pg.png">
 				</a>
 			</div>
 		</div>

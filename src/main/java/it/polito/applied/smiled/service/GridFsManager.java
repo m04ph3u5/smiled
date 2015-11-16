@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
 
 import java.io.FileNotFoundException;
@@ -21,7 +22,7 @@ public interface GridFsManager {
 
 	void toOldCover(GridFSFile oldCover);
 
-	FileMetadata getMetadata(String filename) throws FileNotFoundException;
+	FileMetadata getMetadata(String filename) throws NotFoundException;
 	
 	GridFSFile getOriginalMetadata(String filename);
 
@@ -54,5 +55,7 @@ public interface GridFsManager {
 	GridFSDBFile readOneById(String name);
 
 	void deleteMedia(String idMedia);
+
+	void deleteListOfMedia(List<String> idsMedia);
 
 }

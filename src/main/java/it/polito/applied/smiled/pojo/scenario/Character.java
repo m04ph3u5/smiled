@@ -40,6 +40,8 @@ public class Character {
 	private String role;
 	private Reference actualUser;
 	private Date actualUserStart;
+	
+
 	private Map<String, ArrayList<IntervalDate>> pastUserId;   //la chiave è l'id dello user, la lista contiene tutte le volte (tutti gli intervalli temporali) in cui quello user ha interpretato quel character
 	private String idScenario;
 	private List<PostReference> posts;
@@ -78,6 +80,15 @@ public class Character {
 
 	public void setMission(Mission mission) {
 		this.mission = mission;
+	}
+
+	public Date getActualUserStart() {
+		return actualUserStart;
+	}
+
+
+	public void setActualUserStart(Date actualUserStart) {
+		this.actualUserStart = actualUserStart;
 	}
 
 

@@ -225,19 +225,33 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 						}else{
 							col++;
 						}
-						self.post.media[row][col] = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
+						self.post.media[row][col] = CONSTANTS.urlMediaThumb(self.post.imagesMetadata[j].id);
 						self.post.imagesMetadata[j].url = CONSTANTS.urlMedia(self.post.imagesMetadata[j].id);
 					}
 				}
 
 			}
-//			self.removeImage =function(image){
-//			for(var i=0; i<self.post.imagesMetadata.length; i++){
-//			if(self.post.imagesMetadata[i].id==image.id){
-//			self.post.imagesMetadata.splice(i,1);
-//			}
-//			}
-//			}
+
+			self.removeImage =function(row, col){
+				var index = (row*numMediaPerRow)+col;
+				console.log(index);
+				var id = angular.copy(self.post.imagesMetadata[index].id);
+				apiService.deleteMedia(id, self.post.id).then(
+					function(data){
+						for(var i=0; i<self.post.imagesMetadata.length; i++){
+							console.log(self.post.imagesMetadata[i]);
+						}
+						self.post.imagesMetadata.splice(index,1);
+						for(var i=0; i<self.post.imagesMetadata.length; i++){
+							console.log(self.post.imagesMetadata[i]);
+						}
+						self.recalculateMatrix();
+					},
+					function(reason){
+						console.log("Impossibile eliminare immagine");
+					}
+				);
+			}
 			
 			var assignFileType = function (){
 				for (var i=0; i<self.post.filesMetadata.length; i++){
@@ -273,13 +287,14 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					}
 				}
 			}
-			self.setPositionPost = function(){
-				console.log(self.post);
-				self.placeIsSet = false;
-				self.placeName = "";
-				var map = {'url': CONSTANTS.urlMedia(self.mapId)+".jpg"};
+			
+			self.updatePositionPost = function(){
+				var map = null;
+				if(self.mapId)
+					map = {'url': CONSTANTS.urlMedia(self.mapId)};
 				modalService.showModalOpenMap(self.post,map);
 			}
+			
 			self.getMedia = function(id){
 				console.log("id dell'img:" + id);
 				return CONSTANTS.urlMedia(id);
@@ -302,6 +317,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.postDTO.id = self.post.id;
 				self.postDTO.julianDayNumber = self.post.julianDayNumber;
 				self.postDTO.timeNumber = self.post.timeNumber;
+				self.postDTO.place = self.post.place;
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){
 					newTags.push(self.newCharactersToTags[i].id);
@@ -314,10 +330,6 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					}
 				}
 
-				console.log("vecchi tag");
-				console.log(oldTags);
-				console.log("nuovi tag");
-				console.log(newTags);
 
 				self.postDTO.tags = newTags;
 				self.postDTO.tags = self.postDTO.tags.concat(oldTags);
@@ -330,6 +342,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.newCharactersToTags = [];
 							self.editPost = !self.editPost;
 							self.recalculateMatrix();
+							self.post.character.cover = CONSTANTS.urlCharacterCover(self.scenario.id,self.post.character.id);
+
 						},
 						function(reason){
 							console.log("UPDATE STATUS FAILED");
@@ -349,6 +363,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.postDTO.id = self.post.id;
 				self.postDTO.julianDayNumber = self.post.julianDayNumber;
 				self.postDTO.timeNumber = self.post.timeNumber;
+				self.postDTO.place = self.post.place;
 
 				var newTags = new Array();
 				for(var i=0; i< self.newCharactersToTags.length; i++){

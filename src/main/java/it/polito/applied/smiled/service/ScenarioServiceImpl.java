@@ -50,6 +50,7 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 import it.polito.applied.smiled.updater.AsyncUpdater;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,6 +107,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 	@Autowired
 	private LogService logService;
+	
+	@Autowired
+	private FileManagerService fileService;
 	
 //	@Autowired
 //	private NotifyService notify;
@@ -999,7 +1003,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Id insertStatus(String scenarioId, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException {
+	public Id insertStatus(String scenarioId, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
 		
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
 		
@@ -1222,7 +1226,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException {
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
 		
 
 		Scenario scenario = scenarioRepository.findById(scenarioId);
@@ -1405,8 +1409,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			u.set("sources", statusDTO.getSources());
 		}
 		
-		if(statusDTO.getImageMetaId()!=null){
-			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
+		
+		if(statusDTO.getImageMetaId()!=null && statusDTO.getImageMetaId().size()!=0){
+			List<FileReference> newImageMeta = new ArrayList<FileReference>();
 			for(int i=0; i<statusDTO.getImageMetaId().size();i++){
 				FileMetadata f = gridFsManager.confirmImage(statusDTO.getImageMetaId().get(i));
 				if(f==null)
@@ -1417,13 +1422,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				newImageMeta.add(f);
+				newImageMeta.add(new FileReference(statusDTO.getImageMetaId().get(i), f.getOriginalName()));
 			}
 			u.addToSet("imagesMetadata").each(newImageMeta);
 		}
 		
-		if(statusDTO.getFileMetaId()!=null){
-			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
+		if(statusDTO.getFileMetaId()!=null && statusDTO.getFileMetaId().size()!=0){
+			List<FileReference> newFileMeta = new ArrayList<FileReference>();
 			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
 				FileMetadata f = gridFsManager.confirmFile(statusDTO.getFileMetaId().get(i));
 				if(f==null)
@@ -1434,44 +1439,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				newFileMeta.add(f);
+				newFileMeta.add(new FileReference(statusDTO.getFileMetaId().get(i), f.getOriginalName()));
 			}
 			u.addToSet("filesMetadata").each(newFileMeta);
 		}
+	
 		
-		if(statusDTO.getImageMetaIdToDelete()!=null){
-			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
-			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
-				FileMetadata f = gridFsManager.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
-				if(f==null)
-					throw new BadRequestException();
-				Reference metaUserRef = new Reference();
-				metaUserRef.setId(f.getUserId());
-				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-					//TODO fare undo di confirmImage
-					throw new ForbiddenException();
-				}
-				newMetadata[i]=f;
-			}
-			u.pullAll("imagesMetadata",newMetadata);
-		}
-		
-		if(statusDTO.getFileMetaIdToDelete()!=null){
-			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
-			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
-				FileMetadata f = gridFsManager.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
-				if(f==null)
-					throw new BadRequestException();
-				Reference metaUserRef = new Reference();
-				metaUserRef.setId(f.getUserId());
-				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-					//TODO fare undo di confirmImage
-					throw new ForbiddenException();
-				}
-				newMetadata[i]=f;
-			}
-			u.pullAll("filesMetadata",newMetadata);
-		}
 		if(statusDTO.getTags()!=null){
 			List<Reference> tagsCharacter = new ArrayList<Reference>();
 			for(int i=0;i<statusDTO.getTags().size(); i++){
@@ -1615,7 +1588,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 		
 		if(eventDTO.getImageMetaId()!=null){
-			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
+			List<FileReference> newImageMeta = new ArrayList<FileReference>();
 			for(int i=0; i<eventDTO.getImageMetaId().size();i++){
 				FileMetadata f = gridFsManager.confirmImage(eventDTO.getImageMetaId().get(i));
 				if(f==null)
@@ -1626,13 +1599,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				newImageMeta.add(f);
+				newImageMeta.add(new FileReference(eventDTO.getImageMetaId().get(i), f.getOriginalName()));
 			}
 			u.addToSet("imagesMetadata").each(newImageMeta);
 		}
 		
 		if(eventDTO.getFileMetaId()!=null){
-			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
+			List<FileReference> newFileMeta = new ArrayList<FileReference>();
 			for(int i=0; i<eventDTO.getFileMetaId().size(); i++){
 				FileMetadata f = gridFsManager.confirmFile(eventDTO.getFileMetaId().get(i));
 				if(f==null)
@@ -1643,44 +1616,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 					//TODO fare undo di confirmImage
 					throw new ForbiddenException();
 				}
-				newFileMeta.add(f);
+				newFileMeta.add(new FileReference(eventDTO.getFileMetaId().get(i), f.getOriginalName()));
 			}
 			u.addToSet("filesMetadata").each(newFileMeta);
 		}
 		
-		if(eventDTO.getImageMetaIdToDelete()!=null){
-			FileMetadata[] newMetadata = new FileMetadata[eventDTO.getImageMetaIdToDelete().size()];
-			for(int i=0; i<eventDTO.getImageMetaIdToDelete().size(); i++){
-				FileMetadata f = gridFsManager.putImageInDeleteStatus(eventDTO.getImageMetaIdToDelete().get(i));
-				if(f==null)
-					throw new BadRequestException();
-				Reference metaUserRef = new Reference();
-				metaUserRef.setId(f.getUserId());
-				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-					//TODO fare undo di confirmImage
-					throw new ForbiddenException();
-				}
-				newMetadata[i]=f;
-			}
-			u.pullAll("imagesMetadata",newMetadata);
-		}
-		
-		if(eventDTO.getFileMetaIdToDelete()!=null){
-			FileMetadata[] newMetadata = new FileMetadata[eventDTO.getFileMetaIdToDelete().size()];
-			for(int i=0; i<eventDTO.getFileMetaIdToDelete().size(); i++){
-				FileMetadata f = gridFsManager.putFileInDeleteStatus(eventDTO.getFileMetaIdToDelete().get(i));
-				if(f==null)
-					throw new BadRequestException();
-				Reference metaUserRef = new Reference();
-				metaUserRef.setId(f.getUserId());
-				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-					//TODO fare undo di confirmImage
-					throw new ForbiddenException();
-				}
-				newMetadata[i]=f;
-			}
-			u.pullAll("filesMetadata",newMetadata);
-		}
 		if(eventDTO.getTags()!=null){
 			List<Reference> tagsCharacter = new ArrayList<Reference>();
 			for(int i=0;i<eventDTO.getTags().size(); i++){
@@ -1884,7 +1824,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException {
+	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException, FileNotFoundException {
 		
 		Post post = postRepository.findById(postId);
 		if(post==null)
@@ -1933,14 +1873,66 @@ public class ScenarioServiceImpl implements ScenarioService{
 		//TODO valutare cancellazione bozze da eventuali liste aggiunte ad utente
 			userRepository.removeDraftPost(activeUser.getId(), post.getId());
 			postRepository.deletePost(post.getId());
+			if(post.getClass().equals(Status.class)){
+				Status s = (Status) post;
+				List<String> mediaToDelete = new ArrayList<String>();
+				if(s.getImagesMetadata()!=null)
+					for(FileReference ref : s.getImagesMetadata())
+						mediaToDelete.add(ref.getId());
+				if(s.getFilesMetadata()!=null)
+					for(FileReference ref : s.getFilesMetadata())
+						mediaToDelete.add(ref.getId());
+				
+				fileService.deleteListOfMedia(mediaToDelete);
+			}else if(post.getClass().equals(Event.class)){
+				Event e = (Event) post;
+				List<String> mediaToDelete = new ArrayList<String>();
+				if(e.getImagesMetadata()!=null)
+					for(FileReference ref : e.getImagesMetadata())
+						mediaToDelete.add(ref.getId());
+				if(e.getFilesMetadata()!=null)
+					for(FileReference ref : e.getFilesMetadata())
+						mediaToDelete.add(ref.getId());
+				
+				fileService.deleteListOfMedia(mediaToDelete);
+			}
 		}
 		else{
 			scenarioRepository.removePost(post.getScenarioId(), post.getId());
 			if(post.getClass().equals(Status.class)){
 				Status s = (Status) post;
 				characterRepository.removePostFromCharacter(s.getCharacter().getId(), post.getId());
+				
+				List<String> imagesToDelete = new ArrayList<String>();
+				List<String> filesToDelete = new ArrayList<String>();
+
+				if(s.getImagesMetadata()!=null)
+					for(FileReference ref : s.getImagesMetadata())
+						imagesToDelete.add(ref.getId());
+				if(s.getFilesMetadata()!=null)
+					for(FileReference ref : s.getFilesMetadata())
+						filesToDelete.add(ref.getId());
+
+				fileService.putListOfImagesInDelete(imagesToDelete);
+				fileService.putListOfFilesInDelete(filesToDelete);
+
+			}else if(post.getClass().equals(Event.class)){
+				postRepository.putInDeleteStatus(post.getId());
+				Event e = (Event) post;
+				
+				List<String> imagesToDelete = new ArrayList<String>();
+				List<String> filesToDelete = new ArrayList<String>();
+
+				if(e.getImagesMetadata()!=null)
+					for(FileReference ref : e.getImagesMetadata())
+						imagesToDelete.add(ref.getId());
+				if(e.getFilesMetadata()!=null)
+					for(FileReference ref : e.getFilesMetadata())
+						filesToDelete.add(ref.getId());
+
+				fileService.putListOfImagesInDelete(imagesToDelete);
+				fileService.putListOfFilesInDelete(filesToDelete);
 			}
-			postRepository.putInDeleteStatus(post.getId());
 		}
 
 	}

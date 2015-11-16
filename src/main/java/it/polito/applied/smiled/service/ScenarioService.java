@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -72,21 +73,21 @@ public interface ScenarioService {
 	public void removeUserFromCharacter(String id, String characterId,
 			String userId) throws NotFoundException, BadRequestException;
 
-	public Id insertStatus(String idScenario, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException;
+	public Id insertStatus(String idScenario, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException, NotFoundException;
 
 	public Post getPost(String id, String postId, Authentication auth) throws NotFoundException;
 
 	public Page<Post> getPagedPosts(String scenarioId, String characterId, Integer nPag,
 			Integer nItem, Boolean historicOrder, Boolean orderDesc, Authentication auth) throws NotFoundException, BadRequestException;
 
-	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException;
+	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException, NotFoundException;
 
 	public Post updateStatus(String id, String statusId, StatusDTO status, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException, IOException;
 
 	public Post updateEvent(String id, String eventId, EventDTO event,
 			CustomUserDetails activeUser) throws NotFoundException, ForbiddenException, BadRequestException, IOException;
 
-	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException;
+	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException, FileNotFoundException;
 
 	public void insertRevision(String id, String postId, RevisionDTO revision,
 			CustomUserDetails activeUser) throws BadRequestException;

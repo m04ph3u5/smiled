@@ -96,7 +96,7 @@
 		<load-on-startup>1</load-on-startup>
 		<multipart-config>
 
-			<location>/var/meschola/tmp/</location>
+			<location>/var/meschola/tmp</location>
 
 
 			<max-file-size>20971520</max-file-size>

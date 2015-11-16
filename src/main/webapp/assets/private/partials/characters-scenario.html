@@ -1,13 +1,131 @@
 <div class="container-fluid">	
 
-	<div class="box boxGray textCenter row">
-	
-	<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="a in scenarioCharacters.associations">
-		<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })" data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/icon/pg.png"
-			class="img-circle imgPreviewL"> 
+
+	<div class="box boxGray row ">
+		<h4>Scenario 
+		<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})"></span>
+		</a>
+		</h4>
+		
+		<span data-ng-if="!scenario.showBoxInfo" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="scenario.openBoxInfo()" style="cursor:pointer;"></span>
+		<span data-ng-if="scenario.showBoxInfo" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="scenario.closeBoxInfo()" style="cursor:pointer;"></span>
+		
+		<div data-ng-if="scenario.showBoxInfo " >
+		
+			<div class= "row marginMTop hidden-xs visible-sm visible-md visible-lg marginMRight">
+				<label>Creatore: </label>
+				<img style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})" data-ng-src="api/v1/users/{{scenario.scen.teacherCreator.id}}/cover" data-err-src="assets/public/img/ic_teacher.png"
+							class="img-circle imgPreviewL marginMLeft"> 
+				<span style="cursor:pointer;" class="marginMLeft" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})"><a href="">{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</a></span>
+				
+			</div>
+			<div class= "row marginMTop visible-xs hidden-sm hidden-md hidden-lg">
+				<label>Creatore: </label>
+				<div class="row"><img style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})" data-ng-src="api/v1/users/{{scenario.scen.teacherCreator.id}}/cover" data-err-src="assets/public/img/ic_teacher.png"
+							class="img-circle imgPreviewL marginMLeft"></div>
+				<span style="cursor:pointer;" class="marginMLeft" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})"><a href="">{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</a></span>
+				
+			</div>
+			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
+				<label>Nome: </label>
+				{{scenario.scen.name}}
+			</div>
+			
+			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
+				<label>Descrizione: </label> <span data-ng-if="!scenario.scen.description">Descrizione non disponibile</span>
+				{{scenario.scen.description}}
+			</div>
+				
+			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
+				<label>Data attivazione scenario: </label>
+				<span data-ng-if="!scenario.scen.startDate">Data non disponibile</span>
+				{{scenario.scen.startDate}}
+			</div>	
+			<hr>
+			<div class= "row marginMTop marginMRight">
+				<div data-ng-if="scenario.scen.history.startDate" class="col-xs-6  " >
+					<label>Inizio della storia: </label>
+						{{scenario.scen.history.startDate.day}}/{{scenario.scen.history.startDate.month}}/{{scenario.scen.history.startDate.year}} <span data-ng-if="!scenario.scen.history.startDate.afterChrist"> a.C.</span>
+				</div>
+				<div data-ng-if="scenario.scen.history.endDate" class="col-xs-6  " >
+					<label>Fine della storia: </label>
+						{{scenario.scen.history.endDate.day}}/{{scenario.scen.history.endDate.month}}/{{scenario.scen.history.endDate.year}} <span data-ng-if="!scenario.scen.history.endDate.afterChrist"> a.C.</span>
+				</div>
+			</div>
+			
+			
+			
 		</div>
 		
-			<label style="cursor:pointer" class="sideMarginThree" data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })">{{a.name}}</label>
+		
+	</div>
+	
+	<div class="box boxGray textCenter row">
+	<h4>Personaggi <span data-ng-if="scenario.scen.characters">({{scenario.scen.characters.length}})</span>
+	<span data-ng-if="!scenario.scen.characters">(0)</span>
+	<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.characters({id: '{{scenario.scen.id}}'})"></span>
+	</a>
+	</h4>
+	<span data-ng-if="!scenario.showBoxCharacters" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="scenario.openBoxCharacters()" style="cursor:pointer;"></span>
+	<span data-ng-if="scenario.showBoxCharacters" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="scenario.closeBoxCharacters()" style="cursor:pointer;"></span>
+					
+	<div data-ng-if="scenario.showBoxCharacters">
+			<span data-ng-if="!scenarioCharacters.scen.characters || scenarioCharacters.scen.characters.length==0">
+				Non ci sono personaggi
+			</span>
+			<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="a in scenarioCharacters.scen.characters">
+				<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })" data-ng-src="{{a.cover}}"	data-err-src="assets/public/img/icon/pg.png"
+					class="img-circle imgPreviewL"> 
+				</div>
+				
+					<label style="cursor:pointer" class="sideMarginThree" data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })"><a href="">{{a.name}}</a></label>
+			</div>
 	</div>
 	</div>
+	
+	<div class="box boxGray textCenter row">
+	<h4>Partecipanti <span data-ng-if="scenario.scen.attendees">({{scenario.scen.attendees.length}})</span>
+	<span data-ng-if="!scenario.scen.attendees">(0)</span>
+	<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.attendees({id: '{{scenario.scen.id}}'})"></span>
+	</a>
+	</h4>
+	<span data-ng-if="!scenario.showBoxAttendees" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="scenario.openBoxAttendees()" style="cursor:pointer;"></span>
+	<span data-ng-if="scenario.showBoxAttendees" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="scenario.closeBoxAttendees()" style="cursor:pointer;"></span>
+	
+	<div data-ng-if="scenario.showBoxAttendees">
+		<span data-ng-if="!scenario.scen.attendees || scenario.scen.attendees.length==0">
+			Non ci sono partecipanti
+		</span>
+		<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="att in scenario.scen.attendees">
+			<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.userProfile({id: '{{att.id}}'})" data-ng-src="api/v1/users/{{att.id}}/cover" data-err-src="assets/public/img/ic_student.png"
+				class="img-circle imgPreviewL"> 
+			</div>
+			
+				<label style="cursor:pointer" class="sideMarginThree" data-ui-sref="logged.userProfile({id: '{{att.id}}'})"><a href="">{{att.firstname}} {{att.lastname}}</a></label>
+		</div>
+	</div>
+	</div>
+	<div class="box boxGray textCenter row">
+		<h4>Collaboratori <span data-ng-if="scenario.scen.collaborators">({{scenario.scen.collaborators.length}})</span>
+		<span data-ng-if="!scenario.scen.collaborators">(0)</span>
+		<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.collaborators({id: '{{scenario.scen.id}}'})"></span>
+		</a>
+		</h4>
+		<span data-ng-if="!scenario.showBoxCollaborators" class="marginSLeft glyphicon glyphicon-chevron-down" data-ng-click="scenario.openBoxCollaborators()" style="cursor:pointer;"></span>
+		<span data-ng-if="scenario.showBoxCollaborators" class="marginSLeft glyphicon glyphicon-chevron-up" data-ng-click="scenario.closeBoxCollaborators()" style="cursor:pointer;"></span>
+		
+		<div data-ng-if="scenario.showBoxCollaborators">
+			<span data-ng-if="!scenario.scen.collaborators || scenario.scen.collaborators.length==0">
+				Non ci sono collaboratori
+			</span>
+			<div class="col-md-3 col-sm-4 col-xs-6 marginMTop" data-ng-repeat="coll in scenario.scen.collaborators">
+				<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.userProfile({id: '{{coll.id}}'})" data-ng-src="api/v1/users/{{coll.id}}/cover"	data-err-src="assets/public/img/ic_teacher.png"
+					class="img-circle imgPreviewL"> 
+				</div>
+				
+					<label style="cursor:pointer" class="sideMarginThree" data-ui-sref="logged.userProfile({id: '{{coll.id}}'})"><a href="">{{coll.firstname}} {{coll.lasttname}}</a></label>
+			</div>
+		</div>
+	</div>
+	
 </div>

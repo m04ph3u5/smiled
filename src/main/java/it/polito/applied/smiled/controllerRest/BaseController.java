@@ -15,6 +15,7 @@ import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -117,7 +118,7 @@ public abstract class BaseController {
 	
 	
 	@ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorInfo handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException e){
 		ErrorInfo error = new ErrorInfo();
 		error.setStatusCode("400");
@@ -142,7 +143,7 @@ public abstract class BaseController {
 	public ErrorInfo handleFileNotFoundException(FileNotFoundException e){
 		ErrorInfo error = new ErrorInfo();
 		error.setStatusCode("404");
-//		System.out.println("File not found"+e.getMessage());
+		System.out.println("File not found"+e.getMessage());
 		return error;
 	}
 	

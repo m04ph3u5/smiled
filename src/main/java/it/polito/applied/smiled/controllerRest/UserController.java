@@ -12,12 +12,10 @@ import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.ExceptionOnClient;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
-import it.polito.applied.smiled.pojo.LogSession;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.user.User;
-import it.polito.applied.smiled.repository.LogSessionRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.LogService;
 import it.polito.applied.smiled.service.UserService;
@@ -35,6 +33,8 @@ import org.springframework.data.mongodb.core.MongoDataIntegrityViolationExceptio
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -273,12 +273,26 @@ public class UserController extends BaseController{
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="v1/draft", method=RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@ResponseStatus(value = HttpStatus.OK)
 	public List<Post> getDraft(@RequestParam (value = "preview", required=false) Boolean preview,@AuthenticationPrincipal CustomUserDetails activeUser){
 		if(preview==null)
 			preview=false;
 		return userService.getDraft(activeUser, preview);
 	}
+	
+	/*-------------------------------------------SESSION START-STOP API -----------------------------------*/
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/sessionStart", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void sessionStart(){
+		WebAuthenticationDetails details = (WebAuthenticationDetails)SecurityContextHolder.getContext().getAuthentication().getDetails();
+		String ip = details.getRemoteAddress();
+		String sessionId = details.getSessionId();
+		
+	}
+	
+	/*-------------------------------------------SESSION START-STOP API -----------------------------------*/
+
 	
 	/*----------------------------------------------ADMIN API START--------------------------------------- */
 	

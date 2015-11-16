@@ -266,6 +266,38 @@ angular.module('smiled.application')
 				pageTitle : 'Il mio materiale - Meschola'
 			}
 		})
+		.state('logged.dashboard.draft',{
+			url: "/bozze",
+			views: {
+				'content@logged': {
+					templateUrl: "assets/private/partials/draftsList.html",
+					controller: 'draftsListCtrl',
+					controllerAs: 'draftsList'
+				}
+			},
+			data : {
+				pageTitle : 'Le mie bozze - Meschola'
+			},
+			resolve : {
+				drafts : function(apiService){
+					return apiService.getMyDraft(false);
+				} 
+			
+			},
+		})
+		.state('logged.dashboard.draft.edit',{
+			url: '/{postId}',
+			views: {
+				'body@logged.dashboard.draft': {
+					templateUrl: "assets/private/partials/edit-draft.html",
+					controller: "editDraftCtrl",
+					controllerAs: "editDraft"
+				}
+			},
+			params: {
+				postId: null
+			},
+		})
 		.state('logged.userProfile',{
 			url: "/utente/{id}",
 			params: {

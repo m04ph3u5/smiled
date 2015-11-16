@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS',
-                                                                function(CONSTANTS){
+angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS', '$q',
+                                                                function(CONSTANTS, $q){
 	return {
 		restrict : "A",
 		scope : {
@@ -7,6 +7,7 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS',
 			map : "@"
 		},
 		link : function(scope, element, attrs){
+			console.log(scope.post);
 			var ctx = element[0].getContext('2d');
 			var canvas = ctx.canvas;
 			//TODO adattare la dimensione del canvas a quella del modal???
@@ -20,6 +21,7 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS',
 			//TODO anche per la dimensione del marker sarebbe da evitare il valore cablato
 			var markerDim= 40;
 			var original;
+			var promise = $q.defer();
 			
 			map.onload = function(){
 				var mapRatio = map.width / map.height;
@@ -27,15 +29,19 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS',
 				canvas.height = newHeight;
 				ctx.drawImage(map, 0, 0, map.width, map.height, 0, 0, canvas.width, newHeight);
 				original = ctx.getImageData(0,0,canvas.width, canvas.height);
+				promise.resolve();
 			};
 			
 			marker.onload = function(){
 				if(scope.post.place){
 					var x = (scope.post.place.x*canvas.width)-(markerDim/2);
 					var y = (scope.post.place.y*canvas.height)-(markerDim);
-					ctx.drawImage(marker, x, y, markerDim, markerDim);
-					lastX=x;
-					lastY=y;
+					promise.promise.then(
+							function(data){
+								ctx.drawImage(marker, x, y, markerDim, markerDim);
+								lastX=x;
+								lastY=y;
+					});
 				}
 			}
 			

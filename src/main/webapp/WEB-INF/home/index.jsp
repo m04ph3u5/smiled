@@ -130,11 +130,14 @@
 	<script src="/assets/public/js/controllers/scenarioResourcesController.js"></script>	
 	<script src="/assets/public/js/controllers/deleteResourceController.js"></script>	
 	<script src="/assets/public/js/controllers/personalMissionController.js"></script>	
+	<script src="/assets/public/js/controllers/draftsListController.js"></script>	
+	<script src="/assets/public/js/controllers/editDraftController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>
 	<script src="/assets/public/js/services/alertingLogin.js"></script>
 	<script src="/assets/public/js/services/alertingGeneric.js"></script>
+	<script src="/assets/public/js/services/alertingScenario.js"></script>
 	<script src="/assets/public/js/services/constantService.js"></script>
 	<script src="/assets/public/js/services/alertingRegistration.js"></script>
 	<script src="/assets/public/js/services/unauthorizedInterceptor.js"></script>
@@ -150,6 +153,7 @@
 	<script src="/assets/public/js/directives/tagBox.js"></script> 
 	<script src="/assets/public/js/directives/alertRegistration.js"></script>
 	<script src="/assets/public/js/directives/alertGeneric.js"></script>
+	<script src="/assets/public/js/directives/alertScenario.js"></script>
 	<script src="/assets/public/js/directives/workSpinner.js"></script>
 	<script src="/assets/public/js/directives/historicalDatePicker.js"></script>
 	<script src="/assets/public/js/directives/showNewsPost.js"></script>
@@ -165,7 +169,9 @@
 	<script src="/assets/public/js/directives/mapScenario.js"></script>
 	<script src="/assets/public/js/directives/customDatePicker.js"></script>
 	<script src="/assets/public/js/directives/userCard.js"></script>
+	<script src="/assets/public/js/directives/editDraftPost.js"></script>
 	<script src="/assets/public/js/support/jqSupport.js"></script>
+	<script src="/assets/public/js/support/datepicker.js"></script>
 	
 	<!-- CUSTOM SCRIPT WRAPPING -->
 	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>  

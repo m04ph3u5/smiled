@@ -382,3 +382,45 @@ span.clickable:hover {
 .blueLink:hover, .blueLink:focus {
 	color: #059072;
 }
+
+/*FINTO BOX APPUNTI IN DASHBOARD*/
+.boxFakeDraft {
+	background-color:rgba(245, 242, 234, 0.5);
+/* 	padding-left : 100%; */
+/* 	padding-right : 100%; */
+	padding-top : 2%;
+	padding-bottom : 2%;
+	margin-bottom : 5px;
+	margin-top  : 5px;
+}
+
+.row-fluid {
+	white-space: nowrap;
+}
+
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}

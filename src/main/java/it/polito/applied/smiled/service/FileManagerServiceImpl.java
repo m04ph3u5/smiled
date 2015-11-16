@@ -3,7 +3,9 @@ package it.polito.applied.smiled.service;
 import it.polito.applied.smiled.dto.FileMetadataDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.MediaDataAndContentType;
 import it.polito.applied.smiled.pojo.ResourceType;
 import it.polito.applied.smiled.pojo.SupportedMedia;
@@ -12,6 +14,7 @@ import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.FileMetadataRepository;
+import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -63,6 +66,9 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PostRepository postRepository;
 
 	@Autowired
 	private CharacterRepository characterRepository;
@@ -472,7 +478,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	
 	
 	@Override
-	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId, boolean trusted) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException {
+	public String postMedia(MultipartFile media, CustomUserDetails user, String scenarioId, boolean trusted) throws HttpMediaTypeNotAcceptableException, IllegalStateException, IOException, BadRequestException {
 		SupportedMedia type = validateAsMedia(media);
 		FileMetadata meta = new FileMetadata();
 		meta.setUserId(user.getId());
@@ -499,18 +505,21 @@ public class FileManagerServiceImpl implements FileManagerService {
 		Random r = new Random();
 		filename+=r.nextInt(10);
 		filename+=r.nextInt(10);
+		meta.setId(filename);
 		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
 	
 		return file.getFilename().toString();
 	}
 
 	@Override
-	public MediaDataAndContentType getMedia(String filename, Authentication auth, Boolean getThumb) throws FileNotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException {
+	public MediaDataAndContentType getMedia(String filename, Authentication auth, Boolean getThumb) throws NotFoundException, IOException, ForbiddenException, HttpMediaTypeNotAcceptableException, BadRequestException {
 		System.out.println("------------------>"+filename);
 		
 		//gestione permessi - è possibile prelevare solo i propri media o i media degli "amici" (colleghi, studenti, amici)
 		FileMetadata metadata = gridFsManager.getMetadata(filename);
 		if(metadata==null)
+			throw new FileNotFoundException();
+		if(metadata.getType().equals(ResourceType.DELETED_DOC) || metadata.getType().equals(ResourceType.DELETED_IMG))
 			throw new FileNotFoundException();
 		if(!metadata.getUserId().equals(((CustomUserDetails)auth.getPrincipal()).getId()) && !permissionEvaluator.hasPermission(auth, metadata.getScenarioId(), "Scenario", "READ"))
 			throw new ForbiddenException();
@@ -550,7 +559,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 	
 	@Override
 	public void postMediaMetadata(String filename, FileMetadataDTO fileMetaDTO,
-			Authentication auth, Boolean trusted) throws BadRequestException, ForbiddenException, IOException {
+			Authentication auth, Boolean trusted) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
 		
 		FileMetadata fileMeta = gridFsManager.getMetadata(filename);
 		
@@ -636,6 +645,35 @@ public class FileManagerServiceImpl implements FileManagerService {
 		gridFsManager.deleteMedia(idMedia);
 	}
 	
+
+	@Override
+	public void deleteMedia(CustomUserDetails user, String idMedia,
+			String postId) throws NotFoundException, ForbiddenException, FileNotFoundException {
+		FileMetadata f = gridFsManager.getMetadata(idMedia);
+		if(!f.getUserId().equals(user.getId()))
+			throw new ForbiddenException();
+		
+		FileReference ref = new FileReference(idMedia, f.getOriginalName());
+		
+		if(f.getType().equals(ResourceType.TO_CONFIRM_DOC) || f.getType().equals(ResourceType.DOCUMENT)){
+			if(postId!=null){
+				gridFsManager.putFileInDeleteStatus(idMedia);
+				postRepository.deleteFileFromPost(postId, ref);
+			}else{
+				gridFsManager.deleteMedia(idMedia);
+			}
+		}else{
+			if(postId!=null){
+				gridFsManager.putImageInDeleteStatus(idMedia);
+				postRepository.deleteImageFromPost(postId, ref);
+			}else{
+				gridFsManager.deleteMedia(idMedia);
+			}
+		}
+		
+		
+			
+	}
 	
 //	@Override
 //	public Page<FileMetadataDTO> getScenarioImageMetadata(String idScenario,
@@ -801,9 +839,13 @@ public class FileManagerServiceImpl implements FileManagerService {
 		return false;
 	}
 	
-	private byte[] saveThumbnail(InputStream file, int length) throws IOException{
+	private byte[] saveThumbnail(InputStream file, int length) throws IOException, BadRequestException{
 		System.out.println("saveThumb");
 		BufferedImage sourceImage = ImageIO.read(file);
+	
+		if(sourceImage==null)
+			throw new BadRequestException("Il file caricato non è un'immagine.");
+		
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
         BufferedImage img2=null;
@@ -866,5 +908,31 @@ public class FileManagerServiceImpl implements FileManagerService {
 //        ImageIO.write(img2, "png", b64);
 //        return os.toString("UTF-8");
 	}
+
+	@Override
+	public void deleteListOfMedia(List<String> mediaToDelete) {
+		gridFsManager.deleteListOfMedia(mediaToDelete);
+	}
+
+	@Override
+	public void putListOfImagesInDelete(List<String> mediaToDelete) throws FileNotFoundException {
+		if(mediaToDelete!=null){
+			for(String s : mediaToDelete){
+				gridFsManager.putImageInDeleteStatus(s);
+			}
+		}
+	}
+
+	@Override
+	public void putListOfFilesInDelete(List<String> mediaToDelete) throws FileNotFoundException {
+		if(mediaToDelete!=null){
+			for(String s : mediaToDelete){
+				gridFsManager.putFileInDeleteStatus(s);
+			}
+		}		
+	}
+
+	
+
 
 }

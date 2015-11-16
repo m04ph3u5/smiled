@@ -2,7 +2,7 @@ angular.module("smiled.application").controller('openMapCtrl', [ 'post', 'scenar
 	function openMapCtrl(post, scenarioMap, modalService){
 		var self = this;
 		self.post = post;
-		var oldPlace = post.place;
+		var oldPlace = angular.copy(post.place);
 		if(scenarioMap)
 			self.map = scenarioMap.url;
 		else

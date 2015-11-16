@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
 import it.polito.applied.smiled.pojo.ResourceType;
 
@@ -75,12 +76,12 @@ public class GridFsManagerImpl implements GridFsManager{
 	}
 
 	@Override
-	public FileMetadata getMetadata(String filename) throws FileNotFoundException {
+	public FileMetadata getMetadata(String filename) throws NotFoundException {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("filename").is(filename));
 		GridFSDBFile file = gridFsOperation.findOne(q);
 		if(file==null)
-			throw new FileNotFoundException();
+			throw new NotFoundException();
 		FileMetadata metadata = mongoOperations.getConverter().read(FileMetadata.class, file.getMetaData());
 		metadata.setId(file.getFilename());
 		return metadata;
@@ -206,7 +207,10 @@ public class GridFsManagerImpl implements GridFsManager{
 		if(f==null)
 			throw new FileNotFoundException();
 		FileMetadata meta = mongoOperations.getConverter().read(FileMetadata.class, f.getMetaData());
+		if(meta.getId()==null)
+			meta.setId(filename);
 		confirmImage(filename, meta);
+		System.out.println("META - id:"+meta.getId()+" originalName:"+meta.getOriginalName()+" userID: "+meta.getUserId());
 		return meta;
 	}
 
@@ -218,6 +222,8 @@ public class GridFsManagerImpl implements GridFsManager{
 		if(f==null)
 			throw new FileNotFoundException();
 		FileMetadata meta = mongoOperations.getConverter().read(FileMetadata.class, f.getMetaData());
+		if(meta.getId()==null)
+			meta.setId(filename);
 		confirmFile(filename, meta);
 		return meta;
 	}
@@ -231,6 +237,8 @@ public class GridFsManagerImpl implements GridFsManager{
 			throw new FileNotFoundException();
 		FileMetadata meta = mongoOperations.getConverter().read(FileMetadata.class, f.getMetaData());
 		meta.setType(ResourceType.DELETED_IMG);
+		if(meta.getId()==null)
+			meta.setId(filename);
 		updateMetadata(filename, meta);
 		
 		return meta;
@@ -245,6 +253,8 @@ public class GridFsManagerImpl implements GridFsManager{
 			throw new FileNotFoundException();
 		FileMetadata meta = mongoOperations.getConverter().read(FileMetadata.class, f.getMetaData());
 		meta.setType(ResourceType.DELETED_DOC);
+		if(meta.getId()==null)
+			meta.setId(filename);
 		updateMetadata(filename, meta);
 		
 		return meta;
@@ -253,7 +263,6 @@ public class GridFsManagerImpl implements GridFsManager{
 	@Override
 	public void deleteMedia(String idMedia) {
 		Query q = new Query();
-		System.out.println("deleteMedia: "+idMedia.toString());
 //		if(onlyTrusted)
 //			q.addCriteria(Criteria.where("files_id").is(idMedia).andOperator(Criteria.where("trusted").is(true)));
 //		else
@@ -262,6 +271,14 @@ public class GridFsManagerImpl implements GridFsManager{
 		q.addCriteria(GridFsCriteria.whereFilename().is(idMedia));
 		
 		
+		gridFsOperation.delete(q);
+	}
+
+	@Override
+	public void deleteListOfMedia(List<String> idsMedia) {
+		Query q = new Query();
+		q.addCriteria(GridFsCriteria.whereFilename().in(idsMedia));
+			
 		gridFsOperation.delete(q);
 	}
 

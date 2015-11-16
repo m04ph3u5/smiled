@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService', 'alertingGeneric',
-                                     function(CONSTANTS, apiService, Upload, $q, modalService, alertingGeneric){
+angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'apiService', 'Upload', '$q', 'modalService', 'alertingScenario',
+                                     function(CONSTANTS, apiService, Upload, $q, modalService, alertingScenario){
 	return {
 		templateUrl: "assets/private/partials/insert-status-template.html",
 		scope : {
@@ -203,12 +203,12 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								self.newPost.place = null;
 								self.newPost.tags = [];
 								
-								alertingGeneric.addSuccess("Bozza salvata con successo.");
+								alertingScenario.addSuccess("Bozza salvata con successo.");
 					},
 							function(reason){
 								self.sendPostEnable=true;
 								console.log("error in send status: "+reason);
-								alertingGeneric.addWarning("Impossibile salvare la bozza. Riprova per favore.");
+								alertingScenario.addWarning("Impossibile salvare la bozza. Riprova per favore.");
 							}
 					);
 				}else{
@@ -223,12 +223,22 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			}
 			
 			self.removeImage =function(image){
-				for(var i=0; i<self.newPost.image.length; i++){
-					if(self.newPost.image[i].id==image.id){
-						self.newPost.image.splice(i,1);
+				var id = angular.copy(image.id)
+				apiService.deleteMedia(id).then(
+					function(data){
+						for(var i=0; i<self.newPost.image.length; i++){
+							if(self.newPost.image[i].id==id){
+								self.newPost.image.splice(i,1);
+								console.log("Immagine eliminato")
+							}
+						}
+					},
+					function(reason){
+						console.log("Impossibile eliminare immagine");
 					}
-				}
+				);
 			}
+			
 			self.getMedia = function(id){
 				console.log("id dell'img:" + id);
 				return CONSTANTS.urlMedia(id);
@@ -241,57 +251,79 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				uploadMediaToPost(file,false);
 			}
 			self.removeFile =function(file){
-				for(var i=0; i<self.newPost.file.length; i++){
-					if(self.newPost.file[i].id==file.id){
-						self.newPost.file.splice(i,1);
-					}
-				}
+				var id = angular.copy(file.id);
+				apiService.deleteMedia(id).then(
+						function(data){
+							for(var i=0; i<self.newPost.file.length; i++){
+								if(self.newPost.file[i].id==id){
+									self.newPost.file.splice(i,1);
+									console.log("File eliminato")
+								}
+							}
+						},
+						function(reason){
+							console.log("Impossibile eliminare file");
+						}
+				);			
 			}
 			/*------------------------------------------*/
 			
 			/*Private function used to upload media*/
 			var uploadMediaToPost = function(file,isImage){
+				console.log(file);
 				if(file && file.length){
-					Upload.upload({
-			            url: CONSTANTS.urlMediaScenarioPost(self.scenario.id),
-			            headers : {
-			                'Content-Type': file.type
-			            },
-			            file: file
-			        })
-//			            .progress(function (evt) {
-//			            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//			            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-//			        })
-			        .success(function (data, status, headers, config) {
-			           console.log("SUCCESS UPLOAD");
-			           console.log(data);
-			           if(isImage){
-				           var uploadedFile = {};
-			        	   uploadedFile.id = data.id;
-			        	   uploadedFile.name = config.file[0].name;
-			        	   self.newPost.image.push(uploadedFile);
-			           }else{
-				           var uploadedFile = {};
-				           uploadedFile.id = data.id;
-				           uploadedFile.name = config.file[0].name;
-			        	   var split = uploadedFile.name.split(".");
-			        	   var type = split[split.length-1];
-			        	   uploadedFile.fileType =  null;
-			        	   if(type == 'jpg' || type == 'png' || type=='gif'){
-			        		   uploadedFile.fileType = 'img';
-			        	   }else if(type == 'pdf'){
-			        		   uploadedFile.fileType = 'pdf';
-			        	   }else if(type == 'doc' || type == 'docx' || type == 'odt' || type == 'txt'){
-			        		   uploadedFile.fileType = 'doc';
-			        	   }else if(type == 'ppt' || type == 'pptx' || type == 'odp'){
-			        		   uploadedFile.fileType = 'ppt';
-			        	   }else if(type == 'xls' || type == 'xlsx' || type == 'ods'){
-			        		   uploadedFile.fileType = 'excel';
-			        	   }
-			        	   self.newPost.file.push(uploadedFile);
-			           }
-			        });
+					if(isImage && !(file[0].type=="image/png") && !(file[0].type=="image/gif") && !(file[0].type=="image/jpg") && !(file[0].type=="image/jpeg")){
+						alertingScenario.addWarning("Formato non valido per le immagini.");
+					}else{
+						Upload.upload({
+				            url: CONSTANTS.urlMediaScenarioPost(self.scenario.id),
+				            headers : {
+				                'Content-Type': file.type
+				            },
+				            file: file
+				        })
+//				            .progress(function (evt) {
+//				            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//				            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//				        })
+				        .then(
+				        function (data, status, headers, config) {
+				           console.log("SUCCESS UPLOAD");
+				           console.log(data);
+				           if(isImage){
+					           var uploadedFile = {};
+				        	   uploadedFile.id = data.id;
+				        	   uploadedFile.name = config.file[0].name;
+				        	   self.newPost.image.push(uploadedFile);
+				           }else{
+					           var uploadedFile = {};
+					           uploadedFile.id = data.id;
+					           uploadedFile.name = config.file[0].name;
+				        	   var split = uploadedFile.name.split(".");
+				        	   var type = split[split.length-1];
+				        	   uploadedFile.fileType =  null;
+				        	   if(type == 'jpg' || type == 'png' || type=='gif'){
+				        		   uploadedFile.fileType = 'img';
+				        	   }else if(type == 'pdf'){
+				        		   uploadedFile.fileType = 'pdf';
+				        	   }else if(type == 'doc' || type == 'docx' || type == 'odt' || type == 'txt'){
+				        		   uploadedFile.fileType = 'doc';
+				        	   }else if(type == 'ppt' || type == 'pptx' || type == 'odp'){
+				        		   uploadedFile.fileType = 'ppt';
+				        	   }else if(type == 'xls' || type == 'xlsx' || type == 'ods'){
+				        		   uploadedFile.fileType = 'excel';
+				        	   }
+				        	   self.newPost.file.push(uploadedFile);
+				           }
+				        },function(reason){
+				        	if(reason.status=="400" || reason.status=="406"){
+								alertingScenario.addWarning("Formato non supportato.");
+				        	}else{
+				        		alertingScenario.addWarning("C'è stato un errore, non è stato possibile caricare il file. Riprova per favore.");
+				        	}				        
+				        });
+					}
+					
 				}
 			}
 			/*-----------------------------------------------------*/
@@ -370,7 +402,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			self.setPositionNewPost = function(){
 				var map;
 				if(self.scenario.history.mapId) 
-					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)+".jpg"};
+					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)};
 				else
 					map = null;
 				

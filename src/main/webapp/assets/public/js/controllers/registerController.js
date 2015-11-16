@@ -3,6 +3,33 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 
 	var self = this;
 	self.user= {};
+//	self.calendar = {};
+//	self.calendar.opened = false;
+//	
+//	self.calendar.minDate = new Date(1900,1,1);
+//	self.calendar.maxDate = new Date();
+//	self.openCalendar = function($event){
+//		self.calendar.opened = true;
+//	}
+//	
+//	self.calendar.dateOptions = {
+//		    formatYear: 'yy',
+//		    startingDay: 1
+//	};
+//	
+//	self.disabled = function(date, mode) {
+//	    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+//	};
+//	
+//	self.today = function() {
+//		self.user.bornDate = new Date();
+//	};
+//    
+//	self.clear = function () {
+//	    self.user.bornDate = null;
+//	};
+
+	
 	self.postRegister = function (){
 
 		if(validateRegister()){
