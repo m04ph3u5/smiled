@@ -11,13 +11,11 @@
 
 	<context:property-placeholder location="/WEB-INF/config/application.properties" />
 
-
 	<context:component-scan base-package="it.polito.applied.smiled.mailMessage" />
 	<context:component-scan base-package="it.polito.applied.smiled.service" />
 	<context:component-scan base-package="it.polito.applied.smiled.validator" />
 	<context:component-scan base-package="it.polito.applied.smiled.updater" />
 	<context:component-scan base-package="it.polito.applied.smiled.serializer" />
-	
 	
 <!-- 	<mvc:resources mapping="/**" location="/*" /> -->
 	<!-- 	<mvc:resources location="pdfs" mapping="/pdfs/**" /> -->

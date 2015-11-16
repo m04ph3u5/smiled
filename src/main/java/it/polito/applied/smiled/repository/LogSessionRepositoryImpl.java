@@ -3,6 +3,7 @@ package it.polito.applied.smiled.repository;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.LogSession;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -21,6 +23,9 @@ public class LogSessionRepositoryImpl implements CustomLogSessionRepository{
 	
 	@Autowired
 	private MongoOperations mongoOp;
+	
+	
+	
 
 	@Override
 	public List<LogSession> findByUserInDate(String userId, Date start, Date end)
@@ -98,5 +103,18 @@ public class LogSessionRepositoryImpl implements CustomLogSessionRepository{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void stopSession(String userId, String sessionId, Date end) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("userId").is(userId)
+				.andOperator(Criteria.where("sessionId").is(sessionId)
+				.andOperator(Criteria.where("end").is(null))));
+		Update u = new Update();
+		u.set("end", end);
+		mongoOp.updateFirst(q, u, LogSession.class);
+	}
+
+	
 
 }

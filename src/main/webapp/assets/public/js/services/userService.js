@@ -84,7 +84,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		$http({
 			url: '/apiLogin',
 			method: 'POST',
-			data: 'j_username='+e+'&j_password='+p+"&submit=",
+			data: 'j_username='+e+'&j_password='+p+"&_spring_security_remember_me=true"+"&submit=",
 			headers: {
 				'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
 			}

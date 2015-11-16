@@ -86,7 +86,13 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private PostRepository postRepository;
 	
+	@Autowired
+	private LogService logService;
+	
 	private final int PREVIEW=4;
+	
+	@Autowired
+	private CustomUserDetails actualUser;
 	
 //	@Autowired
 //	private NotifyService notify;
@@ -94,6 +100,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Override
 	public CustomUserDetails loadUserByUsername(String email)
 			throws UsernameNotFoundException, MongoException {
+		
+		
 		
 		User user;		
 		try{
@@ -106,9 +114,10 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}catch(MongoException e){
 			throw e;
 		}
-		CustomUserDetails actualUser = new CustomUserDetails(user);
+//		CustomUserDetails actualUser = new CustomUserDetails(user);
+		actualUser.setUser(user);
 				
-		System.out.println(actualUser.getUsername()+" loggedIn");
+		System.out.println(actualUser.getUsername()+" loggedIn!");
 		return actualUser;
 	}
 

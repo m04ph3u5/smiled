@@ -280,22 +280,21 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 	//			            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 	//			        })
 				        .then(
-				        function (data, status, headers, config) {
+				        function (response) {
 				           console.log("SUCCESS UPLOAD");
-				           console.log(data);
 				           if(isImage){
 				        	   var uploadedFile = {};
-				        	   uploadedFile.id = data.id;
-				        	   uploadedFile.name = config.file[0].name;
+				        	   uploadedFile.id = response.data.id;
+				        	   uploadedFile.name = response.config.file[0].name;
 				        	   self.newPost.image.push(uploadedFile);
 				           }else{
 				        	   var uploadedFile = {};
-				        	   uploadedFile.id = data.id;
-				        	   uploadedFile.name = config.file[0].name;
+				        	   uploadedFile.id = response.data.id;
+				        	   uploadedFile.name = response.config.file[0].name;
 				        	   var split = uploadedFile.name.split(".");
 				        	   var type = split[split.length-1];
 				        	   uploadedFile.fileType =  null;
-				        	   if(type == 'jpg' || type == 'png' || type == "gif"){
+				        	   if(type == 'jpg' || type == 'jpeg' || type == 'png' || type == "gif"){
 				        		   uploadedFile.fileType = 'img';
 				        	   }else if(type == 'pdf'){
 				        		   uploadedFile.fileType = 'pdf';
@@ -308,8 +307,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 				        	   }
 				        	   self.newPost.file.push(uploadedFile);
 				           }
-				        },
-				        function(reason){
+				        },function(reason){
 				        	if(reason.status=="400" || reason.status=="406"){
 								alertingScenario.addWarning("Formato non supportato.");
 				        	}else{
