@@ -31,7 +31,10 @@
 			color:#212121;
 			font-size:1.3em;
 		}
-		
+		@font-face {
+		   font-family: kids;
+		   src: url(assets/public/font/DK Lemon Yellow Sun.otf);
+		}
 		input[type=text]:focus,
 		input[type=email]:focus,
 		input[type=search],

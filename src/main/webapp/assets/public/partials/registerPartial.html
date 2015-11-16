@@ -4,66 +4,113 @@
 <link href="/assets/public/css/login-style.css" rel='stylesheet'
 	type='text/css'>
 
-<div class="container-fluid">
-	<div class="row rowTitle">		
-		<div class="col-md-3 col-xs-4">
-			<img src="assets/public/img/calderone1.png" class="img bigLogo" data-ui-sref="notLogged.login">
+<img class="backgroundParallax" src="assets/public/img/landing page/bg landing.jpg">
+<meta charset="UTF-8">
+
+<div class="container-fluid noPadding">
+	<div class="firstSlide">
+		<div class="row rowTitle">		
+			<div class="col-md-3 col-xs-4">
+				<img src="assets/public/img/calderone1.png" class="img bigLogo" data-ui-sref="notLogged.login">
+			</div>
+			<div class="col-md-9 col-xs-8 titleContainer">
+				<div class="row mescholaTitle"><i>me</i>schola</div>
+				<div class="row mescholaSubtitle">La piattaforma capace di rendere vivi<br> fatti, argomenti e personaggi attraverso il <i>role-play</i></div>
+			</div>
 		</div>
-		<div class="col-md-9 col-xs-8 titleContainer">
-			<div class="row mescholaTitle"><i>me</i>schola</div>
-			<div class="row mescholaSubtitle">La piattaforma capace di rendere vivi<br> fatti, argomenti e persone attraverso il <i>role-play</i></div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="aspectRatio">
+					<iframe src="https://www.youtube.com/embed/4Bvs72zs608" frameborder="0" allowfullscreen></iframe>
+				</div>
+				<img src="assets/public/img/icon/freccia big.png" class="freccia hidden-xs visible-sm visible-md visible-lg">
+			</div>
+			<div class="col-sm-1"></div>
+			<div class="col-sm-5">
+				<div class="boxForm">
+					<div class="formTitle">ISCRIZIONE DOCENTE</div>
+					<label>Informazioni personali</label>
+					<alertregistration></alertregistration>
+					<form role="form" novalidate>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="NOME"
+								data-ng-model="register.user.firstName" ></input>
+							<div class="form-group"></div>
+							<input type="text" class="form-control" placeholder="COGNOME"
+								data-ng-model="register.user.lastName" ></input>
+						</div>
+						<div class="form-group">
+							<form class="form-inline">
+								<div class="form-group">
+									<input ui-date="dateOptions" class="form-control" 
+										data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
+								</div>
+						</div>
+						<div class="form-group">
+							<label>Account</label> <input type="text" class="form-control"
+								placeholder="EMAIL" data-ng-model="register.user.email" ></input>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" placeholder="PASSWORD"
+								data-ng-model="register.user.password" ></input>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control"
+								placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"></input>
+						</div>						
+						<button data-ng-click="register.postRegister()"
+							class="btn ctaFirst">Entra nella storia!</button>
+					</form>	
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-5">
-			<div class="aspectRatio">
-				<iframe src="https://www.youtube.com/embed/4Bvs72zs608" frameborder="0" allowfullscreen></iframe>
+	<div class="secondSlide text-center">
+		<div class="row">
+			<div class="col-md-4 featuresBox">
+				<img class="img img-circle featuresImg" src="assets/public/img/landing page/Personalizzabile.png">
+				<h2>Personalizzabile</h2>
+				<p class="featuresText">Permette ai docenti di scegliere o creare scenari didattici ispirati ad opere letterarie, periodi storici, temi di attualità , progetti di classe o argomenti di varie materie</p>
 			</div>
-			<img src="assets/public/img/icon/freccia big.png" class="freccia hidden-xs visible-sm visible-md visible-lg">
-		</div>
-		<div class="col-sm-1"></div>
-		<div class="col-sm-5">
-			<div class="boxForm">
-				<div class="formTitle">ISCRIZIONE DOCENTE</div>
-				<label>Informazioni personali</label>
-				<alertregistration></alertregistration>
-				<form role="form" novalidate>
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="NOME"
-							data-ng-model="register.user.firstName" ></input>
-						<div class="form-group"></div>
-						<input type="text" class="form-control" placeholder="COGNOME"
-							data-ng-model="register.user.lastName" ></input>
-					</div>
-					<div class="form-group">
-						<form class="form-inline">
-							<div class="form-group">
-								<input ui-date="dateOptions" class="form-control" 
-									data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
-							</div>
-					</div>
-					<div class="form-group">
-						<label>Account</label> <input type="text" class="form-control"
-							placeholder="EMAIL" data-ng-model="register.user.email" ></input>
-					</div>
-					<div class="form-group">
-						<input type="password" class="form-control" placeholder="PASSWORD"
-							data-ng-model="register.user.password" ></input>
-					</div>
-					<div class="form-group">
-						<input type="password" class="form-control"
-							placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"></input>
-					</div>						
-					<button data-ng-click="register.postRegister()"
-						class="btn ctaFirst">Entra nella storia!</button>
-				</form>	
+			<div class="col-md-4 featuresBox">
+				<img class="img img-circle featuresImg" src="assets/public/img/landing page/Collaborativa.png">
+				<h2>Collaborativa</h2>
+				<p class="featuresText">Propone un approccio collaborativo, in cui ciascuno studente può dare il proprio contributo reativo all’interno dello scenario didattico</p>
+			</div>
+			<div class="col-md-4 featuresBox">
+				<img class="img img-circle featuresImg" src="assets/public/img/landing page/Sicura.png">
+				<h2>Sicura</h2>
+				<p class="featuresText">È una piattaforma digitale accessibile solo a docenti e studenti, che permette ai ragazzi di usare i meccanismi di comunicazione dei social network per imparare divertendosi</p>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="container-fluid bg fill">
-	<div class="row">
-		<div class="col-md-1"></div>
-		
-	</div>
-</div>
+
+<script>
+$(window).bind('scroll',function(e){
+    parallaxScroll();
+});
+
+function parallaxScroll(){
+    var scrolled = $(window).scrollTop();
+    $('.backgroundParallax').css('top',(850-(scrolled*.5))+'px');
+    //$('.secondSlide').css('top',(800-(scrolled*.5))+'px');
+    $('#parallax-bg3').css('top',(0-(scrolled*.75))+'px');
+}
+/* (function(){
+
+	  var parallax = document.querySelectorAll(".backgroundParallax"),
+	      speed = 0.5;
+
+	  window.onscroll = function(){
+	    [].slice.call(parallax).forEach(function(el,i){
+
+	      var windowYOffset = window.pageYOffset,
+	          elBackgrounPos = "50% " + (windowYOffset * speed) + "px";
+
+	      el.style.backgroundPosition = elBackgrounPos;
+	    });
+	  };
+
+	})(); */
+</script>

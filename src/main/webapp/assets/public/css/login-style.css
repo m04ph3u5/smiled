@@ -30,6 +30,60 @@
 		padding-top:3em;
 		transition: all 0.4s ease;
 	}
+	
+/*PARALLAX SCROLLING*/
+	.parallax{
+		perspective: 1px;
+	  	height: 100vh;
+	  	overflow-x: hidden;
+	  	overflow-y: auto;
+	}
+	
+	.parallax__layer {
+	  	position: absolute;
+	  	top: 0;
+	 	right: 0;
+	  	bottom: 0;
+	  	left: 0;
+	}
+	.parallax__layer--base {
+	  	transform: translateZ(0);
+	}
+	.parallax__layer--back {
+	  	transform: translateZ(-1px) scale(2);
+	}
+	.firstSlide{
+		position: absolute;
+	    top: 70px;
+		background-color:white;
+		padding-bottom: 1em;
+		padding-right:15px;
+		padding-left:15px;
+	}
+	.secondSlide{
+		margin-top:15em;
+		position: absolute;
+	    top: 800px;
+		background-color:white;
+		padding-bottom: 1em;
+		padding-right:15px;
+		padding-left:15px;
+		padding-top: 1em;
+	}
+	.backgroundParallax{
+		width:100vw;
+		background-image:url("assets/public/img/landing page/vetrina_flat.jpg");
+		background size:cover;
+		 background-position: 0 0;
+		z-index:-1;
+		position:absolute;
+		top:750px;
+	}
+	
+	.noPadding{
+		padding-right:0px;
+		padding-left:0px;
+	}
 				
 /*TITLE*/
 	.bigLogo{
@@ -99,11 +153,29 @@
 		font-size:3vw;
 	}
 	.freccia{
-		margin-top:5vw;
-		width:70%;
-		margin-left:20%;
+		margin-top: 2em;
+	    width: 17em;
+	    margin-left: 50%;
 	}
 	
+/*FEATURES SECTION*/
+	.featuresImg{
+		width:200px;
+	}
+	
+	.featuresText{
+		font-weight: 600;
+		font-color:#232323;
+	}
+	
+	.featuresBox{
+		max-width:500px;
+		margin-top:5%;
+	}
+	
+	h2{
+		color:#404b41;
+	}
 	
 		.divLanding{
 			background-color:#A2B776;
@@ -201,5 +273,12 @@
 	.ctaFirst{
 		font-size: 4vw;
 	}
-		
+	
 }	
+@media screen  and (min-width: 400px) and (max-width:991px){
+	.featuresBox{
+		margin-left:20%;
+		margin-right:20%;
+	}
+	
+}
