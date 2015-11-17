@@ -81,10 +81,11 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		var log = $q.defer();
 		var e=encodeURIComponent(email);
 		var p=encodeURIComponent(password);
+//		"&_spring_security_remember_me=true"+
 		$http({
 			url: '/apiLogin',
 			method: 'POST',
-			data: 'j_username='+e+'&j_password='+p+"&_spring_security_remember_me=true"+"&submit=",
+			data: 'j_username='+e+'&j_password='+p+"&submit=",
 			headers: {
 				'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
 			}

@@ -163,7 +163,9 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 
 			/*--------------Create draft post start------------------------------------------*/
 			self.draftNewPost = function(){
+				console.log("CIAO");
 				if(self.sendPostEnable && self.newPost.content){
+					console.log("CIAO CIAO");
 					self.sendPostEnable=false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
@@ -210,7 +212,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 							}
 					);
 				}else{
-					angular.element(document.querySelector('#textContentStatus')).focus();
+					angular.element(document.querySelector('#textContentEvent')).focus();
 				}	
 			}
 			/*--------------Create draft post end------------------------------------------*/

@@ -12,7 +12,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 		},
 		controller : function(){
 			var self = this;
-			var numMediaPerRow = 3;
+			var numMediaPerRow = 5;
 			self.showTagBox=false;
 			self.editPost=false;
 			self.deleted=false;
@@ -20,6 +20,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			self.postDTO.text = self.post.text;
 			self.date={};				
 			self.files = new Array();
+			self.originalPost = angular.copy(self.post);
 			
 			self.editButton = false;
 			
@@ -67,12 +68,14 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				self.editPost = !self.editPost;
 			}
 			self.closeEditPost = function(){
-				self.post.tags = angular.copy(self.originalTagsList);
+//				self.post.tags = angular.copy(self.originalTagsList);
 				self.postDTO = {};
 				self.postDTO.text = self.post.text;
 				self.editPost = !self.editPost;
 				self.newCharactersToTags = [];
-				self.post.julianDayNumber = self.originalJulianDayNumber;
+//				self.post.julianDayNumber = self.originalJulianDayNumber;
+				self.post = angular.copy(self.originalPost);
+				self.recalculateMatrix();
 				//TODO modificare label per date dopo annullamento
 			}
 
@@ -234,33 +237,36 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 
 			self.removeImage =function(row, col){
 				var index = (row*numMediaPerRow)+col;
-				console.log(index);
-				var id = angular.copy(self.post.imagesMetadata[index].id);
-				apiService.deleteMedia(id, self.post.id).then(
+				modalService.showModalDeleteResource(self.post.imagesMetadata[index]).then(
 					function(data){
-						for(var i=0; i<self.post.imagesMetadata.length; i++){
-							console.log(self.post.imagesMetadata[i]);
-						}
-						self.post.imagesMetadata.splice(index,1);
-						for(var i=0; i<self.post.imagesMetadata.length; i++){
-							console.log(self.post.imagesMetadata[i]);
-						}
-						self.recalculateMatrix();
-					},
-					function(reason){
-						console.log("Impossibile eliminare immagine");
+						var id = angular.copy(self.post.imagesMetadata[index].id);
+						apiService.deleteMedia(id, self.post.id).then(
+							function(data){
+								self.post.imagesMetadata.splice(index,1);
+								self.recalculateMatrix();
+								for(var i=0; i<self.originalPost.imagesMetadata.length; i++){
+									if(self.originalPost.imagesMetadata[i].id==id){
+										self.originalPost.imagesMetadata.splice(i,1);
+									}
+								}
+							},
+							function(reason){
+								console.log("Impossibile eliminare immagine");
+							}
+						);
 					}
 				);
 			}
 			
 			var assignFileType = function (){
+				self.files.splice(0,self.files.length);
 				for (var i=0; i<self.post.filesMetadata.length; i++){
 					var myFile = {};
 					myFile.id = self.post.filesMetadata[i].id;
 					myFile.originalName = self.post.filesMetadata[i].originalName;
 					var split = myFile.originalName.split(".");
 					var type = split[split.length-1];
-					if(type == 'jpg' || type == 'png' || type == 'gif'){
+					if(type == 'jpg' || type=="jpeg" || type == 'png' || type == 'gif'){
 						myFile.fileType = 'img';
 					}else if(type == 'pdf'){
 						myFile.fileType = 'pdf';
@@ -281,11 +287,29 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				uploadMediaToPost(file,false);
 			}
 			self.removeFile =function(file){
-				for(var i=0; i<self.post.filesMetadata.length; i++){
-					if(self.post.filesMetadata[i].id==file.id){
-						self.post.filesMetadata.splice(i,1);
-					}
-				}
+				modalService.showModalDeleteResource(file).then(
+						function(data){
+							apiService.deleteMedia(file.id, self.post.id).then(
+								function(data){
+									for(var i=0; i<self.post.filesMetadata.length; i++){
+										if(self.post.filesMetadata[i].id==file.id){
+											self.post.filesMetadata.splice(i,1);
+										}
+									}
+									for(var i=0; i<self.files.length; i++){
+										if(self.files[i].id==file.id){
+											self.files.splice(i,1);
+										}
+									}
+									for(var i=0; i<self.originalPost.filesMetadata.length; i++){
+										if(self.originalPost.filesMetadata[i].id==file.id){
+											self.originalPost.filesMetadata.splice(i,1);
+										}
+									}
+								}
+							);
+						}
+				);
 			}
 			
 			self.updatePositionPost = function(){
@@ -343,6 +367,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.editPost = !self.editPost;
 							self.recalculateMatrix();
 							self.post.character.cover = CONSTANTS.urlCharacterCover(self.scenario.id,self.post.character.id);
+							self.originalPost = angular.copy(self.post);
 
 						},
 						function(reason){
@@ -393,6 +418,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.newCharactersToTags = [];
 							self.editPost = !self.editPost;
 							self.recalculateMatrix();
+							self.postDTO = {};
+							self.originalPost = angular.copy(self.post);
 						},
 						function(reason){
 							console.log("UPDATE STATUS FAILED");
@@ -464,38 +491,71 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				return result.promise;
 			}
 			/*-------------------------------------------------------*/
+			
+			var calculateType = function(uploadedFile){
+				var split = uploadedFile.name.split(".");
+				var type = split[split.length-1];
+				uploadedFile.fileType =  null;
+				if(type == 'jpg' || type == 'jpeg' || type == 'png' || type=='gif'){
+					uploadedFile.fileType = 'img';
+				}else if(type == 'pdf'){
+					uploadedFile.fileType = 'pdf';
+				}else if(type == 'doc' || type == 'docx' || type == 'odt' || type == 'txt'){
+					uploadedFile.fileType = 'doc';
+				}else if(type == 'ppt' || type == 'pptx' || type == 'odp'){
+					uploadedFile.fileType = 'ppt';
+				}else if(type == 'xls' || type == 'xlsx' || type == 'ods'){
+					uploadedFile.fileType = 'excel';
+				}
+			}
 
 			/*Private function used to upload media*/
 			var uploadMediaToPost = function(file,isImage){
-				console.log("SCENARIO ID" + self.scenarioId);
 				if(file && file.length){
 					Upload.upload({
-						url: CONSTANTS.urlMediaScenarioPost(self.scenarioId),
-						headers : {
-							'Content-Type': file.type
-						},
-						file: file
-					})
-//					.progress(function (evt) {
-//					var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//					console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-//					})
-					.success(function (data, status, headers, config) {
-						console.log("SUCCESS UPLOAD");
-						console.log(data);
-						if(isImage){
-							var uploadedFile = {};
-							uploadedFile.id = data.id;
-							uploadedFile.name = config.file[0].name;
-							self.post.image.push(uploadedFile);
-						}else{
-							var uploadedFile = {};
-							uploadedFile.id = data.id;
-							uploadedFile.name = config.file[0].name;
-							self.post.file.push(uploadedFile);
-						}
-					});
+			            url: CONSTANTS.urlMediaScenarioPost(self.scenario.id),
+			            headers : {
+			                'Content-Type': file.type
+			            },
+			            file: file
+			        })
+//			            .progress(function (evt) {
+//			            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+//			            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+//			        })
+			        .then(function (response) {
+			           console.log("SUCCESS UPLOAD");
+			           if(isImage){
+				           var uploadedFile = {};
+			        	   uploadedFile.id = response.data.id;
+			        	   uploadedFile.name = response.config.file[0].name;
+			        	   self.post.imagesMetadata.push(uploadedFile);
+			        	   self.recalculateMatrix();
+			        	   if(!self.postDTO.imageMetaId)
+			        		   self.postDTO.imageMetaId = new Array();
+			        	   self.postDTO.imageMetaId.push(uploadedFile.id);
+			           }else{
+				           var uploadedFile = {};
+				           uploadedFile.id = response.data.id;
+				           uploadedFile.originalName = response.config.file[0].name;
+			        	   self.post.filesMetadata.push(uploadedFile);
+			        	   if(!self.postDTO.fileMetaId)
+			        		   self.postDTO.fileMetaId = new Array();
+			        	   self.postDTO.fileMetaId.push(uploadedFile.id);
+			        	   assignFileType();
+			           }
+			        }, function(reason){
+			        	console.log("Impossibile effettuare l'upload");
+			        	//TODO aggiungere alert
+			        });
 				}
+			}
+			
+			self.setPositionPost = function(){
+				var map=null;
+				if(self.scenario.history.mapId)
+					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)};
+				modalService.showModalOpenMap(self.post,map);
 			}
 			
 			

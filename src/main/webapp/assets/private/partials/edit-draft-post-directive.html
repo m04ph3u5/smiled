@@ -25,14 +25,15 @@
 				<div class="row colPaddingScen">					
 					<h4 class="pull-left"><a data-ng-show="editDraftPost.post.character" href="" data-ui-sref="logged.scenario.charprofile({id : '{{editDraftPost.post.scenarioId}}', idCharacter : '{{editDraftPost.post.character.id}}' })">
 						{{editDraftPost.post.character.name}}</a><span data-ng-hide="editDraftPost.post.character">NARRATORE</span>
+					<span style="font-size:0.8em">				
 						<span data-ng-if="editDraftPost.tagIsSet || editDraftPost.place.text">-</span> 
 						<span data-ng-if="editDraftPost.tagIsSet" data-ng-click="editDraftPost.switchShowTagBox()"> 
 						con <span class="linkPost">{{editDraftPost.stringTags}}</span></span>
-						<span data-ng-if="editDraftPost.tagIsSet && editDraftPost.newPost.place.text">, </span> 
-						<span data-ng-if="editDraftPost.newPost.place.text" 
-							data-ng-click="editDraftPost.updatePositionPost()"
-							class="linkPost">{{editDraftPost.newPost.place.text}}</span>
-					</h4>
+						<span data-ng-if="editDraftPost.newPost.place.text" class="linkPost">
+							<span style="color:black;">, presso</span> 
+							<a href="" data-ng-click="editDraftPost.updatePositionPost()">{{editDraftPost.newPost.place.text}}</a></span>
+					</span>
+					</h4>					
 					<textarea style="margin-top: 10px;" data-ng-show="editDraftPost.post.character" id="textContentStatus" class="pull-left allWidth" placeholder="A COSA STAVI PENSANDO?"
 						rows="3" data-ng-model="editDraftPost.newPost.text"></textarea>
 					<textarea style="margin-top: 10px;" data-ng-hide="editDraftPost.post.character" id="textContentStatus" class="pull-left allWidth" placeholder="COSA E' SUCCESSO?"
