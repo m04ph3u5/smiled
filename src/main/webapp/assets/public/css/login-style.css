@@ -53,8 +53,7 @@
 	  	transform: translateZ(-1px) scale(2);
 	}
 	.firstSlide{
-		position: absolute;
-	    top: 70px;
+		
 		background-color:white;
 		padding-bottom: 1em;
 		padding-right:15px;
@@ -62,13 +61,14 @@
 	}
 	.secondSlide{
 		margin-top:15em;
-		position: absolute;
-	    top: 800px;
 		background-color:white;
 		padding-bottom: 1em;
 		padding-right:15px;
 		padding-left:15px;
 		padding-top: 1em;
+	}
+	.thirdSlide{
+		position:relative;
 	}
 	.backgroundParallax{
 		width:100vw;
@@ -176,7 +176,27 @@
 	h2{
 		color:#404b41;
 	}
-	
+
+/*CAROUSEL*/
+	.closedScen{
+		width:100px;
+	}
+	.arrows{
+		display: table-cell;
+	    float: none;
+	    width:10%;
+	}
+	.carousel{
+		display:table:
+	}
+	.innerCarousel{
+		height:100%;
+	}
+
+
+
+
+
 		.divLanding{
 			background-color:#A2B776;
 			border-radius: 25px;
