@@ -27,6 +27,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		self.currentCharacters = []; //qui ci vanno le modifiche temporanee al character i-esimo. Questo ci permette di decidere se effettuare o meno la put sul server nel momento in cui andiamo a chiudere l'accordion
 		self.charactersServer = []; //array di character cosi come sono sul server
 		self.map;
+		
+		self.lastUserClicked = null;
+		self.lastCharacterClicked = null;
+		
 		var currentCharacterIndex = -1;
 		var getMePromise = $q.defer();
 		var id = $stateParams.id;
@@ -43,6 +47,61 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				getScenario();
 			}
 		);
+		
+		self.concatNameAndSurname = function (name, surname){
+			return name + " " + surname;
+		}
+		
+		self.isClickedUser = function(id){
+			if(self.lastUserClicked && id == self.lastUserClicked.id)
+				return true;
+			else 
+				return false;
+		}
+		
+		self.isClickedCharacter = function(id){
+			if(self.lastCharacterClicked && id == self.lastCharacterClicked.id)
+				return true;
+			else 
+				return false;
+		}
+		
+		self.userClicked = function(user){
+			console.log("User Clicked");
+			if(self.lastUserClicked && user.id == self.lastUserClicked.id){
+				console.log("Selection removed");
+				self.lastUserClicked = null;
+			}
+			else{
+				console.log("New User Selected");
+				self.lastUserClicked = user;
+				if(self.lastCharacterClicked!=null){
+					self.createAssociationWithoutDrag();
+					self.lastUserClicked = null;
+					self.lastCharacterClicked=null;
+				}
+			}
+				
+			
+		}
+		
+		self.characterClicked = function(character){
+			console.log("Character Clicked");
+			if(self.lastCharacterClicked && character.id == self.lastCharacterClicked.id){
+				console.log("Selection removed");
+				self.lastCharacterClicked = null;
+			}
+			else{
+				console.log("New Character selected");
+				self.lastCharacterClicked = character;
+				if(self.lastUserClicked!=null){
+					self.createAssociationWithoutDrag();
+					self.lastUserClicked = null;
+					self.lastCharacterClicked=null;
+				}
+			}
+				
+		}
 		
 		var getScenario = function(){
 			//GET SCENARIO
@@ -841,6 +900,41 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var dragged;
 		self.associations = new Array();
 		
+		self.createAssociationWithoutDrag = function(){
+			var association = {};
+			association.attendee = self.lastUserClicked;
+			association.character = self.lastCharacterClicked;
+			
+			apiService.addUserToCharacter(id, association.attendee.id, association.character.id).then(
+					function(data){
+						/*TODO allineare charactersServer*/
+						self.associations.push(angular.copy(association));
+						
+						if(self.notAssociatedAttendees){
+							for(var i=0; i<self.notAssociatedAttendees.length; i++){
+								if(self.notAssociatedAttendees[i].id == association.attendee.id){
+									self.notAssociatedAttendees.splice(i,1);
+									break;
+								}
+							}
+						}
+						if(self.notAssociatedCharacters){
+							for(var i=0; i<self.notAssociatedCharacters.length; i++){
+								if(self.notAssociatedCharacters[i].id == association.character.id){
+									self.notAssociatedCharacters.splice(i,1);
+									break;
+								}
+							}
+						}
+						
+						
+					},
+					function(reason){
+						console.log("Association failed: "+reason);
+					}
+			);
+		}
+		
 		self.dropSuccessHandlerCharacter =function($event, indexAttendee){
 			console.log("dropSuccessHandlerCharacter");
 			console.log(indexAttendee);
@@ -881,10 +975,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		/*index --> dove vado*/
 		self.onDrop = function($event, $data, index){
-			console.log("onDrop");
-			console.log($event);
-			console.log($data);
-			console.log(index);			
+//			console.log("onDrop");
+//			console.log($event);
+//			console.log($data);
+//			console.log(index);			
 			dragged = index;
 		}
 		

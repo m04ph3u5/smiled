@@ -5,7 +5,7 @@
 [![npm version](http://badge.fury.io/js/ng-dialog.svg)](http://badge.fury.io/js/ng-dialog)
 [![github tag](https://img.shields.io/github/tag/likeastore/ngDialog.svg)](https://github.com/likeastore/ngDialog/tags)
 [![Download Count](https://img.shields.io/npm/dm/ng-dialog.svg)](http://www.npmjs.com/package/ng-dialog)
-
+[![Code Climate](https://codeclimate.com/github/likeastore/ngDialog/badges/gpa.svg)](https://codeclimate.com/github/likeastore/ngDialog)
 
 > Modal dialogs and popups provider for [Angular.js](http://angularjs.org/) applications.
 
@@ -18,7 +18,7 @@ ngDialog is ~10Kb, has minimalistic API, highly customizable through themes and 
 You can download all necessary ngDialog files manually or install it with bower:
 
 ```bash
-bower install ngDialog
+bower install ng-dialog
 ```
 
 or npm:
@@ -40,6 +40,14 @@ app.controller('MainCtrl', function ($scope, ngDialog) {
     };
 });
 ```
+
+## Collaboration
+
+Your help is appreciated! If you've found a bug or something is not clear, please raise an issue.
+
+Ideally, if you've found an issue, you will submit a PR that meets our [contributor guidelines][contributor-guidelines].
+
+[![Throughput Graph](https://graphs.waffle.io/likeastore/ngDialog/throughput.svg)](https://waffle.io/likeastore/ngDialog/metrics)
 
 ## API
 
@@ -88,7 +96,7 @@ You could use one of the plugins specifically for these purposes. They are avail
 - [gulp-angular-templatecache](https://github.com/miickel/gulp-angular-templatecache)
 - [gulp-ng-html2js](https://www.npmjs.com/package/gulp-ng-html2js)
 - [grunt-html2js](https://github.com/karlgoldstein/grunt-html2js)
-- [grunt-html2js](https://www.npmjs.com/package/broccoli-html2js)
+- [broccoli-html2js](https://www.npmjs.com/package/broccoli-html2js)
 
 You could find more detailed examples on each of these pages.
 
@@ -509,7 +517,14 @@ Additionally we trigger following 2 events related to loading of template for di
 
 - ``ngDialog.templateLoaded``
 
-In case you are loading your templates from external location, you could use above events to show some kind of loader.
+In case you are loading your templates from an external location, you could use above events to show some kind of loader.
+
+Finally, we trigger the following event when adding padding to or removing padding from the body tag to compensate for scrollbar toggling:
+
+- ``ngDialog.setPadding``
+
+The ``ngDialog.setPadding`` event will communicate the pixel value being added to the body tag so you can add it to any other elements in your layout at the same time (often fixed-position elements will need this).
+
 
 ## Themes
 
@@ -571,3 +586,5 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/likeastore/ngdialog/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+[contributor-guidelines]: https://github.com/likeastore/ngDialog/blob/master/CONTRIBUTING.md

@@ -167,6 +167,16 @@
 			border:none;
 			border-radius:0px;
 		}
+		.generalButton2{
+			background:#abbe90;
+			border:none;
+			border-radius:0px;
+		}
+		.generalButton2:hover{
+			background:#abbe90;
+			border:none;
+			border-radius:0px;
+		}
 		
 		.generalButton:focus,.generalButton:hover,.generalButton1:focus,.generalButton1:hover{
 			background:#e0d8a9;
@@ -435,8 +445,8 @@
 			object-fit: cover;
 		}
 		.imgPreviewXM{
-			height:75px;
-			width:75px;
+			height:70px;
+			width:70px;
 			object-fit: cover;
 		}
 		.imgPreviewM{
@@ -448,6 +458,7 @@
 			height:50px;
 			object-fit: cover;
 		}
+		
 
 		label{
 			margin-top: 5px;
