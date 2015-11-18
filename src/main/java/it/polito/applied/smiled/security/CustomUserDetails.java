@@ -53,7 +53,7 @@ public class CustomUserDetails implements UserDetails, HttpSessionBindingListene
     
     public CustomUserDetails(){}
 	
-	public void setUser(User user){
+	public CustomUserDetails(User user){
 
 		relationsId = new ArrayList<String> ();
 
