@@ -41,7 +41,7 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 					var split = uploadedFile.name.split(".");
 					var type = split[split.length-1];
 					uploadedFile.fileType =  null;
-					if(type == 'jpg' || type == 'png' || type=='gif'){
+					if(type == 'jpg' || type == 'jpeg' || type == 'png' || type=='gif'){
 						uploadedFile.fileType = 'img';
 					}else if(type == 'pdf'){
 						uploadedFile.fileType = 'pdf';
@@ -265,21 +265,23 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 //				            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
 //				            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //				        })
-				        .success(function (data, status, headers, config) {
+				        .then(function (response) {
 				           console.log("SUCCESS UPLOAD");
-				           console.log(data);
 				           if(isImage){
 					           var uploadedFile = {};
-				        	   uploadedFile.id = data.id;
-				        	   uploadedFile.name = config.file[0].name;
+				        	   uploadedFile.id = response.data.id;
+				        	   uploadedFile.name = response.config.file[0].name;
 				        	   self.newPost.image.push(uploadedFile);
 				           }else{
 					           var uploadedFile = {};
-					           uploadedFile.id = data.id;
-					           uploadedFile.name = config.file[0].name;
+					           uploadedFile.id = response.data.id;
+					           uploadedFile.name = response.config.file[0].name;
 				        	   calculateType(uploadedFile);
 				        	   self.newPost.file.push(uploadedFile);
 				           }
+				        }, function(reason){
+				        	console.log("Impossibile effettuare l'upload");
+				        	//TODO aggiungere alert
 				        });
 					}
 				}

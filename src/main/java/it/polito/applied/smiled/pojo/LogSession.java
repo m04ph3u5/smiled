@@ -2,7 +2,6 @@ package it.polito.applied.smiled.pojo;
 
 import it.polito.applied.smiled.serializer.LogSessionSerializer;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -12,13 +11,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Document
-@JsonSerialize(using = LogSessionSerializer.class)
+//@JsonSerialize(using = LogSessionSerializer.class)
 public class LogSession {
 	
 	@Id
 	private String id;
 	@Indexed
 	private String userId;
+	private String sessionId;
+	private String ip;
 	private Date start;
 	private Date end;
 	
@@ -26,13 +27,12 @@ public class LogSession {
 		
 	}
 	
-	public LogSession(String userId){
+	public LogSession(String userId, String sessionId, String ip){
 		this.userId=userId;
 		this.start = new Date();
-		Calendar cal = Calendar.getInstance(); 
-	    cal.setTime(this.start); 
-	    cal.add(Calendar.HOUR_OF_DAY, 2);
-	    this.end=cal.getTime();	
+	    this.end=null;	
+	    this.sessionId = sessionId;
+	    this.ip = ip;
 	}
 	
 	public String getUserId() {
@@ -56,6 +56,17 @@ public class LogSession {
 	public String getId() {
 		return id;
 	}
-	
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 	
 }

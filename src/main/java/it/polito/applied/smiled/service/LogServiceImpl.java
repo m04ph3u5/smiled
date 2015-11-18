@@ -1,9 +1,11 @@
 package it.polito.applied.smiled.service;
 
 import it.polito.applied.smiled.pojo.Log;
+import it.polito.applied.smiled.pojo.LogSession;
 import it.polito.applied.smiled.pojo.LogType;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.repository.LogRepository;
+import it.polito.applied.smiled.repository.LogSessionRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +18,9 @@ public class LogServiceImpl implements LogService{
 	
 	@Autowired
 	private LogRepository logRepo;
+	
+	@Autowired
+	private LogSessionRepository logSessionRepo;
 
 	@Override
 	public void logRegisterTeacher(String userId) {
@@ -462,6 +467,18 @@ public class LogServiceImpl implements LogService{
 		log.setRefer(idMedia);
 		log.setType(LogType.UP_TRUST_FILE);
 		logRepo.save(log);					
+	}
+
+	@Override
+	public void logSessionStart(String userId, String sessionId, String ip) {
+		LogSession logSession = new LogSession(userId, sessionId, ip);
+		logSessionRepo.save(logSession);
+	}
+
+	@Override
+	public void logSessionStop(String userId, String sessionId, Date endTime) {
+		
+		logSessionRepo.stopSession(userId, sessionId, endTime);
 	}
 	
 	

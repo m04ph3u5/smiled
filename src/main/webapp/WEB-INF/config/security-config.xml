@@ -29,10 +29,11 @@
 		<authentication-provider user-service-ref="userServiceImpl">
 			<password-encoder ref="bCryptPasswordEncoder" />
 		</authentication-provider>
+		<authentication-provider ref="rememberMeAuthenticationProvider"/>
 	</authentication-manager>
 
 	<http use-expressions="true"  entry-point-ref="restServicesEntryPoint">
-		<remember-me key="smiledKey" token-validity-seconds="2000000" />
+<!-- 		<remember-me key="smiledKey" token-validity-seconds="2000000" /> -->
 		<intercept-url pattern="/" access="permitAll" requires-channel="https"/>
 		<intercept-url pattern="/login" access="permitAll" requires-channel="https"/>
 		<intercept-url pattern="/assets/public/**" access="permitAll"
@@ -73,21 +74,66 @@
 
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"
 			 requires-channel="https"/>
+		
+		
+		<custom-filter ref="usernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER"/>
+					 
 		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/>
+		<custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
+		<custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>        
 		<csrf token-repository-ref="customCsrfTokenRepository"></csrf>
-		<form-login
-			login-processing-url="/apiLogin"
-			default-target-url="/"
-			authentication-success-handler-ref="authenticationSuccessHandler"
-			authentication-failure-handler-ref="authenticationFailureHandler"/>
-		<logout logout-url="/apiLogout"/>
+<!-- 		<form-login -->
+<!-- 			login-processing-url="/apiLogin" -->
+<!-- 			default-target-url="/" -->
+<!-- 			authentication-success-handler-ref="authenticationSuccessHandler" -->
+<!-- 			authentication-failure-handler-ref="authenticationFailureHandler"/> -->
+		
+		
 	</http>
 	
+	<beans:bean id="usernamePasswordAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+	    <beans:property name="rememberMeServices" ref="rememberMeServices"/>
+	    <beans:property name="authenticationManager" ref="authenticationManager"/>
+	    <!-- Haven't added bean definitions of myAuthenticationSuccessHandler and myAuthenticationFailureHandler because they are out of scope of this post. Besides, I think they are too simple to implement. -->
+	    <beans:property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>
+	    <beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler"/>
+	    <beans:property name="filterProcessesUrl" value="/apiLogin"/>
+	</beans:bean>
 	
+	<beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+	    <beans:constructor-arg ref="logoutSuccessHandler"/>
+	    <beans:constructor-arg>
+	    <beans:array>
+	        <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+	    </beans:array>
+	    </beans:constructor-arg>
+	    <beans:property name="filterProcessesUrl" value="/apiLogout"/>
+	</beans:bean> 
+	
+	<beans:bean id="rememberMeFilter" class="it.polito.applied.smiled.security.RememberMeFilter">
+  		<beans:property name="rememberMeServices" ref="rememberMeServices"/>
+  		<beans:property name="authenticationManager" ref="authenticationManager" />
+	</beans:bean>
 
+	<beans:bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+  		<beans:property name="userDetailsService" ref="userServiceImpl"/>
+  		<beans:property name="key" value="smiledKey"/>
+  		<beans:property name="tokenValiditySeconds" value="864000"/>
+	</beans:bean>
+
+	<beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+  		<beans:property name="key" value="smiledKey"/>
+	</beans:bean>
+	
+	
 	<beans:bean id="customCsrfTokenRepository"
 		class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
 		<beans:property name="headerName" value="X-XSRF-TOKEN" />	
+	</beans:bean>
+	
+	<beans:bean id="customUserDetails"
+		class="it.polito.applied.smiled.security.CustomUserDetails"
+		scope="prototype">
 	</beans:bean>
 
 </beans:beans>

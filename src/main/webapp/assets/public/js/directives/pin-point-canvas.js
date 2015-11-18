@@ -34,10 +34,10 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS', 
 			
 			marker.onload = function(){
 				if(scope.post.place){
-					var x = (scope.post.place.x*canvas.width)-(markerDim/2);
-					var y = (scope.post.place.y*canvas.height)-(markerDim);
 					promise.promise.then(
 							function(data){
+								var x = (scope.post.place.x*canvas.width)-(markerDim/2);
+								var y = (scope.post.place.y*canvas.height)-(markerDim);
 								ctx.drawImage(marker, x, y, markerDim, markerDim);
 								lastX=x;
 								lastY=y;

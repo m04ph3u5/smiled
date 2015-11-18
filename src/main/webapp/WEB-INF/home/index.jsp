@@ -197,6 +197,7 @@
   ga('send', 'pageview');
 
 </script>
+
 <!-- <script> 
 // 	var url = 'https://'+window.location.host+'/ThesisProject/websocket/marcopolo';
 // 	var sock = new SockJS(url);

@@ -1,12 +1,16 @@
 package it.polito.applied.smiled.service;
 
-import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Reference;
 
+import java.util.Date;
 import java.util.List;
 
 
 public interface LogService {
+	
+	public void logSessionStart (String userId, String sessionId, String ip);
+	
+	public void logSessionStop (String userId, String sessionId, Date end);
 	
 	public void logRegisterTeacher(String userId);
 
@@ -84,6 +88,5 @@ public interface LogService {
 
 	public void logUpdateTrustedMedia(String idScenario, String userId,
 			String idMedia);
-
 
 }

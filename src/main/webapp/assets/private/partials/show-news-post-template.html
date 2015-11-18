@@ -56,23 +56,24 @@
 								data-ng-repeat="col in row track by $index">
 								<div class="squareImg" style="background-image:url('{{col}}'); cursor:pointer;"></div>
 							</div>
+							<div class="row" style="margin:5px;"></div>
 						</div>
 						<div data-ng-repeat="file in showNewsPost.files">
 							<div class="col-sm-2 marginMTop">
 								<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self" download="{{file.originalName}}">						
 								<div class="row">
 									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
-										ng-if="file.fileType == 'img'"></div>
+										data-ng-if="file.fileType == 'img'"></div>
 									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
-										ng-if="file.fileType == 'pdf'"></div>
+										data-ng-if="file.fileType == 'pdf'"></div>
 									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
-										ng-if="file.fileType == 'doc'"></div>
+										data-ng-if="file.fileType == 'doc'"></div>
 									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
-										ng-if="file.fileType == 'ppt'"></div>
+										data-ng-if="file.fileType == 'ppt'"></div>
 									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
-										ng-if="file.fileType == 'excel'"></div>
+										data-ng-if="file.fileType == 'excel'"></div>
 									</div>
-									<div class="row">
+									<div class="row tooltips" title="{{file.originalName}}">
 										{{file.originalName | limitTo: 7}}
 										<span ng-if="file.originalName.length>7">...</span>
 									</div>
@@ -149,22 +150,22 @@
 							
 					<div class="row colPaddingScen marginSTop ">
 						<div class="pull-left marginSTop marginMRight">
-<!-- 							<div title="Aggiungi un'immagine al post" ngf-select -->
-<!-- 								ngf-change="showNewsPost.addImageToPost($files)" -->
-<!-- 								class="tooltips glyphicon glyphicon-camera iconsMargin" -->
-<!-- 								data-ng-style="showNewsPost.colorImageMarker" -->
-<!-- 								data-ng-click="showNewsPost.hideTagBox()"></div> -->
+							<div title="Aggiungi un'immagine al post" ngf-select
+								ngf-change="showNewsPost.addImageToPost($files)"
+								class="tooltips glyphicon glyphicon-camera iconsMargin"
+								data-ng-style="showNewsPost.colorImageMarker"
+								data-ng-click="showNewsPost.hideTagBox()"></div>
 							
-<!-- 							<div title="Allega un file al post" ngf-select -->
-<!-- 								ngf-change="showNewsPost.addFileToPost($files)" -->
-<!-- 								class="tooltips glyphicon glyphicon-file iconsMargin" -->
-<!-- 								data-ng-style="showNewsPost.colorFileMarker" -->
-<!-- 								data-ng-click="showNewsPost.hideTagBox()"></div> -->
+							<div title="Allega un file al post" ngf-select
+								ngf-change="showNewsPost.addFileToPost($files)"
+								class="tooltips glyphicon glyphicon-file iconsMargin"
+								data-ng-style="showNewsPost.colorFileMarker"
+								data-ng-click="showNewsPost.hideTagBox()"></div>
 						
-<!-- 							<div title="Aggiungi una posizione al post" -->
-<!-- 								class="tooltips glyphicon glyphicon-map-marker iconsMargin" -->
-<!-- 								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()" -->
-<!-- 								data-ng-style="showNewsPost.colorMapMarker"></div> -->
+							<div title="Aggiungi una posizione al post"
+								class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()"
+								data-ng-style="showNewsPost.colorMapMarker"></div>
 				
 							<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="showNewsPost.colorTagsMarker"
 								title="Tagga personaggi al post"
@@ -191,17 +192,48 @@
 									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
 											data-ng-click="showNewsPost.removeImage($parent.$index, $index);"></span></div>
 								</div>
-							</div>	
+							</div>
+							<div class="row" style="margin:5px;"></div>	
 						</div>
 					</div>
-					<!-- Inserire icone -->
+					
 					<div class="row colPaddingScen">
-						<div data-ng-repeat="file in showNewsPost.post.filesMetadata">				
-								<div class="col-sm-2 textLeft">
-									{{file.originalName | limitTo:15}} 
-									<span data-ng-show="file.originalName" show-on-hover-parent
-										class="glyphicon glyphicon-remove"
-										data-ng-click="showNewsPost.removeFile(file)"></span>
+						<div data-ng-repeat="file in showNewsPost.files">				
+								<div class="col-sm-2 textLeft marginMTop">
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
+										data-ng-if="file.fileType == 'img'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
+										data-ng-if="file.fileType == 'pdf'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
+										data-ng-if="file.fileType == 'doc'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
+										data-ng-if="file.fileType == 'ppt'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
+										data-ng-if="file.fileType == 'excel'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="row tooltips" title="{{file.originalName}}">
+										{{file.originalName | limitTo: 7}}
+										<span ng-if="file.originalName.length>7">...</span>
+									</div>
 								</div>
 						</div>
 					</div>
@@ -284,6 +316,7 @@
 								data-ng-repeat="col in row track by $index">
 								<div class="squareImg" style="background-image:url('{{col}}'); cursor:pointer;"></div>
 							</div>
+							<div class="row" style="margin:5px;"></div>
 						</div>
 						<div data-ng-repeat="file in showNewsPost.files">
 							<div class="col-sm-2 marginMTop">
@@ -300,7 +333,7 @@
 									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
 										ng-if="file.fileType == 'excel'"></div>
 									</div>
-									<div class="row">
+									<div class="row tooltips" title="{{file.originalName}}">
 										{{file.originalName | limitTo: 7}}
 										<span ng-if="file.originalName.length>7">...</span>
 									</div>
@@ -383,22 +416,22 @@
 							
 					<div class="row marginSTop colPaddingScen">
 						<div class="pull-left marginSTop marginMRight">
-<!-- 							<div title="Aggiungi un'immagine al post" ngf-select -->
-<!-- 								ngf-change="showNewsPost.addImageToPost($files)" -->
-<!-- 								class="tooltips glyphicon glyphicon-camera iconsMargin" -->
-<!-- 								data-ng-style="showNewsPost.colorImageMarker" -->
-<!-- 								data-ng-click="showNewsPost.hideTagBox()"></div> -->
+							<div title="Aggiungi un'immagine al post" ngf-select
+								ngf-change="showNewsPost.addImageToPost($files)"
+								class="tooltips glyphicon glyphicon-camera iconsMargin"
+								data-ng-style="showNewsPost.colorImageMarker"
+								data-ng-click="showNewsPost.hideTagBox()"></div>
 							
-<!-- 							<div title="Allega un file al post" ngf-select -->
-<!-- 								ngf-change="showNewsPost.addFileToPost($files)" -->
-<!-- 								class="tooltips glyphicon glyphicon-file iconsMargin" -->
-<!-- 								data-ng-style="showNewsPost.colorFileMarker" -->
-<!-- 								data-ng-click="showNewsPost.hideTagBox()"></div> -->
+							<div title="Allega un file al post" ngf-select
+								ngf-change="showNewsPost.addFileToPost($files)"
+								class="tooltips glyphicon glyphicon-file iconsMargin"
+								data-ng-style="showNewsPost.colorFileMarker"
+								data-ng-click="showNewsPost.hideTagBox()"></div>
 						
-<!-- 							<div title="Aggiungi una posizione al post" -->
-<!-- 								class="tooltips glyphicon glyphicon-map-marker iconsMargin" -->
-<!-- 								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()" -->
-<!-- 								data-ng-style="showNewsPost.colorMapMarker"></div> -->
+							<div title="Aggiungi una posizione al post"
+								class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()"
+								data-ng-style="showNewsPost.colorMapMarker"></div>
 				
 							<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="showNewsPost.colorTagsMarker"
 								title="Tagga personaggi al post"
@@ -418,47 +451,60 @@
 						</auto-complete> </tags-input>
 					</div>
 				
-					<div class="row colPaddingScen">
+					<div>
+					<div class="row colPaddingScen">							
 						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-						<!-- <div data-ng-repeat="col in row track by $index" class="col-lg-2 col-md-3 col-xs-4 text-left imgToPost"> -->
-						<div data-ng-repeat="col in row track by $index" class="colPadding text-left imgToPost">
-							<div class="squareImg" style="background-image:url('{{col}}')">
-							<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
-									data-ng-click="showNewsPost.recalculateMatrix()"></span></div>
+							<div data-ng-repeat="col in row track by $index" class="text-left imgToPost colPadding">
+								<div class="squareImg" style="background-image:url('{{col}}')">
+									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeImage($parent.$index, $index);"></span></div>
+								</div>
 							</div>
-							
-							<!-- <img data-ng-src="{{col}}" class="imgPreviewL" />
-							<div class="hoverContent imgPreviewL textRight"><span class="glyphicon glyphicon-remove iconsMargin"
-									data-ng-click="showNewsPost.recalculateMatrix()"></span></div>
-							</div> -->
-						</div>
-							
-						<div data-ng-repeat="image in showNewsPost.post.image">
-							<div class="col-lg-2 col-md-3 imgToPost">
-								<img class="img imgPreviewL" ng-src="{{showNewsPost.getMedia(image.id)}}">
-								
-								
-						<!-- 					<div title="Indica le tue fonti" -->
-						<!-- 						data-ng-click="scenarioPost.addSourceToNewPost()" -->
-						<!-- 						class="tooltips glyphicon glyphicon-book" style="margin-right: 5px;"></div> -->
-						<!-- 					<label></label> -->
-						<!-- 				</div> -->
-		
-							</div>
-						</div>
-						</div>
-						<!-- Inserire icone -->
-						<div class="row colPaddingScen">
-							<div data-ng-repeat="file in showNewsPost.post.filesMetadata">				
-									<div class="col-sm-2 textLeft">
-										{{file.originalName | limitTo:15}} 
-										<span data-ng-show="file.originalName" show-on-hover-parent
-											class="glyphicon glyphicon-remove"
-											data-ng-click="showNewsPost.removeFile(file)"></span>
-									</div>
-							</div>
+							<div class="row" style="margin:5px;"></div>	
 						</div>
 					</div>
+					
+					<div class="row colPaddingScen">
+						<div data-ng-repeat="file in showNewsPost.files">				
+								<div class="col-sm-2 textLeft marginMTop">
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
+										data-ng-if="file.fileType == 'img'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
+										data-ng-if="file.fileType == 'pdf'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
+										data-ng-if="file.fileType == 'doc'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
+										data-ng-if="file.fileType == 'ppt'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
+										data-ng-if="file.fileType == 'excel'">
+										<div class="hoverContent textRight"><span  show-on-hover-parent
+											class="glyphicon glyphicon-remove marginMTop iconsMargin"
+											data-ng-click="showNewsPost.removeFile(file)"></span></div>
+									</div>
+									<div class="row tooltips" title="{{file.originalName}}">
+										{{file.originalName | limitTo: 7}}
+										<span ng-if="file.originalName.length>7">...</span>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
 					<div class="row col-xs-12 marginMTop">
 						<div class="pull-right">
 							<button data-ng-click="showNewsPost.updateEvent()"
