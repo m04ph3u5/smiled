@@ -78,7 +78,7 @@
 					class="img-circle imgPreviewL"> 
 				</div>
 				
-					<label style="cursor:pointer" class="sideMarginThree" data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })"><a href="">{{a.name}}</a></label>
+					<label style="cursor:pointer" class="sideMarginThree tooltips" title="{{a.name}}" data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })"><a href="">{{a.name | limitTo:16}}<span data-ng-show="a.name.length>16">...</span></a></label>
 			</div>
 	</div>
 	</div>

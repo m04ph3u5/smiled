@@ -719,6 +719,7 @@ angular.module('smiled.application')
 		$rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         
+                
     	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
     		  console.log("check anonymous");

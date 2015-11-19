@@ -1,25 +1,39 @@
 package it.polito.applied.smiled.security;
 
 import it.polito.applied.smiled.pojo.Role;
-import it.polito.applied.smiled.pojo.ScenarioReference;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.service.LogService;
+import it.polito.applied.smiled.service.LogServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
-public class CustomUserDetails implements UserDetails {
+@Component
+@Scope(value="prototype")
+public class CustomUserDetails implements UserDetails, HttpSessionBindingListener {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private String username;
 	private String id;
 	private String password;
@@ -30,7 +44,15 @@ public class CustomUserDetails implements UserDetails {
 	private List<String> closedScenariosId;
 	//Questa lista contiene gli id di tutti gli utenti del sistema che hanno una relazione con lo user corrente (amicizia, isTeacher, isStudent, isColleagues)
 	private List<String> relationsId;
-
+	
+//    @Autowired
+//	private transient LogService logService;
+    
+    @Value("${session.maxTimeInterval}")
+    private int maxTimeInterval;
+    
+    public CustomUserDetails(){}
+	
 	public CustomUserDetails(User user){
 
 		relationsId = new ArrayList<String> ();
@@ -80,6 +102,7 @@ public class CustomUserDetails implements UserDetails {
 		openScenariosId=user.getOpenScenariosId();
 		closedScenariosId=user.getClosedScenariosId();
 		creatingScenariosId=user.getCreatingScenariosId();
+		System.out.println("COSTRUTTORE CUSTOMUSERDETAILS: "+this.username);
 	}
 
 	@Override
@@ -163,4 +186,32 @@ public class CustomUserDetails implements UserDetails {
 	public boolean containsRelationsId(String id){
 		return relationsId.contains(id);
 	}
+
+	@Override
+	public void valueBound(HttpSessionBindingEvent event) {
+		HttpSession session = event.getSession();
+		String ip = (String) session.getAttribute("ip");
+//		if(logService!=null)
+//			logService.logSessionStart(id, session.getId(), ip);
+//		else
+//			System.out.println("SERVICE NULL");
+	}
+
+	@Override
+	public void valueUnbound(HttpSessionBindingEvent event) {
+//		if(logService!=null){
+//			boolean logout = (boolean) event.getSession().getAttribute("logout");
+//			if(logout)
+//				logService.logSessionStop(id, event.getSession().getId(), new Date());
+//			else{
+//				Calendar cal = Calendar.getInstance();
+//				cal.setTime(new Date());
+//				cal.add(Calendar.SECOND, -maxTimeInterval);
+//				logService.logSessionStop(id, event.getSession().getId(), cal.getTime());
+//			}
+//		}
+//		else
+			System.out.println("SERVICE NULL");
+	}
+
 }
