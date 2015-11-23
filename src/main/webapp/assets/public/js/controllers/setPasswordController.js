@@ -3,6 +3,15 @@ angular.module('smiled.application').controller('setPasswordCtrl', ['userService
 
 	var self = this;
 	self.user= {};
+	
+	self.dateOptions = {
+			"regional" : "it",
+			"changeYear" : true,
+			"maxDate" : "0",
+			"minDate" : new Date(1900,0,1,0,0,0,0),
+			"yearRange" : "1900:c"
+	};
+	
 	self.confirmRegister = function (){
 
 		if(validateRegister()){

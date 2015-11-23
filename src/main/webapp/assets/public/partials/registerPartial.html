@@ -4,7 +4,24 @@
 	rel='stylesheet' type='text/css'>
 <link href="/assets/public/css/login-style.css" rel='stylesheet'
 	type='text/css'>
-
+<link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
+<style>
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year {
+	width: 45%;
+	background-color:transparent;
+	border-top: none;
+	border-left:none;
+	border-right:none;
+	outline:none;
+	border-radius:0px;
+	-webkit-appearance: none;.
+	border: 0;
+	box-shadow: none;
+	border-color:#5B5955;
+}
+</style>
+	
 	
 <div class="container-fluid bg fill">
 	<div class="row">
@@ -23,9 +40,9 @@
 				</div>
 				<div name="myForm" class="form-group">
 					<form class="form-inline">
-						<div class="form-group">
-							<input type="date" class="form-control" 
-								data-ng-model="register.user.bornDate"  placeholder="dd-MM-yyyy" min="1900-01-01" max="2015-12-31" required></input>
+							<div class="form-group">
+							<input ui-date="register.dateOptions" class="form-control" 
+								data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
 						</div>
 
 					</form>
