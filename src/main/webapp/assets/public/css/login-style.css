@@ -69,6 +69,8 @@
 	}
 	.thirdSlide{
 		position:relative;
+		padding-right:15px;
+		padding-left:15px;
 	}
 	.backgroundParallax{
 		width:100vw;
@@ -180,17 +182,26 @@
 /*CAROUSEL*/
 	.closedScen{
 		width:100px;
+		height:100px;
+		object-fit: cover; 
 	}
 	.arrows{
-		display: table-cell;
+		/* display: table-cell;
 	    float: none;
-	    width:10%;
+	    width:10%; */
+	    font-size:3em;
+	    font-color:#232323;
 	}
 	.carousel{
 		display:table:
 	}
 	.innerCarousel{
-		height:100%;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display:         flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 

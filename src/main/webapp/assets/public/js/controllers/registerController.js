@@ -94,5 +94,53 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 	    return re.test(email);
 	}
 	
+	//CAROUSEL
+	var scen1 = {img:"assets/public/img/green.jpg"};
+	var scen2 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen3 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen4 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen5 = {img:"assets/public/img/cover_default.jpg"};
+	var scen6 = {img:"assets/public/img/calderone1.png"};
+	var scen7 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen8 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen9 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen10 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen11 = {img:"assets/public/img/cover_default.jpg"};
+	var scen12 = {img:"assets/public/img/calderone1.png"};
+	var scen13 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen14 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scen15 = {img:"assets/public/img/landing page/Sicura.png"};
+	var scenarios = [scen1, scen2, scen3, scen4, scen5, scen6, scen7, scen8, scen9, scen10, scen11, scen12, scen13, scen14, scen15];
+	self.hideArrows = false;
+	self.scenariosToShow = scenarios.slice(0,5);
+	var scenarioIndex = 0;
+	if (scenarios.length <= 5){
+		self.hideArrows = true;
+	}
+	
+	self.shiftScenariosAfter = function(){
+		scenarioIndex = scenarioIndex+5;
+		
+		if (scenarioIndex>11 || scenarioIndex>=scenarios.length){
+			//se sono arrivato alla fine degli scenari li rivedo da capo
+			scenarioIndex = 0; //sarà tutto FANTASTICO!!! Pioveranno applausi dalla commisione
+		}if ((scenarios.length<15 && scenarioIndex>5 && scenarioIndex!=11)||(scenarios.length<10 && scenarioIndex>0)){
+			//se ho meno di 15 scenari quelli aggiuntivi li vedo in coda 
+			scenarioIndex = scenarios.length-5;
+		}
+		self.scenariosToShow = scenarios.slice(scenarioIndex,scenarioIndex+5);
+	}
+	
+	self.shiftScenariosBefore = function(){
+		if(scenarioIndex == 0){
+			scenarioIndex = scenarios.length - 5;
+		}else{
+			scenarioIndex = scenarioIndex-5;
+		}if(scenarioIndex<0){
+			scenarioIndex = 0;
+		}
+		self.scenariosToShow = scenarios.slice(scenarioIndex,scenarioIndex+5);
+
+	}
 
 }]);
