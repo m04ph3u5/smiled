@@ -48,7 +48,7 @@
 			</div>
 			<div class="col-sm-1"></div>
 			<div class="col-sm-5">
-				<div class="boxForm">
+				<div class="boxForm" id="form">
 					<div class="formTitle">ISCRIZIONE DOCENTE</div>
 					<label>Informazioni personali</label>
 					<alertregistration></alertregistration>
@@ -108,16 +108,39 @@
 	</div>
 
 		
-	<div class="thirdSlide">
-		<div class="carousel">
-			<div class="row text-center innerCarousel">
-				<div class="col-md-1 arrows" data-ng-hide="register.hideArrows" data-ng-click="register.shiftScenariosBefore()"><span class="glyphicon glyphicon-chevron-left"></span></div>
-				<div class="col-md-2" data-ng-repeat="s in register.scenariosToShow">
+	<div class="text-center thirdSlide">
+		<h2>Scenari appena pubblicati</h2>
+		<div class="carousel hidden-xs hidden-sm visible-md visible-lg">
+			<div class="row innerCarousel">
+				<div class="col-md-1 arrows" data-ng-hide="register.hideArrowsL" data-ng-click="register.shiftScenariosBeforeL()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+				<div class="col-md-2" data-ng-repeat="s in register.scenariosToShowL">
 					<img class="img img-circle closedScen" src="{{s.img}}">
 				</div>
-				<div class="col-md-1" data-ng-hide="register.hideArrows" data-ng-click="register.shiftScenariosAfter()"><span class="glyphicon glyphicon-chevron-right arrows"></span></div>
+				<div class="col-md-1" data-ng-hide="register.hideArrowsL" data-ng-click="register.shiftScenariosAfterL()"><span class="glyphicon glyphicon-chevron-right arrows"></span></div>
 			</div>
 		</div>
+		<div class="carousel hidden-xs visible-sm hidden-md hidden-lg">
+			<div class="row innerCarousel">
+				<div class="col-sm-1 arrows" data-ng-hide="register.hideArrowsM" data-ng-click="register.shiftScenariosBeforeM()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+				<div class="col-sm-3" data-ng-repeat="s in register.scenariosToShowM">
+					<img class="img img-circle closedScen" src="{{s.img}}">
+				</div>
+				<div class="col-sm-1" data-ng-hide="register.hideArrowsM" data-ng-click="register.shiftScenariosAfterM()"><span class="glyphicon glyphicon-chevron-right arrows"></span></div>
+			</div>
+		</div>
+		<div class="carousel visible-xs hidden-sm hidden-md hidden-lg">
+			<div class="row innerCarousel">
+				<div class="col-xs-3 arrows" data-ng-hide="register.hideArrowsS" data-ng-click="register.shiftScenariosBeforeS()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+				<div class="col-xs-6" data-ng-repeat="s in register.scenariosToShowS">
+					<img class="img img-circle closedScen" src="{{s.img}}">
+				</div>
+				<div class="col-xs-3" data-ng-hide="register.hideArrowsS" data-ng-click="register.shiftScenariosAfterS()"><span class="glyphicon glyphicon-chevron-right arrows"></span></div>
+			</div>
+		</div>
+	</div>
+	<div class="fourthSlide text-center">
+		<div class="claim">Diventa protagonista!</div>
+		<a href="#form"><button class="btn ctaSecond">Entra nella storia!</button></a>
 	</div>
 </div>
 
@@ -128,7 +151,23 @@ $(window).bind('scroll',function(e){
 
 function parallaxScroll(){
     var scrolled = $(window).scrollTop();
-    $('.backgroundParallax').css('top',(850-(scrolled*.5))+'px');
+    if(window.innerWidth>992){
+    	$('.backgroundParallax').css('top',(850-(scrolled*.5))+'px');
+    }
+    if(window.innerWidth<992 && window.innerWidth>768){
+    	$('.backgroundParallax').css('top',(880-(scrolled*.5))+'px');
+    }
+    if(window.innerWidth<768  && window.innerWidth>600){
+    	$('.backgroundParallax').css('top',(1300-(scrolled*.4))+'px');
+    }
+    if(window.innerWidth<600 && window.innerWidth>400){
+    	$('.backgroundParallax').css('top',(1100-(scrolled*.35))+'px');
+    }
+    if(window.innerWidth<400){
+    	$('.backgroundParallax').css('top',(880-(scrolled*.25))+'px');
+    }
+    
+ 
     //$('.secondSlide').css('top',(800-(scrolled*.5))+'px');
     $('#parallax-bg3').css('top',(0-(scrolled*.75))+'px');
 }

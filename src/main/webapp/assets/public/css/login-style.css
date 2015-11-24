@@ -61,24 +61,37 @@
 	}
 	.secondSlide{
 		margin-top:15em;
-		background-color:white;
-		padding-bottom: 1em;
+ 		background-color:#ded4b0;
+		padding-bottom: 3em;
 		padding-right:15px;
 		padding-left:15px;
 		padding-top: 1em;
 	}
 	.thirdSlide{
 		position:relative;
+		top: -20px;
 		padding-right:15px;
 		padding-left:15px;
+		padding-top:1em;
+		padding-bottom:1em;
+		background-color:#e9e5d7;
+	}
+	.fourthSlide{
+		position:relative;
+		top: -20px;
+		padding-right:15px;
+		padding-left:15px;
+		padding-top:1em;
+		padding-bottom:1em;
 	}
 	.backgroundParallax{
-		width:100vw;
+		width:100%;
 		background-image:url("assets/public/img/landing page/vetrina_flat.jpg");
-		background size:cover;
-		 background-position: 0 0;
+		background-size:cover;
+		background-position: 0 0;
+		position: relative;
 		z-index:-1;
-		position:absolute;
+		position:absolute; 
 		top:750px;
 	}
 	
@@ -179,7 +192,7 @@
 		color:#404b41;
 	}
 
-/*CAROUSEL*/
+/*CAROUSEL SECTION*/
 	.closedScen{
 		width:100px;
 		height:100px;
@@ -193,7 +206,9 @@
 	    font-color:#232323;
 	}
 	.carousel{
-		display:table:
+		display:table;
+		margin-top:1.5em;
+		margin-bottom:2em;
 	}
 	.innerCarousel{
 		display: -webkit-box;
@@ -203,8 +218,20 @@
 		align-items: center;
 		justify-content: center;
 	}
-
-
+	
+/*CALL TO ACTION SECTION*/
+	.claim{
+		margin-top:0.5em;
+		font-size: 2.5vw;
+	}
+	.ctaSecond{
+		color: #FFFFFF;
+		background-color: #248a73;
+		font-family: 'Coustard', sans-serif;
+		font-size:3vw;
+		margin-top:0.5em;
+		margin-bottom:1em;
+	}
 
 
 
@@ -302,14 +329,23 @@
 	}
 	
 	.ctaFirst{
-		font-size: 4vw;
+		font-size: 7vw;
 	}
-	
+	.ctaSecond{
+		font-size: 7vw;
+	}
+	.claim{
+		font-size: 5vw;
+	}
+	.secondSlide{
+		margin-top:10em;
+	}
 }	
 @media screen  and (min-width: 400px) and (max-width:991px){
 	.featuresBox{
 		margin-left:20%;
 		margin-right:20%;
 	}
+
 	
 }
