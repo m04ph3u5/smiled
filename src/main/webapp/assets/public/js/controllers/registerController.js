@@ -106,7 +106,7 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 		scenarioIndex = scenarioIndex+5;		
 		if (scenarioIndex>11 || scenarioIndex>=scenarios.length){
 			//se sono arrivato alla fine degli scenari li rivedo da capo
-			scenarioIndex = 0; //sarà tutto FANTASTICO!!! Pioveranno applausi dalla commisione
+			scenarioIndex = 0;
 		}if (scenarios.length-scenarioIndex<=5){
 			//se ho meno di 15 scenari quelli aggiuntivi li vedo in coda 
 			scenarioIndex = scenarios.length-5;
