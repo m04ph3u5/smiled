@@ -24,7 +24,6 @@ import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserProfile;
 import it.polito.applied.smiled.pojo.user.UserStatus;
-import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.RegistrationRepository;
@@ -35,7 +34,6 @@ import it.polito.applied.smiled.updater.AsyncUpdater;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,14 +46,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import com.mongodb.MongoException;
 
@@ -278,17 +272,11 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			try{
 				RegistrationToken registration = new RegistrationToken(teacher.getEmail());
 				registrationRepository.save(registration);
-				String encodedEmail = URLEncoder.encode(teacher.getEmail(), "UTF-8").replaceAll("\\~", "%7E")
-		                .replaceAll("\\.", "%2E")
-		                .replaceAll("\\-", "%2D");
-				asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName()+" "+teacher.getLastName(), encodedEmail,registration.getToken().toString());
+				asyncUpdater.sendTeacherRegistrationEmail(teacher.getFirstName()+" "+teacher.getLastName(), teacher.getEmail(),registration.getToken().toString());
 			}catch(MongoDataIntegrityViolationException e){
 				/*Eccezione che in teoria non dovrebbe mai verificarsi, in quanto abbiamo già controllato che non esista uno user con quella email
 				 * al passo precedente*/
 				throw e;
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}catch(MongoException e){
 			throw e;
