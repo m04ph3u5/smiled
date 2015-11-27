@@ -53,6 +53,8 @@ public class EmailMessageService {
 		message.setText("Ciao "+firstName+" ,la tua richiesta di registrazione e' stata presa in carico. Presto riceverai ulteriori dettagli! "
 						+ "A presto\nMESCHOLA");
 	
+		System.out.println("Sto inviando una mail di registrazione docente all'indirizzo: "+ email);
+		System.out.println("dall'indirizzo: "+ from);
 		mailSender.send(message);
 		
 		/*EMAIL PER CONFERMA INVIATA ALLA NOSTRA CASELLA DI POSTA */
