@@ -151,6 +151,7 @@
 		text-align:center;
 		color: #404b41;
 		padding:3vw;
+		font-size:2em;
 	}
 	.formTitle{
 		font-family: 'Coustard', sans-serif;
@@ -159,6 +160,7 @@
 	}
 	label{
 		color: #404b41;
+		font-size:30px;
 	}
 	
 	.ctaFirst{
@@ -166,6 +168,7 @@
 		background-color: #248a73;
 		font-family: 'Coustard', sans-serif;
 		font-size:3vw;
+		margin-top:1vw;
 	}
 	.freccia{
 		margin-top: 2em;
@@ -181,6 +184,7 @@
 	.featuresText{
 		font-weight: 600;
 		font-color:#232323;
+		font-size:20px;
 	}
 	
 	.featuresBox{
@@ -284,6 +288,7 @@
 			border: 0;
     		box-shadow: none;
     		border-color:#5B5955;
+    		font-size:20px;
 		}
 		
 		.form-control::-webkit-input-placeholder { color: #5B5955; }
