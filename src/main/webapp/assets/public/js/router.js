@@ -241,7 +241,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.dashboard.missionsList',{
-			url: "/compiti",
+			url: "/missioni",
 			views: {
 				'content@logged': {
 					templateUrl: "assets/private/partials/personalMissionsList.html",

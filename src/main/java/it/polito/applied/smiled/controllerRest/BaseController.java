@@ -156,13 +156,13 @@ public abstract class BaseController {
 		return error;
 	}
 	
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//	public ErrorInfo handleGenericException(Exception e){
-//		ErrorInfo error = new ErrorInfo();
-//		error.setStatusCode("400");
-//		System.out.println("generic exception: "+e.getClass()+" "+e.getMessage());
-//		return error;
-//	}
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public ErrorInfo handleGenericException(Exception e){
+		ErrorInfo error = new ErrorInfo();
+		error.setStatusCode("400");
+		System.out.println("generic exception: "+e.getClass()+" "+e.getMessage());
+		return error;
+	}
 	
 }

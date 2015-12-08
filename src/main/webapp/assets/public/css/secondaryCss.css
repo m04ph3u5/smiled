@@ -424,3 +424,8 @@ span.clickable:hover {
 .cf {
     *zoom: 1;
 }
+
+#ui-datepicker-div { 
+	display: none; 
+}
+

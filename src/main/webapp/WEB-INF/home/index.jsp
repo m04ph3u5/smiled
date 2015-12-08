@@ -27,7 +27,7 @@
         type='text/css'>
     <link href="/assets/public/js/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
-<title ng-bind="$state.current.data.pageTitle">Meschola</title>    
+<title data-ng-bind="$state.current.data.pageTitle">Meschola</title>    
 
 <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 <script type="text/javascript">
@@ -197,7 +197,7 @@
   ga('create', 'UA-67446742-1', 'auto');
   ga('send', 'pageview');
 
-</script>
+	</script>
 
 <!-- <script> 
 // 	var url = 'https://'+window.location.host+'/ThesisProject/websocket/marcopolo';
