@@ -28,19 +28,19 @@ angular.module('smiled.application')
 				pageTitle : 'setPassword - Meschola'
 			}
 		})
-		.state('notLogged.welcome',{
-			url: "/",
-			views: {
-				'content': {
-					templateUrl: 'assets/public/partials/showcase.html',
-				}
-			},
-			data : {
-				pageTitle : 'Meschola'
-			}
-		})
+//		.state('notLogged.welcome',{
+//			url: "/",
+//			views: {
+//				'content': {
+//					templateUrl: 'assets/public/partials/showcase.html',
+//				}
+//			},
+//			data : {
+//				pageTitle : 'Meschola'
+//			}
+//		})
 		.state('notLogged.login',{
-			url: "/login",
+			url: "/",
 			views: {
 				'header': {
 					templateUrl: 'assets/public/partials/navbar-login.html',
@@ -58,7 +58,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('notLogged.forgotPassword',{
-			url: "/login",
+			url: "/password-dimenticata",
 			views: {
 				'header': {
 					templateUrl: 'assets/public/partials/navbar-login.html',
@@ -98,7 +98,7 @@ angular.module('smiled.application')
 			data: {
 				permissions: {
 					except: ['anonymous'],
-					redirectTo: 'notLogged.welcome' 
+					redirectTo: 'notLogged.login' 
 				}
 			}
 		})

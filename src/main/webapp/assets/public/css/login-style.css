@@ -86,7 +86,7 @@
 	}
 	.backgroundParallax{
 		width:100%;
-		background-image:url("assets/public/img/landing page/vetrina_flat.jpg");
+		background-image:url("/assets/public/img/landing page/vetrina_flat.jpg");
 		background-size:cover;
 		background-position: 0 0;
 		position: relative;
