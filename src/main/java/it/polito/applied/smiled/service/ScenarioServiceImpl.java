@@ -182,7 +182,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			Scenario oldScenario = scenarioRepository.findById(id);
 			Date actualDate = new Date();
 			u.set("lastUpdateDate", actualDate);
-			if(newStatus.equals(ScenarioStatus.ACTIVE) && !oldScenario.getStatus().equals(ScenarioStatus.ACTIVE)){
+			if(newStatus!= null && newStatus.equals(ScenarioStatus.ACTIVE) && !oldScenario.getStatus().equals(ScenarioStatus.ACTIVE)){
 				u.set("startDate", actualDate);
 			}
 			scenarioUpdated = scenarioRepository.updateScenario(id, u);
