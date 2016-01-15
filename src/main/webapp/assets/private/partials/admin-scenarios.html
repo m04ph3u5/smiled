@@ -1,9 +1,33 @@
 <div>
 	<div>
-		<h4>Cerca scenario: (DA IMPLEMENTARE)</h4>
-		<input type="text" placeholder="Inserisci l'ID">
-		<button class="btn btn-success" data-ng-click="">Cerca</button>
+		<h4>Cerca scenari: </h4>
+		<button class="btn btn-success" data-ng-click="dashboardAdmin.searchScenarios()">Cerca</button>
+		<label for="allTeachersNum">Risultati per pagina (max 20): </label> <input size="4" id="allScenariosNum" data-ng-model="dashboardAdmin.nItemScenarios">
+		<label for="allTeachersPag">Numero pagina: </label> <input size="4" id="allScenariosPag" data-ng-model="dashboardAdmin.nPagScenarios">
+		<label for="typeOrder">Ordina per: </label> 
+		<select  id="typeOrder" data-ng-model="dashboardAdmin.typeOrder" data-ng-change="dashboardAdmin.switchTypeOrder()"> 
+			<option selected="selected" value="creationDate">Data creazione</option>
+  			<option value="lastUpdateDate">Data ultima modifica</option>
+  		</select>
+		<label>Risultati trovati: </label> {{dashboardAdmin.numScenariosFounded}} <br>
+		<button data-ng-if="dashboardAdmin.showResetScenarios()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetScenarios()">Reset</button>
+		<br>
 	
+		<ol>
+			{{dashboardAdmin.noMoreScenarios}}
+			<div data-ng-repeat="s in dashboardAdmin.myListOfScenarios">
+				<li><u><b>Nome:</b> {{s.name}}</u>
+					<ul>
+							<li><b>Stato:</b> {{s.status}}</li>
+							<li><b>Data creazione:</b> {{s.creationDate | date:dashboardAdmin.dateFormat}}</li>
+							<li data-ng-show="s.status=='ACTIVE'"><b>Data attivazione:</b> {{s.startDate | date:dashboardAdmin.dateFormat}}</li>
+							<li><b>Data ultima modifica:</b> {{s.lastUpdateDate | date:dashboardAdmin.dateFormat}}</li>
+							<li><a style="cursor:pointer;" href="" data-ui-sref="logged.scenarioWizard.info({id: '{{s.id}}' })">Entra nel Wizard</a></li>
+					</ul>
+				</li>
+				
+			</div>
+		</ol>
 	</div>
 	<hr>
 

@@ -1,26 +1,5 @@
 package it.polito.applied.smiled.controllerRest;
 
-import it.polito.applied.smiled.dto.ChangePasswordDTO;
-import it.polito.applied.smiled.dto.EmailDTO;
-import it.polito.applied.smiled.dto.FirstPasswordDTO;
-import it.polito.applied.smiled.dto.RegisterTeacherDTO;
-import it.polito.applied.smiled.dto.UserDTO;
-import it.polito.applied.smiled.exception.BadCredentialsException;
-import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.exception.UserAlreadyExistsException;
-import it.polito.applied.smiled.exception.UserNotFoundException;
-import it.polito.applied.smiled.pojo.ExceptionOnClient;
-import it.polito.applied.smiled.pojo.Id;
-import it.polito.applied.smiled.pojo.Issue;
-import it.polito.applied.smiled.pojo.Message;
-import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.scenario.Post;
-import it.polito.applied.smiled.pojo.user.User;
-import it.polito.applied.smiled.security.CustomUserDetails;
-import it.polito.applied.smiled.service.LogService;
-import it.polito.applied.smiled.service.UserService;
-import it.polito.applied.smiled.validator.UserDTOValidator;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +25,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.MongoException;
+
+import it.polito.applied.smiled.dto.ChangePasswordDTO;
+import it.polito.applied.smiled.dto.EmailDTO;
+import it.polito.applied.smiled.dto.FirstPasswordDTO;
+import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.UserDTO;
+import it.polito.applied.smiled.exception.BadCredentialsException;
+import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.UserAlreadyExistsException;
+import it.polito.applied.smiled.exception.UserNotFoundException;
+import it.polito.applied.smiled.pojo.ExceptionOnClient;
+import it.polito.applied.smiled.pojo.Id;
+import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.Message;
+import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.service.LogService;
+import it.polito.applied.smiled.service.UserService;
+import it.polito.applied.smiled.validator.UserDTOValidator;
 
 @RestController
 public class UserController extends BaseController{
@@ -328,6 +329,18 @@ public class UserController extends BaseController{
 		if(nItem==null || nItem>maxItem || nItem<=0)
 			nItem=maxItem;
 		return userService.getAllUsers(nPag, nItem, 2); //il terzo parametro indica che cerco degli student
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/scenarios", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<Scenario> getAllScenarios(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "orderByCreation", required=true) boolean orderByCreation) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>maxItem || nItem<=0)
+			nItem=maxItem;
+		return userService.getAllScenarios(nPag, nItem, orderByCreation); 
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

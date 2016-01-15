@@ -1,5 +1,30 @@
 package it.polito.applied.smiled.controllerRest;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mongodb.MongoException;
+
 import it.polito.applied.smiled.dto.CharacterDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.EventDTO;
@@ -16,7 +41,6 @@ import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.CommentDTO;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
-import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -26,32 +50,6 @@ import it.polito.applied.smiled.validator.CharacterDTOPostValidator;
 import it.polito.applied.smiled.validator.CharacterDTOPutValidator;
 import it.polito.applied.smiled.validator.ScenarioDTOPostValidator;
 import it.polito.applied.smiled.validator.ScenarioDTOPutValidator;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.mongodb.MongoException;
 
 @RestController
 public class ScenarioController extends BaseController{
@@ -87,10 +85,11 @@ public class ScenarioController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	public Id createScenario(@RequestBody @Valid ScenarioDTO scenarioDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, IllegalStateException, IOException{
 		/*Controllo se la validazione dei campi obbligatori va a buon fine(per le modifiche si utilizza il metodo PUT)*/
+		System.out.println("CREAZIONE NUOVO SCENARIO IN CORSO...");
 		if(result.hasErrors()){
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
-		scenarioDTO.setId(null); //non dovrebbe servire
+		
 		
 		//TODO controllare che alcuni campi siano null (es. lista di partecipanti) + altre validazioni logiche
 		scenarioDTOPostValidator.validate(scenarioDTO, result);
@@ -116,7 +115,6 @@ public class ScenarioController extends BaseController{
 		 * e lasciare altri a null quando si fa una update
 		 * */
 		
-		scenarioDTO.setId(id);
 		//TODO Qui bisogna mettere tutte le validazioni custom sulla update di uno scenario
 		/*scenarioDTOPutValidator.validate(scenarioDTO, result);
 		if(result.hasErrors()){
@@ -124,6 +122,7 @@ public class ScenarioController extends BaseController{
 		}*/
 		Scenario s = scenarioService.updateScenario(id, scenarioDTO,activeUser.getId());
 		logService.logUpdateScenarioInfo(id, activeUser.getId());
+		// la data è stata già aggiornata ;) scenarioService.lastUpdateScenario(id, new Date());
 		return s;
 	}
 	
@@ -149,6 +148,7 @@ public class ScenarioController extends BaseController{
 		
 		scenarioService.removeScenario(id);
 		logService.logDeleteScenario(id, activeUser.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	//Aggiungo una lista di partecipanti allo scenario  
@@ -163,6 +163,7 @@ public class ScenarioController extends BaseController{
 		}	
 		List<Reference> list = scenarioService.subscribeStudentIfNotPresent(studentsEmail, activeUser.getId(), id);
 		logService.logNewAttendees(id, activeUser.getId(), list);
+		scenarioService.lastUpdateScenario(id, new Date());
 		return list;
 	}
 	
@@ -175,6 +176,7 @@ public class ScenarioController extends BaseController{
 
 		Reference r = scenarioService.addCollaboratorToScenario(idCollaborator, id);
 		logService.logNewCollaborator(id, activeUser.getId(), r);
+		scenarioService.lastUpdateScenario(id, new Date());
 		return r;
 	}
 
@@ -187,6 +189,7 @@ public class ScenarioController extends BaseController{
 		
 		scenarioService.removeUserFromScenario(id,userId);
 		logService.logRemoveAttendee(id, activeUser.getId(), userId);
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	//Tolgo uno specifico collaboratore dallo scenario e valuto il parametro "putInAttendeesList"
@@ -199,6 +202,7 @@ public class ScenarioController extends BaseController{
 			putInAttendeesList=false;
 		scenarioService.removeCollaboratorFromScenario(id, collaboratorId, putInAttendeesList);
 		logService.logRemoveCollaborator(id, activeUser.getId(), collaboratorId);
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	//Creo e aggiungo un nuovo personaggio allo scenario  
@@ -220,9 +224,10 @@ public class ScenarioController extends BaseController{
 		
 		Id id = scenarioService.addCharacterToScenario(characterDTO, scenarioId, activeUser.getId());
 		logService.logNewCharacter(scenarioId, activeUser.getId(), id.getId());
+		scenarioService.lastUpdateScenario(scenarioId, new Date());
 		return id;
 	}
-	//Creo e aggiungo un nuovo personaggio allo scenario  
+	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{scenarioId}/characters", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#scenarioId, 'Scenario', 'MODERATOR')")
@@ -260,6 +265,7 @@ public class ScenarioController extends BaseController{
 		Character c = scenarioService.updateCharacter(id, characterDTO);
 				
 		logService.logUpdateCharacterProfile(id, activeUser.getId(), c.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return c;
 	}
 	
@@ -270,6 +276,7 @@ public class ScenarioController extends BaseController{
 	public void removeOneCharacter(@PathVariable String id, @PathVariable String characterId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{	
 		scenarioService.removeCharacterFromScenario(id, characterId);
 		logService.logRemoveCharacter(id, activeUser.getId(), characterId);
+		scenarioService.lastUpdateScenario(id, new Date());
 
 	}
 	
@@ -279,6 +286,7 @@ public class ScenarioController extends BaseController{
 	public Character updateUserCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 		Character c = scenarioService.updateUserCharacter(id, characterId, userId);
 		logService.logNewAssociation(id, activeUser.getId(), c.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return c;
 	}
 	
@@ -288,6 +296,7 @@ public class ScenarioController extends BaseController{
 	public void removeUserFromCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 		scenarioService.removeUserFromCharacter(id, characterId, userId);
 		logService.logRemoveAssociation(id, activeUser.getId(), characterId);
+		scenarioService.lastUpdateScenario(id, new Date());
 		
 	}
 	
@@ -300,6 +309,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Post p = scenarioService.updateStatus (id, statusId, status, auth);
 		logService.logUpdatePost(id, ((CustomUserDetails) auth.getPrincipal()).getId(), p.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return p;
 	}
 	
@@ -312,6 +322,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Id idPost = scenarioService.insertStatus (id, characterId, status, auth);
 		logService.logInsertPost(id, ((CustomUserDetails) auth.getPrincipal()).getId(), idPost.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return idPost;
 	}
 	
@@ -370,6 +381,7 @@ public class ScenarioController extends BaseController{
 	public Id insertEvent(@PathVariable String id, @RequestBody EventDTO event, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, ForbiddenException, BadRequestException, IOException{
 		Id idEvent = scenarioService.insertEvent (id, event, activeUser);
 		logService.logInsertPost(id, activeUser.getId(), idEvent.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return idEvent; 
 	}
 	
@@ -381,6 +393,7 @@ public class ScenarioController extends BaseController{
 
 		Post p =  scenarioService.updateEvent (id, eventId, event, activeUser);
 		logService.logUpdatePost(id, activeUser.getId(), p.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return p;
 	}
 	
@@ -392,6 +405,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.deletePost(id, postId, auth);
 		logService.logDeletePost(id, activeUser.getId(), postId);
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	//permette ai moderatori di inserire e di modificare una revisione ad un Post
@@ -402,6 +416,7 @@ public class ScenarioController extends BaseController{
 		//TODO aggiungere gestione Log
 
 		scenarioService.insertRevision (id, postId, revision, activeUser);
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -412,6 +427,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Id commentId = scenarioService.insertComment (id, postId, commentDTO, auth);
 		logService.logNewComment(id, ((CustomUserDetails) auth.getPrincipal()).getId(), postId, commentId.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return commentId;
 	}
 	
@@ -423,6 +439,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		CommentInterface comment = scenarioService.updateComment (id, postId, commentId, commentDTO, auth, false);
 		logService.logUpdateComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, commentId);
+		scenarioService.lastUpdateScenario(id, new Date());
 		return comment;
 	}
 	
@@ -434,6 +451,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.deleteComment(id, postId, commentId, auth, false);
 		logService.logDeleteComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, commentId);
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -444,6 +462,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Id metaId = scenarioService.insertMetaComment (id, postId, commentDTO, auth);
 		logService.logNewMetaComment(id, ((CustomUserDetails) auth.getPrincipal()).getId(), postId, metaId.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return metaId;
 	}
 	
@@ -455,6 +474,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		CommentInterface comment = scenarioService.updateComment (id, postId, metaCommentId, commentDTO, auth, true);
 		logService.logUpdateMetaComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, metaCommentId);
+		scenarioService.lastUpdateScenario(id, new Date());
 		return comment;
 	}
 	
@@ -466,7 +486,7 @@ public class ScenarioController extends BaseController{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		scenarioService.deleteComment(id, postId, metaCommentId, auth, true);
 		logService.logDeleteMetaComment(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId, metaCommentId);
-
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -480,6 +500,7 @@ public class ScenarioController extends BaseController{
 		}else{
 			logService.logRemoveLikeToPost(id, ((CustomUserDetails)auth.getPrincipal()).getId(), postId);
 		}
+		scenarioService.lastUpdateScenario(id, new Date());
 	}
 	
 	@ResponseStatus(value = HttpStatus.OK)
@@ -489,6 +510,7 @@ public class ScenarioController extends BaseController{
 		//TODO - Validate MissionDTO
 		Scenario s = scenarioService.addMissionToScenario(id, mission, activeUser);
 		logService.logUpdateScenarioMission(id, activeUser.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 		return s;
 		
 	}
@@ -501,7 +523,7 @@ public class ScenarioController extends BaseController{
 		
 		Character c = scenarioService.addMissionToCharacter(characterId, mission, activeUser);
 		logService.logUpdateCharacterMission(id, activeUser.getId(), characterId);
-
+		scenarioService.lastUpdateScenario(id, new Date());
 		return c;
 		
 	}
@@ -516,6 +538,7 @@ public class ScenarioController extends BaseController{
 				throw new BadRequestException();
 		
 		logService.logRemoveCharacterMission(id, activeUser.getId(), characterId);
+		scenarioService.lastUpdateScenario(id, new Date());
 		
 	}
 	
@@ -528,6 +551,7 @@ public class ScenarioController extends BaseController{
 		if (!scenarioService.deleteMissionToScenario(id))
 				throw new BadRequestException();
 		logService.logRemoveScenarioMission(id, activeUser.getId());
+		scenarioService.lastUpdateScenario(id, new Date());
 
 	}
 	

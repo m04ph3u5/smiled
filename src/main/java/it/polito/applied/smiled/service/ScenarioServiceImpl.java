@@ -178,8 +178,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(newStatus != null){
 				u.set("status", scenario.getStatus());
 			}
-
+			
 			Scenario oldScenario = scenarioRepository.findById(id);
+			Date actualDate = new Date();
+			u.set("lastUpdateDate", actualDate);
+			if(newStatus.equals(ScenarioStatus.ACTIVE) && !oldScenario.getStatus().equals(ScenarioStatus.ACTIVE)){
+				u.set("startDate", actualDate);
+			}
 			scenarioUpdated = scenarioRepository.updateScenario(id, u);
 			if(scenarioUpdated == null)
 				throw new BadRequestException();
@@ -2573,6 +2578,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 		
 		return missions;
+	}
+
+
+	@Override
+	public void lastUpdateScenario(String scenarioId, Date d) {
+		// TODO Auto-generated method stub
+		scenarioRepository.lastUpdateScenario(scenarioId, d);
 	}
 
 

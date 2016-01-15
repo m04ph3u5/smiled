@@ -2,7 +2,13 @@ package it.polito.applied.smiled.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+
+import com.mongodb.MongoException;
 
 import it.polito.applied.smiled.dto.CharacterDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
@@ -18,19 +24,11 @@ import it.polito.applied.smiled.pojo.Action;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentDTO;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
-import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.security.CustomUserDetails;
-
-import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-
-import com.mongodb.MongoException;
 
 public interface ScenarioService {
 
@@ -115,6 +113,8 @@ public interface ScenarioService {
 	public boolean deleteMissionToScenario(String idScenario)throws BadRequestException;
 
 	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser);
+	
+	public void lastUpdateScenario(String scenarioId, Date d);
 
 	
 }

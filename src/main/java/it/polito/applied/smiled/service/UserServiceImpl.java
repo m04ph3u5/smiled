@@ -1,37 +1,5 @@
 package it.polito.applied.smiled.service;
 
-import it.polito.applied.smiled.dto.FirstPasswordDTO;
-import it.polito.applied.smiled.dto.RegisterTeacherDTO;
-import it.polito.applied.smiled.dto.UserDTO;
-import it.polito.applied.smiled.exception.BadCredentialsException;
-import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
-import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
-import it.polito.applied.smiled.exception.UserAlreadyExistsException;
-import it.polito.applied.smiled.exception.UserNotFoundException;
-import it.polito.applied.smiled.pojo.ExceptionOnClient;
-import it.polito.applied.smiled.pojo.Id;
-import it.polito.applied.smiled.pojo.Issue;
-import it.polito.applied.smiled.pojo.Message;
-import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.RegistrationToken;
-import it.polito.applied.smiled.pojo.Role;
-import it.polito.applied.smiled.pojo.ScenarioReference;
-import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Post;
-import it.polito.applied.smiled.pojo.user.Student;
-import it.polito.applied.smiled.pojo.user.Teacher;
-import it.polito.applied.smiled.pojo.user.User;
-import it.polito.applied.smiled.pojo.user.UserProfile;
-import it.polito.applied.smiled.pojo.user.UserStatus;
-import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
-import it.polito.applied.smiled.repository.PostRepository;
-import it.polito.applied.smiled.repository.RegistrationRepository;
-import it.polito.applied.smiled.repository.UserRepository;
-import it.polito.applied.smiled.security.CustomUserDetails;
-import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
-import it.polito.applied.smiled.updater.AsyncUpdater;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -53,11 +21,49 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
 
+import it.polito.applied.smiled.dto.FirstPasswordDTO;
+import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.ScenarioDTO;
+import it.polito.applied.smiled.dto.UserDTO;
+import it.polito.applied.smiled.exception.BadCredentialsException;
+import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
+import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
+import it.polito.applied.smiled.exception.UserAlreadyExistsException;
+import it.polito.applied.smiled.exception.UserNotFoundException;
+import it.polito.applied.smiled.pojo.ExceptionOnClient;
+import it.polito.applied.smiled.pojo.Id;
+import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.Message;
+import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.RegistrationToken;
+import it.polito.applied.smiled.pojo.Role;
+import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.scenario.Character;
+import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.user.Student;
+import it.polito.applied.smiled.pojo.user.Teacher;
+import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.pojo.user.UserProfile;
+import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
+import it.polito.applied.smiled.repository.PostRepository;
+import it.polito.applied.smiled.repository.RegistrationRepository;
+import it.polito.applied.smiled.repository.ScenarioRepository;
+import it.polito.applied.smiled.repository.UserRepository;
+import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
+import it.polito.applied.smiled.updater.AsyncUpdater;
+
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService{
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ScenarioRepository scenarioRepository;
 
 	@Autowired
 	private RegistrationRepository registrationRepository;
@@ -385,7 +391,17 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			throw e;
 		}
 	}
-
+	
+	@Override
+	public Page<Scenario> getAllScenarios(Integer nPag, Integer nItem, boolean orderByCreation) throws BadRequestException {
+		try{
+			Page<Scenario> p = scenarioRepository.getPagingScenarios (nPag, nItem, orderByCreation);
+			return p;
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+	
 	private User checkOldPassword(String userEmail, String oldPassword, boolean first) throws UserNotFoundException{
 
 		User u = userRepository.findByEmail(userEmail);
@@ -666,6 +682,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 		return postRepository.findByIds(draft);
 	}
+
+	
 
 	
 	

@@ -1,24 +1,19 @@
 package it.polito.applied.smiled.dto;
 
-import it.polito.applied.smiled.pojo.scenario.History;
-import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
-
-import java.util.List;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+
+import it.polito.applied.smiled.pojo.scenario.History;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
 
 public class ScenarioDTO {
 	
 	@NotNull
 	@Size(min=2, max=64)
 	private String name;
-	
-	//Questa validazione viene fatta solo nella POST (creo scenario) ma non nella PUT dove questo parametro � importante (a dire il vero nel controller lo sovrascrivo con quanto passato nel path della PUT)
-	@Null
-	private String id;
 	
 	@NotNull
 	@Valid
@@ -33,6 +28,8 @@ public class ScenarioDTO {
 	private String description;
 	
 	private boolean showRelationsToAll;
+	
+	
 	
 	public String getName() {
 		return name;
@@ -55,13 +52,6 @@ public class ScenarioDTO {
 	public void setStatus(ScenarioStatus status) {
 		this.status = status;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public History getHistory() {
 		return history;
 	}

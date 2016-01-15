@@ -20,6 +20,7 @@ public class Scenario {
 	private Date startDate;
 	private Date endDate;
 	private Date creationDate;
+	private Date lastUpdateDate;
 	 
 	private ScenarioStatus status;
 	private History history;
@@ -54,6 +55,7 @@ public class Scenario {
 		this.teacherCreator = teacherCreator;
 		this.showRelationsToAll = s.isShowRelationsToAll();
 		creationDate = new Date();
+		lastUpdateDate = creationDate;
 	}
 	
 	
@@ -88,6 +90,13 @@ public class Scenario {
 		this.startDate = startDate;
 	}
 
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
 	public Date getEndDate() {
 		return endDate;
 	}

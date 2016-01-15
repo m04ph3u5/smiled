@@ -189,14 +189,6 @@ angular.module('smiled.application')
 			url : "/utenti",
 			templateUrl: "assets/private/partials/admin-users.html",
 		})
-		.state('logged.dashboard.admin.characters',{
-			url : "/personaggi",
-			templateUrl: "assets/private/partials/admin-characters.html",
-		})
-		.state('logged.dashboard.admin.posts',{
-			url : "/post",
-			templateUrl: "assets/private/partials/admin-posts.html",
-		})
 		.state('logged.dashboard.admin.exceptionsOnClient',{
 			url : "/eccezioni",
 			templateUrl: "assets/private/partials/admin-eccezioni.html",

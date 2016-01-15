@@ -1,15 +1,16 @@
 package it.polito.applied.smiled.repository;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.mongodb.core.query.Update;
 
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.PostReference;
 import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
-
-import org.springframework.data.mongodb.core.query.Update;
 
 
 public interface CustomScenarioRepository {
@@ -44,5 +45,7 @@ public interface CustomScenarioRepository {
 	public boolean deleteMissionToScenario(String idScenario);
 	
 	public List<Scenario> getMissionsOfScenarios(List<String> scenariosId);
+	public Page<Scenario> getPagingScenarios(Integer nPag, Integer nItem, boolean orderByCreation);
+	public void lastUpdateScenario(String scenarioId, Date d);
 
 }

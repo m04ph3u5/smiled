@@ -1,29 +1,30 @@
 package it.polito.applied.smiled.repository;
 
-import it.polito.applied.smiled.pojo.CharacterReference;
-import it.polito.applied.smiled.pojo.PostReference;
-import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Mission;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
-
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.mongodb.core.query.Update.AddToSetBuilder;
 
-import com.mongodb.DB;
-import com.mongodb.DBRef;
 import com.mongodb.WriteResult;
+
+import it.polito.applied.smiled.pojo.CharacterReference;
+import it.polito.applied.smiled.pojo.PostReference;
+import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
 
 public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 
@@ -381,6 +382,34 @@ public class ScenarioRepositoryImpl implements CustomScenarioRepository{
 		q.fields().include("id");
 		q.fields().include("mission");
 		return mongoOp.find(q, Scenario.class);
+	}
+
+	@Override
+	public Page<Scenario> getPagingScenarios(Integer nPag, Integer nItem, boolean orderByCreation) { //if orderByCreation è false ordino per data di ultima modifica, se è true ordino per data di creazione
+		Query q = new Query();
+		Sort s;
+		if(orderByCreation){
+			s = new Sort( new Order(Direction.DESC, "creationDate"));
+		}else{
+			s = new Sort( new Order(Direction.DESC, "lastUpdateDate"));
+		}
+		long total = mongoOp.count(q, Scenario.class);
+		
+		Pageable p = new PageRequest(nPag,nItem, s);
+		q.with(p);
+		
+		List<Scenario> scenarios = mongoOp.find(q, Scenario.class);
+		return new PageImpl<Scenario>(scenarios, p, total);
+	}
+
+	@Override
+	public void lastUpdateScenario(String scenarioId, Date d) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(scenarioId));
+		Update update = new Update();
+		update.set("lastUpdateDate", d);
+		mongoOp.findAndModify(q, update, Scenario.class);
+		
 	}
 	
 }

@@ -1,5 +1,12 @@
 package it.polito.applied.smiled.service;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
+
+import com.mongodb.MongoException;
+
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.UserDTO;
@@ -16,15 +23,9 @@ import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.security.CustomUserDetails;
-
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
-
-import com.mongodb.MongoException;
 
 public interface UserService {
 
@@ -79,4 +80,5 @@ public interface UserService {
 	public void addClientException(ExceptionOnClient e, String userId);
 	public Page<ExceptionOnClient> getAllClientExceptions(Integer nPag, Integer nItem) throws BadRequestException;
 	public List<Post> getDraft(CustomUserDetails activeUser, Boolean preview);
+	public Page<Scenario> getAllScenarios(Integer nPag, Integer nItem, boolean orderByCreation) throws BadRequestException;
 }

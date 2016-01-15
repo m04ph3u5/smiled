@@ -337,6 +337,22 @@
 		return c.promise;
 	}
 	
+	var getPagedScenarios = function(nPag, nItem, orderByCreation){
+		var c = $q.defer();
+
+		$http.get("/api/v1/scenarios", {
+			params: { "nPag": nPag, "nItem": nItem, "orderByCreation": orderByCreation}}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
 	var getPagedExceptions = function(nPag, nItem){
 		var c = $q.defer();
 
@@ -705,6 +721,7 @@
 		postIssue: postIssue,
 		getPagedStudents: getPagedStudents,
 		getPagedTeachers: getPagedTeachers,
+		getPagedScenarios : getPagedScenarios,
 		updateEvent: updateEvent,
 		getPagedExceptions: getPagedExceptions,
 		postTrustedMediaMetadata: postTrustedMediaMetadata,
