@@ -34,19 +34,19 @@
 
 	<http use-expressions="true"  entry-point-ref="restServicesEntryPoint">
 <!-- 		<remember-me key="smiledKey" token-validity-seconds="2000000" /> -->
-		<intercept-url pattern="/" access="permitAll" requires-channel="https"/>
-		<intercept-url pattern="/login" access="permitAll" requires-channel="https"/>
+		<intercept-url pattern="/" access="permitAll" requires-channel="http"/>
+		<intercept-url pattern="/login" access="permitAll" requires-channel="http"/>
 		<intercept-url pattern="/assets/public/**" access="permitAll"
-			 requires-channel="https"/>
-		<intercept-url pattern="/websocket/**" access="permitAll" requires-channel="https"/>
+			 requires-channel="http"/>
+		<intercept-url pattern="/websocket/**" access="permitAll" requires-channel="http"/>
 		<intercept-url pattern="/api/v1/register" access="permitAll"
-			 requires-channel="https"/>
+			 requires-channel="http"/>
 		<intercept-url pattern="/api/v1/users/email" access="hasRole('ROLE_ANONYMOUS')"
-			 requires-channel="https"/>
+			 requires-channel="http"/>
 		<intercept-url pattern="/registrationConfirm.html"
-			access="permitAll"  requires-channel="https"/>
+			access="permitAll"  requires-channel="http"/>
 		<intercept-url pattern="/api/v1/firstPassword" access="hasRole('ROLE_ANONYMOUS')"
-		 requires-channel="https"/>
+		 requires-channel="http"/>
 <!-- 		<intercept-url pattern="/400.html" access="permitAll" -->
 <!-- 			 /> -->
 <!-- 		<intercept-url pattern="/404.html" access="permitAll" -->
@@ -73,7 +73,7 @@
 		
 
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"
-			 requires-channel="https"/>
+			 requires-channel="http"/>
 		
 		
 		<custom-filter ref="usernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER"/>

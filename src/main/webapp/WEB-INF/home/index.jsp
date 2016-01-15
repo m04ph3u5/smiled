@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-csp.css">
 <link rel="stylesheet" href="/assets/public/css/custom-style.css">
 <link rel="stylesheet" href="/assets/public/css/secondaryCss.css">
-<!-- <link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css"> -->
+<link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css">
 <link rel="stylesheet" href="/assets/public/css/validation-form.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/ngDialog/css/ngDialog.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.css">
