@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-csp.css">
 <link rel="stylesheet" href="/assets/public/css/custom-style.css">
 <link rel="stylesheet" href="/assets/public/css/secondaryCss.css">
-<!-- <link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css"> -->
+<link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css">
 <link rel="stylesheet" href="/assets/public/css/validation-form.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/ngDialog/css/ngDialog.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.css">
@@ -34,7 +34,9 @@
     window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalità che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformità con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
 </script>
 
-<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+<script type="text/javascript" 
+
+src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
 <!-- End Cookie Consent plugin -->
 </head>
 <base href="/">

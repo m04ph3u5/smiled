@@ -79,9 +79,9 @@ angular.module("smiled.application").directive('mapScenario', [ 'CONSTANTS', '$t
 							}else
 								break;
 						}
-						if(index==99){
-							self.toShowPost[index].push(mapPost[mapPost.length-1]);
-						}
+//						if(index==99){
+//							self.toShowPost[index].push(mapPost[mapPost.length-1]);
+//						}
 						index++;
 						actualStep+=step;						
 					}

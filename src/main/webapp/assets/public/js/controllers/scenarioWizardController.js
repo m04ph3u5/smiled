@@ -1290,8 +1290,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						console.log ("startDate.month > endDate.month ERR");
 						alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 						return false;
-						console.log("startDate.month < endDate.month GOOD");
-						return true;
 					}else if(
 						startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
 						console.log("startDate.month < endDate.month GOOD");
