@@ -17,6 +17,7 @@ public interface UserRepository extends MongoRepository<User,String>, CustomUser
 
 	public User findByEmail(final String email);
 	public User findById(final String id);
+	public List<User> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
 	
 	
 }

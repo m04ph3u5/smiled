@@ -298,6 +298,15 @@ public class UserController extends BaseController{
 	/*----------------------------------------------ADMIN API START--------------------------------------- */
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/userScenarios", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<UserDTO> getUsersByFirstNameAndLastName(@RequestParam(value = "firstName", required=true) String firstName, @RequestParam(value = "lastName", required=true) String lastName
+			) throws MongoException, BadRequestException{
+		
+		return userService.getUsersByFirstNameAndLastName(firstName, lastName);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/v1/users", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public Page<UserDTO> getAllUsers(@RequestParam(value = "nPag", required=false) Integer nPag, 

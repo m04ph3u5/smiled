@@ -393,6 +393,18 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 	
 	@Override
+	public List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName) {
+		List<User> u = userRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
+		List<UserDTO> l = new ArrayList<UserDTO>();
+		if(u!= null && u.size()>0){
+			for(User user : u){
+				l.add(new UserDTO(user));
+			}
+		}
+		return l;
+	}
+	
+	@Override
 	public Page<Scenario> getAllScenarios(Integer nPag, Integer nItem, boolean orderByCreation) throws BadRequestException {
 		try{
 			Page<Scenario> p = scenarioRepository.getPagingScenarios (nPag, nItem, orderByCreation);
@@ -682,6 +694,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 		return postRepository.findByIds(draft);
 	}
+
+	
 
 	
 

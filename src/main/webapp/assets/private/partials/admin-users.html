@@ -2,17 +2,82 @@
 
 	<div>
 		<h4>Cerca un utente specifico: </h4>
-		<input type="text" placeholder="Nome o cognome">
+		<input data-ng-model="dashboardAdmin.firstName" type="text" placeholder="Nome">
+		<input data-ng-model="dashboardAdmin.lastName" type="text" placeholder="Cognome">
+		<button class="btn btn-success" data-ng-click="dashboardAdmin.searchUsersByFirstNameAndLastName()">Cerca</button>
+		<button data-ng-if="dashboardAdmin.showResetUsersByName()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetUsersByName()">Reset</button>
+		<span class="error" data-ng-show="dashboardAdmin.showErrorSearchBy">Attenzione inserire entrambi i campi richiesti!</span>
+	</div>
+	<div>
+		<ol>
+			{{dashboardAdmin.noMoreUsers}}
+			<div data-ng-repeat="t in dashboardAdmin.myListOfUsers">
+				<li><u><a href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a></u>
+					<ul>
+						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}}</li>
+						<li><b>Data di registrazione:</b> {{t.registrationDate | date}}</li>
+						<li><b>Email:</b> {{t.email}}</li>
+						<li>
+							<b>Scenari in creazione in cui e' coinvolto:</b>
+							<ol>
+								<div data-ng-repeat="scenC in t.creatingScenarios">
+									<li>
+										<div>
+											<b>{{scenC.name}}</b> - 
+								
+											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenC.id}}' })">Entra nel Wizard</a></u> <br> 
+											<b>Data di creazione: </b> {{scenC.creationDate | date}} - <b>Personaggio corrente: </b>  
+											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenC.id}}' , idCharacter: '{{scenC.myCharacterId}}' })">{{scenC.myCharacterName}}</a></u>
+										</div>
+									</li>
+								</div>
+							</ol>
+						</li>
+						<li>	
+							<b>Scenari aperti in cui e' coinvolto:</b>
+							<ol>
+								<div data-ng-repeat="scenO in t.openScenarios">
+									<li>
+										<div>
+											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
+											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
+											<br> <b>Data di creazione: </b> 
+											{{scenO.creationDate | date}} - <b>Personaggio corrente: </b> 
+											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
+										</div>
+									</li>
+										
+								</div>
+							</ol>
+						</li>
+						
+					</ul>
+				</li>
+			</div>
+		</ol>
+	
 	</div>
 	<hr>
 	
 	<div>
 		<h4>Cerca insegnanti: </h4>
-		<button class="btn btn-success" data-ng-click="dashboardAdmin.searchTeachers()">Cerca</button>
-		<label for="allTeachersNum">Risultati per pagina (max 20): </label> <input size="4" id="allTeachersNum" data-ng-model="dashboardAdmin.nItemTeachers">
-		<label for="allTeachersPag">Numero pagina: </label> <input size="4" id="allTeachersPag" data-ng-model="dashboardAdmin.nPagTeachers">
-		<label>Risultati trovati: </label> {{dashboardAdmin.numTeachersFounded}} <br>
-		<button data-ng-if="dashboardAdmin.showResetTeachers()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetTeachers()">Reset</button>
+		<div class="row">
+			
+			<label for="allTeachersNum">Risultati per pagina (max 20): </label> <input size="4" id="allTeachersNum" data-ng-model="dashboardAdmin.nItemTeachers">
+			<label for="allTeachersPag">Numero pagina: </label> 
+			<button data-ng-show="dashboardAdmin.nPagTeachers!=0" data-ng-click="dashboardAdmin.changeTeachersToPrev()">
+				<span class=" glyphicon glyphicon-chevron-left"></span>
+			</button>
+			<input size="4" id="allTeachersPag" data-ng-model="dashboardAdmin.nPagTeachers">
+			<button data-ng-click="dashboardAdmin.changeTeachersToNext()">
+				<span class=" glyphicon glyphicon-chevron-right"></span>
+			</button>
+			<label>Risultati trovati: </label> <b>{{dashboardAdmin.numTeachersFounded}}</b> 
+		</div>
+		<div class="row">
+			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchTeachers()">Cerca</button>
+			<button data-ng-if="dashboardAdmin.showResetTeachers()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetTeachers()">Reset</button>
+		</div>
 		<br>
 		<ol>
 			{{dashboardAdmin.noMoreTeachers}}
@@ -65,11 +130,22 @@
 	<hr>
 	<div>
 		<h4>Cerca studenti: </h4>
-		<button class="btn btn-success" data-ng-click="dashboardAdmin.searchStudents()">Cerca</button>
-		<label for="allStudentsNum">Risultati per pagina (max 20): </label> <input size="4" id="allStudentsNum" data-ng-model="dashboardAdmin.nItemStudents">
-		<label for="allStudentsPag">Numero pagina: </label> <input size="4" id="allStudentsPag" data-ng-model="dashboardAdmin.nPagStudents">
-		<label>Risultati trovati: </label> {{dashboardAdmin.numStudentsFounded}} <br>
-		<button data-ng-if="dashboardAdmin.showResetStudents()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetStudents()">Reset</button>
+		<div class="row">
+			<label for="allStudentsNum">Risultati per pagina (max 20): </label> <input size="4" id="allStudentsNum" data-ng-model="dashboardAdmin.nItemStudents">
+			<label for="allStudentsPag">Numero pagina: </label> 
+			<button data-ng-show="dashboardAdmin.nPagStudents!=0" data-ng-click="dashboardAdmin.changeStudentsToPrev()">
+				<span class=" glyphicon glyphicon-chevron-left"></span>
+			</button>
+			<input size="4" id="allStudentsPag" data-ng-model="dashboardAdmin.nPagStudents">
+			<button data-ng-click="dashboardAdmin.changeStudentsToNext()">
+				<span class=" glyphicon glyphicon-chevron-right"></span>
+			</button>
+			<label>Risultati trovati: </label> {{dashboardAdmin.numStudentsFounded}} <br>
+		</div>
+		<div class="row">
+			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchStudents()">Cerca</button>
+			<button data-ng-if="dashboardAdmin.showResetStudents()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetStudents()">Reset</button>
+		</div>
 		<br>
 		<ol>
 		{{dashboardAdmin.noMoreStudents}}

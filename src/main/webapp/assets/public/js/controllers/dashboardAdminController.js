@@ -6,7 +6,7 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.typeOrder="creationDate";
 	
 	self.user = loggedUser;
-	var nItemDefault=10;
+	var nItemDefault=20;
 	var nPagDefault=0;
 	var maxItemDefault=20;
 	
@@ -26,14 +26,25 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.myListOfStudents = [];
 	self.myListOfExceptions = [];
 	self.myListOfScenarios = [];
+	self.myListOfUsers = [];
 	
 	self.numExceptionsFounded=0;
 	self.numTeachersFounded=0;
 	self.numStudentsFounded=0;
 	self.numScenariosFounded=0;
+	self.numUsersFounded=0;
+	self.showErrorSearchBy = false;
 	
 	self.calculateCover = function (id){
 		return CONSTANTS.urlScenarioCover(id);
+	}
+	self.changeScenariosToPrev = function(){
+		self.nPagScenarios--;
+		self.searchScenarios();
+	}
+	self.changeScenariosToNext = function(){
+		self.nPagScenarios++;
+		self.searchScenarios();
 	}
 	
 	self.switchTypeOrder = function(){
@@ -63,6 +74,15 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     	);
 	}
 	
+	self.changeTeachersToPrev = function(){
+		self.nPagTeachers--;
+		self.searchTeachers();
+	}
+	self.changeTeachersToNext = function(){
+		self.nPagTeachers++;
+		self.searchTeachers();
+	}
+	
 	self.searchTeachers = function(){
 		if(self.nItemTeachers>maxItemDefault)
 			self.nItemTeachers=maxItemDefault;
@@ -80,6 +100,48 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     			}
     	);
 	}
+	
+	self.searchUsersByFirstNameAndLastName = function(){
+		if(self.firstName==null || self.lastName==null || self.firstName=="" || self.lastName==""){
+			self.showErrorSearchBy = true;
+			self.numUsersFounded=0;
+			self.myListOfUsers = [];
+		}else{
+			self.showErrorSearchBy = false;
+			apiService.getUsersByFirstNameAndLastName(self.firstName, self.lastName).then(
+	    			function(data){
+	    				if(data.length>0){
+	    					self.numUsersFounded = data.length;
+	    					self.myListOfUsers = data;
+	    					self.noMoreUsers = "";
+	    				}
+	    				else{
+	    					self.numUsersFounded=0;
+		    				self.myListOfUsers = [];
+	    					self.noMoreUsers = "Nessun utente trovato";	
+	    				}
+
+	    			}, function(reason){
+	    				console.log("errore");
+	    				self.numUsersFounded=0;
+	    				self.myListOfUsers = [];
+	    				self.noMoreUsers = "Nessun utente trovato";
+	    			
+	    			}
+	    	);
+		}
+			
+		
+	}
+	
+	self.changeStudentsToPrev = function(){
+		self.nPagStudents--;
+		self.searchStudents();
+	}
+	self.changeStudentsToNext = function(){
+		self.nPagStudents++;
+		self.searchStudents();
+	}
 	self.searchStudents = function(){
 		if(self.nItemStudents>maxItemDefault)
 			self.nItemStudents=maxItemDefault;
@@ -96,6 +158,16 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     				self.numStudentsFounded= 0;
     			}
     	);
+	}
+	
+	
+	self.changeExceptionsToPrev = function(){
+		self.nPagExceptions--;
+		self.searchExceptions();
+	}
+	self.changeExceptionsToNext = function(){
+		self.nPagExceptions++;
+		self.searchExceptions();
 	}
 	
 	self.searchExceptions = function(){
@@ -134,6 +206,11 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 			return true;
 		else return false;
 	}
+	self.showResetUsersByName = function(){
+		if (self.myListOfUsers.length>0 || self.showErrorSearchBy || self.noMoreUsers!="")
+			return true;
+		else return false;
+	}
 	self.showResetStudents = function(){
 		if (self.myListOfStudents.length>0 || self.nPagStudents!=nPagDefault || self.nItemStudents!=nItemDefault)
 			return true;
@@ -167,6 +244,14 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.nPagStudents=0;
 		self.noMoreStudents = "";
 		self.numStudentsFounded=0;
+	}
+	self.resetUsersByName = function(){
+		self.firstName ="";
+		self.lastName="";
+		self.myListOfUsers = [];
+		self.showErrorSearchBy = false;
+		self.numUsersFounded=0;
+		self.noMoreUsers = "";
 	}
 	
 }]);

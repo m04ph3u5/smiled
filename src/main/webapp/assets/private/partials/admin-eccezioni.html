@@ -2,11 +2,22 @@
 	
 	<div>
 		<h4>Cerca eccezioni: </h4>
-		<button class="btn btn-success" data-ng-click="dashboardAdmin.searchExceptions()">Cerca</button>
-		<label for="allExceptionsNum">Risultati per pagina (max 20): </label> <input size="4" id="allExceptionsNum" data-ng-model="dashboardAdmin.nItemExceptions">
-		<label for="allExceptionsPag">Numero pagina: </label> <input size="4" id="allExceptionsPag" data-ng-model="dashboardAdmin.nPagExceptions">
-		<label>Risultati trovati: </label> {{dashboardAdmin.numExceptionsFounded}} <br>
-		<button data-ng-if="dashboardAdmin.showResetExceptions()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetExceptions()">Reset</button>
+		<div class="row">
+			<label for="allExceptionsNum">Risultati per pagina (max 20): </label> <input size="4" id="allExceptionsNum" data-ng-model="dashboardAdmin.nItemExceptions">
+			<label for="allExceptionsPag">Numero pagina: </label> 
+			<button data-ng-show="dashboardAdmin.nPagExceptions!=0" data-ng-click="dashboardAdmin.changeExceptionsToPrev()">
+				<span class=" glyphicon glyphicon-chevron-left"></span>
+			</button>
+			<input size="4" id="allExceptionsPag" data-ng-model="dashboardAdmin.nPagExceptions">
+			<button data-ng-click="dashboardAdmin.changeExceptionsToNext()">
+				<span class=" glyphicon glyphicon-chevron-right"></span>
+			</button>
+			<label>Risultati trovati: </label> <b>{{dashboardAdmin.numExceptionsFounded}}</b>
+		</div>
+		<div class="row">
+			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchExceptions()">Cerca</button>
+			<button data-ng-if="dashboardAdmin.showResetExceptions()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetExceptions()">Reset</button>
+		</div>
 		<br>
 		<ol>
 			{{dashboardAdmin.noMoreExceptions}}
@@ -16,7 +27,7 @@
 <!-- 						<li><b>Id:</b> {{e.id}}</li> -->
 						<li><b>Messaggio:</b> {{e.exceptionMessage}}</li>
 						<li><b>Causa:</b> {{e.cause}}</li>
-						<li><b>Data:</b> {{e.date | date}} </li>
+						<li><b>Data:</b> {{e.date | date:dashboardAdmin.dateFormat}} </li>
 						<li><b>Utente:</b><a href="" data-ui-sref="logged.userProfile({id : '{{e.user.id}}' })"> {{e.user.firstname}} {{e.user.lastname}}</a></li>
 						
 						
