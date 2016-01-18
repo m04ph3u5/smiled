@@ -2,12 +2,17 @@
 
 	<div>
 		<h4>Cerca un utente specifico: </h4>
-		<input data-ng-model="dashboardAdmin.firstName" type="text" placeholder="Nome">
-		<input data-ng-model="dashboardAdmin.lastName" type="text" placeholder="Cognome">
-		<button class="btn btn-success" data-ng-click="dashboardAdmin.searchUsersByFirstNameAndLastName()">Cerca</button>
-		<button data-ng-if="dashboardAdmin.showResetUsersByName()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetUsersByName()">Reset</button>
-		<span class="error" data-ng-show="dashboardAdmin.showErrorSearchBy">Attenzione inserire entrambi i campi richiesti!</span>
+		<div class="row">
+			<input data-ng-model="dashboardAdmin.firstName" type="text" placeholder="Nome">
+			<input data-ng-model="dashboardAdmin.lastName" type="text" placeholder="Cognome">
+		</div>
+		<div class="row">
+			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchUsersByFirstNameAndLastName()">Cerca</button>
+			<button data-ng-if="dashboardAdmin.showResetUsersByName()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetUsersByName()">Reset</button>
+			<span class="error" data-ng-show="dashboardAdmin.showErrorSearchBy">Attenzione inserire entrambi i campi richiesti!</span>
+		</div>
 	</div>
+	<br>
 	<div>
 		<ol>
 			{{dashboardAdmin.noMoreUsers}}
