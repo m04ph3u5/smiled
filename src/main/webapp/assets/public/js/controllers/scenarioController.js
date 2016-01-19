@@ -19,7 +19,9 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.showBoxCollaborators = false;
 	self.showBoxInfo = true;
 	
-	
+	self.firstNameAndSecondName = function(first, second){
+		return first + " "+ second;
+	}
 	self.openBoxEvent = function(){
 		self.showBoxEvent = !self.showBoxEvent;
 	}
