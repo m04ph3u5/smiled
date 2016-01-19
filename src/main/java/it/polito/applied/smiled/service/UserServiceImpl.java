@@ -260,12 +260,14 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			roles.add(new Role("ROLE_TEACHER"));
 			roles.add(new Role("ROLE_USER"));
 			u.setRoles(roles);
+			System.out.println("borndate di teacherdto: "+teacher.getBornDate());
 			UserProfile profile = new UserProfile();
 			profile.setBornDate(teacher.getBornDate());
 			u.setProfile(profile);
 
 			try{
 				inserted = userRepository.insert(u);
+				System.out.println("borndate di teacherdto: "+inserted.getProfile().getBornDate());
 			}catch(MongoDataIntegrityViolationException e){
 				//TODO
 				/*Inserire report eccezione (in tutte le eccezioni di questa classe)*/

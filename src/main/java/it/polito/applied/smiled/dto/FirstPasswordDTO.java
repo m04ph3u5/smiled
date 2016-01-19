@@ -30,7 +30,7 @@ public class FirstPasswordDTO {
 	public Date getBornDate() {
 		return bornDate;
 	}
-	public void setBornDate(Date borndate) {
+	public void setBornDate(Date bornDate) {
 		this.bornDate = bornDate;
 	}
 	
