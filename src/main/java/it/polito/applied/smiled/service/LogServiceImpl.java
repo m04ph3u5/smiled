@@ -1,9 +1,11 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.LogSession;
 import it.polito.applied.smiled.pojo.LogType;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.repository.LogRepository;
 import it.polito.applied.smiled.repository.LogSessionRepository;
 
@@ -11,7 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import com.mongodb.MongoException;
 
 @Service
 public class LogServiceImpl implements LogService{
@@ -479,6 +484,16 @@ public class LogServiceImpl implements LogService{
 	public void logSessionStop(String userId, String sessionId, Date endTime) {
 		
 		logSessionRepo.stopSession(userId, sessionId, endTime);
+	}
+
+	@Override
+	public Page<Log> getAllLogs(Integer nPag, Integer nItem) throws BadRequestException {
+		try{
+			Page<Log> logs = logRepo.getPagingLogs(nPag, nItem);
+			return logs;
+		}catch(MongoException e ){
+			throw e;
+		}
 	}
 	
 	

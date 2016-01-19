@@ -1,9 +1,13 @@
 package it.polito.applied.smiled.service;
 
-import it.polito.applied.smiled.pojo.Reference;
-
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+
+import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.pojo.Log;
+import it.polito.applied.smiled.pojo.Reference;
 
 
 public interface LogService {
@@ -89,4 +93,5 @@ public interface LogService {
 	public void logUpdateTrustedMedia(String idScenario, String userId,
 			String idMedia);
 
+	public Page<Log> getAllLogs(Integer nPag, Integer nItem) throws BadRequestException;
 }

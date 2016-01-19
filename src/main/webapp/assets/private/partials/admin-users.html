@@ -17,7 +17,7 @@
 		<ol>
 			{{dashboardAdmin.noMoreUsers}}
 			<div data-ng-repeat="t in dashboardAdmin.myListOfUsers">
-				<li><u><a href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a></u>
+				<li><a href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
 					<ul>
 						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}}</li>
 						<li><b>Data di registrazione:</b> {{t.registrationDate | date}}</li>

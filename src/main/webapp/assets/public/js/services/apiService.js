@@ -305,6 +305,23 @@
 		return c.promise;
 	}
 	
+	var getPagedLogs = function(nPag, nItem){
+		
+		var c = $q.defer();
+
+		$http.get("/api/v1/log", {
+			params: { "nPag": nPag, "nItem": nItem}}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
 	var getUsersByFirstNameAndLastName = function(firstName, lastName){
 		var c = $q.defer();
 
@@ -741,6 +758,7 @@
 		getUsersByFirstNameAndLastName : getUsersByFirstNameAndLastName,
 		updateEvent: updateEvent,
 		getPagedExceptions: getPagedExceptions,
+		getPagedLogs : getPagedLogs,
 		postTrustedMediaMetadata: postTrustedMediaMetadata,
 		getTrustedMediaMetadata: getTrustedMediaMetadata,
 		deleteTrustedMedia: deleteTrustedMedia,

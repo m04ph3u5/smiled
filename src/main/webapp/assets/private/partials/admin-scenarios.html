@@ -27,7 +27,7 @@
 		<ol>
 			{{dashboardAdmin.noMoreScenarios}}
 			<div data-ng-repeat="s in dashboardAdmin.myListOfScenarios">
-				<li><u><b>Nome:</b></u> {{s.name}}
+				<li><b>Nome:</b> {{s.name}}
 					<ul>
 							<li><b>Stato:</b> {{s.status}}</li>
 							<li><b>Data creazione:</b> {{s.creationDate | date:dashboardAdmin.dateFormat}}</li>
