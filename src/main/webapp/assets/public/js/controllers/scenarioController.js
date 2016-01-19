@@ -19,6 +19,8 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.showBoxCollaborators = false;
 	self.showBoxInfo = true;
 	
+	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
+	
 	self.firstNameAndSecondName = function(first, second){
 		return first + " "+ second;
 	}

@@ -17,13 +17,16 @@
 		<ol>
 			{{dashboardAdmin.noMoreUsers}}
 			<div data-ng-repeat="t in dashboardAdmin.myListOfUsers">
-				<li><a href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
+				<li><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
 					<ul>
-						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}}</li>
-						<li><b>Data di registrazione:</b> {{t.registrationDate | date}}</li>
+						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}} <span data-ng-show="!t.profile || !t.profile.bornDate"> Data non disponibile</span></li>
+						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{t.email}}</li>
+						<li><b>Ruolo:</b> {{t.role.authority}}</li>
+						<li data-ng-show="t.role.authority=='ROLE_USER'"><b>Invitato da:</b> <a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{t.invitedBy}}' })">{{t.invitedBy}}</a></li>
 						<li>
 							<b>Scenari in creazione in cui e' coinvolto:</b>
+							<span data-ng-show="!t.creatingScenarios || t.creatingScenarios.length==0"> Nessuno</span>
 							<ol>
 								<div data-ng-repeat="scenC in t.creatingScenarios">
 									<li>
@@ -31,7 +34,7 @@
 											<b>{{scenC.name}}</b> - 
 								
 											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenC.id}}' })">Entra nel Wizard</a></u> <br> 
-											<b>Data di creazione: </b> {{scenC.creationDate | date}} - <b>Personaggio corrente: </b>  
+											<b>Data di creazione: </b> {{scenC.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b>  <span data-ng-show="!scenC.myCharacterName"> Nessuno</span>
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenC.id}}' , idCharacter: '{{scenC.myCharacterId}}' })">{{scenC.myCharacterName}}</a></u>
 										</div>
 									</li>
@@ -40,6 +43,7 @@
 						</li>
 						<li>	
 							<b>Scenari aperti in cui e' coinvolto:</b>
+							<span data-ng-show="!t.openScenarios || t.openScenarios.length==0"> Nessuno</span>
 							<ol>
 								<div data-ng-repeat="scenO in t.openScenarios">
 									<li>
@@ -47,7 +51,7 @@
 											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
 											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
 											<br> <b>Data di creazione: </b> 
-											{{scenO.creationDate | date}} - <b>Personaggio corrente: </b> 
+											{{scenO.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenO.myCharacterName"> Nessuno</span>
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
 										</div>
 									</li>
@@ -89,11 +93,13 @@
 			<div data-ng-repeat="t in dashboardAdmin.myListOfTeachers">
 				<li><u><a href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a></u>
 					<ul>
-						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}}</li>
-						<li><b>Data di registrazione:</b> {{t.registrationDate | date}}</li>
+						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}} <span data-ng-show="!t.profile || !t.profile.bornDate"> Data non disponibile</span></li>
+						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{t.email}}</li>
+						<li><b>Ruolo:</b> {{t.role.authority}}</li>
 						<li>
 							<b>Scenari in creazione in cui e' coinvolto:</b>
+							<span data-ng-show="!t.creatingScenarios || t.creatingScenarios.length==0"> Nessuno</span>
 							<ol>
 								<div data-ng-repeat="scenC in t.creatingScenarios">
 									<li>
@@ -101,7 +107,7 @@
 											<b>{{scenC.name}}</b> - 
 								
 											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenC.id}}' })">Entra nel Wizard</a></u> <br> 
-											<b>Data di creazione: </b> {{scenC.creationDate | date}} - <b>Personaggio corrente: </b>  
+											<b>Data di creazione: </b> {{scenC.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b>  <span data-ng-show="!scenC.myCharacterName"> Nessuno</span>
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenC.id}}' , idCharacter: '{{scenC.myCharacterId}}' })">{{scenC.myCharacterName}}</a></u>
 										</div>
 									</li>
@@ -110,6 +116,7 @@
 						</li>
 						<li>	
 							<b>Scenari aperti in cui e' coinvolto:</b>
+							<span data-ng-show="!t.openScenarios || t.openScenarios.length==0"> Nessuno</span>
 							<ol>
 								<div data-ng-repeat="scenO in t.openScenarios">
 									<li>
@@ -117,7 +124,7 @@
 											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
 											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
 											<br> <b>Data di creazione: </b> 
-											{{scenO.creationDate | date}} - <b>Personaggio corrente: </b> 
+											{{scenO.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenO.myCharacterName"> Nessuno</span>
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
 										</div>
 									</li>
@@ -157,18 +164,22 @@
 			<div data-ng-repeat="s in dashboardAdmin.myListOfStudents">
 				<li><u><a href="" data-ui-sref="logged.userProfile({id : '{{s.id}}' })">{{s.firstName}} {{s.lastName}}</a></u>  
 					<ul>
-						<li><b>Data di nascita:</b> {{s.profile.bornDate | date}}</li>
-						<li><b>Data di registrazione:</b> {{s.registrationDate | date}}</li>
+						<li><b>Data di nascita:</b> {{s.profile.bornDate | date}} <span data-ng-show="!s.profile || !s.profile.bornDate"> Data non disponibile</span></li>
+						<li><b>Data di registrazione:</b> {{s.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{s.email}}</li>
+						<li><b>Ruolo:</b> {{s.role.authority}}</li>
+						<li><b>Invitato da:</b> <a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{s.invitedBy}}' })">{{s.invitedBy}}</a></li>
 						<li>	
 							<b>Scenari aperti in cui e' coinvolto:</b>
+							<span data-ng-show="!s.openScenarios || s.openScenarios.length==0"> Nessuno</span>
 							<ol>
 								<div data-ng-repeat="scenOStudent in s.openScenarios">
 									<li>
 										<div>
 											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenOStudent.id}}' })">{{scenOStudent.name}}</a></u> - 
 											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenOStudent.id}}' })">Entra nel Wizard</a></u> <br> <b>Data di creazione: </b> 
-											{{scenOStudent.creationDate | date}} - <b>Personaggio corrente: </b> <u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenOStudent.id}}' , idCharacter: '{{scenOStudent.myCharacterId}}' })">
+											{{scenOStudent.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenOStudent.myCharacterName"> Nessuno</span>
+											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenOStudent.id}}' , idCharacter: '{{scenOStudent.myCharacterId}}' })">
 											{{scenOStudent.myCharacterName}}</a></u> 
 										</div>
 									</li>

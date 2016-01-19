@@ -37,10 +37,23 @@
 			</div>
 				
 			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
-				<label>Data attivazione scenario: </label>
-				<span data-ng-if="!scenario.scen.startDate">Data non disponibile</span>
-				{{scenario.scen.startDate}}
+				<label>Data creazione: </label>
+				<span data-ng-if="!scenario.scen.creationDate">Data non disponibile</span>
+				{{scenario.scen.creationDate |  date:scenario.dateFormat}}
 			</div>	
+			
+			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
+				<label>Data attivazione: </label>
+				<span data-ng-if="!scenario.scen.startDate">Data non disponibile</span>
+				{{scenario.scen.startDate |  date:scenario.dateFormat}}
+			</div>	
+			
+			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
+				<label>Data ultima modifica: </label>
+				<span data-ng-if="!scenario.scen.lastUpdateDate">Data non disponibile</span>
+				{{scenario.scen.lastUpdateDate |  date:scenario.dateFormat}}
+			</div>	
+			
 			<hr>
 			<div class= "row marginMTop marginMRight">
 				<div data-ng-if="scenario.scen.history.startDate" class="col-xs-6  " >
@@ -100,7 +113,6 @@
 			<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.userProfile({id: '{{att.id}}'})" data-ng-src="api/v1/users/{{att.id}}/cover" data-err-src="assets/public/img/ic_student.png"
 				class="img-circle imgPreviewL"> 
 			</div>
-			<label style="cursor:pointer" class="sideMarginThree tooltips" title="{{a.name}}" data-ui-sref="logged.scenario.charprofile({idCharacter : '{{a.id}}' })"><a href="">{{a.name | limitTo:16}}<span data-ng-show="a.name.length>16">...</span></a></label>
 			<label style="cursor:pointer" class="sideMarginThree tooltips" title="{{att.firstname}} {{att.lastname}}" data-ui-sref="logged.userProfile({id: '{{att.id}}'})"><a href="">{{scenario.firstNameAndSecondName(att.firstname, att.lastname) | limitTo:16}}<span data-ng-show="scenario.firstNameAndSecondName(att.firstname, att.lastname).length>16">...</span></a></label>
 		</div>
 	</div>
@@ -122,8 +134,7 @@
 				<div style="cursor:pointer" class="col-xs-12"><img data-ui-sref="logged.userProfile({id: '{{coll.id}}'})" data-ng-src="api/v1/users/{{coll.id}}/cover"	data-err-src="assets/public/img/ic_teacher.png"
 					class="img-circle imgPreviewL"> 
 				</div>
-				
-					<label style="cursor:pointer" class="sideMarginThree" data-ui-sref="logged.userProfile({id: '{{coll.id}}'})"><a href="">{{coll.firstname}} {{coll.lasttname}}</a></label>
+				<label style="cursor:pointer" class="sideMarginThree tooltips" title="{{coll.firstname}} {{coll.lastname}}" data-ui-sref="logged.userProfile({id: '{{coll.id}}'})"><a href="">{{scenario.firstNameAndSecondName(coll.firstname, coll.lastname) | limitTo:16}}<span data-ng-show="scenario.firstNameAndSecondName(coll.firstname, coll.lastname).length>16">...</span></a></label>
 			</div>
 		</div>
 	</div>
