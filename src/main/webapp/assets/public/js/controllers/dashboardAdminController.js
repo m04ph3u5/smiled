@@ -6,7 +6,7 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.typeOrder="creationDate";
 	
 	self.user = loggedUser;
-	var nItemDefault=10;
+	var nItemDefault=20;
 	var nPagDefault=0;
 	var maxItemDefault=20;
 	
@@ -16,24 +16,47 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.nItemTeachers=nItemDefault;
 	self.nItemExceptions=nItemDefault;
 	self.nItemScenarios=nItemDefault;
+	self.nItemLogs=nItemDefault;
 	
 	self.nPagStudents=nPagDefault;
 	self.nPagTeachers=nPagDefault;
 	self.nPagExceptions=nPagDefault;
 	self.nPagScenarios=nPagDefault;
+	self.nPagLogs=nPagDefault;
 	
 	self.myListOfTeachers = [];
 	self.myListOfStudents = [];
 	self.myListOfExceptions = [];
+	self.myListOfLogs = [];
 	self.myListOfScenarios = [];
+	self.myListOfUsers = [];
 	
 	self.numExceptionsFounded=0;
+	self.numLogsFounded=0;
 	self.numTeachersFounded=0;
 	self.numStudentsFounded=0;
 	self.numScenariosFounded=0;
+	self.numUsersFounded=0;
+	
+	self.showErrorSearchBy = false;
+	
+	self.noMoreStudents = "";
+	self.noMoreTeachers = "";
+	self.noMoreScenarios = "";
+	self.noMoreUsers = "";
+	self.noMoreExceptions = "";
+	self.noMoreLogs = "";
 	
 	self.calculateCover = function (id){
 		return CONSTANTS.urlScenarioCover(id);
+	}
+	self.changeScenariosToPrev = function(){
+		self.nPagScenarios--;
+		self.searchScenarios();
+	}
+	self.changeScenariosToNext = function(){
+		self.nPagScenarios++;
+		self.searchScenarios();
 	}
 	
 	self.switchTypeOrder = function(){
@@ -63,6 +86,15 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     	);
 	}
 	
+	self.changeTeachersToPrev = function(){
+		self.nPagTeachers--;
+		self.searchTeachers();
+	}
+	self.changeTeachersToNext = function(){
+		self.nPagTeachers++;
+		self.searchTeachers();
+	}
+	
 	self.searchTeachers = function(){
 		if(self.nItemTeachers>maxItemDefault)
 			self.nItemTeachers=maxItemDefault;
@@ -79,6 +111,50 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     				self.numTeachersFounded= 0;
     			}
     	);
+	}
+	
+	self.searchUsersByFirstNameAndLastName = function(){
+		
+		if( ( self.firstName==null || self.firstName=="" ) &&
+				( self.lastName==null  || self.lastName=="") ) {
+			self.showErrorSearchBy = true;
+			self.numUsersFounded=0;
+			self.myListOfUsers = [];
+		}else{
+			self.showErrorSearchBy = false;
+			apiService.getUsersByFirstNameAndLastName(self.firstName, self.lastName).then(
+	    			function(data){
+	    				if(data.length>0){
+	    					self.numUsersFounded = data.length;
+	    					self.myListOfUsers = data;
+	    					self.noMoreUsers = "";
+	    				}
+	    				else{
+	    					self.numUsersFounded=0;
+		    				self.myListOfUsers = [];
+	    					self.noMoreUsers = "Nessun utente trovato";	
+	    				}
+
+	    			}, function(reason){
+	    				console.log("errore");
+	    				self.numUsersFounded=0;
+	    				self.myListOfUsers = [];
+	    				self.noMoreUsers = "Nessun utente trovato";
+	    			
+	    			}
+	    	);
+		}
+			
+		
+	}
+	
+	self.changeStudentsToPrev = function(){
+		self.nPagStudents--;
+		self.searchStudents();
+	}
+	self.changeStudentsToNext = function(){
+		self.nPagStudents++;
+		self.searchStudents();
 	}
 	self.searchStudents = function(){
 		if(self.nItemStudents>maxItemDefault)
@@ -98,6 +174,24 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     	);
 	}
 	
+	
+	self.changeExceptionsToPrev = function(){
+		self.nPagExceptions--;
+		self.searchExceptions();
+	}
+	self.changeExceptionsToNext = function(){
+		self.nPagExceptions++;
+		self.searchExceptions();
+	}
+	self.changeLogsToPrev = function(){
+		self.nPagLogs--;
+		self.searchLogs();
+	}
+	self.changeLogsToNext = function(){
+		self.nPagLogs++;
+		self.searchLogs();
+	}
+	
 	self.searchExceptions = function(){
 		if(self.nItemExceptions>maxItemDefault)
 			self.nItemExceptions=maxItemDefault;
@@ -109,7 +203,6 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     					self.noMoreExceptions = "Nessuna eccezione trovata in questa pagina";
     				else{
     					self.noMoreExceptions = "";
-    					console.log(self.myListOfExceptions[0]);
     				}
     			}, function(reason){
     				console.log("errore");
@@ -118,24 +211,53 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     	);
 	}
 	
+	self.searchLogs = function(){
+		if(self.nItemLogs>maxItemDefault)
+			self.nItemLogs=maxItemDefault;
+		apiService.getPagedLogs(self.nPagLogs, self.nItemLogs).then(
+    			function(data){
+    				self.numLogsFounded= data.totalElements;
+    				self.myListOfLogs = data.content;
+    				if(self.myListOfLogs.length==0)
+    					self.noMoreLogs = "Nessuna log trovato in questa pagina";
+    				else{
+    					self.noMoreLogs = "";
+    				}
+    			}, function(reason){
+    				console.log("errore");
+    				self.numLogsFounded= 0;
+    			}
+    	);
+	}
+	
 	self.showResetExceptions = function(){
-		if (self.myListOfExceptions.length>0 || self.nPagExceptions!=nPagDefault || self.nItemExceptions!=nItemDefault)
+		if (self.myListOfExceptions.length>0 || self.nPagExceptions!=nPagDefault || self.nItemExceptions!=nItemDefault || self.noMoreExceptions!="")
+			return true;
+		else return false;
+	}
+	self.showResetLogs = function(){
+		if (self.myListOfLogs.length>0 || self.nPagLogs!=nPagDefault || self.nItemLogs!=nItemDefault || self.noMoreLogs!="")
 			return true;
 		else return false;
 	}
 	self.showResetScenarios = function(){
-		if (self.myListOfScenarios.length>0 || self.nPagScenarios!=nPagDefault || self.nItemScenarios!=nItemDefault)
+		if (self.myListOfScenarios.length>0 || self.nPagScenarios!=nPagDefault || self.nItemScenarios!=nItemDefault || self.noMoreScenarios!="")
 			return true;
 		else return false;
 	}
 	
 	self.showResetTeachers = function(){
-		if (self.myListOfTeachers.length>0 || self.nPagTeachers!=nPagDefault || self.nItemTeachers!=nItemDefault)
+		if (self.myListOfTeachers.length>0 || self.nPagTeachers!=nPagDefault || self.nItemTeachers!=nItemDefault || self.noMoreTeachers!="")
+			return true;
+		else return false;
+	}
+	self.showResetUsersByName = function(){
+		if (self.myListOfUsers.length>0 || self.showErrorSearchBy || self.noMoreUsers!="")
 			return true;
 		else return false;
 	}
 	self.showResetStudents = function(){
-		if (self.myListOfStudents.length>0 || self.nPagStudents!=nPagDefault || self.nItemStudents!=nItemDefault)
+		if (self.myListOfStudents.length>0 || self.nPagStudents!=nPagDefault || self.nItemStudents!=nItemDefault || self.noMoreStudents!="")
 			return true;
 		else return false;
 	}
@@ -146,6 +268,13 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.nPagExceptions=0;
 		self.noMoreExceptions = "";
 		self.numExceptionsFounded=0;
+	}
+	self.resetLogs = function(){
+		self.myListOfLogs = [];
+		self.nItemLogs=nItemDefault;
+		self.nPagLogs=0;
+		self.noMoreLogs = "";
+		self.numLogsFounded=0;
 	}
 	self.resetScenarios = function(){
 		self.myListOfScenarios = [];
@@ -167,6 +296,14 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.nPagStudents=0;
 		self.noMoreStudents = "";
 		self.numStudentsFounded=0;
+	}
+	self.resetUsersByName = function(){
+		self.firstName ="";
+		self.lastName="";
+		self.myListOfUsers = [];
+		self.showErrorSearchBy = false;
+		self.numUsersFounded=0;
+		self.noMoreUsers = "";
 	}
 	
 }]);

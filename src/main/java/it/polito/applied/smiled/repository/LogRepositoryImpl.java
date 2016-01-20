@@ -2,11 +2,19 @@ package it.polito.applied.smiled.repository;
 
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.pojo.Log;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
 
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -103,6 +111,21 @@ public class LogRepositoryImpl implements CustomLogRepository{
 		q.addCriteria(Criteria.where("scenarioId").is(scenarioId));
 		WriteResult w = mongoOp.remove(q, Log.class);
 		return w.getN();
+	}
+
+	@Override
+	public Page<Log> getPagingLogs(Integer nPag, Integer nItem) {
+		Query q = new Query();
+		Sort s;
+		s = new Sort( new Order(Direction.DESC, "date"));
+		
+		long total = mongoOp.count(q, Log.class);
+		
+		Pageable p = new PageRequest(nPag,nItem, s);
+		q.with(p);
+		
+		List<Log> logs = mongoOp.find(q, Log.class);
+		return new PageImpl<Log>(logs, p, total);
 	}
 
 }

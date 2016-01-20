@@ -86,8 +86,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private PostRepository postRepository;
 	
-	@Autowired
-	private LogService logService;
+	
 	
 	private final int PREVIEW=4;
 	
@@ -260,12 +259,14 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			roles.add(new Role("ROLE_TEACHER"));
 			roles.add(new Role("ROLE_USER"));
 			u.setRoles(roles);
+			System.out.println("borndate di teacherdto: "+teacher.getBornDate());
 			UserProfile profile = new UserProfile();
 			profile.setBornDate(teacher.getBornDate());
 			u.setProfile(profile);
 
 			try{
 				inserted = userRepository.insert(u);
+				System.out.println("borndate di teacherdto: "+inserted.getProfile().getBornDate());
 			}catch(MongoDataIntegrityViolationException e){
 				//TODO
 				/*Inserire report eccezione (in tutte le eccezioni di questa classe)*/
@@ -390,6 +391,42 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}catch(MongoException e ){
 			throw e;
 		}
+	}
+	
+	@Override
+	public List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName) {
+		List<User> u = userRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
+		List<UserDTO> l = new ArrayList<UserDTO>();
+		if(u!= null && u.size()>0){
+			for(User user : u){
+				l.add(new UserDTO(user));
+			}
+		}
+		return l;
+	}
+	
+	@Override
+	public List<UserDTO> getUsersByFirstName(String firstName) {
+		List<User> u = userRepository.findByFirstNameIgnoreCase(firstName);
+		List<UserDTO> l = new ArrayList<UserDTO>();
+		if(u!= null && u.size()>0){
+			for(User user : u){
+				l.add(new UserDTO(user));
+			}
+		}
+		return l;
+	}
+	
+	@Override
+	public List<UserDTO> getUsersByLastName(String lastName) {
+		List<User> u = userRepository.findByLastNameIgnoreCase(lastName);
+		List<UserDTO> l = new ArrayList<UserDTO>();
+		if(u!= null && u.size()>0){
+			for(User user : u){
+				l.add(new UserDTO(user));
+			}
+		}
+		return l;
 	}
 	
 	@Override
@@ -682,6 +719,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 		return postRepository.findByIds(draft);
 	}
+
+	
 
 	
 

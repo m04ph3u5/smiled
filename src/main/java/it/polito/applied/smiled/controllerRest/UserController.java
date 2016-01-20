@@ -38,6 +38,7 @@ import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.ExceptionOnClient;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Post;
@@ -298,6 +299,32 @@ public class UserController extends BaseController{
 	/*----------------------------------------------ADMIN API START--------------------------------------- */
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/userScenarios", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<UserDTO> getUsersByFirstNameAndLastName(@RequestParam(value = "firstName", required=false) String firstName, @RequestParam(value = "lastName", required=false) String lastName
+			) throws MongoException, BadRequestException{
+		
+		List<UserDTO> l= null;
+		if(firstName != null && firstName.equals(""))
+			firstName = null;
+		if(lastName != null && lastName.equals(""))
+			lastName = null;
+		
+		if(firstName == null && lastName == null)
+			throw new BadRequestException();
+		
+		else if(firstName != null && lastName != null){
+			l = userService.getUsersByFirstNameAndLastName(firstName, lastName);
+		}else if (firstName != null && lastName == null){
+			l = userService.getUsersByFirstName(firstName);
+		}else if(firstName == null && lastName != null){
+			l = userService.getUsersByLastName(lastName);
+		}
+		
+		return l;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/v1/users", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public Page<UserDTO> getAllUsers(@RequestParam(value = "nPag", required=false) Integer nPag, 
@@ -353,6 +380,18 @@ public class UserController extends BaseController{
 		if(nItem==null || nItem>(maxItem) || nItem<=0)
 			nItem=(maxItem);
 		return userService.getAllClientExceptions(nPag, nItem);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/log", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<Log> getAllLogs(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>(maxItem) || nItem<=0)
+			nItem=(maxItem);
+		return logService.getAllLogs(nPag, nItem);
 	}
 	
 	/*----------------------------------------------ADMIN API END--------------------------------------- */

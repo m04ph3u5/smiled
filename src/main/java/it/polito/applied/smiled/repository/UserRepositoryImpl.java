@@ -23,6 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -196,9 +199,12 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		}else{
 			return null;
 		}
+		
+		Sort s;
+		s = new Sort( new Order(Direction.DESC, "registrationDate"));
 		long total = mongoOp.count(q, User.class);
 		
-		Pageable p = new PageRequest(nPag,nItem);
+		Pageable p = new PageRequest(nPag,nItem, s);
 		q.with(p);
 		
 		List<User> users = mongoOp.find(q,User.class);

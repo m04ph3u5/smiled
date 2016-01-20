@@ -81,4 +81,7 @@ public interface UserService {
 	public Page<ExceptionOnClient> getAllClientExceptions(Integer nPag, Integer nItem) throws BadRequestException;
 	public List<Post> getDraft(CustomUserDetails activeUser, Boolean preview);
 	public Page<Scenario> getAllScenarios(Integer nPag, Integer nItem, boolean orderByCreation) throws BadRequestException;
+	public List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName);
+	public List<UserDTO> getUsersByFirstName(String firstName);
+	public List<UserDTO> getUsersByLastName(String lastName);
 }
