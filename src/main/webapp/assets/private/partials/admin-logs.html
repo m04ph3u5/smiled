@@ -27,8 +27,10 @@
 <!-- 						<li><b>Id:</b> {{e.id}}</li> -->
 						<li><b>Tipo: </b> {{l.type}}</li>
 						<li><b>Data: </b> {{l.date | date:dashboardAdmin.dateFormat}}</li>
-						<li><b>Id utente: </b><u><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{l.userId}}' })">{{l.userId}}</a></u></li>
-						<li><b>Id scenario: </b><u><a style="cursor:pointer;" href="" data-ui-sref="logged.scenarioWizard.info({id: '{{l.scenarioId}}' })">{{l.scenarioId}}</a></u></li>
+						<li><b>Id utente che ha generato il log: </b><u><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{l.userId}}' })">{{l.userId}}</a></u></li>
+						<li data-ng-show="l.scenarioId"><b>Id scenario in cui si è verificato il log: </b><u><a style="cursor:pointer;" href="" data-ui-sref="logged.scenarioWizard.info({id: '{{l.scenarioId}}' })">{{l.scenarioId}}</a></u></li>
+						<li data-ng-show="l.refer"><b>Id entità a cui si riferisce il log: </b>{{l.refer}}</li>
+					
 					</ul>
 				</li>
 			</div>
