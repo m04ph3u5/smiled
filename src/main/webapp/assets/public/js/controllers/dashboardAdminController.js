@@ -37,6 +37,7 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.numStudentsFounded=0;
 	self.numScenariosFounded=0;
 	self.numUsersFounded=0;
+	
 	self.showErrorSearchBy = false;
 	
 	self.noMoreStudents = "";
@@ -113,7 +114,9 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	}
 	
 	self.searchUsersByFirstNameAndLastName = function(){
-		if(self.firstName==null || self.lastName==null || self.firstName=="" || self.lastName==""){
+		
+		if( ( self.firstName==null || self.firstName=="" ) &&
+				( self.lastName==null  || self.lastName=="") ) {
 			self.showErrorSearchBy = true;
 			self.numUsersFounded=0;
 			self.myListOfUsers = [];

@@ -86,8 +86,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private PostRepository postRepository;
 	
-	@Autowired
-	private LogService logService;
+	
 	
 	private final int PREVIEW=4;
 	
@@ -397,6 +396,30 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Override
 	public List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName) {
 		List<User> u = userRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
+		List<UserDTO> l = new ArrayList<UserDTO>();
+		if(u!= null && u.size()>0){
+			for(User user : u){
+				l.add(new UserDTO(user));
+			}
+		}
+		return l;
+	}
+	
+	@Override
+	public List<UserDTO> getUsersByFirstName(String firstName) {
+		List<User> u = userRepository.findByFirstNameIgnoreCase(firstName);
+		List<UserDTO> l = new ArrayList<UserDTO>();
+		if(u!= null && u.size()>0){
+			for(User user : u){
+				l.add(new UserDTO(user));
+			}
+		}
+		return l;
+	}
+	
+	@Override
+	public List<UserDTO> getUsersByLastName(String lastName) {
+		List<User> u = userRepository.findByLastNameIgnoreCase(lastName);
 		List<UserDTO> l = new ArrayList<UserDTO>();
 		if(u!= null && u.size()>0){
 			for(User user : u){

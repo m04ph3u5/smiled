@@ -1,15 +1,16 @@
 <div>
 
 	<div>
-		<h4>Cerca un utente specifico: </h4>
+		<h4>Cerca un utente specifico inserendo nome e/o cognome: </h4>
 		<div class="row">
 			<input data-ng-model="dashboardAdmin.firstName" type="text" placeholder="Nome">
 			<input data-ng-model="dashboardAdmin.lastName" type="text" placeholder="Cognome">
+			<label style="margin-left:10px;">Risultati trovati: </label> <b>{{dashboardAdmin.numUsersFounded}}</b> 
 		</div>
 		<div class="row">
 			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchUsersByFirstNameAndLastName()">Cerca</button>
 			<button data-ng-if="dashboardAdmin.showResetUsersByName()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetUsersByName()">Reset</button>
-			<span class="error" data-ng-show="dashboardAdmin.showErrorSearchBy">Attenzione inserire entrambi i campi richiesti!</span>
+			<span style="color:red;" data-ng-show="dashboardAdmin.showErrorSearchBy">Attenzione inserire nome e/o cognome!</span>
 		</div>
 	</div>
 	<br>
@@ -81,7 +82,7 @@
 			<button data-ng-click="dashboardAdmin.changeTeachersToNext()">
 				<span class=" glyphicon glyphicon-chevron-right"></span>
 			</button>
-			<label>Risultati trovati: </label> <b>{{dashboardAdmin.numTeachersFounded}}</b> 
+			<label style="margin-left:10px;">Risultati trovati: </label> <b>{{dashboardAdmin.numTeachersFounded}}</b> 
 		</div>
 		<div class="row">
 			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchTeachers()">Cerca</button>
@@ -152,7 +153,7 @@
 			<button data-ng-click="dashboardAdmin.changeStudentsToNext()">
 				<span class=" glyphicon glyphicon-chevron-right"></span>
 			</button>
-			<label>Risultati trovati: </label> {{dashboardAdmin.numStudentsFounded}} <br>
+			<label style="margin-left:10px;">Risultati trovati: </label> <b>{{dashboardAdmin.numStudentsFounded}}</b> <br>
 		</div>
 		<div class="row">
 			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchStudents()">Cerca</button>
