@@ -11,6 +11,6 @@
 	
 
 		<mvc:resources location="/assets/" mapping="/assets/**" 
-			cache-period="5000"/>
+			cache-period="0"/>
 			
 </beans>

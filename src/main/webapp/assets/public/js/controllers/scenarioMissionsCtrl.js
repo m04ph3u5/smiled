@@ -7,7 +7,7 @@ angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$state
 			 
 			 
 			 var myId = $scope.scenario.loggedUser.id;
-			 self.myCharacter = {};
+			 self.myCharacter = null;
 			 self.characters = [];
 		
 			var onStartUp = function(){
