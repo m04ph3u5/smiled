@@ -53,35 +53,48 @@
 			<div class="col-sm-5">
 				<div class="boxForm" id="form">
 					<div class="formTitle">ISCRIZIONE DOCENTE</div>
-					<label>Informazioni personali</label>
+					<label class="labelNormal">Informazioni personali</label>
 					<alertregistration></alertregistration>
 					<form role="form" novalidate>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="NOME"
+							<input type="text" class="form-control" placeholder="Nome"
 								data-ng-model="register.user.firstName" ></input>
-							<div class="form-group"></div>
-							<input type="text" class="form-control" placeholder="COGNOME"
+							
+							<input type="text" class="form-control" placeholder="Cognome"
 								data-ng-model="register.user.lastName" ></input>
-
+							<input type="text" class="form-control" placeholder="Città di nascita"
+								data-ng-model="register.user.bornCity" ></input>
+							<input type="text" class="form-control" placeholder="Nome scuola"
+								data-ng-model="register.user.nameOfSchool" ></input>
+							<input type="text" class="form-control" placeholder="Città dove si trova la scuola"
+								data-ng-model="register.user.schoolCity" ></input>
+							
 						</div>
-						<div class="form-group">
-							<form class="form-inline">
+						
+						<div class="form-group" >
+							<form class="form-inline" >
 								<div class="form-group">
-									<input ui-date="register.dateOptions" class="form-control" 
-										data-ng-model="register.user.bornDate" placeholder="DATA DI NASCITA"></input>
+									<input style="cursor:pointer;" ui-date="register.dateOptions" class="form-control" 
+										data-ng-model="register.user.bornDate" placeholder="Data di nascita"></input>
 								</div>
+							</form>
+						</div>
+						
+						<input class="customCheckBox"  id="showRelations" type="checkbox"  data-ng-model="register.user.agree"  value=true />
+						<span class="labelCheckBox" for="showRelations">Acconsento al trattamento dei miei dati personali</label>
+						
+						
+						<div class="form-group">
+							<label class="labelNormal">Account</label> <input type="text" class="form-control"
+								placeholder="Email" data-ng-model="register.user.email" ></input>
 						</div>
 						<div class="form-group">
-							<label>Account</label> <input type="text" class="form-control"
-								placeholder="EMAIL" data-ng-model="register.user.email" ></input>
-						</div>
-						<div class="form-group">
-							<input type="password" class="form-control" placeholder="PASSWORD"
+							<input type="password" class="form-control" placeholder="Password"
 								data-ng-model="register.user.password" ></input>
 						</div>
 						<div class="form-group">
 							<input type="password" class="form-control"
-								placeholder="CONFERMA PASSWORD" data-ng-model="register.user.confirmPassword"></input>
+								placeholder="Conferma password" data-ng-model="register.user.confirmPassword"></input>
 						</div>						
 						<button data-ng-click="register.postRegister()"
 							class="btn ctaFirst">Entra nella storia!</button>

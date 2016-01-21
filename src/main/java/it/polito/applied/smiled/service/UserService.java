@@ -9,6 +9,7 @@ import com.mongodb.MongoException;
 
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.UpdateUserDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
@@ -30,7 +31,7 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 public interface UserService {
 
 	public UserDTO getOneself(String userEmail) throws UserNotFoundException, MongoException;
-	public UserDTO updateUserProfile(String userEmail, UserDTO userDTO) throws MongoException, BadRequestException;
+	public UserDTO updateUserProfile(String userEmail, UpdateUserDTO updateUserDTO) throws MongoException, BadRequestException;
 	public User changePassword(String userEmail, String oldPassword, String newPassword) throws MongoException, BadCredentialsException, UserNotFoundException, BadRequestException;
 	public User changeFirstPassword(FirstPasswordDTO firstPassword) throws UserNotFoundException, BadCredentialsException, BadRequestException;
 

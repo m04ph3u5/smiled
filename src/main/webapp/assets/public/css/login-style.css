@@ -154,19 +154,26 @@
 		background-color: #ded5b1;
 		text-align:center;
 		color: #404b41;
-		padding:3vw;
+		padding:5vw;
 		font-size:2em;
 	}
 	.formTitle{
 		font-family: 'Coustard', sans-serif;
-		font-size:1.5vw;
+		font-size:2vw;
 		color: #404b41;
-	}
-	label{
-		color: #404b41;
-		font-size:1.5vw;
 	}
 	
+	
+	label{
+		color: #404b41;
+		
+	}
+	.labelNormal{
+		font-size:1.5vw;
+	}
+	.labelCheckBox{
+		font-size:0.9vw;
+	}
 	.ctaFirst{
 		color: #FFFFFF;
 		background-color: #248a73;
@@ -292,7 +299,7 @@
 			border: 0;
     		box-shadow: none;
     		border-color:#5B5955;
-   		    font-size:1vw;
+   		    font-size:1.2vw;
 	
 		}
 		
@@ -333,11 +340,14 @@
 		padding-left: 1em;
 	
 	}
-	label{
-		font-size:3vw;
+	.labelNormal{
+		font-size:4vw;
+	}
+	.labelCheckBox{
+		font-size:1.5vw;
 	}
 	.formTitle{
-		font-size:3vw;
+		font-size:5vw;
 	}
 	
 	.boxForm{
@@ -357,7 +367,7 @@
 		margin-top:10em;
 	}
 	.form-control{		
-   	    font-size:2.5vw;
+   	    font-size:2vw;
 	}
 }	
 @media screen  and (min-width: 400px) and (max-width:991px){

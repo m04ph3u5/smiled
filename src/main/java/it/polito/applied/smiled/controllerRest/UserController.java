@@ -30,6 +30,7 @@ import it.polito.applied.smiled.dto.ChangePasswordDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.UpdateUserDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
@@ -69,6 +70,8 @@ public class UserController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException();
 		}
+		if(!registerTeacherDTO.isAgree())
+			throw new BadRequestException();
 		User u = userService.registerTeacher(registerTeacherDTO);
 		logService.logRegisterTeacher(u.getId());
 	}
@@ -85,7 +88,7 @@ public class UserController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/v1/me", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public UserDTO updateMyProfile(@RequestBody UserDTO updateUserDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser)throws UserNotFoundException, BadRequestException, MongoException{
+	public UserDTO updateMyProfile(@RequestBody UpdateUserDTO updateUserDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser)throws UserNotFoundException, BadRequestException, MongoException{
 		
 		//TODO da fare il validatore custom
 		userDTOValidator.validate(updateUserDTO, result);
@@ -117,8 +120,6 @@ public class UserController extends BaseController{
 	@RequestMapping(value="/v1/firstPassword", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void firstPassword(@RequestBody @Valid FirstPasswordDTO firstPassword, BindingResult result) throws BadCredentialsException, MongoException, UserNotFoundException, BadRequestException{
-		
-		System.out.println("firstPassword");
 		
 		if(result.hasErrors()){
 			throw new BadCredentialsException(result.getAllErrors().get(0).getDefaultMessage());

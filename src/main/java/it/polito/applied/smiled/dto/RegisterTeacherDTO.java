@@ -25,6 +25,52 @@ public class RegisterTeacherDTO {
 	
 	@NotNull
 	private Date bornDate;
+	
+	@NotNull
+	private String schoolCity;
+	
+	@NotNull
+	private String bornCity;
+	
+	@NotNull
+	private String nameOfSchool;
+	
+	@NotNull
+	private boolean agree;
+	
+	
+
+	public boolean isAgree() {
+		return agree;
+	}
+
+	public void setAgree(boolean agree) {
+		this.agree = agree;
+	}
+
+	public String getSchoolCity() {
+		return schoolCity;
+	}
+
+	public void setSchoolCity(String schoolCity) {
+		this.schoolCity = schoolCity;
+	}
+
+	public String getBornCity() {
+		return bornCity;
+	}
+
+	public void setBornCity(String bornCity) {
+		this.bornCity = bornCity;
+	}
+
+	public String getNameOfSchool() {
+		return nameOfSchool;
+	}
+
+	public void setNameOfSchool(String nameOfSchool) {
+		this.nameOfSchool = nameOfSchool;
+	}
 
 	public String getEmail() {
 		return email;

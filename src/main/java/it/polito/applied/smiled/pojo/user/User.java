@@ -21,6 +21,8 @@ public abstract class User {
 	@Id
 	private String id;
 	
+	private boolean agree;
+	
 	@Indexed(unique=true)
 	protected String email;
 	protected String firstName;
@@ -47,6 +49,14 @@ public abstract class User {
 	protected List<String> draftPostsId;
 
 	
+	public boolean isAgree() {
+		return agree;
+	}
+
+	public void setAgree(boolean agree) {
+		this.agree = agree;
+	}
+
 	public List<String> getOpenScenariosId(){
 		List<String> l = new ArrayList<String>();
 		if(openScenarios!=null)

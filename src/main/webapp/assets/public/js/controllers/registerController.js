@@ -3,7 +3,8 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 
 	var self = this;
 	self.user= {};
-
+	self.user.agree=false;
+	
 	self.dateOptions = {
 			"regional" : "it",
 			"changeYear" : true,
@@ -23,8 +24,12 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 						self.user.firstName="";
 						self.user.lastName="";
 						self.user.bornDate="";
+						self.user.schoolCity="";
+						self.user.bornCity ="";
+						self.user.nameOfSchool="";
 						self.user.password="";
 						self.user.confirmPassword="";
+						self.user.agree=false;
 						alertingRegistration.addSuccess("La tua richiesta e' stata accettata. A breve riceverai una mail per confermare la tua registrazione");
 					},
 					//il server ha rifiutato la registrazione
@@ -33,8 +38,12 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 						self.user.firstName="";
 						self.user.lastName="";
 						self.user.bornDate="";
+						self.user.schoolCity="";
+						self.user.bornCity ="";
+						self.user.nameOfSchool="";
 						self.user.password="";
 						self.user.confirmPassword="";
+						self.user.agree=false;
 						alertingRegistration.addDanger("Non e' stato possibile completare la registrazione, ti preghiamo di riprovare!");
 						throw new Error ("Non e' stato possibile completare la registrazione, ti preghiamo di riprovare!");
 						
@@ -50,9 +59,17 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 	var validateRegister = function(){
 
 		if(self.user.email==null || self.user.email=="" || self.user.firstName==null || self.user.firstName=="" || 
-				self.user.lastName==null || self.user.lastName=="" || self.user.bornDate==null || self.user.password==null ||
+				self.user.lastName==null || self.user.lastName=="" || self.user.bornDate==null || self.user.bornDate =="" || 
+				self.user.bornCity==null || self.user.bornCity =="" || 
+				self.user.schoolCity==null || self.user.schoolCity =="" || 
+				self.user.nameOfSchool==null || self.user.nameOfSchool =="" || self.user.password==null ||
 				self.user.password=="" || self.user.confirmPassword==null || self.user.confirmPassword==""){
 			alertingRegistration.addWarning("Compilare tutti i campi!");
+			
+			return false;
+		}
+		else if(!self.user.agree){
+			alertingRegistration.addWarning("Acconsenti al trattamento dei tuoi dati personali!");
 			return false;
 		}
 		else if(!validateEmail(self.user.email)){

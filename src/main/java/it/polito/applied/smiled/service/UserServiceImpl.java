@@ -23,7 +23,7 @@ import com.mongodb.MongoException;
 
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
-import it.polito.applied.smiled.dto.ScenarioDTO;
+import it.polito.applied.smiled.dto.UpdateUserDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 
 	@Override
-	public UserDTO updateUserProfile(String userEmail, UserDTO userDTO) throws MongoException, BadRequestException{
+	public UserDTO updateUserProfile(String userEmail, UpdateUserDTO userDTO) throws MongoException, BadRequestException{
 		try{
 			//Booleano che mi serve per capire se devo lanciare il thread asincrono che si occupa dell'aggiornamento dei Reference
 			//Diventa true se cambio nome o cognome 
@@ -143,25 +143,27 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			boolean updateRef=false;
 			Update update = new Update();
 
-			if(userDTO.getFirstName()!=null){
-				update.set("firstName", userDTO.getFirstName());
-				updateRef=true;
+			if(userDTO.getGender()!=null){
+				update.set("profile.gender", userDTO.getGender());
 			}
-			if(userDTO.getLastName()!=null){
-				update.set("lastName", userDTO.getLastName());
-				updateRef=true;
-			}
-			if(userDTO.getProfile()!=null){
-				if(userDTO.getProfile().getGender()!=null)
-					update.set("profile.gender", userDTO.getProfile().getGender());
-				if(userDTO.getProfile().getBornDate()!=null)
-					update.set("profile.birthDate", userDTO.getProfile().getBornDate());
-			}
+					
+			if(userDTO.getBornDate()!=null)
+					update.set("profile.bornDate", userDTO.getBornDate());
+			if(userDTO.getBornCity()!=null)
+				update.set("profile.bornCity", userDTO.getBornCity());
+			if(userDTO.getSchoolCity()!=null)
+				update.set("profile.schoolCity", userDTO.getSchoolCity());
+			if(userDTO.getSchool()!=null)
+				update.set("profile.school", userDTO.getSchool());
+			if(userDTO.getQuote()!=null)
+				update.set("profile.quote", userDTO.getQuote());
 			
 			User user = userRepository.updateUser(update,userEmail);
 			if(user==null)
 				throw new BadRequestException();
 			
+			
+			//ATTENZIONE QUANDO PERMETTEREMO DI AGGIORNARE CAMPI PRESENTI NEI REFERENCE DOVREMO SETTARE QUESTA VARIABILE A TRUE
 			if(updateRef)
 				asyncUpdater.updateUser(user);
 			
@@ -254,6 +256,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			u.setLastName(teacher.getLastName());
 			u.setStatus(UserStatus.STATUS_PENDING);
 			u.setRegistrationDate(new Date());
+			u.setAgree(teacher.isAgree());
 
 			List<Role> roles = new ArrayList<Role>();
 			roles.add(new Role("ROLE_TEACHER"));
@@ -262,6 +265,9 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			System.out.println("borndate di teacherdto: "+teacher.getBornDate());
 			UserProfile profile = new UserProfile();
 			profile.setBornDate(teacher.getBornDate());
+			profile.setBornCity(teacher.getBornCity());
+			profile.setSchool(teacher.getNameOfSchool());
+			profile.setSchoolCity(teacher.getSchoolCity());
 			u.setProfile(profile);
 
 			try{

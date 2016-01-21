@@ -15,12 +15,21 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	self.newPassword="";
 	self.newPassword2 = "";
 	
+	self.dateOptions = {
+			"regional" : "it",
+			"changeYear" : true,
+			"maxDate" : "0",
+			"minDate" : new Date(1900,0,1,0,0,0,0),
+			"yearRange" : "1900:c"
+	};
+	
 	var myIdentity = $cookies.get('myMescholaId');
 	
 	var onSuccessGetUser = function(data){
 		self.user = data;
 		role = self.user.role;
 		self.modifiedUser = angular.copy(self.user);
+		
 		if (role.authority=="ROLE_TEACHER")
 			self.ruolo="DOCENTE";
 		else 
@@ -30,7 +39,9 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	var onErrorGetUser = function(reason){
 		console.log("Error getting user personalProfile: "+reason);
 	}
-	
+	var onErrorUpdateUser = function(reason){
+		console.log("Error updating user personalProfile: "+reason);
+	}
 
 	if($stateParams.id)
 		id = $stateParams.id;
@@ -57,18 +68,8 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		self.isModifiable=true;
 	}
 	
-	
 	self.updateMe = function(){
-		userService.updateMe(userDTO).then(
-				function(data){
-					console.log("updateMe correct");
-					
-				},
-				function(reason){
-					console.log("errore nell'updateMe");
-					
-				}
-		);
+		userService.updateMe(self.modifiedUser).then(onSuccessGetUser, onErrorUpdateUser);
 	}
 	
 	self.uploadCover = function(file){
@@ -130,11 +131,8 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	self.closeEditProfile = function(){
 		self.editProfile = false;
 	}
-	self.updateUser = function(){
-		console.log("UPDATE USER");
 
-	}
-	self.deleteUpdateUser = function(){
+	self.deleteUpdateMe = function(){
 		self.modifiedUser = angular.copy(self.user);
 		console.log("DELETE UPDATE USER");
 	}

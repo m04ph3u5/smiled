@@ -131,7 +131,8 @@
 		);
 		return c.promise;
 	}
-
+	
+	
 	var getAllCharactersFromScen = function(id){
 		var c = $q.defer();
 

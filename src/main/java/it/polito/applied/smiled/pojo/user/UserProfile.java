@@ -6,15 +6,15 @@ public class UserProfile {
 
 	//TODO - ATTENZIONE se modifichiamo questa classe ricordiamoci di aggiornare
 	// la updateUser di userServiceImpl e lo UserDTOValidator (ed eventuali altre classi)
-	protected String gender;
-	protected String coverPhotoId;
-	protected String largeCoverPhotoId;
+	protected Boolean gender;
+	
 	protected Date bornDate;
 	protected String bornCity;
-	protected String actualCity;
+	protected String schoolCity;
 	protected String school;
 	protected String quote;
-	
+	protected String coverPhotoId;
+	protected String largeCoverPhotoId;
 	
 	public String getQuote() {
 		return quote;
@@ -32,12 +32,14 @@ public class UserProfile {
 		this.bornCity = bornCity;
 	}
 
-	public String getActualCity() {
-		return actualCity;
+	
+
+	public String getSchoolCity() {
+		return schoolCity;
 	}
 
-	public void setActualCity(String actualCity) {
-		this.actualCity = actualCity;
+	public void setSchoolCity(String schoolCity) {
+		this.schoolCity = schoolCity;
 	}
 
 	public String getSchool() {
@@ -48,11 +50,13 @@ public class UserProfile {
 		this.school = school;
 	}
 
-	public String getGender() {
+	
+
+	public Boolean getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Boolean gender) {
 		this.gender = gender;
 	}
 
