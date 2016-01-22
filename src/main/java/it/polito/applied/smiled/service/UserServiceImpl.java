@@ -143,6 +143,10 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			boolean updateRef=false;
 			Update update = new Update();
 
+			System.out.println("quote "+userDTO.getQuote());
+			System.out.println("quote "+userDTO.getBornCity());
+			
+			
 			if(userDTO.getGender()!=null){
 				update.set("profile.gender", userDTO.getGender());
 			}

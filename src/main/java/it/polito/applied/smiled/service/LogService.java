@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.RegistrationToken;
 
 
 public interface LogService {
@@ -94,4 +95,6 @@ public interface LogService {
 			String idMedia);
 
 	public Page<Log> getAllLogs(Integer nPag, Integer nItem) throws BadRequestException;
+	
+	public Page<RegistrationToken> getPagedRegistrationRequests (Integer nPag, Integer nItem) throws BadRequestException;
 }

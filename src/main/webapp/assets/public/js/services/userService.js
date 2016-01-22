@@ -41,6 +41,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		return u.promise;
 	}
 	var updateMe = function(updateUserDTO){
+		
 		var c = $q.defer();
 		$http.put("/api/v1/me/", updateUserDTO).then(
 				function(response){

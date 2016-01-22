@@ -1,8 +1,26 @@
+<style>
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year {
+	width: 45%;
+	background-color:transparent;
+	border-top: none;
+	border-left:none;
+	border-right:none;
+	outline:none;
+	border-radius:0px;
+	-webkit-appearance: none;.
+	border: 0;
+	box-shadow: none;
+	border-color:#5B5955;
+}
+</style>
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1 col-lg-2"></div>
 		<div class="col-sm-5 col-md-4 col-lg-3 box boxBrown" id="imgProfile">
-			<h2 class="goUppercase">{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h2>
+			<h3 class="goUppercase">{{personalProfile.user.firstName}} {{personalProfile.user.lastName}}</h3>
+			<p>{{personalProfile.ruolo}}</p>
 			<div class="profilePicContainer" style="cursor:pointer;">
 				<img class="profilePicture img img-circle" data-ng-src="{{personalProfile.url}}" 
 				data-err-src="assets/public/img/ic_teacher.png" data-ng-if="personalProfile.ruolo=='DOCENTE'"></img>
@@ -17,11 +35,11 @@
 				
 			</div>
 			
-						
-			<h4>{{personalProfile.ruolo}}</h4>
+			<p style="cursor:pointer;" data-ng-click="personalProfile.switchEditProfile()" data-ng-if="personalProfile.user.profile.quote!=null"><i><a>"{{personalProfile.user.profile.quote}}"</a></i> </p>			
+			
 			<p data-ng-if="personalProfile.user.email!=null"><label>Email:</label> {{personalProfile.user.email}} </p>
-			<p data-ng-if="personalProfile.user.profile.quote!=null"><label>Citazione:</label> {{personalProfile.user.profile.quote}} </p>
-			<p data-ng-if="personalProfile.user.profile.school!=null"><label>Scuola:</label> {{personalProfile.user.profile.school}} ({{personalProfile.user.profile.schoolCity}}) </p>
+			
+			<p style="cursor:pointer;" data-ng-click="personalProfile.switchEditProfile()" data-ng-if="personalProfile.user.profile.school!=null"><a><label>Scuola:</label> {{personalProfile.user.profile.school}} ({{personalProfile.user.profile.schoolCity}}) </a></p>
 	
 			<!--  <h4>Scuola, materie insegnate / preferite, Interessi, Citazione</h4>--> 
 			
@@ -56,28 +74,15 @@
 		</div>
 	</div>
 	
-	<div class="row" data-ng-if="personalProfile.isModifiable && personalProfile.editPassword">
-		<div class="col-md-1 col-lg-2"></div>
-		<div class="col-sm-12 col-md-10 col-lg-8 box boxGray" >
-			<input type="text" style="display:none">
-			<input type="password" style="display:none">
-			<label for="oldP">Vecchia password:</label><input autocomplete="off" style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.oldPassword" class="form-control" id="oldP"></input>
-			<label for="newP">Nuova password:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword" class="form-control" id="newP"></input>
-			<label for="newP2">Ripeti nuova:</label><input style="width:25%; margin:auto;" type="password" data-ng-model="personalProfile.newPassword2" class="form-control" id="newP2"></input>	
-			<br>
-			<button class="btn btn-success" data-ng-click="personalProfile.modifyPassword()">Salva</button>	
-			<button class="btn btn-warning" data-ng-click="personalProfile.deleteModifyPassword()">Annulla</button>	
-		</div>
-	</div>
+	
 	<div class="row" data-ng-hide="personalProfile.isModifiable && personalProfile.editProfile">
 		<div class="col-md-1 col-lg-2"></div>
 		<div class="col-sm-12 col-md-10 col-lg-8 box2 boxBrown" >
-				<span data-ng-if="personalProfile.user.profile.gender!=null"><label>Sesso:</label> {{personalProfile.user.profile.gender}} &nbsp-&nbsp</span> 
-				<span data-ng-if="personalProfile.user.profile.bornDate!=null"><label>Data di nascita:</label> {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}} &nbsp-&nbsp</span>	
-				<span data-ng-if="personalProfile.user.profile.bornCity!=null"><label>Città di nascita:</label> {{personalProfile.user.profile.bornCity}} &nbsp-&nbsp</span>
-				<span data-ng-if="personalProfile.user.profile.schoolCity!=null"><label>Città della scuola:</label> {{personalProfile.user.profile.schoolCity}} &nbsp-&nbsp</span> 
-				<span style="cursor:pointer;" data-ng-if="personalProfile.isModifiable" href="" data-ng-click="personalProfile.switchEditPassword()"><a>Cambia password</a></span> 
-		</div>
+				<span data-ng-if="personalProfile.user.profile.gender!=null"><label>Sesso: </label><span data-ng-show="personalProfile.user.profile.gender"> Uomo</span> <span data-ng-hide="personalProfile.user.profile.gender">Donna</span><br></span> 
+				<span data-ng-if="personalProfile.user.profile.bornDate!=null"><label>Data di nascita:</label> {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}} <br></span>	
+				<span data-ng-if="personalProfile.user.profile.bornCity!=null"><label>Città di nascita:</label> {{personalProfile.user.profile.bornCity}} <br></span>
+				<span data-ng-if="personalProfile.user.profile.schoolCity!=null"><label>Città della scuola:</label> {{personalProfile.user.profile.schoolCity}}</span> 
+			</div>
 	</div>
 	
 	
@@ -89,14 +94,14 @@
 			    <div class="form-group ">
 			      <label class="control-label control-label-custom col-sm-4 ">CITAZIONE:</label>
 			      <div class="col-sm-7 paddingSRight">
-			        <input type="text" class="form-control " ng-model="personalProfile.modifiedUser.profile.quote">
+			        <input type="text" class="form-control " ng-model="personalProfile.updateUserDTO.quote">
 			      </div>
 			    </div>
 			    <div class="form-group ">
 			      <label class="control-label control-label-custom col-sm-4">SESSO:</label>
 			      <div class="col-sm-7 paddingSRight onoffswitch">  
 			      	<div class="onoffswitch">
-					    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked ng-model="personalProfile.modifiedUser.profile.genderBool">
+					    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked ng-model="personalProfile.updateUserDTO.gender">
 					    <label class="onoffswitch-label" for="myonoffswitch">
 					        <span class="onoffswitch-inner"></span>
 					        <span class="onoffswitch-switch"></span>
@@ -104,48 +109,86 @@
 					</div>        
 			      </div>
 			    </div>
-			    {{personalProfile.modifiedUser.profile.genderBool}}
+			   
 			    
 			    <div class="form-group">
 			      <label class="control-label control-label-custom col-sm-4">SCUOLA:</label>
 			      <div class="col-sm-7 paddingSRight">          
-			        <input type="text" class="form-control" ng-model="personalProfile.modifiedUser.profile.school">
+			        <input type="text" class="form-control" ng-model="personalProfile.updateUserDTO.school">
 			      </div>
 			    </div>
 			    <div class="form-group">
 			      <label class="control-label control-label-custom col-sm-4">CITTA' IN CUI SI TROVA LA SCUOLA:</label>
 			      <div class="col-sm-7 paddingSRight">          
-			        <input type="text" class="form-control" ng-model="personalProfile.modifiedUser.profile.schoolCity">
+			        <input type="text" class="form-control" ng-model="personalProfile.updateUserDTO.schoolCity">
 			      </div>
 			    </div>
 			    
 			    <div class="form-group">
 			      <label class="control-label control-label-custom col-sm-4">CITTA' NASCITA:</label>
 			      <div class="col-sm-7 paddingSRight">          
-			        <input type="text" class="form-control" ng-model="personalProfile.modifiedUser.profile.bornCity">
+			        <input type="text" class="form-control" ng-model="personalProfile.updateUserDTO.bornCity">
 			      </div>
 			    </div>
-<!-- 			    <div class="form-group"> -->
-<!-- 			    		<label class="control-label control-label-custom col-sm-4">DATA NASCITA:</label> -->
-<!-- 			    		<div class="col-sm-7 paddingSRight"> -->
-<!-- 							<form class="form-inline"> -->
+		
+			    <div class="form-group">
+			    		<label class="control-label control-label-custom col-sm-4">DATA NASCITA:</label>
+			    		<div class="col-sm-7 paddingSRight">
+							<form class="form-inline">
 									
-<!-- 									<input style="cursor:pointer;" ui-date="personalProfile.dateOptions" class="form-control"  -->
-<!-- 										data-ng-model="personalProfile.modifiedUser.profile.bornDate | date: personalProfile.dateFormat"></input> -->
+									<input style="cursor:pointer;" ui-date="personalProfile.dateOptions" ui-date-format="d-m-yy" class="form-control" 
+										data-ng-model="personalProfile.bornDateString"></input>
 								
-<!-- 							</form> -->
-<!-- 						</div> -->
-<!-- 				</div> -->
+							</form>
+						</div>
+				</div>
+				
+			   <br>
 			    
-			   
-			    
+			   <div class="form-group">
+			  		<span class="pull-right control-label col-sm-4" style="cursor:pointer; text-align:right;" data-ng-if="personalProfile.isModifiable" href="" data-ng-click="personalProfile.switchEditPassword()"><a>Cambia password</a></span> 
+				</div>
 			    
 			    
 			</form>
 
 		</div>
 	</div>
-		
+	<div  id="changePwd" class="row" data-ng-if="personalProfile.isModifiable && personalProfile.editPassword">
+		<div class="col-md-1 col-lg-2"></div>
+		<div class="col-sm-12 col-md-10 col-lg-8 box boxGray" >
+		<form class="form-horizontal paddingSLeft" role="form">
+			 <div class="form-group row">
+			      <label class="control-label control-label-custom col-sm-4">VECCHIA PASSWORD:</label>
+			      <div class="col-sm-4 paddingSRight">          
+			        <input style="width:100%; margin:auto;" type="password" autocomplete="off" class="form-control" ng-model="personalProfile.oldPassword">
+			      </div>
+			</div>
+			<div class="form-group row">
+			      <label class="control-label control-label-custom col-sm-4">NUOVA PASSWORD:</label>
+			      <div class="col-sm-4 paddingSRight">          
+			        <input style="width:100%; margin:auto;" type="password" autocomplete="off" class="form-control" ng-model="personalProfile.newPassword">
+			      </div>
+			</div>
+			<div class="form-group row">
+			      <label class="control-label control-label-custom col-sm-4">RIPETI NUOVA:</label>
+			      <div class="col-sm-4 paddingSRight">          
+			        <input style="width:100%; margin:auto;" type="password" autocomplete="off" class="form-control" ng-model="personalProfile.newPassword2">
+			      </div>
+			</div>
+			<div class="form-group row">
+			      <div class="col-sm-4"></div>
+			      <div style="color:red;" class="col-sm-4 paddingSRight">          
+			        {{personalProfile.messageErrorModifyPassword}}
+			      </div>
+			</div>
+			<br>
+			
+			<button class="btn btn-success" data-ng-click="personalProfile.modifyPassword()">Cambia password</button>	
+			<button class="btn btn-warning" data-ng-click="personalProfile.deleteModifyPassword()">Annulla cambio password</button>	
+		</form>
+		</div>
+	</div>	
 	<div class="row" data-ng-if="personalProfile.isModifiable">
 		<div class="col-md-1 col-lg-2"></div>
 			<div class="col-sm-12 col-md-10 col-lg-8 box boxBrown" >

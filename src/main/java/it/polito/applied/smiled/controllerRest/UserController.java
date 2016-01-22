@@ -42,6 +42,7 @@ import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.RegistrationToken;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
@@ -95,6 +96,7 @@ public class UserController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
+		System.out.println("controller quote: "+ updateUserDTO.getQuote());
 		
 		UserDTO u = userService.updateUserProfile(activeUser.getUsername(), updateUserDTO);
 		logService.logUpdateUserProfile(u.getId());
@@ -383,6 +385,7 @@ public class UserController extends BaseController{
 		return userService.getAllClientExceptions(nPag, nItem);
 	}
 	
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/v1/log", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -393,6 +396,18 @@ public class UserController extends BaseController{
 		if(nItem==null || nItem>(maxItem) || nItem<=0)
 			nItem=(maxItem);
 		return logService.getAllLogs(nPag, nItem);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/getPagedRegistrationRequests", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<RegistrationToken> getPagedRegistrationRequests(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>(maxItem) || nItem<=0)
+			nItem=(maxItem);
+		return logService.getPagedRegistrationRequests(nPag, nItem);
 	}
 	
 	/*----------------------------------------------ADMIN API END--------------------------------------- */

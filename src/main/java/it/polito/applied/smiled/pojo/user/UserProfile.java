@@ -6,7 +6,7 @@ public class UserProfile {
 
 	//TODO - ATTENZIONE se modifichiamo questa classe ricordiamoci di aggiornare
 	// la updateUser di userServiceImpl e lo UserDTOValidator (ed eventuali altre classi)
-	protected Boolean gender;
+	protected Boolean gender; //false= donna; true= uomo
 	
 	protected Date bornDate;
 	protected String bornCity;

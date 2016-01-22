@@ -12,8 +12,6 @@ public class UpdateUserDTO {
 	private String quote;
 	
 	
-	
-	
 	public Boolean getGender() {
 		return gender;
 	}

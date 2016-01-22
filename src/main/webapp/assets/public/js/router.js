@@ -193,6 +193,10 @@ angular.module('smiled.application')
 			url : "/log",
 			templateUrl: "assets/private/partials/admin-logs.html",
 		})
+		.state('logged.dashboard.admin.registrationRequest',{
+			url : "/richiesteRegistrazione",
+			templateUrl: "assets/private/partials/admin-registrationRequests.html",
+		})
 		.state('logged.dashboard.admin.exceptionsOnClient',{
 			url : "/eccezioni",
 			templateUrl: "assets/private/partials/admin-eccezioni.html",
