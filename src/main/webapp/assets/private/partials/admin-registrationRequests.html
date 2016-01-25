@@ -28,7 +28,7 @@
  						<li><b>Email: </b> {{l.email}}</li>
 						<li><b>Token: </b> {{l.token}}</li> 
 						<li><b>Expiration date: </b> {{l.expiration | date: dashboardAdmin.dateFormat}}</li>
-						<li data-ng-hide="l.registrationConfirmed"><a style="cursor:pointer;" data-ng-click="dashboardAdmin.registrationConfirm(l)"><b>ABILITA ISCRIZIONE </b></a></li>
+						<li data-ng-hide="l.registrationConfirmed || l.registrationFailed"><a style="cursor:pointer;" data-ng-click="dashboardAdmin.registrationConfirm(l)"><b>ABILITA ISCRIZIONE </b></a></li>
 						<li data-ng-show="l.registrationConfirmed">UTENTE ABILITATO</li>
 						<li style="color:red;" data-ng-show="l.registrationFailed">ABILITAZIONE FALLITA!!!</li>
 					</ul>
