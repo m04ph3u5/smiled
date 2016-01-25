@@ -78,11 +78,11 @@
 	<div class="row" data-ng-hide="personalProfile.isModifiable && personalProfile.editProfile">
 		<div class="col-md-1 col-lg-2"></div>
 		<div class="col-sm-12 col-md-10 col-lg-8 box2 boxBrown" >
-				<span data-ng-if="personalProfile.user.profile.gender!=null"><label>Sesso: </label><span data-ng-show="personalProfile.user.profile.gender"> Uomo</span> <span data-ng-hide="personalProfile.user.profile.gender">Donna</span><br></span> 
-				<span data-ng-if="personalProfile.user.profile.bornDate!=null"><label>Data di nascita:</label> {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}} <br></span>	
-				<span data-ng-if="personalProfile.user.profile.bornCity!=null"><label>Città di nascita:</label> {{personalProfile.user.profile.bornCity}} <br></span>
-				<span data-ng-if="personalProfile.user.profile.schoolCity!=null"><label>Città della scuola:</label> {{personalProfile.user.profile.schoolCity}}</span> 
-			</div>
+				<span data-ng-if="personalProfile.user.profile.gender!=null"><label>Sesso: </label><span data-ng-show="personalProfile.user.profile.gender"> Uomo</span> <span data-ng-hide="personalProfile.user.profile.gender">Donna</span></span> 
+				<span data-ng-if="personalProfile.user.profile.bornDate!=null"><hr><label>Data di nascita:</label> {{personalProfile.user.profile.bornDate | date: personalProfile.dateFormat}} </span>	
+				<span data-ng-if="personalProfile.user.profile.bornCity!=null"><hr><label>Città di nascita:</label> {{personalProfile.user.profile.bornCity}} </span>
+				<span data-ng-if="personalProfile.user.profile.schoolCity!=null"><hr><label>Città della scuola:</label> {{personalProfile.user.profile.schoolCity}}</span> 
+		</div>
 	</div>
 	
 	
