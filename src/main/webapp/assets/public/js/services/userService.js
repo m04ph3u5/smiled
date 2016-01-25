@@ -40,19 +40,21 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		);
 		return u.promise;
 	}
-	
-	var updateMe = function(userDTO){
-		var s = $q.defer();
-		$http.put("/api/v1/me", userDTO).then(
+	var updateMe = function(updateUserDTO){
+		
+		var c = $q.defer();
+		$http.put("/api/v1/me/", updateUserDTO).then(
 				function(response){
-					s.resolve(response.data);
+					c.resolve(response.data);
 				},
 				function(reason){
-					s.reject(reason);
+					c.reject(reason);
 				}
 		);
-		return s.promise;
+		return c.promise;
 	}
+
+
 
 	var logout = function(){
 		var log = $q.defer()

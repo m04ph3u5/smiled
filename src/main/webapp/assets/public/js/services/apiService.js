@@ -131,7 +131,8 @@
 		);
 		return c.promise;
 	}
-
+	
+	
 	var getAllCharactersFromScen = function(id){
 		var c = $q.defer();
 
@@ -294,6 +295,23 @@
 
 		$http.get("/api/v1/scenarios/"+id+"/posts", {
 			params: { "nPag": nPag, "nItem": nItem, "historicOrder": historicalOrder, "orderDesc" : orderDesc }}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
+	var getPagedRegistrationRequests = function(nPag, nItem){
+		
+		var c = $q.defer();
+
+		$http.get("/api/v1/getPagedRegistrationRequests", {
+			params: { "nPag": nPag, "nItem": nItem}}).then(
 					function(response){
 						c.resolve(response.data);
 					},
@@ -759,6 +777,7 @@
 		updateEvent: updateEvent,
 		getPagedExceptions: getPagedExceptions,
 		getPagedLogs : getPagedLogs,
+		getPagedRegistrationRequests : getPagedRegistrationRequests,
 		postTrustedMediaMetadata: postTrustedMediaMetadata,
 		getTrustedMediaMetadata: getTrustedMediaMetadata,
 		deleteTrustedMedia: deleteTrustedMedia,

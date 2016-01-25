@@ -24,6 +24,7 @@
 						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{t.email}}</li>
 						<li><b>Ruolo:</b> {{t.role.authority}}</li>
+						<li><b>Ha acconsentito al trattamento dei dati personali:</b> <span data-ng-show="t.agree">Si</span><span data-ng-hide="t.agree">No</span></li>
 						<li data-ng-show="t.role.authority=='ROLE_USER'"><b>Invitato da:</b> <a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{t.invitedBy}}' })">{{t.invitedBy}}</a></li>
 						<li>
 							<b>Scenari in creazione in cui e' coinvolto:</b>
@@ -98,6 +99,7 @@
 						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{t.email}}</li>
 						<li><b>Ruolo:</b> {{t.role.authority}}</li>
+						<li><b>Ha acconsentito al trattamento dei dati personali:</b> <span data-ng-show="t.agree">Si</span><span data-ng-hide="t.agree">No</span></li>
 						<li>
 							<b>Scenari in creazione in cui e' coinvolto:</b>
 							<span data-ng-show="!t.creatingScenarios || t.creatingScenarios.length==0"> Nessuno</span>
@@ -169,6 +171,7 @@
 						<li><b>Data di registrazione:</b> {{s.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{s.email}}</li>
 						<li><b>Ruolo:</b> {{s.role.authority}}</li>
+						<li><b>Ha acconsentito al trattamento dei dati personali:</b> <span data-ng-show="s.agree">Si</span><span data-ng-hide="s.agree">No</span></li>
 						<li><b>Invitato da:</b> <a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{s.invitedBy}}' })">{{s.invitedBy}}</a></li>
 						<li>	
 							<b>Scenari aperti in cui e' coinvolto:</b>

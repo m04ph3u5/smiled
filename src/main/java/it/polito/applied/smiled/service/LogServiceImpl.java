@@ -1,14 +1,5 @@
 package it.polito.applied.smiled.service;
 
-import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.pojo.Log;
-import it.polito.applied.smiled.pojo.LogSession;
-import it.polito.applied.smiled.pojo.LogType;
-import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.repository.LogRepository;
-import it.polito.applied.smiled.repository.LogSessionRepository;
-
 import java.util.Date;
 import java.util.List;
 
@@ -18,11 +9,24 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
 
+import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.pojo.Log;
+import it.polito.applied.smiled.pojo.LogSession;
+import it.polito.applied.smiled.pojo.LogType;
+import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.RegistrationToken;
+import it.polito.applied.smiled.repository.LogRepository;
+import it.polito.applied.smiled.repository.LogSessionRepository;
+import it.polito.applied.smiled.repository.RegistrationRepository;
+
 @Service
 public class LogServiceImpl implements LogService{
 	
 	@Autowired
 	private LogRepository logRepo;
+	
+	@Autowired
+	private RegistrationRepository regRepo;
 	
 	@Autowired
 	private LogSessionRepository logSessionRepo;
@@ -491,6 +495,17 @@ public class LogServiceImpl implements LogService{
 		try{
 			Page<Log> logs = logRepo.getPagingLogs(nPag, nItem);
 			return logs;
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public Page<RegistrationToken> getPagedRegistrationRequests(Integer nPag, Integer nItem)
+			throws BadRequestException {
+		try{
+			Page<RegistrationToken> reg = regRepo.getPagedRegistrationRequests(nPag, nItem);
+			return reg;
 		}catch(MongoException e ){
 			throw e;
 		}

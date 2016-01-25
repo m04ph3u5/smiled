@@ -30,6 +30,7 @@ import it.polito.applied.smiled.dto.ChangePasswordDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.UpdateUserDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
@@ -41,6 +42,7 @@ import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.RegistrationToken;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
@@ -69,6 +71,8 @@ public class UserController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException();
 		}
+		if(!registerTeacherDTO.isAgree())
+			throw new BadRequestException();
 		User u = userService.registerTeacher(registerTeacherDTO);
 		logService.logRegisterTeacher(u.getId());
 	}
@@ -85,13 +89,14 @@ public class UserController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/v1/me", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public UserDTO updateMyProfile(@RequestBody UserDTO updateUserDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser)throws UserNotFoundException, BadRequestException, MongoException{
+	public UserDTO updateMyProfile(@RequestBody UpdateUserDTO updateUserDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser)throws UserNotFoundException, BadRequestException, MongoException{
 		
 		//TODO da fare il validatore custom
 		userDTOValidator.validate(updateUserDTO, result);
 		if(result.hasErrors()){
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}
+		System.out.println("controller quote: "+ updateUserDTO.getQuote());
 		
 		UserDTO u = userService.updateUserProfile(activeUser.getUsername(), updateUserDTO);
 		logService.logUpdateUserProfile(u.getId());
@@ -117,8 +122,6 @@ public class UserController extends BaseController{
 	@RequestMapping(value="/v1/firstPassword", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void firstPassword(@RequestBody @Valid FirstPasswordDTO firstPassword, BindingResult result) throws BadCredentialsException, MongoException, UserNotFoundException, BadRequestException{
-		
-		System.out.println("firstPassword");
 		
 		if(result.hasErrors()){
 			throw new BadCredentialsException(result.getAllErrors().get(0).getDefaultMessage());
@@ -382,6 +385,7 @@ public class UserController extends BaseController{
 		return userService.getAllClientExceptions(nPag, nItem);
 	}
 	
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/v1/log", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -392,6 +396,18 @@ public class UserController extends BaseController{
 		if(nItem==null || nItem>(maxItem) || nItem<=0)
 			nItem=(maxItem);
 		return logService.getAllLogs(nPag, nItem);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/getPagedRegistrationRequests", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<RegistrationToken> getPagedRegistrationRequests(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>(maxItem) || nItem<=0)
+			nItem=(maxItem);
+		return logService.getPagedRegistrationRequests(nPag, nItem);
 	}
 	
 	/*----------------------------------------------ADMIN API END--------------------------------------- */

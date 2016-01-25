@@ -21,6 +21,7 @@ public class UserDTO {
 	private String firstName;
 	private String lastName;
 	private Date registrationDate;
+	private boolean agree;
 	private Role role;
 	private List<ScenarioReference> creatingScenarios;
 	private List<ScenarioReference> openScenarios;
@@ -62,9 +63,19 @@ public class UserDTO {
 		creatingScenarios = user.getCreatingScenarios();
 		profile = user.getProfile();
 		invitedBy = user.getInvitedBy();
+		agree = user.isAgree();
 		if(user.getRoles()!=null){
 			role = user.getRoles().get(0);
 		}
+	}
+
+	
+	public boolean isAgree() {
+		return agree;
+	}
+
+	public void setAgree(boolean agree) {
+		this.agree = agree;
 	}
 
 	public String getEmail() {

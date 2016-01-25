@@ -61,7 +61,7 @@
 			</div>
 		</div>	
 		<div class="box hidden-xs hidden-sm visible-md hidden-lg">
-			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll">
+			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll || scenario.loggedUser.role.authority=='ROLE_ADMIN'">
 				<img class="img imgMediumTemplate" src="assets/public/img/icon/ic_socialgraph.png">
 			</div>
 			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".missions" >

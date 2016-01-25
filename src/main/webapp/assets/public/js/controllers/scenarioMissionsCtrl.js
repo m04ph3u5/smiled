@@ -5,9 +5,8 @@ angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$state
 			 var self = this;
 			 console.log("scenarioMissionsCtrl---------------");
 			 
-			 
 			 var myId = $scope.scenario.loggedUser.id;
-			 self.myCharacter = {};
+			 self.myCharacter = null;
 			 self.characters = [];
 		
 			var onStartUp = function(){
@@ -23,7 +22,7 @@ angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$state
 						}
 				);
 				
-				if($scope.scenario.isModerator || $scope.scenario.isCreator){
+				if($scope.scenario.isModerator || $scope.scenario.isCreator || $scope.scenario.loggedUser.role.authority=="ROLE_ADMIN"){
 					apiService.getAllCharactersFromScen($stateParams.id).then(
 							function(data){
 								self.characters = data;						
