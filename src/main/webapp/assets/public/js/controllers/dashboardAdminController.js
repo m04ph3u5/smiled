@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location',
-   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location){
+angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location','userService',
+   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location, userService){
 	
 	var self = this;
 	var order=true;
@@ -356,16 +356,20 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.noMoreUsers = "";
 	}
 	
-	self.registrationConfirm = function(token, email){
+	self.registrationConfirm = function(l){
 		console.log("---------");
-		console.log(token);
-		console.log(email);
-		var confirm = "registrationConfirm.html?token=";
-		confirm.concat(token);
-		confirm.concat("&email=");
-		confirm.concat(email);
-		
-		$location.path( confirm );
+		console.log(l.token);
+		console.log(l.email);
+		userService.confirmRegisterTeacher(l.token, l.email).then(
+				function(data){
+					l.registrationConfirmed=true;
+					console.log("REGISTRAZIONE CONFERMATA!");
+				}, function(reason){
+					l.registrationFailed = true;
+					console.log("REGISTRAZIONE FALLITA!");
+				});
+		return confirm;
+	
 	}
 	
 }]);

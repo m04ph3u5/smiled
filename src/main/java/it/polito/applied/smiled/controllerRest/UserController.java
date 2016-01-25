@@ -34,6 +34,8 @@ import it.polito.applied.smiled.dto.UpdateUserDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
+import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.pojo.ExceptionOnClient;
@@ -75,6 +77,13 @@ public class UserController extends BaseController{
 			throw new BadRequestException();
 		User u = userService.registerTeacher(registerTeacherDTO);
 		logService.logRegisterTeacher(u.getId());
+	}
+	
+	@RequestMapping(value="v1/confirmRegisterTeacher", method=RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void registerTeacherConfirm(@RequestParam(value="token", required=true) String token, @RequestParam(value="email", required=true) String email)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, BadRequestException, InvalidRegistrationTokenException, RegistrationTokenExpiredException{
+		
+		userService.confirmRegistration(token,email);
 	}
 
 	

@@ -105,6 +105,7 @@
 		);
 		return e.promise;
 	}
+	
 
 	var addCharacterToScenario = function(character, id){
 		var c = $q.defer();
