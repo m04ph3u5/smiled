@@ -693,7 +693,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		Reference r = new Reference (u);
 		issue.setUserReference(r);
 		issueRepository.save(issue);
-		//asyncUpdater.sendReport(u, issue);		
+		asyncUpdater.sendReport(u, issue);		
 	}
 
 	@Override
