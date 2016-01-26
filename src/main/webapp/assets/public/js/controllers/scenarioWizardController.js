@@ -1234,6 +1234,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //					self.scenario.description="";
 //				}
 //			}
+			
+			if(self.scenario.history && self.scenario.history.startDate){
+				if(!self.scenario.history.startDate.afterChrist && (parseInt(self.scenario.history.startDate.year)>4712))
+					alertingGeneric.addWarning("La minima data rappresentabile e': 1 gennaio 4712 AC");
+					return false;
+			}
+			
 			if(!self.scenario.history || !self.scenario.history.startDate){
 				console.log("infoValidate ---> startdate");
 				ret=false;

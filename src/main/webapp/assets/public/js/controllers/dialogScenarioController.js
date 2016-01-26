@@ -29,6 +29,8 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 			alertingGeneric.addWarning("Data di fine errata");
 		else if(checkIfEndIsAfterStart(self.scenario.startDate, self.scenario.endDate) == false)
 			alertingGeneric.addWarning("La data di fine non puo' precedere la data di inizio");
+		else if(!self.scenario.startDate.afterChrist && (parseInt(self.scenario.startDate.year)>4712))
+			alertingGeneric.addWarning("La minima data rappresentabile e': 1 gennaio 4712 AC");
 		else{
 			
 			var s= modalService.createScenario(self.scenario);
