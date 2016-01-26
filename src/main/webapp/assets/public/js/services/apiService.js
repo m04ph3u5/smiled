@@ -341,6 +341,40 @@
 		return c.promise;
 	}
 	
+	var getPagedIssues = function(nPag, nItem){
+		
+		var c = $q.defer();
+
+		$http.get("/api/v1/issues", {
+			params: { "nPag": nPag, "nItem": nItem}}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
+	var getPagedSuggestions = function(nPag, nItem){
+		
+		var c = $q.defer();
+
+		$http.get("/api/v1/suggestions", {
+			params: { "nPag": nPag, "nItem": nItem}}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
 	var getUsersByFirstNameAndLastName = function(firstName, lastName){
 		var c = $q.defer();
 
@@ -521,6 +555,19 @@
 		return s.promise;
 	}
 
+	var postSuggestion = function(suggestion){
+		var s = $q.defer();
+
+		$http.post("/api/v1/suggestion",suggestion).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
 
 // var onSuccessGetScenario = function(response){
 // console.log("Getting data scenario: "+response.data);
@@ -761,6 +808,8 @@
 		updateStatus: updateStatus,
 		deletePost: deletePost,
 		getPagedPosts : getPagedPosts,
+		getPagedIssues : getPagedIssues,
+		getPagedSuggestions : getPagedSuggestions,
 		getSingleStatus: getSingleStatus,
 		addLikeToPost: addLikeToPost,
 		sendCommentToPost: sendCommentToPost,
@@ -771,6 +820,7 @@
 		deleteMissionToScenario: deleteMissionToScenario,
 		deleteMissionToCharacter: deleteMissionToCharacter,
 		postIssue: postIssue,
+		postSuggestion : postSuggestion,
 		getPagedStudents: getPagedStudents,
 		getPagedTeachers: getPagedTeachers,
 		getPagedScenarios : getPagedScenarios,

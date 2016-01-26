@@ -23,6 +23,7 @@ import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.Suggestion;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
@@ -41,6 +42,8 @@ public interface UserService {
 	public void confirmRegistration(String token, String email) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException;
 	
 	public Page<UserDTO> getAllUsers(Integer nPag, Integer nItem, int type) throws BadRequestException;
+	public Page<Issue> getAllIssues(Integer nPag, Integer nItem) throws BadRequestException;
+	public Page<Suggestion> getAllSuggestions(Integer nPag, Integer nItem) throws BadRequestException;
 	public UserDTO getUserById(String id) throws UserNotFoundException;
 	
 	//TODO
@@ -78,6 +81,7 @@ public interface UserService {
 	
 	public Page<Reference> getAllTeachersByRegex(String regex, Integer nPag, Integer nItem) throws BadRequestException;
 	public void sendReport(CustomUserDetails activeUser, Issue issue);
+	public void sendSuggestion(CustomUserDetails activeUser, Suggestion suggestion);
 	public void addClientException(ExceptionOnClient e, String userId);
 	public Page<ExceptionOnClient> getAllClientExceptions(Integer nPag, Integer nItem) throws BadRequestException;
 	public List<Post> getDraft(CustomUserDetails activeUser, Boolean preview);

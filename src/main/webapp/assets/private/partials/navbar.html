@@ -88,8 +88,10 @@
 					class="glyphicon glyphicon-cog"><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="" data-ui-sref="logged.dashboard.draft">Le mie bozze</a></li>
-					<li data-ng-if="navbar.user.role.authority == 'ROLE_TEACHER'"><a href="#">Invita un collega</a></li>
-					<li><a href="#">Modifica profilo</a></li>
+					<li data-ui-sref="logged.issues"><a href="#">Segnala un problema</a></li>
+					<li data-ui-sref="logged.newFeature"><a href="#">Inviaci un suggerimento</a></li>
+<!-- 					<li data-ng-if="navbar.user.role.authority == 'ROLE_TEACHER'"><a href="#">Invita un collega</a></li> -->
+					<li data-ui-sref="logged.userProfile({id : '{{navbar.user.id}}' })"><a href="#">Il mio profilo</a></li>
 					<li class="divider"></li>
 					<li><a href="" data-ng-click="navbar.logout()">Log Out</a></li>
 				</ul></li>

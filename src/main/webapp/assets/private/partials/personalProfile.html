@@ -23,10 +23,13 @@
 			<p>{{personalProfile.ruolo}}</p>
 			<div class="profilePicContainer" style="cursor:pointer;">
 				<img class="profilePicture img img-circle" data-ng-src="{{personalProfile.url}}" 
-				data-err-src="assets/public/img/ic_teacher.png" data-ng-if="personalProfile.ruolo=='DOCENTE'"></img>
+				data-err-src="assets/public/img/ic_teacher.png" data-ng-show="personalProfile.ruolo=='DOCENTE'"></img>
 				
 				<img class="profilePicture img img-circle" data-ng-src="{{personalProfile.url}}" 
-				data-err-src="assets/public/img/ic_student.png" data-ng-if="personalProfile.ruolo=='STUDENTE'"></img>
+				data-err-src="assets/public/img/ic_student.png" data-ng-show="personalProfile.ruolo=='STUDENTE'"></img>
+				
+				<img class="profilePicture img img-circle" data-ng-src="{{personalProfile.url}}" 
+				data-err-src="assets/public/img/ic_teacher.png" data-ng-show="personalProfile.ruolo=='AMMINISTRATORE'"></img>
 				
 				<div class="hoverContent profilePicture" data-ng-if="personalProfile.isModifiable" 
 					data-ngf-select data-ngf-change="personalProfile.uploadCover($files)">

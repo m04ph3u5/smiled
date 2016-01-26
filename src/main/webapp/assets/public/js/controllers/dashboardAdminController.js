@@ -18,6 +18,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.nItemScenarios=nItemDefault;
 	self.nItemLogs=nItemDefault;
 	self.nItemRegistrationRequests=nItemDefault;
+	self.nItemIssues=nItemDefault;
+	self.nItemSuggestions=nItemDefault;
 	
 	self.nPagStudents=nPagDefault;
 	self.nPagTeachers=nPagDefault;
@@ -25,6 +27,9 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.nPagScenarios=nPagDefault;
 	self.nPagLogs=nPagDefault;
 	self.nPagRegistrationRequests=nPagDefault;
+	self.nPagIssues=nPagDefault;
+	self.nPagSuggestions=nPagDefault;
+	
 	
 	self.myListOfTeachers = [];
 	self.myListOfStudents = [];
@@ -33,6 +38,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.myListOfScenarios = [];
 	self.myListOfUsers = [];
 	self.myListOfRegistrationRequests = [];
+	self.myListOfSuggestions = [];
+	self.myListOfIssues = [];
 	
 	self.numExceptionsFounded=0;
 	self.numLogsFounded=0;
@@ -41,6 +48,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.numScenariosFounded=0;
 	self.numUsersFounded=0;
 	self.numRegistrationRequestsFounded=0;
+	self.numIssuesFounded=0;
+	self.numSuggestionsFounded=0;
 	
 	self.showErrorSearchBy = false;
 	
@@ -51,6 +60,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.noMoreExceptions = "";
 	self.noMoreLogs = "";
 	self.noMoreRegistrationRequests = "";
+	self.noMoreSuggestions = "";
+	self.noMoreissues = "";
 	
 	self.calculateCover = function (id){
 		return CONSTANTS.urlScenarioCover(id);
@@ -78,6 +89,24 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.searchRegistrationRequests();
 	}
 	
+	self.changeIssuesToPrev = function(){
+		self.nPagIssues--;
+		self.searchIssues();
+	}
+	self.changeIssuesToNext = function(){
+		self.nPagIssues++;
+		self.searchIssues();
+	}
+	
+	self.changeSuggestionsToPrev = function(){
+		self.nPagSuggestions--;
+		self.searchSuggestions();
+	}
+	self.changeSuggestionsToNext = function(){
+		self.nPagSuggestions++;
+		self.searchSuggestions();
+	}
+	
 	self.switchTypeOrder = function(){
 		self.searchScenarios();
 	}
@@ -101,6 +130,46 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     			}, function(reason){
     				console.log("errore");
     				self.numScenariosFounded= 0;
+    			}
+    	);
+	}
+	
+	self.searchIssues = function(){
+		if(self.nItemIssues>maxItemDefault)
+			self.nItemIssues=maxItemDefault;
+		
+		
+		apiService.getPagedIssues(self.nPagIssues, self.nItemIssues).then(
+    			function(data){
+    				self.numIssuesFounded= data.totalElements;
+    				self.myListOfIssues = data.content;
+    				if(self.myListOfIssues.length==0)
+    					self.noMoreIssues = "Nessuna segnalazione di errore trovata in questa pagina";
+    				else
+    					self.noMoreIssues = "";
+    			}, function(reason){
+    				console.log("errore");
+    				self.numIssuesFounded= 0;
+    			}
+    	);
+	}
+	
+	self.searchSuggestions = function(){
+		if(self.nItemSuggestions>maxItemDefault)
+			self.nItemSuggestions=maxItemDefault;
+		
+		
+		apiService.getPagedSuggestions(self.nPagSuggestions, self.nItemSuggestions).then(
+    			function(data){
+    				self.numSuggestionsFounded= data.totalElements;
+    				self.myListOfSuggestions = data.content;
+    				if(self.myListOfSuggestions.length==0)
+    					self.noMoreSuggestions = "Nessuna segnalazione di errore trovata in questa pagina";
+    				else
+    					self.noMoreSuggestions = "";
+    			}, function(reason){
+    				console.log("errore");
+    				self.numSuggestionsFounded= 0;
     			}
     	);
 	}
@@ -273,6 +342,16 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 			return true;
 		else return false;
 	}
+	self.showResetSuggestions = function(){
+		if (self.myListOfSuggestions.length>0 || self.nPagSuggestions!=nPagDefault || self.nItemSuggestions!=nItemDefault || self.noMoreSuggestions!="")
+			return true;
+		else return false;
+	}
+	self.showResetIssues = function(){
+		if (self.myListOfIssues.length>0 || self.nPagIssues!=nPagDefault || self.nItemIssues!=nItemDefault || self.noMoreIssues!="")
+			return true;
+		else return false;
+	}
 	self.showResetRegistrationRequests = function(){
 		if (self.myListOfRegistrationRequests.length>0 || self.nPagRegistrationRequests!=nPagDefault || self.nItemRegistrationRequests!=nItemDefault || self.noMoreRegistrationRequests!="")
 			return true;
@@ -311,6 +390,20 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.nPagExceptions=0;
 		self.noMoreExceptions = "";
 		self.numExceptionsFounded=0;
+	}
+	self.resetIssues = function(){
+		self.myListOfIssues = [];
+		self.nItemIssues=nItemDefault;
+		self.nPagIssues=0;
+		self.noMoreIssues = "";
+		self.numIssuesFounded=0;
+	}
+	self.resetSuggestions = function(){
+		self.myListOfSuggestions = [];
+		self.nItemSuggestions=nItemDefault;
+		self.nPagSuggestions=0;
+		self.noMoreSuggestions = "";
+		self.numSuggestionsFounded=0;
 	}
 	self.resetRegistrationRequests = function(){
 		self.myListOfRegistrationRequests = [];

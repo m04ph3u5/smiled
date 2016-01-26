@@ -39,6 +39,7 @@ import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.RegistrationToken;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.Suggestion;
 import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
@@ -48,9 +49,11 @@ import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserProfile;
 import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
+import it.polito.applied.smiled.repository.IssueRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.RegistrationRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
+import it.polito.applied.smiled.repository.SuggestionRepository;
 import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
@@ -61,6 +64,12 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private IssueRepository issueRepository;
+	
+	@Autowired
+	private SuggestionRepository suggestionRepository;
 	
 	@Autowired
 	private ScenarioRepository scenarioRepository;
@@ -681,9 +690,21 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Override
 	public void sendReport(CustomUserDetails activeUser, Issue issue) {
 		User u = userRepository.findById(activeUser.getId());
-		asyncUpdater.sendReport(u, issue);		
+		Reference r = new Reference (u);
+		issue.setUserReference(r);
+		issueRepository.save(issue);
+		//asyncUpdater.sendReport(u, issue);		
 	}
 
+	@Override
+	public void sendSuggestion(CustomUserDetails activeUser, Suggestion suggestion) {
+		User u = userRepository.findById(activeUser.getId());
+		Reference r = new Reference (u);
+		suggestion.setUserReference(r);
+		suggestionRepository.save(suggestion);
+		
+		
+	}
 	@Override
 	public void addClientException(ExceptionOnClient e, String userId) {
 		User u = userRepository.findById(userId);
@@ -729,6 +750,20 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 		return postRepository.findByIds(draft);
 	}
+
+	@Override
+	public Page<Issue> getAllIssues(Integer nPag, Integer nItem) throws BadRequestException {
+		return issueRepository.getPagingIssues(nPag, nItem);
+			
+		
+	}
+
+	@Override
+	public Page<Suggestion> getAllSuggestions(Integer nPag, Integer nItem) throws BadRequestException {
+		return suggestionRepository.getPagingSuggestions(nPag, nItem);
+	}
+
+	
 
 	
 

@@ -3,8 +3,8 @@
 		<img src="assets/public/img/icon/ic_skull.png" class="img titleIcon">
 	</h1>
 	<br>
-	<p>In questa pagina puoi segnalrci errori ed anomalie riscontrate
-		durante l'utilizzo di Meschola.</p>
+	<p>In questa pagina puoi segnalarci errori ed anomalie riscontrate
+		durante l'utilizzo di <i>me</i>schola.</p>
 	<p>Compila con cura i campi sottostanti, così da consentirci di
 		migliorare la piattaforma e offrirti un servizio sempre migliore.</p>
 
@@ -29,15 +29,17 @@
 		</div>
 
 		<button data-ng-click="issues.postIssue()"
-			class="btn btn-default confirm pull-right"
+			class="btn btn-success confirm pull-right"
 			style="margin-bottom: 15px;">Invia</button>
 	</form>
 	<br>
 	<div data-ng-if="issues.sended" style="margin-top:10px;" class="alert alert-success">
 		<p>La tua segnalazione è stata inviata.</p>
 		<p>Controlla la tua casella di posta, ti avvertiremo non appena il problema sarà risolto.</p>
-		<p>Grazie per il tempo speso ad aiutare Meschola a migliorare.</p>
+		<p>Grazie per il tempo speso ad aiutare <i>me</i>schola a migliorare.</p>
 	</div>
-
+	<div data-ng-if="issues.error" style="margin-top:10px;" class="alert alert-error" style="color:red;">
+		<p>Si è verificato un problema.</p>
+	</div>
 
 </div>

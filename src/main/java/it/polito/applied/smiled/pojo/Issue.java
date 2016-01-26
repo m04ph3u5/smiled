@@ -1,10 +1,40 @@
 package it.polito.applied.smiled.pojo;
 
+import java.util.Date;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Issue {
+	
+	@Id
+	private String id;
 	
 	private String preOperation;
 	private String issue;
 	private String expect;
+	private Reference userReference;
+	
+	private Date date;
+	
+	
+	
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public String getId() {
+		return id;
+	}
+	public Reference getUserReference() {
+		return userReference;
+	}
+	public void setUserReference(Reference userReference) {
+		this.userReference = userReference;
+	}
 	public String getPreOperation() {
 		return preOperation;
 	}
