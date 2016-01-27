@@ -377,6 +377,14 @@ public class UserController extends BaseController{
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/userByEmail", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public UserDTO getUserByEmail(@RequestParam(value = "email", required=true) String email) throws MongoException, BadRequestException, UserNotFoundException{
+		
+		return userService.getUserByEmail(email);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/v1/users", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public Page<UserDTO> getAllUsers(@RequestParam(value = "nPag", required=false) Integer nPag, 

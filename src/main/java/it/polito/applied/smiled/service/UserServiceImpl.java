@@ -492,6 +492,16 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		UserDTO user = new UserDTO (u);
 		return user;
 	}
+	
+	@Override
+	public UserDTO getUserByEmail(String email) throws UserNotFoundException {
+		User u= userRepository.findByEmail(email);
+		if(u==null)
+			throw new UserNotFoundException();
+		UserDTO user = new UserDTO (u);
+		return user;
+	}
+
 
 	@Override
 	public int removeScenarioFromUser(String userToDelete, String id) {
@@ -771,6 +781,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		return suggestionRepository.getPagingSuggestions(nPag, nItem);
 	}
 
+	
 	
 
 	

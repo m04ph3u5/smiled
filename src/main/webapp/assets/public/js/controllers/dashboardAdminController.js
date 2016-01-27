@@ -10,7 +10,10 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	var nPagDefault=0;
 	var maxItemDefault=20;
 	
+	
+	
 	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
+	self.dateFormatBornDate = CONSTANTS.realDateFormatWithoutHour;
 	
 	self.nItemStudents=nItemDefault;
 	self.nItemTeachers=nItemDefault;
@@ -449,24 +452,12 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.noMoreUsers = "";
 	}
 	
-//	self.registrationConfirm = function(l){
-//		
-//		userService.confirmRegisterTeacher(l.token, l.email).then(
-//				function(data){
-
-//					console.log("REGISTRAZIONE CONFERMATA!");
-//				}, function(reason){
-//					console.log("REGISTRAZIONE FALLITA!");
-//				});
-//		return confirm;
-//	
-//	}
 	
 	self.showPopUpConfirmRegistration = function(l){
 		modalService.showModalConfirmRegistration(l, true).then(
 				function(response){
 
-					console.log("CONFERMA REGISTRAZIONE");
+					
 					alertingGeneric.addSuccess("Registrazione confermata");
 					if(self.myListOfRegistrationRequests){
 						for(var i=0; i<self.myListOfRegistrationRequests.length; i++){
@@ -492,8 +483,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.showPopUpDeleteRegistration = function (l){
 		modalService.showModalConfirmRegistration(l, false).then(
 				function(response){
-					console.log("ANNULLAMENTO REGISTRAZIONE");
-					alertingGeneric.addSuccess("Richiesta di registrazione eliminata");
+					
+					alertingGeneric.addSuccess("Registrazione cancellata");
 					if(self.myListOfRegistrationRequests){
 						for(var i=0; i<self.myListOfRegistrationRequests.length; i++){
 							if(self.myListOfRegistrationRequests[i].id == l.id){
@@ -513,16 +504,25 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 				});
 	};
 	
-	self.registrationDelete = function(l){
-		
-		userService.deleteRegisterTeacher(l.token, l.email).then(
-				function(data){
-					console.log("REGISTRAZIONE CANCELLATA!");
-				}, function(reason){
-					console.log("CANCELLAZIONE REGISTRAZIONE FALLITA!");
-				});
-		return confirm;
 	
+	
+	self.searchMoreInfo = function(l){
+		
+		
+		userService.getUserByEmail(l.email).then(
+				function(data){
+					console.log(data);
+					l.firstName = data.firstName;
+					l.lastName = data.lastName;
+					l.registrationDate = data.registrationDate;
+					l.agree = data.agree;
+					l.profile={};
+					l.profile = data.profile;
+				}, function(reason){
+					console.log("Error in getUserByEmail !!!");
+				}
+		);
+		l.moreInfo=true;
 	}
 	
 }]);

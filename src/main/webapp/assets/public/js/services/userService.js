@@ -26,6 +26,20 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		);
 		return u.promise;
 	}
+	
+	var getUserByEmail = function(email){
+		var u = $q.defer();
+		$http.get('/api/v1/userByEmail?email='+ email).then(
+			function(response){
+				u.resolve(response.data);
+				
+			},
+			function(reason){
+				u.reject(reason);
+			}
+		);
+		return u.promise;
+	}
 		
 	var confirmRegisterTeacher = function (token, email){
 		var e = $q.defer();
@@ -186,7 +200,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		changeFirstPassword : changeFirstPassword,
 		updateMe : updateMe,
 		confirmRegisterTeacher : confirmRegisterTeacher,
-		deleteRegisterTeacher : deleteRegisterTeacher
+		deleteRegisterTeacher : deleteRegisterTeacher,
+		getUserByEmail : getUserByEmail
 	}
 
 	

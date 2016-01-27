@@ -46,6 +46,7 @@ public interface UserService {
 	public Page<Issue> getAllIssues(Integer nPag, Integer nItem) throws BadRequestException;
 	public Page<Suggestion> getAllSuggestions(Integer nPag, Integer nItem) throws BadRequestException;
 	public UserDTO getUserById(String id) throws UserNotFoundException;
+	public UserDTO getUserByEmail(String email) throws UserNotFoundException;
 	
 	//TODO
 	/*PENSARE IMPLEMENTAZIONE MESSAGGI*/
