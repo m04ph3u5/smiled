@@ -11,7 +11,7 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	var maxItemDefault=20;
 	
 	
-	
+	self.showClose=true;
 	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
 	self.dateFormatBornDate = CONSTANTS.realDateFormatWithoutHour;
 	
@@ -66,6 +66,10 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.noMoreSuggestions = "";
 	self.noMoreissues = "";
 	
+	
+	self.toggleShowClose = function(){
+		self.showClose = !self.showClose;
+	}
 	self.calculateCover = function (id){
 		return CONSTANTS.urlScenarioCover(id);
 	}
