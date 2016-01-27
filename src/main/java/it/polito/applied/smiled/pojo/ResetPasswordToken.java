@@ -1,6 +1,5 @@
 package it.polito.applied.smiled.pojo;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,28 +8,24 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class RegistrationToken {
+public class ResetPasswordToken {
 	
 	@Id
 	private String id;
 	@Indexed(unique=true)
 	private String email;
 	private String token;
-	private Date expiration;
+	@Indexed(expireAfterSeconds=86400)
+	private Date date;
 	          
-	private static final int expirationDaysTeacher=60;
 	
-	public RegistrationToken(){}
+	public ResetPasswordToken(){}
 	
-	public RegistrationToken(String email){
+	public ResetPasswordToken(String email){
 		this.email=email;
 		token=UUID.randomUUID().toString();
-		Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-       	cal.add(Calendar.DATE, expirationDaysTeacher);
-        expiration=cal.getTime();
+		date = new Date();
 	}
-
 	
 	public String getId() {
 		return id;
@@ -44,8 +39,8 @@ public class RegistrationToken {
 		return token;
 	}
 
-	public Date getExpiration() {
-		return expiration;
+	public Date getDate(){
+		return date;
 	}
-	
+		
 }

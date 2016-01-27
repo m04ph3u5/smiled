@@ -159,6 +159,19 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		return s.promise;
 	}
 	
+	var forgotPasswordRequest = function(email){
+		var s = $q.defer();
+		$http.post("/api/v1/forgotPasswordRequest", email).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
 	
 	return {
 		login: login,
@@ -172,7 +185,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		changePassword : changePassword,
 		changeFirstPassword : changeFirstPassword,
 		updateMe : updateMe,
-		confirmRegisterTeacher : confirmRegisterTeacher
+		confirmRegisterTeacher : confirmRegisterTeacher,
+		forgotPasswordRequest : forgotPasswordRequest
 	}
 
 	

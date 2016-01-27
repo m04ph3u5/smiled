@@ -11,6 +11,7 @@ import it.polito.applied.smiled.mailMessage.EmailMessageService;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.ResetPasswordToken;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.scenario.Character;
@@ -142,6 +143,29 @@ public class AsyncUpdater {
 	public void sendReport(User activeUser, Issue issue) {
 		Runnable r = new SendReportEmail(activeUser, issue);
 		taskExecutor.execute(r);		
+	}
+	
+	public void sendResetPasswordEmail(User u, ResetPasswordToken t){
+		Runnable r = new SendResetPasswordEmail(u, t);
+		taskExecutor.execute(r);
+	}
+	
+	private class SendResetPasswordEmail implements Runnable{
+
+		private User u; 
+		private ResetPasswordToken t;
+		
+		public SendResetPasswordEmail(User u, ResetPasswordToken t){
+			this.u=u;
+			this.t=t;
+		}
+		
+		@Override
+		public void run() {
+			mailService.sendResetPasswordEmail(u,t);
+			
+		}
+		
 	}
 	
 	private class SendReportEmail implements Runnable{

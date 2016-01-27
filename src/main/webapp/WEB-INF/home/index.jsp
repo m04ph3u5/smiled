@@ -135,6 +135,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/controllers/personalMissionController.js"></script>	
 	<script src="/assets/public/js/controllers/draftsListController.js"></script>	
 	<script src="/assets/public/js/controllers/editDraftController.js"></script>	
+	<script src="/assets/public/js/controllers/forgotController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>

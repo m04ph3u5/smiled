@@ -1,0 +1,27 @@
+<div class="container">
+	<h1>Recupera la tua password
+	</h1>
+	<br>
+	<p>Se hai dimenticato la tua password, inserisci nel form sottostante l'email con cui sei registrato a <i>me</i>schola.</p>
+	<p>Ti invieremo una mail con un link dal quale potrai resettare la tua password.</p>
+
+	<div style="margin-top:50px;" class="col-sm-offset-4 col-sm-4">
+		<form role="form" novalidate>
+			<div class="form-group">
+				<label>Email</label>
+				<input class="form-control" placeholder="Inserisci la tua mail"
+					required type="text" data-ng-model="forgot.userEmail"></input>
+			</div>
+			<button data-ng-click="forgot.sendNewPassRequest()"
+				class="btn btn-success confirm pull-right"
+				style="margin-bottom: 15px;">Invia</button>
+		</form>
+	</div>
+	<br>
+	<div class="col-sm-offset-2 col-sm-8">
+		<alertgeneric></alertgeneric>
+	</div>
+	
+	<div class="hidden-xs visible-sm visible-md visible-lg" style="margin-bottom:350px;"></div>
+
+</div>

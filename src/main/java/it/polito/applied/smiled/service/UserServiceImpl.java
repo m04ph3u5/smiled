@@ -1,5 +1,44 @@
 package it.polito.applied.smiled.service;
 
+import it.polito.applied.smiled.dto.FirstPasswordDTO;
+import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.ResetPasswordDTO;
+import it.polito.applied.smiled.dto.UpdateUserDTO;
+import it.polito.applied.smiled.dto.UserDTO;
+import it.polito.applied.smiled.exception.BadCredentialsException;
+import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
+import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
+import it.polito.applied.smiled.exception.UserAlreadyExistsException;
+import it.polito.applied.smiled.exception.UserNotFoundException;
+import it.polito.applied.smiled.pojo.EmailAddress;
+import it.polito.applied.smiled.pojo.ExceptionOnClient;
+import it.polito.applied.smiled.pojo.Id;
+import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.Message;
+import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.RegistrationToken;
+import it.polito.applied.smiled.pojo.ResetPasswordToken;
+import it.polito.applied.smiled.pojo.Role;
+import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.scenario.Character;
+import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.user.Student;
+import it.polito.applied.smiled.pojo.user.Teacher;
+import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.pojo.user.UserProfile;
+import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
+import it.polito.applied.smiled.repository.PostRepository;
+import it.polito.applied.smiled.repository.RegistrationRepository;
+import it.polito.applied.smiled.repository.ResetPasswordTokenRepository;
+import it.polito.applied.smiled.repository.ScenarioRepository;
+import it.polito.applied.smiled.repository.UserRepository;
+import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
+import it.polito.applied.smiled.updater.AsyncUpdater;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -20,41 +59,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
-
-import it.polito.applied.smiled.dto.FirstPasswordDTO;
-import it.polito.applied.smiled.dto.RegisterTeacherDTO;
-import it.polito.applied.smiled.dto.UpdateUserDTO;
-import it.polito.applied.smiled.dto.UserDTO;
-import it.polito.applied.smiled.exception.BadCredentialsException;
-import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
-import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
-import it.polito.applied.smiled.exception.UserAlreadyExistsException;
-import it.polito.applied.smiled.exception.UserNotFoundException;
-import it.polito.applied.smiled.pojo.ExceptionOnClient;
-import it.polito.applied.smiled.pojo.Id;
-import it.polito.applied.smiled.pojo.Issue;
-import it.polito.applied.smiled.pojo.Message;
-import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.RegistrationToken;
-import it.polito.applied.smiled.pojo.Role;
-import it.polito.applied.smiled.pojo.ScenarioReference;
-import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Post;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.pojo.user.Student;
-import it.polito.applied.smiled.pojo.user.Teacher;
-import it.polito.applied.smiled.pojo.user.User;
-import it.polito.applied.smiled.pojo.user.UserProfile;
-import it.polito.applied.smiled.pojo.user.UserStatus;
-import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
-import it.polito.applied.smiled.repository.PostRepository;
-import it.polito.applied.smiled.repository.RegistrationRepository;
-import it.polito.applied.smiled.repository.ScenarioRepository;
-import it.polito.applied.smiled.repository.UserRepository;
-import it.polito.applied.smiled.security.CustomUserDetails;
-import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
-import it.polito.applied.smiled.updater.AsyncUpdater;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService{
@@ -85,6 +89,9 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	
 	@Autowired
 	private PostRepository postRepository;
+	
+	@Autowired
+	private ResetPasswordTokenRepository resetPasswordRepo;
 	
 	
 	
@@ -728,6 +735,50 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			return postRepository.findByIds(previewDraft);
 		}
 		return postRepository.findByIds(draft);
+	}
+
+	@Override
+	public void generateNewPasswordRequest(EmailAddress email) throws BadRequestException {
+		User u  = userRepository.findByEmail(email.getEmail());
+		if(u==null)
+			throw new BadRequestException();
+		
+		ResetPasswordToken t = new ResetPasswordToken(email.getEmail());
+		resetPasswordRepo.save(t);
+		asyncUpdater.sendResetPasswordEmail(u, t);
+	}
+
+	@Override
+	public boolean isPassworrdResettable(String token, String email) {
+		ResetPasswordToken t = resetPasswordRepo.findByEmail(email);
+		if(t==null)
+			return false;
+		else{
+			if(t.getToken().equals(token))
+				return true;
+			else
+				return false;
+		}
+	}
+
+	@Override
+	public boolean resetPassword(ResetPasswordDTO resetPassword) {
+		System.out.println(resetPassword);
+		if(resetPassword.getPassword().length()<8 || !resetPassword.getPassword().equals(resetPassword.getRePassword()))
+			return false;
+		ResetPasswordToken t = resetPasswordRepo.findByEmail(resetPassword.getEmail());
+		if(t==null)
+			return false;
+		else{
+			if(t.getToken().equals(resetPassword.getToken())){
+				String hashNewPassword=passwordEncoder.encode(resetPassword.getPassword());
+				int n = userRepository.changePassword(resetPassword.getEmail(), hashNewPassword);
+				resetPasswordRepo.delete(t.getId());
+				return true;
+			}
+			else
+				return false;
+		}
 	}
 
 	

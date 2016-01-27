@@ -1,23 +1,14 @@
 package it.polito.applied.smiled.controller;
 
-import it.polito.applied.smiled.controller.BaseController;
-import it.polito.applied.smiled.dto.FirstPasswordDTO;
-import it.polito.applied.smiled.dto.SetPasswordDTO;
-import it.polito.applied.smiled.exception.BadCredentialsException;
-import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.dto.ResetPasswordDTO;
 import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
 import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
 import it.polito.applied.smiled.service.UserService;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,11 +21,34 @@ public class UrlForwardController extends BaseController{
 	
 	@Autowired
 	UserService userService;
+	
 
 	@RequestMapping(value="registrationConfirm", method=RequestMethod.GET)
 	public String registrationConfirm(@RequestParam(value="token") String token, @RequestParam(value="email") String email) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException{
 	    userService.confirmRegistration(token,email);
 		return "index";
+	}
+	
+	@RequestMapping(value="reset-password", method=RequestMethod.GET)
+	public String resetPassword(@RequestParam(value="token") String token, @RequestParam(value="email") String email, Model m) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException{
+	    boolean b = userService.isPassworrdResettable(token,email);
+	    if(b){
+	    	m.addAttribute("token", token);
+	    	m.addAttribute("email", email);
+	    	return "resetPasswordPage";
+	    }
+	    else
+	    	return "errorResetPasswordPage";
+	}
+	
+	@RequestMapping(value="sendNewPassword", method=RequestMethod.POST)
+	public String sendNewPassword(@ModelAttribute ResetPasswordDTO resetPassword, Model m) {
+		
+		boolean b = userService.resetPassword(resetPassword);
+		if(b)
+			return "passwordChanged";
+		else
+			return "errorResetPasswordPage";
 	}
 	
 //	@RequestMapping(value="setPassword", method=RequestMethod.GET)

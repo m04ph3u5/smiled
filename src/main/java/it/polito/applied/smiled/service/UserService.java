@@ -9,6 +9,7 @@ import com.mongodb.MongoException;
 
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.ResetPasswordDTO;
 import it.polito.applied.smiled.dto.UpdateUserDTO;
 import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadCredentialsException;
@@ -17,6 +18,7 @@ import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
 import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
 import it.polito.applied.smiled.exception.UserAlreadyExistsException;
 import it.polito.applied.smiled.exception.UserNotFoundException;
+import it.polito.applied.smiled.pojo.EmailAddress;
 import it.polito.applied.smiled.pojo.ExceptionOnClient;
 import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.Issue;
@@ -85,4 +87,7 @@ public interface UserService {
 	public List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName);
 	public List<UserDTO> getUsersByFirstName(String firstName);
 	public List<UserDTO> getUsersByLastName(String lastName);
+	public void generateNewPasswordRequest(EmailAddress email) throws BadRequestException;
+	public boolean isPassworrdResettable(String token, String email);
+	public boolean resetPassword(ResetPasswordDTO resetPassword);
 }

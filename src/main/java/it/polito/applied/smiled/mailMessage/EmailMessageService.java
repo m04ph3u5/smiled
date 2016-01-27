@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.mailMessage;
 
 import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.ResetPasswordToken;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.security.CustomUserDetails;
 
@@ -159,6 +160,21 @@ public class EmailMessageService {
 				
 	
 		mailSender.send(message);
+	}
+
+	public void sendResetPasswordEmail(User u, ResetPasswordToken t) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(from);
+		message.setTo(t.getEmail());
+		message.setSubject("Meschola - Richiesta reset password");
+		message.setText("Salve "+u.getFirstName()+",\n\n"
+				+ "Hai dimenticato le credenziali? Clicca sul link sottostante per resettare la tua password "
+				+ "e sceglierne una nuova.\n\n"
+				+ "https://meschola.it/reset-password.html?token="+t.getToken()+"&email="+t.getEmail()+"\n\n"
+				+ "Se invece non sei stato tu a richiedere questa operazione, ignora questa comunicazione. Ci scusiamo per il disturbo."
+				+ "\n\n\nBuona giornata\n\nIl team di Meschola");
+		mailSender.send(message);
+
 	}
 
 	
