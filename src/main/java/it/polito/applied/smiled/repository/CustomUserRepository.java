@@ -2,17 +2,15 @@ package it.polito.applied.smiled.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.mongodb.core.query.Update;
+
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
-import it.polito.applied.smiled.dto.UserDTO;
 import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.mongodb.core.query.Update;
 
 public interface CustomUserRepository {
 	
@@ -30,6 +28,9 @@ public interface CustomUserRepository {
 	public int updateStudentsListReference(String id, Reference newRef);
 	public int updateFriendsListReference(String id, Reference newRef);
 	public Page<User> getPagingUsers(Integer nPag, Integer nItem, int type);
+	
+	
+	
 	public int removeScenarioFromUser(String userToRemove, String id);
 	public int removeScenarioFromUsers(List<String> usersToRemove, String id);
 	public int openScenarioToUsers(List<String> l, ScenarioReference scen);

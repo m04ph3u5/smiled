@@ -115,6 +115,19 @@ angular.module('smiled.application')
 				pageTitle : "Segnala un problema - Meschola"
 			}
 		})
+		.state('logged.newFeature',{
+			url: '/suggerimenti',
+			views: {
+				'content@logged': {
+					templateUrl: 'assets/private/partials/suggestions.html',
+					controller: "issuesCtrl",
+					controllerAs: "issues"
+				}
+			},
+			data : {
+				pageTitle : "Segnala un problema - Meschola"
+			}
+		})
 		.state('logged.toolMap',{
 			url: '/tool-mappe',
 			views: {
@@ -192,6 +205,14 @@ angular.module('smiled.application')
 		.state('logged.dashboard.admin.log',{
 			url : "/log",
 			templateUrl: "assets/private/partials/admin-logs.html",
+		})
+		.state('logged.dashboard.admin.issueSegnalations',{
+			url : "/anomalieAdmin",
+			templateUrl: "assets/private/partials/admin-issues.html",
+		})
+		.state('logged.dashboard.admin.suggestionSegnalations',{
+			url : "/suggerimentiAdmin",
+			templateUrl: "assets/private/partials/admin-segnalations.html",
 		})
 		.state('logged.dashboard.admin.registrationRequest',{
 			url : "/richiesteRegistrazione",

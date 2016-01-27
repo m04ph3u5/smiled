@@ -20,6 +20,7 @@ import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.RegistrationToken;
+import it.polito.applied.smiled.pojo.Suggestion;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
@@ -83,10 +84,16 @@ public class UserController extends BaseController{
 	@RequestMapping(value="v1/confirmRegisterTeacher", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void registerTeacherConfirm(@RequestParam(value="token", required=true) String token, @RequestParam(value="email", required=true) String email)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, BadRequestException, InvalidRegistrationTokenException, RegistrationTokenExpiredException{
-		
+		System.out.println("Conferma richiesta di registrazione di: "+ email);
 		userService.confirmRegistration(token,email);
 	}
 
+	@RequestMapping(value="v1/deleteRegisterTeacher", method=RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteRegisterTeacher(@RequestParam(value="token", required=true) String token, @RequestParam(value="email", required=true) String email)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, BadRequestException, InvalidRegistrationTokenException, RegistrationTokenExpiredException{
+		System.out.println("Eliminazione richiesta di registrazione di: "+ email);
+		userService.deleteRegistration(token,email);
+	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/v1/me", method=RequestMethod.GET)
@@ -283,7 +290,16 @@ public class UserController extends BaseController{
 	@RequestMapping(value="v1/report", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void sendReport(@RequestBody Issue issue, @AuthenticationPrincipal CustomUserDetails activeUser){
+		issue.setDate(new Date());
 		userService.sendReport(activeUser, issue);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="v1/suggestion", method=RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void sendSuggestion(@RequestBody Suggestion suggestion, @AuthenticationPrincipal CustomUserDetails activeUser){
+		suggestion.setDate(new Date());
+		userService.sendSuggestion(activeUser, suggestion);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -344,6 +360,38 @@ public class UserController extends BaseController{
 		}
 		
 		return l;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/issues", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<Issue> getAllIssues(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>maxItem || nItem<=0)
+			nItem=maxItem;
+		return userService.getAllIssues(nPag, nItem); 
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/suggestions", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public Page<Suggestion> getAllSuggestions(@RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+		if(nPag==null)
+			nPag=0;
+		if(nItem==null || nItem>maxItem || nItem<=0)
+			nItem=maxItem;
+		return userService.getAllSuggestions(nPag, nItem); 
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/userByEmail", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public UserDTO getUserByEmail(@RequestParam(value = "email", required=true) String email) throws MongoException, BadRequestException, UserNotFoundException{
+		
+		return userService.getUserByEmail(email);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

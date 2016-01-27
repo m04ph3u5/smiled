@@ -43,8 +43,10 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		
 		if (role.authority=="ROLE_TEACHER")
 			self.ruolo="DOCENTE";
-		else 
+		else if(role.authority=="ROLE_STUDENT")
 			self.ruolo="STUDENTE";
+		else
+			self.ruolo="AMMINISTRATORE";
 	}
 	
 	var onErrorGetUser = function(reason){

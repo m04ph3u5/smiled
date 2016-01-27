@@ -1,0 +1,42 @@
+<div>
+	
+	<div>
+		<h4>Cerca suggerimenti: </h4>
+		<div class="row">
+			<label for="allLogsNum">Risultati per pagina (max 20): </label> <input size="4" id="allLogsNum" data-ng-model="dashboardAdmin.nItemSuggestions">
+			<label for="allLogsPag">Numero pagina: </label> 
+			<button data-ng-show="dashboardAdmin.nPagSuggestions!=0" data-ng-click="dashboardAdmin.changeSuggestionsToPrev()">
+				<span class=" glyphicon glyphicon-chevron-left"></span>
+			</button>
+			<input size="4" id="allLogsPag" data-ng-model="dashboardAdmin.nPagSuggestions">
+			<button data-ng-click="dashboardAdmin.changeSuggestionsToNext()">
+				<span class=" glyphicon glyphicon-chevron-right"></span>
+			</button>
+			<label>Risultati trovati: </label> <b>{{dashboardAdmin.numSuggestionsFounded}}</b>
+		</div>
+		<div class="row">
+			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchSuggestions()">Cerca</button>
+			<button data-ng-if="dashboardAdmin.showResetSuggestions()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetSuggestions()">Reset</button>
+		</div>
+		<br>
+		<ol>
+			{{dashboardAdmin.noMoreSuggestions}}
+			<div data-ng-repeat="l in dashboardAdmin.myListOfSuggestions">
+				<li>
+					<ul>
+
+						<li><b>Data: </b> {{l.date | date:dashboardAdmin.dateFormat}}</li>
+						<li><b>Funzionalità da aggiungere: </b> {{l.newFeature}}</li>
+						<li><b>Funzionalità da modificare: </b>{{l.modifyFeature}}</li>
+						<li><b>Funzionalità da eliminare: </b> {{l.deleteFeature}}</li>
+						<li><b>Segnalazione fatta da:</b> <a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{l.userReference.id}}' })">{{l.userReference.firstname}} {{l.userReference.lastname}}</a> - Email: {{l.userReference.email}} ({{l.userReference.type}})</li>
+					</ul>
+				</li>
+			</div>
+		</ol>
+		
+	</div>
+	<hr>
+	
+
+</div>

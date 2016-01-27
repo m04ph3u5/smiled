@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location','userService',
-   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location, userService){
+angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location','userService','alertingGeneric','$anchorScroll',
+   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location, userService, alertingGeneric, $anchorScroll){
 	
 	var self = this;
 	var order=true;
@@ -10,7 +10,10 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	var nPagDefault=0;
 	var maxItemDefault=20;
 	
+	
+	self.showClose=true;
 	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
+	self.dateFormatBornDate = CONSTANTS.realDateFormatWithoutHour;
 	
 	self.nItemStudents=nItemDefault;
 	self.nItemTeachers=nItemDefault;
@@ -18,6 +21,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.nItemScenarios=nItemDefault;
 	self.nItemLogs=nItemDefault;
 	self.nItemRegistrationRequests=nItemDefault;
+	self.nItemIssues=nItemDefault;
+	self.nItemSuggestions=nItemDefault;
 	
 	self.nPagStudents=nPagDefault;
 	self.nPagTeachers=nPagDefault;
@@ -25,6 +30,9 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.nPagScenarios=nPagDefault;
 	self.nPagLogs=nPagDefault;
 	self.nPagRegistrationRequests=nPagDefault;
+	self.nPagIssues=nPagDefault;
+	self.nPagSuggestions=nPagDefault;
+	
 	
 	self.myListOfTeachers = [];
 	self.myListOfStudents = [];
@@ -33,6 +41,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.myListOfScenarios = [];
 	self.myListOfUsers = [];
 	self.myListOfRegistrationRequests = [];
+	self.myListOfSuggestions = [];
+	self.myListOfIssues = [];
 	
 	self.numExceptionsFounded=0;
 	self.numLogsFounded=0;
@@ -41,6 +51,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.numScenariosFounded=0;
 	self.numUsersFounded=0;
 	self.numRegistrationRequestsFounded=0;
+	self.numIssuesFounded=0;
+	self.numSuggestionsFounded=0;
 	
 	self.showErrorSearchBy = false;
 	
@@ -51,7 +63,13 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.noMoreExceptions = "";
 	self.noMoreLogs = "";
 	self.noMoreRegistrationRequests = "";
+	self.noMoreSuggestions = "";
+	self.noMoreissues = "";
 	
+	
+	self.toggleShowClose = function(){
+		self.showClose = !self.showClose;
+	}
 	self.calculateCover = function (id){
 		return CONSTANTS.urlScenarioCover(id);
 	}
@@ -78,6 +96,24 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.searchRegistrationRequests();
 	}
 	
+	self.changeIssuesToPrev = function(){
+		self.nPagIssues--;
+		self.searchIssues();
+	}
+	self.changeIssuesToNext = function(){
+		self.nPagIssues++;
+		self.searchIssues();
+	}
+	
+	self.changeSuggestionsToPrev = function(){
+		self.nPagSuggestions--;
+		self.searchSuggestions();
+	}
+	self.changeSuggestionsToNext = function(){
+		self.nPagSuggestions++;
+		self.searchSuggestions();
+	}
+	
 	self.switchTypeOrder = function(){
 		self.searchScenarios();
 	}
@@ -101,6 +137,46 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     			}, function(reason){
     				console.log("errore");
     				self.numScenariosFounded= 0;
+    			}
+    	);
+	}
+	
+	self.searchIssues = function(){
+		if(self.nItemIssues>maxItemDefault)
+			self.nItemIssues=maxItemDefault;
+		
+		
+		apiService.getPagedIssues(self.nPagIssues, self.nItemIssues).then(
+    			function(data){
+    				self.numIssuesFounded= data.totalElements;
+    				self.myListOfIssues = data.content;
+    				if(self.myListOfIssues.length==0)
+    					self.noMoreIssues = "Nessuna segnalazione di errore trovata in questa pagina";
+    				else
+    					self.noMoreIssues = "";
+    			}, function(reason){
+    				console.log("errore");
+    				self.numIssuesFounded= 0;
+    			}
+    	);
+	}
+	
+	self.searchSuggestions = function(){
+		if(self.nItemSuggestions>maxItemDefault)
+			self.nItemSuggestions=maxItemDefault;
+		
+		
+		apiService.getPagedSuggestions(self.nPagSuggestions, self.nItemSuggestions).then(
+    			function(data){
+    				self.numSuggestionsFounded= data.totalElements;
+    				self.myListOfSuggestions = data.content;
+    				if(self.myListOfSuggestions.length==0)
+    					self.noMoreSuggestions = "Nessuna segnalazione di errore trovata in questa pagina";
+    				else
+    					self.noMoreSuggestions = "";
+    			}, function(reason){
+    				console.log("errore");
+    				self.numSuggestionsFounded= 0;
     			}
     	);
 	}
@@ -273,6 +349,16 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 			return true;
 		else return false;
 	}
+	self.showResetSuggestions = function(){
+		if (self.myListOfSuggestions.length>0 || self.nPagSuggestions!=nPagDefault || self.nItemSuggestions!=nItemDefault || self.noMoreSuggestions!="")
+			return true;
+		else return false;
+	}
+	self.showResetIssues = function(){
+		if (self.myListOfIssues.length>0 || self.nPagIssues!=nPagDefault || self.nItemIssues!=nItemDefault || self.noMoreIssues!="")
+			return true;
+		else return false;
+	}
 	self.showResetRegistrationRequests = function(){
 		if (self.myListOfRegistrationRequests.length>0 || self.nPagRegistrationRequests!=nPagDefault || self.nItemRegistrationRequests!=nItemDefault || self.noMoreRegistrationRequests!="")
 			return true;
@@ -311,6 +397,20 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.nPagExceptions=0;
 		self.noMoreExceptions = "";
 		self.numExceptionsFounded=0;
+	}
+	self.resetIssues = function(){
+		self.myListOfIssues = [];
+		self.nItemIssues=nItemDefault;
+		self.nPagIssues=0;
+		self.noMoreIssues = "";
+		self.numIssuesFounded=0;
+	}
+	self.resetSuggestions = function(){
+		self.myListOfSuggestions = [];
+		self.nItemSuggestions=nItemDefault;
+		self.nPagSuggestions=0;
+		self.noMoreSuggestions = "";
+		self.numSuggestionsFounded=0;
 	}
 	self.resetRegistrationRequests = function(){
 		self.myListOfRegistrationRequests = [];
@@ -356,20 +456,77 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.noMoreUsers = "";
 	}
 	
-	self.registrationConfirm = function(l){
-		console.log("---------");
-		console.log(l.token);
-		console.log(l.email);
-		userService.confirmRegisterTeacher(l.token, l.email).then(
-				function(data){
-					l.registrationConfirmed=true;
-					console.log("REGISTRAZIONE CONFERMATA!");
-				}, function(reason){
-					l.registrationFailed = true;
-					console.log("REGISTRAZIONE FALLITA!");
-				});
-		return confirm;
 	
+	self.showPopUpConfirmRegistration = function(l){
+		modalService.showModalConfirmRegistration(l, true).then(
+				function(response){
+
+					
+					alertingGeneric.addSuccess("Registrazione confermata");
+					if(self.myListOfRegistrationRequests){
+						for(var i=0; i<self.myListOfRegistrationRequests.length; i++){
+							if(self.myListOfRegistrationRequests[i].id == l.id){
+								self.myListOfRegistrationRequests.splice(i,1);
+								break;
+							}
+						}
+						self.numRegistrationRequestsFounded--;
+						$location.hash("comeHere");
+					    $anchorScroll();
+					}
+					
+				}, function(reason){
+					alertingGeneric.addWarning("Operazione annullata");			
+					$location.hash("comeHere");
+				    $anchorScroll();
+				
+				});
+	}
+	
+	
+	self.showPopUpDeleteRegistration = function (l){
+		modalService.showModalConfirmRegistration(l, false).then(
+				function(response){
+					
+					alertingGeneric.addSuccess("Registrazione cancellata");
+					if(self.myListOfRegistrationRequests){
+						for(var i=0; i<self.myListOfRegistrationRequests.length; i++){
+							if(self.myListOfRegistrationRequests[i].id == l.id){
+								self.myListOfRegistrationRequests.splice(i,1);
+								break;
+							}
+						}
+						self.numRegistrationRequestsFounded--;
+						$location.hash("comeHere");
+					    $anchorScroll();
+					}
+					
+				}, function(reason){
+					alertingGeneric.addWarning("Operazione annullata");			
+					$location.hash("comeHere");
+				    $anchorScroll();
+				});
+	};
+	
+	
+	
+	self.searchMoreInfo = function(l){
+		
+		
+		userService.getUserByEmail(l.email).then(
+				function(data){
+					console.log(data);
+					l.firstName = data.firstName;
+					l.lastName = data.lastName;
+					l.registrationDate = data.registrationDate;
+					l.agree = data.agree;
+					l.profile={};
+					l.profile = data.profile;
+				}, function(reason){
+					console.log("Error in getUserByEmail !!!");
+				}
+		);
+		l.moreInfo=true;
 	}
 	
 }]);

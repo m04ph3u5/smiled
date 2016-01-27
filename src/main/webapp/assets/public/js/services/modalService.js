@@ -20,6 +20,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var charName;
 		var scenario = {};
 		var file = {};
+		var registrationToConfirm = {};
+		var confirmRegistrationBool = true;
 		
 		
 		var modalInstanceCreateScen;
@@ -34,6 +36,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceCreateMission;
 		var modalInstanceDeleteResource;
 		var modalInstanceDeletePost;
+		var modalInstanceConfirmRegistration;
 		
 		var optionSetHistoryDate = {
 				templateUrl: 'assets/private/partials/customDatePickerTemplate.html',
@@ -66,6 +69,18 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				controller: 'dialogScenarioCtrl',
 				controllerAs: 'dialogScenario',
 		};
+		
+		var optionsConfirmRegistration = {
+				templateUrl:'assets/private/partials/confirmRegistration.html',
+				controller: 'dialogConfirmRegistrationCtrl',
+				controllerAs: 'dialogConfirmRegistration',
+				resolve : {
+					confirmRegistrationBool : function(){
+						return confirmRegistrationBool;
+					}
+				}
+		};
+		
 		
 		var optionsDeleteAttendee = {
 				templateUrl:'assets/private/partials/deleteAttendee.html',
@@ -202,6 +217,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			
 		}
 		
+		var showModalConfirmRegistration = function(l, isConfirm){
+			confirmRegistrationBool = isConfirm;
+			registrationToConfirm = l;
+			modalInstanceConfirmRegistration = $modal.open(optionsConfirmRegistration);
+			return modalInstanceConfirmRegistration.result;
+		}
+		
+		
 		var showModalDeleteAttendee = function(a){
 			attendee = a;
 			modalInstanceDeleteAttendee = $modal.open(optionsDeleteAttendee);
@@ -227,6 +250,10 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var closeModalDeleteAttendee = function(){
 			modalInstanceDeleteAttendee.close();
+		}
+		
+		var closeModalConfirmRegistration = function(){
+			modalInstanceConfirmRegistration.close();
 		}
 		
 		var closeModalDeleteCollaborator = function(){
@@ -288,6 +315,10 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var getScenToDelete = function(){
 			return scenario;
+		}
+		
+		var getRegistrationToConfirm = function(){
+			return registrationToConfirm;
 		}
 		
 		var getAttendeeToDelete = function(){
@@ -433,7 +464,10 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showModalDeleteResource : showModalDeleteResource,
 			closeModalDeleteResource : closeModalDeleteResource,
 			showModalDeletePost : showModalDeletePost,
-			closeModalDeletePost : closeModalDeletePost
+			closeModalDeletePost : closeModalDeletePost,
+			showModalConfirmRegistration : showModalConfirmRegistration,
+			getRegistrationToConfirm : getRegistrationToConfirm,
+			closeModalConfirmRegistration : closeModalConfirmRegistration
 		}
 }]);
 

@@ -15,7 +15,7 @@
 	</div>
 	<br>
 	<div>
-		<ol>
+		
 			{{dashboardAdmin.noMoreUsers}}
 			<div data-ng-repeat="t in dashboardAdmin.myListOfUsers">
 				<li><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
@@ -26,6 +26,14 @@
 						<li><b>Ruolo:</b> {{t.role.authority}}</li>
 						<li><b>Ha acconsentito al trattamento dei dati personali:</b> <span data-ng-show="t.agree">Si</span><span data-ng-hide="t.agree">No</span></li>
 						<li data-ng-show="t.role.authority=='ROLE_USER'"><b>Invitato da:</b> <a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{t.invitedBy}}' })">{{t.invitedBy}}</a></li>
+						
+						<li data-ng-show="t.profile.gender"><b>Sesso:</b> {{t.profile.gender}}</li>
+						<li data-ng-show="t.profile.bornCity"><b>Luogo di nascita</b> {{t.profile.bornCity}}</li>
+						<li data-ng-show="t.profile.bornDate"><b>Data di nascita:</b> {{t.profile.bornDate | date:dateFormatBornDate}}</li>
+						<li data-ng-show="t.profile.school"><b>Scuola:</b> {{t.profile.school}}</li>
+						<li data-ng-show="t.profile.schoolCity"><b>Città della scuola: </b> {{t.profile.schoolCity}}</li>
+						
+						
 						<li>
 							<b>Scenari in creazione in cui e' coinvolto:</b>
 							<span data-ng-show="!t.creatingScenarios || t.creatingScenarios.length==0"> Nessuno</span>
@@ -65,7 +73,7 @@
 					</ul>
 				</li>
 			</div>
-		</ol>
+		
 	
 	</div>
 	<hr>
@@ -100,6 +108,13 @@
 						<li><b>Email:</b> {{t.email}}</li>
 						<li><b>Ruolo:</b> {{t.role.authority}}</li>
 						<li><b>Ha acconsentito al trattamento dei dati personali:</b> <span data-ng-show="t.agree">Si</span><span data-ng-hide="t.agree">No</span></li>
+						
+						<li data-ng-show="t.profile.gender"><b>Sesso:</b> {{t.profile.gender}}</li>
+						<li data-ng-show="t.profile.bornCity"><b>Luogo di nascita</b> {{t.profile.bornCity}}</li>
+						<li data-ng-show="t.profile.bornDate"><b>Data di nascita:</b> {{t.profile.bornDate | date:dateFormatBornDate}}</li>
+						<li data-ng-show="t.profile.school"><b>Scuola:</b> {{t.profile.school}}</li>
+						<li data-ng-show="t.profile.schoolCity"><b>Città della scuola: </b> {{t.profile.schoolCity}}</li>
+						
 						<li>
 							<b>Scenari in creazione in cui e' coinvolto:</b>
 							<span data-ng-show="!t.creatingScenarios || t.creatingScenarios.length==0"> Nessuno</span>
@@ -173,6 +188,13 @@
 						<li><b>Ruolo:</b> {{s.role.authority}}</li>
 						<li><b>Ha acconsentito al trattamento dei dati personali:</b> <span data-ng-show="s.agree">Si</span><span data-ng-hide="s.agree">No</span></li>
 						<li><b>Invitato da:</b> <a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{s.invitedBy}}' })">{{s.invitedBy}}</a></li>
+						
+						<li data-ng-show="s.profile.gender"><b>Sesso:</b> {{s.profile.gender}}</li>
+						<li data-ng-show="s.profile.bornCity"><b>Luogo di nascita</b> {{s.profile.bornCity}}</li>
+						<li data-ng-show="s.profile.bornDate"><b>Data di nascita:</b> {{s.profile.bornDate | date:dateFormatBornDate}}</li>
+						<li data-ng-show="s.profile.school"><b>Scuola:</b> {{s.profile.school}}</li>
+						<li data-ng-show="s.profile.schoolCity"><b>Città della scuola: </b> {{s.profile.schoolCity}}</li>
+						
 						<li>	
 							<b>Scenari aperti in cui e' coinvolto:</b>
 							<span data-ng-show="!s.openScenarios || s.openScenarios.length==0"> Nessuno</span>

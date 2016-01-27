@@ -4,6 +4,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	var self = this;
 	var originalUser = angular.copy(loggedUser);
 	
+	
 	self.missionDateFormatDay = CONSTANTS.realDateFormatOnlyDay;
 	self.missionDateFormatMonth = CONSTANTS.realDateFormatOnlyMonth;
 	

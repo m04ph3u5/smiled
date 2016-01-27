@@ -1,6 +1,6 @@
 angular.module('smiled.application').controller('dialogSetDateCtrl', ['modalService','alertingGeneric', '$state', 'scen', 'start', 'CONSTANTS',
        
-                                                                  function dialogSetDateCtrl(modalService, alertingGeneric, $state, scen, start, CONSTANTS){
+function dialogSetDateCtrl(modalService, alertingGeneric, $state, scen, start, CONSTANTS){
 	
 	var self = this;
 	

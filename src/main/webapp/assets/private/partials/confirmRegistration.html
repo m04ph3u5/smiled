@@ -1,0 +1,15 @@
+<div class="modal-header">
+	<h4 class="modal-title" data-ng-show="dialogConfirmRegistration.confirmReg">Conferma richiesta di registrazione di {{dialogConfirmRegistration.reg.email}}</h4>
+	<h4 class="modal-title" data-ng-hide="dialogConfirmRegistration.confirmReg">Cancella richiesta di registrazione di {{dialogConfirmRegistration.reg.email}}</h4>
+</div>
+<div class="modal-body">
+	<label data-ng-show="dialogConfirmRegistration.confirmReg">Sei sicuro di voler confermare l'iscrizione di {{dialogConfirmRegistration.reg.email}} ?</label>
+	<label data-ng-hide="dialogConfirmRegistration.confirmReg">Sei sicuro di voler cancellare l'iscrizione di {{dialogConfirmRegistration.reg.email}} ?</label>
+	
+</div>
+<alertgeneric></alertgeneric>
+<div class="modal-footer">
+	<button class="btn warningButton" data-ng-click="dialogConfirmRegistration.confirm()">CONFERMA</button>
+	<button class="btn generalButton1" data-ng-click="$dismiss()">ANNULLA</button>
+	
+</div>
