@@ -128,6 +128,17 @@ angular.module('smiled.application')
 				pageTitle : "Segnala un problema - Meschola"
 			}
 		})
+		.state('logged.lastNews',{
+			url: '/novita',
+			views: {
+				'content@logged': {
+					templateUrl: 'assets/private/partials/lastNews.html',
+				}
+			},
+			data : {
+				pageTitle : "Novita' - Meschola"
+			}
+		})
 		.state('logged.toolMap',{
 			url: '/tool-mappe',
 			views: {
