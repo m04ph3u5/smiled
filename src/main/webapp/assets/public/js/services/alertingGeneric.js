@@ -29,7 +29,7 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
 
     		$timeout(function () {
     			removeAlert(alert);
-    		}, 5000);
+    		}, 4000);
         	
         };
 
@@ -40,6 +40,10 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
                     break;
                 }
             }
+        };
+        
+        var removeAllAlerts = function () {
+            currentAlerts.length = [];
         };
 
         var errorHandler = function (description) {
@@ -57,7 +61,8 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
             removeAlert: removeAlert,
             errorHandler: errorHandler,
             currentAlerts: currentAlerts,
-            alertTypes: alertTypes
+            alertTypes: alertTypes,
+            removeAllAlerts: removeAllAlerts
         };
            
 

@@ -83,10 +83,16 @@ public class UserController extends BaseController{
 	@RequestMapping(value="v1/confirmRegisterTeacher", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void registerTeacherConfirm(@RequestParam(value="token", required=true) String token, @RequestParam(value="email", required=true) String email)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, BadRequestException, InvalidRegistrationTokenException, RegistrationTokenExpiredException{
-		
+		System.out.println("Conferma richiesta di registrazione di: "+ email);
 		userService.confirmRegistration(token,email);
 	}
 
+	@RequestMapping(value="v1/deleteRegisterTeacher", method=RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteRegisterTeacher(@RequestParam(value="token", required=true) String token, @RequestParam(value="email", required=true) String email)throws UserNotFoundException, MongoException, MongoDataIntegrityViolationException, BadRequestException, InvalidRegistrationTokenException, RegistrationTokenExpiredException{
+		System.out.println("Eliminazione richiesta di registrazione di: "+ email);
+		userService.deleteRegistration(token,email);
+	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/v1/me", method=RequestMethod.GET)

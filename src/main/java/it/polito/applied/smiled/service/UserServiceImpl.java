@@ -321,10 +321,18 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			throw new UserNotFoundException(email);
 		registrationRepository.delete(r);
 		asyncUpdater.sendTeacherRegistrationConfirmEmail(username, email);
-		User u = userRepository.findByEmail(email);
+//		User u = userRepository.findByEmail(email);
 //		notify.createQueue(u.getId());
 	}
-
+	
+	@Override
+	public void deleteRegistration(String token, String email) throws MongoException, InvalidRegistrationTokenException,
+			UserNotFoundException, RegistrationTokenExpiredException {
+		RegistrationToken r = checkValidityTokenAndEmail(token,email);
+		userRepository.deletePendingByEmail(email);
+		registrationRepository.delete(r);
+		
+	}
 
 
 	@Override
@@ -345,14 +353,14 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	                
 			RegistrationToken r = registrationRepository.findByTokenAndEmail(token, decodedEmail);
 			if(r==null)
-				throw new InvalidRegistrationTokenException(token, email,userRepository);
+				throw new InvalidRegistrationTokenException(token, decodedEmail,userRepository);
 
-			Date now = new Date();
-			if(r.getExpiration().before(now)){
-				deleteExpiredRegistrationAccount(email);
-				asyncUpdater.sendTeacherExpirationEmail(email);
-				throw new RegistrationTokenExpiredException(r.getExpiration(),r.getEmail());
-			}
+//			Date now = new Date();
+//			if(r.getExpiration().before(now)){
+//				deleteExpiredRegistrationAccount(decodedEmail);
+//				asyncUpdater.sendTeacherExpirationEmail(decodedEmail);
+//				throw new RegistrationTokenExpiredException(r.getExpiration(),r.getEmail());
+//			}
 			return r;
 		}catch(MongoException e){
 			throw e;
@@ -762,6 +770,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public Page<Suggestion> getAllSuggestions(Integer nPag, Integer nItem) throws BadRequestException {
 		return suggestionRepository.getPagingSuggestions(nPag, nItem);
 	}
+
+	
 
 	
 

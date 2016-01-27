@@ -40,6 +40,7 @@ public interface UserService {
 	public User registerTeacher(RegisterTeacherDTO teacher) throws MongoException, UserAlreadyExistsException, BadRequestException, MongoDataIntegrityViolationException;
 	public void deleteExpiredRegistrationAccount(String userEmail);
 	public void confirmRegistration(String token, String email) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException;
+	public void deleteRegistration(String token, String email) throws MongoException, InvalidRegistrationTokenException, UserNotFoundException, RegistrationTokenExpiredException;
 	
 	public Page<UserDTO> getAllUsers(Integer nPag, Integer nItem, int type) throws BadRequestException;
 	public Page<Issue> getAllIssues(Integer nPag, Integer nItem) throws BadRequestException;

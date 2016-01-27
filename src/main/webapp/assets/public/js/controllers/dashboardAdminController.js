@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location','userService',
-   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location, userService){
+angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location','userService','alertingGeneric','$anchorScroll',
+   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location, userService, alertingGeneric, $anchorScroll){
 	
 	var self = this;
 	var order=true;
@@ -449,17 +449,77 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.noMoreUsers = "";
 	}
 	
-	self.registrationConfirm = function(l){
-		console.log("---------");
-		console.log(l.token);
-		console.log(l.email);
-		userService.confirmRegisterTeacher(l.token, l.email).then(
-				function(data){
-					l.registrationConfirmed=true;
-					console.log("REGISTRAZIONE CONFERMATA!");
+//	self.registrationConfirm = function(l){
+//		
+//		userService.confirmRegisterTeacher(l.token, l.email).then(
+//				function(data){
+
+//					console.log("REGISTRAZIONE CONFERMATA!");
+//				}, function(reason){
+//					console.log("REGISTRAZIONE FALLITA!");
+//				});
+//		return confirm;
+//	
+//	}
+	
+	self.showPopUpConfirmRegistration = function(l){
+		modalService.showModalConfirmRegistration(l, true).then(
+				function(response){
+
+					console.log("CONFERMA REGISTRAZIONE");
+					alertingGeneric.addSuccess("Registrazione confermata");
+					if(self.myListOfRegistrationRequests){
+						for(var i=0; i<self.myListOfRegistrationRequests.length; i++){
+							if(self.myListOfRegistrationRequests[i].id == l.id){
+								self.myListOfRegistrationRequests.splice(i,1);
+								break;
+							}
+						}
+						self.numRegistrationRequestsFounded--;
+						$location.hash("comeHere");
+					    $anchorScroll();
+					}
+					
 				}, function(reason){
-					l.registrationFailed = true;
-					console.log("REGISTRAZIONE FALLITA!");
+					alertingGeneric.addWarning("Operazione annullata");			
+					$location.hash("comeHere");
+				    $anchorScroll();
+				
+				});
+	}
+	
+	
+	self.showPopUpDeleteRegistration = function (l){
+		modalService.showModalConfirmRegistration(l, false).then(
+				function(response){
+					console.log("ANNULLAMENTO REGISTRAZIONE");
+					alertingGeneric.addSuccess("Richiesta di registrazione eliminata");
+					if(self.myListOfRegistrationRequests){
+						for(var i=0; i<self.myListOfRegistrationRequests.length; i++){
+							if(self.myListOfRegistrationRequests[i].id == l.id){
+								self.myListOfRegistrationRequests.splice(i,1);
+								break;
+							}
+						}
+						self.numRegistrationRequestsFounded--;
+						$location.hash("comeHere");
+					    $anchorScroll();
+					}
+					
+				}, function(reason){
+					alertingGeneric.addWarning("Operazione annullata");			
+					$location.hash("comeHere");
+				    $anchorScroll();
+				});
+	};
+	
+	self.registrationDelete = function(l){
+		
+		userService.deleteRegisterTeacher(l.token, l.email).then(
+				function(data){
+					console.log("REGISTRAZIONE CANCELLATA!");
+				}, function(reason){
+					console.log("CANCELLAZIONE REGISTRAZIONE FALLITA!");
 				});
 		return confirm;
 	
