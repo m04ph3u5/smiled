@@ -78,7 +78,9 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.searchScenarios();
 	}
 	self.changeScenariosToNext = function(){
+		
 		self.nPagScenarios++;
+		
 		self.searchScenarios();
 	}
 	
@@ -87,11 +89,6 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.searchRegistrationRequests();
 	}
 	self.changeRegistrationRequestsToNext = function(){
-		self.nPagRegistrationRequests++;
-		self.searchRegistrationRequests();
-	}
-	
-	self.changeScenariosToNext = function(){
 		self.nPagRegistrationRequests++;
 		self.searchRegistrationRequests();
 	}

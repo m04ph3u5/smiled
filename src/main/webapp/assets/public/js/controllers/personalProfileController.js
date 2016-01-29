@@ -40,10 +40,9 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		}
 		
 		
-		
 		if (role.authority=="ROLE_TEACHER")
 			self.ruolo="DOCENTE";
-		else if(role.authority=="ROLE_STUDENT")
+		else if(role.authority=="ROLE_USER")
 			self.ruolo="STUDENTE";
 		else
 			self.ruolo="AMMINISTRATORE";
