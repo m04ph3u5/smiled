@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTANTS', '$scope', '$stateParams', 'apiService', 'userService', 'Upload',
-              function characterProfileCtrl(CONSTANTS,$scope,$stateParams, apiService, userService, Upload){
+angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTANTS', '$scope', '$stateParams', 'apiService', 'Upload',
+              function characterProfileCtrl(CONSTANTS,$scope,$stateParams, apiService, Upload){
 	
 	var self = this;
 	self.character = {};

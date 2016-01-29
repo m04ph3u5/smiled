@@ -68,11 +68,12 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		);
 		return e.promise;
 	}
+	
 	var getUser = function(id){
 		var u = $q.defer();
 		$http.get('/api/v1/users/'+id).then(
 			function(response){
-				console.log(response.data);
+			
 				u.resolve(response.data);
 			},
 			function(reason){
@@ -81,6 +82,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		);
 		return u.promise;
 	}
+	
 	var updateMe = function(updateUserDTO){
 		
 		var c = $q.defer();

@@ -28,7 +28,17 @@
 						<li><b>Tipo: </b> {{l.type}}</li>
 						<li><b>Data: </b> {{l.date | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Id utente che ha generato il log: </b><u><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{l.userId}}' })">{{l.userId}}</a></u></li>
+						<ul>
+							<li><b>Nome: </b> {{l.firstName}}</li>
+							<li><b>Cognome: </b>{{l.lastName}}</li>
+							<li><b>Email: </b> {{l.email}}</li>
+						</ul>
+						
 						<li data-ng-show="l.scenarioId"><b>Id scenario in cui si è verificato il log: </b><u><a style="cursor:pointer;" href="" data-ui-sref="logged.scenarioWizard.info({id: '{{l.scenarioId}}' })">{{l.scenarioId}}</a></u></li>
+						<ul>
+							<li><b>Nome: </b> {{l.nameScenario}}</li>
+							<li><b>Creatore: </b>{{l.creator}}</li>
+						</ul>
 						<li data-ng-show="l.refer"><b>Id entità a cui si riferisce il log: </b>{{l.refer}}</li>
 					
 					</ul>

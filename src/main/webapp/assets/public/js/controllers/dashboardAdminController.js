@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location','userService','alertingGeneric','$anchorScroll',
-   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location, userService, alertingGeneric, $anchorScroll){
+angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUser','modalService','apiService','CONSTANTS', '$location','userService','alertingGeneric','$anchorScroll', '$q',
+   function dashboardCtrl(loggedUser,modalService,apiService, CONSTANTS, $location, userService, alertingGeneric, $anchorScroll, $q){
 	
 	var self = this;
 	var order=true;
@@ -66,6 +66,89 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.noMoreSuggestions = "";
 	self.noMoreissues = "";
 	
+	
+	var mapOfUsersInLog = {};
+	var mapOfScenariosInLog = {};
+
+
+	
+	var count = 0;
+
+	self.whoIsUser = function(l){
+		
+		
+		if(l.userId in mapOfUsersInLog){
+	
+			l.firstName = mapOfUsersInLog[l.userId].firstName;
+			l.lastName = mapOfUsersInLog[l.userId].lastName;
+			l.email = mapOfUsersInLog[l.userId].email;
+			
+		}
+		else{
+			userService.getUser(l.userId).then(
+					function(data){
+						console.log("call to server for user!!!");
+						var ref = {};
+						ref.firstName = data.firstName;
+						ref.lastName = data.lastName;
+						ref.email = data.email;
+						mapOfUsersInLog[l.userId] = angular.copy(ref);
+						l.firstName = data.firstName;
+						l.lastName = data.lastName;
+						l.email = data.email;
+						
+						
+					}, function(reason){
+						console.log(reason);
+						var ref = {};
+						ref.firstName = "nome non disponibile";
+						ref.lastName = "cognome non disponibile";
+						ref.email = "email non disponibile";
+						mapOfUsersInLog[l.userId] = angular.copy(ref);
+						l.firstName = "nome non disponibile";
+						l.lastName = "cognome non disponibile";
+						l.email = "email non disponibile";
+						
+						
+					}
+			);
+		}
+	}
+	self.whoIsScenario = function(l){
+		
+		
+		if(l.scenarioId in mapOfScenariosInLog){
+			
+			l.nameScenario = mapOfScenariosInLog[l.scenarioId].nameScenario;
+			l.creator = mapOfScenariosInLog[l.scenarioId].creator;
+			
+		}
+		else{
+			apiService.getScenario(l.scenarioId).then(
+					function(data){
+						console.log("call to server for scenario!!!");
+						var ref = {};
+						ref.nameScenario = data.name;
+						ref.creator = data.teacherCreator.firstname +" " + data.teacherCreator.lastname;
+						
+						mapOfScenariosInLog[l.scenarioId] = angular.copy(ref);
+						l.nameScenario = data.name;
+						l.creator = data.teacherCreator.firstname +" " + data.teacherCreator.lastname;
+	
+					}, function(reason){
+						
+						var ref = {};
+						ref.nameScenario = "nome non disponibile";
+						ref.creator = "creatore non disponibile";
+						mapOfScenariosInLog[l.scenarioId] = angular.copy(ref);
+						l.nameScenario = "nome non disponibile";
+						l.creator = "creatore non disponibile";
+						
+						
+					}
+			);
+		}
+	}
 	
 	self.toggleShowClose = function(){
 		self.showClose = !self.showClose;
@@ -330,9 +413,13 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     				self.numLogsFounded= data.totalElements;
     				self.myListOfLogs = data.content;
     				if(self.myListOfLogs.length==0)
-    					self.noMoreLogs = "Nessuna log trovato in questa pagina";
+    					self.noMoreLogs = "Nessun log trovato in questa pagina";
     				else{
     					self.noMoreLogs = "";
+    					for(var i=0; i< self.myListOfLogs.length; i++){
+    						self.whoIsUser(self.myListOfLogs[i]);
+    						self.whoIsScenario(self.myListOfLogs[i]);
+    					}
     				}
     			}, function(reason){
     				console.log("errore");
