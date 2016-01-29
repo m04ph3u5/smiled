@@ -30,6 +30,12 @@ public class Reference {
 		firstname=c.getName();
 		type=c.getClass().getSimpleName();
 	}
+	
+	public Reference(CharacterReference c) {
+		id=c.getId();
+		firstname=c.getName();
+		type=Character.class.getSimpleName();
+	}
 
 	public String getId() {
 		return id;

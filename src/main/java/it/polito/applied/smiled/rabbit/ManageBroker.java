@@ -8,12 +8,13 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class ManageBroker {
 
 	@Autowired
 	private RabbitAdmin admin;
-	
+		
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 	

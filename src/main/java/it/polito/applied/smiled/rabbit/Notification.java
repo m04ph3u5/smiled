@@ -4,18 +4,18 @@ package it.polito.applied.smiled.rabbit;
 
 public class Notification extends Comunication{
 	
-	private String targetId;
+//	private String targetId;
 	private NotificationType verb;
 	private NotifyReference info;
 	private String objectId;
 	
 
-	public String getTargetId() {
-		return targetId;
-	}
-	public void setTargetId(String targetId) {
-		this.targetId = targetId;
-	}
+//	public String getTargetId() {
+//		return targetId;
+//	}
+//	public void setTargetId(String targetId) {
+//		this.targetId = targetId;
+//	}
 	public NotificationType getVerb() {
 		return verb;
 	}

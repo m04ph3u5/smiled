@@ -191,7 +191,7 @@ public class PostRepositoryImpl implements CustomPostRepository{
 		Criteria c = new Criteria();
 		c.orOperator(Criteria.where("_class").is(Status.class.getName()),Criteria.where("_class").is(Event.class.getName()));
 		q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
-				.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)
+				.andOperator(Criteria.where("status").is(status)
 						.andOperator(c)));
 		return mongoOp.find(q, Post.class);
 	}

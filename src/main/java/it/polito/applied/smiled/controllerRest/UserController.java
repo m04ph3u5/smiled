@@ -24,6 +24,7 @@ import it.polito.applied.smiled.pojo.Suggestion;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.LogService;
 import it.polito.applied.smiled.service.UserService;
