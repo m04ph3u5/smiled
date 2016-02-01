@@ -34,14 +34,14 @@
 						<li><b>Token: </b> {{l.token}}</li> 
 						<li><b>Data richiesta registrazione: </b> {{l.date | date: dashboardAdmin.dateFormat}}</li>
 						<li data-ng-hide="l.moreInfo" ><button class="btn btn-info" data-ng-click="dashboardAdmin.searchMoreInfo(l)">INFO</button></li>
-						<li data-ng-show="l.moreInfo"><b>Nome e cognome: </b> {{l.firstName}} {{l.firstName}} </li>	
+						<li data-ng-show="l.moreInfo"><b>Nome e cognome: </b> {{l.firstName}} {{l.lastName}} </li>	
 						<li data-ng-show="l.moreInfo "><b>Data di registrazione: </b> {{l.registrationDate | date: dashboardAdmin.dateFormat}}  </li>	
 						<li data-ng-show="l.moreInfo"><b>Ha acconsentito al trattamento dei dati personali: </b> <span data-ng-show="l.agree">SI</span> <span data-ng-hide="l.agree">NO</span> </li>	
 							
-						<li data-ng-show="l.moreInfo && l.profile.bornCity"><b>Nato a: </b> {{l.profile.bornCity}}</li>	
-						<li data-ng-show="l.moreInfo && l.profile.bornDate"><b>Nato il: </b> {{l.profile.bornDate | date: dashboardAdmin.dateFormatBornDate}} </li>	
-						<li data-ng-show="l.moreInfo && l.profile.school"><b>Scuola: </b> {{l.profile.school}} </li>	
-						<li data-ng-show="l.moreInfo && l.profile.schoolCity"><b>Città della scuola: </b> {{l.profile.schoolCity}} </li>		
+						<li data-ng-show="l.moreInfo && l.profile && l.profile.bornCity"><b>Nato a: </b> {{l.profile.bornCity}}</li>	
+						<li data-ng-show="l.moreInfo && l.profile && l.profile.bornDate"><b>Nato il: </b> {{l.profile.bornDate | date: dashboardAdmin.dateFormatBornDate}} </li>	
+						<li data-ng-show="l.moreInfo && l.profile &&  l.profile.school"><b>Scuola: </b> {{l.profile.school}} </li>	
+						<li data-ng-show="l.moreInfo && l.profile && l.profile.schoolCity"><b>Città della scuola: </b> {{l.profile.schoolCity}} </li>		
 					</ul>
 		
 				<div>

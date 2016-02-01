@@ -433,8 +433,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								alertingGeneric.addWarning("Modifica scenario fallita");
 							}
 					);
-				}else
-					console.log("---------------> Nessun cambiamento oppure infovalidate fallisce NO PUT");
+				}else{
+						console.log("---------------> Nessun cambiamento oppure infovalidate fallisce NO PUT");
+				}
 			}
 		}
 		
@@ -1163,11 +1164,18 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				return false;
 			}
 				
-			r = angular.equals(a.history, b.history);
+			r = angular.equals(a.history.startDate, b.history.startDate);
+			
 			if (r == false){
+				console.log("Start date is different");
 				return false;
 			}
-				
+			r = angular.equals(a.history.endDate, b.history.endDate);
+			if (r == false){
+				console.log("End date is different");
+				return false;
+			}
+			
 			if( a.showRelationsToAll != b.showRelationsToAll){
 				return false;
 			}
@@ -1218,7 +1226,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 			var ret=true;
 			console.log("infoValidate");
-			
+			console.log(self.scenario);
 			if(!self.scenario.name || self.scenario.name.length<2){
 				console.log("infoValidate ---> name");
 				alertingGeneric.addWarning("Il nome dello scenario deve essere di almeno 2 caratteri");
@@ -1236,9 +1244,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 //			}
 			
 			if(self.scenario.history && self.scenario.history.startDate){
-				if(!self.scenario.history.startDate.afterChrist && (parseInt(self.scenario.history.startDate.year)>4712))
+				if(!self.scenario.history.startDate.afterChrist && (parseInt(self.scenario.history.startDate.year)>4712)){   
 					alertingGeneric.addWarning("La minima data rappresentabile e': 1 gennaio 4712 AC");
 					return false;
+				}
 			}
 			
 			if(!self.scenario.history || !self.scenario.history.startDate){
@@ -1289,8 +1298,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					console.log ("startDate.year > endDate.year ERR");
 					alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 					return false;
-				}else if (startDate.year < endDate.year){ //startDate.year > endDate.year GOOD
-					console.log("startDate.year > endDate.year GOOD");
+				}else if (startDate.year < endDate.year){ //startDate.year < endDate.year GOOD
+					console.log("startDate.year < endDate.year GOOD");
 					return true;
 				}else{   //data inizio e fine hanno lo stesso anno, quindi guardo al mese!
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
