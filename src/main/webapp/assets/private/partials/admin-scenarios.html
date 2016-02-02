@@ -33,7 +33,7 @@
 							<li><b>Data creazione:</b> {{s.creationDate | date:dashboardAdmin.dateFormat}}</li>
 							<li data-ng-show="s.status=='ACTIVE'"><b>Data attivazione: </b> {{s.startDate | date:dashboardAdmin.dateFormat}} <span data-ng-if="!s.startDate"> Data non disponibile</span></li>
 							<li data-ng-show="s.status=='DELETED' && s.startDate">{{s.startDate | date:dashboardAdmin.dateFormat}}</li>
-							<li data-ng-show="!s.status=='DELETED'"><b>Data ultima modifica: </b> {{s.lastUpdateDate | date:dashboardAdmin.dateFormat}}<span data-ng-if="!s.lastUpdateDate"> Data non disponibile</span></li>
+							<li data-ng-show="s.status!='DELETED'"><b>Data ultima modifica: </b> {{s.lastUpdateDate | date:dashboardAdmin.dateFormat}}<span data-ng-if="!s.lastUpdateDate"> Data non disponibile</span></li>
 							<li data-ng-show="s.status=='DELETED'"><b>Data cancellazione: </b> {{s.lastUpdateDate | date:dashboardAdmin.dateFormat}}<span data-ng-if="!s.lastUpdateDate"> Data non disponibile</span></li>
 							<li data-ng-show="s.characters"><b>Numero personaggi: </b> {{s.characters.length}}</li>
 							<li data-ng-show="s.attendees"><b>Studenti partecipanti: </b> {{s.attendees.length}}</li>
