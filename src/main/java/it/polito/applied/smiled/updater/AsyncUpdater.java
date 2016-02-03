@@ -18,6 +18,7 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.rabbit.ManageBroker;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
@@ -58,8 +59,8 @@ public class AsyncUpdater {
 	@Autowired
 	private PostRepository postRepository;
 	
-//	@Autowired
-//	private ManageBroker manageBroker;
+	@Autowired
+	private ManageBroker manageBroker;
 	
 	@Autowired
 	private EmailMessageService mailService;
@@ -70,8 +71,8 @@ public class AsyncUpdater {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 	
-//	@Autowired
-//	private NotifyService notify;
+	@Autowired
+	private NotifyService notify;
 
 	public void updateUser(User u){
 		Runnable r;
@@ -162,204 +163,204 @@ public class AsyncUpdater {
 		taskExecutor.execute(r);
 	}
 	
-//	public void removeNotificationFromCharacter(Reference user,
-//			CharacterReference actor, Scenario s) {
-//		Runnable r = new RemoveNotificationFromCharacter(user, actor, s);
-//		taskExecutor.execute(r);
-//	}
-//	
-//	public void removeModeratorFromScenario(Reference user, Scenario s) {
-//		Runnable r = new RemoveModeratorFromScenario(user, s);
-//		taskExecutor.execute(r);		
-//	}
-//	
-//	private class RemoveModeratorFromScenario implements Runnable{
-//		
-//		private Reference user;
-//		private Scenario scenario;
-//		
-//		public RemoveModeratorFromScenario(Reference user, Scenario s){
-//			this.user = user;
-//			this.scenario = s;
-//		}
-//		
-//		@Override
-//		public void run(){
-//			List<String> ids = new LinkedList<String>();
-//			for(PostReference p : scenario.getPosts()){
-//				ids.add(p.getId());
-//			}
-//			
-//			String actualChar = "";
-//			for(CharacterReference charRef : scenario.getCharacters()){
-//				if(charRef.getUserId().equals(user.getId())){
-//					actualChar=charRef.getId();
-//					break;
-//				}
-//			}
-//			List<Post> posts = postRepository.findByIds(ids);
-//			for(Post p : posts){
-//				if(p.getClass().equals(Status.class)){
-//					Status s = (Status) p;
-//					if(!actualChar.isEmpty()){
-//						if(s.getUser().getId().equals(user.getId())){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//							break;
-//						}
-//						List<Reference> tagged = s.getTags();
-//						Reference charRef = new Reference();
-//						charRef.setId(actualChar);
-//						if(tagged.contains(actualChar)){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//							break;
-//						}
-//						List<Comment> comments = s.getComments();
-//						boolean founded=false;
-//						for(Comment c : comments){
-//							if(c.getUser().getId().equals(user.getId())){
-//								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//								founded=true;
-//								break;
-//							}
-//						}
-//						if(founded)
-//							break;
-//					}
-//					List<MetaComment> metaComments = s.getMetaComments();
-//					for(MetaComment m : metaComments){
-//						if(m.getUser().getId().equals(user.getId())){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//							break;
-//						}
-//					}
-//				}else if(p.getClass().equals(Event.class)){
-//					Event e = (Event) p;
-//					if(e.getUser().getId().equals(user.getId())){
-//						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+e.getId());
-//						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
-//						break;
-//					}
-//					if(!actualChar.isEmpty()){
-//						List<Reference> tagged = e.getTags();
-//						Reference charRef = new Reference();
-//						charRef.setId(actualChar);
-//						if(tagged.contains(actualChar)){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+e.getId());
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
-//							break;
-//						}
-//						List<Comment> comments = e.getComments();
-//						boolean founded=false;
-//						for(Comment c : comments){
-//							if(c.getUser().getId().equals(user.getId())){
-//								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
-//								founded=true;
-//								break;
-//							}
-//						}
-//						if(founded)
-//							break;
-//					}
-//					List<MetaComment> metaComments = e.getMetaComments();
-//					for(MetaComment m : metaComments){
-//						if(m.getUser().getId().equals(user.getId())){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
-//							break;
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//	
-//	private class RemoveNotificationFromCharacter implements Runnable{
-//		
-//		private Reference user;
-//		private CharacterReference character;
-//		private Scenario scenario;
-//		
-//		public RemoveNotificationFromCharacter(Reference user,
-//			CharacterReference actor, Scenario s){
-//			this.user = user;
-//			character = actor;
-//			this.scenario = s;
-//		}
-//		
-//		@Override
-//		public void run(){
-//			List<String> ids = new LinkedList<String>();
-//			for(PostReference p : scenario.getPosts()){
-//				ids.add(p.getId());
-//			}
-//			List<Post> posts = postRepository.findByIds(ids);
-//			for(Post p : posts){
-//				if(p.getClass().equals(Status.class)){
-//					Status s = (Status) p;
-//					if(s.getCharacter().getId().equals(character.getId()) 
-//							&& s.getUser().getId().equals(user.getId())){
-//						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
-//						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//						break;
-//					}else{
-//						List<Reference> tagged = s.getTags();
-//						if(tagged.contains(new Reference(character))){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//							break;
-//						}
-//						List<Comment> comments = s.getComments();
-//						boolean founded=false;
-//						for(Comment c : comments){
-//							if(c.getCharacter().equals(character.getId()) 
-//								&& c.getUser().getId().equals(user.getId())){
-//								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//								founded=true;
-//								break;
-//							}
-//						}
-//						if(founded)
-//							break;
-//						List<MetaComment> metaComments = s.getMetaComments();
-//						for(MetaComment m : metaComments){
-//							if(m.getUser().getId().equals(user.getId())){
-//								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
-//								break;
-//							}
-//						}
-//					}
-//				}else if(p.getClass().equals(Event.class)){
-//					Event e = (Event) p;
-//					List<Reference> tagged = e.getTags();
-//					if(tagged.contains(new Reference(character))){
-//						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+scenario.getId());
-//						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
-//						break;
-//					}
-//					List<Comment> comments = e.getComments();
-//					boolean founded=false;
-//					for(Comment c : comments){
-//						if(c.getCharacter().equals(character.getId()) 
-//							&& c.getUser().getId().equals(user.getId())){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
-//							founded=true;
-//							break;
-//						}
-//					}
-//					if(founded)
-//						break;
-//					List<MetaComment> metaComments = e.getMetaComments();
-//					for(MetaComment m : metaComments){
-//						if(m.getUser().getId().equals(user.getId())){
-//							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
-//							break;
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
+	public void removeNotificationFromCharacter(Reference user,
+			CharacterReference actor, Scenario s) {
+		Runnable r = new RemoveNotificationFromCharacter(user, actor, s);
+		taskExecutor.execute(r);
+	}
+	
+	public void removeModeratorFromScenario(Reference user, Scenario s) {
+		Runnable r = new RemoveModeratorFromScenario(user, s);
+		taskExecutor.execute(r);		
+	}
+	
+	private class RemoveModeratorFromScenario implements Runnable{
+		
+		private Reference user;
+		private Scenario scenario;
+		
+		public RemoveModeratorFromScenario(Reference user, Scenario s){
+			this.user = user;
+			this.scenario = s;
+		}
+		
+		@Override
+		public void run(){
+			List<String> ids = new LinkedList<String>();
+			for(PostReference p : scenario.getPosts()){
+				ids.add(p.getId());
+			}
+			
+			String actualChar = "";
+			for(CharacterReference charRef : scenario.getCharacters()){
+				if(charRef.getUserId().equals(user.getId())){
+					actualChar=charRef.getId();
+					break;
+				}
+			}
+			List<Post> posts = postRepository.findByIds(ids);
+			for(Post p : posts){
+				if(p.getClass().equals(Status.class)){
+					Status s = (Status) p;
+					if(!actualChar.isEmpty()){
+						if(s.getUser().getId().equals(user.getId())){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+							break;
+						}
+						List<Reference> tagged = s.getTags();
+						Reference charRef = new Reference();
+						charRef.setId(actualChar);
+						if(tagged.contains(actualChar)){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+							break;
+						}
+						List<Comment> comments = s.getComments();
+						boolean founded=false;
+						for(Comment c : comments){
+							if(c.getUser().getId().equals(user.getId())){
+								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+								founded=true;
+								break;
+							}
+						}
+						if(founded)
+							break;
+					}
+					List<MetaComment> metaComments = s.getMetaComments();
+					for(MetaComment m : metaComments){
+						if(m.getUser().getId().equals(user.getId())){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+							break;
+						}
+					}
+				}else if(p.getClass().equals(Event.class)){
+					Event e = (Event) p;
+					if(e.getUser().getId().equals(user.getId())){
+						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+e.getId());
+						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
+						break;
+					}
+					if(!actualChar.isEmpty()){
+						List<Reference> tagged = e.getTags();
+						Reference charRef = new Reference();
+						charRef.setId(actualChar);
+						if(tagged.contains(actualChar)){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+e.getId());
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
+							break;
+						}
+						List<Comment> comments = e.getComments();
+						boolean founded=false;
+						for(Comment c : comments){
+							if(c.getUser().getId().equals(user.getId())){
+								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
+								founded=true;
+								break;
+							}
+						}
+						if(founded)
+							break;
+					}
+					List<MetaComment> metaComments = e.getMetaComments();
+					for(MetaComment m : metaComments){
+						if(m.getUser().getId().equals(user.getId())){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+e.getId());
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private class RemoveNotificationFromCharacter implements Runnable{
+		
+		private Reference user;
+		private CharacterReference character;
+		private Scenario scenario;
+		
+		public RemoveNotificationFromCharacter(Reference user,
+			CharacterReference actor, Scenario s){
+			this.user = user;
+			character = actor;
+			this.scenario = s;
+		}
+		
+		@Override
+		public void run(){
+			List<String> ids = new LinkedList<String>();
+			for(PostReference p : scenario.getPosts()){
+				ids.add(p.getId());
+			}
+			List<Post> posts = postRepository.findByIds(ids);
+			for(Post p : posts){
+				if(p.getClass().equals(Status.class)){
+					Status s = (Status) p;
+					if(s.getCharacter().getId().equals(character.getId()) 
+							&& s.getUser().getId().equals(user.getId())){
+						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
+						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+						break;
+					}else{
+						List<Reference> tagged = s.getTags();
+						if(tagged.contains(new Reference(character))){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+							break;
+						}
+						List<Comment> comments = s.getComments();
+						boolean founded=false;
+						for(Comment c : comments){
+							if(c.getCharacter().equals(character.getId()) 
+								&& c.getUser().getId().equals(user.getId())){
+								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+								founded=true;
+								break;
+							}
+						}
+						if(founded)
+							break;
+						List<MetaComment> metaComments = s.getMetaComments();
+						for(MetaComment m : metaComments){
+							if(m.getUser().getId().equals(user.getId())){
+								manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+								break;
+							}
+						}
+					}
+				}else if(p.getClass().equals(Event.class)){
+					Event e = (Event) p;
+					List<Reference> tagged = e.getTags();
+					if(tagged.contains(new Reference(character))){
+						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "p"+scenario.getId());
+						manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
+						break;
+					}
+					List<Comment> comments = e.getComments();
+					boolean founded=false;
+					for(Comment c : comments){
+						if(c.getCharacter().equals(character.getId()) 
+							&& c.getUser().getId().equals(user.getId())){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
+							founded=true;
+							break;
+						}
+					}
+					if(founded)
+						break;
+					List<MetaComment> metaComments = e.getMetaComments();
+					for(MetaComment m : metaComments){
+						if(m.getUser().getId().equals(user.getId())){
+							manageBroker.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	private class SendResetPasswordEmail implements Runnable{
 

@@ -11,36 +11,43 @@
         http://www.springframework.org/schema/rabbit/spring-rabbit.xsd"> 
         
         <context:property-placeholder location="/WEB-INF/config/application.properties"/>
-<!--         <context:component-scan base-package="it.polito.applied.smiled.rabbit" /> -->
+        <context:component-scan base-package="it.polito.applied.smiled.rabbit" />
         
-<!--         <rabbit:connection-factory id="connectionFactory" -->
-<!--         	host="${rabbit.host}" port="${rabbit.port}" username="${rabbit.username}" -->
-<!--         	virtual-host="${rabbit.virtualHost}" password="${rabbit.password}"  -->
-<!--         	channel-cache-size="${rabbit.channelCacheSize}"/> -->
+        <rabbit:connection-factory id="connectionFactory"
+        	host="${rabbit.host}" port="${rabbit.port}" username="${rabbit.username}"
+        	virtual-host="${rabbit.virtualHost}" password="${rabbit.password}" 
+        	channel-cache-size="${rabbit.channelCacheSize}"/>
         	
-<!--         <rabbit:admin id="amqpAdmin" connection-factory="connectionFactory"/> -->
+        <rabbit:admin id="amqpAdmin" connection-factory="connectionFactory"/>
         
+        <rabbit:queue id="deadLetterQueue"/>
         	
-<!--          <rabbit:direct-exchange name="directExchange"> -->
-<!--          </rabbit:direct-exchange> -->
+         <rabbit:direct-exchange name="directExchange">
+         </rabbit:direct-exchange>
          
-<!--          <rabbit:topic-exchange name="topicExchange"> -->
-<!--          </rabbit:topic-exchange> -->
+         <rabbit:topic-exchange name="topicExchange">
+         </rabbit:topic-exchange>
          
-<!--         <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory"  -->
-<!--         retry-template="retryTemplate" message-converter="messageConverter"/>	 -->
+         <rabbit:fanout-exchange name="deadLetterExchange">
+         	<rabbit:bindings>
+         		<rabbit:binding queue="deadLetterQueue"></rabbit:binding>
+         	</rabbit:bindings>
+         </rabbit:fanout-exchange>
+         
+        <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" 
+        retry-template="retryTemplate" message-converter="messageConverter"/>	
         
-<!--         <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate"> -->
-<!-- 			<property name="backOffPolicy"> -->
-<!-- 				<bean class="org.springframework.retry.backoff.ExponentialBackOffPolicy"> -->
-<!-- 					<property name="initialInterval" value="500" /> -->
-<!-- 					<property name="multiplier" value="10.0" /> -->
-<!-- 					<property name="maxInterval" value="10000" /> -->
-<!-- 				</bean> -->
-<!-- 			</property> -->
-<!-- 		</bean> -->
+        <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
+			<property name="backOffPolicy">
+				<bean class="org.springframework.retry.backoff.ExponentialBackOffPolicy">
+					<property name="initialInterval" value="500" />
+					<property name="multiplier" value="10.0" />
+					<property name="maxInterval" value="10000" />
+				</bean>
+			</property>
+		</bean>
 		
-<!-- 		 <bean id="messageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"> -->
-<!--         </bean> -->
+		 <bean id="messageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter">
+        </bean>
 
 </beans>

@@ -10,6 +10,7 @@ import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.scenario.Status;
 import it.polito.applied.smiled.updater.AsyncUpdater;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +51,7 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 	
 	@Override
-	public void notifyOpenScenario(Scenario s, Reference actor) {
+	public void notifyOpenScenario(Scenario s, Reference actor)  {
 		List<Reference> l = new ArrayList<Reference>();
 		if(s.getAttendees()!=null)
 			l.addAll(s.getAttendees());
@@ -61,35 +62,40 @@ public class NotifyServiceImpl implements NotifyService{
 		for(Reference r : l){
 			broker.createBinding("u"+r.getId(), TOPIC, "s"+s.getId());
 		}
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(s.getId());
-		n.setVerb(NotificationType.OPEN_SCENARIO);
-//		n.setTargetId(s.getId());
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getFirstname()+" "+actor.getLastname());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		mp.setObjectId(s.getId());
+		mp.setVerb(NotificationType.OPEN_SCENARIO);
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, TOPIC, "s"+s.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 	}
 	
 	@Override
-	public void notifyCloseScenario(Scenario s, Reference actor){
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(s.getId());
-		n.setVerb(NotificationType.CLOSE_SCENARIO);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getFirstname()+" "+actor.getLastname());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyCloseScenario(Scenario s, Reference actor) {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		mp.setObjectId(s.getId());
+		mp.setVerb(NotificationType.CLOSE_SCENARIO);
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, TOPIC, "s"+s.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		
 		List<Reference> l = new ArrayList<Reference>();
 		if(s.getAttendees()!=null)
@@ -104,26 +110,29 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 
 	@Override
-	public void notifyCreatePost(Scenario s, Post p) {
+	public void notifyCreatePost(Scenario s, Post p)  {
 		
 		/*Creazione notifica nuovo post*/
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(p.getId());
-		n.setVerb(NotificationType.NEW_POST);
-		NotifyReference ref = new NotifyReference();
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
+		
+		mp.setObjectId(p.getId());
+		mp.setVerb(NotificationType.NEW_POST);
 		if(p.getClass().equals(Status.class)){
 			Status status = (Status) p;
-			ref.setActorId(status.getCharacter().getId());
-			ref.setActorName(status.getCharacter().getName());
+			mp.setActorId(status.getCharacter().getId());
+			mp.setActorName(status.getCharacter().getName());
 		}else if(p.getClass().equals(Status.class)){
-			ref.setActorId(null);
-			ref.setActorName(NARRATORE);
+			mp.setActorId(null);
+			mp.setActorName(NARRATORE);
 		}
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		try {
+			broker.sendNotify(mp, TOPIC, "s"+s.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		
 		/*Notifico i taggati*/
 		List<Reference> l = new ArrayList<Reference>();
@@ -146,192 +155,208 @@ public class NotifyServiceImpl implements NotifyService{
 			}
 		}
 		
-		Notification nTag = new Notification();
-		nTag.setDate(new Date());
-		nTag.setObjectId(p.getId());
-		nTag.setVerb(NotificationType.TAG_TO_POST);
-		NotifyReference refTag = new NotifyReference();
+		MessagePayload mpTag = new MessagePayload();
+		mpTag.setDate(new Date());
+		mpTag.setObjectId(p.getId());
+		mpTag.setVerb(NotificationType.TAG_TO_POST);
 		if(p.getClass().equals(Status.class)){
 			Status status = (Status) p;
-			ref.setActorId(status.getCharacter().getId());
-			ref.setActorName(status.getCharacter().getName());
+			mpTag.setActorId(status.getCharacter().getId());
+			mpTag.setActorName(status.getCharacter().getName());
 		}else if(p.getClass().equals(Status.class)){
-			ref.setActorId(null);
-			ref.setActorName(NARRATORE);
+			mpTag.setActorId(null);
+			mpTag.setActorName(NARRATORE);
 		}
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
-		broker.sendNotify(n, TOPIC, "pc"+p.getId());
+		mpTag.setScenarioId(s.getId());
+		mpTag.setScenarioName(s.getName());
+		try {
+			broker.sendNotify(mpTag, TOPIC, "pc"+p.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		
 		
 	}
 
 	@Override
-	public void notifyNewComment(Scenario s, Post p, Comment c) {
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(p.getId()+"/"+c.getId());
-		n.setVerb(NotificationType.COMMENT_TO_POST);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(c.getCharacter().getId());
-		ref.setActorName(c.getCharacter().getFirstname());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyNewComment(Scenario s, Post p, Comment c)  {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, TOPIC, "pc"+p.getId());
+		mp.setObjectId(p.getId()+"/"+c.getId());
+		mp.setVerb(NotificationType.COMMENT_TO_POST);
+		mp.setActorId(c.getCharacter().getId());
+		mp.setActorName(c.getCharacter().getFirstname());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, TOPIC, "pc"+p.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		broker.createBinding("u"+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	
 	}
 	
 	@Override
-	public void notifyNewMetaComment(Scenario s, Post p, MetaComment c) {
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(p.getId()+"/"+c.getId());
-		n.setVerb(NotificationType.METACOMMENT_TO_POST);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(c.getUser().getId());
-		ref.setActorName(c.getUser().getFirstname()+" "+c.getUser().getLastname());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyNewMetaComment(Scenario s, Post p, MetaComment c)  {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, TOPIC, "pc"+p.getId());
+		mp.setObjectId(p.getId()+"/"+c.getId());
+		mp.setVerb(NotificationType.METACOMMENT_TO_POST);
+		mp.setActorId(c.getUser().getId());
+		mp.setActorName(c.getUser().getFirstname()+" "+c.getUser().getLastname());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, TOPIC, "pc"+p.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		broker.createBinding("u"+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	}
 
 	@Override
-	public void notifyLikeToPost(Scenario s, Post p, CharacterReference actor) {
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(p.getId());
-		n.setVerb(NotificationType.LIKE_TO_POST);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getName());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyLikeToPost(Scenario s, Post p, CharacterReference actor)  {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
+		
+		mp.setObjectId(p.getId());
+		mp.setVerb(NotificationType.LIKE_TO_POST);
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getName());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
 
-		broker.sendNotify(n, TOPIC, "p"+p.getId());
+		try {
+			broker.sendNotify(mp, TOPIC, "p"+p.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		broker.createBinding("u"+actor.getUserId(), TOPIC, "p"+p.getId());
 	}
 
 	@Override
-	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s){
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(user.getId());
-		n.setVerb(NotificationType.NEW_ASSOCIATION);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getName());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
-
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
-	}
-
-	@Override
-	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s){
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(user.getId());
-		n.setVerb(NotificationType.DEL_ASSOCIATION);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getName());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
-
-		broker.sendNotify(n, DIRECT, "u"+user.getId());
-//		asyncUpdater.removeNotificationFromCharacter(user, actor, s);
-	}
-
-	@Override
-	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor){
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setObjectId(user.getId());
-		n.setVerb(NotificationType.NEW_PERSONAL_MISSION);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getName());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s) {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, DIRECT, "u"+user.getId());
+		mp.setObjectId(user.getId());
+		mp.setVerb(NotificationType.NEW_ASSOCIATION);
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getName());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+
+		try {
+			broker.sendNotify(mp, TOPIC, "s"+s.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
+	}
+
+	@Override
+	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s) {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
+		
+		mp.setObjectId(user.getId());
+		mp.setVerb(NotificationType.DEL_ASSOCIATION);
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getName());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+
+		try {
+			broker.sendNotify(mp, DIRECT, "u"+user.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
+		asyncUpdater.removeNotificationFromCharacter(user, actor, s);
+	}
+
+	@Override
+	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor) {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
+		
+		mp.setObjectId(user.getId());
+		mp.setVerb(NotificationType.NEW_PERSONAL_MISSION);
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getName());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, DIRECT, "u"+user.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 
 	}
 
 	@Override
-	public void notifyNewGlobalMission(Reference user, Scenario s){
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setVerb(NotificationType.NEW_GLOBAL_MISSION);
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(user.getId());
-		ref.setActorName(user.getFirstname()+" "+user.getLastname());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyNewGlobalMission(Reference user, Scenario s) {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		mp.setVerb(NotificationType.NEW_GLOBAL_MISSION);
+		mp.setActorId(user.getId());
+		mp.setActorName(user.getFirstname()+" "+user.getLastname());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, TOPIC, "s"+s.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 	}
 
 	@Override
-	public void notifyNewModerator(Reference user, Scenario s, Reference actor){
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setVerb(NotificationType.NEW_MOD);
-		n.setObjectId(user.getId());
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getFirstname()+" "+user.getLastname());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyNewModerator(Reference user, Scenario s, Reference actor) {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, DIRECT, "u"+user.getId());
+		mp.setVerb(NotificationType.NEW_MOD);
+		mp.setObjectId(user.getId());
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getFirstname()+" "+user.getLastname());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, DIRECT, "u"+user.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		broker.createBinding("u"+user.getId(), TOPIC, "s"+s.getId());
 
 	}
 	
 	@Override
-	public void notifyRemoveModerator(Reference user, Scenario s, Reference actor){
-		Notification n = new Notification();
-		n.setDate(new Date());
-		n.setVerb(NotificationType.DEL_MOD);
-		n.setObjectId(user.getId());
-		NotifyReference ref = new NotifyReference();
-		ref.setActorId(actor.getId());
-		ref.setActorName(actor.getFirstname()+" "+user.getLastname());
-		ref.setScenarioId(s.getId());
-		ref.setScenarioName(s.getName());
-		n.setInfo(ref);
+	public void notifyRemoveModerator(Reference user, Scenario s, Reference actor) {
+		MessagePayload mp = new MessagePayload();
+		mp.setDate(new Date());
 		
-		broker.sendNotify(n, DIRECT, "u"+user.getId());
+		mp.setVerb(NotificationType.DEL_MOD);
+		mp.setObjectId(user.getId());
+		mp.setActorId(actor.getId());
+		mp.setActorName(actor.getFirstname()+" "+user.getLastname());
+		mp.setScenarioId(s.getId());
+		mp.setScenarioName(s.getName());
+		
+		try {
+			broker.sendNotify(mp, DIRECT, "u"+user.getId());
+		} catch (IOException e) {
+			System.out.println("SERIALIZATION EXCEPTION");
+		}
 		broker.removeBinding("u"+user.getId(), TOPIC, "s"+s.getId());
-//		asyncUpdater.removeModeratorFromScenario(user, s);
+		asyncUpdater.removeModeratorFromScenario(user, s);
 
 	}
 
-
-	private boolean isNotifiable(Scenario s, String userId){
-		Reference r = new Reference();
-		r.setId(userId);
-		if(s.getTeacherCreator().equals(r))
-			return true;
-		if(s.getAttendees()!=null && s.getAttendees().contains(r))
-			return true;
-		if(s.getCollaborators()!=null && s.getCollaborators().contains(r))
-			return true;
-		
-		return false;
-	}
 }

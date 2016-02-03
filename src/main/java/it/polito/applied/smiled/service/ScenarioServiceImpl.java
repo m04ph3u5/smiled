@@ -42,6 +42,7 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
@@ -111,8 +112,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Autowired
 	private FileManagerService fileService;
 	
-//	@Autowired
-//	private NotifyService notify;
+	@Autowired
+	private NotifyService notify;
 
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
@@ -255,6 +256,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}else{
 					asyncUpdater.openScenarioOfUsers(scenarioUpdated,callerId);
 					asyncUpdater.createScenarioRelationship(scenarioUpdated);
+					Reference r = new Reference();
+					r.setId(callerId);
+					//TODO passare reference utente e non crearlo al volo!!!!
+					notify.notifyOpenScenario(scenarioUpdated, r);
 				}
 			}
 			
@@ -1126,7 +1131,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			PostReference postReference = new PostReference(status);
 			scenarioRepository.addPostToScenario(scenarioId, postReference);
 			characterRepository.addPostToCharacter(character.getId(), postReference);
-//			notify.notifyCreatePost(scenario, status);
+			notify.notifyCreatePost(scenario, status);
 		}else{
 			userRepository.addDraftPost(user.getId(), status.getId());
 		}
@@ -1301,7 +1306,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(event.getStatus().equals(PostStatus.PUBLISHED)){
 			PostReference postReference = new PostReference(event);
 			scenarioRepository.addPostToScenario(scenarioId, postReference);
-//			notify.notifyCreatePost(scenario, event);
+			notify.notifyCreatePost(scenario, event);
 		}else{
 			userRepository.addDraftPost(activeUser.getId(), event.getId());
 		}
@@ -1997,7 +2002,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(p==null)
 			throw new BadRequestException();
 		
-//		notify.notifyNewComment(scenario, p, comment);
+		notify.notifyNewComment(scenario, p, comment);
 		return new Id(comment.getId());
 	}
 	
@@ -2017,7 +2022,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Post p = postRepository.addComment(idScenario, postId, metaComment); 
 		if(p==null)
 			throw new BadRequestException();
-//		notify.notifyNewMetaComment(scenario, p, metaComment);
+		notify.notifyNewMetaComment(scenario, p, metaComment);
 		return new Id(metaComment.getId());
 	}
 
@@ -2268,7 +2273,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+		//TODO
+		//aggiungere gestione notifiche. Controllare che notifica parta solo in caso di aggiunta like e non di rimozione.
 		if(charRef==null)
 			throw new BadRequestException();
 		
@@ -2283,7 +2289,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 		
 		return false;
-//		notify.notifyLikeToPost(scenario, post, charRef);
 	}
 
 

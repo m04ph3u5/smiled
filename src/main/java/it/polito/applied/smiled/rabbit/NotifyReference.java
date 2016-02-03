@@ -1,7 +1,8 @@
 package it.polito.applied.smiled.rabbit;
 
-public class NotifyReference {
+public class NotifyReference{
 	
+
 	private String actorId;
 	private String actorName;
 	private String scenarioId;

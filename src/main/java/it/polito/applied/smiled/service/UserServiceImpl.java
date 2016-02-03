@@ -1,5 +1,26 @@
 package it.polito.applied.smiled.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.mongodb.MongoException;
+
 import it.polito.applied.smiled.dto.FirstPasswordDTO;
 import it.polito.applied.smiled.dto.RegisterTeacherDTO;
 import it.polito.applied.smiled.dto.ResetPasswordDTO;
@@ -30,6 +51,7 @@ import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserProfile;
 import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.ExceptionOnClientRepository;
 import it.polito.applied.smiled.repository.IssueRepository;
 import it.polito.applied.smiled.repository.PostRepository;
@@ -41,27 +63,6 @@ import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 import it.polito.applied.smiled.updater.AsyncUpdater;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import com.mongodb.MongoException;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService{
@@ -107,8 +108,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	private final int PREVIEW=4;
 	
 	
-//	@Autowired
-//	private NotifyService notify;
+	@Autowired
+	private NotifyService notify;
 	
 	@Override
 	public CustomUserDetails loadUserByUsername(String email)
@@ -129,7 +130,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 		CustomUserDetails actualUser = new CustomUserDetails(user);
 //		actualUser.setUser(user);
-				
+		notify.createQueue(actualUser.getId());		
 		System.out.println(actualUser.getUsername()+" loggedIn!");
 		return actualUser;
 	}
@@ -251,8 +252,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			/*Aggiornamenti asincroni*/
 			asyncUpdater.updateOnChangeFirstPassword(u);
 			
-//			notify.createQueue(u.getId());
-//			
+			notify.createQueue(u.getId());
+			
 		}catch(MongoException e){
 			throw e;
 		}	
@@ -328,8 +329,8 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 			throw new UserNotFoundException(email);
 		registrationRepository.delete(r);
 		asyncUpdater.sendTeacherRegistrationConfirmEmail(username, email);
-//		User u = userRepository.findByEmail(email);
-//		notify.createQueue(u.getId());
+		User u = userRepository.findByEmail(email);
+		notify.createQueue(u.getId());
 	}
 	
 	@Override
