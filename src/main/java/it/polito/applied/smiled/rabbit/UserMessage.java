@@ -11,9 +11,14 @@ public class UserMessage{
 
 	private String id;
 	private Date date;
+	private ComunicationType type;
 	private String receiverId;
 	private Reference sender;
 	private String text;
+	
+	public UserMessage(){
+		type = ComunicationType.USER_MESSAGE;
+	}
 
 	public String getId() {
 		return id;
@@ -44,6 +49,12 @@ public class UserMessage{
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public ComunicationType getType() {
+		return type;
+	}
+	public void setType(ComunicationType type) {
+		this.type = type;
 	}
 		
 	

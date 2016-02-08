@@ -9,14 +9,28 @@
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
+	<context:annotation-config></context:annotation-config>
+ 	<context:property-placeholder location="/WEB-INF/config/application.properties"/>
 	<context:component-scan base-package="it.polito.applied.smiled.websocket"></context:component-scan>
 	
-	<websocket:message-broker application-destination-prefix="/app">
-        <websocket:stomp-endpoint path="/marcopolo">
-            <websocket:sockjs/>
-        </websocket:stomp-endpoint>
-        <websocket:simple-broker prefix="/queue, /topic"/>
-    </websocket:message-broker>
-	
+<!-- 	<websocket:message-broker application-destination-prefix="/app"> -->
+<!--         <websocket:stomp-endpoint path="/messages"> -->
+<!--             <websocket:sockjs/> -->
+<!--         </websocket:stomp-endpoint> -->
+<!--         <websocket:stomp-broker-relay prefix="/queue"    -->
+<!--         	relay-host="${rabbit.host}" relay-port="${rabbit.port}" -->
+<!--       		client-login="${rabbit.username}" client-passcode="${rabbit.password}" -->
+<!--       		virtual-host="${rabbit.virtualHost}"/> -->
+<!--     </websocket:message-broker> -->
+
+	<websocket:handlers>
+        <websocket:mapping path="/messages" handler="websocketHandler"/>
+        <websocket:handshake-interceptors>
+            <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+        <websocket:sockjs/>
+	</websocket:handlers>
+
+    <bean id="websocketHandler" class="it.polito.applied.smiled.websocket.NotificationWebSocketController"/>
 
 </beans>

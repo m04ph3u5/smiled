@@ -120,7 +120,7 @@ public class ScenarioController extends BaseController{
 		if(result.hasErrors()){
 			throw new BadRequestException(result.getAllErrors().get(0).getDefaultMessage());
 		}*/
-		Scenario s = scenarioService.updateScenario(id, scenarioDTO,activeUser.getId());
+		Scenario s = scenarioService.updateScenario(id, scenarioDTO,activeUser);
 		logService.logUpdateScenarioInfo(id, activeUser.getId());
 		// la data è stata già aggiornata ;) scenarioService.lastUpdateScenario(id, new Date());
 		return s;
@@ -174,7 +174,7 @@ public class ScenarioController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_TEACHER')and hasPermission(#id, 'Scenario', 'CREATOR')")
 	public Reference addCollaboratorToScenario(@PathVariable String id, @PathVariable String idCollaborator , @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
 
-		Reference r = scenarioService.addCollaboratorToScenario(idCollaborator, id);
+		Reference r = scenarioService.addCollaboratorToScenario(idCollaborator, id, activeUser);
 		logService.logNewCollaborator(id, activeUser.getId(), r);
 		scenarioService.lastUpdateScenario(id, new Date());
 		return r;

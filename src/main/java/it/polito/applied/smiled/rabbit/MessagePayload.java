@@ -32,25 +32,6 @@ public class MessagePayload implements Serializable{
 	private String actorName;
 	private String scenarioId;
 	private String scenarioName;
-	
-		
-	public static byte[] serialize(MessagePayload obj) throws IOException {
-	    ByteArrayOutputStream out = new ByteArrayOutputStream();
-	    ObjectOutputStream os = new ObjectOutputStream(out);
-	    os.writeObject(obj);
-	    byte[] b = out.toByteArray();
-	    os.close();
-	    out.close();
-	    return b;
-	}
-	public static MessagePayload deserialize(byte[] data) throws IOException, ClassNotFoundException {
-	    ByteArrayInputStream in = new ByteArrayInputStream(data);
-	    ObjectInputStream is = new ObjectInputStream(in);
-	    MessagePayload m = (MessagePayload) is.readObject();
-	    in.close();
-	    is.close();
-	    return m;
-	}
 
 	public String getId() {
 		return id;

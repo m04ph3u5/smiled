@@ -1,11 +1,10 @@
 package it.polito.applied.smiled.rabbit;
 
-import java.io.IOException;
-
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
+import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 
@@ -25,9 +24,10 @@ public interface NotifyService {
 	public void notifyLikeToPost(Scenario s, Post p, CharacterReference actor) ;
 	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s) ;
 	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s) ;
-	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor) ;
-	public void notifyNewGlobalMission(Reference user, Scenario s) ;
+	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor, Mission m) ;
+	public void notifyNewGlobalMission(Reference user, Scenario s, Mission m) ;
 	public void notifyNewModerator(Reference user, Scenario s, Reference actor) ;
+	public void notifyCreatorOfNewModerator(Reference user, Scenario s, Reference actor, String creatorId);
 	public void notifyRemoveModerator(Reference user, Scenario s, Reference actor) ;
 //	public void notifyNewAttendee();
 //	public void notifyRemoveAttendee();

@@ -204,34 +204,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 
 	</script>
 
-<!-- <script> 
-// 	var url = 'https://'+window.location.host+'/ThesisProject/websocket/marcopolo';
-// 	var sock = new SockJS(url);
 	
-// 	var stomp = Stomp.over(sock);
 	
-// 	var payload = JSON.stringify({ 'message': 'Marco!' });
-// 	stomp.connect('guest', 'guest', function(frame) {
-// 		stomp.send("/marco", {}, payload);
-// 	});
-	
-// // 	sock.onopen = function() {
-	
-// // 		console.log('Opening');
-// // 		sayMarco();
-// // 	};
-// // 	sock.onmessage = function(e) {
-// // 		console.log('Received message: ', e.data);
-// // 		setTimeout(function(){sayMarco()}, 2000);
-// // 	};
-// // 	sock.onclose = function() {
-// // 		console.log('Closing');
-// // 	};
-// // 	function sayMarco() {
-// // 		console.log('Sending Marco!');
-// // 		sock.send("Marco!");
-// // 	}
-  </script> -->
-
 </body>
 </html>

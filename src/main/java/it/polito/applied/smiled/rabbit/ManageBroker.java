@@ -40,30 +40,16 @@ public class ManageBroker {
 		admin.removeBinding(b);
 	}
 	
-	public void sendNotify(MessagePayload mp, String exchange, String routingKey) throws IOException{
-		mp.setMessage(false);
-		MessageProperties props = MessagePropertiesBuilder.newInstance()
-				.setDeliveryMode(MessageDeliveryMode.PERSISTENT)
-				.build();
-		Message message = MessageBuilder.withBody(MessagePayload.serialize(mp))
-				.andProperties(props)
-				.build();
-		amqpTemplate.send(exchange,routingKey, message);
+	public void sendNotify(Notification n, String exchange, String routingKey){
+		amqpTemplate.convertAndSend(exchange,routingKey, n);
 	}
 	
 	public MessagePayload receiveFromQueue(String queueName){
 		return (MessagePayload) amqpTemplate.receiveAndConvert(queueName);
 	}
 	
-	public void sendMessage(MessagePayload mp) throws IOException{
-		mp.setMessage(true);
-		MessageProperties props = MessagePropertiesBuilder.newInstance()
-				.setDeliveryMode(MessageDeliveryMode.PERSISTENT)
-				.build();
-		Message message = MessageBuilder.withBody(MessagePayload.serialize(mp))
-				.andProperties(props)
-				.build();
-		amqpTemplate.send("directExchange", "u"+mp.getReceiverId(), message);
+	public void sendMessage(UserMessage m){
+		amqpTemplate.convertAndSend("directExchange", "u"+m.getReceiverId(), m);
 	}
 
 }

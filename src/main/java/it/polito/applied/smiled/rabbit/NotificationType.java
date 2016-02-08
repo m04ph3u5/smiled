@@ -114,6 +114,13 @@ public enum NotificationType {
 	NEW_MOD,
 	
 	/**
+	 * Aggiunto nuovo moderatore allo scenario da un altro moderatore (non dal creatore)
+	 * Notifica che deve arrivare al creatore dello scenario
+	 *  --> Utente aggiunto come collaboratore | DIRECT
+	 *  */
+	NEW_MOD_TO_CREATOR,
+	
+	/**
 	 * Elimino moderatore allo scenario
 	 *  --> Utente rimosso dai collaboratori | DIRECT
 	 *  */
