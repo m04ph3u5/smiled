@@ -100,3 +100,58 @@
 	<!-- /.navbar-collapse -->
 </div>
 <!-- /.container-fluid -->
+<script> 
+ 	var url = 'https://'+window.location.host+'/websocket/messages/';
+  	var sock = new SockJS("/websocket/messages");
+//   	var stomp = Stomp.over(sock);
+//   	var x = document.cookie;
+//   	var getCookie=function(name){
+//   		var value="; "+x;
+//   		var parts=value.split("; "+name+"=");
+//   		if(parts.length==2)
+//   			return parts.pop().split(";").shift();
+//   	}
+//   	var token = getCookie("XSRF-TOKEN");
+//   	console.log(token);
+//   	var headers = {};
+//   	headers["X-XSRF-TOKEN"] = token;
+//   	console.log(x);
+//    	var payload = JSON.stringify({ 'message': 'Marco!' });
+//   	sock.connect({}, function(frame) {
+//         console.log("CONNECTION");
+//   		stomp.subscribe("/queue", function(data) {
+//     		console.log("subscribed");      
+// 	    });
+// 		console.log("subscribing");      
+//   	});
+	
+  	sock.onopen = function() {
+  		  
+  		console.log('Opening!!!!!!!!!!!!!!');
+//   		sayMarco();
+  	};
+  	sock.onmessage = function(e) {
+  		console.log('Received message: ', e.data);
+//   		setTimeout(function(){sayMarco()}, 2000);
+  	};
+  	sock.onclose = function() {
+  		console.log('Closing');
+  	};
+  	function sayMarco() {
+ 		console.log('Sending Marco!');
+  		sock.send("Marco!");
+  	}
+// 	var socket = {
+// 	      client: null,
+// 	      stomp: null
+// 	};
+// 	socket.client = new SockJS("/websocket/messages");
+// 	console.log("new sockjs");
+//     socket.stomp = Stomp.over(socket.client);
+//     socket.stomp.connect({}, function(){
+//     	socket.stomp.subscribe("queue/user/5698ccd15c4c9bb2fc7d7f95", function(data) {
+//             console.log("SUBSCRIBED");
+//           });
+//     });
+	
+</script> 

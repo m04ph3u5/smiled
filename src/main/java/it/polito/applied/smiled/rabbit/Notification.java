@@ -1,20 +1,35 @@
 package it.polito.applied.smiled.rabbit;
 
+import java.util.Date;
 
-
-public class Notification extends Comunication{
+public class Notification{
 	
-	private String targetId;
+	private String id;
+	private Date date;
+	private ComunicationType type;
 	private NotificationType verb;
-	private NotifyReference info;
+	private String actorId;
+	private String actorName;
+	private String scenarioId;
+	private String scenarioName;
 	private String objectId;
+	private String objectContent;
 	
-
-	public String getTargetId() {
-		return targetId;
+	public Notification(){
+		type=ComunicationType.NOTIFICATION;
 	}
-	public void setTargetId(String targetId) {
-		this.targetId = targetId;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	public NotificationType getVerb() {
 		return verb;
@@ -22,20 +37,48 @@ public class Notification extends Comunication{
 	public void setVerb(NotificationType verb) {
 		this.verb = verb;
 	}
-	
+	public String getActorId() {
+		return actorId;
+	}
+	public void setActorId(String actorId) {
+		this.actorId = actorId;
+	}
+	public String getActorName() {
+		return actorName;
+	}
+	public void setActorName(String actorName) {
+		this.actorName = actorName;
+	}
+	public String getScenarioId() {
+		return scenarioId;
+	}
+	public void setScenarioId(String scenarioId) {
+		this.scenarioId = scenarioId;
+	}
+	public String getScenarioName() {
+		return scenarioName;
+	}
+	public void setScenarioName(String scenarioName) {
+		this.scenarioName = scenarioName;
+	}
 	public String getObjectId() {
 		return objectId;
 	}
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
 	}
-	
-	public NotifyReference getInfo() {
-		return info;
+	public ComunicationType getType() {
+		return type;
+	}
+	public void setType(ComunicationType type) {
+		this.type = type;
 	}
 
-	public void setInfo(NotifyReference info) {
-		this.info = info;
+	public String getObjectContent() {
+		return objectContent;
+	}
+	public void setObjectContent(String objectContent) {
+		this.objectContent = objectContent;
 	}
 	
 	

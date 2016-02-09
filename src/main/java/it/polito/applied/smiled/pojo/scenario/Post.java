@@ -108,11 +108,15 @@ public abstract class Post {
 	public void setLikes(Set<CharacterReference> likes) {
 		this.likes = likes;
 	}
-	public void addLike(CharacterReference charRef){
-		if(likes.contains(charRef))
+	public boolean addLike(CharacterReference charRef){
+		if(likes.contains(charRef)){
 			likes.remove(charRef);
-		else
+			return false;
+		}
+		else{
 			likes.add(charRef);
+			return true;
+		}
 	}
 		
 }

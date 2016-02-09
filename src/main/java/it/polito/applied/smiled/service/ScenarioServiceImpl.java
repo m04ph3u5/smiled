@@ -42,6 +42,7 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
@@ -104,15 +105,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 	@Autowired
 	private AsyncUpdater asyncUpdater;
-	
-	@Autowired
-	private LogService logService;
-	
+		
 	@Autowired
 	private FileManagerService fileService;
 	
-//	@Autowired
-//	private NotifyService notify;
+	@Autowired
+	private NotifyService notify;
 
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
@@ -143,8 +141,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 	//Ritorna lo scenario modificato
 	//La modifica dello scenario NON può aggiungere students o collaborators o characters
 	@Override
-	public Scenario updateScenario(String id, ScenarioDTO scenario, String callerId) throws MongoException, BadRequestException{
+	public Scenario updateScenario(String id, ScenarioDTO scenario, CustomUserDetails user) throws MongoException, BadRequestException{
 		try{
+			Scenario oldScenario = scenarioRepository.findById(id);
+			if(oldScenario.getStatus().equals(ScenarioStatus.DELETED))
+				throw new BadRequestException();
+			
 			Scenario scenarioUpdated;
 			//TODO
 			/*Log di chi aggiorna cosa*/
@@ -179,7 +181,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				u.set("status", scenario.getStatus());
 			}
 			
-			Scenario oldScenario = scenarioRepository.findById(id);
+			
 			Date actualDate = new Date();
 			u.set("lastUpdateDate", actualDate);
 			if(newStatus!= null && newStatus.equals(ScenarioStatus.ACTIVE) && !oldScenario.getStatus().equals(ScenarioStatus.ACTIVE)){
@@ -189,7 +191,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(scenarioUpdated == null)
 				throw new BadRequestException();
 			if(scenario.getName()!=null && !oldScenario.getName().equals(scenarioUpdated.getName())){
-				updateNameInReferenceOfAllPeopleInScenario(callerId, scenarioUpdated);
+				updateNameInReferenceOfAllPeopleInScenario(user.getId(), scenarioUpdated);
 			}
 			
 			
@@ -228,13 +230,24 @@ public class ScenarioServiceImpl implements ScenarioService{
 					/*Vado ad eliminare lo scenario da tutti gli utenti che mi ritrovo nella lista degli invited*/
 				}
 				if(newStatus.equals(ScenarioStatus.CLOSED)){
-					
+					Reference r=null;
+					if(scenarioUpdated.getTeacherCreator().getId().equals(user.getId()))
+						r=scenarioUpdated.getTeacherCreator();
+					else{
+						for(Reference ref : scenarioUpdated.getCollaborators()){
+							if(ref.getId().equals(user.getId())){
+								r = ref;
+								break;
+							}
+						}
+					}
+					notify.notifyCloseScenario(scenarioUpdated, r);
 		
 					/*Chiudo lo scenario per tutti i partecipanti, compreso il creatore.
 					 * Il service chiuderà in modo sincrono lo scenario per il teacher che chiude lo scenario, in modo asincrono per tutti
 					 * gli altri utenti*/
 					usersId.add(scenarioUpdated.getTeacherCreator().getId());
-					userService.closeScenarioOfUsers(scenarioUpdated.getId(),callerId,usersId);
+					userService.closeScenarioOfUsers(scenarioUpdated.getId(),user.getId(),usersId);
 					
 					/*Quando uno scenario viene chiuso si lascia solo al Creator e ai moderatori Teacher la possibilità di continuare 
 					 * a modificare lo scenario*/
@@ -253,8 +266,20 @@ public class ScenarioServiceImpl implements ScenarioService{
 						}
 					}
 				}else{
-					asyncUpdater.openScenarioOfUsers(scenarioUpdated,callerId);
+					asyncUpdater.openScenarioOfUsers(scenarioUpdated,user.getId());
 					asyncUpdater.createScenarioRelationship(scenarioUpdated);
+					Reference r=null;
+					if(scenarioUpdated.getTeacherCreator().getId().equals(user.getId()))
+						r=scenarioUpdated.getTeacherCreator();
+					else{
+						for(Reference ref : scenarioUpdated.getCollaborators()){
+							if(ref.getId().equals(user.getId())){
+								r = ref;
+								break;
+							}
+						}
+					}
+					notify.notifyOpenScenario(scenarioUpdated, r);
 				}
 			}
 			
@@ -344,7 +369,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			ScenarioReference scenarioRef = new ScenarioReference(scen);
 			
 			/*Se lo scenario è chiuso non è possibile aggiungere studenti ad esso*/
-			if(scen.getStatus().equals(ScenarioStatus.CLOSED))
+			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
 			
 			
@@ -543,8 +568,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if (scen == null)
 				throw new BadRequestException();
 			//Dagli scenari chiusi non si possono rimuovere gli user
-			if( scen.getStatus().equals(ScenarioStatus.CLOSED)) 
+			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
+			
 			
 			if(scen.getCollaborators()==null)
 				throw new BadRequestException();
@@ -576,6 +602,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 			//TODO valutare gestione errori		
 			scenarioRepository.removeCollaboratorFromScenario(id, scen.getStatus(), collaborator, putInAttendeesList);
+			notify.notifyRemoveModerator(collaborator, scen, scen.getTeacherCreator()); //ATTENZIONE! Dal momento che solo il creatore può rimuovere un collaboratore come actor prendo direttamente il reference del creatore dall scenario
 		}catch(MongoException e){
 			throw e;
 		}
@@ -646,14 +673,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	
 	@Override
-	public Reference addCollaboratorToScenario(String idCollaborator, String idScenario) throws BadRequestException, NotFoundException {
+	public Reference addCollaboratorToScenario(String idCollaborator, String idScenario, CustomUserDetails activeUser) throws BadRequestException, NotFoundException {
 		try{
 			Scenario scen = scenarioRepository.findById(idScenario);
 			
 			if (scen == null)
 				throw new BadRequestException();
 
-			if(scen.getStatus().equals(ScenarioStatus.CLOSED))
+			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
 			
 			User collaborator = userRepository.findById(idCollaborator);
@@ -698,6 +725,20 @@ public class ScenarioServiceImpl implements ScenarioService{
 				else
 					userService.createScenarioOfUser(r, new ScenarioReference(scen));
 			}
+			Reference actor=null;
+			if(scen.getTeacherCreator().getId().equals(activeUser.getId())){
+				actor = scen.getTeacherCreator();
+				notify.notifyNewModerator(r, scen, actor);
+			}else{
+				for(Reference ref : scen.getCollaborators()){
+					if(ref.getId().equals(activeUser.getId())){
+							actor=ref;
+							notify.notifyNewModerator(r, scen, actor);
+							notify.notifyCreatorOfNewModerator(r, scen, actor, teacherCreatorRef.getId());
+							break;
+					}
+				}
+			}
 			
 			return r;
 		}catch(MongoException e){
@@ -715,6 +756,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		try{
 			Scenario scen = scenarioRepository.findById(scenarioId);
 			if(scen==null)
+				throw new BadRequestException();
+			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
 			
 			Character c = new Character(characterDTO, scenarioId, userId);
@@ -811,8 +854,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if (scen == null)
 				throw new BadRequestException();
 			//Dagli scenari chiusi non si possono rimuovere gli user
-			if( scen.getStatus().equals(ScenarioStatus.CLOSED)) 
+			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
+			
 			
 			if(scen.getInvited()!=null){
 				for(Reference ref : scen.getInvited()){
@@ -864,6 +908,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 					(c.getActualUser()==null && c.getPastUserId()==null)){
 				characterRepository.removeCharacter(characterId);
 			}else{
+				if(scenario.getStatus().equals(ScenarioStatus.DELETED))
+					throw new BadRequestException();
 				
 				characterRepository.putToDeletedCharacter(characterId);
 				if(c.getActualUser()!=null){
@@ -959,9 +1005,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 				/*Gestione dei permessi: togliamo il permesso di scrittura sul character al vecchio possessore e lo assegniamo al nuovo*/
 				if(oldUser!=null){
 					userService.removeActualCharacterToUser(oldUser.getId(), characterRef.getId(), scenarioId);
+					notify.notifyDeleteAssociation(oldUser, cRef, scen);
 				}
 				
 				userService.addActualCharacterToUser(userId, characterRef, scenarioId);
+				notify.notifyNewAssociation(ref, cRef, scen);
 			}
 
 			
@@ -987,6 +1035,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Scenario scenario = scenarioRepository.findById(id);
 		if(scenario==null)
 			throw new NotFoundException();
+		if(scenario.getStatus().equals(ScenarioStatus.DELETED))
+			throw new BadRequestException();
+		
 		
 		Character c = characterRepository.findById(characterId);
 		if(c==null)
@@ -994,7 +1045,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		if(!c.getActualUser().getId().equals(userId))
 			throw new BadRequestException();
-		
+		Reference userRef = c.getActualUser();
 		c.setActualUser(null, scenario.getStatus());
 		
 		userService.removeActualCharacterToUser(userId, characterId, id);
@@ -1003,6 +1054,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		CharacterReference charRef = new CharacterReference(c);
 		scenarioRepository.updateCharacterToScenario(charRef, id);
+		
+		if(scenario.getStatus().equals(ScenarioStatus.ACTIVE))
+			notify.notifyDeleteAssociation(userRef, charRef, scenario);
+
 		
 	}
 
@@ -1126,7 +1181,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			PostReference postReference = new PostReference(status);
 			scenarioRepository.addPostToScenario(scenarioId, postReference);
 			characterRepository.addPostToCharacter(character.getId(), postReference);
-//			notify.notifyCreatePost(scenario, status);
+			notify.notifyCreatePost(scenario, status);
 		}else{
 			userRepository.addDraftPost(user.getId(), status.getId());
 		}
@@ -1238,7 +1293,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		User u = userRepository.findById(activeUser.getId());
 		if(scenario==null || u==null)
 			throw new BadRequestException();
-
+		if(!scenario.getStatus().equals(ScenarioStatus.ACTIVE))
+			throw new BadRequestException();
+		
 
 		Event event = new Event();
 		event.setScenarioId(scenarioId);
@@ -1301,7 +1358,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(event.getStatus().equals(PostStatus.PUBLISHED)){
 			PostReference postReference = new PostReference(event);
 			scenarioRepository.addPostToScenario(scenarioId, postReference);
-//			notify.notifyCreatePost(scenario, event);
+			notify.notifyCreatePost(scenario, event);
 		}else{
 			userRepository.addDraftPost(activeUser.getId(), event.getId());
 		}
@@ -1326,6 +1383,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Status status = (Status) post;
 		Scenario scenario = scenarioRepository.findById(id);
 		if(scenario==null)
+			throw new BadRequestException();
+		if(scenario.getStatus().equals(ScenarioStatus.DELETED))
 			throw new BadRequestException();
 		
 		boolean permit=false;
@@ -1507,6 +1566,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Event event = (Event) post;
 		Scenario scenario = scenarioRepository.findById(id);
 		if(scenario==null)
+			throw new BadRequestException();
+		if(scenario.getStatus().equals(ScenarioStatus.DELETED))
 			throw new BadRequestException();
 		
 		boolean permit=false;
@@ -1967,6 +2028,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Scenario scenario = scenarioRepository.findById(idScenario);
 		if(scenario == null)
 			throw new BadRequestException();
+		if(scenario.getStatus().equals(ScenarioStatus.CLOSED) || scenario.getStatus().equals(ScenarioStatus.DELETED))
+			throw new BadRequestException();
+		
 		
 		boolean hasPermission = false;
 		Reference charRef = null;
@@ -1997,7 +2061,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(p==null)
 			throw new BadRequestException();
 		
-//		notify.notifyNewComment(scenario, p, comment);
+		notify.notifyNewComment(scenario, p, comment);
 		return new Id(comment.getId());
 	}
 	
@@ -2010,6 +2074,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Scenario scenario = scenarioRepository.findById(idScenario);
 		if(scenario == null)
 			throw new BadRequestException();
+		if(scenario.getStatus().equals(ScenarioStatus.CLOSED) || scenario.getStatus().equals(ScenarioStatus.DELETED))
+			throw new BadRequestException();
 		
 		Reference userReference = new Reference(user);
 		
@@ -2017,7 +2083,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Post p = postRepository.addComment(idScenario, postId, metaComment); 
 		if(p==null)
 			throw new BadRequestException();
-//		notify.notifyNewMetaComment(scenario, p, metaComment);
+		notify.notifyNewMetaComment(scenario, p, metaComment);
 		return new Id(metaComment.getId());
 	}
 
@@ -2268,11 +2334,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+		//TODO
+		//aggiungere gestione notifiche. Controllare che notifica parta solo in caso di aggiunta like e non di rimozione.
 		if(charRef==null)
 			throw new BadRequestException();
 		
-		post.addLike(charRef);
+		if(post.addLike(charRef))
+			notify.notifyLikeToPost(scenario, post, charRef);
 		Post newPost = postRepository.save(post);
 		
 		Set<CharacterReference> likes = newPost.getLikes();
@@ -2283,7 +2351,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 		
 		return false;
-//		notify.notifyLikeToPost(scenario, post, charRef);
 	}
 
 
@@ -2316,10 +2383,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Update u = new Update();
 		u.set("mission", m);
 		
-		return scenarioRepository.updateScenario(id, u);
-		
-		
-		
+		Scenario s = scenarioRepository.updateScenario(id, u);
+		notify.notifyNewGlobalMission(teacherRef, s, m);
+		return s;		
 	}
 	
 	@Override
@@ -2341,7 +2407,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		m.setDescription(mission.getDescription());
 		Update u = new Update();
 		u.set("mission", m);
-		return characterRepository.updateCharacter(idCharacter, u);
+		Character c = characterRepository.updateCharacter(idCharacter, u);
+		Scenario s = scenarioRepository.findById(c.getScenarioId());
+		notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m);
+		return c;
 		
 	}
 	

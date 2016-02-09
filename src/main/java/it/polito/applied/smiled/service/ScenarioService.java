@@ -33,37 +33,38 @@ import it.polito.applied.smiled.security.CustomUserDetails;
 public interface ScenarioService {
 
 	public String createScenario(ScenarioDTO scenarioDTO, String email)
-			throws MongoException, BadRequestException, IllegalStateException, IOException;public List<Reference> getAllScenariosUsers(String id) throws MongoException, NotFoundException;
-	
-			public List<Reference> subscribeStudentIfNotPresent(List<EmailDTO> studentsEmail, String teacherId, String scenarioId) throws MongoException, BadRequestException;
-	
+			throws MongoException, BadRequestException, IllegalStateException, IOException;
+	public List<Reference> getAllScenariosUsers(String id) throws MongoException, NotFoundException;
+
+	public List<Reference> subscribeStudentIfNotPresent(List<EmailDTO> studentsEmail, String teacherId, String scenarioId) throws MongoException, BadRequestException;
+
 	public void removeUserFromScenario(String id, String userToDelete) throws MongoException, BadRequestException;
 	public Scenario getScenario(String id) throws MongoException, NotFoundException;
-	
-	public Scenario updateScenario(String id, ScenarioDTO scenario, String email)
+
+	public Scenario updateScenario(String id, ScenarioDTO scenario, CustomUserDetails user)
 			throws MongoException, BadRequestException, IllegalStateException, IOException;
-	
+
 	public void removeScenario(String id) throws BadRequestException;
-	
+
 	public List<Reference> getAllScenariosCollaborators(String id)
 			throws MongoException, NotFoundException;
-	
-    public Reference addCollaboratorToScenario(String collaboratorEmail, String idScenario)
+
+	public Reference addCollaboratorToScenario(String collaboratorEmail, String idScenario, CustomUserDetails user)
 			throws BadRequestException, NotFoundException;
-	
+
 	//public Reference subscribeTeacherIfNotPresent(String email,	String id) throws BadRequestException;
-	
+
 	public void removeCollaboratorFromScenario(String id, String collaboratorToDelete, boolean putInAttendeesList)
 			throws MongoException, BadRequestException;
-	
+
 	public Id addCharacterToScenario(CharacterDTO characterDTO, String scenarioId, String userId) throws BadRequestException;
-	
+
 	public Character getCharacter(String scenarioId, String characterId) throws NotFoundException, BadRequestException;
-	
+
 	public Character updateCharacter(String scenarioId, CharacterDTO characterDTO) throws BadRequestException, NotFoundException;
 
 	public void removeCharacterFromScenario(String id, String characterId) throws BadRequestException, NotFoundException;
-	
+
 	public Character updateUserCharacter(String scenarioId, String characterId, String userId) throws BadRequestException, NotFoundException;
 
 	public void moveFromInvitedToAttendees(Reference userRef, String id);
@@ -89,10 +90,10 @@ public interface ScenarioService {
 
 	public void insertRevision(String id, String postId, RevisionDTO revision,
 			CustomUserDetails activeUser) throws BadRequestException;
-	
+
 	public Id insertComment(String idScenario, String postId, CommentDTO commentDTO, Authentication auth) throws ForbiddenException, BadRequestException;
 	public Id insertMetaComment(String idScenario, String postId, CommentDTO commentDTO, Authentication auth) throws ForbiddenException, BadRequestException;
-	
+
 	public CommentInterface updateComment(String idScenario, String postId, String commentId, CommentDTO commentDTO, Authentication auth, boolean isMetaComment) throws NotFoundException, ForbiddenException;
 
 	public void deleteComment(String id, String postId, String commentId,
@@ -103,18 +104,18 @@ public interface ScenarioService {
 	public List<Character> getAllCharacters(String scenarioId);
 
 	public Scenario addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
-	
+
 	public Character addMissionToCharacter(String idCharacter, MissionDTO mission, CustomUserDetails activeUser) throws BadRequestException;
 
 	public List<Action> getSocialGraph(String id) throws NotFoundException;
-	
+
 	public boolean deleteMissionToCharacter(String idCharacter)throws BadRequestException;
-	
+
 	public boolean deleteMissionToScenario(String idScenario)throws BadRequestException;
 
 	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser);
-	
+
 	public void lastUpdateScenario(String scenarioId, Date d);
 
-	
+
 }
