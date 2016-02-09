@@ -14,12 +14,12 @@
 	<context:component-scan base-package="it.polito.applied.smiled.websocket"></context:component-scan>
 	
 <!-- 	<websocket:message-broker application-destination-prefix="/app"> -->
-<!--         <websocket:stomp-endpoint path="/messages"> -->
+<!--         <websocket:stomp-endpoint path="/marco"> -->
 <!--             <websocket:sockjs/> -->
 <!--         </websocket:stomp-endpoint> -->
 <!--         <websocket:stomp-broker-relay prefix="/queue"    -->
-<!--         	relay-host="${rabbit.host}" relay-port="${rabbit.port}" -->
-<!--       		client-login="${rabbit.username}" client-passcode="${rabbit.password}" -->
+<!--         	relay-host="${rabbit.host}" relay-port="${rabbit.stomp.port}" -->
+<!--       		system-login="${rabbit.username}" system-passcode="${rabbit.password}" -->
 <!--       		virtual-host="${rabbit.virtualHost}"/> -->
 <!--     </websocket:message-broker> -->
 

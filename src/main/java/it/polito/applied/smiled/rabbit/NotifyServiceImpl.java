@@ -29,7 +29,7 @@ public class NotifyServiceImpl implements NotifyService{
 	private final String USER_QUEUE_PREFIX="user.";
 	
 	@Autowired
-	private ManageBroker broker;
+	private BrokerProducer brokerProducer;
 	
 	@Autowired
 	private AsyncUpdater asyncUpdater;
@@ -40,18 +40,18 @@ public class NotifyServiceImpl implements NotifyService{
 	
 	@Override
 	public void createQueue(String userId) {
-		broker.createQueue(USER_QUEUE_PREFIX+userId);
-		broker.createBinding(USER_QUEUE_PREFIX+userId, DIRECT, USER_QUEUE_PREFIX+userId);
+		brokerProducer.createQueue(USER_QUEUE_PREFIX+userId);
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+userId, DIRECT, USER_QUEUE_PREFIX+userId);
 	}
 	
 	@Override
 	public void addTopicBinding(String topic, String queue){
-		broker.createBinding(queue, TOPIC, topic);
+		brokerProducer.createBinding(queue, TOPIC, topic);
 	}
 	
 	@Override
 	public void removeTopicBinding(String topic, String queue){
-		broker.removeBinding(queue, TOPIC, topic);
+		brokerProducer.removeBinding(queue, TOPIC, topic);
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class NotifyServiceImpl implements NotifyService{
 		l.add(s.getTeacherCreator());
 					
 		for(Reference r : l){
-			broker.createBinding(USER_QUEUE_PREFIX+r.getId(), TOPIC, "s"+s.getId());
+			brokerProducer.createBinding(USER_QUEUE_PREFIX+r.getId(), TOPIC, "s"+s.getId());
 		}
 		Notification n = new Notification();
 		n.setDate(new Date());
@@ -79,7 +79,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 		
 	}
 	
@@ -98,7 +98,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 		
 		
 		List<Reference> l = new ArrayList<Reference>();
@@ -109,7 +109,7 @@ public class NotifyServiceImpl implements NotifyService{
 		l.add(s.getTeacherCreator());
 					
 		for(Reference r : l){
-			broker.removeBinding(USER_QUEUE_PREFIX+r.getId(), TOPIC, "s"+s.getId());
+			brokerProducer.removeBinding(USER_QUEUE_PREFIX+r.getId(), TOPIC, "s"+s.getId());
 		}
 	}
 
@@ -132,7 +132,7 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 			
 		/*Notifico i taggati*/
 		List<Reference> l = new ArrayList<Reference>();
@@ -150,8 +150,8 @@ public class NotifyServiceImpl implements NotifyService{
 		for(Reference r : l){
 			CharacterReference c = s.getCharacter(r.getId());
 			if(c!=null && c.getUserId()!=null){
-				broker.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "p"+p.getId());
-				broker.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "pc"+p.getId());
+				brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "p"+p.getId());
+				brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "pc"+p.getId());
 			}
 		}
 		
@@ -169,7 +169,9 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 		nTag.setScenarioId(s.getId());
 		nTag.setScenarioName(s.getName());
-		broker.sendNotify(nTag, TOPIC, "pc"+p.getId());
+		brokerProducer.sendNotify(nTag, TOPIC, "pc"+p.getId());
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+p.getUser().getId(), TOPIC, "p"+p.getId());
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+p.getUser().getId(), TOPIC, "pc"+p.getId());
 		
 	}
 
@@ -189,8 +191,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, TOPIC, "pc"+p.getId());
-		broker.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
+		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	}
 	
 	@Override
@@ -209,8 +211,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, TOPIC, "pc"+p.getId());
-		broker.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
+		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	}
 
 	@Override
@@ -238,7 +240,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 
-		broker.sendNotify(n, TOPIC, "p"+p.getId());
+		brokerProducer.sendNotify(n, TOPIC, "p"+p.getId());
 	}
 
 	@Override
@@ -253,7 +255,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
 
 	@Override
@@ -268,7 +270,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 
-		broker.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
 		asyncUpdater.removeNotificationFromCharacter(user, actor, s);
 	}
 
@@ -295,7 +297,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
 	}
 
 	@Override
@@ -319,7 +321,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, TOPIC, "s"+s.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
 
 	@Override
@@ -336,8 +338,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
-		broker.createBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
 	}
 	
 	@Override
@@ -354,7 +356,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+creatorId);
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+creatorId);
 	}
 	
 	@Override
@@ -369,8 +371,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		broker.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
-		broker.removeBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
 		asyncUpdater.removeModeratorFromScenario(user, s);
 
 	}

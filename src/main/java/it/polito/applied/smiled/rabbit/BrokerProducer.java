@@ -1,29 +1,23 @@
 package it.polito.applied.smiled.rabbit;
 
-import java.io.IOException;
-
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Binding.DestinationType;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageBuilder;
-import org.springframework.amqp.core.MessageDeliveryMode;
-import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.core.MessagePropertiesBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class ManageBroker {
+public class BrokerProducer {
 
 	@Autowired
 	private RabbitAdmin admin;
 		
 	@Autowired
-	private AmqpTemplate amqpTemplate;
+	private RabbitTemplate template;
+	
 	
 	public void createQueue(String queueName){
 		Queue q = new Queue(queueName);
@@ -41,15 +35,15 @@ public class ManageBroker {
 	}
 	
 	public void sendNotify(Notification n, String exchange, String routingKey){
-		amqpTemplate.convertAndSend(exchange,routingKey, n);
+		template.convertAndSend(exchange,routingKey, n);
 	}
 	
 	public MessagePayload receiveFromQueue(String queueName){
-		return (MessagePayload) amqpTemplate.receiveAndConvert(queueName);
+		return (MessagePayload) template.receiveAndConvert(queueName);
 	}
 	
 	public void sendMessage(UserMessage m){
-		amqpTemplate.convertAndSend("directExchange", "u"+m.getReceiverId(), m);
+		template.convertAndSend("directExchange", "u"+m.getReceiverId(), m);
 	}
 
 }

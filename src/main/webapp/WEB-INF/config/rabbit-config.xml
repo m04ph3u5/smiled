@@ -13,9 +13,9 @@
 	<rabbit:annotation-driven />
 
 	<rabbit:connection-factory id="connectionFactory"
-		host="${rabbit.host}" port="${rabbit.port}" username="${rabbit.username}"
+		host="${rabbit.host}" port="${rabbit.amqp.port}" username="${rabbit.username}"
 		virtual-host="${rabbit.virtualHost}" password="${rabbit.password}"
-		channel-cache-size="${rabbit.channelCacheSize}" />
+		channel-cache-size="${rabbit.channelCacheSize}"/>
 
 	<rabbit:admin id="amqpAdmin" connection-factory="connectionFactory" />
 
@@ -50,6 +50,10 @@
 	<bean id="messageConverter"
 		class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter">
 	</bean>
+	
+	<bean id="brokerConsumer" class="it.polito.applied.smiled.rabbit.BrokerConsumer" scope="prototype"></bean>
+	
+	<bean id="consumerHandler" class="it.polito.applied.smiled.rabbit.ConsumerHandler" scope="prototype"></bean>
 
 
 </beans>

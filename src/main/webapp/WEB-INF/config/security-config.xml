@@ -84,10 +84,10 @@
 		
 		<custom-filter ref="usernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER"/>
 					 
-		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/>
+<!-- 		<custom-filter ref="csrfHeaderFilter" before="FORM_LOGIN_FILTER"/> -->
 		<custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
 		<custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>        
-		<csrf token-repository-ref="customCsrfTokenRepository"></csrf>
+<!-- 		<csrf token-repository-ref="customCsrfTokenRepository"></csrf> -->
 <!-- 		<form-login -->
 <!-- 			login-processing-url="/apiLogin" -->
 <!-- 			default-target-url="/" -->
