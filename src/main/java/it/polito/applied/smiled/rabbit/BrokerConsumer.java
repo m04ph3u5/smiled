@@ -1,7 +1,10 @@
 package it.polito.applied.smiled.rabbit;
 
+import java.util.List;
+
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.web.socket.WebSocketSession;
 
 
 public class BrokerConsumer {
@@ -9,6 +12,8 @@ public class BrokerConsumer {
 	private String queueName;
 	private int onOfConsumer;
 	private ConsumerSimpleMessageListenerContainer container;
+	private List<String> sessionsId;
+	private ConsumerHandler handler;
 	
 	public BrokerConsumer(){};
 
@@ -18,10 +23,12 @@ public class BrokerConsumer {
 			System.out.println("factory: "+connectionFactory.getHost()+":"+connectionFactory.getPort());
 			this.queueName = queueName;
 			this.onOfConsumer = onOfConsumer;
+			this.handler = handler;
 			container = new ConsumerSimpleMessageListenerContainer();
 			container.setConnectionFactory(connectionFactory);
 			container.setQueueNames(this.queueName);
 			container.setConcurrentConsumers(this.onOfConsumer);
+			sessionsId = handler.getSessionsId();
 			container.setMessageListener(new MessageListenerAdapter(handler));
 			container.startConsumers();
 		}catch(Exception e){
@@ -46,5 +53,17 @@ public class BrokerConsumer {
 	public void stopConsumer() throws Throwable{
 		container.stopConsumer();
 	}
+	public void addSessionToHandler(WebSocketSession session){
+		sessionsId.add(session.getId());
+		handler.addSession(session);
+	}
+	public void removeSessionToHandler(String sessionId){
+		sessionsId.remove(sessionsId);
+		handler.removeSession(sessionId);
+	}
+	public int getNumberOfSessions(){
+		return handler.getNumberOfSessions();
+	}
+	
 
 }
