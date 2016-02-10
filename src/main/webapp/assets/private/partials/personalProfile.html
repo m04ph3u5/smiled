@@ -42,7 +42,7 @@
 			
 			<p data-ng-if="personalProfile.user.email!=null"><label>Email:</label> {{personalProfile.user.email}} </p>
 			
-			<p style="cursor:pointer;" data-ng-click="personalProfile.switchEditProfile()" data-ng-if="personalProfile.user.profile.school!=null"><a><label>Scuola:</label> {{personalProfile.user.profile.school}} ({{personalProfile.user.profile.schoolCity}}) </a></p>
+			<p style="cursor:pointer;" data-ng-click="personalProfile.switchEditProfile()" data-ng-if="personalProfile.user.profile.school!=null"><a><label>Scuola:</label> {{personalProfile.user.profile.school}} <span data-ng-show="personalProfile.user.profile.schoolCity">(</span>{{personalProfile.user.profile.schoolCity}}<span data-ng-show="personalProfile.user.profile.schoolCity">)</span> </a></p>
 	
 			<!--  <h4>Scuola, materie insegnate / preferite, Interessi, Citazione</h4>--> 
 			

@@ -239,6 +239,7 @@ public class UserController extends BaseController{
 			}
 			System.out.println("USER ID: "+ userId);
 			userDTO = userService.getUserById(userId);
+			System.out.println("USER: "+ userDTO);
 			
 			//userDTO.setRole(null);
 		}else{

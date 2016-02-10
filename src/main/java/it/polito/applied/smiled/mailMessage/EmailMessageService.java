@@ -48,11 +48,19 @@ public class EmailMessageService {
 		
 		/*EMAIL INFORMATIVA INVIATA ALLA PERSONA CHE STA CERCANDO DI REGISTRARSI */
 		SimpleMailMessage message = new SimpleMailMessage();
+		String text="Gentile "+ firstName+",\n\n"
+				+ "grazie per il suo interesse verso Meschola (www.meschola.it).\n\n"
+				+ "Per assicurarci che la piattaforma venga utilizzata esclusivamente a fini didattici, "
+				+ "prima di procedere con l’abilitazione del suo account le chiederemmo gentilmente di fornirci ancora qualche "
+				+ "indicazione sul progetto che intenderebbe sviluppare attraverso Meschola "
+				+ "(es. obiettivi didattici, materia, tema, numero indicativo di classi e/o alunni coinvolti...).\n\n"
+				+ "Le saremmo inoltre molto grati se potesse rispondere a questa mail indicandoci come ha saputo di www.meschola.it.\n\n"
+				+ "Grazie anticipatamente per la collaborazione e un saluto,\n\n"
+				+ "\tLo staff di Meschola";
 		message.setFrom(from);
 		message.setTo(email);
 		message.setSubject("Meschola! Ciao "+firstName+", la tua richiesta di registrazione e' stata presa in carico");
-		message.setText("Ciao "+firstName+" ,la tua richiesta di registrazione e' stata presa in carico. Presto riceverai ulteriori dettagli! "
-						+ "A presto\nMESCHOLA");
+		message.setText(text);
 	
 		System.out.println("Sto inviando una mail di registrazione docente all'indirizzo: "+ email);
 		System.out.println("dall'indirizzo: "+ from);
