@@ -101,7 +101,8 @@
 </div>
 <!-- /.container-fluid -->
 <script> 
-	var sock = new SockJS('https://localhost:8443/websocket/messages');
+	var sock = new SockJS(location.host+'/websocket/messages');
+	
 	sock.onopen = function() {
 	    console.log('open');
 	};

@@ -34,7 +34,7 @@ public class ConsumerHandler implements MessageListener {
 			try {
 				WebSocketMessage<?> m = new TextMessage(message.getBody());
 				
-	/*	Per convertire devo essere sicuro di inviare un MessagePayload al broker e non Notification o UserMessage
+	/*	  Per convertire devo essere sicuro di inviare un MessagePayload al broker e non Notification o UserMessage
 		TODO Modificare Broker Producer e/o NotifyService (successivamente anche MessageService)
 		
 				ObjectMapper mapper = new ObjectMapper();
@@ -54,7 +54,12 @@ public class ConsumerHandler implements MessageListener {
 	
 	public void addSession(WebSocketSession s){
 		synchronized (lock) {
-			sessions.add(s);
+			boolean present = false;
+			for(WebSocketSession session : sessions)
+				if(session.getId().equals(s.getId()))
+					present = true;
+			if(!present)
+				sessions.add(s);
 		}
 	}
 	
