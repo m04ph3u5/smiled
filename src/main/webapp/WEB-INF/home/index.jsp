@@ -50,11 +50,9 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 </div>
 	<!-- VENDOR SCRIPT -->
 	
-	<script
-		src="/assets/public/js/vendor/jquery/dist/jquery.min.js"></script>
+	<script src="/assets/public/js/vendor/jquery/dist/jquery.min.js"></script>
 
-	<script
-		src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="/assets/public/js/vendor/jquery-ui/jquery-ui.min.js"></script>
 	<script src="/assets/public/js/vendor/jquery-ui/ui/i18n/datepicker-it.js"></script>
 	<script src="/assets/public/js/vendor/angular/angular.min.js"></script>
@@ -74,7 +72,6 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 		src="/assets/public/js/vendor/angular-permission/dist/angular-permission.js"></script>
 	<script src="/assets/public/js/vendor/lodash/lodash.min.js"></script>
 	<script src="/assets/public/js/vendor/restangular/dist/restangular.min.js"></script>
-	<script src="/assets/public/js/vendor/stomp-websocket/lib/stomp.min.js"></script>
 	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload.min.js"></script>
 	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.min.js"></script>
 	<script src="/assets/public/js/vendor/sockjs-client/dist/sockjs.min.js"></script>
@@ -138,6 +135,9 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/controllers/editDraftController.js"></script>	
 	<script src="/assets/public/js/controllers/forgotController.js"></script>	
 	<script src="/assets/public/js/services/userService.js"></script>
+	<script src="/assets/public/js/services/notifyService.js"></script>
+	<script src="/assets/public/js/services/messageService.js"></script>
+	<script src="/assets/public/js/services/webSocketService.js"></script>	
 	<script src="/assets/public/js/services/apiService.js"></script>
 	<script src="/assets/public/js/services/modalService.js"></script>
 	<script src="/assets/public/js/services/alertingLogin.js"></script>
