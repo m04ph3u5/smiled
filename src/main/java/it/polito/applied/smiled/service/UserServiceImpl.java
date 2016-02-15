@@ -130,11 +130,18 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		}
 		CustomUserDetails actualUser = new CustomUserDetails(user);
 //		actualUser.setUser(user);
+
 		try{
-			notify.createQueue(actualUser.getId());	
-		}catch(Exception exceptionInCreateQueue){
-			System.out.println("Exception in create queue of notify service, more details: "+exceptionInCreateQueue.getMessage());
+			notify.createQueue(actualUser.getId());
+			for(String s : actualUser.getOpenScenariosId()){
+				notify.addTopicBinding("s"+s, actualUser.getId());
+
+			}
+		}catch(Exception e){
+			//TODO 
+			System.out.println(e.getMessage());
 		}
+		
 		System.out.println(actualUser.getUsername()+" loggedIn!");
 		return actualUser;
 	}

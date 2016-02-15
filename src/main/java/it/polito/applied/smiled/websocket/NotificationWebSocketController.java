@@ -34,12 +34,11 @@ public class NotificationWebSocketController implements WebSocketHandler{
 	private BrokerConsumer consumer;
 	private ConnectionFactory connectionFactory;
 	
-	/*La chiave di questa mappa rappresenta l'id dell'utente, così da gestire con lo stesso consumer il prelievo dalla coda di un utente
+	/*La chiave di questa mappa rappresenta l'id dell'  utente, così da gestire con lo stesso consumer il prelievo dalla coda di un utente
 	 * ed inviarlo a tutte le connessioni websocket attive per quell'utente*/
 	private Map<String, BrokerConsumer> sessions;
 	private Object lock;
 
-	/**/
 	@PostConstruct
 	private void initialize(){
 		sessions = new HashMap<String, BrokerConsumer>();
@@ -49,7 +48,6 @@ public class NotificationWebSocketController implements WebSocketHandler{
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("WEBSOCKET CLOSED: "+status);
 		try {
 			Authentication auth = (Authentication) session.getPrincipal();
 			CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
@@ -73,6 +71,7 @@ public class NotificationWebSocketController implements WebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		Authentication auth = (Authentication) session.getPrincipal();
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
+		System.out.println(session.getId());
 		synchronized(lock) {
 			if(sessions.containsKey(user.getId())){
 				BrokerConsumer c = sessions.get(user.getId());

@@ -38,7 +38,7 @@
 		<intercept-url pattern="/login" access="permitAll" requires-channel="https"/>
 		<intercept-url pattern="/assets/public/**" access="permitAll"
 			 requires-channel="https"/>
-		<intercept-url pattern="/websocket/**" access="permitAll" requires-channel="https"/>
+<!-- 		<intercept-url pattern="/websocket/**" access="permitAll" requires-channel="https"/> -->
 		<intercept-url pattern="/api/v1/register" access="permitAll"
 			 requires-channel="https"/>
 		<intercept-url pattern="/api/v1/users/email" access="hasRole('ROLE_ANONYMOUS')"

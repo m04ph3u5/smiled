@@ -45,8 +45,8 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 	
 	@Override
-	public void addTopicBinding(String topic, String queue){
-		brokerProducer.createBinding(queue, TOPIC, topic);
+	public void addTopicBinding(String topic, String userId){
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+userId, TOPIC, topic);
 	}
 	
 	@Override
@@ -141,6 +141,10 @@ public class NotifyServiceImpl implements NotifyService{
 			if(status.getTags()!=null){
 				l.addAll(status.getTags());
 			}
+			if(status.getText().length()<=PREVIEW)
+				n.setObjectContent(status.getText());
+			else
+				n.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
 		}else if(p.getClass().equals(Status.class)){
 			Event event = (Event) p;
 			if(event.getTags()!=null){
@@ -269,8 +273,12 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(actor.getName());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-
-		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		} catch(Exception e){
+			System.out.println("Delete association: impossibile inviare la notifica");
+		}
 		asyncUpdater.removeNotificationFromCharacter(user, actor, s);
 	}
 
@@ -297,7 +305,11 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+		} catch(Exception e){
+			System.out.println("New personal mission: impossibile inviare la notifica");
+		}
 	}
 
 	@Override
@@ -326,6 +338,7 @@ public class NotifyServiceImpl implements NotifyService{
 
 	@Override
 	public void notifyNewModerator(Reference user, Scenario s, Reference actor) {
+		
 		Notification n = new Notification();
 		n.setDate(new Date());
 		
@@ -338,8 +351,12 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
-		brokerProducer.createBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+			brokerProducer.createBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
+		}catch(Exception e){
+			System.out.println("New moderaotor: impossibile inviare la notifica");
+		}
 	}
 	
 	@Override
@@ -356,7 +373,11 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		
-		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+creatorId);
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+creatorId);
+		}catch(Exception e){
+			System.out.println("New moderaotor to creator: impossibile inviare la notifica");
+		}
 	}
 	
 	@Override
@@ -370,9 +391,12 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(actor.getFirstname()+" "+user.getLastname());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
-		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
-		brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
+			brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
+		}catch(Exception e){
+			System.out.println("Remove moderator: impossibile inviare la notifica");
+		}
 		asyncUpdater.removeModeratorFromScenario(user, s);
 
 	}
