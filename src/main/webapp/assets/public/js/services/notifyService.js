@@ -2,40 +2,35 @@ angular.module('smiled.application').factory('notifyService', [ '$q',
                function notifyService($q){
 
 	var notifications = [];
-	console.log("notify service!");
+	
 	
 	var newNotify = function(n){
 		n.read = false;
-		notifications.push(n);
-		console.log("NEW NOTIFY: ")
-		console.log(n);
-		console.log("Notifications list of notifyService:");
-		console.log(notifications);
+		notifications.splice(0, 0, n);
+		
 		notifyNotificationsObservers();
 	}
 	
-	//restituisce solo le notifiche non lette (read==false)
+	//restituisce tutte le notifiche non lette che il service ha in memoria (read==false)
 	var readNewNotifications = function(){
 		var newNotifications = [];
 		for(var i=0; i < notifications.length; i++){
-			var n = notifications[i];
-			if(n.read==false){
-				newNotifications.push(angular.copy(n));
-				n.read=true;
+			if(notifications[i].read==false){
+				newNotifications.push(angular.copy(notifications[i]));
+				notifications[i].read=true;
 			}
 		}
 		return newNotifications;
 	}
 	
-	//restituisce le ultime notifiche che il service ha in memoria
+	//restituisce tutte le notifiche che il service ha in memoria
 	var readNotifications = function(){
-		var count=0;
-		var notifications = [];
-		for(n in notifications){
-			newNotifications.push(angular.copy(n));
-			n.read=true;
-			count++;			
+		var allNotificationInService = [];
+		for(var i=0; i<notifications.length; i++){
+			allNotificationInService.push(angular.copy(notifications[i]));
+			n.read=true;			
 		}
+		return allNotificationInService;
 	}
 	
 	var readOldNotifications = function(){

@@ -7,6 +7,8 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	self.newNotifications = [];
 	self.oldNotifications = [];
 	
+	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
+	self.iHaveDone = false;
 	
 	userService.getMe().then(		
 		function(data){
@@ -30,14 +32,48 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		self.cover = CONSTANTS.urlMeCover+"?"+date.toString();
 	}
 	var updateNotifications = function(){
-		console.log("new notifications");
-		console.log(notifyService.readNewNotifications());
-		self.newNotifications = self.newNotifications.concat(notifyService.readNewNotifications());
-		console.log("Navbar Controller ");
+		console.log("new notifications (navbar controller)");
+		var oldNoRead = angular.copy(self.newNotifications);
+		self.newNotifications = angular.copy(notifyService.readNewNotifications()).concat(oldNoRead);
+		
 		console.log("New notifications: ")
 		console.log(self.newNotifications);
+		console.log("Lunghezza: ");
+		console.log(self.newNotifications.length);
 	}
 	
+	self.setNotificationsToRead = function(){
+		self.oldNotifications = self.oldNotifications.concat(angular.copy(self.newNotifications));
+		self.newNotifications = [];
+		console.log("Notifiche già lette: ");
+		console.log(self.oldNotifications);
+		self.iHaveDone=true;
+	}
+	
+	self.showNotify = function(n){
+		console.log("I am in showNotify!!");
+		var text ="";
+		if(n.verb=="NEW_POST")
+			text+="Nuovo post nello scenario "+ n.scenarioName;
+		
+		return text;
+	}
+	
+	self.calculateTime = function(d){
+		console.log("---->");
+		console.log(d);
+//		if(d!=null && d!=0 ){
+//			var actual = new Date();
+//			var diff;
+//			console.log("actual date:");
+//			console.log(actual);
+//			diff= actual-d;
+//			console.log("time difference: ");
+//			console.log(diff);
+//			return diff;
+//		}
+		
+	}
 	
 	updateCover();
 	

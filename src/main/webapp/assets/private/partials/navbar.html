@@ -32,20 +32,48 @@
 				<a style="border: 2px; border-style:dashed; border-color:#cb654f;" tooltip="Le ultime novità introdotte" href="">Novità</a></li>
 			<li>
 				<a data-ui-sref="logged.dashboard" tooltip="Home" href=""><span class="glyphicon glyphicon-home"></span></a></li>
-			<li class="dropdown">
-				<a href="#"  class="dropdown-toggle" tooltip="Notifiche" data-toggle="dropdown" role="button" aria-expanded="false">
-					<span class="glyphicon glyphicon-bullhorn"></span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu" role="menu">
-<!-- 					<li><a href="#">Notifica 1</a></li> -->
-<!-- 					<li><a href="#">Notifica 2</a></li> -->
-<!-- 					<li><a href="#">Notifica 3</a></li> -->
-<!-- 					<li><a href="#">Notifica 4</a></li> -->
+<!-- 			<li class="dropdown"> -->
+<!-- 				<a href="#"  class="dropdown-toggle" tooltip="Notifiche" data-toggle="dropdown" role="button" aria-expanded="false"> -->
 					
-<!-- 					<li class="divider"></li> -->
-<!-- 					<li><a href="#">Vedi tutte</a></li> -->
-				</ul></li>
+<!-- 					<span class="glyphicon glyphicon-bullhorn"></span> -->
+<!-- 					<span class="caret"></span> -->
+<!-- 					<span href="#" >6</span> -->
+<!-- 				</a> -->
+<!-- 				<ul class="dropdown-menu" role="menu"> -->
+<!-- <!-- 					<li><a href="#">Notifica 1</a></li> --> 
+<!-- <!-- 					<li><a href="#">Notifica 2</a></li> -->
+<!-- <!-- 					<li><a href="#">Notifica 3</a></li> --> 
+<!-- <!-- 					<li><a href="#">Notifica 4</a></li> --> 
+					
+<!-- <!-- 					<li class="divider"></li> --> 
+<!-- <!-- 					<li><a href="#">Vedi tutte</a></li> --> 
+<!-- 				</ul> -->
+<!-- 			</li> -->
+			
+		  <li class="dropdown">
+		  		  <a data-ng-click="navbar.setNotificationsToRead()" tooltip="Notifiche" href="#" uib-dropdown-toggle data-toggle="dropdown" style="position:relative;">
+		  		  
+		  		  <span id="noti_Container"> 
+   					  <span class="glyphicon glyphicon-bullhorn" ></span>
+    			      <span data-ng-if="navbar.newNotifications.length>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>
+    			     
+    			      
+				  </span>
+				  </a>
+		          <ul uib-dropdown-menu role="menu">
+		          
+		                        <li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href="#"><span class="label label-primary">{{ n.date | date }}</span>{{navbar.showNotify(n)}} </a></li>
+		                        <li class="divider"></li>
+		                     
+<!-- 		                        <li><a href="#"><span class="label label-primary">8:00 AM</span> How are you?</a></li> -->
+<!-- 		                        <li role="presentation" class="divider"></li> -->
+<!-- 		                        <li><a href="#"><span class="label label-primary">9:00 AM</span> What are you doing?</a></li> -->
+<!-- 		                        <li class="divider"></li> -->
+<!-- 		                        <li><a href="#" class="text-center">View All</a></li> -->
+		          </ul>
+          </li>
+          
+          
 			<li class="dropdown">
 				<a tooltip="Messaggi" href="#" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span

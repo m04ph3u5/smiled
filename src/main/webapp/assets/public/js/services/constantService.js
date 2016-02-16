@@ -2,6 +2,7 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"realDateFormatWithHour": "d-M-yyyy H:mm",
 	"realDateFormatWithSecond": "d-M-yyyy H:mm:ss",
 	"realDateFormatWithoutHour": "d-M-yyyy",
+	
 	"realDateFormatOnlyDay" : "d",
 	"realDateFormatOnlyMonth" : "MMM",
 //	"baseUrl" : "https://localhost:8443/ThesisProject",

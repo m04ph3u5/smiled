@@ -30,7 +30,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 		socket.onmessage = function(e) {
 	 	    console.log('message on webSocketService', e.data);
 	 	    var msg = JSON.parse(e.data);
-	 	    
+	 	   reconnectAttempt=0;
 	 	    if(msg.type=="NOTIFICATION"){
 	 	    	console.log("message is a notify");
 	 	    	notifyService.newNotify(msg);
@@ -42,7 +42,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 		
 		socket.onclose = function() {
 	 	    console.log('close ws connection on webSocketService');
-	 	    reconnect;
+	 	    reconnect();
 	 	};
 	};
 	 
