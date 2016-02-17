@@ -28,11 +28,11 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 		console.log('open ws connection on webSocketService');
 		
 		socket.onmessage = function(e) {
-	 	    console.log('message on webSocketService', e.data);
+	 	
 	 	    var msg = JSON.parse(e.data);
 	 	   reconnectAttempt=0;
 	 	    if(msg.type=="NOTIFICATION"){
-	 	    	console.log("message is a notify");
+	 	    	
 	 	    	notifyService.newNotify(msg);
 	 	    }else{
 	 	    	console.log("message is a message");

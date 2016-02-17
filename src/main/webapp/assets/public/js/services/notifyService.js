@@ -20,6 +20,8 @@ angular.module('smiled.application').factory('notifyService', [ '$q',
 				notifications[i].read=true;
 			}
 		}
+		console.log("notify service----->");
+		console.log(newNotifications);
 		return newNotifications;
 	}
 	

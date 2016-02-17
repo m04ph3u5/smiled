@@ -51,20 +51,21 @@
 <!-- 			</li> -->
 			
 		  <li class="dropdown">
-		  		  <a data-ng-click="navbar.setNotificationsToRead()" tooltip="Notifiche" href="#" uib-dropdown-toggle data-toggle="dropdown" style="position:relative;">
+		  		  <a data-ng-click="navbar.clickOnNotificationsButton()" tooltip="Notifiche" href=""  data-toggle="dropdown" style="position:relative;">
 		  		  
 		  		  <span id="noti_Container"> 
    					  <span class="glyphicon glyphicon-bullhorn" ></span>
-    			      <span data-ng-if="navbar.newNotifications.length>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>
+    			      <span data-ng-if="navbar.numNewNotifications>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>
     			     
     			      
 				  </span>
 				  </a>
-		          <ul uib-dropdown-menu role="menu">
+		          <ul class="dropdown-menu" role="menu" style="max-height: 400px; overflow: auto">
 		          
-		                        <li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href="#"><span class="label label-primary">{{ n.date | date }}</span>{{navbar.showNotify(n)}} </a></li>
-		                        <li class="divider"></li>
+		                        <li role="menu-item" data-ng-repeat="n in navbar.newNotifications"><a style="color:red;" href=""><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
 		                     
+		                     	<li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href=""><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
+		                     	
 <!-- 		                        <li><a href="#"><span class="label label-primary">8:00 AM</span> How are you?</a></li> -->
 <!-- 		                        <li role="presentation" class="divider"></li> -->
 <!-- 		                        <li><a href="#"><span class="label label-primary">9:00 AM</span> What are you doing?</a></li> -->
@@ -75,7 +76,7 @@
           
           
 			<li class="dropdown">
-				<a tooltip="Messaggi" href="#" class="dropdown-toggle"
+				<a tooltip="Messaggi" href="" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-envelope"></span><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
@@ -111,15 +112,15 @@
 					</a>
 			</li>
 			<li class="dropdown">
-				<a tooltip="Impostazioni" href="#" class="dropdown-toggle"
+				<a tooltip="Impostazioni" href="" class="dropdown-toggle"
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-cog"><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="" data-ui-sref="logged.dashboard.draft">Le mie bozze</a></li>
-					<li data-ui-sref="logged.issues"><a href="#">Segnala un problema</a></li>
-					<li data-ui-sref="logged.newFeature"><a href="#">Inviaci un suggerimento</a></li>
+					<li data-ui-sref="logged.issues"><a href="">Segnala un problema</a></li>
+					<li data-ui-sref="logged.newFeature"><a href="">Inviaci un suggerimento</a></li>
 <!-- 					<li data-ng-if="navbar.user.role.authority == 'ROLE_TEACHER'"><a href="#">Invita un collega</a></li> -->
-					<li data-ui-sref="logged.userProfile({id : '{{navbar.user.id}}' })"><a href="#">Il mio profilo</a></li>
+					<li data-ui-sref="logged.userProfile({id : '{{navbar.user.id}}' })"><a href="">Il mio profilo</a></li>
 					<li class="divider"></li>
 					<li><a href="" data-ng-click="navbar.logout()">Log Out</a></li>
 				</ul></li>
