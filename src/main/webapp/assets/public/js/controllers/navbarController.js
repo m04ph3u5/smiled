@@ -89,6 +89,36 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 				notifications[i].formatDate = timeString;
 				if(notifications[i].verb == "NEW_POST")
 					notifications[i].text = "Nuovo post nello scenario "+ notifications[i].scenarioName;
+				else if(notifications[i].verb == "COMMENT_TO_POST"){
+					notifications[i].text = notifications[i].actorName +" ha commentato un post che segui";
+				}
+				else if(notifications[i].verb == "LIKE_TO_POST"){
+					notifications[i].text = "A "+notifications[i].actorName +" piace un tuo post";
+				}
+				else if(notifications[i].verb == "TAG_TO_POST"){
+					notifications[i].text = notifications[i].actorName +" ti ha taggato in un post";
+				}
+				else if(notifications[i].verb == "METACOMMENT_TO_POST"){
+					notifications[i].text = notifications[i].actorName +" ha inserito un suggerimento ad un post che segui";
+				}
+				else if(notifications[i].verb == "NEW_ASSOCIATION"){
+					if(self.user.id==notifications[i].objectId)
+						notifications[i].text = notifications[i].actorName +" ti ha assegnato il personaggio "+ notifications[i].actorName+" nello scenario "+notifications[i].scenarioName;
+					else
+						notifications[i].text = notifications[i].actorName +" ha assegnato il personaggio "+ notifications[i].actorName+" a "+notifications[i].objectContent+ " nello scenario "+notifications[i].scenarioName;
+				}
+				else if(notifications[i].verb == "DEL_ASSOCIATION"){
+					if(self.user.id==notifications[i].objectId)
+						notifications[i].text = "Non stai più interpretando il personaggio"+ notifications[i].actorName+" nello scenario "+notifications[i].scenarioName;
+					else
+						notifications[i].text = notifications[i].objectContent+" non sta più interpretando il personaggio "+ notifications[i].actorName+ "nello scenario "+notifications[i].scenarioName;
+				}
+				else if(notifications[i].verb == "OPEN_SCENARIO"){
+					notifications[i].text = "Lo scenario "+ notifications[i].scenarioName +" è stato attivato da "+notifications[i].actorName;
+				}
+				else if(notifications[i].verb == "CLOSE_SCENARIO"){
+					notifications[i].text = "Lo scenario "+ notifications[i].scenarioName +" è stato chiuso da "+notifications[i].actorName;
+				}
 				//TODO	 aggiungere tutti gli altri possibili tipi di notifiche
 				
 			}

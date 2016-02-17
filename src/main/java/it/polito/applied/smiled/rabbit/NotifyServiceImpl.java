@@ -253,6 +253,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setDate(new Date());
 		
 		n.setObjectId(user.getId());
+		n.setObjectContent(user.getFirstname() +" "+user.getLastname());
 		n.setVerb(NotificationType.NEW_ASSOCIATION);
 		n.setActorId(actor.getId());
 		n.setActorName(actor.getName());
@@ -268,6 +269,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setDate(new Date());
 		
 		n.setObjectId(user.getId());
+		n.setObjectContent(user.getFirstname() +" "+user.getLastname());
 		n.setVerb(NotificationType.DEL_ASSOCIATION);
 		n.setActorId(actor.getId());
 		n.setActorName(actor.getName());
