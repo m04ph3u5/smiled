@@ -148,6 +148,14 @@
 <!-- 			<li><a href="" data-ui-sref-active="active" data-ui-sref=".characters">PERSONAGGI</a></li> -->
 <!-- 			<li><a href="" data-ui-sref-active="active" data-ui-sref=".map">MAPPA</a></li> -->
 <!-- 		</ul> -->
+
+		<div data-ng-if="scenario.numNewPost>0" class="row marginMTop text-center">
+			<button class="btn btn-info" data-ng-click="scenario.showNewPosts()">
+		 		<span data-ng-show="scenario.numNewPost==1">C'è un nuovo post</span>
+				<span data-ng-show="scenario.numNewPost > 1">Ci sono {{scenario.numNewPost}} nuovi post</span>
+			</button>
+		</div>
+
 		<div data-ui-view="body"></div>
 	</div>
 	

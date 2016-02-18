@@ -1,5 +1,30 @@
 package it.polito.applied.smiled.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.mongodb.MongoException;
+
 import it.polito.applied.smiled.dto.CharacterDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.EventDTO;
@@ -50,31 +75,6 @@ import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 import it.polito.applied.smiled.updater.AsyncUpdater;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoDataIntegrityViolationException;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import com.mongodb.MongoException;
 
 @Service
 public class ScenarioServiceImpl implements ScenarioService{
@@ -1217,7 +1217,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			Integer nItem, Boolean historicOrder, Boolean orderDesc, Authentication auth) throws NotFoundException, BadRequestException {
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		List<PostReference> posts;
-		/*Utilizziamo la stessa funzione per la stessa funzione per fare la get dei post dello scenario o del character*/
+		/*Utilizziamo la stessa funzione per fare la get dei post dello scenario o del character*/
 		if(characterId==null){
 			Scenario scenario = scenarioRepository.findById(scenarioId);
 			if(scenario==null)
@@ -1284,6 +1284,19 @@ public class ScenarioServiceImpl implements ScenarioService{
 		return postRepository.customPageableFindAll(postsId,size,p,historicOrder, orderDesc,activeUser.getId(), moderator);
 	}
 
+	public Page<Post> customPageableFindAll(String scenarioId, List<Id> postsId, Authentication auth) {
+		Pageable p;
+		
+		p = new PageRequest(0, postsId.size(), Sort.Direction.DESC, "creationDate");
+		
+		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
+		boolean moderator = permissionEvaluator.hasPermission(auth, scenarioId, "Scenario", "MODERATOR");
+		List<String> l = new ArrayList<String>();
+		for(int i=0; i<postsId.size(); i++){
+			l.add(postsId.get(i).getId());
+		}
+		return postRepository.customPageableFindAll(l, l.size(), p, false, true, activeUser.getId(), moderator);
+	}
 
 	@Override
 	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException, NotFoundException {

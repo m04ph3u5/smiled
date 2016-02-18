@@ -307,6 +307,22 @@
 		return c.promise;
 	}
 	
+	var getListOfNewPosts = function(id, listOfPosts){
+		var s = $q.defer();
+
+		$http.post("/api/v1/scenarios/"+id+"/newPosts", listOfPosts).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
+	
+	
 	var getPagedRegistrationRequests = function(nPag, nItem){
 		
 		var c = $q.defer();
@@ -834,7 +850,8 @@
 		deleteTrustedMedia: deleteTrustedMedia,
 		getMyMissions : getMyMissions,
 		getMyDraft : getMyDraft,
-		deleteMedia : deleteMedia
+		deleteMedia : deleteMedia, 
+		getListOfNewPosts : getListOfNewPosts
 		
 	}
 

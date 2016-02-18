@@ -31,9 +31,8 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 	
 	 	    var msg = JSON.parse(e.data);
 	 	   reconnectAttempt=0;
-	 	    if(msg.type=="NOTIFICATION"){
-	 	    	
-	 	    	notifyService.newNotify(msg);
+	 	    if(msg.type=="NOTIFICATION"){ 	    	
+	 	    	notifyService.newNotifyOrPost(msg);
 	 	    }else{
 	 	    	console.log("message is a message");
 	 	    	//messageService.newMessage(e.data);

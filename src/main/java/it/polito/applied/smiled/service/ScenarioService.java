@@ -79,6 +79,8 @@ public interface ScenarioService {
 	public Page<Post> getPagedPosts(String scenarioId, String characterId, Integer nPag,
 			Integer nItem, Boolean historicOrder, Boolean orderDesc, Authentication auth) throws NotFoundException, BadRequestException;
 
+	public Page<Post> customPageableFindAll(String scenarioId, List<Id> postsId, Authentication auth);
+	
 	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException, NotFoundException;
 
 	public Post updateStatus(String id, String statusId, StatusDTO status, Authentication auth) throws NotFoundException, ForbiddenException, BadRequestException, IOException;
@@ -116,6 +118,7 @@ public interface ScenarioService {
 	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser);
 
 	public void lastUpdateScenario(String scenarioId, Date d);
+	
 
 
 }

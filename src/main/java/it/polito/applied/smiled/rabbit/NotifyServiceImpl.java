@@ -126,12 +126,13 @@ public class NotifyServiceImpl implements NotifyService{
 			Status status = (Status) p;
 			n.setActorId(status.getCharacter().getId());
 			n.setActorName(status.getCharacter().getName());
-		}else if(p.getClass().equals(Status.class)){
+		}else if(p.getClass().equals(Event.class)){
 			n.setActorId(null);
 			n.setActorName(NARRATORE);
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
+		n.setSender(p.getUser().getId());
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 			
 		/*Notifico i taggati*/
@@ -145,7 +146,7 @@ public class NotifyServiceImpl implements NotifyService{
 				n.setObjectContent(status.getText());
 			else
 				n.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
-		}else if(p.getClass().equals(Status.class)){
+		}else if(p.getClass().equals(Event.class)){
 			Event event = (Event) p;
 			if(event.getTags()!=null){
 				l.addAll(event.getTags());
@@ -167,7 +168,7 @@ public class NotifyServiceImpl implements NotifyService{
 			Status status = (Status) p;
 			nTag.setActorId(status.getCharacter().getId());
 			nTag.setActorName(status.getCharacter().getName());
-		}else if(p.getClass().equals(Status.class)){
+		}else if(p.getClass().equals(Event.class)){
 			nTag.setActorId(null);
 			nTag.setActorName(NARRATORE);
 		}
@@ -194,7 +195,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(c.getCharacter().getFirstname());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo commento il mainReceiver è chi ha scritto il post 
+		n.setSender(c.getUser().getId());
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	}
@@ -214,7 +216,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(c.getUser().getFirstname()+" "+c.getUser().getLastname());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo metacommento il mainReceiver è chi ha scritto il post 
+		n.setSender(c.getUser().getId());
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	}
@@ -243,7 +246,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(actor.getName());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-
+		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo like il mainReceiver è chi ha scritto il post 
+		//TODO inserire il sender del like
 		brokerProducer.sendNotify(n, TOPIC, "p"+p.getId());
 	}
 

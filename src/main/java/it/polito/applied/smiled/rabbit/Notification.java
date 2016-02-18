@@ -14,11 +14,31 @@ public class Notification{
 	private String scenarioName;
 	private String objectId;
 	private String objectContent;
+	private String mainReceiver;
+	private String sender;
 	
 	public Notification(){
 		type=ComunicationType.NOTIFICATION;
 	}
 	
+	
+	public String getMainReceiver() {
+		return mainReceiver;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+
+	public void setMainReceiver(String mainReceiver) {
+		this.mainReceiver = mainReceiver;
+	}
+
+
 	public String getId() {
 		return id;
 	}

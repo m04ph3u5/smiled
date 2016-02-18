@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload',
-                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload','notifyService',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService){
 	
 	
 	console.log("controller");
@@ -55,10 +55,44 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		self.showBoxCollaborators = false;
 	}
 	
+	self.numNewPost = 0;
+	var incrementNumNewPost = function(){
+		self.numNewPost++;
+	}
+	var resetNumNewPost = function(){
+		self.numNewPost = 0;
+	}
+	
+	self.showNewPosts = function(){
+		resetNumNewPost();
+		var postsId = notifyService.getAllNewPosts();
+		var l = [];
+		for(var i=0; i<postsId.length; i++){
+			var obj = {};
+			obj.id = postsId[i];
+			l.push(obj);
+		}
+		console.log(l);
+		console.log("***********Show new posts******************");
+		
+		apiService.getListOfNewPosts(self.scen.id, l).then(
+				
+				function(data){
+					console.log(data);
+					console.log(data.content);
+					
+				}, function(reason){
+					console.log("errore");
+				}
+		);
+	}
+	
 	/*-----------------------------------UTILIY------------------------------------------------*/
 	
 	var onStartup = function(){
-
+		
+		notifyService.registerObserverNewPost(incrementNumNewPost);
+		
 		if(self.scen.teacherCreator.id==loggedUser.id){
 			console.log("isCreator");
 			self.isCreator=true;

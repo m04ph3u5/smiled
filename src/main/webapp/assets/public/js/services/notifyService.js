@@ -1,16 +1,30 @@
-angular.module('smiled.application').factory('notifyService', [ '$q',
-               function notifyService($q){
+angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
+               function notifyService($q, $cookies){
 
 	var notifications = [];
+	var me = $cookies.get('myMescholaId');
+	var newPosts = [];
 	
-	
-	var newNotify = function(n){
-		n.read = false;
-		notifications.splice(0, 0, n);
+	var newNotifyOrPost = function(n){
+		if(n.sender!=me){
+			if(n.verb=="NEW_POST"){
+				newPosts.unshift(n.objectId);
+				notifyNewPostObservers();
+			}else{
+				n.read = false;
+				notifications.splice(0, 0, n);
+				
+				notifyNotificationsObservers();
+			}
+		}
+		//else --> non fare niente perchè è una notifica generata da me
 		
-		notifyNotificationsObservers();
 	}
-	
+	var getAllNewPosts = function(){
+		var nP = angular.copy(newPosts);
+		newPosts = [];
+		return nP;
+	}
 	//restituisce tutte le notifiche non lette che il service ha in memoria (read==false)
 	var readNewNotifications = function(){
 		var newNotifications = [];
@@ -40,6 +54,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q',
 	}
 	
 	var observerNotificationsCallbacks = [];
+	var observerNewPostCallbacks = [];
 	
 	//register an observer
 	var registerObserverNotifications = function(callback){
@@ -53,12 +68,27 @@ angular.module('smiled.application').factory('notifyService', [ '$q',
 		});
 	};
 	
+	//register an observer
+	var registerObserverNewPost = function(callback){
+		observerNewPostCallbacks.push(callback);
+	};
+	  
+	//call this when you know 'foo' has been changed
+	var notifyNewPostObservers = function(){
+		angular.forEach(observerNewPostCallbacks, function(callback){
+			callback();
+		});
+	};
+	
 	return {
-		newNotify : newNotify,
+		newNotifyOrPost : newNotifyOrPost,
 		readNewNotifications : readNewNotifications,
 		readNotifications : readNotifications,
 		registerObserverNotifications: registerObserverNotifications,
-		notifyNotificationsObservers: notifyNotificationsObservers
+		notifyNotificationsObservers: notifyNotificationsObservers,
+		registerObserverNewPost: registerObserverNewPost,
+		notifyNewPostObservers: notifyNewPostObservers,
+		getAllNewPosts : getAllNewPosts
 	};
 
 }]);

@@ -2,6 +2,7 @@ package it.polito.applied.smiled.controllerRest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -336,6 +337,8 @@ public class ScenarioController extends BaseController{
 		return scenarioService.getPost (id,postId, auth);
 	}
 	
+	
+	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/posts", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
@@ -357,6 +360,18 @@ public class ScenarioController extends BaseController{
 		return scenarioService.getPagedPosts(id, null, nPag, nItem, historicOrder, orderDesc, auth);
 	}
 
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/{id}/newPosts", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
+	public Page<Post> getListOfNewPosts(@PathVariable String id, @RequestBody ArrayList<Id> idOfPosts ) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+
+		System.out.println("***************");
+		System.out.println(idOfPosts.get(0).getId());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		return scenarioService.customPageableFindAll(id, idOfPosts, auth);
+	}
+	
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/posts", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
