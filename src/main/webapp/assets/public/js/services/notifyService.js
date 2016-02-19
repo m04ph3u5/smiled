@@ -6,11 +6,14 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	var newPosts = [];
 	
 	var newNotifyOrPost = function(n){
+		
 		if(n.sender!=me){
 			if(n.verb=="NEW_POST"){
+				console.log("nuovo post");
 				newPosts.unshift(n.objectId);
-				notifyNewPostObservers();
+				notifyNewPostObservers(newPosts.length);
 			}else{
+				console.log("nuova notifica");
 				n.read = false;
 				notifications.splice(0, 0, n);
 				
@@ -34,7 +37,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 				notifications[i].read=true;
 			}
 		}
-		console.log("notify service----->");
+		console.log("tutte le notifiche non lette che il service ha in memoria----->");
 		console.log(newNotifications);
 		return newNotifications;
 	}
@@ -46,6 +49,8 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 			allNotificationInService.push(angular.copy(notifications[i]));
 			n.read=true;			
 		}
+		console.log("tutte le notifiche che il service ha in memoria----->");
+		console.log(allNotificationInService);
 		return allNotificationInService;
 	}
 	
@@ -55,13 +60,14 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	
 	var observerNotificationsCallbacks = [];
 	var observerNewPostCallbacks = [];
+	var observerReloadListOfPost = [];
+
 	
 	//register an observer
 	var registerObserverNotifications = function(callback){
 		observerNotificationsCallbacks.push(callback);
 	};
-	  
-	//call this when you know 'foo' has been changed
+	
 	var notifyNotificationsObservers = function(){
 		angular.forEach(observerNotificationsCallbacks, function(callback){
 			callback();
@@ -74,11 +80,29 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	};
 	  
 	//call this when you know 'foo' has been changed
-	var notifyNewPostObservers = function(){
+	var notifyNewPostObservers = function(n){
 		angular.forEach(observerNewPostCallbacks, function(callback){
-			callback();
+			callback(n);
 		});
 	};
+	
+	//register an observer
+	var registerObserverReloadList = function(callback){
+		
+		observerReloadListOfPost.push(callback);
+	}
+	
+	var notifyReloadListObservers = function(){ //do a scenarioPostController la lista di nuovi post da scaricarsi
+		angular.forEach(observerReloadListOfPost, function(callback){
+			
+			callback(angular.copy(newPosts)); 
+		});
+	}
+	var reloadList = function(){
+		
+		notifyReloadListObservers(); 
+		newPosts = [];
+	}
 	
 	return {
 		newNotifyOrPost : newNotifyOrPost,
@@ -88,7 +112,11 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		notifyNotificationsObservers: notifyNotificationsObservers,
 		registerObserverNewPost: registerObserverNewPost,
 		notifyNewPostObservers: notifyNewPostObservers,
-		getAllNewPosts : getAllNewPosts
+		getAllNewPosts : getAllNewPosts,
+		registerObserverReloadList : registerObserverReloadList,
+		notifyReloadListObservers : notifyReloadListObservers,
+		reloadList : reloadList
+		
 	};
 
 }]);

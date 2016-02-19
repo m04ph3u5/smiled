@@ -56,35 +56,40 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	}
 	
 	self.numNewPost = 0;
-	var incrementNumNewPost = function(){
+	var incrementNumNewPost = function(){		
 		self.numNewPost++;
 	}
 	var resetNumNewPost = function(){
 		self.numNewPost = 0;
 	}
 	
+	
+	
 	self.showNewPosts = function(){
-		resetNumNewPost();
-		var postsId = notifyService.getAllNewPosts();
-		var l = [];
-		for(var i=0; i<postsId.length; i++){
-			var obj = {};
-			obj.id = postsId[i];
-			l.push(obj);
-		}
-		console.log(l);
-		console.log("***********Show new posts******************");
 		
-		apiService.getListOfNewPosts(self.scen.id, l).then(
-				
-				function(data){
-					console.log(data);
-					console.log(data.content);
-					
-				}, function(reason){
-					console.log("errore");
-				}
-		);
+		notifyService.reloadList(); //dico al notifyService di avvertire scenarioPostController che ci sono nuovi post da scaricare
+		resetNumNewPost();
+		
+//		var postsId = notifyService.getAllNewPosts();
+//		var l = [];
+//		for(var i=0; i<postsId.length; i++){
+//			var obj = {};
+//			obj.id = postsId[i];
+//			l.push(obj);
+//		}
+//		console.log(l);
+//		console.log("***********Show new posts******************");
+//		
+//		apiService.getListOfNewPosts(self.scen.id, l).then(
+//				
+//				function(data){
+//					console.log(data);
+//					console.log(data.content);
+//					
+//				}, function(reason){
+//					console.log("errore");
+//				}
+//		);
 	}
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/

@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','$interval',
-              function scenarioPostCtrl(CONSTANTS,$scope, apiService,Upload,$interval){
+angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','$interval','notifyService',
+              function scenarioPostCtrl(CONSTANTS,$scope, apiService,Upload,$interval, notifyService){
 	var self = this;
 	self.scen = $scope.scenario.scen;
 	self.currentCharacter = $scope.scenario.currentCharacter;
@@ -50,8 +50,8 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		return date.day+" / "+date.month+" / "+date.year+" "+era;
 	}
 	
-	var getPost = function(){
-		apiService.getPagedPosts(self.scen.id, 0, 300, false).then(
+	self.getPost = function(n){
+		apiService.getPagedPosts(self.scen.id, 0, n, false).then(
 	
 			function(data){
 				self.posts = data.content;
@@ -77,13 +77,87 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 			}
 	);
 	}
-	getPost();
+	self.getPost(300);
+	
+	//function to determine whether an array contains a value
+//	var contains = function(needle) {
+//	    // Per spec, the way to identify NaN is that it is not equal to itself
+//	    var findNaN = needle !== needle;
+//	    var indexOf;
+//
+//	    if(!findNaN && typeof Array.prototype.indexOf === 'function') {
+//	        indexOf = Array.prototype.indexOf;
+//	    } else {
+//	        indexOf = function(needle) {
+//	            var i = -1, index = -1;
+//
+//	            for(i = 0; i < this.length; i++) {
+//	                var item = this[i];
+//
+//	                if((findNaN && item !== item) || item === needle) {
+//	                    index = i;
+//	                    break;
+//	                }
+//	            }
+//
+//	            return index;
+//	        };
+//	    }
+//
+//	    return indexOf.call(this, needle) > -1;
+//	};
+	//listOfNewPosts è la lista di id di post da scaricare
+	var updateScenarioPosts = function(listOfNewPosts){
+		
+		console.log(listOfNewPosts);
+		
+		
+		
+		apiService.getListOfNewPosts(self.scen.id, listOfNewPosts).then(
+				
+				function(data){
+					var newPosts = data.content;
+					for(var i=0; i<newPosts.length;i++){
+//						if(self.posts[i].imageId){
+//							self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
+//						}
+						if(newPosts[i].character){
+							newPosts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,newPosts[i].character.id);
+						
+							for(var j=0; j<newPosts[i].likes.length; j++){
+								if(newPosts[i].likes[j].id==self.currentCharacter.id){
+									newPosts[i].youLike=true;
+									break;
+								}
+							}
+						}
+					}
+					
+					for(var i=0; i<self.posts.length; i++){
+						newPosts.push(self.posts[i]);
+					}
+					self.posts=newPosts;
+					
+					
+				}, function(reason){
+					console.log("errore");
+				}
+		);
+		
+	}
+	
+	notifyService.registerObserverReloadList(updateScenarioPosts);
+	
+	
+	
+	
+	
 	var interval;
 	var intervalSet = false;
 	self.startUpdatePost = function(){
 		if(!intervalSet){
 			console.log("START INTERVAL");			
-			interval = $interval(getPost,15000);
+			interval = $interval(self.getPost(300),15000);
 			intervalSet=true;
 		}
 	}

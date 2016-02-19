@@ -49,44 +49,17 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		
 		self.numNewNotifications=self.newNotifications.length;
 		
-		console.log("navbar controller #####");
-	
-		console.log(self.newNotifications);
+		
+		formatVerb(self.newNotifications);
+		
 		
 	}
 	
-	var formatDateAndVerb = function(notifications){
+	var formatVerb = function(notifications){
 		
 		if(notifications!=null && notifications.length>0){
-			var actual = new Date();
+			
 			for(var i=0; i<notifications.length; i++){
-				var timeString="";
-				var diff = actual-notifications[i].date;
-				diff = Math.round(diff/1000);
-				if(diff<=1)
-					timeString="un secondo fa";
-				else if(diff<60)
-					timeString = diff+" secondi fa";
-				else if(diff>=60){
-					diff = Math.round(diff/60);
-					if(diff<=1)
-						timeString = "un minuto fa";
-					else if(diff<60)
-						timeString = diff+" minuti fa";
-					else if(diff>=60){
-						diff= Math.round(diff/60);
-						if(diff<=1)
-							timeString = "circa un'ora fa";
-						else if(diff<24)
-							timeString =diff+" ore fa";
-						else if(diff<48)
-							timeString = "Ieri alle "+notifications[i].date.getHours()+" "+notifications[i].getMinutes();
-						else if(diff>=48) 
-							timeString = notifications[i].getDate() +" "+ monthNames[notifications[i].getMonth()] + " alle ore "+notifications[i].getHours()+":"+notifications[i].getMinutes();
-					}
-				}
-				
-				notifications[i].formatDate = timeString;
 				if(notifications[i].verb == "NEW_POST"){
 					notifications[i].text = "Nuovo post nello scenario "+ notifications[i].scenarioName;
 				}
@@ -131,8 +104,47 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 					notifications[i].text = "Lo scenario "+ notifications[i].scenarioName +" e' stato chiuso da "+notifications[i].actorName;
 				}
 				//TODO	 aggiungere tutti gli altri possibili tipi di notifiche
-				
 			}
+		}
+		
+		
+	}
+	
+	var formatDate = function(notifications){
+		
+		if(notifications!=null && notifications.length>0){
+			var actual = new Date();
+			for(var i=0; i<notifications.length; i++){
+				var timeString="";
+				var diff = actual-notifications[i].date;
+				diff = Math.round(diff/1000);
+				if(diff<=1)
+					timeString="un secondo fa";
+				else if(diff<60)
+					timeString = diff+" secondi fa";
+				else if(diff>=60){
+					diff = Math.round(diff/60);
+					if(diff<=1)
+						timeString = "un minuto fa";
+					else if(diff<60)
+						timeString = diff+" minuti fa";
+					else if(diff>=60){
+						diff= Math.round(diff/60);
+						if(diff<=1)
+							timeString = "circa un'ora fa";
+						else if(diff<24)
+							timeString =diff+" ore fa";
+						else if(diff<48)
+							timeString = "Ieri alle "+notifications[i].date.getHours()+" "+notifications[i].getMinutes();
+						else if(diff>=48) 
+							timeString = notifications[i].getDate() +" "+ monthNames[notifications[i].getMonth()] + " alle ore "+notifications[i].getHours()+":"+notifications[i].getMinutes();
+					}
+				}
+				
+				notifications[i].formatDate = timeString;
+	
+			}
+			
 		}
 	}
 	
@@ -156,7 +168,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 				
 				for(var i=self.newNotifications.length-1; i>=0; i--){
 					self.oldNotifications.splice(0,0,angular.copy(self.newNotifications[i]));
-					console.log(i);
+				
 				}
 				self.newNotifications = [];
 
@@ -164,9 +176,9 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			self.numNewNotifications=0;
 		}else{ //sto aprendo
 			if(self.newNotifications.length>0)
-				formatDateAndVerb(self.newNotifications);
+				formatDate(self.newNotifications);
 			if(self.oldNotifications.length>0)
-				formatDateAndVerb(self.oldNotifications);
+				formatDate(self.oldNotifications);
 		}
 		openNotifications=!openNotifications;
 		
@@ -193,23 +205,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 //		self.iHaveDone=true;
 //	}
 	
-	
-	
-	self.calculateTime = function(d){
-		console.log("---->");
-		console.log(d);
-//		if(d!=null && d!=0 ){
-//			var actual = new Date();
-//			var diff;
-//			console.log("actual date:");
-//			console.log(actual);
-//			diff= actual-d;
-//			console.log("time difference: ");
-//			console.log(diff);
-//			return diff;
-//		}
-		
-	}
+
 	
 	updateCover();
 	

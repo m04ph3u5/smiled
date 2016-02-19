@@ -20,10 +20,19 @@
 		<img width="40px" height="40px" src="/assets/public/img/p_spinner.gif" />
 	</work-spinner>
 </div>
-<div class="row" update-post-on-scrool stop="scenarioPost.stopUpdatePost()" start="scenarioPost.startUpdatePost()">
+<!-- <div class="row" update-post-on-scrool stop="scenarioPost.stopUpdatePost()" start="scenarioPost.startUpdatePost()"> -->
+<!-- 	<div data-ng-repeat="s in scenarioPost.posts"> -->
+<!-- 		<show-news-post post="s" scenario="scenarioPost.scen"  -->
+<!-- 			logged-user= "scenario.loggedUser" current-character="scenario.currentCharacter" -->
+<!-- 			map-id="{{scenarioPost.scen.history.mapId}}"></show-news-post> -->
+<!-- 	</div> -->
+	
+<!-- </div> -->
+<div class="row">
 	<div data-ng-repeat="s in scenarioPost.posts">
 		<show-news-post post="s" scenario="scenarioPost.scen" 
 			logged-user= "scenario.loggedUser" current-character="scenario.currentCharacter"
 			map-id="{{scenarioPost.scen.history.mapId}}"></show-news-post>
 	</div>
+	
 </div>

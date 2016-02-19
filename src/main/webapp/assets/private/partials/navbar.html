@@ -62,6 +62,8 @@
 				  </a>
 		          <ul class="dropdown-menu" role="menu" style="max-height: 400px; overflow: auto">
 		          
+		          				<li role="menu-item" data-ng-if="navbar.newNotifications.length==0 && navbar.oldNotifications.length==0"><a href="">Non ci sono nuove notifiche </a><hr></li>
+		                     
 		                        <li role="menu-item" data-ng-repeat="n in navbar.newNotifications"><a style="color:red;" href=""><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
 		                     
 		                     	<li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href=""><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
