@@ -56,8 +56,8 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	}
 	
 	self.numNewPost = 0;
-	var incrementNumNewPost = function(){		
-		self.numNewPost++;
+	var incrementNumNewPost = function(n){		
+		self.numNewPost=self.numNewPost+n;
 	}
 	var resetNumNewPost = function(){
 		self.numNewPost = 0;
@@ -86,7 +86,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		
 	}
 	notifyService.registerObserverAssociation(reload);
-	notifyService.registerObserverNewPost(incrementNumNewPost);
+	notifyService.registerObserverNewPost(incrementNumNewPost, self.scen.id);
 	
 	var onStartup = function(){
 

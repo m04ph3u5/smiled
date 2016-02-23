@@ -51,6 +51,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	self.getPost = function(n){
+		console.log("*******GET*********");
 		apiService.getPagedPosts(self.scen.id, 0, n, false).then(
 	
 			function(data){
@@ -91,7 +92,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	//listOfNewPosts è la lista di id di post da scaricare
 	var updateScenarioWithNewPosts = function(listOfNewPosts){
 		
-		console.log(listOfNewPosts);
+		console.log("-----BBBBBBBBB_----------");
 		
 		if(listOfNewPosts!=null && listOfNewPosts.length>0){
 			for(var i = 0; i<listOfNewPosts.length; i++){

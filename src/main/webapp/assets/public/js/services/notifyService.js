@@ -5,18 +5,26 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	var me = $cookies.get('myMescholaId');
 	var newPosts = [];
 	var updPosts = [];
+    var actualScenarioId="";
+
 	
 	var newNotifyOrPost = function(n){
 		
 		if(n.sender!=me){
+			console.log(n.scenarioId);
+			console.log(actualScenarioId);
 			if(n.verb=="NEW_POST"){
-				console.log("nuovo post");
-				newPosts.unshift(n.objectId);
-				notifyNewPostObservers(newPosts.length);
+				if(n.scenarioId==actualScenarioId){
+					console.log("nuovo post");
+					newPosts.unshift(n.objectId);
+					notifyNewPostObservers(newPosts.length);
+				}
 			}else if(n.verb=="UPD_POST"){
-				console.log("cambiamento generico in un post");
-				updPosts.unshift(n.objectId);
-				notifyUpdPostObservers();
+				if(n.scenarioId==actualScenarioId){
+					console.log("cambiamento generico in un post");
+					updPosts.unshift(n.objectId);
+					notifyUpdPostObservers();
+				}
 			}
 			else{
 				console.log("nuova notifica");
@@ -65,10 +73,10 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	}
 	
 	var observerNotificationsCallbacks = [];
-	var observerNewPostCallbacks = [];
-	var observerReloadListOfPost = [];
-	var observerReloadAssociationCallbacks = [];
-    var observerUpdPostCallbacks = [];
+	var observerNewPostCallbacks = {};
+	var observerReloadListOfPost = {};
+	var observerReloadAssociationCallbacks = {};
+    var observerUpdPostCallbacks = {};
 	
 	//register an observer
 	var registerObserverNotifications = function(callback){
@@ -82,50 +90,43 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	};
 	
 	//register an observer
-	var registerObserverNewPost = function(callback){
-		observerNewPostCallbacks.push(callback);
+	var registerObserverNewPost = function(callback, scenarioId){
+		actualScenarioId = scenarioId;
+		observerNewPostCallbacks = callback;
 	};
 	  
 	//call this when you know 'foo' has been changed
 	var notifyNewPostObservers = function(n){
-		angular.forEach(observerNewPostCallbacks, function(callback){
-			callback(n);
-		});
+		observerNewPostCallbacks(n);
 	};
 	
 	var notifyReloadAssociationObservers = function(n){
-		angular.forEach(observerReloadAssociationCallbacks, function(callback){
-			callback(n);
-		});
+		observerReloadAssociationCallbacks(n);
 	};
 	
 	//register an observer
 	var registerObserverReloadList = function(callback){
 		
-		observerReloadListOfPost.push(callback);
+		observerReloadListOfPost = callback;
 	}
 	
 	//register an observer
 	var registerObserverAssociation = function(callback){
-		
-		observerReloadAssociationCallbacks.push(callback);
+		observerReloadAssociationCallbacks = callback;
 	}
+	
 	var registerObserverUpdPost = function(callback){
-		observerUpdPostCallbacks.push(callback);
+		observerUpdPostCallbacks = callback;
 	}
 	
 	var notifyReloadListObservers = function(){ //do a scenarioPostController la lista di nuovi post da scaricarsi
-		angular.forEach(observerReloadListOfPost, function(callback){
-			
-			callback(angular.copy(newPosts)); 
-		});
+		observerReloadListOfPost(newPosts);
 	}
+	
 	var notifyUpdPostObservers = function(){
-		angular.forEach(observerReloadListOfPost, function(callback){
-			
-			callback(angular.copy(updPosts)); 
-		});
+		observerUpdPostCallbacks(angular.copy(updPosts)); 
 	}
+	
 	var reloadList = function(){
 		
 		notifyReloadListObservers(); 
