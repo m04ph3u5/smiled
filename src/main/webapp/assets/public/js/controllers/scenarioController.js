@@ -70,35 +70,27 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		notifyService.reloadList(); //dico al notifyService di avvertire scenarioPostController che ci sono nuovi post da scaricare
 		resetNumNewPost();
 		
-//		var postsId = notifyService.getAllNewPosts();
-//		var l = [];
-//		for(var i=0; i<postsId.length; i++){
-//			var obj = {};
-//			obj.id = postsId[i];
-//			l.push(obj);
-//		}
-//		console.log(l);
-//		console.log("***********Show new posts******************");
-//		
-//		apiService.getListOfNewPosts(self.scen.id, l).then(
-//				
-//				function(data){
-//					console.log(data);
-//					console.log(data.content);
-//					
-//				}, function(reason){
-//					console.log("errore");
-//				}
-//		);
+
 	}
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/
+	var reload = function(){
+		console.log("RELOAD *******");
+		userService.getMe().then(function(data){
+			self.loggedUser =data;
+			onStartup();
+		}, function (reason){
+			consolelog("error");
+		});
+			
+		
+	}
+	notifyService.registerObserverAssociation(reload);
+	notifyService.registerObserverNewPost(incrementNumNewPost);
 	
 	var onStartup = function(){
-		
-		notifyService.registerObserverNewPost(incrementNumNewPost);
-		
-		if(self.scen.teacherCreator.id==loggedUser.id){
+
+		if(self.scen.teacherCreator.id==self.loggedUser.id){
 			console.log("isCreator");
 			self.isCreator=true;
 			self.isModerator=true;	
@@ -110,7 +102,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		if(!self.isModerator){
 			if(self.scen.collaborators){
 				for(var i=0; i<self.scen.collaborators.length; i++){
-					if(self.scen.collaborators[i].id==loggedUser.id){
+					if(self.scen.collaborators[i].id==self.loggedUser.id){
 						console.log("isModerator");
 						self.isModerator=true;
 						break;
@@ -120,15 +112,18 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		}
 		
 		if(self.scen.status=="ACTIVE"){
-			if(loggedUser.openScenarios!=null)
-				for(var i=0; i<loggedUser.openScenarios.length; i++){
-					if(loggedUser.openScenarios[i].id==self.scen.id){
-						if(loggedUser.openScenarios[i].myCharacterId){
+			if(self.loggedUser.openScenarios!=null)
+				for(var i=0; i<self.loggedUser.openScenarios.length; i++){
+					if(self.loggedUser.openScenarios[i].id==self.scen.id){
+						if(self.loggedUser.openScenarios[i].myCharacterId){
 							var date = new Date();
 							self.hasCharacter=true;
-							self.currentCharacter.id = loggedUser.openScenarios[i].myCharacterId;
-							self.currentCharacter.name = loggedUser.openScenarios[i].myCharacterName;
+							self.currentCharacter.id = self.loggedUser.openScenarios[i].myCharacterId;
+							self.currentCharacter.name = self.loggedUser.openScenarios[i].myCharacterName;
 							self.currentCharacter.cover = CONSTANTS.urlCharacterCover(self.scen.id, self.currentCharacter.id)+"?"+date.toString();
+						}else{
+							self.hasCharacter=false;
+							self.currentCharacter={};
 						}
 					}
 				}

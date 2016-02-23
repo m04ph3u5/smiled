@@ -28,17 +28,17 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 				
 				self.tooltipLikes = "";
 				var i=0;
-				var l = CONSTANTS.lengthOfTooltipLikesList;
-				while(i<l && i<self.post.likes.length){
+				self.l = CONSTANTS.lengthOfTooltipLikesList;
+				while(i<self.l && i<self.post.likes.length){
 					if(self.post.likes[i].id!=self.currentCharacter.id)
 						self.tooltipLikes+=self.post.likes[i].name+"&#013";
 					else
 						self.post.youLike = true;
 					i++;
 				}
-				if(self.post.likes.length==(l+1)){
+				if(self.post.likes.length==(self.l+1)){
 					self.tooltipLikes+="e ad un&#39altra persona";
-				}else if(self.post.likes.length>(l+1)){
+				}else if(self.post.likes.length>(self.l+1)){
 					self.tooltipLikes+="e ad altre"+(self.post.likes.length-i)+" persone";
 				}
 
@@ -46,7 +46,8 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 			controllerAs: "summarizeInfoPost",
 			bindToController : true,
 			link : function(scope, elem, attrs, ctrl){
-				scope.$watch('summarizeInfoPost.post.likes.length', function(val){
+				
+				var updateLabel = function(){
 					if(ctrl.post.likes.length==1 && !ctrl.post.youLike){
 						ctrl.likesLabel = "Piace a <span class='tooltips clickable' title='"+ctrl.tooltipLikes+"'>1 persona</span>";
 					}
@@ -64,6 +65,29 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 					}
 					else if(ctrl.post.likes.length==0)
 						ctrl.likesLabel = "";
+				}
+				
+				scope.$watch('summarizeInfoPost.post.likes.length', function(val){
+					updateLabel();
+				});
+				scope.$watch('summarizeInfoPost.currentCharacter.id', function(newVal, oldVal){
+					
+					var i=0;
+					if(!newVal || newVal!=oldVal){
+						ctrl.tooltipLikes="";
+						while(i<ctrl.l && i<ctrl.post.likes.length){
+							if(ctrl.post.likes[i].id!=newVal){
+								ctrl.post.youLike = false;
+								ctrl.tooltipLikes+=ctrl.post.likes[i].name+"&#013";
+							}else
+								ctrl.post.youLike = true;
+							i++;
+						}
+						console.log("++++++++++++");
+						updateLabel();
+					}
+					
+					
 				});
 				scope.$watch('summarizeInfoPost.post.comments.length', function(val){
 					if(ctrl.post.comments.length==1)

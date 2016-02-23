@@ -19,6 +19,12 @@ public enum NotificationType {
 	NEW_POST,
 	
 	/**
+	 * Modifica di qualsiasi elemento di un post già esistente (nuovo like, nuovo commento, nuovo suggerimento, modifica del testo, aggiunta di un tag o un file, ecc.)
+	 * 	--> Tutti i partecipanti | TOPIC: scenario
+	 * */
+	UPD_POST,
+	
+	/**
 	 * Commento ad un post 
 	 * 	--> Creatore post, chi interpreta il personaggio (se != da creatore), 
 	 * 		tutti quelli che sono taggati, tutti quelli che hanno commentato e/o metacommentato

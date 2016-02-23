@@ -4,6 +4,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	var notifications = [];
 	var me = $cookies.get('myMescholaId');
 	var newPosts = [];
+	var updPosts = [];
 	
 	var newNotifyOrPost = function(n){
 		
@@ -12,7 +13,12 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 				console.log("nuovo post");
 				newPosts.unshift(n.objectId);
 				notifyNewPostObservers(newPosts.length);
-			}else{
+			}else if(n.verb=="UPD_POST"){
+				console.log("cambiamento generico in un post");
+				updPosts.unshift(n.objectId);
+				notifyUpdPostObservers();
+			}
+			else{
 				console.log("nuova notifica");
 				n.read = false;
 				notifications.splice(0, 0, n);
@@ -61,7 +67,8 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	var observerNotificationsCallbacks = [];
 	var observerNewPostCallbacks = [];
 	var observerReloadListOfPost = [];
-
+	var observerReloadAssociationCallbacks = [];
+    var observerUpdPostCallbacks = [];
 	
 	//register an observer
 	var registerObserverNotifications = function(callback){
@@ -86,10 +93,25 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		});
 	};
 	
+	var notifyReloadAssociationObservers = function(n){
+		angular.forEach(observerReloadAssociationCallbacks, function(callback){
+			callback(n);
+		});
+	};
+	
 	//register an observer
 	var registerObserverReloadList = function(callback){
 		
 		observerReloadListOfPost.push(callback);
+	}
+	
+	//register an observer
+	var registerObserverAssociation = function(callback){
+		
+		observerReloadAssociationCallbacks.push(callback);
+	}
+	var registerObserverUpdPost = function(callback){
+		observerUpdPostCallbacks.push(callback);
 	}
 	
 	var notifyReloadListObservers = function(){ //do a scenarioPostController la lista di nuovi post da scaricarsi
@@ -98,10 +120,20 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 			callback(angular.copy(newPosts)); 
 		});
 	}
+	var notifyUpdPostObservers = function(){
+		angular.forEach(observerReloadListOfPost, function(callback){
+			
+			callback(angular.copy(updPosts)); 
+		});
+	}
 	var reloadList = function(){
 		
 		notifyReloadListObservers(); 
 		newPosts = [];
+	}
+	
+	var reloadAssociation = function(){
+		notifyReloadAssociationObservers();
 	}
 	
 	return {
@@ -115,7 +147,11 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		getAllNewPosts : getAllNewPosts,
 		registerObserverReloadList : registerObserverReloadList,
 		notifyReloadListObservers : notifyReloadListObservers,
-		reloadList : reloadList
+		reloadList : reloadList,
+		reloadAssociation : reloadAssociation,
+		registerObserverAssociation : registerObserverAssociation,
+		notifyUpdPostObservers: notifyUpdPostObservers,
+		registerObserverUpdPost : registerObserverUpdPost
 		
 	};
 

@@ -79,39 +79,27 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	self.getPost(300);
 	
-	//function to determine whether an array contains a value
-//	var contains = function(needle) {
-//	    // Per spec, the way to identify NaN is that it is not equal to itself
-//	    var findNaN = needle !== needle;
-//	    var indexOf;
-//
-//	    if(!findNaN && typeof Array.prototype.indexOf === 'function') {
-//	        indexOf = Array.prototype.indexOf;
-//	    } else {
-//	        indexOf = function(needle) {
-//	            var i = -1, index = -1;
-//
-//	            for(i = 0; i < this.length; i++) {
-//	                var item = this[i];
-//
-//	                if((findNaN && item !== item) || item === needle) {
-//	                    index = i;
-//	                    break;
-//	                }
-//	            }
-//
-//	            return index;
-//	        };
-//	    }
-//
-//	    return indexOf.call(this, needle) > -1;
-//	};
+
+	var postAlreadyPresent = function(postId){
+		for(var i = 0; i<self.posts.length; i++){
+			if(self.posts[i].id == postId)
+				return true;
+		}
+		return false;
+	}
+	
 	//listOfNewPosts è la lista di id di post da scaricare
-	var updateScenarioPosts = function(listOfNewPosts){
+	var updateScenarioWithNewPosts = function(listOfNewPosts){
 		
 		console.log(listOfNewPosts);
 		
-		
+		if(listOfNewPosts!=null && listOfNewPosts.length>0){
+			for(var i = 0; i<listOfNewPosts.length; i++){
+				if(postAlreadyPresent(listOfNewPosts[i])){
+					listOfNewPosts.splice(i,1);  //sto scremando i post che ho gia scaricato
+				}
+			}
+		}
 		
 		apiService.getListOfNewPosts(self.scen.id, listOfNewPosts).then(
 				
@@ -146,8 +134,37 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		
 	}
 	
-	notifyService.registerObserverReloadList(updateScenarioPosts);
+	var updateScenarioWithModPosts = function(listOfUpdPosts){
+		if(listOfUpdPosts!=null && listOfUpdPosts.length>0){
+			for(var i = 0; i<listOfUpdPosts.length; i++){
+				if(!postAlreadyPresent(listOfUpdPosts[i])){
+					listOfUpPosts.splice(i,1);  //sto scremando i post che ho gia scaricato
+				}
+			}
+			if(listOfUpdPosts.length>0){
+				apiService.getListOfNewPosts(self.scen.id, listOfUpdPosts).then(
+						
+						function(data){
+							if(data.content){
+								for(var i=0; i<data.content.length; i++){
+									for(var j=0; j<self.posts; j++){
+										if(self.posts[j].id== data.content[i].id){
+											self.posts[j]=angular.copy(data.content[i]);
+										}
+									}
+								}
+							}
+
+						}, function(reason){
+							console.log("errore");
+						}
+				);
+			}
+		}
+	}
 	
+	notifyService.registerObserverReloadList(updateScenarioWithNewPosts);
+	notifyService.registerObserverUpdPost(updateScenarioWithModPosts);
 	
 	
 	

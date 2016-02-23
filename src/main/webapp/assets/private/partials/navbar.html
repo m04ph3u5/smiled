@@ -50,8 +50,8 @@
 <!-- 				</ul> -->
 <!-- 			</li> -->
 			
-		  <li class="dropdown">
-		  		  <a data-ng-click="navbar.clickOnNotificationsButton()" tooltip="Notifiche" href=""  data-toggle="dropdown" style="position:relative;">
+		  <li class="dropdown" >
+		  		  <a data-ng-blur="navbar.onBlurDropDown()" data-ng-click="navbar.clickOnNotificationsButton()" tooltip="Notifiche" href=""  data-toggle="dropdown" style="position:relative;">
 		  		  
 		  		  <span id="noti_Container"> 
    					  <span class="glyphicon glyphicon-bullhorn" ></span>
@@ -60,15 +60,15 @@
     			      
 				  </span>
 				  </a>
-		          <ul class="dropdown-menu" role="menu" style="max-height: 400px; overflow: auto">
+		          <ul class="dropdown-menu" role="menu" style="width:30em; max-height: 400px; overflow-y: auto; overflow-x:hidden">
 		          
 		          				<li role="menu-item" data-ng-if="navbar.newNotifications.length==0 && navbar.oldNotifications.length==0"><a href="">Non ci sono nuove notifiche </a><hr></li>
 		                     
-		                        <li role="menu-item" data-ng-repeat="n in navbar.newNotifications"><a style="color:red;" href=""><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
+		                        <li  role="menu-item" data-ng-repeat="n in navbar.newNotifications"><a href="" style="white-space:normal; color:red;" ><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
 		                     
-		                     	<li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href=""><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
+		                     	<li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href="" style="white-space:normal;"><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
 		                     	
-		                     	<li role="menu-item" ><a href=""><div class="text-center"><span class="label label-primary " style="font-size:1.05em;">Mostra tutte</span></div> </a></li>
+		                     	<li role="menu-item" ><a href=""><div class="text-center"><span class="label label-primary" style="font-size:1.05em;">Mostra tutte</span></div> </a></li>
 		                     	
 <!-- 		                        <li><a href="#"><span class="label label-primary">8:00 AM</span> How are you?</a></li> -->
 <!-- 		                        <li role="presentation" class="divider"></li> -->

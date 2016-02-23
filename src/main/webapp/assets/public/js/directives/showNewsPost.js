@@ -565,6 +565,15 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 		controllerAs: "showNewsPost",
 		bindToController : true,
 		link : function(scope,elem,attrs,ctrl){
+			scope.$watch('showNewsPost.currentCharacter.id', function(newVal, oldVal){
+				//capire su quale valore fare il watch
+				if(!newVal){
+					ctrl.classCommentButton="disabled-div";
+				}
+				else if(newVal != oldVal){
+					ctrl.classCommentButton="";
+				}
+			});
 			scope.$watch('showNewsPost.post.imageMetadata.length', function(val){
 				//capire su quale valore fare il watch
 				if(val>0){
