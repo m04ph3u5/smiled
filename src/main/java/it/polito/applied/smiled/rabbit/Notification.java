@@ -1,6 +1,9 @@
 package it.polito.applied.smiled.rabbit;
 
 import java.util.Date;
+import java.util.List;
+
+import it.polito.applied.smiled.pojo.Reference;
 
 public class Notification{
 	
@@ -16,6 +19,7 @@ public class Notification{
 	private String objectContent;
 	private String mainReceiver;
 	private String sender;
+	private List<Reference> tagged;
 	
 	public Notification(){
 		type=ComunicationType.NOTIFICATION;
@@ -99,6 +103,16 @@ public class Notification{
 	}
 	public void setObjectContent(String objectContent) {
 		this.objectContent = objectContent;
+	}
+
+
+	public List<Reference> getTagged() {
+		return tagged;
+	}
+
+
+	public void setTagged(List<Reference> tagged) {
+		this.tagged = tagged;
 	}
 	
 	

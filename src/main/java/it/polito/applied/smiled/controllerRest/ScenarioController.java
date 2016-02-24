@@ -188,7 +188,7 @@ public class ScenarioController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public void removeOneStudent(@PathVariable String id, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException{
 		
-		scenarioService.removeUserFromScenario(id,userId);
+		scenarioService.removeUserFromScenario(id,userId, activeUser);
 		logService.logRemoveAttendee(id, activeUser.getId(), userId);
 		scenarioService.lastUpdateScenario(id, new Date());
 	}

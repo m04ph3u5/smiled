@@ -472,6 +472,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 							if(!l.contains(ref))
 								l.add(ref);
+							
+							notify.notifyNewAttendee(scen, teacherRef, u.getId());
 						}
 					}
 				}
@@ -846,7 +848,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public void removeUserFromScenario(String id, String userToDelete)
+	public void removeUserFromScenario(String id, String userToDelete, CustomUserDetails activeUser)
 			throws MongoException, BadRequestException {
 		try{
 
@@ -879,6 +881,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 						userService.removeScenarioAndSaveInBlockedList(userToDelete, id);
 						permissionEvaluator.removeOnePermission(userToDelete, Scenario.class, id);
 						scenarioRepository.removeUserFromScenario(id, scen.getStatus(), userToDelete);
+						User teacher = userRepository.findById(activeUser.getId());
+						if(teacher!=null)
+							notify.notifyRemoveAttendee(scen, new Reference(teacher), userToDelete);
+
 						return;
 					}
 				}
@@ -1560,6 +1566,15 @@ public class ScenarioServiceImpl implements ScenarioService{
 			PostReference postRef = new PostReference(newStatus);
 			scenarioRepository.updatePostDateInScenario(newStatus.getScenarioId(), postRef);
 		}
+		
+		if(newStatus.getStatus().equals(PostStatus.PUBLISHED)){
+			if(user.getId().equals(newStatus.getUser().getId())){
+				notify.notifyModifiedPostByOwner(scenario, newStatus, status, newStatus.getUser());
+			}else{
+				Reference ref = new Reference(userRepository.findById(user.getId()));
+				notify.notifyModifiedPostByModerator(scenario, newStatus, status, ref);
+			}
+		}
 		return newStatus;
 	}
 
@@ -1737,6 +1752,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 			PostReference postRef = new PostReference(newEvent);
 			scenarioRepository.updatePostDateInScenario(newEvent.getScenarioId(), postRef);
 		}
+		
+		if(newEvent.getStatus().equals(PostStatus.PUBLISHED)){
+			if(user.getId().equals(newEvent.getUser().getId())){
+				notify.notifyModifiedPostByOwner(scenario, newEvent, event, newEvent.getUser());
+			}else{
+				Reference ref = new Reference(userRepository.findById(user.getId()));
+				notify.notifyModifiedPostByModerator(scenario, newEvent, event, ref);
+			}
+		}
+		
 		return newEvent;
 	}
 //		Post post =  postRepository.findById(eventId);
@@ -1915,7 +1940,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		boolean permit=false;
-		User user;
+		User user=null;
 		
 		if(post.getClass().equals(Status.class)){
 			Status status = (Status) post;
@@ -2011,6 +2036,20 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 				fileService.putListOfImagesInDelete(imagesToDelete);
 				fileService.putListOfFilesInDelete(filesToDelete);
+			}
+			
+			if(!post.getUser().getId().equals(activeUser.getId())){
+				User modUser = userRepository.findById(activeUser.getId());
+				if(modUser!=null){
+					Reference reference = new Reference(modUser);
+					ScenarioReference scenarioRef=null;
+					for(ScenarioReference sr : modUser.getOpenScenarios()){
+						if(sr.getId().equals(post.getScenarioId()))
+							scenarioRef=sr;
+					}
+					if(scenarioRef!=null)
+						notify.notifyDeletedPostByModerator(reference, post, scenarioRef);
+				}
 			}
 		}
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
@@ -20,40 +21,40 @@ import it.polito.applied.smiled.updater.AsyncUpdater;
 
 @Service
 public class NotifyServiceImpl implements NotifyService{
-	
+
 	private final String TOPIC = "topicExchange";
 	private final String DIRECT = "directExchange";
 	private final String NARRATORE = "Il Narratore";
 	private final int PREVIEW = 15;
-	
+
 	private final String USER_QUEUE_PREFIX="user.";
-	
+
 	@Autowired
 	private BrokerProducer brokerProducer;
-	
+
 	@Autowired
 	private AsyncUpdater asyncUpdater;
-	
-	
-	
+
+
+
 	//TODO gestire persistenza memorizzando in un repository
-	
+
 	@Override
 	public void createQueue(String userId) {
 		brokerProducer.createQueue(USER_QUEUE_PREFIX+userId);
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+userId, DIRECT, USER_QUEUE_PREFIX+userId);
 	}
-	
+
 	@Override
 	public void addTopicBinding(String topic, String userId){
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+userId, TOPIC, topic);
 	}
-	
+
 	@Override
 	public void removeTopicBinding(String topic, String queue){
 		brokerProducer.removeBinding(queue, TOPIC, topic);
 	}
-	
+
 	@Override
 	public void notifyOpenScenario(Scenario s, Reference actor)  {
 		List<Reference> l = new ArrayList<Reference>();
@@ -62,13 +63,13 @@ public class NotifyServiceImpl implements NotifyService{
 		if(s.getCollaborators()!=null)
 			l.addAll(s.getCollaborators());
 		l.add(s.getTeacherCreator());
-					
+
 		for(Reference r : l){
 			brokerProducer.createBinding(USER_QUEUE_PREFIX+r.getId(), TOPIC, "s"+s.getId());
 		}
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(s.getId());
 		n.setObjectContent(s.getName());
 		n.setVerb(NotificationType.OPEN_SCENARIO);
@@ -78,16 +79,16 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
-		
+
 	}
-	
+
 	@Override
 	public void notifyCloseScenario(Scenario s, Reference actor) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(s.getId());
 		n.setObjectContent(s.getName());
 		n.setVerb(NotificationType.CLOSE_SCENARIO);
@@ -97,17 +98,17 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
-		
-		
+
+
 		List<Reference> l = new ArrayList<Reference>();
 		if(s.getAttendees()!=null)
 			l.addAll(s.getAttendees());
 		if(s.getCollaborators()!=null)
 			l.addAll(s.getCollaborators());
 		l.add(s.getTeacherCreator());
-					
+
 		for(Reference r : l){
 			brokerProducer.removeBinding(USER_QUEUE_PREFIX+r.getId(), TOPIC, "s"+s.getId());
 		}
@@ -115,11 +116,11 @@ public class NotifyServiceImpl implements NotifyService{
 
 	@Override
 	public void notifyCreatePost(Scenario s, Post p)  {
-		
+
 		/*Creazione notifica nuovo post*/
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(p.getId());
 		n.setVerb(NotificationType.NEW_POST);
 		if(p.getClass().equals(Status.class)){
@@ -134,7 +135,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioName(s.getName());
 		n.setSender(p.getUser().getId());
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
-			
+
 		/*Notifico i taggati*/
 		List<Reference> l = new ArrayList<Reference>();
 		if(p.getClass().equals(Status.class)){
@@ -159,11 +160,12 @@ public class NotifyServiceImpl implements NotifyService{
 				brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "pc"+p.getId());
 			}
 		}
-		
+
 		Notification nTag = new Notification();
 		nTag.setDate(new Date());
 		nTag.setObjectId(p.getId());
 		nTag.setVerb(NotificationType.TAG_TO_POST);
+		nTag.setTagged(l);
 		if(p.getClass().equals(Status.class)){
 			Status status = (Status) p;
 			nTag.setActorId(status.getCharacter().getId());
@@ -177,14 +179,14 @@ public class NotifyServiceImpl implements NotifyService{
 		brokerProducer.sendNotify(nTag, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+p.getUser().getId(), TOPIC, "p"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+p.getUser().getId(), TOPIC, "pc"+p.getId());
-		
+
 	}
 
 	@Override
 	public void notifyNewComment(Scenario s, Post p, Comment c)  {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(p.getId()+"/"+c.getId());
 		if(c.getText().length()<=PREVIEW)
 			n.setObjectContent(c.getText());
@@ -197,15 +199,18 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioName(s.getName());
 		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo commento il mainReceiver è chi ha scritto il post 
 		n.setSender(c.getUser().getId());
+
+		generateUpdPostForReload(s, p, c.getUser().getId());
+
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	}
-	
+
 	@Override
 	public void notifyNewMetaComment(Scenario s, Post p, MetaComment c)  {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(p.getId()+"/"+c.getId());
 		if(c.getText().length()<=PREVIEW)
 			n.setObjectContent(c.getText());
@@ -218,6 +223,9 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioName(s.getName());
 		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo metacommento il mainReceiver è chi ha scritto il post 
 		n.setSender(c.getUser().getId());
+
+		generateUpdPostForReload(s, p, c.getUser().getId());
+
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
 	}
@@ -226,7 +234,7 @@ public class NotifyServiceImpl implements NotifyService{
 	public void notifyLikeToPost(Scenario s, Post p, CharacterReference actor)  {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(p.getId());
 		if(p.getClass().equals(Status.class)){
 			Status status = (Status) p;
@@ -247,7 +255,10 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo like il mainReceiver è chi ha scritto il post 
-		//TODO inserire il sender del like
+		n.setSender(actor.getUserId());
+
+		generateUpdPostForReload(s, p, actor.getUserId());
+
 		brokerProducer.sendNotify(n, TOPIC, "p"+p.getId());
 	}
 
@@ -255,7 +266,7 @@ public class NotifyServiceImpl implements NotifyService{
 	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(user.getId());
 		n.setObjectContent(user.getFirstname() +" "+user.getLastname());
 		n.setVerb(NotificationType.NEW_ASSOCIATION);
@@ -271,7 +282,7 @@ public class NotifyServiceImpl implements NotifyService{
 	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setObjectId(user.getId());
 		n.setObjectContent(user.getFirstname() +" "+user.getLastname());
 		n.setVerb(NotificationType.DEL_ASSOCIATION);
@@ -279,20 +290,20 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(actor.getName());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+
 		try{
 			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
 		} catch(Exception e){
 			System.out.println("Delete association: impossibile inviare la notifica");
 		}
-		asyncUpdater.removeNotificationFromCharacter(user, actor, s);
+		asyncUpdater.removeNotificationFromCharacter(user.getId(), actor, s);
 	}
 
 	@Override
 	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor, Mission m) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		if(!m.getTitle().isEmpty()){
 			if(m.getTitle().length()<=PREVIEW)
 				n.setObjectContent(m.getTitle());
@@ -310,7 +321,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(actor.getName());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+
 		try{
 			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
 		} catch(Exception e){
@@ -338,16 +349,16 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(user.getFirstname()+" "+user.getLastname());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
 
 	@Override
 	public void notifyNewModerator(Reference user, Scenario s, Reference actor) {
-		
+
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setVerb(NotificationType.NEW_MOD);
 		n.setObjectId(user.getId());
 		if(actor!=null){
@@ -356,7 +367,7 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+
 		try{
 			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
 			brokerProducer.createBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
@@ -364,7 +375,7 @@ public class NotifyServiceImpl implements NotifyService{
 			System.out.println("New moderaotor: impossibile inviare la notifica");
 		}
 	}
-	
+
 	@Override
 	public void notifyCreatorOfNewModerator(Reference user, Scenario s, Reference actor, String creatorId) {
 		Notification n = new Notification();
@@ -378,19 +389,19 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		
+
 		try{
 			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+creatorId);
 		}catch(Exception e){
 			System.out.println("New moderaotor to creator: impossibile inviare la notifica");
 		}
 	}
-	
+
 	@Override
 	public void notifyRemoveModerator(Reference user, Scenario s, Reference actor) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		
+
 		n.setVerb(NotificationType.DEL_MOD);
 		n.setObjectId(user.getId());
 		n.setActorId(actor.getId());
@@ -407,6 +418,206 @@ public class NotifyServiceImpl implements NotifyService{
 
 	}
 
+	@Override
+	public void notifyModifiedPostByOwner(Scenario s, Post p, Post oldPost, Reference actor) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.MODIFIED);
+		//Actor is owner of post
+		n.setActorId(actor.getId());
+		n.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		//Object is post itself
+		n.setObjectId(p.getId());
+		//Sender is again owner of post (just for convenience on client side)
+		n.setSender(p.getUser().getId());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		generateUpdPostForReload(s, p, p.getUser().getId());
+		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
+
+		notifyEventuallyTags(s,p,oldPost,actor);
+	}
+
+	@Override
+	public void notifyModifiedPostByModerator(Scenario s, Post p, Post oldPost, Reference actor) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.MODIFIED_POST_BY_MOD);
+
+		//Actor is moderator which modify post
+		n.setActorId(actor.getId());
+		n.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		//Object is post itself
+		n.setObjectId(p.getId());
+		//Sender is again moderator (just for convenience on client side)
+		n.setSender(actor.getId());
+		//Main receiver is owner of post
+		n.setMainReceiver(p.getUser().getId());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		generateUpdPostForReload(s, p, actor.getId());
+		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());	
+
+		notifyEventuallyTags(s,p,oldPost,actor);
+	}
 	
+	@Override
+	public void notifyDeletedPostByModerator(Reference r, Post p, ScenarioReference s) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.DELETED_POST_BY_MOD);
+		n.setObjectId(p.getId());
+		n.setActorId(r.getId());
+		n.setActorName(r.getFirstname()+" "+r.getLastname());
+		n.setSender(r.getId());
+		n.setMainReceiver(p.getUser().getId());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+n.getMainReceiver());
+	}
+	
+
+	@Override
+	public void notifyNewAttendee(Scenario s, Reference actor, String userAddedId) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.NEW_ATTENDEE);
+		n.setObjectId(s.getId());
+		n.setActorId(actor.getId());
+		n.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		n.setSender(actor.getId());
+		n.setMainReceiver(userAddedId);
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+n.getMainReceiver());
+		brokerProducer.createBinding(USER_QUEUE_PREFIX+userAddedId, TOPIC, "s"+s.getId());		
+	}
+	
+
+	@Override
+	public void notifyRemoveAttendee(Scenario s, Reference actor, String userAddedId) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.DEL_ATTENDEE);
+		n.setObjectId(s.getId());
+		n.setActorId(actor.getId());
+		n.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		n.setSender(actor.getId());
+		n.setMainReceiver(userAddedId);
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+n.getMainReceiver());		
+		brokerProducer.removeBinding(USER_QUEUE_PREFIX+userAddedId, TOPIC, "s"+s.getId());
+		for(CharacterReference cr : s.getCharacters()){
+			if(cr.getUserId().equals(userAddedId)){
+				asyncUpdater.removeNotificationFromCharacter(userAddedId, cr, s);
+				break;
+			}
+		}
+	}
+	
+	@Override
+	public void notifyNewResource(ScenarioReference s, Reference actor, String filename) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.NEW_FILE);
+		n.setObjectContent(filename);
+		n.setActorId(actor.getId());
+		n.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		n.setSender(actor.getId());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());		
+	}
+	
+	private void notifyEventuallyTags(Scenario s, Post p, Post oldPost, Reference actor) {
+		//Search for new tag
+		if(p.getClass().equals(Status.class)){
+			Status status = (Status) p;
+			Status oldStatus = (Status) oldPost;
+
+			List<Reference> oldTagged = oldStatus.getTags();
+			List<Reference> newTagged = new ArrayList<Reference>();
+			for(Reference ref : status.getTags()){
+				if(!oldTagged.contains(ref)){
+					newTagged.add(ref);
+				}
+			}
+			if(newTagged.size()>0){
+				Notification nTag = new Notification();
+				nTag.setDate(new Date());
+				nTag.setObjectId(p.getId());
+				nTag.setVerb(NotificationType.TAG_TO_POST);
+				nTag.setActorId(status.getCharacter().getId());
+				nTag.setActorName(status.getCharacter().getName());
+				nTag.setObjectId(status.getId());
+				if(status.getText().length()<=PREVIEW)
+					nTag.setObjectContent(status.getText());
+				else
+					nTag.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
+				nTag.setSender(actor.getId());
+				nTag.setTagged(newTagged);
+
+				for(Reference r : newTagged){
+					CharacterReference c = s.getCharacter(r.getId());
+					if(c!=null && c.getUserId()!=null){
+						brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "p"+p.getId());
+						brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "pc"+p.getId());
+					}
+				}
+
+				brokerProducer.sendNotify(nTag, TOPIC, "pc"+p.getId());
+			}
+		}else if(p.getClass().equals(Event.class)){
+			Event event = (Event) p;
+			Event oldEvent = (Event) oldPost;
+
+			List<Reference> oldTagged = oldEvent.getTags();
+			List<Reference> newTagged = new ArrayList<Reference>();
+			for(Reference ref : event.getTags()){
+				if(!oldTagged.contains(ref)){
+					newTagged.add(ref);
+				}
+			}
+			if(newTagged.size()>0){
+				Notification nTag = new Notification();
+				nTag.setDate(new Date());
+				nTag.setObjectId(p.getId());
+				nTag.setVerb(NotificationType.TAG_TO_POST);
+				nTag.setActorId("");
+				nTag.setActorName("NARRATORE");
+				nTag.setObjectId(event.getId());
+				if(event.getText().length()<=PREVIEW)
+					nTag.setObjectContent(event.getText());
+				else
+					nTag.setObjectContent(event.getText().substring(0, PREVIEW)+"...");
+				nTag.setSender(actor.getId());
+				nTag.setTagged(newTagged);
+
+				for(Reference r : newTagged){
+					CharacterReference c = s.getCharacter(r.getId());
+					if(c!=null && c.getUserId()!=null){
+						brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "p"+p.getId());
+						brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUserId(), TOPIC, "pc"+p.getId());
+					}
+				}
+
+				brokerProducer.sendNotify(nTag, TOPIC, "pc"+p.getId());
+			}
+		}		
+	}
+
+	private void generateUpdPostForReload(Scenario s, Post p, String senderId){
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.UPD_POST);
+		//Object is post itself
+		n.setObjectId(p.getId());
+		//Sender is again owner of post (just for convenience on client side
+		n.setSender(senderId);
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		brokerProducer.sendNotify(n, TOPIC, "s"+p.getId());
+	}
 
 }
