@@ -15,7 +15,6 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	userService.getMe().then(		
 		function(data){
 			self.user=data;
-			
 			if(self.user.role.authority=="ROLE_TEACHER" || self.user.role.authority=="ROLE_ADMIN"){
 				self.basicCover=CONSTANTS.basicTeacherCover;
 			}
@@ -72,8 +71,23 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 						else
 							notifications[i].text = "A "+notifications[i].actorName +" piace un post in cui sei taggato nello scenario "+notifications[i].scenarioName;
 					}
-					else if(notifications[i].verb == "TAG_TO_POST"){
+					else if(notifications[i].verb == "TAG_ON_CREATE"){
 						notifications[i].text = notifications[i].actorName +" ti ha taggato in un post nello scenario "+notifications[i].scenarioName;
+					}
+					else if(notifications[i].verb == "TAG_ON_MOD"){
+						if(notifications[i].tagged){
+							var stringTags="";
+							for(var j=0;j<notifications[i].tagged.length; ij++){
+								if(j<notifications[i].tagged.length-1){
+									stringTags+=notifications[i].tagged[j] + ", ";
+								}else{
+									stringTags+=notifications[i].tagged[j];
+								}
+								
+							}
+								notifications[i].text = notifications[i].actorName +" ha taggato "+ stringTags+" in un post nello scenario "+notifications[i].scenarioName;
+						}
+						
 					}
 					else if(notifications[i].verb == "METACOMMENT_TO_POST"){
 						if(self.user.id==notifications[i].mainReceiver)
