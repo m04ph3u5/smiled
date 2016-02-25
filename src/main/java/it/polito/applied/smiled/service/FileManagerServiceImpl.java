@@ -1,25 +1,5 @@
 package it.polito.applied.smiled.service;
 
-import it.polito.applied.smiled.dto.FileMetadataDTO;
-import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.exception.ForbiddenException;
-import it.polito.applied.smiled.exception.NotFoundException;
-import it.polito.applied.smiled.pojo.FileMetadata;
-import it.polito.applied.smiled.pojo.FileReference;
-import it.polito.applied.smiled.pojo.MediaDataAndContentType;
-import it.polito.applied.smiled.pojo.ResourceType;
-import it.polito.applied.smiled.pojo.SupportedMedia;
-import it.polito.applied.smiled.pojo.scenario.Character;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.pojo.user.User;
-import it.polito.applied.smiled.repository.CharacterRepository;
-import it.polito.applied.smiled.repository.FileMetadataRepository;
-import it.polito.applied.smiled.repository.PostRepository;
-import it.polito.applied.smiled.repository.ScenarioRepository;
-import it.polito.applied.smiled.repository.UserRepository;
-import it.polito.applied.smiled.security.CustomUserDetails;
-import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
-
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -55,11 +35,33 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
+import it.polito.applied.smiled.dto.FileMetadataDTO;
+import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.NotFoundException;
+import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
+import it.polito.applied.smiled.pojo.MediaDataAndContentType;
+import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.ResourceType;
+import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.SupportedMedia;
+import it.polito.applied.smiled.pojo.scenario.Character;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.rabbit.NotifyService;
+import it.polito.applied.smiled.repository.CharacterRepository;
+import it.polito.applied.smiled.repository.PostRepository;
+import it.polito.applied.smiled.repository.ScenarioRepository;
+import it.polito.applied.smiled.repository.UserRepository;
+import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
+
 @Service
 public class FileManagerServiceImpl implements FileManagerService {
 
-	@Autowired
-	private FileMetadataRepository fileMetadataRepository;
+//	@Autowired
+//	private FileMetadataRepository fileMetadataRepository;
 
 	@Autowired
 	private ScenarioRepository scenarioRepository; 
@@ -75,6 +77,9 @@ public class FileManagerServiceImpl implements FileManagerService {
 
 	@Autowired
 	private SmiledPermissionEvaluator permissionEvaluator;
+	
+	@Autowired
+	private NotifyService notify;
 
 	@Autowired
 	private GridFsManager gridFsManager;
@@ -507,7 +512,18 @@ public class FileManagerServiceImpl implements FileManagerService {
 		filename+=r.nextInt(10);
 		meta.setId(filename);
 		GridFSFile file = gridFsManager.save(media.getInputStream(), filename, media.getContentType(), meta);
-	
+		
+		//To notify new resource
+		User mod = userRepository.findById(user.getId());
+		ScenarioReference sr = null;
+		for(ScenarioReference scenRef : mod.getOpenScenarios()){
+			if(scenRef.getId().equals(scenarioId)){
+				sr = scenRef;
+				break;
+			}
+		}
+		if(mod!=null && sr!=null)
+			notify.notifyNewResource(sr, new Reference(mod), filename);
 		return file.getFilename().toString();
 	}
 

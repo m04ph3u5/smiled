@@ -1,5 +1,16 @@
 package it.polito.applied.smiled.updater;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
 import it.polito.applied.smiled.mailMessage.EmailMessageService;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Issue;
@@ -26,17 +37,6 @@ import it.polito.applied.smiled.repository.UserRepository;
 import it.polito.applied.smiled.security.SmiledPermissionEvaluator;
 import it.polito.applied.smiled.service.ScenarioService;
 import it.polito.applied.smiled.service.UserService;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AsyncUpdater {
@@ -163,9 +163,9 @@ public class AsyncUpdater {
 		taskExecutor.execute(r);
 	}
 	
-	public void removeNotificationFromCharacter(Reference user,
+	public void removeNotificationFromCharacter(String userId,
 			CharacterReference actor, Scenario s) {
-		Runnable r = new RemoveNotificationFromCharacter(user, actor, s);
+		Runnable r = new RemoveNotificationFromCharacter(userId, actor, s);
 		taskExecutor.execute(r);
 	}
 	
@@ -277,13 +277,13 @@ public class AsyncUpdater {
 	
 	private class RemoveNotificationFromCharacter implements Runnable{
 		
-		private Reference user;
+		private String userId;
 		private CharacterReference character;
 		private Scenario scenario;
 		
-		public RemoveNotificationFromCharacter(Reference user,
+		public RemoveNotificationFromCharacter(String userId,
 			CharacterReference actor, Scenario s){
-			this.user = user;
+			this.userId = userId;
 			character = actor;
 			this.scenario = s;
 		}
@@ -299,23 +299,23 @@ public class AsyncUpdater {
 				if(p.getClass().equals(Status.class)){
 					Status s = (Status) p;
 					if(s.getCharacter().getId().equals(character.getId()) 
-							&& s.getUser().getId().equals(user.getId())){
-						brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
-						brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+							&& s.getUser().getId().equals(userId)){
+						brokerProducer.removeBinding("u"+userId, "TOPIC", "p"+s.getId());
+						brokerProducer.removeBinding("u"+userId, "TOPIC", "pc"+s.getId());
 						break;
 					}else{
 						List<Reference> tagged = s.getTags();
 						if(tagged.contains(new Reference(character))){
-							brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "p"+s.getId());
-							brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+							brokerProducer.removeBinding("u"+userId, "TOPIC", "p"+s.getId());
+							brokerProducer.removeBinding("u"+userId, "TOPIC", "pc"+s.getId());
 							break;
 						}
 						List<Comment> comments = s.getComments();
 						boolean founded=false;
 						for(Comment c : comments){
 							if(c.getCharacter().equals(character.getId()) 
-								&& c.getUser().getId().equals(user.getId())){
-								brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+								&& c.getUser().getId().equals(userId)){
+								brokerProducer.removeBinding("u"+userId, "TOPIC", "pc"+s.getId());
 								founded=true;
 								break;
 							}
@@ -324,8 +324,8 @@ public class AsyncUpdater {
 							break;
 						List<MetaComment> metaComments = s.getMetaComments();
 						for(MetaComment m : metaComments){
-							if(m.getUser().getId().equals(user.getId())){
-								brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "pc"+s.getId());
+							if(m.getUser().getId().equals(userId)){
+								brokerProducer.removeBinding("u"+userId, "TOPIC", "pc"+s.getId());
 								break;
 							}
 						}
@@ -334,16 +334,16 @@ public class AsyncUpdater {
 					Event e = (Event) p;
 					List<Reference> tagged = e.getTags();
 					if(tagged.contains(new Reference(character))){
-						brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "p"+scenario.getId());
-						brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
+						brokerProducer.removeBinding("u"+userId, "TOPIC", "p"+scenario.getId());
+						brokerProducer.removeBinding("u"+userId, "TOPIC", "pc"+scenario.getId());
 						break;
 					}
 					List<Comment> comments = e.getComments();
 					boolean founded=false;
 					for(Comment c : comments){
 						if(c.getCharacter().equals(character.getId()) 
-							&& c.getUser().getId().equals(user.getId())){
-							brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
+							&& c.getUser().getId().equals(userId)){
+							brokerProducer.removeBinding("u"+userId, "TOPIC", "pc"+scenario.getId());
 							founded=true;
 							break;
 						}
@@ -352,8 +352,8 @@ public class AsyncUpdater {
 						break;
 					List<MetaComment> metaComments = e.getMetaComments();
 					for(MetaComment m : metaComments){
-						if(m.getUser().getId().equals(user.getId())){
-							brokerProducer.removeBinding("u"+user.getId(), "TOPIC", "pc"+scenario.getId());
+						if(m.getUser().getId().equals(userId)){
+							brokerProducer.removeBinding("u"+userId, "TOPIC", "pc"+scenario.getId());
 							break;
 						}
 					}

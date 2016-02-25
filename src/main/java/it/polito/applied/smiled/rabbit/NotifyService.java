@@ -2,6 +2,7 @@ package it.polito.applied.smiled.rabbit;
 
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Mission;
@@ -29,15 +30,17 @@ public interface NotifyService {
 	public void notifyNewModerator(Reference user, Scenario s, Reference actor) ;
 	public void notifyCreatorOfNewModerator(Reference user, Scenario s, Reference actor, String creatorId);
 	public void notifyRemoveModerator(Reference user, Scenario s, Reference actor) ;
-//	public void notifyNewAttendee();
-//	public void notifyRemoveAttendee();
-//	public void notifyNewResource();
-//	public void notifyModifiedPostByModerator();
-//	public void notifyDeletedPostByModerator();
+	public void notifyModifiedPostByOwner(Scenario s, Post p, Post oldPost, Reference actor);
+	public void notifyModifiedPostByModerator(Scenario s, Post p, Post oldPost, Reference actor);
+	public void notifyDeletedPostByModerator(Reference r, Post p, ScenarioReference s);
+	public void notifyNewAttendee(Scenario s, Reference actor, String userAddedId);
+	public void notifyRemoveAttendee(Scenario s, Reference actor, String userAddedId);
+	public void notifyNewResource(ScenarioReference s, Reference actor, String filename);
+	
+	
 //	public void notifyModifiedCommentByModerator();
 //	public void notifyDeletedCommentByModerator();
 //	public void notifyDeletedMetaCommentByModerator();
-//	public void notifyModifiedPostByOwner();
 	
 	
 	

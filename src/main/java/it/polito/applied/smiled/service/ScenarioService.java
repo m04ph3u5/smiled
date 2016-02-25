@@ -38,7 +38,7 @@ public interface ScenarioService {
 
 	public List<Reference> subscribeStudentIfNotPresent(List<EmailDTO> studentsEmail, String teacherId, String scenarioId) throws MongoException, BadRequestException;
 
-	public void removeUserFromScenario(String id, String userToDelete) throws MongoException, BadRequestException;
+	public void removeUserFromScenario(String id, String userToDelete, CustomUserDetails activeUser) throws MongoException, BadRequestException;
 	public Scenario getScenario(String id) throws MongoException, NotFoundException;
 
 	public Scenario updateScenario(String id, ScenarioDTO scenario, CustomUserDetails user)
