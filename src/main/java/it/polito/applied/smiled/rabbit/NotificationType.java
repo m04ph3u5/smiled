@@ -47,11 +47,18 @@ public enum NotificationType {
 	LIKE_TO_POST,
 	
 	/**
-	 * Tag di un personaggio ad un post
+	 * Tag di un personaggio alla creazione di un post
 	 * --> Creatore post, chi interpreta il personaggio (se != da creatore), 
 	 * 		tutti quelli che sono taggati | TOPIC: postAndComment
 	 * */
-	TAG_TO_POST,
+	TAG_ON_CREATE,
+	
+	/**
+	 * Tag di un personaggio alla modifica di un post
+	 * --> Creatore post, chi interpreta il personaggio (se != da creatore), 
+	 * 		tutti quelli che sono taggati | TOPIC: postAndComment
+	 * */
+	TAG_ON_MOD,
 	
 	/**
 	 * Nuova associazione utente-personaggio

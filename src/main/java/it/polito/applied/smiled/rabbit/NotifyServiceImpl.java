@@ -164,7 +164,7 @@ public class NotifyServiceImpl implements NotifyService{
 		Notification nTag = new Notification();
 		nTag.setDate(new Date());
 		nTag.setObjectId(p.getId());
-		nTag.setVerb(NotificationType.TAG_TO_POST);
+		nTag.setVerb(NotificationType.TAG_ON_CREATE);
 		nTag.setTagged(l);
 		if(p.getClass().equals(Status.class)){
 			Status status = (Status) p;
@@ -548,7 +548,7 @@ public class NotifyServiceImpl implements NotifyService{
 				Notification nTag = new Notification();
 				nTag.setDate(new Date());
 				nTag.setObjectId(p.getId());
-				nTag.setVerb(NotificationType.TAG_TO_POST);
+				nTag.setVerb(NotificationType.TAG_ON_MOD);
 				nTag.setActorId(status.getCharacter().getId());
 				nTag.setActorName(status.getCharacter().getName());
 				nTag.setObjectId(status.getId());
@@ -558,6 +558,8 @@ public class NotifyServiceImpl implements NotifyService{
 					nTag.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
 				nTag.setSender(actor.getId());
 				nTag.setTagged(newTagged);
+				nTag.setScenarioId(s.getId());
+				nTag.setScenarioName(s.getName());
 
 				for(Reference r : newTagged){
 					CharacterReference c = s.getCharacter(r.getId());
@@ -584,7 +586,7 @@ public class NotifyServiceImpl implements NotifyService{
 				Notification nTag = new Notification();
 				nTag.setDate(new Date());
 				nTag.setObjectId(p.getId());
-				nTag.setVerb(NotificationType.TAG_TO_POST);
+				nTag.setVerb(NotificationType.TAG_ON_MOD);
 				nTag.setActorId("");
 				nTag.setActorName("NARRATORE");
 				nTag.setObjectId(event.getId());
@@ -594,7 +596,9 @@ public class NotifyServiceImpl implements NotifyService{
 					nTag.setObjectContent(event.getText().substring(0, PREVIEW)+"...");
 				nTag.setSender(actor.getId());
 				nTag.setTagged(newTagged);
-
+				nTag.setScenarioId(s.getId());
+				nTag.setScenarioName(s.getName());
+				
 				for(Reference r : newTagged){
 					CharacterReference c = s.getCharacter(r.getId());
 					if(c!=null && c.getUserId()!=null){
