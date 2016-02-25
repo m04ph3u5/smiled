@@ -361,6 +361,7 @@ public class NotifyServiceImpl implements NotifyService{
 
 		n.setVerb(NotificationType.NEW_MOD);
 		n.setObjectId(user.getId());
+		n.setMainReceiver(user.getId());
 		if(actor!=null){
 			n.setActorId(actor.getId());
 			n.setActorName(actor.getFirstname()+" "+user.getLastname());
