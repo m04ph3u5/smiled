@@ -743,6 +743,7 @@ angular.module('smiled.application')
 		});
 	    $httpProvider.interceptors.push('unauthorizedInterceptor');
 		$locationProvider.html5Mode(true);
+		$httpProvider.useApplyAsync(true);
 		RestangularProvider.setBaseUrl('/api/v1');
 		RestangularProvider.setDefaultHeaders({'Content-Type' : 'application/json'});
 	}])

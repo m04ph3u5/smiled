@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload','notifyService',
-                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload','notifyService','$scope','$interval',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService, $scope, $interval){
 	
 	
 	console.log("controller");
@@ -18,8 +18,11 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.showBoxAttendees = false;
 	self.showBoxCollaborators = false;
 	self.showBoxInfo = true;
-	
+	self.numNewPost = 0;
 	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
+	
+	
+	/*-----------------------------------UTILIY------------------------------------------------*/
 	
 	self.firstNameAndSecondName = function(first, second){
 		return first + " "+ second;
@@ -55,25 +58,24 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		self.showBoxCollaborators = false;
 	}
 	
-	self.numNewPost = 0;
-	var incrementNumNewPost = function(n){		
-		self.numNewPost=self.numNewPost+n;
+	self.incrementNumNewPost = function(){	
+		
+		self.numNewPost++;
+		console.log("STO INCREMENTANDO NUM_NEW_POST !!!!!!!!!!!!!!!");
+		console.log(self.numNewPost);		
 	}
+	
 	var resetNumNewPost = function(){
 		self.numNewPost = 0;
 	}
 	
 	
-	
-	self.showNewPosts = function(){
-		
+	self.showNewPosts = function(){		
 		notifyService.reloadList(); //dico al notifyService di avvertire scenarioPostController che ci sono nuovi post da scaricare
 		resetNumNewPost();
-		
 
 	}
 	
-	/*-----------------------------------UTILIY------------------------------------------------*/
 	var reload = function(){
 		console.log("RELOAD *******");
 		userService.getMe().then(function(data){
@@ -85,13 +87,14 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 			
 		
 	}
-	notifyService.registerObserverAssociation(reload);
-	notifyService.registerObserverNewPost(incrementNumNewPost, self.scen.id);
+	
+	/*-----------------------------------UTILIY------------------------------------------------*/
+	
 	
 	var onStartup = function(){
-
+		
 		if(self.scen.teacherCreator.id==self.loggedUser.id){
-			console.log("isCreator");
+		
 			self.isCreator=true;
 			self.isModerator=true;	
 			console.log(self.scen);
@@ -103,7 +106,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 			if(self.scen.collaborators){
 				for(var i=0; i<self.scen.collaborators.length; i++){
 					if(self.scen.collaborators[i].id==self.loggedUser.id){
-						console.log("isModerator");
+						
 						self.isModerator=true;
 						break;
 					}
@@ -152,11 +155,27 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		}
 	}
 	
-	onStartup();
+	
 	
 	self.goToBody = function(){
 		$location.hash("body-content");
 	    $anchorScroll();
 	}
+	
+	var newPostListener = $scope.$on('notification.newPostEvent', function () {
+		console.log("on newPostListener!!!!!!!");
+        self.incrementNumNewPost();
+        $scope.$applyAsync();
+       
+    })
+  
+	$scope.$on("$destroy", function() {
+        newPostListener();
+        notifyService.resetObserverAssociation();
+    });
+	
+	
+	notifyService.registerObserverAssociation(reload);
+	onStartup();
 
 }]);

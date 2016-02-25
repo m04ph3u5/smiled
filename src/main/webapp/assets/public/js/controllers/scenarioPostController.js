@@ -32,6 +32,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.realDateFormat = CONSTANTS.realDateFormatWithHour;
 	
 	
+	
+	/*-----------------------------------UTILIY------------------------------------------------*/
+	
 	self.getUrlCoverCharacter = function(id){
 		return CONSTANTS.urlCharacterCover(self.scen.id,id);
 	}
@@ -50,8 +53,25 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		return date.day+" / "+date.month+" / "+date.year+" "+era;
 	}
 	
+	var postAlreadyPresent = function(postId){
+		for(var i = 0; i<self.posts.length; i++){
+			if(self.posts[i].id == postId)
+				return true;
+		}
+		return false;
+	}
+	
+	self.switchCommentTab = function(c){
+		if($scope.scenario.hasCharacter)
+			self.commentTab = c;
+		else
+			self.commentTab = false;
+	}
+	
+	/*-----------------------------------UTILIY------------------------------------------------*/
+	
 	self.getPost = function(n){
-		console.log("*******GET*********");
+		
 		apiService.getPagedPosts(self.scen.id, 0, n, false).then(
 	
 			function(data){
@@ -78,29 +98,19 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 			}
 	);
 	}
-	self.getPost(300);
-	
-
-	var postAlreadyPresent = function(postId){
-		for(var i = 0; i<self.posts.length; i++){
-			if(self.posts[i].id == postId)
-				return true;
-		}
-		return false;
-	}
 	
 	//listOfNewPosts è la lista di id di post da scaricare
 	var updateScenarioWithNewPosts = function(listOfNewPosts){
 		
-		console.log("-----BBBBBBBBB_----------");
+//      Operazione di scrematura molto probabilmente NON NECESSARIA!!!
+//		if(listOfNewPosts!=null && listOfNewPosts.length>0){
+//			for(var i = 0; i<listOfNewPosts.length; i++){
+//				if(postAlreadyPresent(listOfNewPosts[i])){
+//					listOfNewPosts.splice(i,1);  //sto scremando i post che ho gia scaricato
+//				}
+//			}
+//		}
 		
-		if(listOfNewPosts!=null && listOfNewPosts.length>0){
-			for(var i = 0; i<listOfNewPosts.length; i++){
-				if(postAlreadyPresent(listOfNewPosts[i])){
-					listOfNewPosts.splice(i,1);  //sto scremando i post che ho gia scaricato
-				}
-			}
-		}
 		
 		apiService.getListOfNewPosts(self.scen.id, listOfNewPosts).then(
 				
@@ -162,38 +172,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 				);
 			}
 		}
-	}
-	
-	notifyService.registerObserverReloadList(updateScenarioWithNewPosts);
-	notifyService.registerObserverUpdPost(updateScenarioWithModPosts);
-	
-	
-	
-	
-	var interval;
-	var intervalSet = false;
-	self.startUpdatePost = function(){
-		if(!intervalSet){
-			console.log("START INTERVAL");			
-			interval = $interval(self.getPost(300),15000);
-			intervalSet=true;
-		}
-	}
-	
-	self.stopUpdatePost = function(){
-		if(intervalSet){
-			console.log("STOP INTERVAL");
-			$interval.cancel(interval);
-			intervalSet=false;
-		}
-	}
-	
-	
-	self.switchCommentTab = function(c){
-		if($scope.scenario.hasCharacter)
-			self.commentTab = c;
-		else
-			self.commentTab = false;
 	}
 	
 	self.addCommentToPost = function(s){
@@ -260,6 +238,17 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		}
 	}
 	
+	
+	notifyService.setActualScenarioId(self.scen.id);
+	notifyService.registerObserverReloadList(updateScenarioWithNewPosts);
+	notifyService.registerObserverUpdPost(updateScenarioWithModPosts, self.scen.id);
+	self.getPost(300);
+	
+	$scope.$on("$destroy", function() {
+        
+        notifyService.resetActualScenarioId();
+        notifyService.resetObserverReloadList();
+    });
 	
 
 }]);

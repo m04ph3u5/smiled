@@ -1,23 +1,33 @@
-angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
-               function notifyService($q, $cookies){
+angular.module('smiled.application').factory('notifyService', [ '$q','$cookies','$rootScope',
+               function notifyService($q, $cookies, $rootScope){
 
-	var notifications = [];
+	
 	var me = $cookies.get('myMescholaId');
 	var newPosts = [];
 	var updPosts = [];
     var actualScenarioId="";
+    var actualNotify={};
+    var observerReloadListOfPost = {};
+	var observerReloadAssociationCallbacks = {};
+    var observerUpdPostCallbacks = {};
 
+    var setActualScenarioId = function(id){
+    	actualScenarioId=id;		
+    }
+        
+	var resetActualScenarioId = function(){
+		actualScenarioId="";		
+	}
 	
 	var newNotifyOrPost = function(n){
 		
 		if(n.sender!=me){
-			console.log(n.scenarioId);
-			console.log(actualScenarioId);
+			
 			if(n.verb=="NEW_POST"){
 				if(n.scenarioId==actualScenarioId){
 					console.log("nuovo post");
 					newPosts.unshift(n.objectId);
-					notifyNewPostObservers(newPosts.length);
+					$rootScope.$broadcast('notification.newPostEvent');
 				}
 			}else if(n.verb=="UPD_POST"){
 				if(n.scenarioId==actualScenarioId){
@@ -28,10 +38,8 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 			}
 			else{
 				console.log("nuova notifica");
-				n.read = false;
-				notifications.splice(0, 0, n);
+				$rootScope.$broadcast('notification.newNotificationEvent', {notification: n});
 				
-				notifyNotificationsObservers();
 			}
 		}
 		//else --> non fare niente perchè è una notifica generata da me
@@ -42,63 +50,15 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		newPosts = [];
 		return nP;
 	}
-	//restituisce tutte le notifiche non lette che il service ha in memoria (read==false)
-	var readNewNotifications = function(){
-		var newNotifications = [];
-		for(var i=0; i < notifications.length; i++){
-			if(notifications[i].read==false){
-				newNotifications.push(angular.copy(notifications[i]));
-				notifications[i].read=true;
-			}
-		}
-		console.log("tutte le notifiche non lette che il service ha in memoria----->");
-		console.log(newNotifications);
-		return newNotifications;
-	}
 	
-	//restituisce tutte le notifiche che il service ha in memoria
-	var readNotifications = function(){
-		var allNotificationInService = [];
-		for(var i=0; i<notifications.length; i++){
-			allNotificationInService.push(angular.copy(notifications[i]));
-			n.read=true;			
-		}
-		console.log("tutte le notifiche che il service ha in memoria----->");
-		console.log(allNotificationInService);
-		return allNotificationInService;
-	}
 	
 	var readOldNotifications = function(){
 		//questo metodo si occuperà di richiedere al server le notifiche già lette che non ha in memoria
 	}
 	
-	var observerNotificationsCallbacks = [];
-	var observerNewPostCallbacks = {};
-	var observerReloadListOfPost = {};
-	var observerReloadAssociationCallbacks = {};
-    var observerUpdPostCallbacks = {};
 	
-	//register an observer
-	var registerObserverNotifications = function(callback){
-		observerNotificationsCallbacks.push(callback);
-	};
-	
-	var notifyNotificationsObservers = function(){
-		angular.forEach(observerNotificationsCallbacks, function(callback){
-			callback();
-		});
-	};
-	
-	//register an observer
-	var registerObserverNewPost = function(callback, scenarioId){
-		actualScenarioId = scenarioId;
-		observerNewPostCallbacks = callback;
-	};
-	  
-	//call this when you know 'foo' has been changed
-	var notifyNewPostObservers = function(n){
-		observerNewPostCallbacks(n);
-	};
+
+
 	
 	var notifyReloadAssociationObservers = function(n){
 		observerReloadAssociationCallbacks(n);
@@ -109,13 +69,21 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		
 		observerReloadListOfPost = callback;
 	}
+	var resetObserverReloadList = function(){
+		observerReloadListOfPost={};
+	}
 	
 	//register an observer
 	var registerObserverAssociation = function(callback){
 		observerReloadAssociationCallbacks = callback;
 	}
+	var resetObserverAssociation = function(){
+		observerReloadAssociationCallbacks={};
+	}
 	
-	var registerObserverUpdPost = function(callback){
+	
+	var registerObserverUpdPost = function(callback, scenarioId){
+		actualScenarioId = scenarioId;
 		observerUpdPostCallbacks = callback;
 	}
 	
@@ -139,20 +107,19 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	
 	return {
 		newNotifyOrPost : newNotifyOrPost,
-		readNewNotifications : readNewNotifications,
-		readNotifications : readNotifications,
-		registerObserverNotifications: registerObserverNotifications,
-		notifyNotificationsObservers: notifyNotificationsObservers,
-		registerObserverNewPost: registerObserverNewPost,
-		notifyNewPostObservers: notifyNewPostObservers,
 		getAllNewPosts : getAllNewPosts,
 		registerObserverReloadList : registerObserverReloadList,
+		resetObserverReloadList : resetObserverReloadList,
 		notifyReloadListObservers : notifyReloadListObservers,
 		reloadList : reloadList,
 		reloadAssociation : reloadAssociation,
 		registerObserverAssociation : registerObserverAssociation,
+		resetObserverAssociation : resetObserverAssociation,
 		notifyUpdPostObservers: notifyUpdPostObservers,
-		registerObserverUpdPost : registerObserverUpdPost
+		registerObserverUpdPost : registerObserverUpdPost,
+		setActualScenarioId : setActualScenarioId,
+		resetActualScenarioId : resetActualScenarioId
+		
 		
 	};
 

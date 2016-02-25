@@ -7,6 +7,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	var reconnectAttempt=0;
 	
 	 service.RECONNECT_TIMEOUT = 30000;
+	 service.START_AFTER_TIME_TO_SETUP=1500;
 	 service.SOCKET_URL = "https://localhost:8443/websocket/messages";
 	 //service.CHAT_TOPIC = "/topic/message";
 	 //service.CHAT_BROKER = "/app/chat";
@@ -46,8 +47,10 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	};
 	 
 	
+	$timeout(function() {
+		initialize();
+      }, service.START_AFTER_TIME_TO_SETUP);
 	
-	initialize();
 	
 	return {};
 
