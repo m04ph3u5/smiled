@@ -46,11 +46,12 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 	};
 	};
 	 
+	initialize();
 	
-	$timeout(function() {
-		initialize();
-      }, service.START_AFTER_TIME_TO_SETUP);
-	
+//	$timeout(function() {
+//		initialize();
+//      }, service.START_AFTER_TIME_TO_SETUP);
+//	
 	
 	return {};
 
