@@ -78,10 +78,13 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 						if(notifications[i].tagged){
 							var stringTags="";
 							for(var j=0;j<notifications[i].tagged.length; j++){
-								if(j<notifications[i].tagged.length-1){
+								if(j<notifications[i].tagged.length-2){
 									stringTags+=notifications[i].tagged[j].firstname + ", ";
 								}else{
-									stringTags+=notifications[i].tagged[j].firstname;
+									if(j<notifications[i].tagged.length-1)
+										stringTags+=notifications[i].tagged[j].firstname +" e ";
+									else
+										stringTags+=notifications[i].tagged[j].firstname;
 								}
 								
 							}
