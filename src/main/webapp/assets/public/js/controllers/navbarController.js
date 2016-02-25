@@ -93,8 +93,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 						if(self.user.id==notifications[i].objectId){
 							notifications[i].text = "Non stai piu' interpretando il personaggio "+ notifications[i].actorName+" nello scenario "+notifications[i].scenarioName;
 							if(scenarioId == notifications[i].scenarioId)
-								reloadAssociation=true;
-							
+								reloadAssociation=true;					
 						}else
 							notifications[i].text = notifications[i].objectContent+" non sta piu' interpretando il personaggio "+ notifications[i].actorName+ "nello scenario "+notifications[i].scenarioName;
 					}
@@ -113,8 +112,29 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 					else if(notifications[i].verb == "NEW_GLOBAL_MISSION"){
 						notifications[i].text = notifications[i].actorName +" ha assegnato una nuova missione globale nello scenario "+notifications[i].scenarioName;
 					}
-					else if(notifications[i].verb == "NEW_MOD,"){
+					else if(notifications[i].verb == "NEW_MOD"){
 						notifications[i].text = notifications[i].actorName +" ti ha aggiunto come collaboratore nello scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "NEW_FILE"){
+						notifications[i].text = notifications[i].actorName +" ha aggiunto il file "+notifications[i].objectContent+" nella sezione materiali dello scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "NEW_ATTENDEE"){
+						notifications[i].text = notifications[i].actorName +" ti ha iscritto allo scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "DEL_ATTENDEE"){
+						notifications[i].text = notifications[i].actorName +" ti ha rimosso dallo scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "DELETED_POST_BY_MOD"){
+						notifications[i].text = notifications[i].actorName +" ha cancellato un tuo post nello scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "MODIFIED_POST_BY_MOD"){
+						if(self.user.id==notifications[i].mainReceiver)
+							notifications[i].text = notifications[i].actorName +" ha modificato un tuo post nello scenario "+notifications[i].scenarioName;
+						else
+							notifications[i].text = notifications[i].actorName +" ha modificato un post che segui nello scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "NEW_MOD"){
+						notifications[i].text = notifications[i].actorName +" ti ha aggiunto come moderatore dello scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "NEW_MOD_TO_CREATOR"){
+						notifications[i].text = notifications[i].actorName +" ha aggiunto "+notifications[i].objectContent+" come moderatore dello scenario "+notifications[i].scenarioName;
+					}else if(notifications[i].verb == "DEL_MOD"){
+						notifications[i].text = notifications[i].actorName +" ti ha rimosso dallo scenario "+notifications[i].scenarioName;
+					}else{
+						notifications[i].text="Nuova notifica!";
 					}
 					//TODO	 aggiungere tutti gli altri possibili tipi di notifiche
 				}
