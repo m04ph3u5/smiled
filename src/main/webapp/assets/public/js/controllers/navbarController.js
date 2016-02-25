@@ -326,7 +326,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
     })
   
 	$scope.$on("$destroy", function() {
-        newPostListener();
+		newNotificationListener();
         notifyService.resetObserverAssociation();
     });
 
