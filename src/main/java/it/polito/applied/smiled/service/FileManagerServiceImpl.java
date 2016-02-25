@@ -523,7 +523,7 @@ public class FileManagerServiceImpl implements FileManagerService {
 			}
 		}
 		if(mod!=null && sr!=null)
-			notify.notifyNewResource(sr, new Reference(mod), filename);
+			notify.notifyNewResource(sr, new Reference(mod), media.getOriginalFilename());
 		return file.getFilename().toString();
 	}
 
