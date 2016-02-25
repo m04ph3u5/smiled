@@ -1,15 +1,16 @@
 package it.polito.applied.smiled.rabbit;
 
-import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 import it.polito.applied.smiled.pojo.Reference;
 
-public class Notification{
+public class Notification extends Comunication{
 	
-	private String id;
-	private Date date;
-	private ComunicationType type;
+//	private String id;
+//	private Date date;
+//	private ComunicationType type;
 	private NotificationType verb;
 	private String actorId;
 	private String actorName;
@@ -21,6 +22,7 @@ public class Notification{
 	private String sender;
 	private List<Reference> tagged;
 	
+	@JsonCreator
 	public Notification(){
 		type=ComunicationType.NOTIFICATION;
 	}
@@ -43,18 +45,18 @@ public class Notification{
 	}
 
 
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
+//	public String getId() {
+//		return id;
+//	}
+//	public void setId(String id) {
+//		this.id = id;
+//	}
+//	public Date getDate() {
+//		return date;
+//	}
+//	public void setDate(Date date) {
+//		this.date = date;
+//	}
 	public NotificationType getVerb() {
 		return verb;
 	}
@@ -91,12 +93,12 @@ public class Notification{
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
 	}
-	public ComunicationType getType() {
-		return type;
-	}
-	public void setType(ComunicationType type) {
-		this.type = type;
-	}
+//	public ComunicationType getType() {
+//		return type;
+//	}
+//	public void setType(ComunicationType type) {
+//		this.type = type;
+//	}
 
 	public String getObjectContent() {
 		return objectContent;

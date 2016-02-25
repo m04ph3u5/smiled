@@ -510,7 +510,7 @@ public class NotifyServiceImpl implements NotifyService{
 		brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+n.getMainReceiver());		
 		brokerProducer.removeBinding(USER_QUEUE_PREFIX+userAddedId, TOPIC, "s"+s.getId());
 		for(CharacterReference cr : s.getCharacters()){
-			if(cr.getUserId().equals(userAddedId)){
+			if(cr.getUserId()!=null && cr.getUserId().equals(userAddedId)){
 				asyncUpdater.removeNotificationFromCharacter(userAddedId, cr, s);
 				break;
 			}

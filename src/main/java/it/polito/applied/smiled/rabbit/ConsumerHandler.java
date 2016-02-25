@@ -6,48 +6,72 @@ import java.util.List;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import it.polito.applied.smiled.repository.NotificationRepository;
+
 public class ConsumerHandler implements MessageListener {
 	
-//	@Autowired
-//	private UserRepository userRepo;
+	@Autowired
+	private NotificationRepository notificationRepo;
 
 	private List<WebSocketSession> sessions;
 	private Object lock;
+	private ObjectMapper mapper;
+	private Comunication c;
+	private boolean sended;
+	private String userId;
+
 	
 	public ConsumerHandler(){
-		this(null);
+		this(null,null);
 	}
 	
-	public ConsumerHandler(List<WebSocketSession> sessions){
+	public ConsumerHandler(List<WebSocketSession> sessions, String userId){
 		this.sessions = sessions;
+		this.userId = userId;
 		lock = new Object();
+		mapper = new ObjectMapper();
 	}
 
 	@Override
 	public void onMessage(Message message) {
-		System.out.println("Received--------------------------");
-		synchronized(lock){
-			try {
-				WebSocketMessage<?> m = new TextMessage(message.getBody());
-				
-	/*	  Per convertire devo essere sicuro di inviare un MessagePayload al broker e non Notification o UserMessage
-		TODO Modificare Broker Producer e/o NotifyService (successivamente anche MessageService)
+		sended=false;
+		c=null;
 		
-				ObjectMapper mapper = new ObjectMapper();
-				MessagePayload messageObject = mapper.readValue(message.getBody(), MessagePayload.class);
-	*/
+		try {
+			c = mapper.readValue(message.getBody(), Comunication.class);	
+			WebSocketMessage<?> m = new TextMessage(message.getBody());
+			synchronized(lock){
 				for(WebSocketSession session : sessions){
 					session.sendMessage(m);
-					System.out.println("Sended to: "+session.getId());
+					sended=true;
 				}
-			} catch (IOException e) {
-				System.out.println("ERROR SENDING MESSAGE!\n"+e.getMessage());
 			}
+		} catch (IOException e) {
+			System.out.println("ERROR SENDING MESSAGE!\n"+e.getMessage());
+		} finally{
+			if(c!=null){
+				if(c.getClass().equals(Notification.class)){
+					Notification notification = (Notification) c;
+					notification.setReceiverId(userId);
+					if(sended){
+						notificationRepo.saveSendedNotification(notification);
+					}else{
+						notificationRepo.saveToReadNotification(notification);
+					}
+				}else if(c.getClass().equals(UserMessage.class)){
+					UserMessage userMesssage = (UserMessage) c;
+				}
+			}
+			
 		}
+	
 		
 	}
 	

@@ -441,6 +441,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.inviteStudents = function(){
 			var emails = extractEmails(self.emailList);
+			console.log(emails);
 			var emailsDTO=[];
 			if(emails){
 				for(var i=0; i<emails.length; i++){
@@ -448,14 +449,35 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					emailsDTO.push({"email": emails[i]});
 				}
 			}
+			console.log(emailsDTO);
 			
 			if(emailsDTO && emailsDTO.length>0 && id!=null){
 				apiService.addUsersToScenario(emailsDTO,id).then(
 						function(data){
+							var diff = emailsDTO.length-data.length;
 							if(data.length==1){
-								alertingGeneric.addSuccess("Studente invitato correttamente");
+								if(emailsDTO.length==1)
+									alertingGeneric.addSuccess("Studente invitato correttamente");
+								else{
+									if(diff==1)
+										alertingGeneric.addSuccess(data.length+" studente invitato correttamente. (Non e'" +
+											"stato possibile invitare "+diff+" studente)");
+									else
+										alertingGeneric.addSuccess(data.length+" studente invitato correttamente. (Non e'" +
+												"stato possibile invitare "+diff+" studenti)");
+								}
 							}else if(data.length > 1){
-								alertingGeneric.addSuccess("Studenti invitati correttamente");
+								if(diff==0)
+									alertingGeneric.addSuccess("Tutti gli studenti sono stati invitati correttamente");
+								else{
+									if(diff==1)
+										alertingGeneric.addSuccess(data.length+" studenti invitati correttamente. (Non e'" +
+											"stato possibile invitare "+diff+" studente)");
+									else
+										alertingGeneric.addSuccess(data.length+" studenti invitati correttamente. (Non e'" +
+												"stato possibile invitare "+diff+" studenti)");
+								}
+									
 							}
 							for(var i=0; i<data.length; i++){
 								if(data[i].firstname!=null){
@@ -474,10 +496,18 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 								}
 							}
 							self.emailList=null;
-							updateSelectableAttendees();
+							if(data.length>0)
+								updateSelectableAttendees();
+							else{
+								if(emailsDTO.length==1)
+									alertingGeneric.addWarning("Non e' stato possibile invitare l'utente associato alla mail inserita");
+								else
+									alertingGeneric.addWarning("Non e' stato possibile invitare nessuno degli utenti associati alle mail inserite");
+
+							}
 						},
 						function(reason){
-							
+							console.log(reason);
 						}
 				);
 			}else{
