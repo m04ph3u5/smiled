@@ -7,7 +7,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	var reconnectAttempt=0;
 	
 	 service.RECONNECT_TIMEOUT = 30000;
-	 service.START_AFTER_TIME_TO_SETUP=1500;
+	 service.START_AFTER_TIME_TO_SETUP=700;
 	 service.SOCKET_URL = "/websocket/messages";
 	 //service.CHAT_TOPIC = "/topic/message";
 	 //service.CHAT_BROKER = "/app/chat";
