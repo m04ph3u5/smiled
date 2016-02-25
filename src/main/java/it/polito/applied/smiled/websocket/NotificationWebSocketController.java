@@ -84,8 +84,13 @@ public class NotificationWebSocketController implements WebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		Authentication auth = (Authentication) session.getPrincipal();
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
-		
+
 		List<Notification> toRead = notificationRepo.getToReadNotificationOfUser(user.getId());
+		if(toRead!=null)
+			System.out.println("AAAAAAAAAAAAAA: "+toRead.size());
+		else
+			System.out.println("TO READ NULL");
+
 		if(toRead!=null && toRead.size()>0){
 			List<Boolean> sended = new ArrayList<Boolean>(Collections.nCopies(toRead.size(), false));
 			
