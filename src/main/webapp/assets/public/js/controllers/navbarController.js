@@ -77,7 +77,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 					else if(notifications[i].verb == "TAG_ON_MOD"){
 						if(notifications[i].tagged){
 							var stringTags="";
-							for(var j=0;j<notifications[i].tagged.length; ij++){
+							for(var j=0;j<notifications[i].tagged.length; j++){
 								if(j<notifications[i].tagged.length-1){
 									stringTags+=notifications[i].tagged[j] + ", ";
 								}else{
