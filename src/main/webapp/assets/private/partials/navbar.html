@@ -64,9 +64,9 @@
 		          
 		          				<li role="menu-item" data-ng-if="navbar.newNotifications.length==0 && navbar.oldNotifications.length==0"><a href="">Non ci sono nuove notifiche </a><hr></li>
 		                     
-		                        <li  role="menu-item" data-ng-repeat="n in navbar.newNotifications"><a href="" style="white-space:normal; color:red;" ><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
+		                        <li  role="menu-item" data-ng-repeat="n in navbar.newNotifications"><a href="" style="white-space:normal; color:red;" ><span data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span><span data-ng-if="!n.formatDate" class="label label-primary">Adesso</span> {{n.text}} </a><hr></li>
 		                     
-		                     	<li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href="" style="white-space:normal;"><span class="label label-primary">{{ n.formatDate }}</span> {{n.text}} </a><hr></li>
+		                     	<li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href="" style="white-space:normal;"><span data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span><span data-ng-if="!n.formatDate" class="label label-primary">Adesso</span> {{n.text}} </a><hr></li>
 		                     	
 		                     	<li role="menu-item" ><a href=""><div class="text-center"><span class="label label-primary" style="font-size:1.05em;">Mostra tutte</span></div> </a></li>
 		                     	
