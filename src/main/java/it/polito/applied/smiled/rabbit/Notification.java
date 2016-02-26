@@ -1,16 +1,18 @@
 package it.polito.applied.smiled.rabbit;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import it.polito.applied.smiled.pojo.Reference;
 
 public class Notification extends Comunication{
-	
-//	private String id;
-//	private Date date;
-//	private ComunicationType type;
+	//TWO MONTHS OF NOTIFICATION PERSISTANCE
+	@Indexed(expireAfterSeconds=5184000)
+	private Date date;
 	private NotificationType verb;
 	private String actorId;
 	private String actorName;
@@ -43,20 +45,12 @@ public class Notification extends Comunication{
 	public void setMainReceiver(String mainReceiver) {
 		this.mainReceiver = mainReceiver;
 	}
-
-
-//	public String getId() {
-//		return id;
-//	}
-//	public void setId(String id) {
-//		this.id = id;
-//	}
-//	public Date getDate() {
-//		return date;
-//	}
-//	public void setDate(Date date) {
-//		this.date = date;
-//	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	public NotificationType getVerb() {
 		return verb;
 	}
@@ -93,13 +87,6 @@ public class Notification extends Comunication{
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
 	}
-//	public ComunicationType getType() {
-//		return type;
-//	}
-//	public void setType(ComunicationType type) {
-//		this.type = type;
-//	}
-
 	public String getObjectContent() {
 		return objectContent;
 	}

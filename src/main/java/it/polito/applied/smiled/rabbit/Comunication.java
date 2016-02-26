@@ -16,9 +16,9 @@ public abstract class Comunication {
 	
 	String id;
 	ComunicationType type;
-	Date date;
 	@Indexed
 	String receiverId;
+	boolean viewed;
 
 	public String getId() {
 		return id;
@@ -32,18 +32,19 @@ public abstract class Comunication {
 	public void setType(ComunicationType type) {
 		this.type = type;
 	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
 	public String getReceiverId() {
 		return receiverId;
 	}
 	public void setReceiverId(String receiverId) {
 		this.receiverId = receiverId;
 	}
+	public boolean isViewed() {
+		return viewed;
+	}
+	public void setViewed(boolean viewed) {
+		this.viewed = viewed;
+	}
+	
 	
 	
 }

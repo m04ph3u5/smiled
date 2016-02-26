@@ -9,4 +9,5 @@ import it.polito.applied.smiled.rabbit.Notification;
 public interface NotificationRepository extends MongoRepository<Notification, String>, CustomNotificationRepository {
 
 
+
 }

@@ -23,8 +23,9 @@ public class NotificationRepositoryImpl implements CustomNotificationRepository{
 	}
 
 	@Override
-	public void saveSendedNotification(Notification n) {
+	public Notification saveSendedNotification(Notification n) {
 		mongoOp.save(n, SENDED);
+		return n;
 	}
 
 	@Override
@@ -45,6 +46,14 @@ public class NotificationRepositoryImpl implements CustomNotificationRepository{
 	public void addAllToRead(List<Notification> toReinsertInToSend) {
 		for(Notification n : toReinsertInToSend)
 			mongoOp.save(n, TO_READ);		
+	}
+
+	@Override
+	public void moveFromSendedToToRead(Notification notification) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(notification.getId()));
+		mongoOp.remove(q, Notification.class, SENDED);
+		saveToReadNotification(notification);
 	}
 	
 	

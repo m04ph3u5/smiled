@@ -23,8 +23,6 @@ public class ConsumerHandler implements MessageListener {
 	private List<WebSocketSession> sessions;
 	private Object lock;
 	private ObjectMapper mapper;
-	private Comunication c;
-	private boolean sended;
 	private String userId;
 
 	
@@ -41,12 +39,24 @@ public class ConsumerHandler implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
-		sended=false;
-		c=null;
-		
+		boolean sended=false;
+		Comunication c=null;
+		Notification notification = null;
+		UserMessage userMessage = null;
+		String messageText="";
 		try {
 			c = mapper.readValue(message.getBody(), Comunication.class);	
-			WebSocketMessage<?> m = new TextMessage(message.getBody());
+			if(c!=null){
+				if(c.getClass().equals(Notification.class)){
+					notification = (Notification) c;
+					notification.setReceiverId(userId);
+					notification = notificationRepo.saveSendedNotification(notification);
+					messageText = mapper.writeValueAsString(notification);
+				}else if(c.getClass().equals(UserMessage.class)){
+					userMessage = (UserMessage) c;
+				}
+			}
+			WebSocketMessage<?> m = new TextMessage(messageText);
 			synchronized(lock){
 				for(WebSocketSession session : sessions){
 					session.sendMessage(m);
@@ -56,20 +66,13 @@ public class ConsumerHandler implements MessageListener {
 		} catch (IOException e) {
 			System.out.println("ERROR SENDING MESSAGE!\n"+e.getMessage());
 		} finally{
-			if(c!=null){
+			if(!sended && c!=null){
 				if(c.getClass().equals(Notification.class)){
-					Notification notification = (Notification) c;
-					notification.setReceiverId(userId);
-					if(sended){
-						notificationRepo.saveSendedNotification(notification);
-					}else{
-						notificationRepo.saveToReadNotification(notification);
-					}
+					notificationRepo.moveFromSendedToToRead(notification);
 				}else if(c.getClass().equals(UserMessage.class)){
-					UserMessage userMesssage = (UserMessage) c;
+					
 				}
 			}
-			
 		}
 	
 		

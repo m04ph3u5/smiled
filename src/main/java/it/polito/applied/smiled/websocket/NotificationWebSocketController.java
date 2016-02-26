@@ -85,40 +85,7 @@ public class NotificationWebSocketController implements WebSocketHandler{
 		Authentication auth = (Authentication) session.getPrincipal();
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 
-		List<Notification> toRead = notificationRepo.getToReadNotificationOfUser(user.getId());
-		if(toRead!=null)
-			System.out.println("AAAAAAAAAAAAAA: "+toRead.size());
-		else
-			System.out.println("TO READ NULL");
-
-		if(toRead!=null && toRead.size()>0){
-			List<Boolean> sended = new ArrayList<Boolean>(Collections.nCopies(toRead.size(), false));
-			
-			try{
-				for(int i=0; i<toRead.size(); i++){
-					WebSocketMessage<?> message = new TextMessage(mapper.writeValueAsBytes(toRead.get(i)));
-					session.sendMessage(message);
-					sended.set(i, true);
-				}
-			} catch(IOException e){
-				System.out.println("Error sending to read notification from persistence\n"+e.getMessage());
-			} finally{
-				List<Notification> toSended = new ArrayList<Notification>();
-				List<Notification> toReinsertInToSend = new ArrayList<Notification>();
-				for(int i=0; i<sended.size(); i++){
-					if(sended.get(i))
-						toSended.add(toRead.get(i));
-					else
-						toReinsertInToSend.add(toRead.get(i));
-				}
-				if(toSended.size()>0)
-					notificationRepo.addAllToSended(toSended);
-				if(toReinsertInToSend.size()>0)
-					notificationRepo.addAllToRead(toReinsertInToSend);
-			} 
-		}
-		
-		
+		sendToReadOldNotification(user, session);
 		
 		synchronized(lock) {
 			if(sessions.containsKey(user.getId())){
@@ -151,6 +118,37 @@ public class NotificationWebSocketController implements WebSocketHandler{
 	public boolean supportsPartialMessages() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private void sendToReadOldNotification(CustomUserDetails user, WebSocketSession session){
+		List<Notification> toRead = notificationRepo.getToReadNotificationOfUser(user.getId());
+
+		if(toRead!=null && toRead.size()>0){
+			List<Boolean> sended = new ArrayList<Boolean>(Collections.nCopies(toRead.size(), false));
+			
+			try{
+				for(int i=0; i<toRead.size(); i++){
+					WebSocketMessage<?> message = new TextMessage(mapper.writeValueAsBytes(toRead.get(i)));
+					session.sendMessage(message);
+					sended.set(i, true);
+				}
+			} catch(IOException e){
+				System.out.println("Error sending to read notification from persistence\n"+e.getMessage());
+			} finally{
+				List<Notification> toSended = new ArrayList<Notification>();
+				List<Notification> toReinsertInToSend = new ArrayList<Notification>();
+				for(int i=0; i<sended.size(); i++){
+					if(sended.get(i))
+						toSended.add(toRead.get(i));
+					else
+						toReinsertInToSend.add(toRead.get(i));
+				}
+				if(toSended.size()>0)
+					notificationRepo.addAllToSended(toSended);
+				if(toReinsertInToSend.size()>0)
+					notificationRepo.addAllToRead(toReinsertInToSend);
+			} 
+		}
 	}
 
 }
