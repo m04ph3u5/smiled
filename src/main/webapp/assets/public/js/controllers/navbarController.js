@@ -1,7 +1,8 @@
 angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService',
                                                               function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService){
 	
-	
+ /*  WebSocketService viene iniettato affiché lo stessa venga istanziato e quindi inizializzato per aprire la connessione websocket.
+  */	
 	var self = this;
 	console.log("NAVBAR LOGGED CONTROLLER");
 	self.newNotifications = [];
@@ -216,7 +217,9 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		}
 		self.numNewNotifications=0;
 		openNotifications=false;
-		notifyService.sendAckN(ack);
+		console.log("CLOSE!!!!!!!!!!!!!!!!!!!!");
+		if(ack && ack.ids)
+			webSocketService.sendAckN(ack);
 	}
 	
 	self.onBlurDropDown = function(){
@@ -235,6 +238,32 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			}
 		}
 		openNotifications=true;	
+		if(self.newNotifications.length+self.oldNotifications.length<10){
+			var older="";
+			var num=10;
+			if(self.oldNotifications.length>0)
+				older=self.oldNotifications[self.oldNotifications.length-1].id;
+			else if(self.newNotifications.length>0)
+				older=self.newNotifications[self.newNotifications.length-1].id;
+			if(older){
+				num=10-self.newNotifications.length+self.oldNotifications.length;
+			}
+			if(num>0)
+				notifyService.readOldNotifications(older, num).then(
+						function(data){
+							formatDate(data);
+							formatVerb(data);
+							for(var i=0; data && i<data.length; i++){
+								data[i].read=false;
+								self.oldNotifications.push(data[i]);
+							}
+						},
+						function(reason){
+							console.log("Error retriving old notification (REST)");
+							console.log(reason);
+						}
+				);
+		}
 	}
 	
 	self.clickOnNotificationsButton = function(){

@@ -2,7 +2,9 @@ package it.polito.applied.smiled.repository;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -56,6 +58,19 @@ public class NotificationRepositoryImpl implements CustomNotificationRepository{
 		q.addCriteria(Criteria.where("id").in(ids));
 		List<Notification> n = mongoOp.findAllAndRemove(q, Notification.class, TO_READ);
 		mongoOp.insert(n, SENDED);
+	}
+
+	@Override
+	public List<Notification> findLastUserSendedNotification(String id, Integer num, String old) {
+		Query q = new Query();
+		if(old!=null && !old.isEmpty()){
+			q.addCriteria(Criteria.where("receiverId").is(id)
+				.andOperator(Criteria.where("_id").lt(new ObjectId(old))));
+		}else
+			q.addCriteria(Criteria.where("receiverId").is(id));
+		q.limit(num);
+		q.with(new Sort(Sort.Direction.DESC, "id"));
+		return mongoOp.find(q, Notification.class, SENDED);
 	}
 	
 	

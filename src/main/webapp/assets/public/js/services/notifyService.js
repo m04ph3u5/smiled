@@ -1,5 +1,5 @@
-angular.module('smiled.application').factory('notifyService', [ '$q','$cookies','$rootScope',
-               function notifyService($q, $cookies, $rootScope){
+angular.module('smiled.application').factory('notifyService', [ '$q','$cookies','$rootScope', 'apiService',
+               function notifyService($q, $cookies, $rootScope, apiService){
 
 	
 	var me = $cookies.get('myMescholaId');
@@ -26,19 +26,16 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 			
 			if(n.verb=="NEW_POST"){
 				if(n.scenarioId==actualScenarioId){
-					console.log("nuovo post");
 					newPosts.unshift(n.objectId);
 					$rootScope.$broadcast('notification.newPostEvent');
 				}
 			}else if(n.verb=="UPD_POST"){
 				if(n.scenarioId==actualScenarioId){
-					console.log("cambiamento generico in un post");
 					updPosts.unshift(n.objectId);
 					notifyUpdPostObservers();
 				}
 			}
 			else{
-				console.log("nuova notifica");
 				$rootScope.$broadcast('notification.newNotificationEvent', {notification: n});
 				
 			}
@@ -53,18 +50,18 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	}
 	
 	
-	var readOldNotifications = function(){
-		//questo metodo si occuperà di richiedere al server le notifiche già lette che non ha in memoria
+	var readOldNotifications = function(older, num){
+		return apiService.getLastUserNotifications(older, num);
 	}
 	
 	
 
 
 	
-	var notifyReloadAssociationObservers = function(n){
-		if(observerReloadAssociationCallbacks)
-			observerReloadAssociationCallbacks(n);
-	};
+//	var notifyReloadAssociationObservers = function(n){
+//		if(observerReloadAssociationCallbacks)
+//			observerReloadAssociationCallbacks(n);
+//	};
 	
 	//register an observer
 	var registerObserverReloadList = function(callback){
@@ -72,7 +69,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		observerReloadListOfPost = callback;
 	}
 	var resetObserverReloadList = function(){
-		observerReloadListOfPost={};
+		observerReloadListOfPost=null;
 	}
 	
 	//register an observer
@@ -80,7 +77,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		observerReloadAssociationCallbacks = callback;
 	}
 	var resetObserverAssociation = function(){
-		observerReloadAssociationCallbacks={};
+		observerReloadAssociationCallbacks=null;
 	}
 	
 	
@@ -106,15 +103,9 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	}
 	
 	var reloadAssociation = function(){
-		notifyReloadAssociationObservers();
-	}
-	
-	var sendAckN = function(ack){
-		sendAckNCallback(ack);
-	}
-	
-	var registerWebSocketSendAckN = function(callback){
-		sendAckNCallback = callback;
+		if(observerReloadAssociationCallbacks){
+			observerReloadAssociationCallbacks();
+		}
 	}
 	
 	return {
@@ -131,8 +122,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		registerObserverUpdPost : registerObserverUpdPost,
 		setActualScenarioId : setActualScenarioId,
 		resetActualScenarioId : resetActualScenarioId,
-		sendAckN : sendAckN,
-		registerWebSocketSendAckN : registerWebSocketSendAckN
+		readOldNotifications : readOldNotifications
 	};
 
 }]);

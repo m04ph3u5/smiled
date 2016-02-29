@@ -24,6 +24,7 @@ import it.polito.applied.smiled.pojo.Suggestion;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.rabbit.Notification;
 import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.LogService;
@@ -67,6 +68,9 @@ public class UserController extends BaseController{
 	
 	@Autowired
 	private LogService logService;
+	
+	@Autowired
+	private NotifyService notify;
 	
 	private int maxItem = 20;
 	
@@ -492,5 +496,19 @@ public class UserController extends BaseController{
 	}
 	
 	/*----------------------------------------------EXCEPTION ON CLIENT API END--------------------------------------- */
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/lastNotifications", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public List<Notification> getLastNotification(@RequestParam(value = "num", required=true) Integer num, 
+			@RequestParam(value = "old", required=false) String old, @AuthenticationPrincipal CustomUserDetails user) throws BadRequestException{
+		
+		if(num==null || num<0)
+			throw new BadRequestException();
+		if(num>10)
+			num=10;
+		return notify.getLastUserSendedNotification(user, num, old);
+	}
+
 	
 }

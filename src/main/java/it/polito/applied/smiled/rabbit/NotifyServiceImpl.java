@@ -17,6 +17,8 @@ import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.scenario.Status;
+import it.polito.applied.smiled.repository.NotificationRepository;
+import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.updater.AsyncUpdater;
 
 @Service
@@ -35,6 +37,8 @@ public class NotifyServiceImpl implements NotifyService{
 	@Autowired
 	private AsyncUpdater asyncUpdater;
 
+	@Autowired
+	private NotificationRepository notificationRepo;
 
 
 	//TODO gestire persistenza memorizzando in un repository
@@ -623,6 +627,11 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
 		brokerProducer.sendNotify(n, TOPIC, "s"+p.getId());
+	}
+
+	@Override
+	public List<Notification> getLastUserSendedNotification(CustomUserDetails user, Integer num, String old) {
+		return notificationRepo.findLastUserSendedNotification(user.getId(),num, old);
 	}
 
 }

@@ -67,6 +67,7 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
+import it.polito.applied.smiled.rabbit.Notification;
 import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.PostRepository;
@@ -111,7 +112,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 	@Autowired
 	private NotifyService notify;
-
+	
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
 		try{
@@ -2707,10 +2708,4 @@ public class ScenarioServiceImpl implements ScenarioService{
 		// TODO Auto-generated method stub
 		scenarioRepository.lastUpdateScenario(scenarioId, d);
 	}
-
-
-	
-
-
-	
 }

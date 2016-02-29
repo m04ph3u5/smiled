@@ -76,7 +76,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 
 	}
 	
-	var reload = function(){
+	var reloadMe = function(){
 		console.log("RELOAD *******");
 		userService.getMe().then(function(data){
 			self.loggedUser =data;
@@ -170,12 +170,12 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
     })
   
 	$scope.$on("$destroy", function() {
-        newPostListener();
         notifyService.resetObserverAssociation();
+		newPostListener();
     });
 	
 	
-	notifyService.registerObserverAssociation(reload);
+	notifyService.registerObserverAssociation(reloadMe);
 	onStartup();
 
 }]);

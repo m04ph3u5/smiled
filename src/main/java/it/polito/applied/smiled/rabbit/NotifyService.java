@@ -1,5 +1,7 @@
 package it.polito.applied.smiled.rabbit;
 
+import java.util.List;
+
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
@@ -8,6 +10,7 @@ import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.security.CustomUserDetails;
 
 public interface NotifyService {
 	
@@ -36,6 +39,9 @@ public interface NotifyService {
 	public void notifyNewAttendee(Scenario s, Reference actor, String userAddedId);
 	public void notifyRemoveAttendee(Scenario s, Reference actor, String userAddedId);
 	public void notifyNewResource(ScenarioReference s, Reference actor, String filename);
+	
+	
+	public List<Notification> getLastUserSendedNotification(CustomUserDetails user, Integer num, String old);
 	
 	
 //	public void notifyModifiedCommentByModerator();

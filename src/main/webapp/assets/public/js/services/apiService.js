@@ -783,24 +783,23 @@
 		return s.promise;
 	}
 	
-//	var getMyMissions = function(nPag, nItem, orderByDeliveryDate, onlyActive){
-//		var s = $q.defer();
-//
-//		$http.get("/api/v1/missions", {
-//			params: {"nPag": nPag, "nItem": nItem, "orderByDeliveryDate": orderByDeliveryDate, 
-//						"onlyActive": onlyActive }}).then(
-//					function(response){
-//						s.resolve(response.data);
-//					},
-//					function(reason){
-//						s.reject(reason);
-//					}
-//			);
-//
-//		return s.promise;
-//	}
-	/* fine GESTIONE COMPITI ---------------------------------- */
+	var getLastUserNotifications = function(older, num){
+		var s = $q.defer();
+		var url="api/v1/lastNotifications?num="+num+"&old="+older;
+		
+		$http.get(url).then(
+					function(response){
+						s.resolve(response.data);
+					},
+					function(reason){
+						s.reject(reason);
+					}
+			);
+
+		return s.promise;
+	}
 	
+
 	return {
 		postRegister: postRegister,
 		createScenario : createScenario,
@@ -851,7 +850,8 @@
 		getMyMissions : getMyMissions,
 		getMyDraft : getMyDraft,
 		deleteMedia : deleteMedia, 
-		getListOfNewPosts : getListOfNewPosts
+		getListOfNewPosts : getListOfNewPosts,
+		getLastUserNotifications : getLastUserNotifications
 		
 	}
 

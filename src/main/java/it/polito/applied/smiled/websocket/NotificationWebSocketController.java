@@ -111,8 +111,10 @@ public class NotificationWebSocketController implements WebSocketHandler{
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message){
     	try {
-    		if(message.getPayload().toString().equals("undefined"))
+    		if(message.getPayload().toString().equals("undefined")){
+    			System.out.println("ATTENZIONE! DOPPIA CHIAMATA HANDLEMESSAGE");
     			return;
+    		}
     		System.out.println("START "+message.getPayloadLength());
     		System.out.println(message.getPayload().toString());
 			Comunication c = mapper.readValue(message.getPayload().toString().getBytes(), Comunication.class);

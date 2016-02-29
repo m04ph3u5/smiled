@@ -47,16 +47,18 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 	    console.log('close ws connection on webSocketService');
 	 	    reconnect();
 	 	};
-	 	notifyService.registerWebSocketSendAckN(sendAckN);
 	};
 	 
 	initialize();
+	
 	
 //	$timeout(function() {
 //		initialize();
 //      }, service.START_AFTER_TIME_TO_SETUP);
 //	
 	
-	return {};
+	return {
+		sendAckN : sendAckN
+	};
 
 }]);
