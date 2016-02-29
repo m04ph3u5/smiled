@@ -39,7 +39,6 @@ public class ConsumerHandler implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
-		boolean sended=false;
 		Comunication c=null;
 		Notification notification = null;
 		UserMessage userMessage = null;
@@ -50,32 +49,24 @@ public class ConsumerHandler implements MessageListener {
 				if(c.getClass().equals(Notification.class)){
 					notification = (Notification) c;
 					notification.setReceiverId(userId);
-					notification = notificationRepo.saveSendedNotification(notification);
+					notification = notificationRepo.saveToReadNotification(notification);
 					messageText = mapper.writeValueAsString(notification);
 				}else if(c.getClass().equals(UserMessage.class)){
 					userMessage = (UserMessage) c;
 				}
-			}
-			WebSocketMessage<?> m = new TextMessage(messageText);
-			synchronized(lock){
-				for(WebSocketSession session : sessions){
-					session.sendMessage(m);
-					sended=true;
+				if(!messageText.isEmpty()){
+					WebSocketMessage<?> m = new TextMessage(messageText);
+					synchronized(lock){
+						for(WebSocketSession session : sessions){
+							session.sendMessage(m);
+						}
+					}
 				}
+				
 			}
 		} catch (IOException e) {
 			System.out.println("ERROR SENDING MESSAGE!\n"+e.getMessage());
-		} finally{
-			if(!sended && c!=null){
-				if(c.getClass().equals(Notification.class)){
-					notificationRepo.moveFromSendedToToRead(notification);
-				}else if(c.getClass().equals(UserMessage.class)){
-					
-				}
-			}
-		}
-	
-		
+		} 		
 	}
 	
 	

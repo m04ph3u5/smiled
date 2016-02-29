@@ -10,6 +10,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
     var observerReloadListOfPost = {};
 	var observerReloadAssociationCallbacks = {};
     var observerUpdPostCallbacks = {};
+    var sendAckNCallback = {};
 
     var setActualScenarioId = function(id){
     	actualScenarioId=id;		
@@ -61,7 +62,8 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 
 	
 	var notifyReloadAssociationObservers = function(n){
-		observerReloadAssociationCallbacks(n);
+		if(observerReloadAssociationCallbacks)
+			observerReloadAssociationCallbacks(n);
 	};
 	
 	//register an observer
@@ -88,11 +90,13 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	}
 	
 	var notifyReloadListObservers = function(){ //do a scenarioPostController la lista di nuovi post da scaricarsi
-		observerReloadListOfPost(newPosts);
+		if(observerReloadListOfPost)
+			observerReloadListOfPost(newPosts);
 	}
 	
 	var notifyUpdPostObservers = function(){
-		observerUpdPostCallbacks(angular.copy(updPosts)); 
+		if(observerUpdPostCallbacks)
+			observerUpdPostCallbacks(angular.copy(updPosts)); 
 	}
 	
 	var reloadList = function(){
@@ -103,6 +107,14 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	
 	var reloadAssociation = function(){
 		notifyReloadAssociationObservers();
+	}
+	
+	var sendAckN = function(ack){
+		sendAckNCallback(ack);
+	}
+	
+	var registerWebSocketSendAckN = function(callback){
+		sendAckNCallback = callback;
 	}
 	
 	return {
@@ -118,9 +130,9 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		notifyUpdPostObservers: notifyUpdPostObservers,
 		registerObserverUpdPost : registerObserverUpdPost,
 		setActualScenarioId : setActualScenarioId,
-		resetActualScenarioId : resetActualScenarioId
-		
-		
+		resetActualScenarioId : resetActualScenarioId,
+		sendAckN : sendAckN,
+		registerWebSocketSendAckN : registerWebSocketSendAckN
 	};
 
 }]);

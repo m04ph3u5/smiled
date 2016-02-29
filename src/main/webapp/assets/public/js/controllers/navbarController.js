@@ -204,16 +204,19 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	
 	var closeDropDown = function(){
 		if(self.newNotifications && self.newNotifications.length>0){
-			
+			var ack={};
+			ack.ids = [];
+			ack.type="ACK";
 			for(var i=self.newNotifications.length-1; i>=0; i--){
 				self.oldNotifications.splice(0,0,angular.copy(self.newNotifications[i]));
-			
+				ack.ids.push(angular.copy(self.newNotifications[i].id));
 			}
 			self.newNotifications = [];
 
 		}
 		self.numNewNotifications=0;
 		openNotifications=false;
+		notifyService.sendAckN(ack);
 	}
 	
 	self.onBlurDropDown = function(){

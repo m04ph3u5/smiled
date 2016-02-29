@@ -12,6 +12,11 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 //service.CHAT_TOPIC = "/topic/message";
 	 //service.CHAT_BROKER = "/app/chat";
 	 
+	var sendAckN = function(ack){
+		socket.send(JSON.stringify(ack));
+	}
+
+	 
 	var reconnect = function() {
 	      $timeout(function() {
 	        retry();
@@ -27,10 +32,8 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	var initialize = function() {
 		socket = new SockJS(service.SOCKET_URL);
 		console.log('open ws connection on webSocketService');
-		
 		socket.onmessage = function(e) {
-	 	
-	 	    var msg = JSON.parse(e.data);
+	 	   var msg = JSON.parse(e.data);
 	 	   reconnectAttempt=0;
 	 	    if(msg.type=="NOTIFICATION"){ 	    	
 	 	    	notifyService.newNotifyOrPost(msg);
@@ -44,6 +47,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 	    console.log('close ws connection on webSocketService');
 	 	    reconnect();
 	 	};
+	 	notifyService.registerWebSocketSendAckN(sendAckN);
 	};
 	 
 	initialize();

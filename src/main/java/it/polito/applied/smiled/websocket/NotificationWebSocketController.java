@@ -21,9 +21,14 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.polito.applied.smiled.rabbit.Ack;
 import it.polito.applied.smiled.rabbit.BrokerConsumer;
+import it.polito.applied.smiled.rabbit.Comunication;
+import it.polito.applied.smiled.rabbit.ComunicationType;
 import it.polito.applied.smiled.rabbit.ConsumerHandler;
 import it.polito.applied.smiled.rabbit.Notification;
 import it.polito.applied.smiled.repository.NotificationRepository;
@@ -103,15 +108,46 @@ public class NotificationWebSocketController implements WebSocketHandler{
 	}
 
 
-	@Override
-	public void handleMessage(WebSocketSession arg0, WebSocketMessage<?> arg1) throws Exception {
+    @Override
+    public void handleMessage(WebSocketSession session, WebSocketMessage<?> message){
+    	try {
+    		if(message.getPayload().toString().equals("undefined"))
+    			return;
+    		System.out.println("START "+message.getPayloadLength());
+    		System.out.println(message.getPayload().toString());
+			Comunication c = mapper.readValue(message.getPayload().toString().getBytes(), Comunication.class);
+    		System.out.println("AFTER MAPPER");
 
-	}
+			if(c.getClass().equals(Ack.class)){
+				Ack a = (Ack) c;
+				List<String> ids = new ArrayList<String>();
+				for(String s : a.getIds())
+					ids.add(s);
+	    		System.out.println("AFTER LIST ID: "+a.getType());
 
+				if(a.getType().equals(ComunicationType.ACK)){
+		    		System.out.println("BEFORE REPO");
+					notificationRepo.moveFromToReadToSended(ids);
+		    		System.out.println("AFTER REPO");
+
+				}else if(a.getType().equals(ComunicationType.ACK_M)){
+					
+				}
+
+			}
+		} catch (JsonParseException e) {
+			System.out.println("1"+e.getMessage());
+		} catch (JsonMappingException e) {
+			System.out.println("2"+e.getMessage());
+		} catch (IOException e) {
+			System.out.println("3"+e.getMessage());
+		} catch (Exception e) {
+			System.out.println("4"+e.getMessage());
+		}
+    }
 
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable arg1) throws Exception {
-		System.out.println("WEBSOCKET ERROR: "+arg1.getMessage());
 	}
 
 	@Override
@@ -121,32 +157,16 @@ public class NotificationWebSocketController implements WebSocketHandler{
 	}
 	
 	private void sendToReadOldNotification(CustomUserDetails user, WebSocketSession session){
-		List<Notification> toRead = notificationRepo.getToReadNotificationOfUser(user.getId());
+		List<Notification> toRead = notificationRepo.findToReadNotificationOfUser(user.getId());
 
 		if(toRead!=null && toRead.size()>0){
-			List<Boolean> sended = new ArrayList<Boolean>(Collections.nCopies(toRead.size(), false));
-			
 			try{
 				for(int i=0; i<toRead.size(); i++){
 					WebSocketMessage<?> message = new TextMessage(mapper.writeValueAsBytes(toRead.get(i)));
 					session.sendMessage(message);
-					sended.set(i, true);
 				}
 			} catch(IOException e){
 				System.out.println("Error sending to read notification from persistence\n"+e.getMessage());
-			} finally{
-				List<Notification> toSended = new ArrayList<Notification>();
-				List<Notification> toReinsertInToSend = new ArrayList<Notification>();
-				for(int i=0; i<sended.size(); i++){
-					if(sended.get(i))
-						toSended.add(toRead.get(i));
-					else
-						toReinsertInToSend.add(toRead.get(i));
-				}
-				if(toSended.size()>0)
-					notificationRepo.addAllToSended(toSended);
-				if(toReinsertInToSend.size()>0)
-					notificationRepo.addAllToRead(toReinsertInToSend);
 			} 
 		}
 	}

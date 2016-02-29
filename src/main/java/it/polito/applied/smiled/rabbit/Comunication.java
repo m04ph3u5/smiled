@@ -1,17 +1,16 @@
 package it.polito.applied.smiled.rabbit;
 
-import java.util.Date;
-
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="type")
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type", visible=true)
 @JsonSubTypes({  
-    @Type(value = Notification.class, name = "notification"),  
-    @Type(value = UserMessage.class, name = "userMessage") })  
+    @Type(value = Notification.class, name = "NOTIFICATION"),  
+    @Type(value = UserMessage.class, name = "userMessage"), 
+    @Type(value = Ack.class, name = "ACK")})  
 public abstract class Comunication {
 	
 	String id;
