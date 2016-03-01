@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService',
-                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService){
+angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService', '$timeout',
+                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService, $timeout){
 	
  /*  WebSocketService viene iniettato affiché lo stessa venga istanziato e quindi inizializzato per aprire la connessione websocket.
   */	
@@ -291,7 +291,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		view.ids = [];
 		view.ids.push(n.id);
 		view.type="VIEW_N";
-		webSocketService.send(view);
+		$timeout(webSocketService.send(view),1000);
 	}
 	
 	self.getSrcPhoto = function(n){
