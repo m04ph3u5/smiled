@@ -15,6 +15,7 @@ public interface CustomNotificationRepository {
 	void addAllToRead(List<Notification> toReinsertInToSend);
 	void moveFromToReadToSended(List<String> ids);
 	List<Notification> findLastUserSendedNotification(String id, Integer num, String old);
+	public void setViewed(String notificationId);
 
 
 }

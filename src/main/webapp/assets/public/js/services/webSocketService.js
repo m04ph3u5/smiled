@@ -12,7 +12,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 //service.CHAT_TOPIC = "/topic/message";
 	 //service.CHAT_BROKER = "/app/chat";
 	 
-	var sendAckN = function(ack){
+	var send = function(ack){
 		socket.send(JSON.stringify(ack));
 	}
 
@@ -58,7 +58,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 //	
 	
 	return {
-		sendAckN : sendAckN
+		send : send
 	};
 
 }]);

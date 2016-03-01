@@ -209,7 +209,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		if(self.newNotifications && self.newNotifications.length>0){
 			var ack={};
 			ack.ids = [];
-			ack.type="ACK";
+			ack.type="ACK_N";
 			for(var i=self.newNotifications.length-1; i>=0; i--){
 				self.oldNotifications.splice(0,0,angular.copy(self.newNotifications[i]));
 				ack.ids.push(angular.copy(self.newNotifications[i].id));
@@ -221,7 +221,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		openNotifications=false;
 		console.log("CLOSE!!!!!!!!!!!!!!!!!!!!");
 		if(ack && ack.ids)
-			webSocketService.sendAckN(ack);
+			webSocketService.send(ack);
 	}
 	
 	self.onBlurDropDown = function(){
@@ -287,8 +287,11 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	self.clickOnNotify = function(n){
 		console.log(n);
 		n.viewed=true;
-		console.log("click on notify!!!!!!!");
-		console.log(n);
+		var view={};
+		view.ids = [];
+		view.ids.push(n.id);
+		view.type="VIEW_N";
+		webSocketService.send(view);
 	}
 	
 	self.getSrcPhoto = function(n){

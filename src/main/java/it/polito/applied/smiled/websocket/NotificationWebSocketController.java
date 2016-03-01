@@ -122,9 +122,14 @@ public class NotificationWebSocketController implements WebSocketHandler{
 				for(String s : a.getIds())
 					ids.add(s);
 
-				if(a.getType().equals(ComunicationType.ACK)){
+				if(a.getType().equals(ComunicationType.ACK_N)){
 					notificationRepo.moveFromToReadToSended(ids);
 				}else if(a.getType().equals(ComunicationType.ACK_M)){
+					
+				}else if(a.getType().equals(ComunicationType.VIEW_N)){
+					if(ids.size()==1)
+						notificationRepo.setViewed(ids.get(0));
+				}else if(a.getType().equals(ComunicationType.VIEW_M)){
 					
 				}
 

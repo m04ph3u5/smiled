@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import it.polito.applied.smiled.rabbit.Notification;
 
@@ -71,6 +72,15 @@ public class NotificationRepositoryImpl implements CustomNotificationRepository{
 		q.limit(num);
 		q.with(new Sort(Sort.Direction.DESC, "id"));
 		return mongoOp.find(q, Notification.class, SENDED);
+	}
+
+	@Override
+	public void setViewed(String notificationId) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(notificationId));
+		Update u = new Update();
+		u.set("viewed", true);
+		mongoOp.updateFirst(q, u, Notification.class, SENDED);
 	}
 	
 	

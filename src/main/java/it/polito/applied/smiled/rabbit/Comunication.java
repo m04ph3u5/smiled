@@ -9,8 +9,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type", visible=true)
 @JsonSubTypes({  
     @Type(value = Notification.class, name = "NOTIFICATION"),  
-    @Type(value = UserMessage.class, name = "userMessage"), 
-    @Type(value = Ack.class, name = "ACK")})  
+    @Type(value = UserMessage.class, name = "USER_MESSAGE"), 
+    @Type(value = Ack.class, name = "ACK_N"),
+    @Type(value = Ack.class, name = "ACK_M"),
+    @Type(value = Ack.class, name = "VIEW_N"),
+    @Type(value = Ack.class, name = "VIEW_M")})  
 public abstract class Comunication {
 	
 	String id;
