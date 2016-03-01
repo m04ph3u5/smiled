@@ -424,13 +424,13 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 
 	@Override
-	public void notifyModifiedPostByOwner(Scenario s, Post p, Post oldPost, Reference actor) {
+	public void notifyModifiedPostByOwner(Scenario s, Post p, Post oldPost, CharacterReference actor) {
 		Notification n = new Notification();
 		n.setDate(new Date());
 		n.setVerb(NotificationType.MODIFIED);
 		//Actor is owner of post
 		n.setActorId(actor.getId());
-		n.setActorName(actor.getFirstname()+" "+actor.getLastname());
+		n.setActorName(actor.getName());
 		//Object is post itself
 		n.setObjectId(p.getId());
 		//Sender is again owner of post (just for convenience on client side)
@@ -440,7 +440,7 @@ public class NotifyServiceImpl implements NotifyService{
 		generateUpdPostForReload(s, p, p.getUser().getId());
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 
-		notifyEventuallyTags(s,p,oldPost,actor);
+		notifyEventuallyTags(s,p,oldPost, p.getUser().getId());
 	}
 
 	@Override
@@ -463,7 +463,7 @@ public class NotifyServiceImpl implements NotifyService{
 		generateUpdPostForReload(s, p, actor.getId());
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());	
 
-		notifyEventuallyTags(s,p,oldPost,actor);
+		notifyEventuallyTags(s,p,oldPost,actor.getId());
 	}
 	
 	@Override
@@ -535,7 +535,7 @@ public class NotifyServiceImpl implements NotifyService{
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());		
 	}
 	
-	private void notifyEventuallyTags(Scenario s, Post p, Post oldPost, Reference actor) {
+	private void notifyEventuallyTags(Scenario s, Post p, Post oldPost, String senderId) {
 		//Search for new tag
 		if(p.getClass().equals(Status.class)){
 			Status status = (Status) p;
@@ -560,7 +560,7 @@ public class NotifyServiceImpl implements NotifyService{
 					nTag.setObjectContent(status.getText());
 				else
 					nTag.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
-				nTag.setSender(actor.getId());
+				nTag.setSender(senderId);
 				nTag.setTagged(newTagged);
 				nTag.setScenarioId(s.getId());
 				nTag.setScenarioName(s.getName());
@@ -598,7 +598,7 @@ public class NotifyServiceImpl implements NotifyService{
 					nTag.setObjectContent(event.getText());
 				else
 					nTag.setObjectContent(event.getText().substring(0, PREVIEW)+"...");
-				nTag.setSender(actor.getId());
+				nTag.setSender(senderId);
 				nTag.setTagged(newTagged);
 				nTag.setScenarioId(s.getId());
 				nTag.setScenarioName(s.getName());

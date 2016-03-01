@@ -10,7 +10,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public abstract class Post {
 	
 	@Id
@@ -25,6 +28,7 @@ public abstract class Post {
 	private Set<CharacterReference> likes;
 	private List<Comment> comments;
 	private List<MetaComment> metaComments;
+	@Indexed
 	private String scenarioId;
 	private Revision revision;
 	

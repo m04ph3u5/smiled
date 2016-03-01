@@ -1570,7 +1570,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		if(newStatus.getStatus().equals(PostStatus.PUBLISHED)){
 			if(user.getId().equals(newStatus.getUser().getId())){
-				notify.notifyModifiedPostByOwner(scenario, newStatus, status, newStatus.getUser());
+				notify.notifyModifiedPostByOwner(scenario, newStatus, status, newStatus.getCharacter());
 			}else{
 				Reference ref = new Reference(userRepository.findById(user.getId()));
 				notify.notifyModifiedPostByModerator(scenario, newStatus, status, ref);
@@ -1756,7 +1756,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		if(newEvent.getStatus().equals(PostStatus.PUBLISHED)){
 			if(user.getId().equals(newEvent.getUser().getId())){
-				notify.notifyModifiedPostByOwner(scenario, newEvent, event, newEvent.getUser());
+				CharacterReference charRef = new CharacterReference();
+				charRef.setName("NARRATORE");
+				notify.notifyModifiedPostByOwner(scenario, newEvent, event, charRef);
 			}else{
 				Reference ref = new Reference(userRepository.findById(user.getId()));
 				notify.notifyModifiedPostByModerator(scenario, newEvent, event, ref);
