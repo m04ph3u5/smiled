@@ -115,23 +115,15 @@ public class NotificationWebSocketController implements WebSocketHandler{
     			System.out.println("ATTENZIONE! DOPPIA CHIAMATA HANDLEMESSAGE");
     			return;
     		}
-    		System.out.println("START "+message.getPayloadLength());
-    		System.out.println(message.getPayload().toString());
 			Comunication c = mapper.readValue(message.getPayload().toString().getBytes(), Comunication.class);
-    		System.out.println("AFTER MAPPER");
-
 			if(c.getClass().equals(Ack.class)){
 				Ack a = (Ack) c;
 				List<String> ids = new ArrayList<String>();
 				for(String s : a.getIds())
 					ids.add(s);
-	    		System.out.println("AFTER LIST ID: "+a.getType());
 
 				if(a.getType().equals(ComunicationType.ACK)){
-		    		System.out.println("BEFORE REPO");
 					notificationRepo.moveFromToReadToSended(ids);
-		    		System.out.println("AFTER REPO");
-
 				}else if(a.getType().equals(ComunicationType.ACK_M)){
 					
 				}
