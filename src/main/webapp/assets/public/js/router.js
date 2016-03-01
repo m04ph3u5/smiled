@@ -346,6 +346,22 @@ angular.module('smiled.application')
 				pageTitle : 'Profilo - Meschola'
 			}
 		})
+		.state('logged.myNotifications',{
+			url: "/utente/{id}/notifiche",
+			params: {
+				id : null
+			},
+			views: {
+				'content': {
+					templateUrl: "assets/private/partials/myNotifications.html",
+					controller: 'notificationCtrl',
+					controllerAs: 'notification'
+				}
+			},
+			data : {
+				pageTitle : 'Notifiche - Meschola'
+			}
+		})
 		.state('logged.scenario',{
 			url: "/scenario/{id}",
 			abstract: true,

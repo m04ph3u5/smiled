@@ -113,6 +113,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/controllers/scenarioCharactersController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioMapController.js"></script>
 	<script src="/assets/public/js/controllers/personalProfileController.js"></script>
+	<script src="/assets/public/js/controllers/notificationController.js"></script>
 	<script src="/assets/public/js/controllers/studentsListController.js"></script>
 	<script src="/assets/public/js/controllers/colleaguesListController.js"></script>
 	<script src="/assets/public/js/controllers/filesListController.js"></script>
