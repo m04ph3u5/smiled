@@ -46,7 +46,9 @@ public class DeadLetterConsumer implements MessageListener{
 				if(c.getClass().equals(Notification.class)){
 					Notification n = (Notification) c;
 					n.setReceiverId(userId);
-					notificationRepo.saveToReadNotification(n);
+					if(!notification.getVerb().equals(NotificationType.NEW_POST) && !notification.getVerb().equals(NotificationType.UPD_POST)){
+						notificationRepo.saveToReadNotification(n);
+					}
 				}else if(c.getClass().equals(UserMessage.class)){
 					
 				}
