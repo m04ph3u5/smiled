@@ -170,6 +170,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		if(notifications!=null && notifications.length>0){
 			var actual = new Date();
 			for(var i=0; i<notifications.length; i++){
+	
 				var timeString="";
 				var diff = actual-notifications[i].date;
 				diff = Math.round(diff/1000);
@@ -184,15 +185,16 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 					else if(diff<60)
 						timeString = diff+" minuti fa";
 					else if(diff>=60){
+						var dd = new Date(notifications[i].date);
 						diff= Math.round(diff/60);
 						if(diff<=1)
 							timeString = "circa un'ora fa";
 						else if(diff<24)
 							timeString =diff+" ore fa";
 						else if(diff<48)
-							timeString = "Ieri alle "+notifications[i].date.getHours()+" "+notifications[i].getMinutes();
+							timeString = "Ieri alle "+dd.getHours()+" "+dd.getMinutes();
 						else if(diff>=48) 
-							timeString = notifications[i].getDate() +" "+ monthNames[notifications[i].getMonth()] + " alle ore "+notifications[i].getHours()+":"+notifications[i].getMinutes();
+							timeString = dd.getDate()+" "+ monthNames[dd.getMonth()] + " alle ore "+dd.getHours()+":"+dd.getMinutes();
 					}
 				}
 				
@@ -278,6 +280,63 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	}
 	
 	
+	self.getNotificationCover = function(){
+		return null;
+	}
+	
+	self.clickOnNotify = function(n){
+		console.log(n);
+		n.viewed=true;
+		console.log("click on notify!!!!!!!");
+		console.log(n);
+	}
+	
+	self.getSrcPhoto = function(n){
+		if(n.type=="NOTIFICATION"){
+			console.log("getsrcphoto *******************");
+			console.log(n);
+			if(n.verb=="NEW_GLOBAL_MISSION" || n.verb=="CLOSE_SCENARIO" || n.verb=="OPEN_SCENARIO" || n.verb=="NEW_ATTENDEE" || n.verb=="DEL_ATTENDEE"){
+				return CONSTANTS.urlScenarioCover(n.scenarioId);
+			}else if(n.verb=="METACOMMENT_TO_POST" || n.verb=="NEW_MOD" || n.verb=="NEW_MOD_TO_CREATOR" || n.verb=="DEL_MOD" || n.verb=="MODIFIED_POST_BY_MOD" || n.verb=="DELETED_POST_BY_MOD" || n.verb=="NEW_FILE"){
+				return CONSTANTS.urlUserCover(n.actorId);
+			}else if(n.verb=="MODIFIED"){
+				if(n.actorId){
+					return CONSTANTS.urlCharacterCover(n.scenarioId, n.actorId );
+				}else{
+					return "assets/public/img/narr.png";
+				}
+			}
+			else{
+				return CONSTANTS.urlCharacterCover(n.scenarioId, n.actorId );
+			}
+		}else if(n.type=="USER_MESSAGE"){
+			console.log("message!!!!!!!!!!!!");
+		}
+		
+		return "assets/public/img/icon/pg.png";
+	}
+	
+	self.getErrPhoto = function(n){
+		if(n.type=="NOTIFICATION"){
+			if(n.verb=="NEW_GLOBAL_MISSION" || n.verb=="CLOSE_SCENARIO" || n.verb=="OPEN_SCENARIO" || n.verb=="NEW_ATTENDEE" || n.verb=="DEL_ATTENDEE"){
+				return "assets/public/img/icon/ic_scen.png";
+			}
+			else if(n.verb=="METACOMMENT_TO_POST" || n.verb=="NEW_MOD" || n.verb=="NEW_MOD_TO_CREATOR" || n.verb=="DEL_MOD" || n.verb=="DELETED_POST_BY_MOD" || n.verb=="NEW_FILE"){
+				console.log("++++++++++++++++++");
+				return "assets/public/img/ic_student.png";
+			}else if(n.verb=="MODIFIED"){
+				if(n.actorId){
+					return "assets/public/img/icon/pg.png";
+				}else{
+					return "assets/public/img/narr.png";
+				}
+			}else{
+				return "assets/public/img/icon/pg.png";
+			}
+		}else if(n.type=="USER_MESSAGE"){
+			return "assets/public/img/ic_student.png";
+		}
+	}
 	
 //	var updateNotifications = function(){
 //		console.log("new notifications (navbar controller)");

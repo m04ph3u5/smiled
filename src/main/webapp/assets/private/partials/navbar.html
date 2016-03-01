@@ -55,26 +55,58 @@
 		  		  
 		  		  <span id="noti_Container"> 
    					  <span class="glyphicon glyphicon-bullhorn" ></span>
-    			      <span data-ng-if="navbar.numNewNotifications>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>
-    			     
-    			      
+    			      <span data-ng-if="navbar.numNewNotifications>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>			      
 				  </span>
 				  </a>
-		          <ul class="dropdown-menu" role="menu" style="width:30em; max-height: 400px; overflow-y: auto; overflow-x:hidden">
+		          <ul class="dropdown-menu" role="menu" >
 		          
-		          				<li role="menu-item" data-ng-if="navbar.newNotifications.length==0 && navbar.oldNotifications.length==0"><a href="">Non ci sono nuove notifiche </a><hr></li>
-		                     
-		                        <li  role="menu-item" data-ng-repeat="n in navbar.newNotifications"><a href="" style="white-space:normal; color:red;" ><span data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span><span data-ng-if="!n.formatDate" class="label label-primary">Adesso</span> {{n.text}} </a><hr></li>
-		                     
-		                     	<li role="menu-item" data-ng-repeat="n in navbar.oldNotifications"><a href="" style="white-space:normal;"><span data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span><span data-ng-if="!n.formatDate" class="label label-primary">Adesso</span> {{n.text}} </a><hr></li>
-		                     	
-		                     	<li role="menu-item" ><a href=""><div class="text-center"><span class="label label-primary" style="font-size:1.05em;">Mostra tutte</span></div> </a></li>
-		                     	
-<!-- 		                        <li><a href="#"><span class="label label-primary">8:00 AM</span> How are you?</a></li> -->
-<!-- 		                        <li role="presentation" class="divider"></li> -->
-<!-- 		                        <li><a href="#"><span class="label label-primary">9:00 AM</span> What are you doing?</a></li> -->
-<!-- 		                        <li class="divider"></li> -->
-<!-- 		                        <li><a href="#" class="text-center">View All</a></li> -->
+			          	<div style="width:30em; max-height: 400px; overflow-y: auto; overflow-x:hidden">
+			          	
+			          	
+			          				<li  style ="padding-top:8px;" role="menu-item" data-ng-if="navbar.newNotifications.length==0 && navbar.oldNotifications.length==0"><a href=""><p style="padding-left:10px; padding-right:10px;">Non ci sono nuove notifiche</p> </a><hr style="margin-bottom:0px;"></li>
+			                     
+			                        <li style="background-color:rgba(224,227,227,0.5); padding-top:8px;" role="menu-item" data-ng-repeat="n in navbar.newNotifications track by $index">
+			                        	
+				                      
+				                       			<span style="padding-left:7px; padding-right:7px; float:left; width:15%;">
+				                       				<img class="img-circle imgPreviewM" src="assets/public/img/icon/pg.png">
+				                       			</span>
+				                       	
+					                     	<p style="padding-right:7px; white-space:normal;">    
+					                       				 <a href="" data-ng-click="navbar.clickOnNotify(n)">{{n.text}} <br></a>
+					                       				<span data-ng-if="!n.formatDate" class="label label-primary">Adesso</span>
+					                       				<span style="float:right;"  data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>
+					                  	    </p>
+										
+				                  		
+				                        <hr data-ng-hide="navbar.newNotifications.length>=10 && $index==navbar.newNotifications.length-1 && navbar.oldNotifications.length>0" style="margin-bottom:0px;">
+			                        	
+			                        </li>
+			                     
+			                     	<li style="padding-top:8px;" role="menu-item" data-ng-repeat="n in navbar.oldNotifications track by $index" data-ng-style="n.viewed == false ? { 'background-color':'rgba(224,227,227,0.5)'} : {  }">
+			                     		
+			                     			<span style="padding-left:7px; padding-right:7px; float:left; width:15%;">
+			                     				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
+			                     			</span>
+				                       		<p style="padding-right:7px; white-space:normal;">    				                      			
+				                      			<a href="" data-ng-click="navbar.clickOnNotify(n)">{{n.text}} <br></a>
+				                      			
+				                      			<span style="float:right;" data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>	
+				                  			</p>		                     				
+			                     		
+			                     		<hr data-ng-hide="$index==navbar.oldNotifications.length-1" style="margin-bottom:0px;">
+			                     	</li>
+			                     	
+			                     	
+			                     	
+	<!-- 		                        <li><a href="#"><span class="label label-primary">8:00 AM</span> How are you?</a></li> -->
+	<!-- 		                        <li role="presentation" class="divider"></li> -->
+	<!-- 		                        <li><a href="#"><span class="label label-primary">9:00 AM</span> What are you doing?</a></li> -->
+	<!-- 		                        <li class="divider"></li> -->
+	<!-- 		                        <li><a href="#" class="text-center">View All</a></li> -->
+	
+						</div>
+						<li role="menu-item" ><div class="divider" style="border-width:thick;"></div><a href=""><div class="text-center"><span data-ui-sref="logged.myNotifications({id : '{{navbar.user.id}}' })" style="font-size:1.15em; color:#337ab7;"><b>Mostra tutte</b></span></div> </a></li>
 		          </ul>
           </li>
           
