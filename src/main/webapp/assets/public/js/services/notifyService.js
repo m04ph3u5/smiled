@@ -33,6 +33,14 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 				if(n.scenarioId==actualScenarioId){
 					$rootScope.$broadcast('notification.updPostEvent',{id:n.objectId});
 				}
+			}else if(n.verb=="UPD_NEW_COMMENT"){
+				if(n.scenarioId==actualScenarioId){
+					$rootScope.$broadcast('notification.updNewComment',{notification : n});
+				}
+			}else if(n.verb=="UPD_NEW_META"){
+				if(n.scenarioId==actualScenarioId){
+					$rootScope.$broadcast('notification.updNewMetaComment',{notification : n});
+				}
 			}
 			else{
 				$rootScope.$broadcast('notification.newNotificationEvent', {notification: n});

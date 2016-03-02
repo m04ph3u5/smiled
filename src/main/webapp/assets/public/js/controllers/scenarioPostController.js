@@ -254,10 +254,38 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		updateScenarioWithModPosts(listOfUpdPost);
 	});
 	
+	var updNewCommentEvent = $scope.$on("notification.updNewComment", function (event, data){
+		var n = data.notification;
+		var founded = false;
+		for(var i=0; i<self.posts.length; i++){
+			if(self.posts[i].id==n.objectId){
+//				for(var j=0; self.posts[i].comments && j<self.posts[i].comments.length; j++){
+//					if(self.posts[i].comments[j].id == n.comment.id){
+//						self.posts[i].comments[j] = angular.copy(n.comment);
+//						founded=true;
+//						break;
+//					}
+//				}
+				if(!founded){
+					console.log("+++++++++++++COMMENT LIST UPDATED++++++++++++++++++++");
+					self.posts[i].comments.push(angular.copy(n.comment));
+				}
+				break;
+			}
+		}
+//		$scope.$applyAsync();
+	});
+	
+	var updNewMetaCommentEvent = $scope.$on("notification.updNewMetaComment", function (event, data){
+		var n = data.notification;
+	});
+	
 	
 	self.getPost(300);
 	
 	$scope.$on("$destroy", function() {
+		updNewMetaCommentEvent();
+		updNewCommentEvent();
         updPostEvent();
         notifyService.resetActualScenarioId();
         notifyService.resetObserverReloadList();

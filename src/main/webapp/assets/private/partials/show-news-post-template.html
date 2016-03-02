@@ -106,7 +106,7 @@
 				</div>
 				<div data-ng-if="showNewsPost.showComment" class="row colPaddingScen">
 					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter"></comment-to>
+						scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter" logged-user="showNewsPost.loggedUser"></comment-to>
 				</div>
 				<div data-ng-if="showNewsPost.showMetaComment" class="row colPaddingScen">
 					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
@@ -368,7 +368,7 @@
 					</div>	
 					<div data-ng-if="showNewsPost.showComment" class="row">
 						<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-							scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter"></comment-to>
+							scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter" logged-user="showNewsPost.loggedUser"></comment-to>
 					</div>
 					<div data-ng-if="showNewsPost.showMetaComment" class="row">
 						<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"

@@ -21,7 +21,6 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			self.date={};				
 			self.files = new Array();
 			self.originalPost = angular.copy(self.post);
-			
 			self.editButton = false;
 			
 			var checkPermissionEdit = function(){

@@ -6,7 +6,8 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 				post : "=",
 				writer : "=",
 				currentCharacter : "=",
-				scenarioId : "@" 
+				scenarioId : "@",
+				loggedUser : "="
 			},
 			controller : ['$scope' , function($scope){
 				
@@ -64,34 +65,45 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 						//aggiungo commento al post
 						apiService.sendCommentToPost(self.scenarioId, self.post.id, comment).then(
 								function(data){
+									comment.creationDate = new Date();
+									comment.character = {};
+									comment.character.id = self.currentCharacter.id;
+									comment.character.firstname = self.currentCharacter.name;
+									comment.user = {};
+									comment.user.id = self.loggedUser.id;
+									comment.user.firstname = self.loggedUser.firstName;
+									comment.user.lastname = self.loggedUser.lastName;
+									self.post.comments.splice(0,0,comment);
+									self.post.newComment="";
+
 									//prendo dal server nuovamente il post a cui ho aggiunto il commento
-									apiService.getSingleStatus(self.scenarioId, self.post.id).then(
-											function(data){
-												self.post = data;
-												self.post.newComment="";
-												var numVisible = self.visibleComments.length;
-												
-												self.visibleComments = self.post.comments;
-												
-												self.showViewOthers = false;
-												self.atLeastOneCommentWasSended = true;
-//												for(var i=0; i<self.posts.length; i++){
-//													if(self.posts[i].id==data.id){
-//														data.newComment="";
-//														if(data.imageId)
-//															data.imageUrl = CONSTANTS.urlMedia(data.imageId);
-//														data.character.cover = CONSTANTS.urlCharacterCover(self.scen.id,data.character.id);
-//														//self.posts.splice(i,1,data);
-//														self.posts[i] = data;
-//														
-//													}
-//												}
-												
-											},
-											function(reason){
-												console.log("error in insert new post in array");
-											}
-									);
+//									apiService.getSingleStatus(self.scenarioId, self.post.id).then(
+//											function(data){
+//												self.post = data;
+//												self.post.newComment="";
+//												var numVisible = self.visibleComments.length;
+//												
+//												self.visibleComments = self.post.comments;
+//												
+//												self.showViewOthers = false;
+//												self.atLeastOneCommentWasSended = true;
+////												for(var i=0; i<self.posts.length; i++){
+////													if(self.posts[i].id==data.id){
+////														data.newComment="";
+////														if(data.imageId)
+////															data.imageUrl = CONSTANTS.urlMedia(data.imageId);
+////														data.character.cover = CONSTANTS.urlCharacterCover(self.scen.id,data.character.id);
+////														//self.posts.splice(i,1,data);
+////														self.posts[i] = data;
+////														
+////													}
+////												}
+//												
+//											},
+//											function(reason){
+//												console.log("error in insert new post in array");
+//											}
+//									);
 								},
 								function(reason){
 									console.log("fail to send comment: "+reason);
@@ -104,6 +116,17 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 				}
 			}],
 			controllerAs: "commentTo",
-			bindToController: true
+			bindToController: true,
+			link : function(scope,elem,attrs,ctrl){
+				scope.$watch('commentTo.post.comments.length', function(newVal, oldVal){
+					console.log("WATCH COMMENT TO");
+					if(newVal!=oldVal ){
+						ctrl.visibleComments = ctrl.post.comments;
+						ctrl.showViewOthers = false;
+						ctrl.visibleComments.reverse();
+						ctrl.atLeastOneCommentWasSended = true;
+					}
+				});
+			}
 		};
 }]);
