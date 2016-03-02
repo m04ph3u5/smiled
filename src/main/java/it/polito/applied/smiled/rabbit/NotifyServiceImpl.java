@@ -626,7 +626,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setSender(senderId);
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		brokerProducer.sendNotify(n, TOPIC, "s"+p.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
 
 	@Override

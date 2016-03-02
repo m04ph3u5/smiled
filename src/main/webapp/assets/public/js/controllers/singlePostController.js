@@ -1,17 +1,12 @@
-angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','$interval','notifyService',
-              function scenarioPostCtrl(CONSTANTS,$scope, apiService,Upload,$interval, notifyService){
+angular.module('smiled.application').controller('singlePostCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','$interval','notifyService',
+              function singlePostCtrl(CONSTANTS,$scope, apiService,Upload,$interval, notifyService){
 	var self = this;
 	self.scen = $scope.scenario.scen;
 	self.currentCharacter = $scope.scenario.currentCharacter;
 	self.posts = [];
 	
 	
-//	self.newPost = {};
-//	self.newPost.date = {
-//			afterChrist : true
-//	};
-//	self.newPost.date.formatted=CONSTANTS.insertHistoricalDate;
-	
+
 	self.newEvent = {};
 	self.newEvent.date = {
 			afterChrist : true
@@ -69,49 +64,37 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/
-	
-	self.getPost = function(n){
-		
-		apiService.getPagedPosts(self.scen.id, 0, n, false).then(
-	
-			function(data){
-				self.posts = data.content;
-				for(var i=0; i<self.posts.length;i++){
-//					if(self.posts[i].imageId){
-//						self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
+//	
+//	self.getPost = function(n){
+//		
+//		apiService.getPagedPosts(self.scen.id, 0, n, false).then(
+//	
+//			function(data){
+//				self.posts = data.content;
+//				for(var i=0; i<self.posts.length;i++){
+//
+//					if(self.posts[i].character){
+//						self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
+//					
+//						for(var j=0; j<self.posts[i].likes.length; j++){
+//							if(self.posts[i].likes[j].id==self.currentCharacter.id){
+//								self.posts[i].youLike=true;
+//								break;
+//							}
+//						}
 //					}
-					if(self.posts[i].character){
-						self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
-					
-						for(var j=0; j<self.posts[i].likes.length; j++){
-							if(self.posts[i].likes[j].id==self.currentCharacter.id){
-								self.posts[i].youLike=true;
-								break;
-							}
-						}
-					}
-				}
-				
-				
-			}, function(reason){
-				console.log("errore");
-			}
-	);
-	}
-	
+//				}
+//				
+//				
+//			}, function(reason){
+//				console.log("errore");
+//			}
+//	);
+//	}
+//	
 	//listOfNewPosts è la lista di id di post da scaricare
 	var updateScenarioWithNewPosts = function(listOfNewPosts){
-		
-//      Operazione di scrematura molto probabilmente NON NECESSARIA!!!
-//		if(listOfNewPosts!=null && listOfNewPosts.length>0){
-//			for(var i = 0; i<listOfNewPosts.length; i++){
-//				if(postAlreadyPresent(listOfNewPosts[i])){
-//					listOfNewPosts.splice(i,1);  //sto scremando i post che ho gia scaricato
-//				}
-//			}
-//		}
-		
-		
+				
 		apiService.getListOfNewPosts(self.scen.id, listOfNewPosts).then(
 				
 				function(data){
@@ -153,7 +136,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 				}
 			}
 			if(listOfUpdPosts.length>0){
-				console.log("get list of new posts!!!!!!!!!!!!!!");
 				apiService.getListOfNewPosts(self.scen.id, listOfUpdPosts).then(
 						
 						function(data){
@@ -242,19 +224,11 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	
 	notifyService.setActualScenarioId(self.scen.id);
 	notifyService.registerObserverReloadList(updateScenarioWithNewPosts);
-	
-	var updPostEvent = $scope.$on("notification.updPostEvent", function (event, data){
-		console.log("notification.updPostEvent");
-		var listOfUpdPost = [];
-		listOfUpdPost.push(data.id);
-		updateScenarioWithModPosts(listOfUpdPost);
-	});
-	
-	
+	notifyService.registerObserverUpdPost(updateScenarioWithModPosts, self.scen.id);
 	self.getPost(300);
 	
 	$scope.$on("$destroy", function() {
-        updPostEvent();
+        
         notifyService.resetActualScenarioId();
         notifyService.resetObserverReloadList();
     });

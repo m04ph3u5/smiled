@@ -110,6 +110,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/controllers/updateScenarioController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioPostController.js"></script>
+	<script src="/assets/public/js/controllers/singlePostController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioCharactersController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioMapController.js"></script>
 	<script src="/assets/public/js/controllers/personalProfileController.js"></script>

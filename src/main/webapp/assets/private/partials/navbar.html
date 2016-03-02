@@ -69,15 +69,15 @@
 			                        	
 				                      
 				                       			<span style="padding-left:7px; padding-right:7px; float:left; width:15%;">
-				                       				<img class="img-circle imgPreviewM" src="assets/public/img/icon/pg.png">
+				                       				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
 				                       			</span>
-				                       	
-					                     	<p style="padding-right:7px; white-space:normal;">    
-					                       				 <a href="" data-ng-click="navbar.clickOnNotify(n)">{{n.text}} <br></a>
-					                       				<span data-ng-if="!n.formatDate" class="label label-primary">Adesso</span>
-					                       				<span style="float:right;"  data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>
-					                  	    </p>
-										
+				                       		<a href="" data-ng-click="navbar.clickOnNotify(n)">
+						                     	<p style="padding-right:7px; white-space:normal;">    
+						                       				 {{n.text}} <br><br>
+						                       				<span style="float:right;" data-ng-if="!n.formatDate" class="label label-primary">Adesso</span>
+						                       				<span style="float:right;"  data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>
+						                  	    </p>
+											</a>
 				                  		
 				                        <hr data-ng-hide="navbar.newNotifications.length>=10 && $index==navbar.newNotifications.length-1 && navbar.oldNotifications.length>0" style="margin-bottom:0px;">
 			                        	
@@ -88,11 +88,13 @@
 			                     			<span style="padding-left:7px; padding-right:7px; float:left; width:15%;">
 			                     				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
 			                     			</span>
-				                       		<p style="padding-right:7px; white-space:normal;">    				                      			
-				                      			<a href="" data-ng-click="navbar.clickOnNotify(n)">{{n.text}} <br></a>
-				                      			
-				                      			<span style="float:right;" data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>	
-				                  			</p>		                     				
+			                     			<a href="" data-ng-click="navbar.clickOnNotify(n)">
+					                       		<p style="padding-right:7px; white-space:normal;">    				                      			
+					                      			{{n.text}} <br><br>
+					                      			
+					                      			<span style="float:right;" data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>	
+					                  			</p>	
+					                  		</a>	                     				
 			                     		
 			                     		<hr data-ng-hide="$index==navbar.oldNotifications.length-1" style="margin-bottom:0px;">
 			                     	</li>

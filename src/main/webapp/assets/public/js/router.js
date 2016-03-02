@@ -399,22 +399,22 @@ angular.module('smiled.application')
 				pageTitle : 'Meschola'
 			}
 		})
-//		.state('logged.scenario.posts.post',{
-//			url: '/post/{idPost}',
-//			params : {
-//				idPost : null
-//			},
-//			views: {
-//				'body': {
-//					templateUrl: "assets/private/partials/single-post-scenario.html",
-//					controller: "singlePostCtrl",
-//					controllerAs: "singlePost"
-//				}
-//			},
-//			data : {
-//				pageTitle : 'Meschola'
-//			}
-//		})
+		.state('logged.scenario.post',{
+			url: '/post/{idPost}',
+			params : {
+				idPost : null
+			},
+			views: {
+				'body': {
+					templateUrl: "assets/private/partials/single-post-scenario.html",
+					controller: "singlePostCtrl",
+					controllerAs: "singlePost"
+				}
+			},
+			data : {
+				pageTitle : 'Meschola'
+			}
+		})
 		.state('logged.scenario.storyline',{
 			url: '/storyline',
 			views: {

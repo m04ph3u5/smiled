@@ -38,8 +38,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	                  "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
 	
 	var getNewNotification = function(n){
-		console.log("Navbar Controller  - Get new notifications from notifyService!");
-	
+		
 		n.read=false;
 		self.newNotifications.splice(0,0,n);	
 		self.numNewNotifications=self.newNotifications.length;
@@ -125,10 +124,10 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 						if(self.user.id!=notifications[i].mainReceiver)
 							notifications[i].text = notifications[i].actorName +" ha modificato un post che segui nello scenario "+notifications[i].scenarioName;
 					}else if(notifications[i].verb == "NEW_PERSONAL_MISSION"){
-						notifications[i].text = notifications[i].actorName +" ti ha assegnato una nuova missione nello scenario "+notifications[i].scenarioName;
+						notifications[i].text = notifications[i].actorName +", ti e' stata assegnata una nuova missione nello scenario "+notifications[i].scenarioName;
 					}
 					else if(notifications[i].verb == "NEW_GLOBAL_MISSION"){
-						notifications[i].text = notifications[i].actorName +" ha assegnato una nuova missione globale nello scenario "+notifications[i].scenarioName;
+						notifications[i].text = notifications[i].actorName +" ha assegnato una nuova missione ai partecipanti dello scenario "+notifications[i].scenarioName;
 					}
 					else if(notifications[i].verb == "NEW_MOD"){
 						notifications[i].text = notifications[i].actorName +" ti ha aggiunto come collaboratore nello scenario "+notifications[i].scenarioName;
@@ -158,7 +157,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 				}
 		}
 		if(reloadAssociation){
-			console.log("reload association!!!!!!!!!!!!!!");
+			
 			notifyService.reloadAssociation();
 		}
 		
@@ -219,7 +218,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		}
 		self.numNewNotifications=0;
 		openNotifications=false;
-		console.log("CLOSE!!!!!!!!!!!!!!!!!!!!");
+		
 		if(ack && ack.ids)
 			webSocketService.send(ack);
 	}
@@ -229,16 +228,13 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	}
 	
 	var openDropDown = function(){
-		if(self.newNotifications.length==0 && self.oldNotifications.length==0){
-			console.log("richiedere le notifiche vecchie al server");
-		}
-		else{
-			if(self.newNotifications.length>0)
-				formatDate(self.newNotifications);
-			if(self.oldNotifications.length>0){
-				formatDate(self.oldNotifications);
-			}
-		}
+		
+		if(self.newNotifications.length>0)
+			formatDate(self.newNotifications);
+		if(self.oldNotifications.length>0)		
+			formatDate(self.oldNotifications);
+		
+		
 		openNotifications=true;	
 		if(self.newNotifications.length+self.oldNotifications.length<10){
 			var older="";
@@ -292,12 +288,12 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		view.ids.push(n.id);
 		view.type="VIEW_N";
 		$timeout(webSocketService.send(view),1000);
+		$state.go('logged.scenario.post', {"id":n.objecdId});
 	}
 	
 	self.getSrcPhoto = function(n){
 		if(n.type=="NOTIFICATION"){
-			console.log("getsrcphoto *******************");
-			console.log(n);
+			
 			if(n.verb=="NEW_GLOBAL_MISSION" || n.verb=="CLOSE_SCENARIO" || n.verb=="OPEN_SCENARIO" || n.verb=="NEW_ATTENDEE" || n.verb=="DEL_ATTENDEE"){
 				return CONSTANTS.urlScenarioCover(n.scenarioId);
 			}else if(n.verb=="METACOMMENT_TO_POST" || n.verb=="NEW_MOD" || n.verb=="NEW_MOD_TO_CREATOR" || n.verb=="DEL_MOD" || n.verb=="MODIFIED_POST_BY_MOD" || n.verb=="DELETED_POST_BY_MOD" || n.verb=="NEW_FILE"){
@@ -310,7 +306,17 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 				}
 			}
 			else{
-				return CONSTANTS.urlCharacterCover(n.scenarioId, n.actorId );
+				if(n.verb=="TAG_ON_CREATE" ||n.verb=="TAG_ON_MOD" ){
+					if(n.actorId){
+						return CONSTANTS.urlCharacterCover(n.scenarioId, n.actorId );
+					}else{
+						return "assets/public/img/narr.png";
+					}
+				}else{
+					return CONSTANTS.urlCharacterCover(n.scenarioId, n.actorId );
+				}
+				
+				
 			}
 		}else if(n.type=="USER_MESSAGE"){
 			console.log("message!!!!!!!!!!!!");
@@ -324,8 +330,10 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			if(n.verb=="NEW_GLOBAL_MISSION" || n.verb=="CLOSE_SCENARIO" || n.verb=="OPEN_SCENARIO" || n.verb=="NEW_ATTENDEE" || n.verb=="DEL_ATTENDEE"){
 				return "assets/public/img/icon/ic_scen.png";
 			}
-			else if(n.verb=="METACOMMENT_TO_POST" || n.verb=="NEW_MOD" || n.verb=="NEW_MOD_TO_CREATOR" || n.verb=="DEL_MOD" || n.verb=="DELETED_POST_BY_MOD" || n.verb=="NEW_FILE"){
-				console.log("++++++++++++++++++");
+			else if(n.verb=="NEW_MOD" || n.verb=="NEW_MOD_TO_CREATOR" || n.verb=="MODIFIED_POST_BY_MOD"|| n.verb=="DEL_MOD" || n.verb=="DELETED_POST_BY_MOD" || n.verb=="NEW_FILE"){
+				
+				return "assets/public/img/ic_teacher.png";
+			}else if(n.verb=="METACOMMENT_TO_POST"){
 				return "assets/public/img/ic_student.png";
 			}else if(n.verb=="MODIFIED"){
 				if(n.actorId){
@@ -412,8 +420,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	userService.registerObserverPersonalCover(updateCover);
 	
 	var newNotificationListener = $scope.$on('notification.newNotificationEvent', function (event, data) {
-		console.log("on newNotificationListener!!!!!!!");
-		console.log(data.notification);
+		
         getNewNotification(data.notification);
         $scope.$applyAsync();
        

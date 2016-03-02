@@ -4,12 +4,11 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	
 	var me = $cookies.get('myMescholaId');
 	var newPosts = [];
-	var updPosts = [];
     var actualScenarioId="";
     var actualNotify={};
     var observerReloadListOfPost = {};
 	var observerReloadAssociationCallbacks = {};
-    var observerUpdPostCallbacks = {};
+   
     var sendAckNCallback = {};
 
     var setActualScenarioId = function(id){
@@ -23,7 +22,8 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	var newNotifyOrPost = function(n){
 		
 		if(n.sender!=me){
-			
+			console.log("new notification !!!!!!!!!!");
+			console.log(n);
 			if(n.verb=="NEW_POST"){
 				if(n.scenarioId==actualScenarioId){
 					newPosts.unshift(n.objectId);
@@ -31,8 +31,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 				}
 			}else if(n.verb=="UPD_POST"){
 				if(n.scenarioId==actualScenarioId){
-					updPosts.unshift(n.objectId);
-					notifyUpdPostObservers();
+					$rootScope.$broadcast('notification.updPostEvent',{id:n.objectId});
 				}
 			}
 			else{
@@ -81,20 +80,12 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	}
 	
 	
-	var registerObserverUpdPost = function(callback, scenarioId){
-		actualScenarioId = scenarioId;
-		observerUpdPostCallbacks = callback;
-	}
-	
 	var notifyReloadListObservers = function(){ //do a scenarioPostController la lista di nuovi post da scaricarsi
 		if(observerReloadListOfPost)
 			observerReloadListOfPost(newPosts);
 	}
 	
-	var notifyUpdPostObservers = function(){
-		if(observerUpdPostCallbacks)
-			observerUpdPostCallbacks(angular.copy(updPosts)); 
-	}
+
 	
 	var reloadList = function(){
 		
@@ -118,8 +109,6 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		reloadAssociation : reloadAssociation,
 		registerObserverAssociation : registerObserverAssociation,
 		resetObserverAssociation : resetObserverAssociation,
-		notifyUpdPostObservers: notifyUpdPostObservers,
-		registerObserverUpdPost : registerObserverUpdPost,
 		setActualScenarioId : setActualScenarioId,
 		resetActualScenarioId : resetActualScenarioId,
 		readOldNotifications : readOldNotifications
