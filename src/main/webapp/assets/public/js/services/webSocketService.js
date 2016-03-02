@@ -11,9 +11,10 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 service.SOCKET_URL = "/websocket/messages";
 	 //service.CHAT_TOPIC = "/topic/message";
 	 //service.CHAT_BROKER = "/app/chat";
-	 
-	var send = function(ack){
-		socket.send(JSON.stringify(ack));
+	
+	//Data usually are ACK_N, VIEW_N, ACK_M, VIEW_M, or USER_MESSAGE 
+	var send = function(data){
+		socket.send(JSON.stringify(data));
 	}
 
 	 

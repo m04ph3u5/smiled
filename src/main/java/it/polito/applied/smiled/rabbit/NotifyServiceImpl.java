@@ -204,10 +204,9 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo commento il mainReceiver è chi ha scritto il post 
 		n.setSender(c.getUser().getId());
 
-		generateUpdPostForReload(s, p, c.getUser().getId());
-
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
+		generateUpdPostForReload(s, p, c.getUser().getId());
 	}
 
 	@Override
@@ -228,10 +227,10 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo metacommento il mainReceiver è chi ha scritto il post 
 		n.setSender(c.getUser().getId());
 
-		generateUpdPostForReload(s, p, c.getUser().getId());
-
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
+		
+		generateUpdPostForReload(s, p, c.getUser().getId());
 	}
 
 	@Override
@@ -261,9 +260,8 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setMainReceiver(p.getUser().getId()); //nel caso di nuovo like il mainReceiver è chi ha scritto il post 
 		n.setSender(actor.getUserId());
 
-		generateUpdPostForReload(s, p, actor.getUserId());
-
 		brokerProducer.sendNotify(n, TOPIC, "p"+p.getId());
+		generateUpdPostForReload(s, p, actor.getUserId());
 	}
 
 	@Override
@@ -437,10 +435,9 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setSender(p.getUser().getId());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		generateUpdPostForReload(s, p, p.getUser().getId());
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
-
 		notifyEventuallyTags(s,p,oldPost, p.getUser().getId());
+		generateUpdPostForReload(s, p, p.getUser().getId());
 	}
 
 	@Override
@@ -460,10 +457,9 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setMainReceiver(p.getUser().getId());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		generateUpdPostForReload(s, p, actor.getId());
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());	
-
 		notifyEventuallyTags(s,p,oldPost,actor.getId());
+		generateUpdPostForReload(s, p, actor.getId());
 	}
 	
 	@Override
