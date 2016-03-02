@@ -19,10 +19,27 @@ public enum NotificationType {
 	NEW_POST,
 	
 	/**
-	 * Modifica di qualsiasi elemento di un post già esistente (nuovo like, nuovo commento, nuovo suggerimento, modifica del testo, aggiunta di un tag o un file, ecc.)
+	 * Modifica di qualsiasi elemento di un post già esistente (nuovo like, modifica del testo, aggiunta di un tag o un file, ecc.)
+	 * Tranne commenti e metacommenti
 	 * 	--> Tutti i partecipanti | TOPIC: scenario
 	 * */
 	UPD_POST,
+	
+	/*Pseudo notifica che arriva a tutti i partecipanti allo scenario e porta con se il nuovo commento da visualizzare/o quello aggiornato
+	 * --> Tutti i partecipanti | TOPIC: scenario*/
+	UPD_NEW_COMMENT,
+	
+	/*Pseudo notifica che arriva a tutti i partecipanti allo scenario e porta con se il nuovo suggerimento da visualizzare/o quello aggiornato
+	 * --> Tutti i partecipanti | TOPIC: scenario*/
+	UPD_NEW_META,
+	
+	/*Pseudo notifica che arriva a tutti i partecipanti allo scenario e porta con se l'id del commento da cancellare
+	 * --> Tutti i partecipanti | TOPIC: scenario*/
+	UPD_DEL_COMMENT,
+	
+	/*Pseudo notifica che arriva a tutti i partecipanti allo scenario e porta con se l'id del suggerimento da cancellare
+	 * --> Tutti i partecipanti | TOPIC: scenario*/
+	UPD_DEL_METACOMMENT,
 	
 	/**
 	 * Commento ad un post 

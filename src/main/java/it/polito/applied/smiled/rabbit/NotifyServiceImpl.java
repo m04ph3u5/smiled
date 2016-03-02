@@ -11,6 +11,7 @@ import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.scenario.Comment;
+import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Mission;
@@ -206,7 +207,7 @@ public class NotifyServiceImpl implements NotifyService{
 
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
-		generateUpdPostForReload(s, p, c.getUser().getId());
+		generateUpdComment(c, p.getId(), s);
 	}
 
 	@Override
@@ -230,7 +231,7 @@ public class NotifyServiceImpl implements NotifyService{
 		brokerProducer.sendNotify(n, TOPIC, "pc"+p.getId());
 		brokerProducer.createBinding(USER_QUEUE_PREFIX+c.getUser().getId(), TOPIC, "pc"+p.getId());
 		
-		generateUpdPostForReload(s, p, c.getUser().getId());
+		generateUpdComment(c, p.getId(), s);
 	}
 
 	@Override
@@ -531,6 +532,12 @@ public class NotifyServiceImpl implements NotifyService{
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());		
 	}
 	
+
+	@Override
+	public List<Notification> getLastUserSendedNotification(CustomUserDetails user, Integer num, String old) {
+		return notificationRepo.findLastUserSendedNotification(user.getId(),num, old);
+	}
+	
 	private void notifyEventuallyTags(Scenario s, Post p, Post oldPost, String senderId) {
 		//Search for new tag
 		if(p.getClass().equals(Status.class)){
@@ -624,10 +631,23 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setScenarioName(s.getName());
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
-
-	@Override
-	public List<Notification> getLastUserSendedNotification(CustomUserDetails user, Integer num, String old) {
-		return notificationRepo.findLastUserSendedNotification(user.getId(),num, old);
+	
+	private void generateUpdComment(CommentInterface c, String postId, Scenario s) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		if(c.getClass().equals(Comment.class)){
+			n.setVerb(NotificationType.UPD_NEW_COMMENT);
+			n.setComment((Comment) c);
+		}else if(c.getClass().equals(MetaComment.class)){
+			n.setVerb(NotificationType.UPD_NEW_META);
+			n.setMetaComment((MetaComment) c);
+		}
+		n.setSender(c.getUser().getId());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setObjectId(postId);
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
 
 }

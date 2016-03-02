@@ -49,7 +49,9 @@ public class ConsumerHandler implements MessageListener {
 				if(c.getClass().equals(Notification.class)){
 					notification = (Notification) c;
 					notification.setReceiverId(userId);
-					if(!notification.getVerb().equals(NotificationType.NEW_POST) && !notification.getVerb().equals(NotificationType.UPD_POST)){
+					if(!notification.getVerb().equals(NotificationType.NEW_POST) && !notification.getVerb().equals(NotificationType.UPD_POST)
+							&& !notification.getVerb().equals(NotificationType.UPD_NEW_COMMENT) && !notification.getVerb().equals(NotificationType.UPD_NEW_META)
+							&& !notification.getVerb().equals(NotificationType.UPD_DEL_COMMENT) && !notification.getVerb().equals(NotificationType.UPD_DEL_METACOMMENT)){
 						notification = notificationRepo.saveToReadNotification(notification);
 					}
 					messageText = mapper.writeValueAsString(notification);

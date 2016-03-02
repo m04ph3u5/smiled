@@ -8,7 +8,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import it.polito.applied.smiled.pojo.Reference;
-
+import it.polito.applied.smiled.pojo.scenario.Comment;
+import it.polito.applied.smiled.pojo.scenario.MetaComment;
 public class Notification extends Comunication{
 	//TWO MONTHS OF NOTIFICATION PERSISTANCE
 	@Indexed(expireAfterSeconds=5184000)
@@ -22,6 +23,9 @@ public class Notification extends Comunication{
 	private String objectContent;
 	private String mainReceiver;
 	private String sender;
+	//Questo viene usato solo nel caso di nuovo commento/suggerimento o di aggiornamento degli stessi
+	private Comment comment;
+	private MetaComment metaComment;
 	private List<Reference> tagged;
 	
 	@JsonCreator
@@ -93,17 +97,22 @@ public class Notification extends Comunication{
 	public void setObjectContent(String objectContent) {
 		this.objectContent = objectContent;
 	}
-
-
 	public List<Reference> getTagged() {
 		return tagged;
 	}
-
-
 	public void setTagged(List<Reference> tagged) {
 		this.tagged = tagged;
 	}
-	
-	
-
+	public Comment getComment() {
+		return comment;
+	}
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+	public MetaComment getMetaComment() {
+		return metaComment;
+	}
+	public void setMetaComment(MetaComment metaComment) {
+		this.metaComment = metaComment;
+	}
 }
