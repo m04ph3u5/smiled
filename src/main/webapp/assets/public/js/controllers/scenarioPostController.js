@@ -157,10 +157,14 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 				apiService.getListOfNewPosts(self.scen.id, listOfUpdPosts).then(
 						
 						function(data){
+							console.log(data);
 							if(data.content){
 								for(var i=0; i<data.content.length; i++){
-									for(var j=0; j<self.posts; j++){
-										if(self.posts[j].id== data.content[i].id){
+									for(var j=0; j<self.posts.length; j++){
+
+										if(self.posts[j].id == data.content[i].id){
+											console.log("il nuovo post è cosi': ");
+											console.log(data.content[i]);
 											self.posts[j]=angular.copy(data.content[i]);
 										}
 									}
