@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONSTANTS', 'modalService',
-    function(apiService, CONSTANTS, modalService){
+angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONSTANTS', 'modalService', 'notifyService',
+    function(apiService, CONSTANTS, modalService, notifyService){
 		return {
 			templateUrl: "assets/private/partials/comment-to-template.html",
 			scope : {
@@ -45,15 +45,15 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 //					}
 					self.showViewOthers = false;
 				}
-				var onDestroy = function(){
-					console.log("onDestroy commentTo directive");
-					if(self.atLeastOneCommentWasSended)
-						self.post.comments.reverse();
-				}
-				$scope.$on("$destroy", function(){
-					onDestroy();
-				});
-				
+//				var onDestroy = function(){
+//					console.log("onDestroy commentTo directive");
+////					if(self.atLeastOneCommentWasSended)
+////						self.post.comments.reverse();
+//				}
+//				$scope.$on("$destroy", function(){
+//					onDestroy();
+//				});
+//				
 				
 				
 				self.addCommentToPost = function(){
@@ -120,12 +120,32 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 			link : function(scope,elem,attrs,ctrl){
 				scope.$watch('commentTo.post.comments.length', function(newVal, oldVal){
 					console.log("WATCH COMMENT TO");
-					if(newVal!=oldVal ){
-						ctrl.visibleComments = ctrl.post.comments;
-						ctrl.showViewOthers = false;
-						ctrl.visibleComments.reverse();
-						ctrl.atLeastOneCommentWasSended = true;
+					if(newVal!=oldVal && newVal>0){
+						if(ctrl.showViewOthers){
+							ctrl.visibleComments.push(ctrl.post.comments[0]);
+						}else
+							ctrl.openViewOthers();
+
+//						ctrl.visibleComments.reverse();
+//						ctrl.atLeastOneCommentWasSended = true;
 					}
+				});
+				
+				scope.$watch('commentTo.post.newComment.length', function(newVal, oldVal){
+					console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
+					if(newVal>0 && (oldVal==0 || oldVal==undefined)){
+						console.log("addToInEdit");
+						notifyService.addToInEditPost(ctrl.post.id);
+					}else if((newVal==0 || newVal==undefined) && oldVal>0){
+						console.log("removeToInEdit");
+						notifyService.removeToInEditPost(ctrl.post.id);
+					}
+				});
+				
+				scope.$on('$destroy', function(){
+					console.log("removeToInEdit");
+					ctrl.post.newComment="";
+					notifyService.removeToInEditPost(ctrl.post.id);
 				});
 			}
 		};

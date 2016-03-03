@@ -10,13 +10,17 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	var observerReloadAssociationCallbacks = {};
    
     var sendAckNCallback = {};
-
+    
+    var inEditPost = [];
+    var toReload = [];
     var setActualScenarioId = function(id){
     	actualScenarioId=id;		
     }
         
 	var resetActualScenarioId = function(){
-		actualScenarioId="";		
+		actualScenarioId="";	
+		inEditPost = [];
+		toReload = [];
 	}
 	
 	var newNotifyOrPost = function(n){
@@ -30,8 +34,11 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 					$rootScope.$broadcast('notification.newPostEvent');
 				}
 			}else if(n.verb=="UPD_POST"){
-				if(n.scenarioId==actualScenarioId){
+				if(n.scenarioId==actualScenarioId && !isInEditPost(n.objectId)){
 					$rootScope.$broadcast('notification.updPostEvent',{id:n.objectId});
+				}else{
+					toReload.push(n.objectId);
+					$rootScope.$broadcast('notification.generateAlertUpd',{id:idPost});
 				}
 			}else if(n.verb=="UPD_NEW_COMMENT"){
 				if(n.scenarioId==actualScenarioId){
@@ -107,6 +114,30 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		}
 	}
 	
+	var addToInEditPost = function(idPost){
+		if(inEditPost.indexOf(idPost)<0)
+			inEditPost.push(idPost);
+	}
+	
+	var removeToInEditPost = function(idPost){
+		var i = inEditPost.indexOf(idPost);
+		if(i>=0){
+			inEditPost.splice(i,1);
+			var j = toReload.indexOf(idPost);
+			if(j>=0){
+				$rootScope.$broadcast('notification.updPostEvent',{id:idPost});
+				toReload.splice(j,1);
+			}
+		}
+	}
+	
+	var isInEditPost = function (idPost){
+		if(inEditPost.indexOf(idPost)<0)
+			return false;
+		else
+			return true;
+	}
+	
 	return {
 		newNotifyOrPost : newNotifyOrPost,
 		getAllNewPosts : getAllNewPosts,
@@ -119,7 +150,10 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		resetObserverAssociation : resetObserverAssociation,
 		setActualScenarioId : setActualScenarioId,
 		resetActualScenarioId : resetActualScenarioId,
-		readOldNotifications : readOldNotifications
+		readOldNotifications : readOldNotifications,
+		addToInEditPost : addToInEditPost,
+		removeToInEditPost : removeToInEditPost,
+		isInEditPost : isInEditPost
 	};
 
 }]);

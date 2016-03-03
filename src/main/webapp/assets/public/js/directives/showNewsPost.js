@@ -1,6 +1,6 @@
-angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService', '$q', 'Upload', 'modalService',
+angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService', '$q', 'Upload', 'modalService', 'notifyService',
 
-                                                                 function(CONSTANTS, apiService, Lightbox, modalService, $q, Upload, modalService){
+                                                                 function(CONSTANTS, apiService, Lightbox, modalService, $q, Upload, modalService, notifyService){
 	return {
 		templateUrl: "assets/private/partials/show-news-post-template.html",
 		scope : {
@@ -65,6 +65,11 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 
 			self.switchEditPost = function(){
 				self.editPost = !self.editPost;
+				if(self.editPost){
+					notifyService.addToInEditPost(self.post.id);
+				}else{
+					notifyService.removeToInEditPost(self.post.id);
+				}
 			}
 			self.closeEditPost = function(){
 //				self.post.tags = angular.copy(self.originalTagsList);
@@ -75,6 +80,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 //				self.post.julianDayNumber = self.originalJulianDayNumber;
 				self.post = angular.copy(self.originalPost);
 				self.recalculateMatrix();
+				notifyService.removeToInEditPost(self.post.id);
+
 				//TODO modificare label per date dopo annullamento
 			}
 
@@ -363,11 +370,12 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.post = data;
 							self.originalTagsList = angular.copy(self.post.tags);
 							self.newCharactersToTags = [];
-							self.editPost = !self.editPost;
+							self.switchEditPost();
 							self.recalculateMatrix();
 							self.post.character.cover = CONSTANTS.urlCharacterCover(self.scenario.id,self.post.character.id);
 							self.originalPost = angular.copy(self.post);
-
+							self.postDTO = {};
+							self.postDTO.text = self.post.text;
 						},
 						function(reason){
 							console.log("UPDATE STATUS FAILED");
@@ -415,9 +423,10 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							self.post = data;
 							self.originalTagsList = angular.copy(self.post.tags);
 							self.newCharactersToTags = [];
-							self.editPost = !self.editPost;
+							self.switchEditPost();
 							self.recalculateMatrix();
 							self.postDTO = {};
+							self.postDTO.text = self.post.text;
 							self.originalPost = angular.copy(self.post);
 						},
 						function(reason){
@@ -557,7 +566,6 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				modalService.showModalOpenMap(self.post,map);
 			}
 			
-			
 			/*-------------------------------------------------------*/
 
 		},
@@ -619,6 +627,14 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					ctrl.tagIsSet=false;
 				}
 			});
+			
+			scope.$on('notification.generateAlertUpd', function(event, data){
+				if(ctrl.editPost && ctrl.post.id==data.id){
+					
+				}
+			})
+			
+
 
 		}
 

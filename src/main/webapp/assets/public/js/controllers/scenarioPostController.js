@@ -259,16 +259,15 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		var founded = false;
 		for(var i=0; i<self.posts.length; i++){
 			if(self.posts[i].id==n.objectId){
-//				for(var j=0; self.posts[i].comments && j<self.posts[i].comments.length; j++){
-//					if(self.posts[i].comments[j].id == n.comment.id){
-//						self.posts[i].comments[j] = angular.copy(n.comment);
-//						founded=true;
-//						break;
-//					}
-//				}
+				for(var j=0; self.posts[i].comments && j<self.posts[i].comments.length; j++){
+					if(self.posts[i].comments[j].id == n.comment.id){
+						self.posts[i].comments[j] = angular.copy(n.comment);
+						founded=true;
+						break;
+					}
+				}
 				if(!founded){
-					console.log("+++++++++++++COMMENT LIST UPDATED++++++++++++++++++++");
-					self.posts[i].comments.push(angular.copy(n.comment));
+					self.posts[i].comments.splice(0,0,angular.copy(n.comment));
 				}
 				break;
 			}
@@ -278,6 +277,22 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	
 	var updNewMetaCommentEvent = $scope.$on("notification.updNewMetaComment", function (event, data){
 		var n = data.notification;
+		var founded = false;
+		for(var i=0; i<self.posts.length; i++){
+			if(self.posts[i].id==n.objectId){
+				for(var j=0; self.posts[i].metaComments && j<self.posts[i].metaComments.length; j++){
+					if(self.posts[i].metaComments[j].id == n.metaComment.id){
+						self.posts[i].metaComments[j] = angular.copy(n.metaComment);
+						founded=true;
+						break;
+					}
+				}
+				if(!founded){
+					self.posts[i].metaComments.splice(0,0,angular.copy(n.metaComment));
+				}
+				break;
+			}
+		}
 	});
 	
 	
