@@ -90,12 +90,14 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 					
 				});
 				scope.$watch('summarizeInfoPost.post.comments.length', function(val){
+					
 					if(ctrl.post.comments.length==1)
 						ctrl.commentsLabel = "1 commento";
 					else if(ctrl.post.comments.length>1)
 						ctrl.commentsLabel = ctrl.post.comments.length+" commenti";
 				});
 				scope.$watch('summarizeInfoPost.post.metaComments.length', function(val){
+					
 					if(ctrl.post.metaComments.length==1)
 						ctrl.metaCommentsLabel = "1 suggerimento";
 					else if(ctrl.post.metaComments.length>1)

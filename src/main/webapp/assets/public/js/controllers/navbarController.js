@@ -144,10 +144,8 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 							notifications[i].text = notifications[i].actorName +" ha modificato un tuo post nello scenario "+notifications[i].scenarioName;
 						else
 							notifications[i].text = notifications[i].actorName +" ha modificato un post che segui nello scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb == "NEW_MOD"){
-						notifications[i].text = notifications[i].actorName +" ti ha aggiunto come moderatore dello scenario "+notifications[i].scenarioName;
 					}else if(notifications[i].verb == "NEW_MOD_TO_CREATOR"){
-						notifications[i].text = notifications[i].actorName +" ha aggiunto "+notifications[i].objectContent+" come moderatore dello scenario "+notifications[i].scenarioName;
+						notifications[i].text = notifications[i].actorName +" ha aggiunto "+notifications[i].objectContent+" come collaboratore dello scenario "+notifications[i].scenarioName;
 					}else if(notifications[i].verb == "DEL_MOD"){
 						notifications[i].text = notifications[i].actorName +" ti ha rimosso dallo scenario "+notifications[i].scenarioName;
 					}else{
@@ -281,14 +279,28 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	}
 	
 	self.clickOnNotify = function(n){
-		console.log(n);
+		
 		n.viewed=true;
 		var view={};
 		view.ids = [];
 		view.ids.push(n.id);
 		view.type="VIEW_N";
 		$timeout(webSocketService.send(view),1000);
-		$state.go('logged.scenario.post', {"id":n.objecdId});
+		if(n.verb=="MODIFIED" || n.verb=="MODIFIED_POST_BY_MOD" || n.verb=="LIKE_TO_POST" || n.verb=="TAG_ON_CREATE" || n.verb=="TAG_ON_MOD"){
+			$state.go('logged.scenario.post', {"id":n.scenarioId , "idPost": n.objectId});
+		}else if(n.verb=="COMMENT_TO_POST" || n.verb=="METACOMMENT_TO_POST"){
+			var idPost = n.objectId.substring(0, n.objectId.indexOf("/"));
+			$state.go('logged.scenario.post', {"id":n.scenarioId , "idPost": idPost});
+		}else if(n.verb=="NEW_PERSONAL_MISSION" || n.verb=="NEW_GLOBAL_MISSION"){
+			$state.go('logged.scenario.missions', {"id":n.scenarioId });
+		}else if(n.verb=="NEW_ASSOCIATION" || n.verb=="DEL_ASSOCIATION" || n.verb=="OPEN_SCENARIO" || n.verb=="NEW_ATTENDEE" || n.verb =="NEW_MOD_TOCREATOR" || n.verb=="NEW_MOD"){
+			$state.go('logged.scenario.characters', {"id":n.scenarioId });
+		}else if(n.verb=="NEW_FILE"){
+			$state.go('logged.scenario.resources', {"id":n.scenarioId });
+		}else if(n.verb=="DEL_MOD" || n.verb=="DEL_ATTENDEE"){
+			$state.go('logged.dashboard');
+		}
+		
 	}
 	
 	self.getSrcPhoto = function(n){

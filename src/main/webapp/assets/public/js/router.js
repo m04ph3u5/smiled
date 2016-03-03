@@ -413,7 +413,9 @@ angular.module('smiled.application')
 			},
 			data : {
 				pageTitle : 'Meschola'
-			}
+			},
+			
+						
 		})
 		.state('logged.scenario.storyline',{
 			url: '/storyline',
