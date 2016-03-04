@@ -28,7 +28,7 @@
 <!-- 	</div> -->
 	
 <!-- </div> -->
-<div class="row">
+<div infinite-scroll='scenarioPost.nextPost()' infinite-scroll-disabled='scenarioPost.busy' infinite-scroll-distance='1' class="row">
 	<div data-ng-repeat="s in scenarioPost.posts">
 		<show-news-post post="s" scenario="scenarioPost.scen" 
 			logged-user= "scenario.loggedUser" current-character="scenario.currentCharacter"

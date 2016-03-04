@@ -69,34 +69,52 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/
+	var stopScroll=false;
+	self.nextPost = function(){
+		if(self.busy || stopScroll)
+			return;
+		self.busy=true;
+		console.log("NEXT POST");
+		if(self.posts.length==0){
+			self.getPost("",2);
+		}else{
+			self.getPost(self.posts[self.posts.length-1].id,2);
+		}
+	}
 	
-	self.getPost = function(n){
-		
-		apiService.getPagedPosts(self.scen.id, 0, n, false).then(
+	self.busy=false;
 	
+	self.getPost = function(lastId, n){
+//		apiService.getPagedPosts(self.scen.id, 0, n, false).then(
+		apiService.getLastPosts(self.scen.id, lastId, n).then(
+
 			function(data){
-				self.posts = data.content;
-				for(var i=0; i<self.posts.length;i++){
-//					if(self.posts[i].imageId){
-//						self.posts[i].imageUrl = CONSTANTS.urlMedia(self.posts[i].imageId);
-//					}
-					if(self.posts[i].character){
-						self.posts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,self.posts[i].character.id);
+//				self.posts = data.content;
+				var newPosts = [];
+				newPosts = data;
+				if(data.length==0)
+					stopScroll=true;
+
+				for(var i=0; newPosts && i<newPosts.length;i++){
+					if(newPosts[i].character){
+						newPosts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,newPosts[i].character.id);
 					
-						for(var j=0; j<self.posts[i].likes.length; j++){
-							if(self.posts[i].likes[j].id==self.currentCharacter.id){
-								self.posts[i].youLike=true;
+						for(var j=0; j<newPosts[i].likes.length; j++){
+							if(newPosts[i].likes[j].id==self.currentCharacter.id){
+								newPosts[i].youLike=true;
 								break;
 							}
 						}
 					}
+					self.posts.push(angular.copy(newPosts[i]));
 				}
-				
+				self.busy=false;
 				
 			}, function(reason){
 				console.log("errore");
+				self.busy=false;
 			}
-	);
+		);
 	}
 	
 	//listOfNewPosts è la lista di id di post da scaricare
@@ -272,7 +290,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 				break;
 			}
 		}
-//		$scope.$applyAsync();
 	});
 	
 	var updNewMetaCommentEvent = $scope.$on("notification.updNewMetaComment", function (event, data){
@@ -296,7 +313,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	});
 	
 	
-	self.getPost(300);
+//	self.getPost("",2);
 	
 	$scope.$on("$destroy", function() {
 		updNewMetaCommentEvent();

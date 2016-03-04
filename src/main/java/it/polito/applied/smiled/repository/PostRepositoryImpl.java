@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -223,5 +224,37 @@ public class PostRepositoryImpl implements CustomPostRepository{
 		
 		mongoOp.updateFirst(q, u, Post.class);		
 	}
-	
+
+
+	@Override
+	public List<Post> findLastInNaturalOrderDesc(String scenarioId, String lastPostId, Integer nItem) {
+		Query q = new Query();
+		if(lastPostId==null || lastPostId.isEmpty())
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)));
+		else
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(Criteria.where("_id").lt(new ObjectId(lastPostId))
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED))));
+		q.with(new Sort(Sort.Direction.DESC, "id"));
+		q.limit(nItem);
+
+		return mongoOp.find(q, Post.class);
+	}
+
+	@Override
+	public List<Post> findLastInNaturalOrderAsc(String scenarioId, String lastPostId, Integer nItem) {
+		Query q = new Query();
+		if(lastPostId==null || lastPostId.isEmpty())
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)));
+		else
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(Criteria.where("_id").gt(new ObjectId(lastPostId))
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED))));
+		q.with(new Sort(Sort.Direction.ASC, "id"));
+		q.limit(nItem);
+
+		return mongoOp.find(q, Post.class);
+	}
 }

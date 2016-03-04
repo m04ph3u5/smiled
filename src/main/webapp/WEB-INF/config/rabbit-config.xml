@@ -55,10 +55,11 @@
 	
 	<bean id="consumerHandler" class="it.polito.applied.smiled.rabbit.ConsumerHandler" scope="prototype"></bean>
 
+	<bean id="deadLetterConsumer" class="it.polito.applied.smiled.rabbit.DeadLetterConsumer"></bean>
+
 	<rabbit:listener-container connection-factory="connectionFactory">
     	<rabbit:listener queues="deadLetterQueue" ref="deadLetterConsumer" method="onMessage"/>
 	</rabbit:listener-container>
 	
-	<bean id="deadLetterConsumer" class="it.polito.applied.smiled.rabbit.DeadLetterConsumer"></bean>
 
 </beans>

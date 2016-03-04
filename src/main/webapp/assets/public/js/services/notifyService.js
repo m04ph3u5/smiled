@@ -38,7 +38,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 					$rootScope.$broadcast('notification.updPostEvent',{id:n.objectId});
 				}else{
 					toReload.push(n.objectId);
-					$rootScope.$broadcast('notification.generateAlertUpd',{id:idPost});
+					$rootScope.$broadcast('notification.generateAlertUpd',{id:n.objectId});
 				}
 			}else if(n.verb=="UPD_NEW_COMMENT"){
 				if(n.scenarioId==actualScenarioId){
