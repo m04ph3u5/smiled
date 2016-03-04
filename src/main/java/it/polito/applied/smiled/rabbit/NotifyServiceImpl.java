@@ -535,7 +535,7 @@ public class NotifyServiceImpl implements NotifyService{
 
 	@Override
 	public List<Notification> getLastUserSendedNotification(CustomUserDetails user, Integer num, String old) {
-		return notificationRepo.findLastUserSendedNotification(user.getId(),num, old);
+		return notificationRepo.findLastUserSendedNotification(user.getId(), num, old);
 	}
 	
 	private void notifyEventuallyTags(Scenario s, Post p, Post oldPost, String senderId) {
