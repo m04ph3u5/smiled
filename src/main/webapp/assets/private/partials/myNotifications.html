@@ -2,31 +2,32 @@
 	<div style="width:80%; margin:0 auto; margin-top:30px;" class="row ">
 		<h3>Le mie notifiche</h3>
 		<table class="table">
-		<thead>
-			<th>Notifica</th>
-		    <th>Data</th>
-		    <th>Scenario</th>
-		  
-		</thead>
-		<tr  data-ng-style="n.viewed == false ? { 'background-color':'rgba(224,227,227,0.5)'} : {  }" data-ng-repeat="n in notification.notifications">
-		    <td style="border-bottom:1px solid #ddd;">
-		    	<div class="col-xs-2 hidden-xs">
-		    		<img class="img-circle imgPreviewM" data-ng-src={{notification.getSrcPhoto(n)}} data-err-src={{notification.getErrPhoto(n)}}> 
-				</div>
-				
-				<div class="col-xs-10">
-					<a href="" data-ng-click="notification.clickOnNotify(n)">{{n.text}}</a>
-				</div>
-			</td>
-		    <td style="border-bottom:1px solid #ddd;">{{n.date | date:notification.dateFormat}}</td>
-		    
-		    <td style="border-bottom:1px solid #ddd;"><div class="text-center"><a href="" data-ui-sref="logged.scenario.posts({id : '{{n.scenarioId}}' })"><img class="img-circle imgPreviewM hidden-xs" data-ng-src="api/v1/scenarios/{{n.scenarioId}}/cover"
-											data-err-src="assets/public/img/icon/ic_scen.png"></a><br><b><a href="" data-ui-sref="logged.scenario.posts({id : '{{n.scenarioId}}' })">{{n.scenarioName}}</a></b></div>
-			</td>
-			
-		   
-		</tr>
-		  
+			<thead>
+				<th>Notifica</th>
+			    <th>Data</th>
+			    <th>Scenario</th>
+			  
+			</thead>
+			<div data-infinite-scroll='notification.nextNotification()' data-infinite-scroll-disabled='notification.busy' data-infinite-scroll-distance='1' class="row">
+				<tr  data-ng-style="n.viewed == false ? { 'background-color':'rgba(224,227,227,0.5)'} : {  }" data-ng-repeat="n in notification.notifications">
+				    <td style="border-bottom:1px solid #ddd;">
+				    	<div class="col-xs-2 hidden-xs">
+				    		<img class="img-circle imgPreviewM" data-ng-src={{notification.getSrcPhoto(n)}} data-err-src={{notification.getErrPhoto(n)}}> 
+						</div>
+						
+						<div class="col-xs-10">
+							<a href="" data-ng-click="notification.clickOnNotify(n)">{{n.text}}</a>
+						</div>
+					</td>
+				    <td style="border-bottom:1px solid #ddd;">{{n.date | date:notification.dateFormat}}</td>
+				    
+				    <td style="border-bottom:1px solid #ddd;"><div class="text-center"><a href="" data-ui-sref="logged.scenario.posts({id : '{{n.scenarioId}}' })"><img class="img-circle imgPreviewM hidden-xs" data-ng-src="api/v1/scenarios/{{n.scenarioId}}/cover"
+													data-err-src="assets/public/img/icon/ic_scen.png"></a><br><b><a href="" data-ui-sref="logged.scenario.posts({id : '{{n.scenarioId}}' })">{{n.scenarioName}}</a></b></div>
+					</td>
+					
+				   
+				</tr>
+		  	</div>
 		</table>
 	</div>
 </div>

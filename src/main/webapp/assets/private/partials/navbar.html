@@ -14,7 +14,65 @@
 		 <a data-ui-sref="logged.dashboard" href="">
 		 	<span class="titleNav"><b><i>me</i>schola</b></span>
 		 </a>
-		
+		 <div style="display:inline-block;" >
+		 	<ul class="visible-xs hidden-sm hidden-md hidden-lg " style="margin-top:12px; list-style-type:none;">
+			  <li class="dropdown" >
+			  		  <a data-ng-blur="navbar.onBlurDropDown()" data-ng-click="navbar.clickOnNotificationsButton()" tooltip="Notifiche" href=""  data-toggle="dropdown" style="position:relative;">
+			  		  
+				  		  <span id="noti_Container"> 
+		   					  <span class="glyphicon glyphicon-bullhorn" ></span>
+		    			      <span data-ng-if="navbar.numNewNotifications>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>			      
+						  </span>
+					  </a>
+			          <ul class="dropdown-menu " role="menu" >
+			          
+				          	<div style="width:20em; max-height: 300px; overflow-y: auto; overflow-x:hidden">
+				          	
+				          	
+				          				<li  style ="padding-top:8px;" role="menu-item" data-ng-if="navbar.newNotifications.length==0 && navbar.oldNotifications.length==0"><a href=""><p style="padding-left:10px; padding-right:10px;">Non ci sono nuove notifiche</p> </a><hr style="margin-bottom:0px;"></li>
+				                     
+				                        <li style="background-color:rgba(224,227,227,0.5); padding-top:8px;" role="menu-item" data-ng-repeat="n in navbar.newNotifications track by $index">
+				                        	
+					                      
+					                       			<span style="padding-left:3px; padding-right:7px; float:left; width:10%;">
+					                       				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
+					                       			</span>
+					                       		<a href="" data-ng-click="navbar.clickOnNotify(n)">
+							                     	<p style="margin-left:5px; padding-right:3px; white-space:normal;">    
+							                       				 {{n.text}} <br><br>
+							                       				<span style="float:right;" data-ng-if="!n.formatDate" class="label label-primary">Adesso</span>
+							                       				<span style="float:right;"  data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>
+							                  	    </p>
+												</a>
+					                  		
+					                        <hr data-ng-hide="navbar.newNotifications.length>=10 && $index==navbar.newNotifications.length-1 && navbar.oldNotifications.length>0" style="margin-bottom:0px;">
+				                        	
+				                        </li>
+				                     
+				                     	<li style="padding-top:8px;" role="menu-item" data-ng-repeat="n in navbar.oldNotifications track by $index" data-ng-style="n.viewed == false ? { 'background-color':'rgba(224,227,227,0.5)'} : {  }">
+				                     		
+				                     			<span style="padding-left:7px; padding-right:7px; float:left; width:15%;">
+				                     				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
+				                     			</span>
+				                     			<a href="" data-ng-click="navbar.clickOnNotify(n)">
+						                       		<p style="padding-right:7px; white-space:normal;">    				                      			
+						                      			{{n.text}} <br><br>
+						                      			
+						                      			<span style="float:right;" data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>	
+						                  			</p>	
+						                  		</a>	                     				
+				                     		
+				                     		<hr data-ng-hide="$index==navbar.oldNotifications.length-1" style="margin-bottom:0px;">
+				                     	</li>
+	
+							</div>
+							<li role="menu-item" ><div class="divider" style="border-width:thick;"></div><a href=""><div class="text-center"><span data-ui-sref="logged.myNotifications({id : '{{navbar.user.id}}' })" style="font-size:1.15em; color:#337ab7;"><b>Mostra tutte</b></span></div> </a></li>
+			          </ul>
+	          </li>
+			</ul>
+		 
+		 </div>
+		 
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->
@@ -32,25 +90,9 @@
 				<a style="border: 2px; border-style:dashed; border-color:#cb654f;" tooltip="Le ultime novità introdotte" href="">Novità</a></li>
 			<li>
 				<a data-ui-sref="logged.dashboard" tooltip="Home" href=""><span class="glyphicon glyphicon-home"></span></a></li>
-<!-- 			<li class="dropdown"> -->
-<!-- 				<a href="#"  class="dropdown-toggle" tooltip="Notifiche" data-toggle="dropdown" role="button" aria-expanded="false"> -->
-					
-<!-- 					<span class="glyphicon glyphicon-bullhorn"></span> -->
-<!-- 					<span class="caret"></span> -->
-<!-- 					<span href="#" >6</span> -->
-<!-- 				</a> -->
-<!-- 				<ul class="dropdown-menu" role="menu"> -->
-<!-- <!-- 					<li><a href="#">Notifica 1</a></li> --> 
-<!-- <!-- 					<li><a href="#">Notifica 2</a></li> -->
-<!-- <!-- 					<li><a href="#">Notifica 3</a></li> --> 
-<!-- <!-- 					<li><a href="#">Notifica 4</a></li> --> 
-					
-<!-- <!-- 					<li class="divider"></li> --> 
-<!-- <!-- 					<li><a href="#">Vedi tutte</a></li> --> 
-<!-- 				</ul> -->
-<!-- 			</li> -->
+
 			
-		  <li class="dropdown" >
+		  <li class="dropdown hidden-xs" >
 		  		  <a data-ng-blur="navbar.onBlurDropDown()" data-ng-click="navbar.clickOnNotificationsButton()" tooltip="Notifiche" href=""  data-toggle="dropdown" style="position:relative;">
 		  		  
 		  		  <span id="noti_Container"> 
@@ -58,7 +100,7 @@
     			      <span data-ng-if="navbar.numNewNotifications>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>			      
 				  </span>
 				  </a>
-		          <ul class="dropdown-menu" role="menu" >
+		          <ul class="dropdown-menu " role="menu" >
 		          
 			          	<div style="width:30em; max-height: 400px; overflow-y: auto; overflow-x:hidden">
 			          	
@@ -98,15 +140,7 @@
 			                     		
 			                     		<hr data-ng-hide="$index==navbar.oldNotifications.length-1" style="margin-bottom:0px;">
 			                     	</li>
-			                     	
-			                     	
-			                     	
-	<!-- 		                        <li><a href="#"><span class="label label-primary">8:00 AM</span> How are you?</a></li> -->
-	<!-- 		                        <li role="presentation" class="divider"></li> -->
-	<!-- 		                        <li><a href="#"><span class="label label-primary">9:00 AM</span> What are you doing?</a></li> -->
-	<!-- 		                        <li class="divider"></li> -->
-	<!-- 		                        <li><a href="#" class="text-center">View All</a></li> -->
-	
+
 						</div>
 						<li role="menu-item" ><div class="divider" style="border-width:thick;"></div><a href=""><div class="text-center"><span data-ui-sref="logged.myNotifications({id : '{{navbar.user.id}}' })" style="font-size:1.15em; color:#337ab7;"><b>Mostra tutte</b></span></div> </a></li>
 		          </ul>
@@ -118,11 +152,7 @@
 				data-toggle="dropdown" role="button" aria-expanded="false"><span
 					class="glyphicon glyphicon-envelope"></span><span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
-<!-- 					<li><a href="#">Messaggio 1</a></li> -->
-<!-- 					<li><a href="#">Messaggio 2</a></li> -->
-<!-- 					<li><a href="#">Messaggio 3</a></li> -->
-<!-- 					<li class="divider"></li> -->
-<!-- 					<li><a href="#">Vedi tutti</a></li> -->
+
 				</ul>
 			</li>
 <!-- 				<a href=""><img src="assets/public/img/user_ico.png" class="img-circle" width="20" height="20"> Utente </a> -->

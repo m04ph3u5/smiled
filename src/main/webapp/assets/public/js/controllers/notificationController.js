@@ -1,45 +1,66 @@
-angular.module('smiled.application').controller('notificationCtrl', ['$stateParams','$state', 'userService', 'apiService','CONSTANTS', '$timeout','webSocketService',
-              function characterProfileCtrl($stateParams, $state, userService, apiService, CONSTANTS, $timeout, webSocketService){
+angular.module('smiled.application').controller('notificationCtrl', ['$rootScope', '$stateParams','$state', 'userService', 'apiService','CONSTANTS', '$timeout','webSocketService',
+              function characterProfileCtrl($rootScope, $stateParams, $state, userService, apiService, CONSTANTS, $timeout, webSocketService){
 	
 	var self = this;
-	self.notifications = {};
+	self.notifications = [];
 	self.dateFormat = CONSTANTS.realDateFormatWithMinute;
 	self.user = {};
 	self.user.id="";
 	self.basicCover = {};
+	self.busy=false;
+	var stopScroll=false;
 	
 	self.user = userService.getLastMe();
 	
 	var getMoreRecentNotifications = function(){
 		apiService.getLastUserNotifications("", 10).then(		
 				function(data){
-					formatVerb(data);
-					self.notifications=data;
-					console.log("++++++");
-					console.log(self.notifications);
-					
+					if(data.length==0){
+						stopScroll=true;
+					}else{
+						formatVerb(data);
+						self.notifications=data;
+					}
+					self.busy=false;
 				},
 				function(reason){
 					console.log("problem in getLastUserNotifications");
 					console.log(reason);
+					self.busy=false;
 				}
 			);
 	}
 	
 	
-	self.downloadMoreNotifications = function(){
+	var downloadMoreNotifications = function(){
 		apiService.getLastUserNotifications(self.notifications[self.notifications.length-1].id, 10).then(		
 				function(data){
-					formatVerb(data);
-					self.notifications = self.notifications.concat(data);
+					if(data.length==0){
+						stopScroll=true;
+					}else{
+						formatVerb(data);
+						self.notifications = self.notifications.concat(data);
+					}
+					self.busy=false;
 				},
 				function(reason){
 					console.log("problem in download more notifications");
 					console.log(reason);
+					self.busy=false;
 				}
 			);
 	}
 	
+	self.nextNotification = function(){
+		if(self.busy || stopScroll)
+			return;
+		self.busy=true;
+		if(self.notifications.length==0){
+			getMoreRecentNotifications();
+		}else{
+			downloadMoreNotifications();
+		}
+	}
 	
 	var onStartup = function(){
 		
@@ -53,6 +74,7 @@ angular.module('smiled.application').controller('notificationCtrl', ['$statePara
 	
 	self.clickOnNotify = function(n){
 		
+		$rootScope.$broadcast("notification.setViewedEvent", {id:n.id});
 		n.viewed=true;
 		var view={};
 		view.ids = [];
