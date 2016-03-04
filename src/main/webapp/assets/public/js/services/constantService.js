@@ -1,6 +1,7 @@
 angular.module("smiled.application").constant("CONSTANTS",{
 	"realDateFormatWithHour": "d-M-yyyy H:mm",
 	"realDateFormatWithSecond": "d-M-yyyy H:mm:ss",
+	"realDateFormatWithMinute": "d-M-yyyy H:mm",
 	"realDateFormatWithoutHour": "d-M-yyyy",
 	
 	"realDateFormatOnlyDay" : "d",

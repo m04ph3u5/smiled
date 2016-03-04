@@ -8,6 +8,8 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	self.newNotifications = [];
 	self.oldNotifications = [];
 	self.numNewNotifications=0;
+	self.user = {};
+	self.basicCover = {};
 	
 	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
 	self.iHaveDone = false;
@@ -55,11 +57,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			var reloadAssociation = false;
 			
 				for(var i=0; i<notifications.length; i++){
-					if(notifications[i].verb == "NEW_POST"){
-						notifications[i].text = "Nuovo post nello scenario "+ notifications[i].scenarioName;
-					}
-						
-					else if(notifications[i].verb == "COMMENT_TO_POST"){
+					if(notifications[i].verb == "COMMENT_TO_POST"){
 						if(self.user.id==notifications[i].mainReceiver)
 							notifications[i].text = notifications[i].actorName +" ha commentato un tuo post nello scenario "+notifications[i].scenarioName;
 						else
