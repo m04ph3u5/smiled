@@ -1215,6 +1215,18 @@ public class ScenarioServiceImpl implements ScenarioService{
 		
 		return post;
 	}
+	
+	@Override
+	public List<Post> getLastNPost(String scenarioId, String lastPostId, Integer nItem, Boolean historicOrder,
+			Boolean orderDesc) {
+		if(!historicOrder && orderDesc)
+			return postRepository.findLastInNaturalOrderDesc(scenarioId, lastPostId, nItem);
+		else if(!historicOrder && !orderDesc)
+			return postRepository.findLastInNaturalOrderAsc(scenarioId, lastPostId, nItem);
+		
+		else
+			return null;
+	}
 
 
 	//Questo metodo � pensato per ritornare la lista paginata di post dello Scenario con quello scenarioId se characterId=null,

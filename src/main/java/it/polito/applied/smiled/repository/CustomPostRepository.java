@@ -27,5 +27,6 @@ public interface CustomPostRepository {
 	public List<Post> findByIds(List<String> toRetrieveListIds);
 	public void deleteFileFromPost(String postId, FileReference f);
 	public void deleteImageFromPost(String postId, FileReference f);
-
+	public List<Post> findLastInNaturalOrderDesc(String scenarioId, String lastPostId, Integer nItem);
+	public List<Post> findLastInNaturalOrderAsc(String scenarioId, String lastPostId, Integer nItem);
 }

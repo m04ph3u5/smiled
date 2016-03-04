@@ -628,11 +628,22 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				}
 			});
 			
-			scope.$on('notification.generateAlertUpd', function(event, data){
+			var alertListener = scope.$on('notification.generateAlertUpd', function(event, data){
 				if(ctrl.editPost && ctrl.post.id==data.id){
-					
+					modalService.showConcurrentModPost().then(
+							function(data){
+								;
+							},
+							function(reason){
+								ctrl.closeEditPost();
+							}
+					);
 				}
 			})
+			
+			scope.$on('$destroy', function(){
+				alertListener();
+			});
 			
 
 

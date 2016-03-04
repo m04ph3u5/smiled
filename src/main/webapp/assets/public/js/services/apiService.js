@@ -307,6 +307,25 @@
 		return c.promise;
 	}
 	
+	
+	var getLastPosts = function(id, lastPostId, nItem){
+	
+		var c = $q.defer();
+
+		$http.get("/api/v1/scenarios/"+id+"/posts", {
+			params: { "last": lastPostId, "nItem": nItem}}).then(
+					function(response){
+						c.resolve(response.data);
+					},
+					function(reason){
+						c.reject(reason);
+					}
+			);
+
+		return c.promise;
+	}
+	
+	
 	var getListOfNewPosts = function(id, listOfPosts){
 		var s = $q.defer();
 
@@ -851,7 +870,8 @@
 		getMyDraft : getMyDraft,
 		deleteMedia : deleteMedia, 
 		getListOfNewPosts : getListOfNewPosts,
-		getLastUserNotifications : getLastUserNotifications
+		getLastUserNotifications : getLastUserNotifications,
+		getLastPosts : getLastPosts
 		
 	}
 

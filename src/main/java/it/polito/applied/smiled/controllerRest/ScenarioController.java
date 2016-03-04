@@ -339,10 +339,30 @@ public class ScenarioController extends BaseController{
 		return scenarioService.getPost (id,postId, auth);
 	}
 
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/{id}/posts", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
+	public List<Post> getPostsOlderThan(@PathVariable String id, @RequestParam(value = "last", required=false) String lastPostId, @RequestParam(value = "nItem", required=false) Integer nItem,
+			@RequestParam(value = "historicOrder", required=false) Boolean historicOrder, @RequestParam(value = "orderDesc", required=false) Boolean orderDesc){
+		
+		if(historicOrder==null){
+			historicOrder=false;
+		}
+		if(orderDesc==null){
+			orderDesc=true;
+		}
+		if(nItem==null || nItem<=0)
+			nItem=5;
+		if(nItem>10)
+			nItem=10;
+		//TODO ATTENZIONE!!!! Per le revisione gestire il MODIFIED_TO_NOT_VISIBLE
+		return scenarioService.getLastNPost(id, lastPostId, nItem, historicOrder, orderDesc);
+	}
 
 
 	@ResponseStatus(value = HttpStatus.OK)
-	@RequestMapping(value="/v1/scenarios/{id}/posts", method=RequestMethod.GET)
+	@RequestMapping(value="/v1/scenarios/{id}/paged-posts", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
 	public Page<Post> getPagedPosts(@PathVariable String id, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "historicOrder", required=false) Boolean historicOrder, @RequestParam(value = "orderDesc", required=false) Boolean orderDesc) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 

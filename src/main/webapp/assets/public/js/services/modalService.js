@@ -37,6 +37,12 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceDeleteResource;
 		var modalInstanceDeletePost;
 		var modalInstanceConfirmRegistration;
+		var modalInstanceConcurrentModPost;
+		
+		var optionsConcurrentModPost = {
+				templateUrl: 'assets/private/partials/concurrentModPostTemplate.html',
+		}
+
 		
 		var optionSetHistoryDate = {
 				templateUrl: 'assets/private/partials/customDatePickerTemplate.html',
@@ -430,6 +436,16 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var closeModalDeletePost = function(){
 			modalInstanceDeletePost.close();
 		}
+		
+		var showConcurrentModPost = function(){
+			modalInstanceConcurrentModPost = $modal.open(optionsConcurrentModPost);
+			return modalInstanceConcurrentModPost.result;
+			
+		}
+		
+		var closeModalConcurrentModPost = function(){
+			modalInstanceConcurrentModPost.close();
+		}
 			
 		return {
 			createScenario : createScenario,
@@ -467,7 +483,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalDeletePost : closeModalDeletePost,
 			showModalConfirmRegistration : showModalConfirmRegistration,
 			getRegistrationToConfirm : getRegistrationToConfirm,
-			closeModalConfirmRegistration : closeModalConfirmRegistration
+			closeModalConfirmRegistration : closeModalConfirmRegistration,
+			showConcurrentModPost: showConcurrentModPost,
+			closeModalConcurrentModPost : closeModalConcurrentModPost
 		}
 }]);
 

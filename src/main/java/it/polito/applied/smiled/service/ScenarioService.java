@@ -119,5 +119,7 @@ public interface ScenarioService {
 	public List<MissionDTO> getUserMissions(CustomUserDetails activeUser);
 
 	public void lastUpdateScenario(String scenarioId, Date d);
+	public List<Post> getLastNPost(String id, String lastPostId, Integer nItem, Boolean historicOrder,
+			Boolean orderDesc);
 	
 }
