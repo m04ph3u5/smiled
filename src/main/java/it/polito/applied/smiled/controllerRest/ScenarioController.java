@@ -44,8 +44,6 @@ import it.polito.applied.smiled.pojo.scenario.CommentDTO;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.rabbit.Notification;
-import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.security.CustomUserDetails;
 import it.polito.applied.smiled.service.LogService;
 import it.polito.applied.smiled.service.ScenarioService;

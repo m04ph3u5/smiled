@@ -1,5 +1,28 @@
+<style>
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+
 <div class="container-fluid">
 	<div style="margin-top:30px;" class="row text-center">
-		<h4>Pagina in costruzione!</h4>
+		<h3>Le mie notifiche</h3>
+		<table>
+		  <tr data-ng-repeat="n in notification.notifications">
+		    <td>{{n.verb}}</td>
+		    <td>{{n.date}}</td>
+		    <td>{{n.scenarioId}}</td>
+		  </tr>
+		  
+	</table>
 	</div>
 </div>
+
