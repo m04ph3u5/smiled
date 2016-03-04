@@ -5,6 +5,8 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.currentCharacter = $scope.scenario.currentCharacter;
 	self.posts = [];
 	
+	var scrollable = CONSTANTS.numberOfPostForScroll;
+	
 	
 //	self.newPost = {};
 //	self.newPost.date = {
@@ -76,9 +78,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		self.busy=true;
 		console.log("NEXT POST");
 		if(self.posts.length==0){
-			self.getPost("",2);
+			self.getPost("",scrollable);
 		}else{
-			self.getPost(self.posts[self.posts.length-1].id,2);
+			self.getPost(self.posts[self.posts.length-1].id,scrollable);
 		}
 	}
 	

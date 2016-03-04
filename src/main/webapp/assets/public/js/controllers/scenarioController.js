@@ -73,7 +73,8 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.showNewPosts = function(){		
 		notifyService.reloadList(); //dico al notifyService di avvertire scenarioPostController che ci sono nuovi post da scaricare
 		resetNumNewPost();
-
+		$location.hash("top");
+	    $anchorScroll();
 	}
 	
 	var reloadMe = function(){

@@ -7,69 +7,92 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         	var numMediaPerRow = 3;
         	var order=true;
         	self.showFromEnd = true;
+        	var scrollable = CONSTANTS.numberOfPostForScroll;
+        
+        	self.busy=false;
+        	var stopScroll=false;
         	
-        	var getPost = function(){
-		    	apiService.getPagedPosts($scope.scenario.scen.id, 0, 300, true, order).then(
+        	
+        	self.nextPost = function(){
+        		if(self.busy || stopScroll)
+        			return;
+        		self.busy=true;
+        		console.log("NEXT POST");
+        		if(self.posts.length==0){
+        			getPost();
+        		}else{
+        			getPost(self.posts[self.posts.length-1].julianDayNumber,self.posts[self.posts.length-1].timeNumber);
+        		}
+        	}
+        	
+        	var getPost = function(date, time){
+        	
+		    	apiService.getLastHistoricPosts($scope.scenario.scen.id, scrollable, order, date, time).then(
 		    			function(data){
-		    				console.log(data);
-		    				self.posts = data.content;
+		    				var arrivedPosts = data;
+		    				if(arrivedPosts.length==0){
+		    					stopScroll=true;
+		    					return;
+		    				}
 		    				console.log("----------------------->POST");
-		    				for(var i=0; i<self.posts.length;i++){
+		    				for(var i=0; i<arrivedPosts.length;i++){
 		  					
-		    					if(self.posts[i].character && self.posts[i].character.id){
-		    						self.posts[i].character.cover = CONSTANTS.urlCharacterCover($scope.scenario.scen.id,self.posts[i].character.id);
-		    						console.log(self.posts[i].character.cover);
-		    						for(var j=0; j<self.posts[i].likes.length; j++){
-		    							if(self.posts[i].likes[j].id==self.posts[i].character.id){
-		    								self.posts[i].youLike=true;
+		    					if(arrivedPosts[i].character && arrivedPosts[i].character.id){
+		    						arrivedPosts[i].character.cover = CONSTANTS.urlCharacterCover($scope.scenario.scen.id,arrivedPosts[i].character.id);
+		    						for(var j=0; j<arrivedPosts[i].likes.length; j++){
+		    							if(arrivedPosts[i].likes[j].id==arrivedPosts[i].character.id){
+		    								arrivedPosts[i].youLike=true;
 		    								break;
 		    							}
 		    						}
 		    					}else{
-		    						self.posts[i].character = {};
-		    						self.posts[i].character.name="Narratore";
-		    						self.posts[i].character.cover="assets/public/img/narr.png";
-		    						self.posts[i].isEvent = true;
+		    						arrivedPosts[i].character = {};
+		    						arrivedPosts[i].character.name="Narratore";
+		    						arrivedPosts[i].character.cover="assets/public/img/narr.png";
+		    						arrivedPosts[i].isEvent = true;
 		    					}
-		    					if(self.posts[i].comments){
-		    						for(var j=0; j<self.posts[i].comments.length; j++){
-		    							self.posts[i].comments[j].character.cover = CONSTANTS.urlCharacterCover($scope.scenario.scen.id,self.posts[i].comments[j].character.id);
+		    					if(arrivedPosts[i].comments){
+		    						for(var j=0; j<arrivedPosts[i].comments.length; j++){
+		    							arrivedPosts[i].comments[j].character.cover = CONSTANTS.urlCharacterCover($scope.scenario.scen.id,arrivedPosts[i].comments[j].character.id);
 		    						}
 		    					}
-		    					if(self.posts[i].imagesMetadata){
-		    						self.posts[i].media = new Array();
-		    						self.posts[i].media[0] = new Array();
+		    					if(arrivedPosts[i].imagesMetadata){
+		    						arrivedPosts[i].media = new Array();
+		    						arrivedPosts[i].media[0] = new Array();
 		    						var col = -1;
 		    						var row = 0;
-		    						for(var j=0; j<self.posts[i].imagesMetadata.length;j++){
+		    						for(var j=0; j<arrivedPosts[i].imagesMetadata.length;j++){
 										console.log("IN: "+1%numMediaPerRow);
 		    							if(j!=0 && j%numMediaPerRow==0){
 		    								col=0;
 		    								row++;
-		    								self.posts[i].media[row] = new Array();
+		    								arrivedPosts[i].media[row] = new Array();
 		    							}else{
 		    								col++;
 		    							}
-		    							console.log("Row/col: "+row+" "+col);
-		    							self.posts[i].media[row][col] = CONSTANTS.urlMediaThumb(self.posts[i].imagesMetadata[j].id);
-		    							self.posts[i].imagesMetadata[j].url = CONSTANTS.urlMedia(self.posts[i].imagesMetadata[j].id);
+		    							arrivedPosts[i].media[row][col] = CONSTANTS.urlMediaThumb(arrivedPosts[i].imagesMetadata[j].id);
+		    							arrivedPosts[i].imagesMetadata[j].url = CONSTANTS.urlMedia(arrivedPosts[i].imagesMetadata[j].id);
 		    						}
 		    					}
-		    					console.log(self.posts[i]);
+		    					console.log(arrivedPosts[i]);
+		    					self.posts.push(angular.copy(arrivedPosts[i]));
 		    				}
+	    					self.busy=false;
 		    			}, function(reason){
 		    				console.log("errore");
+	    					self.busy=false;
 		    			}
 		    	);
 			}
         	
-        	getPost();
+//        	getPost();
         	
         	self.switchOrder = function(o){
-        		if(o!=order){
-	        		order = o;
-	        		getPost();
-        		}
+        		order = !order;
+        		self.posts=[];
+        		self.busy=false;
+        		stopScroll=false;
+        		
         	}
         	
         	self.getPosition = function(index){

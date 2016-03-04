@@ -1,21 +1,5 @@
 package it.polito.applied.smiled.repository;
 
-import it.polito.applied.smiled.pojo.FileMetadata;
-import it.polito.applied.smiled.pojo.FileReference;
-import it.polito.applied.smiled.pojo.PostReverseDateComparator;
-import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
-import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorDesc;
-import it.polito.applied.smiled.pojo.scenario.Comment;
-import it.polito.applied.smiled.pojo.scenario.CommentInterface;
-import it.polito.applied.smiled.pojo.scenario.Event;
-import it.polito.applied.smiled.pojo.scenario.MetaComment;
-import it.polito.applied.smiled.pojo.scenario.Post;
-import it.polito.applied.smiled.pojo.scenario.PostStatus;
-import it.polito.applied.smiled.pojo.scenario.Revision;
-import it.polito.applied.smiled.pojo.scenario.RevisionStatus;
-import it.polito.applied.smiled.pojo.scenario.Status;
-import it.polito.applied.smiled.pojo.user.User;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +17,20 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.WriteResult;
+
+import it.polito.applied.smiled.pojo.FileReference;
+import it.polito.applied.smiled.pojo.PostReverseDateComparator;
+import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
+import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorDesc;
+import it.polito.applied.smiled.pojo.scenario.Comment;
+import it.polito.applied.smiled.pojo.scenario.CommentInterface;
+import it.polito.applied.smiled.pojo.scenario.Event;
+import it.polito.applied.smiled.pojo.scenario.MetaComment;
+import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.PostStatus;
+import it.polito.applied.smiled.pojo.scenario.Revision;
+import it.polito.applied.smiled.pojo.scenario.RevisionStatus;
+import it.polito.applied.smiled.pojo.scenario.Status;
 
 public class PostRepositoryImpl implements CustomPostRepository{
 
@@ -72,14 +70,20 @@ public class PostRepositoryImpl implements CustomPostRepository{
 	}
 
 	@Override
-	public Post updatePost(String statusId, Update u) {
-		
+	public Post updatePost(String statusId, Update u, boolean toPublish) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").is(statusId));
 		FindAndModifyOptions options = new FindAndModifyOptions();
 		options.returnNew(true);
-		return mongoOp.findAndModify(q, u, options,Post.class);
-		
+		Post p = mongoOp.findAndModify(q, u, options,Post.class);
+		if(!toPublish)
+			return p;
+		else{
+			mongoOp.findAndRemove(q, Post.class);
+			p.setId(null);
+			mongoOp.insert(p, "post");
+			return p;
+		}
 	}
 
 	@Override
@@ -253,6 +257,50 @@ public class PostRepositoryImpl implements CustomPostRepository{
 					.andOperator(Criteria.where("_id").gt(new ObjectId(lastPostId))
 					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED))));
 		q.with(new Sort(Sort.Direction.ASC, "id"));
+		q.limit(nItem);
+
+		return mongoOp.find(q, Post.class);
+	}
+
+	@Override
+	public List<Post> findLastInHistoricOrderDesc(String scenarioId, Long date, Integer time, Integer nItem) {
+		Query q = new Query();
+		if(date==null)
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)));
+		else{
+			Criteria c1 = new Criteria();
+			c1.andOperator(Criteria.where("julianDayNumber").is(date),Criteria.where("timeNumber").lt(time));
+			Criteria c2 = new Criteria();
+			c2.orOperator(c1, Criteria.where("julianDayNumber").lt(date));
+			
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(c2
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED))));
+		}
+		q.with(new Sort(new Sort.Order(Sort.Direction.DESC, "julianDayNumber"), new Sort.Order(Sort.Direction.DESC, "timeNumber")));
+		q.limit(nItem);
+
+		return mongoOp.find(q, Post.class);
+	}
+
+	@Override
+	public List<Post> findLastInHistoricOrderAsc(String scenarioId, Long date, Integer time, Integer nItem) {
+		Query q = new Query();
+		if(date==null)
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)));
+		else{
+			Criteria c1 = new Criteria();
+			c1.andOperator(Criteria.where("julianDayNumber").is(date),Criteria.where("timeNumber").gt(time));
+			Criteria c2 = new Criteria();
+			c2.orOperator(c1, Criteria.where("julianDayNumber").gt(date));
+			
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(c2
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED))));
+		}
+		q.with(new Sort(new Sort.Order(Sort.Direction.ASC, "julianDayNumber"), new Sort.Order(Sort.Direction.ASC, "timeNumber")));
 		q.limit(nItem);
 
 		return mongoOp.find(q, Post.class);

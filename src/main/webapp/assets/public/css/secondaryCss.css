@@ -430,3 +430,13 @@ span.clickable:hover {
 	display: none; 
 }
 
+.overlay-new-post {
+	position: fixed;
+	z-index: 10;
+	padding-top:3.4em;
+    top:0;
+    margin-left: auto;
+    margin-right: auto;
+	left: 0;
+	right: 0;"
+}

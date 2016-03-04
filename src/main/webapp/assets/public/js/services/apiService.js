@@ -325,6 +325,38 @@
 		return c.promise;
 	}
 	
+	var getLastHistoricPosts = function(id, nItem, order, date, time){
+		var first=false;
+		if(typeof date === 'undefined'){ 
+			first = true; 
+		}
+		var c = $q.defer();
+
+		if(first){
+			$http.get("/api/v1/scenarios/"+id+"/historic-posts", {
+				params: {"nItem": nItem, "orderDesc": order}}).then(
+						function(response){
+							c.resolve(response.data);
+						},
+						function(reason){
+							c.reject(reason);
+						}
+				);
+		}else{
+			$http.get("/api/v1/scenarios/"+id+"/historic-posts", {
+				params: {"nItem": nItem, "orderDesc": order, "date": date, "time":time}}).then(
+						function(response){
+							c.resolve(response.data);
+						},
+						function(reason){
+							c.reject(reason);
+						}
+				);
+		}
+
+		return c.promise;
+	}
+	
 	
 	var getListOfNewPosts = function(id, listOfPosts){
 		var s = $q.defer();
@@ -871,7 +903,8 @@
 		deleteMedia : deleteMedia, 
 		getListOfNewPosts : getListOfNewPosts,
 		getLastUserNotifications : getLastUserNotifications,
-		getLastPosts : getLastPosts
+		getLastPosts : getLastPosts,
+		getLastHistoricPosts: getLastHistoricPosts
 		
 	}
 

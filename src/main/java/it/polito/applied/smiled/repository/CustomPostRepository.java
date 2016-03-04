@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.query.Update;
 public interface CustomPostRepository {
 	
 	public Page<Post> customPageableFindAll(List<String> postsId, int size, Pageable p, boolean historicOrder, Boolean orderDesc, String userId, boolean moderator);	
-	public Post updatePost(String statusId, Update u);
+	public Post updatePost(String statusId, Update u, boolean toPublish);
 	public boolean deletePost(String postId);
 	public boolean putInDeleteStatus(String id);
 	public boolean addRevision(String postId, String scenarioId, Revision revision);
@@ -29,4 +29,6 @@ public interface CustomPostRepository {
 	public void deleteImageFromPost(String postId, FileReference f);
 	public List<Post> findLastInNaturalOrderDesc(String scenarioId, String lastPostId, Integer nItem);
 	public List<Post> findLastInNaturalOrderAsc(String scenarioId, String lastPostId, Integer nItem);
+	public List<Post> findLastInHistoricOrderDesc(String scenarioId, Long date, Integer time, Integer nItem);
+	public List<Post> findLastInHistoricOrderAsc(String scenarioId, Long date, Integer time, Integer nItem);
 }

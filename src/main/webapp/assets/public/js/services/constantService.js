@@ -11,6 +11,7 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	"historicalDateOutInterval": "Inserisci una data valida nell'intervallo dello scenario",
 	"lengthOfTooltipLikesList" : 10,
 	"visibleComment": 3,
+	"numberOfPostForScroll" : 10,
 	"basicTeacherCover" : "assets/public/img/ic_teacher.png",
 	"basicStudentCover" : "assets/public/img/ic_student.png",
 //	"regexForSearchTag" : "/\b[A-Z][-'a-zA-Z]+,?\s[A-Z][-'a-zA-Z]{0-19}\b/",

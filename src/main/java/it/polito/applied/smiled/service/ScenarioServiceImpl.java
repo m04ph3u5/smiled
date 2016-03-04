@@ -85,16 +85,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private CharacterRepository characterRepository;
-	
+
 	@Autowired
 	private PostRepository postRepository;
-	
+
 	@Autowired 
 	private UserService userService;
-	
+
 	@Autowired
 	private GridFsManager gridFsManager;
 
@@ -103,16 +103,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Autowired
 	private SmiledPermissionEvaluator permissionEvaluator;
-	
+
 	@Autowired
 	private AsyncUpdater asyncUpdater;
-		
+
 	@Autowired
 	private FileManagerService fileService;
-	
+
 	@Autowired
 	private NotifyService notify;
-	
+
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
 		try{
@@ -147,7 +147,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			Scenario oldScenario = scenarioRepository.findById(id);
 			if(oldScenario.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
-			
+
 			Scenario scenarioUpdated;
 			//TODO
 			/*Log di chi aggiorna cosa*/
@@ -161,7 +161,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			//TODO controllare
 			u.set("showRelationsToAll", scenario.isShowRelationsToAll());
-			
+
 			if(scenario.getHistory()!=null){
 				if(scenario.getHistory().getDescription()!=null){
 					u.set("history.description", scenario.getHistory().getDescription());
@@ -181,8 +181,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(newStatus != null){
 				u.set("status", scenario.getStatus());
 			}
-			
-			
+
+
 			Date actualDate = new Date();
 			u.set("lastUpdateDate", actualDate);
 			if(newStatus!= null && newStatus.equals(ScenarioStatus.ACTIVE) && !oldScenario.getStatus().equals(ScenarioStatus.ACTIVE)){
@@ -194,11 +194,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(scenario.getName()!=null && !oldScenario.getName().equals(scenarioUpdated.getName())){
 				updateNameInReferenceOfAllPeopleInScenario(user.getId(), scenarioUpdated);
 			}
-			
-			
-			
-			
-			
+
+
+
+
+
 			/*Inserisco lo scenario nelle liste degli utenti (openScenarios o closedScenarios) partecipanti o collaboratori*/
 			if(newStatus!=null && (newStatus.equals(ScenarioStatus.ACTIVE) || newStatus.equals(ScenarioStatus.CLOSED))){
 				/*Lista che contiene tutti gli utenti dello scenario ad eccezione degli invited*/
@@ -207,9 +207,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 				 * Questa lista viene creata per rimuovere i permessi ai soli utenti non collaboratori (teacher), per peremettere loro di 
 				 * continuare a modificare lo scenario anche dopo la chiusura dello stesso. (NON CONTIENE GLI INVITED)*/
 				List<String> userNotTeacherCollaborators = new ArrayList<String>();
-				
+
 				List<String> invited = new ArrayList<String>();
-				
+
 				if(scenarioUpdated.getAttendees()!=null){
 					for (Reference r: scenarioUpdated.getAttendees()){
 						usersId.add(r.getId());
@@ -223,7 +223,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 							userNotTeacherCollaborators.add(r.getId());
 					}
 				}
-				
+
 				if(scenarioUpdated.getInvited()!=null){
 					for(Reference r: scenarioUpdated.getInvited()){
 						invited.add(r.getId());
@@ -243,17 +243,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 						}
 					}
 					notify.notifyCloseScenario(scenarioUpdated, r);
-		
+
 					/*Chiudo lo scenario per tutti i partecipanti, compreso il creatore.
 					 * Il service chiuderà in modo sincrono lo scenario per il teacher che chiude lo scenario, in modo asincrono per tutti
 					 * gli altri utenti*/
 					usersId.add(scenarioUpdated.getTeacherCreator().getId());
 					userService.closeScenarioOfUsers(scenarioUpdated.getId(),user.getId(),usersId);
-					
+
 					/*Quando uno scenario viene chiuso si lascia solo al Creator e ai moderatori Teacher la possibilità di continuare 
 					 * a modificare lo scenario*/
 					permissionEvaluator.updatePermissions(userNotTeacherCollaborators, Scenario.class, scenarioUpdated.getId(), "READ");
-					
+
 					/*Quando chiudo uno scenario rimuovo, dagli utenti presenti nella lista di invited, il riferimento a quello scenario,
 					 * a prescindere da quale lista di scenari (open, closed, inviting) contenga lo scenario nello user stesso.*/
 					userService.removeScenarioFromUsers(invited, scenarioUpdated.getId());
@@ -283,7 +283,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					notify.notifyOpenScenario(scenarioUpdated, r);
 				}
 			}
-			
+
 			return scenarioUpdated;
 		}catch(MongoException e){
 			throw e;
@@ -300,10 +300,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 				idOfPeopleToUpdate.add(scenario.getAttendees().get(i).getId());
 			}
 		if(scenario.getCollaborators() != null)
-		for(int i=0; i < scenario.getCollaborators().size(); i++){
-			if(!scenario.getCollaborators().get(i).getId().equals(callerId))
-				idOfPeopleToUpdate.add(scenario.getCollaborators().get(i).getId());
-		}
+			for(int i=0; i < scenario.getCollaborators().size(); i++){
+				if(!scenario.getCollaborators().get(i).getId().equals(callerId))
+					idOfPeopleToUpdate.add(scenario.getCollaborators().get(i).getId());
+			}
 		if(!scenario.getTeacherCreator().getId().equals(callerId))
 			idOfPeopleToUpdate.add(scenario.getTeacherCreator().getId());
 		asyncUpdater.updateNameOfScenarioReference(idOfPeopleToUpdate, scenario, scenario.getName());
@@ -353,33 +353,33 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public List<Reference> subscribeStudentIfNotPresent(List<EmailDTO> studentsEmail, String teacherId, String scenarioId) throws BadRequestException, MongoException{
 		try{
-			
+
 			/*Lista di Reference che sarà ritornata dal metodo*/
 			List<Reference> l = new ArrayList<Reference>();
 			Map<String, String> toSendEmail = new HashMap<String, String>();
-			
+
 			/*Recupero il Teacher che sta provando a fare questa operazione e ne genero il Reference (utile nelle liste degli Student,
 			 * oltre che nello Scenario). Ovviamente non può essere NULL*/
 			Teacher teacher = (Teacher) userRepository.findById(teacherId);
 			if(teacher==null)
 				throw new BadRequestException();
 			Reference teacherRef = new Reference(teacher);
-			
+
 			/*Prelevo lo scenario a cui voglio aggiungere gli utenti e ne istanzio un Reference (i parametri relativi al Character saranno NULL).*/
 			Scenario scen = scenarioRepository.findById(scenarioId);
 			ScenarioReference scenarioRef = new ScenarioReference(scen);
-			
+
 			/*Se lo scenario è chiuso non è possibile aggiungere studenti ad esso*/
 			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
-			
-			
+
+
 			if(studentsEmail!=null){
 				/*Per ogni email presente nella lista*/
 				for(EmailDTO emailDTO : studentsEmail){
-					
+
 					emailDTO.setEmail(emailDTO.getEmail().toLowerCase());
-					
+
 					/*Controllo se l'email che mi è stata inviata è già registrata all'interno dello scenario*/
 					if(userAlreadyPresentInScenario(emailDTO.getEmail(),scen))
 						continue;
@@ -391,18 +391,18 @@ public class ScenarioServiceImpl implements ScenarioService{
 						/*Genero una password di default da 10 caratteri alfanumerici e ne calcolo l'hash con BCrypt*/	
 						String pwd = RandomStringUtils.random(10,true,true);
 						String hashPassword=passwordEncoder.encode(pwd);
-		
+
 						User student;
 						/*Se lo scenario è gia ACTIVE, genero un nuovo Student contenente già nella lista dei suoi openScenarios il Reference allo
 						 * Scenario a cui la richiesta si riferisce.*/
 						if(scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 							student = new Student(emailDTO.getEmail(),teacherRef,hashPassword, scenarioRef);
-						/*Se lo scenario è in uno degli stati CREATED_Vx, genero un nuovo Student contenente invece l'id dello Scenario all'interno
-						 * della lista dei suoi invitingScenario.*/
+							/*Se lo scenario è in uno degli stati CREATED_Vx, genero un nuovo Student contenente invece l'id dello Scenario all'interno
+							 * della lista dei suoi invitingScenario.*/
 						}else{
 							student = new Student(emailDTO.getEmail(),teacherRef,hashPassword, scenarioId);
 						}
-						
+
 						try{
 							/*Provo a salvare lo studente nel Repository User. Il salvataggio potrebbe non andare a buon fine (vedi blocco catch),
 							 * nel caso qualche altro Teacher inserisca lo Student tra la find precedente e questa save.*/
@@ -421,10 +421,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 							 * vuol dire che c'è stata una violazione dei vincoli sul repository degli utenti (l'unico possibile è l'unicità 
 							 * della mail all'interno del repository, oltre che dell'id naturalmente).*/
 							u = userRepository.findByEmail(emailDTO.getEmail());
-							
+
 							if(u.getClass().equals(Student.class)){
 								ref = new Reference(u);
-								
+
 								if(u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD) && !scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 									userRepository.addInvitingScenario(ref.getId(), scen.getId());
 									scenarioRepository.addUserToInvited(scen.getId(), ref);
@@ -441,17 +441,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 									scenarioRepository.addAttendeeToScenario(ref, scen.getStatus(), scen.getId());
 									permissionEvaluator.addPermission(u.getId(), Scenario.class, "WRITE", scen.getId());
 								}
-								
-		
+
+
 								if(!l.contains(ref))
 									l.add(ref);
 							}
 						}
 					}else{ //u!=NULL
-						
+
 						if(u.getClass().equals(Student.class)){
 							ref = new Reference(u);
-							
+
 							if(u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD) && !scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 								userRepository.addInvitingScenario(ref.getId(), scen.getId());
 								scenarioRepository.addUserToInvited(scen.getId(), ref);
@@ -469,29 +469,29 @@ public class ScenarioServiceImpl implements ScenarioService{
 								scenarioRepository.addAttendeeToScenario(ref, scen.getStatus(), scen.getId());
 								permissionEvaluator.addPermission(u.getId(), Scenario.class, "WRITE", scen.getId());
 							}
-							
-	
+
+
 							if(!l.contains(ref))
 								l.add(ref);
-							
+
 							notify.notifyNewAttendee(scen, teacherRef, u.getId());
 						}
 					}
 				}
 			}
-			
+
 			asyncUpdater.sendStudentsRegistrationEmail(toSendEmail,teacherRef);
-			
+
 			return l;
-			
+
 		}catch(MongoException e){
 			throw e;
 		}
 	}
-	
+
 	private boolean userAlreadyPresentInScenario(String userEmail, Scenario scen){
 		boolean alreadyPresent=false;
-		
+
 		if(scen.getInvited()!=null){
 			for(Reference r : scen.getInvited())
 				if(r.getEmail().equals(userEmail)){
@@ -499,7 +499,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					break;
 				}
 		}
-		
+
 		if(scen.getAttendees()!=null){
 			for(Reference r : scen.getAttendees())
 				if(r.getEmail().equals(userEmail)){
@@ -507,7 +507,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					break;
 				}
 		}
-		
+
 		if(scen.getCollaborators()!=null){
 			for(Reference r : scen.getCollaborators())
 				if(r.getEmail().equals(userEmail)){
@@ -515,37 +515,37 @@ public class ScenarioServiceImpl implements ScenarioService{
 					break;
 				}
 		}
-		
+
 		return alreadyPresent;
 	}
 
-	
 
-//	//Rimuove una lista di user
-//	@Override
-//	public void removeUsersFromScenario(String id, List<String> usersToDelete) throws MongoException, BadRequestException{
-//		try{
-//
-//			Scenario scen = scenarioRepository.findById(id);
-//			if (scen == null)
-//				throw new BadRequestException();
-//			//Dagli scenari chiusi non si possono rimuovere gli user
-//			if( scen.getStatus().equals(ScenarioStatus.CLOSED)) 
-//				throw new BadRequestException();
-//			//Se lo scenario � attivo aggiorno anche gli users che sto togliendo
-//			if( scen.getStatus().equals(ScenarioStatus.ACTIVE)){ 
-//				removeUsersFromCharacters(usersToDelete,scen);
-//				int n = userService.removeScenarioFromUsers(usersToDelete, id);
-//				int p = permissionEvaluator.removePermissions(usersToDelete, Scenario.class, id);
-//
-//				System.out.println("removeUsersFromScenario\n\nusersToDelete: "+usersToDelete.size()+"\nremoveScenario: "+n+"\npermissionEvaluator: "+p);
-//			}
-//			int n=scenarioRepository.removeUsersFromScenario(id, scen.getStatus(), usersToDelete.toArray());
-//
-//		}catch(MongoException e){
-//			throw e;
-//		}
-//	}
+
+	//	//Rimuove una lista di user
+	//	@Override
+	//	public void removeUsersFromScenario(String id, List<String> usersToDelete) throws MongoException, BadRequestException{
+	//		try{
+	//
+	//			Scenario scen = scenarioRepository.findById(id);
+	//			if (scen == null)
+	//				throw new BadRequestException();
+	//			//Dagli scenari chiusi non si possono rimuovere gli user
+	//			if( scen.getStatus().equals(ScenarioStatus.CLOSED)) 
+	//				throw new BadRequestException();
+	//			//Se lo scenario � attivo aggiorno anche gli users che sto togliendo
+	//			if( scen.getStatus().equals(ScenarioStatus.ACTIVE)){ 
+	//				removeUsersFromCharacters(usersToDelete,scen);
+	//				int n = userService.removeScenarioFromUsers(usersToDelete, id);
+	//				int p = permissionEvaluator.removePermissions(usersToDelete, Scenario.class, id);
+	//
+	//				System.out.println("removeUsersFromScenario\n\nusersToDelete: "+usersToDelete.size()+"\nremoveScenario: "+n+"\npermissionEvaluator: "+p);
+	//			}
+	//			int n=scenarioRepository.removeUsersFromScenario(id, scen.getStatus(), usersToDelete.toArray());
+	//
+	//		}catch(MongoException e){
+	//			throw e;
+	//		}
+	//	}
 
 	private void removeUserFromCharacters(String userToDelete,	Scenario scen) {
 		if(scen.getCharacters()!=null){
@@ -573,8 +573,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			//Dagli scenari chiusi non si possono rimuovere gli user
 			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
-			
-			
+
+
 			if(scen.getCollaborators()==null)
 				throw new BadRequestException();
 			else{
@@ -587,10 +587,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			if(collaborator==null)
 				throw new BadRequestException();
-			
-	
+
+
 			if(!putInAttendeesList){
-				
+
 				userService.removeScenarioAndSaveInBlockedList(collaborator.getId(), id);
 				permissionEvaluator.removeOnePermission(collaboratorId, Scenario.class, id);
 				removeUserFromCharacters(collaborator.getId(), scen);
@@ -602,7 +602,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					userService.moveScenarioFromOpenToInviting(collaboratorId, scen.getId());
 				}
 			}
-		
+
 			//TODO valutare gestione errori		
 			scenarioRepository.removeCollaboratorFromScenario(id, scen.getStatus(), collaborator, putInAttendeesList);
 			notify.notifyRemoveModerator(collaborator, scen, scen.getTeacherCreator()); //ATTENZIONE! Dal momento che solo il creatore può rimuovere un collaboratore come actor prendo direttamente il reference del creatore dall scenario
@@ -618,7 +618,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			Scenario scen = scenarioRepository.findById(id);
 			if (scen == null)
 				throw new BadRequestException();
-			
+
 			if(scen.getAttendees()!=null){
 				for(Reference r: scen.getAttendees()){
 					usersToRemove.add(r.getId());
@@ -641,7 +641,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				usersToRemove.add(scen.getTeacherCreator().getId());
 				userService.removeScenarioFromUsers(usersToRemove, scen.getId());
 				permissionEvaluator.removePermissions(usersToRemove, Scenario.class, scen.getId());
-				
+
 				if(scen.getCharacters()!=null){
 					List<String> idCharacters = new ArrayList<String>();
 					for(CharacterReference c : scen.getCharacters()){
@@ -651,11 +651,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 					characterRepository.removeCharacters(idCharacters);
 				}
 				scenarioRepository.removeScenario(id);	
-			/*Nel caso in cui lo Scenario sia stato attivato non lo cancello realmente dal sistema ma:
-			 * - rimuovo tutti i riferimenti che gli utenti, ad eccezione del creatore, hanno verso le Scenario;
-			 * - rimuovo tutti i permessi relativi a Scenario e Character;
-			 * - NON rimuovo i Character;
-			 * - aggiungo l'id dello scenario alla lista dei deleted del creatore*/	
+				/*Nel caso in cui lo Scenario sia stato attivato non lo cancello realmente dal sistema ma:
+				 * - rimuovo tutti i riferimenti che gli utenti, ad eccezione del creatore, hanno verso le Scenario;
+				 * - rimuovo tutti i permessi relativi a Scenario e Character;
+				 * - NON rimuovo i Character;
+				 * - aggiungo l'id dello scenario alla lista dei deleted del creatore*/	
 			}else{
 				userService.removeScenarioFromUsers(usersToRemove, scen.getId());
 				permissionEvaluator.removePermissions(usersToRemove, Scenario.class, scen.getId());
@@ -667,38 +667,38 @@ public class ScenarioServiceImpl implements ScenarioService{
 				userService.deleteScenarioFromCreator(scen.getTeacherCreator().getId(), scen.getId());
 				scenarioRepository.putInDeletedState(scen.getId());
 			}
-			
-			
+
+
 		}catch(MongoException e){
 			throw e;
 		}
 	}
 
-	
+
 	@Override
 	public Reference addCollaboratorToScenario(String idCollaborator, String idScenario, CustomUserDetails activeUser) throws BadRequestException, NotFoundException {
 		try{
 			Scenario scen = scenarioRepository.findById(idScenario);
-			
+
 			if (scen == null)
 				throw new BadRequestException();
 
 			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
-			
+
 			User collaborator = userRepository.findById(idCollaborator);
 			//quando si aggiunge un collaboratore ad uno scenario questo diventa collega del teacher creator dello scenario e viceversa
 			Reference teacherCreatorRef = scen.getTeacherCreator();
-			
-			
+
+
 			if(collaborator==null || collaborator.getStatus().equals(UserStatus.STATUS_PENDING))  //TODO Nel caso si vuole permettere anche l'aggiunta di studenti come collaborator aggiungere || collaborator.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD)
 				throw new NotFoundException();
 
 			Reference r = new Reference(collaborator);
-			
+
 			/*I permessi ai moderatori vengono assegnati a prescindere dallo stato dello Scenario. Possono iniziare a lavorare sullo Scenario anche
 			 * quando questo è nella fase di Creazione (così da poter, per esempio, invitare altri studenti).*/
-				
+
 			if(scen.getAttendees()!=null && scen.getAttendees().contains(r)){
 				//Questo controllo � superfluo se si lascia che i collaborator possono essere solo dei Teacher
 				/*Se il collaboratore da inserire si travava già nella lista dei partecipanti, allora elevo solamente i suoi privilegi e lo
@@ -715,13 +715,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 					userService.insertInCreatedScenarioOfUser(r, new ScenarioReference(scen));
 				}else if(scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 					userService.openScenarioOfUser(r, new ScenarioReference(scen));
-					}
+				}
 				//TODO gestire in maniera analoga anche le altre tipologia di scenari (chiusi, pubblicati..)
-				
-				
-					
+
+
+
 			}
-	
+
 			if( scen.getCollaborators()!= null && !scen.getCollaborators().contains(r)){
 				if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
 					userService.openScenarioOfUser(r, new ScenarioReference(scen));
@@ -735,14 +735,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}else{
 				for(Reference ref : scen.getCollaborators()){
 					if(ref.getId().equals(activeUser.getId())){
-							actor=ref;
-							notify.notifyNewModerator(r, scen, actor);
-							notify.notifyCreatorOfNewModerator(r, scen, actor, teacherCreatorRef.getId());
-							break;
+						actor=ref;
+						notify.notifyNewModerator(r, scen, actor);
+						notify.notifyCreatorOfNewModerator(r, scen, actor, teacherCreatorRef.getId());
+						break;
 					}
 				}
 			}
-			
+
 			return r;
 		}catch(MongoException e){
 			throw e;
@@ -762,20 +762,20 @@ public class ScenarioServiceImpl implements ScenarioService{
 				throw new BadRequestException();
 			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
-			
+
 			Character c = new Character(characterDTO, scenarioId, userId);
-			
+
 			//salvo prima il character nel DB dei characters
 			Character newCharacter = characterRepository.insert(c);
 			//Inserisco il DBREF  a quel character nella lista dei personaggi creati nello scenario
 			if(!scenarioRepository.addCharacter(new CharacterReference(newCharacter), scen.getId(), scen.getStatus()))
 				throw new BadRequestException();
-			
+
 			return new Id(newCharacter.getId());
 		}catch(MongoException e){
 			throw e;
 		}
-		
+
 	}
 
 
@@ -785,7 +785,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			Character c = characterRepository.findById(characterId);
 			if(c==null || !c.getScenarioId().equals(scenarioId))
 				throw new NotFoundException();
-			
+
 			if(!c.isDeleted())
 				return c;
 			else
@@ -801,7 +801,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	public Character updateCharacter(String scenarioId, CharacterDTO character) throws BadRequestException, NotFoundException {
 		try{
 			boolean updateRef=false;
-				
+
 			Update u = new Update();
 			if(character.getName()!=null){
 				u.set("name",character.getName());
@@ -826,7 +826,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(character.getRole()!=null)
 				u.set("role", character.getRole());
 			Character c = characterRepository.updateCharacter(character.getId(), u);
-			
+
 			if(updateRef){
 				CharacterReference charRef = new CharacterReference(c);
 				scenarioRepository.updateCharacterToScenario(charRef, scenarioId);
@@ -838,10 +838,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 					userRepository.save(user);
 				}
 			}
-			
+
 			return c;
-			
-			
+
+
 		}catch(MongoException e){
 			throw e;
 		}
@@ -859,8 +859,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			//Dagli scenari chiusi non si possono rimuovere gli user
 			if(scen.getStatus().equals(ScenarioStatus.CLOSED) || scen.getStatus().equals(ScenarioStatus.DELETED))
 				throw new BadRequestException();
-			
-			
+
+
 			if(scen.getInvited()!=null){
 				for(Reference ref : scen.getInvited()){
 					if(ref.getId().equals(userToDelete)){
@@ -873,7 +873,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 			}
-			
+
 			if(scen.getAttendees()!=null){
 				for(Reference ref : scen.getAttendees()){
 					if(ref.getId().equals(userToDelete)){
@@ -891,7 +891,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 
-			
+
 
 		}catch(MongoException e){
 			throw e;
@@ -902,13 +902,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public void removeCharacterFromScenario(String id, String characterId) throws BadRequestException, NotFoundException {
 		try{
-		
+
 			Character c = characterRepository.findById(characterId);
 			if(c==null)
 				throw new NotFoundException();
-			
+
 			Scenario scenario = scenarioRepository.removeCharacterFromScenario(id, characterId);
-	
+
 			if(scenario.getStatus().equals(ScenarioStatus.CREATED_V1) || 
 					scenario.getStatus().equals(ScenarioStatus.CREATED_V2) || 
 					scenario.getStatus().equals(ScenarioStatus.CREATED_V3) || 
@@ -917,13 +917,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}else{
 				if(scenario.getStatus().equals(ScenarioStatus.DELETED))
 					throw new BadRequestException();
-				
+
 				characterRepository.putToDeletedCharacter(characterId);
 				if(c.getActualUser()!=null){
 					//TODO valutare la gestione di permessi multipli ovvero la possibilità che più user possano interpretare contemporanemente un personaggio
 					userService.removeActualCharacterToUser(c.getActualUser().getId(), c.getId(),  id);
 				}
-				
+
 			}
 		}catch(MongoException e){
 			throw e;
@@ -940,13 +940,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 				throw new NotFoundException();
 			if(!user.getStatus().equals(UserStatus.STATUS_APPROVED) && !user.getStatus().equals(UserStatus.STATUS_SUSPENDED))
 				throw new NotFoundException();
-			
+
 			boolean founded=false;
 
 			Character c = characterRepository.findById(characterId);
 			if(c==null)
 				throw new NotFoundException();
-			
+
 			if(!c.getScenarioId().equals(scenarioId))
 				throw new BadRequestException();
 
@@ -960,7 +960,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 			}
-			
+
 			if(!founded && user.getCreatingScenarios()!=null){
 				for(ScenarioReference s : user.getCreatingScenarios()){
 					if(s.getId().equals(c.getScenarioId())){
@@ -971,7 +971,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 			}
-			
+
 			if(!founded){
 				if(user.getInvitingScenariosId()!=null){
 					for(String id : user.getInvitingScenariosId()){
@@ -982,44 +982,44 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 			}
-			
+
 			if(!founded)
 				throw new BadRequestException();
-			
+
 			Scenario scen = scenarioRepository.findById(scenarioId);
-			
+
 			Reference ref = new Reference(user);
-			
+
 			Reference oldUser = c.getActualUser();
-			
+
 			Reference characterRef = new Reference(c);
 			c.setActualUser(ref, scen.getStatus()); //il setter comporta aggiornamento mappa pastUser con relative date
-			
+
 			c = characterRepository.save(c);
-			
+
 			CharacterReference cRef = new CharacterReference(c);
-			
+
 			/*Togliendo il DBRef di Character all'interno di Scenario e inserendo un riferimento custom (CharacterReference), c'è la necessità
 			 * di aggiornare il reference allo user che interpreta il character nel reference al character stesso presente nello Scenario.*/
 			scenarioRepository.updateCharacterToScenario(cRef, scenarioId);
-			
+
 			/*Tutte le associazioni relative a User e Permission vengono fatte solo se lo stato dello scenario è ACTIVE.
 			 * IN caso contrario mi preoccupo adesso solo di modificare il Reference dell'actualUser all'interno del Character (vedi sopra)
 			 * e tutte le altre associazioni verranno create all'attivazione dello scenario in modo asincrono*/
-			
+
 			if(scen.getStatus().equals(ScenarioStatus.ACTIVE)){
-			
+
 				/*Gestione dei permessi: togliamo il permesso di scrittura sul character al vecchio possessore e lo assegniamo al nuovo*/
 				if(oldUser!=null){
 					userService.removeActualCharacterToUser(oldUser.getId(), characterRef.getId(), scenarioId);
 					notify.notifyDeleteAssociation(oldUser, cRef, scen);
 				}
-				
+
 				userService.addActualCharacterToUser(userId, characterRef, scenarioId);
 				notify.notifyNewAssociation(ref, cRef, scen);
 			}
 
-			
+
 			return c;
 		}catch(MongoException e){
 			throw e;
@@ -1038,50 +1038,50 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public void removeUserFromCharacter(String id, String characterId,
 			String userId) throws NotFoundException, BadRequestException {
-		
+
 		Scenario scenario = scenarioRepository.findById(id);
 		if(scenario==null)
 			throw new NotFoundException();
 		if(scenario.getStatus().equals(ScenarioStatus.DELETED))
 			throw new BadRequestException();
-		
-		
+
+
 		Character c = characterRepository.findById(characterId);
 		if(c==null)
 			throw new NotFoundException();
-		
+
 		if(!c.getActualUser().getId().equals(userId))
 			throw new BadRequestException();
 		Reference userRef = c.getActualUser();
 		c.setActualUser(null, scenario.getStatus());
-		
+
 		userService.removeActualCharacterToUser(userId, characterId, id);
-		
+
 		characterRepository.save(c);
-		
+
 		CharacterReference charRef = new CharacterReference(c);
 		scenarioRepository.updateCharacterToScenario(charRef, id);
-		
+
 		if(scenario.getStatus().equals(ScenarioStatus.ACTIVE))
 			notify.notifyDeleteAssociation(userRef, charRef, scenario);
 
-		
+
 	}
 
 
 	@Override
 	public Id insertStatus(String scenarioId, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
-		
+
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
-		
+
 		Scenario scenario = scenarioRepository.findById(scenarioId);
 		if(scenario==null)
 			throw new BadRequestException();
 		if(!scenario.getStatus().equals(ScenarioStatus.ACTIVE))
 			throw new ForbiddenException();
-		
+
 		CharacterReference character=null;
-		
+
 		if(scenario.getCharacters()!=null){
 			for(CharacterReference c : scenario.getCharacters()){
 				if(c.getUserId()!=null){
@@ -1094,8 +1094,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 		if(character==null)
 			throw new ForbiddenException();
-		
-			
+
+
 		Reference userRef=null;
 		if(scenario.getAttendees()!=null){
 			for(Reference r : scenario.getAttendees()){
@@ -1115,22 +1115,22 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		if(userRef==null){
 			if(scenario.getTeacherCreator().getId().equals(character.getUserId()))
 				userRef = scenario.getTeacherCreator();
 		}
-		
+
 		if(userRef==null)
 			throw new BadRequestException();
-		
+
 		Status status = new Status();
 		status.setCharacter(character);
 		status.setUser(userRef);
 		status.setText(statusDTO.getText());
 		status.setScenarioId(scenarioId);
 		status.setPlace(statusDTO.getPlace());
-//		status.setHistoricalDate(statusDTO.getHistoricalDate());
+		//		status.setHistoricalDate(statusDTO.getHistoricalDate());
 		status.setJulianDayNumber(statusDTO.getJulianDayNumber());
 		status.setTimeNumber(statusDTO.getTimeNumber());
 		status.setSources(statusDTO.getSources());
@@ -1148,10 +1148,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		status.setTags(tagsCharacter);
-		
-		
+
+
 		if(statusDTO.getImageMetaId()!=null){
 			for(int i=0; i<statusDTO.getImageMetaId().size(); i++){
 				FileMetadata f = gridFsManager.getMetadata(statusDTO.getImageMetaId().get(i));
@@ -1163,7 +1163,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				gridFsManager.confirmImage(statusDTO.getImageMetaId().get(i), f);
 			}
 		}
-		
+
 		if(statusDTO.getFileMetaId()!=null){
 			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
 				FileMetadata f = gridFsManager.getMetadata(statusDTO.getFileMetaId().get(i));
@@ -1179,11 +1179,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 			status.setStatus(PostStatus.PUBLISHED);
 		else
 			status.setStatus(statusDTO.getStatus());
-	
-		
-		
+
+
+
 		status = postRepository.save(status);
-		
+
 		if(status.getStatus().equals(PostStatus.PUBLISHED)){
 			PostReference postReference = new PostReference(status);
 			scenarioRepository.addPostToScenario(scenarioId, postReference);
@@ -1192,8 +1192,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}else{
 			userRepository.addDraftPost(user.getId(), status.getId());
 		}
-		
-		
+
+
 		return new Id(status.getId());
 	}
 
@@ -1202,30 +1202,35 @@ public class ScenarioServiceImpl implements ScenarioService{
 	public Post getPost(String id, String postId, Authentication auth) throws NotFoundException {
 		Post post = postRepository.findById(postId);
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
-		
+
 		if(post==null || !post.getScenarioId().equals(id) || post.getStatus().equals(PostStatus.DELETED))
 			throw new NotFoundException();
-		
+
 		if(post.getRevision().getStatus().equals(RevisionStatus.TO_MODIFY_NOT_VISIBLE)){
 			if(user.getId().equals(post.getUser().getId()) || permissionEvaluator.hasPermission(auth, id, "Scenario", "MODERATOR"))
 				return post;
 			else
 				throw new NotFoundException();
 		}
-		
+
 		return post;
+	}
+
+	@Override
+	public List<Post> getLastNPost(String scenarioId, String lastPostId, Integer nItem,
+			Boolean orderDesc) {
+		if(orderDesc)
+			return postRepository.findLastInNaturalOrderDesc(scenarioId, lastPostId, nItem);
+		else 
+			return postRepository.findLastInNaturalOrderAsc(scenarioId, lastPostId, nItem);		
 	}
 	
 	@Override
-	public List<Post> getLastNPost(String scenarioId, String lastPostId, Integer nItem, Boolean historicOrder,
-			Boolean orderDesc) {
-		if(!historicOrder && orderDesc)
-			return postRepository.findLastInNaturalOrderDesc(scenarioId, lastPostId, nItem);
-		else if(!historicOrder && !orderDesc)
-			return postRepository.findLastInNaturalOrderAsc(scenarioId, lastPostId, nItem);
-		
-		else
-			return null;
+	public List<Post> getLastNHistoricPost(String scenarioId, Long date, Integer time, Integer nItem, Boolean orderDesc) {
+		if(orderDesc)
+			return postRepository.findLastInHistoricOrderDesc(scenarioId, date, time, nItem);
+		else 
+			return postRepository.findLastInHistoricOrderAsc(scenarioId, date, time, nItem);		
 	}
 
 
@@ -1248,8 +1253,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				throw new NotFoundException();
 			posts = character.getPosts();
 		}
-		
-		
+
+
 		Pageable p;
 		if(historicOrder){
 			if(orderDesc)
@@ -1262,21 +1267,21 @@ public class ScenarioServiceImpl implements ScenarioService{
 				throw new BadRequestException("Impossibile ordinare data reale in modo crescente");
 			p = new PageRequest(nPag, nItem, Sort.Direction.DESC, "creationDate");
 		}
-		
-		 
+
+
 		if(posts==null || posts.size()==0){
 			List<Post> returnPost = new ArrayList<Post>();
 			return new PageImpl<Post>(returnPost, p, 0);
 		}
-		
+
 		int size = posts.size();
 		int totalPage = ((int) Math.ceil((double)size/nItem));
-		
+
 		if((nPag+1)>totalPage){
 			List<Post> returnPost = new ArrayList<Post>();
 			return new PageImpl<Post>(returnPost, p, size);
 		}
-		
+
 		List<PostReference> toSearch=null;
 		List<String> postsId = new ArrayList<String>();
 
@@ -1286,7 +1291,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			else
 				Collections.sort(posts, new PostReferenceHistoricalDateComparatorAsc());
 		}
-		
+
 		int end = (size-1)-(nPag*nItem);
 		int start = end-(nItem-1);
 		if(start<0)
@@ -1295,19 +1300,19 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(toSearch!=null){
 			for(PostReference postRef : toSearch)
 				postsId.add(postRef.getId());
-				
+
 		}
-	
+
 		boolean moderator = permissionEvaluator.hasPermission(auth, scenarioId, "Scenario", "MODERATOR");
-		
+
 		return postRepository.customPageableFindAll(postsId,size,p,historicOrder, orderDesc,activeUser.getId(), moderator);
 	}
 
 	public Page<Post> customPageableFindAll(String scenarioId, List<Id> postsId, Authentication auth) {
 		Pageable p;
-		
+
 		p = new PageRequest(0, postsId.size(), Sort.Direction.DESC, "creationDate");
-		
+
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		boolean moderator = permissionEvaluator.hasPermission(auth, scenarioId, "Scenario", "MODERATOR");
 		List<String> l = new ArrayList<String>();
@@ -1319,7 +1324,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Override
 	public Id insertEvent(String scenarioId, EventDTO eventDTO, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException, IOException, NotFoundException {
-		
+
 
 		Scenario scenario = scenarioRepository.findById(scenarioId);
 		User u = userRepository.findById(activeUser.getId());
@@ -1327,12 +1332,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new BadRequestException();
 		if(!scenario.getStatus().equals(ScenarioStatus.ACTIVE))
 			throw new BadRequestException();
-		
+
 
 		Event event = new Event();
 		event.setScenarioId(scenarioId);
 		event.setPlace(eventDTO.getPlace());
-//		event.setHistoricalDate(eventDTO.getHistoricalDate());
+		//		event.setHistoricalDate(eventDTO.getHistoricalDate());
 		event.setJulianDayNumber(eventDTO.getJulianDayNumber());
 		event.setTimeNumber(eventDTO.getTimeNumber());
 		event.setSources(eventDTO.getSources());
@@ -1350,10 +1355,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		event.setTags(tagsCharacter);
-		
-		
+
+
 		if(eventDTO.getImageMetaId()!=null){
 			for(int i=0; i<eventDTO.getImageMetaId().size(); i++){
 				FileMetadata f = gridFsManager.getMetadata(eventDTO.getImageMetaId().get(i));
@@ -1365,7 +1370,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				gridFsManager.confirmImage(event.getImagesMetadata().get(i).getId(), f);
 			}
 		}
-		
+
 		if(eventDTO.getFileMetaId()!=null){
 			for(int i=0; i<eventDTO.getFileMetaId().size(); i++){
 				FileMetadata f = gridFsManager.getMetadata(eventDTO.getFileMetaId().get(i));
@@ -1377,14 +1382,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 				gridFsManager.confirmFile(event.getFilesMetadata().get(i).getId(), f);
 			}
 		}
-		
+
 		if(eventDTO.getStatus()==null)
 			event.setStatus(PostStatus.PUBLISHED);
 		else
 			event.setStatus(eventDTO.getStatus());
 		event.setText(eventDTO.getText());
 		event.setUser(new Reference(u));
-		
+
 		event = postRepository.save(event);
 
 		if(event.getStatus().equals(PostStatus.PUBLISHED)){
@@ -1407,10 +1412,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Post post =  postRepository.findById(statusId);
 		if(post==null || !post.getClass().equals(Status.class))
 			throw new NotFoundException();
-		
+
 		if(post.getStatus().equals(PostStatus.DELETED))
 			throw new NotFoundException();
-		
+
 		List<Role> roles = (List<Role>) user.getAuthorities();
 		Status status = (Status) post;
 		Scenario scenario = scenarioRepository.findById(id);
@@ -1418,19 +1423,19 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new BadRequestException();
 		if(scenario.getStatus().equals(ScenarioStatus.DELETED))
 			throw new BadRequestException();
-		
+
 		boolean permit=false;
 		Date now=null;
-		
+
 		/*START PERMISSION CHECK*/
 		for(Role role : roles){
 			if(role.getAuthority().equals("ROLE_ADMIN"))
 				permit=true;
 		}
 		/*Check user is SYSTEM ADMIN*/
-			//TODO
+		//TODO
 		/**/
-		
+
 		/*Controllo se l'utente che chiede di fare la modifica è il creatore del post e se ha ancora i permessi
 		 * per modificare il post stesso*/
 		if(status.getUser().getId().equals(user.getId()) && 
@@ -1462,18 +1467,18 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		/*Se dopo tutti i controlli effettuati permit è ancora a false rilancio una ForbiddenException*/
 		if(!permit)
 			throw new ForbiddenException();
-		
+
 		/*END PERMISSION CHECK*/
-		
+
 		/*TODO da continuare*/
 		Update u = new Update();
 		boolean toPublish=false;
 		boolean updateHistoricalDate=false;
-		
+
 		if(statusDTO.getText()!=null){
 			u.set("text", statusDTO.getText());
 		}
@@ -1482,13 +1487,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(status.getStatus().equals(PostStatus.PUBLISHED))
 				updateHistoricalDate=true;
 		}
-		
+
 		if(statusDTO.getTimeNumber()!=null){
 			u.set("timeNumber", statusDTO.getTimeNumber());
 			if(status.getStatus().equals(PostStatus.PUBLISHED))
 				updateHistoricalDate=true;
 		}
-		
+
 		if(statusDTO.getPlace()!=null){
 			u.set("place", statusDTO.getPlace());
 		}
@@ -1504,8 +1509,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(statusDTO.getSources()!=null){
 			u.set("sources", statusDTO.getSources());
 		}
-		
-		
+
+
 		if(statusDTO.getImageMetaId()!=null && statusDTO.getImageMetaId().size()!=0){
 			List<FileReference> newImageMeta = new ArrayList<FileReference>();
 			for(int i=0; i<statusDTO.getImageMetaId().size();i++){
@@ -1522,7 +1527,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			u.addToSet("imagesMetadata").each(newImageMeta);
 		}
-		
+
 		if(statusDTO.getFileMetaId()!=null && statusDTO.getFileMetaId().size()!=0){
 			List<FileReference> newFileMeta = new ArrayList<FileReference>();
 			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
@@ -1539,8 +1544,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			u.addToSet("filesMetadata").each(newFileMeta);
 		}
-	
-		
+
+
 		if(statusDTO.getTags()!=null){
 			List<Reference> tagsCharacter = new ArrayList<Reference>();
 			for(int i=0;i<statusDTO.getTags().size(); i++){
@@ -1554,22 +1559,24 @@ public class ScenarioServiceImpl implements ScenarioService{
 						break;
 					}
 				}
-				
+
 			}
-			
+
 			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
 			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
 			//u.addToSet("tags").each(tagsCharacter);
 			u.set("tags", tagsCharacter);  //sostituisco la vecchia lista di tag con la nuova (questo mi permette con l'update sia di aggiungere tag che di toglierli)
 		}
-		u.set("lastChangeDate", new Date());
+		Date changeDate = new Date();
+		u.set("lastChangeDate", changeDate);
+		if(toPublish)
+			u.set("creationDate", changeDate);
 
-		
-		Status newStatus = (Status) postRepository.updatePost(statusId,u);
-		
+		Status newStatus = (Status) postRepository.updatePost(statusId,u, toPublish);
+
 		if (newStatus == null)
 			throw new BadRequestException();
-		
+
 		if(toPublish){
 			PostReference postRef = new PostReference(newStatus);
 			scenarioRepository.addPostToScenario(newStatus.getScenarioId(), postRef);
@@ -1579,7 +1586,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			PostReference postRef = new PostReference(newStatus);
 			scenarioRepository.updatePostDateInScenario(newStatus.getScenarioId(), postRef);
 		}
-		
+
 		if(newStatus.getStatus().equals(PostStatus.PUBLISHED)){
 			if(user.getId().equals(newStatus.getUser().getId())){
 				notify.notifyModifiedPostByOwner(scenario, newStatus, status, newStatus.getCharacter());
@@ -1599,10 +1606,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Post post =  postRepository.findById(eventId);
 		if(post==null || !post.getClass().equals(Event.class))
 			throw new NotFoundException();
-		
+
 		if(post.getStatus().equals(PostStatus.DELETED))
 			throw new NotFoundException();
-		
+
 		List<Role> roles = (List<Role>) user.getAuthorities();
 		Event event = (Event) post;
 		Scenario scenario = scenarioRepository.findById(id);
@@ -1610,19 +1617,19 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new BadRequestException();
 		if(scenario.getStatus().equals(ScenarioStatus.DELETED))
 			throw new BadRequestException();
-		
+
 		boolean permit=false;
 		Date now=null;
-		
+
 		/*START PERMISSION CHECK*/
 		for(Role role : roles){
 			if(role.getAuthority().equals("ROLE_ADMIN"))
 				permit=true;
 		}
 		/*Check user is SYSTEM ADMIN*/
-			
+
 		/**/
-		
+
 		/*Controllo se l'utente che chiede di fare la modifica è il creatore del post*/
 		if(event.getUser().getId().equals(user.getId())){
 			permit=true;
@@ -1652,18 +1659,18 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		/*Se dopo tutti i controlli effettuati permit è ancora a false rilancio una ForbiddenException*/
 		if(!permit)
 			throw new ForbiddenException();
-		
+
 		/*END PERMISSION CHECK*/
-		
+
 		/*TODO da continuare*/
 		Update u = new Update();
 		boolean toPublish=false;
 		boolean updateHistoricalDate=false;
-		
+
 		if(eventDTO.getText()!=null){
 			u.set("text", eventDTO.getText());
 		}
@@ -1677,14 +1684,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(event.getStatus().equals(PostStatus.PUBLISHED))
 				updateHistoricalDate=true;
 		}
-		
+
 		if(eventDTO.getPlace()!=null){
 			u.set("place", eventDTO.getPlace());
 		}
 		if(eventDTO.getStatus()!=null){
 			if(event.getStatus().equals(PostStatus.DRAFT) && eventDTO.getStatus().equals(PostStatus.PUBLISHED)){
 				toPublish=true;
-				u.set("event", eventDTO.getStatus());
+				u.set("status", eventDTO.getStatus());
 				now = new Date();
 				u.set("creationDate", now);
 				userRepository.removeDraftPost(user.getId(), post.getId());
@@ -1693,7 +1700,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		if(eventDTO.getSources()!=null){
 			u.set("sources", eventDTO.getSources());
 		}
-		
+
 		if(eventDTO.getImageMetaId()!=null){
 			List<FileReference> newImageMeta = new ArrayList<FileReference>();
 			for(int i=0; i<eventDTO.getImageMetaId().size();i++){
@@ -1710,7 +1717,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			u.addToSet("imagesMetadata").each(newImageMeta);
 		}
-		
+
 		if(eventDTO.getFileMetaId()!=null){
 			List<FileReference> newFileMeta = new ArrayList<FileReference>();
 			for(int i=0; i<eventDTO.getFileMetaId().size(); i++){
@@ -1727,7 +1734,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			u.addToSet("filesMetadata").each(newFileMeta);
 		}
-		
+
 		if(eventDTO.getTags()!=null){
 			List<Reference> tagsCharacter = new ArrayList<Reference>();
 			for(int i=0;i<eventDTO.getTags().size(); i++){
@@ -1741,22 +1748,25 @@ public class ScenarioServiceImpl implements ScenarioService{
 						break;
 					}
 				}
-				
+
 			}
-			
+
 			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello event
 			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
 			//u.addToSet("tags").each(tagsCharacter);
 			u.set("tags", tagsCharacter);
 		}
-		u.set("lastChangeDate", new Date());
+		Date changeDate = new Date();
+		u.set("lastChangeDate", changeDate);
+		if(toPublish)
+			u.set("creationDate", changeDate);
 
-		
-		Event newEvent = (Event) postRepository.updatePost(eventId,u);
-		
+
+		Event newEvent = (Event) postRepository.updatePost(eventId,u, toPublish);
+
 		if (newEvent == null)
 			throw new BadRequestException();
-		
+
 		if(toPublish){
 			PostReference postRef = new PostReference(newEvent);
 			scenarioRepository.addPostToScenario(newEvent.getScenarioId(), postRef);
@@ -1765,7 +1775,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			PostReference postRef = new PostReference(newEvent);
 			scenarioRepository.updatePostDateInScenario(newEvent.getScenarioId(), postRef);
 		}
-		
+
 		if(newEvent.getStatus().equals(PostStatus.PUBLISHED)){
 			if(user.getId().equals(newEvent.getUser().getId())){
 				CharacterReference charRef = new CharacterReference();
@@ -1776,175 +1786,175 @@ public class ScenarioServiceImpl implements ScenarioService{
 				notify.notifyModifiedPostByModerator(scenario, newEvent, event, ref);
 			}
 		}
-		
+
 		return newEvent;
 	}
-//		Post post =  postRepository.findById(eventId);
-//				
-//		if(post==null || !post.getClass().equals(Event.class))
-//			throw new NotFoundException();
-//		
-//		if(post.getStatus().equals(PostStatus.DELETED))
-//			throw new NotFoundException();
-//		
-//		Event event = (Event) post;
-//		
-//		boolean permit=false;
-//		Date now=null;
-//		
-//		if(!event.getUser().getId().equals(activeUser.getId())){
-//		
-//			List<Role> roles = (List<Role>) activeUser.getAuthorities();
-//			for(Role role : roles){
-//				if(role.getAuthority().equals("ROLE_TEACHER"))
-//					permit=true;
-//			}
-//		}else
-//			permit=true;
-//		
-//		if(!permit)
-//			throw new ForbiddenException();
-//		
-//		Update u = new Update();
-//		boolean toPublish=false;
-//		boolean updateHistoricalDate=false;
-//		
-//		if(eventDTO.getText()!=null){
-//			u.set("text", eventDTO.getText());
-//		}
-//		if(eventDTO.getHistoricalDate()!=null){
-//			u.set("historicalDate", eventDTO.getHistoricalDate());
-//			if(event.getStatus().equals(PostStatus.PUBLISHED))
-//				updateHistoricalDate=true;
-//		}
-//		if(eventDTO.getPlace()!=null){
-//			u.set("place", eventDTO.getPlace());
-//		}
-//		if(eventDTO.getStatus()!=null){
-//			if(event.getStatus().equals(PostStatus.DRAFT) && eventDTO.getStatus().equals(PostStatus.PUBLISHED)){
-//				toPublish=true;
-//				u.set("status", eventDTO.getStatus());
-//				now = new Date();
-//				u.set("creationDate", now);
-//				userRepository.removeDraftPost(activeUser.getId(), post.getId());
-//			}
-//		}
-//		
-//		if(eventDTO.getSources()!=null){
-//			u.set("sources", eventDTO.getSources());
-//		}
-//		
-//		if(eventDTO.getImageMetaId()!=null){
-//			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
-//			for(int i=0; i<eventDTO.getImageMetaId().size();i++){
-//				FileMetadata f = fileMetadataRepository.confirmImage(eventDTO.getImageMetaId().get(i));
-//				if(f==null)
-//					throw new BadRequestException();
-//				Reference fileMetaUserRef = new Reference();
-//				fileMetaUserRef.setId(f.getUserId());
-//				if(!f.getUserId().equals(activeUser.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
-//					//TODO fare undo di confirmImage
-//					throw new ForbiddenException();
-//				}
-//				newImageMeta.add(f);
-//			}
-//			u.addToSet("imagesMetadata").each(newImageMeta);
-//		}
-//		
-//		if(statusDTO.getFileMetaId()!=null){
-//			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
-//			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
-//				FileMetadata f = fileMetadataRepository.confirmFile(statusDTO.getFileMetaId().get(i));
-//				if(f==null)
-//					throw new BadRequestException();
-//				Reference fileMetaUserRef = new Reference();
-//				fileMetaUserRef.setId(f.getUserId());
-//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
-//					//TODO fare undo di confirmImage
-//					throw new ForbiddenException();
-//				}
-//				newFileMeta.add(f);
-//			}
-//			u.addToSet("filesMetadata").each(newFileMeta);
-//		}
-//		
-//		if(statusDTO.getImageMetaIdToDelete()!=null){
-//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
-//			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
-//				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
-//				if(f==null)
-//					throw new BadRequestException();
-//				Reference metaUserRef = new Reference();
-//				metaUserRef.setId(f.getUserId());
-//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-//					//TODO fare undo di confirmImage
-//					throw new ForbiddenException();
-//				}
-//				newMetadata[i]=f;
-//			}
-//			u.pullAll("imagesMetadata",newMetadata);
-//		}
-//		
-//		if(statusDTO.getFileMetaIdToDelete()!=null){
-//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
-//			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
-//				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
-//				if(f==null)
-//					throw new BadRequestException();
-//				Reference metaUserRef = new Reference();
-//				metaUserRef.setId(f.getUserId());
-//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
-//					//TODO fare undo di confirmImage
-//					throw new ForbiddenException();
-//				}
-//				newMetadata[i]=f;
-//			}
-//			u.pullAll("filesMetadata",newMetadata);
-//		}
-//		if(statusDTO.getTags()!=null){
-//			List<Reference> tagsCharacter = new ArrayList<Reference>();
-//			for(int i=0;i<statusDTO.getTags().size(); i++){
-//
-//				Reference r = new Reference();
-//				for(int j=0; j<scenario.getCharacters().size();j++){
-//					if(scenario.getCharacters().get(j).getId().equals(statusDTO.getTags().get(i))){
-//						r.setId(statusDTO.getTags().get(i));
-//						r.setFirstname(scenario.getCharacters().get(j).getName());
-//						tagsCharacter.add(r);
-//						break;
-//					}
-//				}
-//				
-//			}
-//			
-//			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
-//			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
-//			u.addToSet("tags").each(tagsCharacter);
-//		}
-//		
-//		u.set("lastChangeDate", new Date());
-//		
-//
-//		Event newEvent = (Event) postRepository.updatePost(eventId,u);
-//		
-//		if (newEvent == null)
-//			throw new BadRequestException();
-//		
-//		if(toPublish){
-//			PostReference postRef = new PostReference(newEvent);
-//			scenarioRepository.addPostToScenario(newEvent.getScenarioId(), postRef);
-//		}
-//		if(!toPublish && updateHistoricalDate){
-//			PostReference postRef = new PostReference(newEvent);
-//			scenarioRepository.updatePostDateInScenario(newEvent.getScenarioId(), postRef);
-//		}
-//		return newEvent;
-//	}
+	//		Post post =  postRepository.findById(eventId);
+	//				
+	//		if(post==null || !post.getClass().equals(Event.class))
+	//			throw new NotFoundException();
+	//		
+	//		if(post.getStatus().equals(PostStatus.DELETED))
+	//			throw new NotFoundException();
+	//		
+	//		Event event = (Event) post;
+	//		
+	//		boolean permit=false;
+	//		Date now=null;
+	//		
+	//		if(!event.getUser().getId().equals(activeUser.getId())){
+	//		
+	//			List<Role> roles = (List<Role>) activeUser.getAuthorities();
+	//			for(Role role : roles){
+	//				if(role.getAuthority().equals("ROLE_TEACHER"))
+	//					permit=true;
+	//			}
+	//		}else
+	//			permit=true;
+	//		
+	//		if(!permit)
+	//			throw new ForbiddenException();
+	//		
+	//		Update u = new Update();
+	//		boolean toPublish=false;
+	//		boolean updateHistoricalDate=false;
+	//		
+	//		if(eventDTO.getText()!=null){
+	//			u.set("text", eventDTO.getText());
+	//		}
+	//		if(eventDTO.getHistoricalDate()!=null){
+	//			u.set("historicalDate", eventDTO.getHistoricalDate());
+	//			if(event.getStatus().equals(PostStatus.PUBLISHED))
+	//				updateHistoricalDate=true;
+	//		}
+	//		if(eventDTO.getPlace()!=null){
+	//			u.set("place", eventDTO.getPlace());
+	//		}
+	//		if(eventDTO.getStatus()!=null){
+	//			if(event.getStatus().equals(PostStatus.DRAFT) && eventDTO.getStatus().equals(PostStatus.PUBLISHED)){
+	//				toPublish=true;
+	//				u.set("status", eventDTO.getStatus());
+	//				now = new Date();
+	//				u.set("creationDate", now);
+	//				userRepository.removeDraftPost(activeUser.getId(), post.getId());
+	//			}
+	//		}
+	//		
+	//		if(eventDTO.getSources()!=null){
+	//			u.set("sources", eventDTO.getSources());
+	//		}
+	//		
+	//		if(eventDTO.getImageMetaId()!=null){
+	//			List<FileMetadata> newImageMeta = new ArrayList<FileMetadata>();
+	//			for(int i=0; i<eventDTO.getImageMetaId().size();i++){
+	//				FileMetadata f = fileMetadataRepository.confirmImage(eventDTO.getImageMetaId().get(i));
+	//				if(f==null)
+	//					throw new BadRequestException();
+	//				Reference fileMetaUserRef = new Reference();
+	//				fileMetaUserRef.setId(f.getUserId());
+	//				if(!f.getUserId().equals(activeUser.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+	//					//TODO fare undo di confirmImage
+	//					throw new ForbiddenException();
+	//				}
+	//				newImageMeta.add(f);
+	//			}
+	//			u.addToSet("imagesMetadata").each(newImageMeta);
+	//		}
+	//		
+	//		if(statusDTO.getFileMetaId()!=null){
+	//			List<FileMetadata> newFileMeta = new ArrayList<FileMetadata>();
+	//			for(int i=0; i<statusDTO.getFileMetaId().size(); i++){
+	//				FileMetadata f = fileMetadataRepository.confirmFile(statusDTO.getFileMetaId().get(i));
+	//				if(f==null)
+	//					throw new BadRequestException();
+	//				Reference fileMetaUserRef = new Reference();
+	//				fileMetaUserRef.setId(f.getUserId());
+	//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(fileMetaUserRef))){
+	//					//TODO fare undo di confirmImage
+	//					throw new ForbiddenException();
+	//				}
+	//				newFileMeta.add(f);
+	//			}
+	//			u.addToSet("filesMetadata").each(newFileMeta);
+	//		}
+	//		
+	//		if(statusDTO.getImageMetaIdToDelete()!=null){
+	//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getImageMetaIdToDelete().size()];
+	//			for(int i=0; i<statusDTO.getImageMetaIdToDelete().size(); i++){
+	//				FileMetadata f = fileMetadataRepository.putImageInDeleteStatus(statusDTO.getImageMetaIdToDelete().get(i));
+	//				if(f==null)
+	//					throw new BadRequestException();
+	//				Reference metaUserRef = new Reference();
+	//				metaUserRef.setId(f.getUserId());
+	//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+	//					//TODO fare undo di confirmImage
+	//					throw new ForbiddenException();
+	//				}
+	//				newMetadata[i]=f;
+	//			}
+	//			u.pullAll("imagesMetadata",newMetadata);
+	//		}
+	//		
+	//		if(statusDTO.getFileMetaIdToDelete()!=null){
+	//			FileMetadata[] newMetadata = new FileMetadata[statusDTO.getFileMetaIdToDelete().size()];
+	//			for(int i=0; i<statusDTO.getFileMetaIdToDelete().size(); i++){
+	//				FileMetadata f = fileMetadataRepository.putFileInDeleteStatus(statusDTO.getFileMetaIdToDelete().get(i));
+	//				if(f==null)
+	//					throw new BadRequestException();
+	//				Reference metaUserRef = new Reference();
+	//				metaUserRef.setId(f.getUserId());
+	//				if(!f.getUserId().equals(user.getId()) && !(f.getUserId().equals(scenario.getTeacherCreator().getId())) && !(scenario.getCollaborators().contains(metaUserRef))){
+	//					//TODO fare undo di confirmImage
+	//					throw new ForbiddenException();
+	//				}
+	//				newMetadata[i]=f;
+	//			}
+	//			u.pullAll("filesMetadata",newMetadata);
+	//		}
+	//		if(statusDTO.getTags()!=null){
+	//			List<Reference> tagsCharacter = new ArrayList<Reference>();
+	//			for(int i=0;i<statusDTO.getTags().size(); i++){
+	//
+	//				Reference r = new Reference();
+	//				for(int j=0; j<scenario.getCharacters().size();j++){
+	//					if(scenario.getCharacters().get(j).getId().equals(statusDTO.getTags().get(i))){
+	//						r.setId(statusDTO.getTags().get(i));
+	//						r.setFirstname(scenario.getCharacters().get(j).getName());
+	//						tagsCharacter.add(r);
+	//						break;
+	//					}
+	//				}
+	//				
+	//			}
+	//			
+	//			//adesso in tagsCharacter c'� la lista di reference ai character che si desidera aggiungere alla lista di tags dello status
+	//			//TODO da testare se effettivamente eventuali tag gi� presenti non vengono duplicati nella lista di tags
+	//			u.addToSet("tags").each(tagsCharacter);
+	//		}
+	//		
+	//		u.set("lastChangeDate", new Date());
+	//		
+	//
+	//		Event newEvent = (Event) postRepository.updatePost(eventId,u);
+	//		
+	//		if (newEvent == null)
+	//			throw new BadRequestException();
+	//		
+	//		if(toPublish){
+	//			PostReference postRef = new PostReference(newEvent);
+	//			scenarioRepository.addPostToScenario(newEvent.getScenarioId(), postRef);
+	//		}
+	//		if(!toPublish && updateHistoricalDate){
+	//			PostReference postRef = new PostReference(newEvent);
+	//			scenarioRepository.updatePostDateInScenario(newEvent.getScenarioId(), postRef);
+	//		}
+	//		return newEvent;
+	//	}
 
 
 	@Override
 	public void deletePost(String id, String postId, Authentication auth) throws BadRequestException, ForbiddenException, NotFoundException, FileNotFoundException {
-		
+
 		Post post = postRepository.findById(postId);
 		if(post==null)
 			throw new NotFoundException();
@@ -1952,11 +1962,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new NotFoundException();
 		if(post.getClass().equals(Relation.class) || !id.equals(post.getScenarioId()))
 			throw new BadRequestException();
-		
+
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		boolean permit=false;
 		User user=null;
-		
+
 		if(post.getClass().equals(Status.class)){
 			Status status = (Status) post;
 			if(post.getUser().getId().equals(activeUser.getId())){
@@ -1968,8 +1978,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(user.getClass().equals(Teacher.class))
 					permit=true;
 			}
-			
-				
+
+
 		}else if (post.getClass().equals(Event.class)){
 			Event event = (Event) post;
 			if(permissionEvaluator.hasPermission(auth, event.getScenarioId(), "Scenario", "MODERATOR")){
@@ -1984,12 +1994,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		if(!permit)
 			throw new ForbiddenException();
-		
+
 		if(post.getStatus().equals(PostStatus.DRAFT)){
-		//TODO valutare cancellazione bozze da eventuali liste aggiunte ad utente
+			//TODO valutare cancellazione bozze da eventuali liste aggiunte ad utente
 			userRepository.removeDraftPost(activeUser.getId(), post.getId());
 			postRepository.deletePost(post.getId());
 			if(post.getClass().equals(Status.class)){
@@ -2001,7 +2011,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(s.getFilesMetadata()!=null)
 					for(FileReference ref : s.getFilesMetadata())
 						mediaToDelete.add(ref.getId());
-				
+
 				fileService.deleteListOfMedia(mediaToDelete);
 			}else if(post.getClass().equals(Event.class)){
 				Event e = (Event) post;
@@ -2012,7 +2022,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(e.getFilesMetadata()!=null)
 					for(FileReference ref : e.getFilesMetadata())
 						mediaToDelete.add(ref.getId());
-				
+
 				fileService.deleteListOfMedia(mediaToDelete);
 			}
 		}
@@ -2021,7 +2031,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(post.getClass().equals(Status.class)){
 				Status s = (Status) post;
 				characterRepository.removePostFromCharacter(s.getCharacter().getId(), post.getId());
-				
+
 				List<String> imagesToDelete = new ArrayList<String>();
 				List<String> filesToDelete = new ArrayList<String>();
 
@@ -2038,7 +2048,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}else if(post.getClass().equals(Event.class)){
 				postRepository.putInDeleteStatus(post.getId());
 				Event e = (Event) post;
-				
+
 				List<String> imagesToDelete = new ArrayList<String>();
 				List<String> filesToDelete = new ArrayList<String>();
 
@@ -2052,7 +2062,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				fileService.putListOfImagesInDelete(imagesToDelete);
 				fileService.putListOfFilesInDelete(filesToDelete);
 			}
-			
+
 			if(!post.getUser().getId().equals(activeUser.getId())){
 				User modUser = userRepository.findById(activeUser.getId());
 				if(modUser!=null){
@@ -2074,13 +2084,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public void insertRevision(String scenarioId, String postId, RevisionDTO revisionDTO,
 			CustomUserDetails activeUser) throws BadRequestException {
-		
+
 		Revision revision = new Revision();
 		revision.setComment(revisionDTO.getComment());
 		revision.setStatus(revisionDTO.getStatus());
 		User user = userRepository.findById(activeUser.getId());
 		revision.setRevisor(new Reference(user));
-		
+
 		if(!postRepository.addRevision(postId, scenarioId, revision))
 			throw new BadRequestException();
 	}
@@ -2089,7 +2099,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public Id insertComment(String idScenario, String postId,
 			CommentDTO commentDTO, Authentication auth) throws ForbiddenException, BadRequestException {
-		
+
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		User user = userRepository.findById(activeUser.getId());
 		Scenario scenario = scenarioRepository.findById(idScenario);
@@ -2097,11 +2107,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new BadRequestException();
 		if(scenario.getStatus().equals(ScenarioStatus.CLOSED) || scenario.getStatus().equals(ScenarioStatus.DELETED))
 			throw new BadRequestException();
-		
-		
+
+
 		boolean hasPermission = false;
 		Reference charRef = null;
-		
+
 		if(user.getOpenScenarios()!=null){
 			for(ScenarioReference scenRef : user.getOpenScenarios()){
 				if(scenRef.getId().equals(idScenario)){
@@ -2117,25 +2127,25 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		if(!hasPermission)
 			throw new ForbiddenException();
-		
+
 		Reference userReference = new Reference(user);
-		
+
 		Comment comment = new Comment(charRef, commentDTO, userReference, scenario);
 		Post p = postRepository.addComment(idScenario, postId, comment);
 		if(p==null)
 			throw new BadRequestException();
-		
+
 		notify.notifyNewComment(scenario, p, comment);
 		return new Id(comment.getId());
 	}
-	
+
 	@Override
 	public Id insertMetaComment(String idScenario, String postId,
 			CommentDTO commentDTO, Authentication auth) throws ForbiddenException, BadRequestException {
-		
+
 		CustomUserDetails activeUser = (CustomUserDetails) auth.getPrincipal();
 		User user = userRepository.findById(activeUser.getId());
 		Scenario scenario = scenarioRepository.findById(idScenario);
@@ -2143,9 +2153,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 			throw new BadRequestException();
 		if(scenario.getStatus().equals(ScenarioStatus.CLOSED) || scenario.getStatus().equals(ScenarioStatus.DELETED))
 			throw new BadRequestException();
-		
+
 		Reference userReference = new Reference(user);
-		
+
 		MetaComment metaComment = new MetaComment(commentDTO, userReference, scenario);
 		Post p = postRepository.addComment(idScenario, postId, metaComment); 
 		if(p==null)
@@ -2160,7 +2170,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public CommentInterface updateComment(String idScenario, String postId,
 			String commentId, CommentDTO commentDTO, Authentication auth, boolean isMetaComment) throws NotFoundException, ForbiddenException {
-		
+
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
 		Post post =  postRepository.findById(postId);
 		CommentInterface commentInterface=null;
@@ -2168,10 +2178,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		MetaComment metaComment;
 		if(post==null)
 			throw new NotFoundException();
-		
+
 		if(post.getStatus().equals(PostStatus.DELETED))
 			throw new NotFoundException();
-		
+
 		if(isMetaComment){
 			if(post.getMetaComments()==null)
 				throw new NotFoundException();
@@ -2191,23 +2201,23 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		if(commentInterface==null)
 			throw new NotFoundException();
-		
+
 		List<Role> roles = (List<Role>) user.getAuthorities();
 		Scenario scenario;
 		boolean permit=false;
-		
+
 		/*START PERMISSION CHECK*/
 		for(Role role : roles){
 			if(role.getAuthority().equals("ROLE_ADMIN"))
 				permit=true;
 		}
 		/*Check user is SYSTEM ADMIN*/
-			
+
 		/**/
-		
+
 		/*Controllo se l'utente che chiede di fare la modifica è il creatore del post e se ha ancora i permessi
 		 * per modificare il post stesso*/
 		if(!permit){
@@ -2244,23 +2254,23 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 			}
-			
+
 		}
-		
+
 		/*Se dopo tutti i controlli effettuati permit è ancora a false rilancio una ForbiddenException*/
 		if(!permit)
 			throw new ForbiddenException();
-		
+
 		/*END PERMISSION CHECK*/
-		
+
 		if(commentDTO.getText()!=null){
 			commentInterface.setText(commentDTO.getText());
 		}
-		
-		
-		
+
+
+
 		commentInterface.setLastChangeDate(new Date());
-		
+
 		if(isMetaComment){
 			metaComment = (MetaComment) commentInterface;
 			postRepository.updateComment(idScenario,postId,metaComment);
@@ -2270,16 +2280,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 			postRepository.updateComment(idScenario,postId,comment);
 			return comment;
 		}
-		
-		
-		
+
+
+
 	}
 
 
 	@Override
 	public void deleteComment(String idScenario, String postId, String commentId,
 			Authentication auth, boolean isMetaComment) throws NotFoundException, ForbiddenException {
-		
+
 
 		CustomUserDetails user = (CustomUserDetails)auth.getPrincipal();
 		Post post =  postRepository.findById(postId);
@@ -2288,10 +2298,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 		MetaComment metaComment;
 		if(post==null)
 			throw new NotFoundException();
-		
+
 		if(post.getStatus().equals(PostStatus.DELETED))
 			throw new NotFoundException();
-		
+
 		if(isMetaComment){
 			if(post.getMetaComments()==null)
 				throw new NotFoundException();
@@ -2311,23 +2321,23 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 			}
 		}
-		
+
 		if(commentInterface==null)
 			throw new NotFoundException();
-		
+
 		List<Role> roles = (List<Role>) user.getAuthorities();
 		Scenario scenario;
 		boolean permit=false;
-		
+
 		/*START PERMISSION CHECK*/
 		for(Role role : roles){
 			if(role.getAuthority().equals("ROLE_ADMIN"))
 				permit=true;
 		}
 		/*Check user is SYSTEM ADMIN*/
-			
+
 		/**/
-		
+
 		/*Controllo se l'utente che chiede di fare la modifica è il creatore del post e se ha ancora i permessi
 		 * per modificare il post stesso*/
 		if(!permit){
@@ -2364,17 +2374,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 			}
-			
+
 		}
-		
+
 		/*Se dopo tutti i controlli effettuati permit è ancora a false rilancio una ForbiddenException*/
 		if(!permit)
 			throw new ForbiddenException();
-		
+
 		/*END PERMISSION CHECK*/
-		
+
 		postRepository.removeComment(idScenario, postId, commentInterface);
-		
+
 	}
 
 
@@ -2382,19 +2392,19 @@ public class ScenarioServiceImpl implements ScenarioService{
 	public boolean addLikeToPost(String id, String postId, Authentication auth) throws NotFoundException, BadRequestException {
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 		Post post = postRepository.findById(postId);
-		
+
 		if(post==null || !post.getScenarioId().equals(id))
 			throw new NotFoundException();
-		
+
 		Scenario scenario = scenarioRepository.findById(id);
 		if(scenario==null)
 			throw new NotFoundException();
-		
+
 		CharacterReference charRef = null;
-		
+
 		if(scenario.getCharacters()!=null){
 			for(CharacterReference c : scenario.getCharacters()){
-				
+
 				if(c.getUserId()!=null && c.getUserId().equals(user.getId())){
 					charRef=c;
 					break;
@@ -2405,18 +2415,18 @@ public class ScenarioServiceImpl implements ScenarioService{
 		//aggiungere gestione notifiche. Controllare che notifica parta solo in caso di aggiunta like e non di rimozione.
 		if(charRef==null)
 			throw new BadRequestException();
-		
+
 		if(post.addLike(charRef))
 			notify.notifyLikeToPost(scenario, post, charRef);
 		Post newPost = postRepository.save(post);
-		
+
 		Set<CharacterReference> likes = newPost.getLikes();
 		if(likes!=null)
 			for(CharacterReference c : likes){
 				if(c.getUserId().equals(user.getId()))
 					return true;
 			}
-		
+
 		return false;
 	}
 
@@ -2424,14 +2434,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 	@Override
 	public List<Character> getAllCharacters(String scenarioId) {
 		return characterRepository.getAllCharactersFromScenario(scenarioId);
-		
+
 	}
 
 
 	@Override
 	public Scenario addMissionToScenario(String id, MissionDTO mission, CustomUserDetails activeUser)throws BadRequestException {
-		
-		
+
+
 		User t = userRepository.findById(activeUser.getId());
 		Reference teacherRef;
 		teacherRef = new Reference (t);
@@ -2440,36 +2450,36 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 		Mission m = new Mission();
 		m.setTeacher(teacherRef);
-		
+
 		Date lastChange = new Date();
 		m.setLastChangeDate(lastChange);
-		
+
 		m.setTitle(mission.getTitle());
 		m.setDescription(mission.getDescription());
-		
+
 		Update u = new Update();
 		u.set("mission", m);
-		
+
 		Scenario s = scenarioRepository.updateScenario(id, u);
 		notify.notifyNewGlobalMission(teacherRef, s, m);
 		return s;		
 	}
-	
+
 	@Override
 	public Character addMissionToCharacter(String idCharacter, MissionDTO mission, CustomUserDetails activeUser)throws BadRequestException {
-		
+
 		User t = userRepository.findById(activeUser.getId());
 		Reference teacherRef;
 		teacherRef = new Reference (t);
 		if(t==null)
 			throw new BadRequestException();
-		
+
 		Mission m = new Mission();
 		m.setTeacher(teacherRef);
-		
+
 		Date lastChange = new Date();
 		m.setLastChangeDate(lastChange);
-		
+
 		m.setTitle(mission.getTitle());
 		m.setDescription(mission.getDescription());
 		Update u = new Update();
@@ -2478,21 +2488,21 @@ public class ScenarioServiceImpl implements ScenarioService{
 		Scenario s = scenarioRepository.findById(c.getScenarioId());
 		notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m);
 		return c;
-		
+
 	}
-	
+
 	@Override
 	public boolean deleteMissionToScenario(String idScenario)
 			throws BadRequestException {
 		return scenarioRepository.deleteMissionToScenario(idScenario);
 	}
-	
+
 	@Override
 	public boolean deleteMissionToCharacter(String idCharacter)throws BadRequestException {
-		
-		
-		 return characterRepository.deleteMissionToCharacter(idCharacter);
-		
+
+
+		return characterRepository.deleteMissionToCharacter(idCharacter);
+
 	}
 
 
@@ -2503,12 +2513,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 		List<Post> posts = postRepository.findByScenarioIdAndPostStatus(id, PostStatus.PUBLISHED);
 		if(posts==null)
 			throw new NotFoundException();
-		
+
 		List<Action> actions = new ArrayList<Action>();
 
 		for(int i=0; i<posts.size(); i++){
-			
-			
+
+
 			/*STATUS*/
 			if(posts.get(i).getClass().equals(Status.class)){
 				/*POST*/
@@ -2519,7 +2529,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				a.setAuthor(authorPost);
 				a.setDate(s.getCreationDate());
 				actions.add(a);
-				
+
 				/*TAG AL POST*/
 				List<Reference> t = s.getTags();
 				if(t!=null && t.size()!=0){
@@ -2532,7 +2542,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 						actions.add(aTag);
 					}
 				}
-				
+
 				/*LIKE AL POST*/
 				Set<CharacterReference> likes = s.getLikes();
 				if(likes!=null && likes.size()!=0){
@@ -2545,7 +2555,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 						actions.add(aLike);
 					}
 				}
-				
+
 				/*COMMENTI AL POST*/
 				List<Comment> comments = s.getComments();
 				if(comments!=null && comments.size()!=0){
@@ -2557,7 +2567,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 						aComment.setDate(c.getCreationDate());
 						aComment.setObject(authorPost);
 						actions.add(aComment);
-						
+
 						/*TAG AL COMMENTO*/
 						List<Reference> tagComment = c.getTags();
 						if(tagComment!=null && tagComment.size()!=0){
@@ -2570,7 +2580,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 								actions.add(aTagComment);
 							}
 						}
-						
+
 						/*LIKE AL COMMENTO*/
 						List<CharacterReference> likeComment = c.getLikes();
 						if(likeComment!=null && likeComment.size()!=0){
@@ -2584,89 +2594,89 @@ public class ScenarioServiceImpl implements ScenarioService{
 							}
 						}
 					}
-				/*Event*/
+					/*Event*/
 				}
 			}else if(posts.get(i).getClass().equals(Event.class)){
-					/*POST*/
-					Event e = (Event)posts.get(i);
-					Action a = new Action();
-					a.setAction(ActionType.POST);
-					AuthorActionReference authorPost = new AuthorActionReference(); 
-					a.setAuthor(authorPost);
-					a.setDate(e.getCreationDate());
-					actions.add(a);
-					
-					/*TAG AL POST*/
-					List<Reference> t = e.getTags();
-					if(t!=null && t.size()!=0){
-						for(Reference r : t){
-							Action aTag = new Action();
-							aTag.setAction(ActionType.TAG);
-							aTag.setAuthor(authorPost);
-							aTag.setDate(e.getCreationDate());
-							aTag.setObject(new AuthorActionReference(r));
-							actions.add(aTag);
-						}
+				/*POST*/
+				Event e = (Event)posts.get(i);
+				Action a = new Action();
+				a.setAction(ActionType.POST);
+				AuthorActionReference authorPost = new AuthorActionReference(); 
+				a.setAuthor(authorPost);
+				a.setDate(e.getCreationDate());
+				actions.add(a);
+
+				/*TAG AL POST*/
+				List<Reference> t = e.getTags();
+				if(t!=null && t.size()!=0){
+					for(Reference r : t){
+						Action aTag = new Action();
+						aTag.setAction(ActionType.TAG);
+						aTag.setAuthor(authorPost);
+						aTag.setDate(e.getCreationDate());
+						aTag.setObject(new AuthorActionReference(r));
+						actions.add(aTag);
 					}
-					
-					/*LIKE AL POST*/
-					Set<CharacterReference> likes = e.getLikes();
-					if(likes!=null && likes.size()!=0){
-						for(CharacterReference r : likes){
-							Action aLike = new Action();
-							aLike.setAction(ActionType.LIKE);
-							aLike.setAuthor(new AuthorActionReference(r));
-							aLike.setDate(e.getCreationDate());
-							aLike.setObject(authorPost);
-							actions.add(aLike);
-						}
-					}
-					
-					/*COMMENTI AL POST*/
-					List<Comment> comments = e.getComments();
-					if(comments!=null && comments.size()!=0){
-						for(Comment c : comments){
-							Action aComment = new Action();
-							AuthorActionReference authorComment = new AuthorActionReference(c.getCharacter());
-							aComment.setAction(ActionType.COMMENT);
-							aComment.setAuthor(authorComment);
-							aComment.setDate(c.getCreationDate());
-							aComment.setObject(authorPost);
-							actions.add(aComment);
-							
-							/*TAG AL COMMENTO*/
-							List<Reference> tagComment = c.getTags();
-							if(tagComment!=null && tagComment.size()!=0){
-								for(Reference rTagComment : tagComment){
-									Action aTagComment = new Action();
-									aTagComment.setAuthor(authorComment);
-									aTagComment.setAction(ActionType.TAG);
-									aTagComment.setDate(c.getCreationDate());
-									aTagComment.setObject(new AuthorActionReference(rTagComment));
-									actions.add(aTagComment);
-								}
-							}
-							
-							/*LIKE AL COMMENTO*/
-							List<CharacterReference> likeComment = c.getLikes();
-							if(likeComment!=null && likeComment.size()!=0){
-								for(CharacterReference rLikeComment : likeComment){
-									Action aLikeComment = new Action();
-									aLikeComment.setAction(ActionType.LIKE);
-									aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
-									aLikeComment.setDate(c.getCreationDate());
-									aLikeComment.setObject(authorComment);
-									actions.add(aLikeComment);
-								}
-							}
-						}
 				}
-				
-		
+
+				/*LIKE AL POST*/
+				Set<CharacterReference> likes = e.getLikes();
+				if(likes!=null && likes.size()!=0){
+					for(CharacterReference r : likes){
+						Action aLike = new Action();
+						aLike.setAction(ActionType.LIKE);
+						aLike.setAuthor(new AuthorActionReference(r));
+						aLike.setDate(e.getCreationDate());
+						aLike.setObject(authorPost);
+						actions.add(aLike);
+					}
+				}
+
+				/*COMMENTI AL POST*/
+				List<Comment> comments = e.getComments();
+				if(comments!=null && comments.size()!=0){
+					for(Comment c : comments){
+						Action aComment = new Action();
+						AuthorActionReference authorComment = new AuthorActionReference(c.getCharacter());
+						aComment.setAction(ActionType.COMMENT);
+						aComment.setAuthor(authorComment);
+						aComment.setDate(c.getCreationDate());
+						aComment.setObject(authorPost);
+						actions.add(aComment);
+
+						/*TAG AL COMMENTO*/
+						List<Reference> tagComment = c.getTags();
+						if(tagComment!=null && tagComment.size()!=0){
+							for(Reference rTagComment : tagComment){
+								Action aTagComment = new Action();
+								aTagComment.setAuthor(authorComment);
+								aTagComment.setAction(ActionType.TAG);
+								aTagComment.setDate(c.getCreationDate());
+								aTagComment.setObject(new AuthorActionReference(rTagComment));
+								actions.add(aTagComment);
+							}
+						}
+
+						/*LIKE AL COMMENTO*/
+						List<CharacterReference> likeComment = c.getLikes();
+						if(likeComment!=null && likeComment.size()!=0){
+							for(CharacterReference rLikeComment : likeComment){
+								Action aLikeComment = new Action();
+								aLikeComment.setAction(ActionType.LIKE);
+								aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
+								aLikeComment.setDate(c.getCreationDate());
+								aLikeComment.setObject(authorComment);
+								actions.add(aLikeComment);
+							}
+						}
+					}
+				}
+
+
 			}
-			
+
 		}
-		
+
 		Collections.sort(actions);
 		return actions;
 	}
@@ -2712,7 +2722,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				missions.add(m);
 			}
 		}
-		
+
 		return missions;
 	}
 

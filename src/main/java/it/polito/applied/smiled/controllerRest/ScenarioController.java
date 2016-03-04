@@ -342,11 +342,9 @@ public class ScenarioController extends BaseController{
 	@RequestMapping(value="/v1/scenarios/{id}/posts", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
 	public List<Post> getPostsOlderThan(@PathVariable String id, @RequestParam(value = "last", required=false) String lastPostId, @RequestParam(value = "nItem", required=false) Integer nItem,
-			@RequestParam(value = "historicOrder", required=false) Boolean historicOrder, @RequestParam(value = "orderDesc", required=false) Boolean orderDesc){
+			@RequestParam(value = "orderDesc", required=false) Boolean orderDesc){
 		
-		if(historicOrder==null){
-			historicOrder=false;
-		}
+		
 		if(orderDesc==null){
 			orderDesc=true;
 		}
@@ -355,7 +353,37 @@ public class ScenarioController extends BaseController{
 		if(nItem>10)
 			nItem=10;
 		//TODO ATTENZIONE!!!! Per le revisione gestire il MODIFIED_TO_NOT_VISIBLE
-		return scenarioService.getLastNPost(id, lastPostId, nItem, historicOrder, orderDesc);
+		
+		return scenarioService.getLastNPost(id, lastPostId, nItem, orderDesc);
+		
+	}
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/{id}/historic-posts", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
+	public List<Post> getHistoricPostsOlderThan(@PathVariable String id, @RequestParam(value = "date", required=false) Long date, 
+			@RequestParam(value = "time", required=false) Integer time, @RequestParam(value = "nItem", required=false) Integer nItem,
+			@RequestParam(value = "orderDesc", required=false) Boolean orderDesc) throws BadRequestException{
+		
+		if((date==null && time!=null) || (date!=null && time==null))
+			throw new BadRequestException();
+		
+		if((date!=null && date<0) || (time!=null && time<0))
+			throw new BadRequestException();
+		
+		System.out.println(orderDesc);
+		if(orderDesc==null){
+			orderDesc=true;
+		}
+		
+		if(nItem==null || nItem<=0)
+			nItem=5;
+		if(nItem>10)
+			nItem=10;
+		//TODO ATTENZIONE!!!! Per le revisione gestire il MODIFIED_TO_NOT_VISIBLE
+		
+		return scenarioService.getLastNHistoricPost(id, date, time, nItem, orderDesc);
+		
 	}
 
 
