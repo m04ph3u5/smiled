@@ -8,6 +8,8 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	self.newNotifications = [];
 	self.oldNotifications = [];
 	self.numNewNotifications=0;
+	self.user = {};
+	self.basicCover = {};
 	
 	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
 	self.iHaveDone = false;
@@ -55,11 +57,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			var reloadAssociation = false;
 			
 				for(var i=0; i<notifications.length; i++){
-					if(notifications[i].verb == "NEW_POST"){
-						notifications[i].text = "Nuovo post nello scenario "+ notifications[i].scenarioName;
-					}
-						
-					else if(notifications[i].verb == "COMMENT_TO_POST"){
+					if(notifications[i].verb == "COMMENT_TO_POST"){
 						if(self.user.id==notifications[i].mainReceiver)
 							notifications[i].text = notifications[i].actorName +" ha commentato un tuo post nello scenario "+notifications[i].scenarioName;
 						else
@@ -278,6 +276,8 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		return null;
 	}
 	
+	
+	
 	self.clickOnNotify = function(n){
 		
 		n.viewed=true;
@@ -431,15 +431,43 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	updateCover();
 	userService.registerObserverPersonalCover(updateCover);
 	
+	
+	//metodo usato dall'esterno per settare a viewed la notifica con l'id specificato
+	var setViewedNotifify = function(id){
+		if(self.newNotifications)
+			for(var i =0; i< self.newNotifications.length; i++){
+				if(self.newNotifications[i].id == id){
+					self.newNotifications[i].viewed = true;
+					return;
+				}
+			}
+		if(self.oldNotifications)
+			for(var i =0; i< self.oldNotifications.length; i++){
+				if(self.oldNotifications[i].id == id){
+					self.oldNotifications[i].viewed = true;
+	
+				}
+			}
+	}
+	
 	var newNotificationListener = $scope.$on('notification.newNotificationEvent', function (event, data) {
 		
         getNewNotification(data.notification);
         $scope.$applyAsync();
        
     })
+    
+    var setViewedListener = $scope.$on('notification.setViewedEvent', function (event, data) {
+		
+    	setViewedNotifify(data.id);
+     
+       
+    })
   
+	
 	$scope.$on("$destroy", function() {
 		newNotificationListener();
+		setViewedListener();
         notifyService.resetObserverAssociation();
     });
 

@@ -3,6 +3,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 
 
 	var lastScenarioId = "";
+	var lastMe = {};
 	
 	var setScenarioId = function(id){
 		lastScenarioId = id;
@@ -12,6 +13,10 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		return lastScenarioId;
 	}
 	
+	var getLastMe = function(){
+		return lastMe;
+	}
+	
 	
 	var getMe = function(){
 		var u = $q.defer();
@@ -19,9 +24,11 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 			function(response){
 				u.resolve(response.data);
 				$cookies.put('myMescholaId', response.data.id);
+				lastMe=response.data;
 			},
 			function(reason){
 				u.reject(reason);
+				lastMe={};
 			}
 		);
 		return u.promise;
@@ -110,7 +117,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		}).then(
 				function(data){
 					console.log("logged out");
-					user=null;
+					lastMe={};
 					$cookies.remove('myMescholaId');
 					log.resolve(data);
 				},
@@ -206,6 +213,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		login: login,
 		logout: logout,
 		getMe : getMe, 
+		getLastMe : getLastMe,
 		getUser: getUser,
 		registerObserverPersonalCover: registerObserverPersonalCover,
 		notifyPersonalCoverObservers: notifyPersonalCoverObservers,
