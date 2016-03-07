@@ -367,7 +367,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setMainReceiver(user.getId());
 		if(actor!=null){
 			n.setActorId(actor.getId());
-			n.setActorName(actor.getFirstname()+" "+user.getLastname());
+			n.setActorName(actor.getFirstname()+" "+actor.getLastname());
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());

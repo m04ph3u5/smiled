@@ -473,8 +473,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 							if(!l.contains(ref))
 								l.add(ref);
-
-							notify.notifyNewAttendee(scen, teacherRef, u.getId());
+							
+							if(scen.getStatus().equals(ScenarioStatus.ACTIVE))
+								notify.notifyNewAttendee(scen, teacherRef, u.getId());
 						}
 					}
 				}
