@@ -4,7 +4,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	self.scen = $scope.scenario.scen;
 	self.currentCharacter = $scope.scenario.currentCharacter;
 	self.posts = [];
-	
+	$scope.scenario.labelNewPosts = true;
 	var scrollable = CONSTANTS.numberOfPostForScroll;
 	
 	
@@ -323,6 +323,9 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
         updPostEvent();
         notifyService.resetActualScenarioId();
         notifyService.resetObserverReloadList();
+        $scope.scenario.labelNewPosts = false;
+        self.post=[];
+        $scope.scenario.numNewPost = 0;
     });
 	
 
