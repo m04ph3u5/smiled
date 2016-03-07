@@ -38,25 +38,12 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 						}
 					}
 				}
-				console.log("DRAFT");
-				console.log(self.myDraft);
+				
 			},
 			function(reason){
 				
 			}
-	);
-
-	//self.user = {};
-	
-//	userService.getUser().then(
-//		function(data){
-//			self.user=data;
-//			console.log(self.user);
-//		}
-//	);
-	console.log("dashboard");
-	console.log(loggedUser);
-	
+	);	
 	
 	
 	self.user = loggedUser;
@@ -115,8 +102,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 			self.myCharacters = [];
 			for(var i=0; i<self.user.openScenarios.length; i++){
 				self.user.openScenarios[i].isOpen=true;
-				console.log("createArrayOfScenariosToShow IN");
-				console.log(self.user.openScenarios[i]);
+				
 				if(self.user.openScenarios[i].myCharacterId){
 					var character = {};
 					character.scenarioId = self.user.openScenarios[i].id;
@@ -138,7 +124,7 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		tmp.sort(compareDate);
 		
 		tmp.splice(self.numScenariosToShow, (tmp.length - self.numScenariosToShow));
-		console.log(angular.copy(tmp));
+		
 		self.scenariosToShow = tmp;
 	}
 	

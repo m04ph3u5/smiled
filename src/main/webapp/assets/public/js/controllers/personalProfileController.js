@@ -144,6 +144,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 		if(self.editPassword==true){
 			$location.hash("changePwd");
 		    $anchorScroll();
+		    $location.url($location.path());
 		}
 			
 		

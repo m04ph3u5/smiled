@@ -29,6 +29,7 @@ angular.module('smiled.application').factory('alertingScenario',['$timeout', '$l
     		currentAlerts.push(alert);
     		$location.hash("topBox");
 			$anchorScroll();
+			$location.url($location.path());
 
     		$timeout(function () {
     			removeAlert(alert);

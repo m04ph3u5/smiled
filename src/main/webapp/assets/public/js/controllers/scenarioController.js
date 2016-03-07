@@ -75,6 +75,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		resetNumNewPost();
 		$location.hash("top");
 	    $anchorScroll();
+	    $location.url($location.path());
 	}
 	
 	var reloadMe = function(){
@@ -161,6 +162,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.goToBody = function(){
 		$location.hash("body-content");
 	    $anchorScroll();
+	    $location.url($location.path());
 	}
 	
 	var newPostListener = $scope.$on('notification.newPostEvent', function () {

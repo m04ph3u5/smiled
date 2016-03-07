@@ -280,12 +280,16 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	
 	self.clickOnNotify = function(n){
 		
-		n.viewed=true;
-		var view={};
-		view.ids = [];
-		view.ids.push(n.id);
-		view.type="VIEW_N";
-		$timeout(webSocketService.send(view),1000);
+		
+		if(!n.viewed){
+			n.viewed=true;
+			var view={};
+			view.ids = [];
+			view.ids.push(n.id);
+			view.type="VIEW_N";
+			$timeout(webSocketService.send(view),1000);
+		}
+		
 		if(n.verb=="MODIFIED" || n.verb=="MODIFIED_POST_BY_MOD" || n.verb=="LIKE_TO_POST" || n.verb=="TAG_ON_CREATE" || n.verb=="TAG_ON_MOD"){
 			$state.go('logged.scenario.post', {"id":n.scenarioId , "idPost": n.objectId});
 		}else if(n.verb=="COMMENT_TO_POST" || n.verb=="METACOMMENT_TO_POST"){

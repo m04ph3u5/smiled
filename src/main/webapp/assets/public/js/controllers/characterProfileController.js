@@ -45,7 +45,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	
 	apiService.getCharacter(scenarioId, idChar).then(
 			function(data){
-				console.log(data);
+				
 				self.character = data;
 				self.newCharacter = angular.copy(data);
 				if(self.character.actualUser != null && self.character.actualUser.id != null)
@@ -55,8 +55,6 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 					self.genderBool = false;
 				else
 					self.character.gender == "M";   //assumo che se manca il genere, di default è M
-				console.log("character preso");
-				console.log(self.character.actualUserStart);
 				
 				self.numberOfPastUsers = Object.size(self.character.pastUserId);
 				
@@ -96,8 +94,6 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 			self.newCharacter.gender="M";
 		
 		var isEquals = isEqualsCharacter();
-		console.log("update character...");
-		console.log(isEquals);
 		
 		if(!isEquals){
 			
@@ -125,7 +121,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 			);
 		}
 		else{
-			console.log("NESSUN CAMBIAMENTO - NO PUT!");
+			//NESSUN CAMBIAMENTO - NO PUT!;
 		}
 		
 		
@@ -141,10 +137,9 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	        })
 //	            .progress(function (evt) {
 //	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //	        })
 	        .success(function (data, status, headers, config) {
-	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+	            
 	            var d = new Date();
 
 	            self.cover = CONSTANTS.urlCharacterCover(scenarioId, idChar)+"?"+d.toString();
@@ -181,9 +176,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	
 	var isEqualsCharacter = function (){
 		
-		console.log("equals?");
-		console.log(self.character.gender);
-		console.log(self.genderBool);
+		
 		if(self.character.nickname != self.newCharacter.nickname)
 			return false;
 		if(self.character.quote != self.newCharacter.quote)
@@ -239,7 +232,6 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	}
 	
 //	self.getUserCover = function(){
-//		console.log("STO CERCANDO"+id)
 //		self.userCover = CONSTANTS.urlUserCover(id);				
 //	}
 

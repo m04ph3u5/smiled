@@ -87,7 +87,7 @@
 		
 			<li data-ui-sref="logged.lastNews">
 			
-				<a style="border: 2px; border-style:dashed; border-color:#cb654f;" tooltip="Le ultime novità introdotte" href="">Novità</a></li>
+				<a style="border: 2px; border-style:dashed; border-color:#cb654f;" tooltip="Le ultime novità" href="">Novità</a></li>
 			<li>
 				<a data-ui-sref="logged.dashboard" tooltip="Home" href=""><span class="glyphicon glyphicon-home"></span></a></li>
 
@@ -113,7 +113,7 @@
 				                       			<span style="padding-left:7px; padding-right:7px; float:left; width:15%;">
 				                       				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
 				                       			</span>
-				                       		<a href="" data-ng-click="navbar.clickOnNotify(n)">
+				                       		<a href="" data-ng-mousedown="navbar.clickOnNotify(n)">
 						                     	<p style="padding-right:7px; white-space:normal;">    
 						                       				 {{n.text}} <br><br>
 						                       				<span style="float:right;" data-ng-if="!n.formatDate" class="label label-primary">Adesso</span>

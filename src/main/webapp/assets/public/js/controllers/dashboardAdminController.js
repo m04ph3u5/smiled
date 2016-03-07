@@ -87,7 +87,6 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		else{
 			userService.getUser(l.userId).then(
 					function(data){
-						console.log("call to server for user!!!");
 						var ref = {};
 						ref.firstName = data.firstName;
 						ref.lastName = data.lastName;
@@ -99,7 +98,6 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 						
 						
 					}, function(reason){
-						console.log(reason);
 						var ref = {};
 						ref.firstName = "nome non disponibile";
 						ref.lastName = "cognome non disponibile";
@@ -126,7 +124,6 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		else{
 			apiService.getScenario(l.scenarioId).then(
 					function(data){
-						console.log("call to server for scenario!!!");
 						var ref = {};
 						ref.nameScenario = data.name;
 						ref.creator = data.teacherCreator.firstname +" " + data.teacherCreator.lastname;
@@ -557,12 +554,14 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 						self.numRegistrationRequestsFounded--;
 						$location.hash("comeHere");
 					    $anchorScroll();
+					    $location.url($location.path());
 					}
 					
 				}, function(reason){
 					alertingGeneric.addWarning("Operazione annullata");			
 					$location.hash("comeHere");
 				    $anchorScroll();
+				    $location.url($location.path());
 				
 				});
 	}
@@ -583,12 +582,14 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 						self.numRegistrationRequestsFounded--;
 						$location.hash("comeHere");
 					    $anchorScroll();
+					    $location.url($location.path());
 					}
 					
 				}, function(reason){
 					alertingGeneric.addWarning("Operazione annullata");			
 					$location.hash("comeHere");
 				    $anchorScroll();
+				    $location.url($location.path());
 				});
 	};
 	
@@ -599,7 +600,6 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		
 		userService.getUserByEmail(l.email).then(
 				function(data){
-					console.log(data);
 					l.firstName = data.firstName;
 					l.lastName = data.lastName;
 					l.registrationDate = data.registrationDate;

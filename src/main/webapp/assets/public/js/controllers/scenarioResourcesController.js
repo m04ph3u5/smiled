@@ -146,6 +146,7 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 	self.updateFile = function(index){
 		$location.hash("update-description");
 	    $anchorScroll();
+	    $location.url($location.path());
 		self.showMetaBox=true;
 		console.log("UPDATE");
 		self.newFile.name = self.files[index].originalName;
