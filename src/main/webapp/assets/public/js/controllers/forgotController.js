@@ -5,7 +5,7 @@ angular.module('smiled.application').controller('forgotCtrl', ['userService','al
 	self.userEmail="";
 	
 	self.sendNewPassRequest = function(){
-		console.log(self.userEmail);
+		
 		if(!self.userEmail || !validateEmail()){
 			alertingGeneric.addWarning("Inserire un indirizzo mail valido");
 		}else{
@@ -13,11 +13,11 @@ angular.module('smiled.application').controller('forgotCtrl', ['userService','al
 			e.email = self.userEmail;
 			userService.forgotPasswordRequest(e).then(
 					function(data){
-						console.log("OK");
+						
 						alertingGeneric.addSuccess("Richiesta inviata con successo.");
 					},
 					function(reason){
-						console.log("ERROR");
+						
 						alertingGeneric.addDanger("Si è verificato un errore");
 					}
 			);

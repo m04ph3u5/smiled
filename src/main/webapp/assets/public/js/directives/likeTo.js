@@ -36,8 +36,7 @@ angular.module("smiled.application").directive('likeTo', [ 'apiService',
 								}
 						);
 					}else
-						console.log("IMPOSSIBLE LIKE POST");
-					
+					 //do nothing
 				}
 			},
 			controllerAs: "likeTo",

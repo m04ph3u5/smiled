@@ -31,7 +31,6 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 				}
 //				
 //				var onDestroy = function(){
-//					console.log("onDestroy metaCommentTo directive");
 //					if(self.atLeastOneCommentWasSended)
 //						self.post.metaComments.reverse();
 //				}
@@ -83,7 +82,6 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 			bindToController : true,
 			link : function(scope,elem,attrs,ctrl){
 				scope.$watch('metaCommentTo.post.metaComments.length', function(newVal, oldVal){
-					console.log("WATCH COMMENT TO");
 					if(newVal!=oldVal ){
 						if(ctrl.showViewOthers){
 							ctrl.visibleComments.push(ctrl.post.metaComments[0]);
@@ -93,18 +91,14 @@ angular.module("smiled.application").directive('metaCommentTo', [ 'apiService', 
 				});
 				
 				scope.$watch('metaCommentTo.post.newMetaComment.length', function(newVal, oldVal){
-					console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
 					if(newVal>0 && (oldVal==0 || oldVal==undefined)){
-						console.log("addToInEdit");
 						notifyService.addToInEditPost(ctrl.post.id);
 					}else if((newVal==0 || newVal==undefined) && oldVal>0){
-						console.log("removeToInEdit");
 						notifyService.removeToInEditPost(ctrl.post.id);
 					}
 				});
 				
 				scope.$on('$destroy', function(){
-					console.log("removeToInEdit");
 					ctrl.post.newMetaComment="";
 					notifyService.removeToInEditPost(ctrl.post.id);
 				});

@@ -3,7 +3,6 @@ angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$state
 		 function scenarioMissionsCtrl($stateParams, apiService, $scope, CONSTANTS){
 	
 			 var self = this;
-			 console.log("scenarioMissionsCtrl---------------");
 			 
 			 var myId = $scope.scenario.loggedUser.id;
 			 self.myCharacter = null;
@@ -36,8 +35,7 @@ angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$state
 						for(var i=0; i< $scope.scenario.scen.characters.length; i++){
 							if($scope.scenario.scen.characters[i].userId == myId){
 								self.myCharacter = $scope.scenario.scen.characters[i];
-								console.log("my character----->");
-								console.log(self.myCharacter);
+							
 								break;
 							}
 						}
@@ -45,8 +43,7 @@ angular.module('smiled.application').controller('scenarioMissionsCtrl', ['$state
 					if(self.myCharacter){
 						apiService.getCharacter($stateParams.id, self.myCharacter.id).then(
 								function(data){
-									console.log("personaggio mio prelevato");
-									console.log(data);
+									
 									self.characters.push(data);
 								},
 								function(reason){

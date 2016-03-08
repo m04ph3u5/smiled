@@ -30,13 +30,11 @@ angular.module('smiled.application').controller('updateScenarioCtrl', [ 'apiServ
 			self.basicinfoboxOn=false;
 			
 			if(self.scenario.startDate==null || self.scenario.endDate==null || self.scenario.title==null){
-				console.log("ATTENZIONE non tutti i campi sono formattati correttamente");
-				console.log(self.scenario);
+				
 			}else{
 				s1.title= self.scenario.title;
 				s1.startDate = self.scenario.startDate;
 				s1.endDate = self.scenario.endDate;
-				console.log(s1);
 			}
 		}else{
 			/*Apri il div*/
@@ -46,7 +44,6 @@ angular.module('smiled.application').controller('updateScenarioCtrl', [ 'apiServ
 			/*Chiudi il div*/
 			
 			if(self.scenario.listEmail==null){
-				console.log("ATTENZIONE nessuna email inserita");
 			}else{
 				listEmail = produceListEmail(self.scenario.listEmail);
 			}

@@ -17,7 +17,6 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         		if(self.busy || stopScroll)
         			return;
         		self.busy=true;
-        		console.log("NEXT POST");
         		if(self.posts.length==0){
         			getPost();
         		}else{
@@ -34,7 +33,6 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
 		    					stopScroll=true;
 		    					return;
 		    				}
-		    				console.log("----------------------->POST");
 		    				for(var i=0; i<arrivedPosts.length;i++){
 		  					
 		    					if(arrivedPosts[i].character && arrivedPosts[i].character.id){
@@ -62,7 +60,6 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
 		    						var col = -1;
 		    						var row = 0;
 		    						for(var j=0; j<arrivedPosts[i].imagesMetadata.length;j++){
-										console.log("IN: "+1%numMediaPerRow);
 		    							if(j!=0 && j%numMediaPerRow==0){
 		    								col=0;
 		    								row++;
@@ -74,7 +71,6 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
 		    							arrivedPosts[i].imagesMetadata[j].url = CONSTANTS.urlMedia(arrivedPosts[i].imagesMetadata[j].id);
 		    						}
 		    					}
-		    					console.log(arrivedPosts[i]);
 		    					self.posts.push(angular.copy(arrivedPosts[i]));
 		    				}
 	    					self.busy=false;

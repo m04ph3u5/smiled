@@ -12,9 +12,13 @@
 					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
 						<span class="glyphicon glyphicon-user"></span>
 						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
-						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 	
-										
 					</a>
+					 
+					<a href="" data-ui-sref="logged.scenario.post({id : '{{showNewsPost.scenario.id}}', idPost : '{{showNewsPost.post.id}}' })">
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 	
+					</a>
+										
+					
 						
 					<div  data-ng-show="showNewsPost.editButton"  class="marginMLeft dropdown pull-right">
 						<a style="cursor:pointer;" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
@@ -272,9 +276,12 @@
 				<span class="pull-right marginMRight" href="">
 					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
 						<span class="glyphicon glyphicon-user"></span>
-						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}}
-						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}}						
+						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
 					</a>
+					<a href="" data-ui-sref="logged.scenario.post({id : '{{showNewsPost.scenario.id}}', idPost : '{{showNewsPost.post.id}}' })">
+						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 	
+					</a>
+					
 						<div class="marginMLeft dropdown pull-right">
 						<a style="cursor:pointer;" data-ng-show="showNewsPost.editButton" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">

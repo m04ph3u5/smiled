@@ -19,7 +19,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	
 //        	if(!self.timeNumber){
 //        		self.timeNumber=0;
-//        		console.log("RESET TIME NUMBER");
 //        	}
         	if(self.startDate){
         		self.startDate.day=parseInt(self.startDate.day);
@@ -46,7 +45,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		self.endDate = {};
         	}
         
-        	console.log("CUSTOM DATE PICKER DIRECITVE");
         	
         	self.currentMonthDate = {};
         	self.days;
@@ -85,7 +83,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         	        	
         	var dateToJulianNumber = function(date){
         		 
-        		  console.log("dateToJulianNumber: "+date.year);
         		  var jd = parseInt(( 1461 * ( date.year + 4800 + parseInt(( date.month - 14 ) / 12) ) ) / 4) +
                   parseInt(( 367 * ( date.month - 2 - 12 *  parseInt(( date.month - 14 ) / 12)  ) ) / 12) -
                   parseInt(( 3 * parseInt(( date.year + 4900 + parseInt(( date.month - 14 ) / 12) ) / 100)  ) / 4) +
@@ -122,14 +119,12 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 //        	else
 //        	{
 //        		self.startDateNumber = dateToJulianNumber(self.startDate);
-//        		console.log(self.startDateNumber);
 //        	}
 //        	
 //        	if(!self.endDate)
 //        		julianNumberToDate(parseInt(self.endDateNumber), self.endDate);
 //        	else{
 //        		self.endDateNumber = dateToJulianNumber(self.endDate);
-//        		console.log(self.endDateNumber);
 //        	}
 //
 //        	if(!self.dateNumber && !self.date)
@@ -145,7 +140,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 //           	}
            		
 
-        	console.log(self.currentMonthDate);
         	
         	var getTimeToSeconds=function(timeNumber,t){
         		t.hours=parseInt(timeNumber/3600);
@@ -242,7 +236,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        	
         	}
         	elaborateDaysOfMonth(self.currentMonthDate);
-        	console.log(self.currentMonthDate);
            
         	
         	
@@ -255,13 +248,12 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 
 	        		var n = dateToJulianNumber(self.currentMonthDate);
 	        		n+=getNumDaysOfMonth(self.currentMonthDate.month,self.currentMonthDate.year);
-	        		console.log(n+" - "+self.endDateNumber);
 	        		if(n<=self.endDateNumber){
 	        			julianNumberToDate(n,self.currentMonthDate);
 	        			elaborateDaysOfMonth(self.currentMonthDate);
 	        		}
 	        		else
-	        			console.log("No more next");//TODO cambiare classe freccia dx per non renderla più cliccabile
+	        			//TODO cambiare classe freccia dx per non renderla più cliccabile
         		}else{
             		var index = self.yearMatrix[yearMatrixSize-1][yearMatrixSize-1]+1-self.startDate.year;
             		if(index<years.length && index>0){
@@ -271,7 +263,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        			else
 	        				self.yearsInterval = ""+Math.abs(years[index])+" a.C.";
 
-	            		console.log(self.yearMatrix[yearMatrixSize-1][yearMatrixSize-1]);
 	    				for(var i=0; i<yearMatrixSize; i++)
 	            			for(var j=0; j<yearMatrixSize && index<years.length && index>0; j++){
 	            				self.yearMatrix[i][j]=years[index];
@@ -299,7 +290,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 		            		julianNumberToDate(n,self.currentMonthDate);
 		        			elaborateDaysOfMonth(self.currentMonthDate);
 		        		}else{
-		        			console.log("No more prev");//TODO cambiare classe freccia sx per non renderla più cliccabile	        			
+		        			//TODO cambiare classe freccia sx per non renderla più cliccabile	        			
 		        		}
 	        		}
         		}else{
@@ -334,7 +325,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        		date.month = self.currentMonthDate.month;
 	        		date.year = self.currentMonthDate.year;
 	        		self.dateNumber=dateToJulianNumber(date);
-	        		console.log(self.dateNumber);
 	        		self.days[row][col].selected=true;
 	        		selected = self.days[row][col];
 	        		self.dateString=self.days[row][col].val+" "+self.currentMonthDate.title;
@@ -359,7 +349,6 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		for(var i=0; i<yearMatrixSize; i++)
         			for(var j=0; j<yearMatrixSize && index<years.length; j++){
         				self.yearMatrix[i][j]=years[index];
-        				console.log(self.yearMatrix[i][j]);
         				index++;
         			}
         		if(years[index-1]>=0)
@@ -392,10 +381,8 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
         		var seconds = date.getSeconds();
         		
         		self.timeNumber=seconds+minute*60+hour*3600;
-        		console.log(self.timeNumber);
         	}
         	if(!self.timeNumber){
-        		console.log("NOT TIME NUMBER");
         		self.myTime = new Date();
             	getSecondsOfTime(self.myTime);
         	}

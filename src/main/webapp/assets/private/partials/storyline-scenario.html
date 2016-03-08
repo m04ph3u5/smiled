@@ -17,13 +17,13 @@
 			<li data-ng-class="scenarioStoryline.getPosition($index)"
 				data-ng-repeat="post in scenarioStoryline.posts track by $index">
 				<div ng-if="$even" class="timeline-badge primary">
-					<a href=""
+					<a href="" data-ui-sref="logged.scenario.post({id : '{{post.scenarioId}}', idPost : '{{post.id}}' })"
 						title="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}">
 						<i popover-placement="left" popover-trigger="mouseenter" popover="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}"
 						class="glyphicon glyphicon-time"></i></a>					
 				</div>
 				<div ng-if="$odd" class="timeline-badge primary">
-					<a href=""
+					<a href="" data-ui-sref="logged.scenario.post({id : '{{scenario.id}}', idPost : '{{post.id}}' })"
 						title="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}">
 						<i popover-placement="right" popover-trigger="mouseenter" popover="{{post.user.firstname}} {{post.user.lastname}}, {{post.creationDate | date : scenarioStoryline.realDateFormatWithHour}}"
 						class="glyphicon glyphicon-time"></i></a>					
@@ -66,7 +66,8 @@
 
 					<div class="timeline-footer">
 						<div class="media" data-ng-repeat="comment in post.comments">
-							<a class="pull-left" href="#"> <img class="imgPreviewM"
+						
+							<a class="pull-left" href=""> <img class="imgPreviewM"
 								data-ng-src="{{comment.character.cover}}"
 								data-err-src="assets/public/img/icon/pg.png" />
 							</a> <span class="clickable"><i>{{comment.character.firstname}}</i></span>

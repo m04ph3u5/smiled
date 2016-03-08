@@ -42,7 +42,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	self.getUrlMedia = function(id){
-		console.log(CONSTANTS.urlMedia(id));
 		return CONSTANTS.urlMedia(id);
 	}
 	
@@ -76,7 +75,7 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 		if(self.busy || stopScroll)
 			return;
 		self.busy=true;
-		console.log("NEXT POST");
+	
 		if(self.posts.length==0){
 			self.getPost("",scrollable);
 		}else{
@@ -173,18 +172,15 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 				}
 			}
 			if(listOfUpdPosts.length>0){
-				console.log("get list of new posts!!!!!!!!!!!!!!");
 				apiService.getListOfNewPosts(self.scen.id, listOfUpdPosts).then(
 						
 						function(data){
-							console.log(data);
 							if(data.content){
 								for(var i=0; i<data.content.length; i++){
 									for(var j=0; j<self.posts.length; j++){
 
 										if(self.posts[j].id == data.content[i].id){
-											console.log("il nuovo post è cosi': ");
-											console.log(data.content[i]);
+											
 											self.posts[j]=angular.copy(data.content[i]);
 										}
 									}
@@ -200,7 +196,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	self.addCommentToPost = function(s){
-		console.log(s.newComment);
 		if(s.newComment){
 			var comment = {};
 			comment.text=s.newComment;
@@ -232,7 +227,6 @@ angular.module('smiled.application').controller('scenarioPostCtrl', ['CONSTANTS'
 	}
 	
 	self.addMetaCommentToPost = function(s){
-		console.log(s.newMetaComment);
 		if(s.newMetaComment){
 			var comment = {};
 			comment.text=s.newMetaComment;

@@ -32,10 +32,8 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*Check character presence. If absent don't show template*/
 			if(self.character && self.character.id){
 				self.showInsertStatus = true;
-				console.log(self.character);
 			}else{
 				self.showInsertStatus = false;
-				console.log(self.character);
 			}
 			/*--------------------------------------------------------*/
 			
@@ -125,7 +123,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 						
 						apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
 								function(data){
-									console.log("sended: "+data);
 									self.newPost.content="";
 									self.newPost.image=[];
 									self.newPost.file=[];
@@ -192,7 +189,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 					}
 					apiService.sendStatus(self.scenario.id, self.character.id, toSendPost).then(
 							function(data){
-								console.log("sended draft: "+data);
 								self.newPost.content="";
 								self.newPost.image=[];
 								self.newPost.file=[];
@@ -229,7 +225,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 						for(var i=0; i<self.newPost.image.length; i++){
 							if(self.newPost.image[i].id==id){
 								self.newPost.image.splice(i,1);
-								console.log("Immagine eliminato")
 							}
 						}
 					},
@@ -240,14 +235,12 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			}
 			
 			self.getMedia = function(id){
-				console.log("id dell'img:" + id);
 				return CONSTANTS.urlMedia(id);
 			}
 			/*------------------------------------------*/
 			
 			/*Public function to add/remove new file to status*/
 			self.addFileToNewPost = function(file){
-				console.log("add File");
 				uploadMediaToPost(file,false);
 			}
 			self.removeFile =function(file){
@@ -257,7 +250,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 							for(var i=0; i<self.newPost.file.length; i++){
 								if(self.newPost.file[i].id==id){
 									self.newPost.file.splice(i,1);
-									console.log("File eliminato")
 								}
 							}
 						},
@@ -270,7 +262,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			/*Private function used to upload media*/
 			var uploadMediaToPost = function(file,isImage){
-				console.log(file);
 				if(file && file.length){
 					if(isImage && !(file[0].type=="image/png") && !(file[0].type=="image/gif") && !(file[0].type=="image/jpg") && !(file[0].type=="image/jpeg")){
 						alertingScenario.addWarning("Formato non valido per le immagini.");
@@ -284,11 +275,9 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 				        })
 //				            .progress(function (evt) {
 //				            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//				            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //				        })
 				        .then(
 				        function (response) {
-				           console.log("SUCCESS UPLOAD");
 				           if(isImage){
 					           var uploadedFile = {};
 				        	   uploadedFile.id = response.data.id;
@@ -330,7 +319,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			
 			/*Function to pass to autocomplete of tag-input-directive*/
 			self.search = function($query,isChar){
-				console.log("SEARCH");
 				var selectable;
 				self.suggestions = new Array();
 				if(isChar)
@@ -355,8 +343,7 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 							}
 						}
 					}else if(isChar){
-						console.log("search->character");
-						console.log(regex.source);
+					
 
 						if(!self.scenario.id){
 							throw new Error("Unsupported type");
@@ -369,7 +356,6 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 								suggestion.id=selectable[i].id;
 								suggestion.cover=CONSTANTS.urlCharacterCover(self.scenario.id,selectable[i].id);
 								self.suggestions.push(suggestion);
-								console.log("search->addSuggestion "+i);
 							}
 
 						}

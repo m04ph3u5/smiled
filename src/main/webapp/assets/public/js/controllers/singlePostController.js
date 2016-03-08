@@ -9,9 +9,7 @@ angular.module('smiled.application').controller('singlePostCtrl', ['$state', '$s
 	self.postReady=false;
 	
 	var onStartup = function (){
-		console.log("singlePostCtrl");
-		console.log("idpost: ");
-		console.log(idPost);
+		
 		if(!scenId || scenId==""){
 			$state.go('logged.dashboard');
 		}else if(!idPost || idPost==""){

@@ -34,7 +34,6 @@ angular.module("smiled.application").directive('userCard', [ 'CONSTANTS', 'userS
 							console.log(reason);
 						}
 				);
-				console.log(self.user);
 				//prendere lo user in base all'ID
 				//prendere il n° di scenari e di compiti dello user
 

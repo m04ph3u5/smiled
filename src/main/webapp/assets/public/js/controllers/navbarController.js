@@ -4,7 +4,6 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
  /*  WebSocketService viene iniettato affiché lo stessa venga istanziato e quindi inizializzato per aprire la connessione websocket.
   */	
 	var self = this;
-	console.log("NAVBAR LOGGED CONTROLLER");
 	self.newNotifications = [];
 	self.oldNotifications = [];
 	self.numNewNotifications=0;
@@ -27,7 +26,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			
 		},
 		function(reason){
-			console.log(reason);
+			console.log("errore");
 		}
 	);
 	
@@ -254,7 +253,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 						},
 						function(reason){
 							console.log("Error retriving old notification (REST)");
-							console.log(reason);
+							
 						}
 				);
 		}
@@ -368,51 +367,14 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		}
 	}
 	
-//	var updateNotifications = function(){
-//		console.log("new notifications (navbar controller)");
-//		var oldNoRead = angular.copy(self.newNotifications);
-//		self.newNotifications = angular.copy(notifyService.readNewNotifications()).concat(oldNoRead);	
-//		console.log("New notifications: ")
-//		console.log(self.newNotifications);
-//		console.log("Lunghezza: ");
-//		console.log(self.newNotifications.length);
-//	}
-	
-//	self.setNotificationsToRead = function(){
-//		self.oldNotifications = self.oldNotifications.concat(angular.copy(self.newNotifications));
-//		self.newNotifications = [];
-//		console.log("Notifiche già lette: ");
-//		console.log(self.oldNotifications);
-//		self.iHaveDone=true;
-//	}
+
 	
 
 	
 	
 	
 	
-		  
-//	function isLoggedUpdate(){
-//		console.log("isLoggedUpdate call")
-//		self.isLogged = userService.isLogged();
-//		if(self.isLogged){
-//			apiService.getMe().then(
-//					function(data){
-//						self.user=data;
-//						console.log(data);
-//						
-//						var imageProfileUrl = baseImageProfile;
-//						var random = new Date();
-//						self.cover = imageProfileUrl+"?"+random.toString();
-//					},
-//					function(reason){
-//						console.log("Something wrong");
-//					}
-//			);
-//		}
-//		console.log(userService.isLogged());
-//	}
-	
+		
 	function logout(){
 		userService.logout().then(
 				function(data){

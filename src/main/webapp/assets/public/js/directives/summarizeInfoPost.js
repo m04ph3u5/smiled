@@ -15,7 +15,6 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 				self.metaCommentsLabel = "";
 				
 				self.switchShowComments = function(){
-					console.log("switch show comments");
 					self.showMetaComment = false;
 					self.showComment = !self.showComment;
 				
@@ -83,7 +82,6 @@ angular.module("smiled.application").directive('summarizeInfoPost', [ 'CONSTANTS
 								ctrl.post.youLike = true;
 							i++;
 						}
-						console.log("++++++++++++");
 						updateLabel();
 					}
 					

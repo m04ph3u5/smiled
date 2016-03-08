@@ -56,8 +56,7 @@ angular.module("smiled.application").directive("insertMission", [ 'CONSTANTS', '
 			
 			self.saveMission = function(){
 				if(self.character){
-					console.log("saving mission character...");
-					console.log(self.newMission);
+					
 					apiService.addMissionToCharacter(self.scenario.id, self.character.id, self.newMission).then(
 							function(data){
 								self.character = data;
@@ -72,8 +71,7 @@ angular.module("smiled.application").directive("insertMission", [ 'CONSTANTS', '
 							}
 					);
 				}else{
-					console.log("saving mission scenario...");
-					console.log(self.mission);
+					
 					apiService.addMissionToScenario(self.scenario.id, self.newMission).then(
 							function(data){
 								self.scenario = data;
@@ -98,7 +96,6 @@ angular.module("smiled.application").directive("insertMission", [ 'CONSTANTS', '
 			}
 			
 			self.deleteMission = function(){
-				console.log("delete mission");
 				if(self.character){
 					apiService.deleteMissionToCharacter(self.scenario.id, self.character.id).then(
 							function(data){

@@ -271,7 +271,6 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		}
 		
 		var createScenario = function(scenario){
-			console.log("CREATE SCENARIO -----------------------");
 			 var history ={
 					 startDate : {
 						 year : "",
@@ -307,15 +306,13 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		}
 		
 		var deleteScenario = function(){
-			console.log(scenario);
 			s = apiService.deleteScenario(scenario.id);
 			return s; 
 			 
 		}
 		
 		var deleteAttendee = function(){
-			console.log("delete");
-			console.log(attendee);
+			console.log("delete not implemented");
 			 
 		}
 		

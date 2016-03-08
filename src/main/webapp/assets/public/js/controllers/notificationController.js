@@ -25,7 +25,7 @@ angular.module('smiled.application').controller('notificationCtrl', ['$rootScope
 				},
 				function(reason){
 					console.log("problem in getLastUserNotifications");
-					console.log(reason);
+				
 					self.busy=false;
 				}
 			);
@@ -44,7 +44,6 @@ angular.module('smiled.application').controller('notificationCtrl', ['$rootScope
 					self.busy=false;
 				},
 				function(reason){
-					console.log("problem in download more notifications");
 					console.log(reason);
 					self.busy=false;
 				}

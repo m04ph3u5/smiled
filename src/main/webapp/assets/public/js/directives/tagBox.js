@@ -32,8 +32,7 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$docu
 							}
 						}
 					}else if(self.type=="character"){
-						console.log("search->character");
-						console.log(regex.source);
+						
 
 						if(!self.scenarioId){
 							throw new Error("Unsupported type");
@@ -45,7 +44,6 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$docu
 								suggestion.id=self.selectable[i].id;
 								suggestion.cover=CONSTANTS.urlCharacterCover(self.scenarioId,self.selectable[i].id);
 								self.suggestions.push(suggestion);
-								console.log("search->addSuggestion "+i);
 							}
 
 						}
@@ -59,7 +57,6 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$docu
 			}
 
 			self.addToSelectedTags=function(index){
-				console.log("addToSelectedTags "+index);
 				if(self.selectedTags.indexOf(self.suggestions[index])===-1){
 					self.selectedTags.push(self.suggestions[index]);
 					self.searchText='';
@@ -88,13 +85,11 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$docu
 			}
 			
 //			self.onFocusOut = function(){
-//				console.log("FOCUSOUT");
 //				
 //				self.showSuggestions=false;
 //			}
 //			
 //			self.onFocusIn = function(){
-//				console.log("FOCUSIN");
 //				self.showSuggestions=true;
 //			}
 		},
@@ -112,7 +107,6 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$docu
 			
 			
 			elem.on('focusout', function($event){
-				console.log("focusout: "+ controller.showSuggestions);
 			
 					controller.showSuggestions=false;
 					scope.$apply();
@@ -123,18 +117,15 @@ angular.module("smiled.application").directive('myTagBox', [ 'CONSTANTS', '$docu
 
 			});
 			elem.on('focusin', function($event){
-				console.log("focusin: "+ controller.showSuggestions);
-				console.log(scope);
+				
 				controller.search();
 				controller.showSuggestions=true;
-				console.log($event.target);
 				scope.$apply();
 			});
 			
 //			elem.bind('mousedown', function(e){
 //			    e.stopPropagation();
-//			    console.log('clicked on directive');
-//			    console.log(e);
+
 //			    clickedIn=true;
 //			});
 //			

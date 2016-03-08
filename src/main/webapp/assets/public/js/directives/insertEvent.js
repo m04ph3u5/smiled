@@ -11,14 +11,11 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			var self = this;
 			/*Initialize newPost variable*/
 			self.startDate = angular.copy(self.scenario.history.startDate);
-			console.log(self.startDate);
 			if(!self.startDate.afterChrist)
 				self.startDate.year*=-1;
-			console.log(self.startDate);
 			self.endDate = angular.copy(self.scenario.history.endDate);
 			if(!self.endDate.afterChrist)
 				self.endDate.year*=-1;
-			console.log(self.endDate);
 			self.newPost = {};
 //			self.newPost.date = {};
 //			self.newPost.date.afterChrist = true;
@@ -122,7 +119,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 						
 						apiService.sendEvent(self.scenario.id, toSendPost).then(
 								function(data){
-									console.log("event sended: "+data);
 									self.newPost.content="";
 									self.newPost.image=[];
 									self.newPost.file=[];
@@ -163,9 +159,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 
 			/*--------------Create draft post start------------------------------------------*/
 			self.draftNewPost = function(){
-				console.log("CIAO");
 				if(self.sendPostEnable && self.newPost.content){
-					console.log("CIAO CIAO");
 					self.sendPostEnable=false;
 					var toSendPost = {};
 					toSendPost.text = self.newPost.content;
@@ -190,7 +184,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 					}
 					apiService.sendEvent(self.scenario.id, toSendPost).then(
 							function(data){
-								console.log("sended draft: "+data);
 								self.newPost.content="";
 								self.newPost.image=[];
 								self.newPost.file=[];
@@ -230,7 +223,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 						for(var i=0; i<self.newPost.image.length; i++){
 							if(self.newPost.image[i].id==id){
 								self.newPost.image.splice(i,1);
-								console.log("Immagine eliminato")
 							}
 						}
 					},
@@ -243,7 +235,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			
 			/*Public function to add/remove new file to status*/
 			self.addFileToNewPost = function(file){
-				console.log("add File");
 				uploadMediaToPost(file,false);
 			}
 			self.removeFile =function(file){
@@ -253,7 +244,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 							for(var i=0; i<self.newPost.file.length; i++){
 								if(self.newPost.file[i].id==id){
 									self.newPost.file.splice(i,1);
-									console.log("File eliminato")
 								}
 							}
 						},
@@ -279,11 +269,9 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 				        })
 	//			            .progress(function (evt) {
 	//			            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-	//			            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 	//			        })
 				        .then(
 				        function (response) {
-				           console.log("SUCCESS UPLOAD");
 				           if(isImage){
 				        	   var uploadedFile = {};
 				        	   uploadedFile.id = response.data.id;
@@ -324,7 +312,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			
 			/*Function to pass to autocomplete of tag-input-directive*/
 			self.search = function($query,isChar){
-				console.log("SEARCH");
 				var selectable;
 				self.suggestions = new Array();
 				if(isChar)
@@ -349,8 +336,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 							}
 						}
 					}else if(isChar){
-						console.log("search->character");
-						console.log(regex.source);
+				
 
 						if(!self.scenario.id){
 							throw new Error("Unsupported type");
@@ -363,7 +349,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 								suggestion.id=selectable[i].id;
 								suggestion.cover=CONSTANTS.urlCharacterCover(self.scenario.id,selectable[i].id);
 								self.suggestions.push(suggestion);
-								console.log("search->addSuggestion "+i);
 							}
 
 						}
@@ -397,9 +382,7 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*Function to open map*/
 			self.colorMapMarker = {};
 			self.setPositionNewPost = function(){
-//				console.log("setPositionNewMap");
 //				var mapsArray = [];
-//				console.log(CONSTANTS.urlMedia(self.scenario.history.mapId));
 //				mapsArray.push(map);
 //				Lightbox.openModal(mapsArray,0);
 				var map;
@@ -412,7 +395,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			/*--------------------*/
 			/*Function to show/hide type box*/
 			self.showSelectType = function(){
-				console.log("showSelectType");
 				self.showViewToSelectType = !self.showViewToSelectType;
 			}
 			self.hideType = function(){

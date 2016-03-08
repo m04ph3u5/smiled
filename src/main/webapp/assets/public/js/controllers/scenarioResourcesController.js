@@ -80,7 +80,6 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 		up.then(
 				/*SUCCESS*/
 				function(resp){
-					console.log("UPLOADED");
 					self.showCancelButton=false;
 					self.showMetaBox=true;
 					self.newFile.name = resp.config.file[0].name;
@@ -90,7 +89,6 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 				/*FAIL*/
 				function(reason){
 					console.log("UPLOAD FAILED");
-					console.log(reason);
 					self.newFile.progress = 0;
 					self.error="Upload fallito ("+reason.data.message+"). Si prega di riprovare.";
 					self.showCancelButton=false;
@@ -99,7 +97,6 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 				function(evt){
 					self.showCancelButton=true;
 					self.showProgressBar=true;
-					console.log(evt);
 					self.newFile.progress = parseInt(100.0 * evt.loaded / evt.total);
 					self.widthProgressBar=self.newFile.progress+"%";
 				}
@@ -148,7 +145,6 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 	    $anchorScroll();
 	    $location.url($location.path());
 		self.showMetaBox=true;
-		console.log("UPDATE");
 		self.newFile.name = self.files[index].originalName;
 		self.newFile.id = self.files[index].name;
 		self.newFile.description = self.files[index].description;
@@ -157,10 +153,8 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 	self.removeFile =function(index){
 		modalService.showModalDeleteResource(self.files[index]).then(
 				function(response){
-					console.log("DELETE");
 					apiService.deleteTrustedMedia(self.scen.id, self.files[index].name).then(
 							function(response){
-								console.log("REMOVED");
 								self.files.splice(index, 1);
 							},
 							function(reason){
@@ -169,7 +163,7 @@ angular.module('smiled.application').controller('scenarioResourcesCtrl', ['CONST
 					);
 				},
 				function(reason){
-					console.log("CANCEL");
+					console.log("errore");
 				}
 		);
 	}
