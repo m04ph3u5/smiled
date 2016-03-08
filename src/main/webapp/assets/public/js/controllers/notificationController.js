@@ -264,8 +264,7 @@ angular.module('smiled.application').controller('notificationCtrl', ['$rootScope
 		
 		if(self.user.role.authority=="ROLE_TEACHER"  ){
 			if( self.user.colleagues){
-				console.log("colleghi");
-				console.log(self.user.colleagues);
+				
 				for(var i=0; i< self.user.colleagues.length; i++){
 					if(self.user.colleagues[i].id == id)
 						return true;

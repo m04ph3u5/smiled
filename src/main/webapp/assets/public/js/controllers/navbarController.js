@@ -17,7 +17,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	userService.getMe().then(		
 		function(data){
 			self.user=data;
-			console.log("***********"); console.log(self.user);
+			
 			if(self.user.role.authority=="ROLE_TEACHER" || self.user.role.authority=="ROLE_ADMIN"){
 				self.basicCover=CONSTANTS.basicTeacherCover;
 			}
@@ -379,8 +379,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		
 		if(self.user.role.authority=="ROLE_TEACHER"  ){
 			if( self.user.colleagues){
-				console.log("colleghi");
-				console.log(self.user.colleagues);
+				
 				for(var i=0; i< self.user.colleagues.length; i++){
 					if(self.user.colleagues[i].id == id)
 						return true;
