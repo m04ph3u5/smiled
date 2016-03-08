@@ -88,7 +88,7 @@ angular.module("smiled.application").controller('scenarioStorylineCtrl', [ 'apiS
         		self.posts=[];
         		self.busy=false;
         		stopScroll=false;
-        		
+        		self.nextPost();
         	}
         	
         	self.getPosition = function(index){
