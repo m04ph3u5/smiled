@@ -21,10 +21,8 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 					for(var i=0;i<self.posts.length; i++){
 						if(self.posts[i].id==self.postId){
 							self.post = self.posts[i];
-							console.log("POST FOUNDED: "+self.post.id);
 							if(self.post.character){
 								self.post.character.cover = CONSTANTS.urlCharacterCover(self.post.scenarioId, self.post.character.id);
-								console.log(self.post.character.cover);
 							}
 							break;
 						}
@@ -200,7 +198,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 											for(var i=0; i<self.newPost.image.length; i++){
 												if(self.newPost.image[i].id==id){
 													self.newPost.image.splice(i,1);
-													console.log("Immagine eliminato")
 												}
 											}
 										},
@@ -215,14 +212,12 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 					);
 				}
 				self.getMedia = function(id){
-					console.log("id dell'img:" + id);
 					return CONSTANTS.urlMediaThumb(id);
 				}
 				/*------------------------------------------*/
 				
 				/*Public function to add/remove new file to status*/
 				self.addFileToNewPost = function(file){
-					console.log("add File");
 					uploadMediaToPost(file,false);
 				}
 				self.removeFile =function(file){
@@ -234,7 +229,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 											for(var i=0; i<self.newPost.file.length; i++){
 												if(self.newPost.file[i].id==id){
 													self.newPost.file.splice(i,1);
-													console.log("File eliminato")
 												}
 											}
 										},
@@ -266,7 +260,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 //				            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //				        })
 				        .then(function (response) {
-				           console.log("SUCCESS UPLOAD");
 				           if(isImage){
 					           var uploadedFile = {};
 				        	   uploadedFile.id = response.data.id;
@@ -289,7 +282,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 				
 				/*Function to pass to autocomplete of tag-input-directive*/
 				self.search = function($query,isChar){
-					console.log("SEARCH");
 					var selectable;
 					self.suggestions = new Array();
 					if(isChar)
@@ -314,8 +306,7 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 								}
 							}
 						}else if(isChar){
-							console.log("search->character");
-							console.log(regex.source);
+							
 
 							if(!self.scenario.id){
 								throw new Error("Unsupported type");
@@ -328,7 +319,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 									suggestion.id=selectable[i].id;
 									suggestion.cover=CONSTANTS.urlCharacterCover(self.scenario.id,selectable[i].id);
 									self.suggestions.push(suggestion);
-									console.log("search->addSuggestion "+i);
 								}
 
 							}
@@ -395,7 +385,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 						if(self.post.character){
 							apiService.updateStatus(self.scenario.id, self.post.id, toSendPost).then(
 									function(data){
-										console.log("sended draft: "+data);
 										self.sendPostEnable= true;
 										self.post = data;
 										for(var i=0; i<self.posts.length; i++){
@@ -417,7 +406,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 						}else{
 							apiService.updateEvent(self.scenario.id, self.post.id, toSendPost).then(
 									function(data){
-										console.log("sended draft: "+data);
 										self.sendPostEnable= true;
 										self.post = data;
 										for(var i=0; i<self.posts.length; i++){
@@ -439,7 +427,6 @@ angular.module("smiled.application").directive('editDraftPost',[ 'apiService', '
 						
 					}else{
 						angular.element(document.querySelector('#textContentStatus')).focus();
-						console.log("NO SAVE");
 					}	
 				}
 				/*--------------Create draft post end------------------------------------------*/

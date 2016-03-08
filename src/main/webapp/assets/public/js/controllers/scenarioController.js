@@ -2,8 +2,6 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
                                                 function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService, $scope, $interval){
 	
 	
-	console.log("controller");
-	
 	var self = this;
 	self.scen = scenario;
 	self.loggedUser = loggedUser;
@@ -61,8 +59,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.incrementNumNewPost = function(){	
 		
 		self.numNewPost++;
-		console.log("STO INCREMENTANDO NUM_NEW_POST !!!!!!!!!!!!!!!");
-		console.log(self.numNewPost);		
+		
 	}
 	
 	var resetNumNewPost = function(){
@@ -79,7 +76,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	}
 	
 	var reloadMe = function(){
-		console.log("RELOAD *******");
+		
 		userService.getMe().then(function(data){
 			self.loggedUser =data;
 			onStartup();
@@ -99,7 +96,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		
 			self.isCreator=true;
 			self.isModerator=true;	
-			console.log(self.scen);
+			
 		}
 		userService.setScenarioId(self.scen.id);
 
@@ -147,10 +144,8 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	        })
 //	            .progress(function (evt) {
 //	            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //	        })
 	        .success(function (data, status, headers, config) {
-	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
 	            var date = new Date();
 	            self.scen.cover = CONSTANTS.urlScenarioCover(self.scen.id)+"?"+date.toString() ;
 	        });
@@ -166,7 +161,6 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	}
 	
 	var newPostListener = $scope.$on('notification.newPostEvent', function () {
-		console.log("on newPostListener!!!!!!!");
         self.incrementNumNewPost();
         $scope.$applyAsync();
        

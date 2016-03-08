@@ -8,8 +8,6 @@ angular.module('smiled.application').controller('scenariosListCtrl',
 	self.realDateWithHour = CONSTANTS.realDateFormatWithHour;
 	self.realDateWithoutHour = CONSTANTS.realDateFormatWithoutHour;
 	
-	console.log(self.realDateWithHour);
-	console.log(self.realDateWithoutHour);
 	
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();

@@ -106,7 +106,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 //	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //	        })
 	        .success(function (data, status, headers, config) {
-	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+	            
 	            var date = new Date();
 	            self.url = CONSTANTS.urlMeCover+"?"+date.toString();    
 	            userService.notifyPersonalCoverObservers();
@@ -128,7 +128,7 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 //	            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //	        })
 	        .success(function (data, status, headers, config) {
-	            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+	           
 	            var date = new Date();
 	            self.coverLarge = CONSTANTS.urlMeCoverLarge+"?"+date.toString();    
 	            //userService.notifyPersonalCoverObservers();
@@ -139,8 +139,6 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 	self.switchEditPassword = function(){
 		
 		self.editPassword = !self.editPassword;
-		console.log("switch show pwd");
-		console.log(self.editPassword);
 		if(self.editPassword==true){
 			$location.hash("changePwd");
 		    $anchorScroll();
@@ -177,7 +175,6 @@ angular.module('smiled.application').controller('personalProfileCtrl', ['Upload'
 			self.updateUserDTO.school = angular.copy(self.user.profile.school);
 			self.updateUserDTO.quote = angular.copy(self.user.profile.quote);
 		}
-		console.log("DELETE UPDATE USER");
 	}
 	
 	self.deleteModifyPassword = function(){

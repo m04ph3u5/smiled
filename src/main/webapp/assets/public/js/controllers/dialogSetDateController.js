@@ -11,12 +11,11 @@ function dialogSetDateCtrl(modalService, alertingGeneric, $state, scen, start, C
 	if(start==true){
 		//modifico la data di inizio
 		self.newDate = scen.history.startDate;
-		console.log(self.newDate);
 		
 	}else{
 		//modifico la data di fine
 		self.newDate = scen.history.endDate;		
-		console.log(self.newDate);
+	
 	}
 	
 	

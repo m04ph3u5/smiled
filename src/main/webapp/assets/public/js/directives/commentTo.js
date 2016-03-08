@@ -25,8 +25,7 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 				
 				self.visibleComments = new Array();
 //				self.post.comments.reverse();
-				console.log("COMMENT TO!!!");
-				console.log(self.post.comments);
+				
 				var i=0;
 				while(i<self.post.comments.length && i<numVisibleComment){
 					self.visibleComments.unshift(self.post.comments[i]);
@@ -46,7 +45,6 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 					self.showViewOthers = false;
 				}
 //				var onDestroy = function(){
-//					console.log("onDestroy commentTo directive");
 ////					if(self.atLeastOneCommentWasSended)
 ////						self.post.comments.reverse();
 //				}
@@ -57,7 +55,6 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 				
 				
 				self.addCommentToPost = function(){
-					console.log(self.post.newComment);
 					if(self.post.newComment){
 						var comment = {};
 						comment.text=self.post.newComment;
@@ -119,7 +116,6 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 			bindToController: true,
 			link : function(scope,elem,attrs,ctrl){
 				scope.$watch('commentTo.post.comments.length', function(newVal, oldVal){
-					console.log("WATCH COMMENT TO");
 					if(newVal!=oldVal && newVal>0){
 						if(ctrl.showViewOthers){
 							ctrl.visibleComments.push(ctrl.post.comments[0]);
@@ -132,18 +128,14 @@ angular.module("smiled.application").directive('commentTo',[ 'apiService', 'CONS
 				});
 				
 				scope.$watch('commentTo.post.newComment.length', function(newVal, oldVal){
-					console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
 					if(newVal>0 && (oldVal==0 || oldVal==undefined)){
-						console.log("addToInEdit");
 						notifyService.addToInEditPost(ctrl.post.id);
 					}else if((newVal==0 || newVal==undefined) && oldVal>0){
-						console.log("removeToInEdit");
 						notifyService.removeToInEditPost(ctrl.post.id);
 					}
 				});
 				
 				scope.$on('$destroy', function(){
-					console.log("removeToInEdit");
 					ctrl.post.newComment="";
 					notifyService.removeToInEditPost(ctrl.post.id);
 				});

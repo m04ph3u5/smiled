@@ -26,8 +26,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	var newNotifyOrPost = function(n){
 		
 		if(n.sender!=me){
-			console.log("new notification !!!!!!!!!!");
-			console.log(n);
+			
 			if(n.verb=="NEW_POST"){
 				if(n.scenarioId==actualScenarioId){
 					newPosts.unshift(n.objectId);

@@ -8,24 +8,21 @@ angular.module('smiled.application').controller('indexCtrl', [ 'userService', 'a
 	var self = this;
 	
 	function isLoggedUpdate(){
-		console.log("isLoggedUpdate call")
 		self.isLogged = userService.isLogged();
 		if(self.isLogged){
 			apiService.getMe().then(
 					function(data){
 						self.user=data;
-						console.log(data);
-						
+					
 						var imageProfileUrl = baseImageProfile;
 						var random = new Date();
 						self.cover = imageProfileUrl+"?"+random.toString();
 					},
 					function(reason){
-						console.log("Something wrong");
+						console.log("errore");
 					}
 			);
 		}
-		console.log(userService.isLogged());
 	}
 	
 	function logout(){
@@ -34,7 +31,7 @@ angular.module('smiled.application').controller('indexCtrl', [ 'userService', 'a
 	
 	function updateImageProfile(){
 		var random = new Date();
-		console.log(baseImageProfile+"?"+random.toString());
+		
 		self.cover = baseImageProfile+"?"+random.toString();
 	}
 	

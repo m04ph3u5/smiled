@@ -6,13 +6,11 @@
 	var register = Restangular.one('register');
 
 	function postRegister(registerObject){
-		console.log(registerObject);
 		return register.post("",registerObject);
 	}
 
 // function createScenario(scenarioDTO){
 // var scenario = Restangular.one("scenarios");
-// console.log(scenarioDTO);
 // return scenario.post("",scenarioDTO);
 // }
 
@@ -637,7 +635,6 @@
 	}
 
 // var onSuccessGetScenario = function(response){
-// console.log("Getting data scenario: "+response.data);
 // scenarios = response.data;
 // return scenarios;
 // }

@@ -14,17 +14,18 @@
 		 <a data-ui-sref="logged.dashboard" href="">
 		 	<span class="titleNav"><b><i>me</i>schola</b></span>
 		 </a>
-		 <div style="display:inline-block;" >
+		 <div style="display:inline-block; margin-left:-40px;">
 		 	<ul class="visible-xs hidden-sm hidden-md hidden-lg " style="margin-top:12px; list-style-type:none;">
 			  <li class="dropdown" >
 			  		  <a blur-element open="navbar.openNotifications" data-ng-blur="navbar.onBlurDropDown()" data-ng-click="navbar.clickOnNotificationsButton()" tooltip="Notifiche" href=""  data-toggle="dropdown" style="position:relative;">
+
 			  		  
 				  		  <span id="noti_Container"> 
 		   					  <span class="glyphicon glyphicon-bullhorn" ></span>
-		    			      <span data-ng-if="navbar.numNewNotifications>0" class="noti_bubble">{{navbar.newNotifications.length}}</span>			      
+		    			      <span data-ng-if="navbar.numNewNotifications > 0" class="noti_bubble">{{navbar.newNotifications.length}}</span>			      
 						  </span>
 					  </a>
-			          <ul class="dropdown-menu " role="menu" >
+			          <ul class="dropdown-menu" role="menu" >
 			          
 				          	<div style="width:20em; max-height: 300px; overflow-y: auto; overflow-x:hidden">
 				          	
@@ -34,16 +35,16 @@
 				                        <li style="background-color:rgba(224,227,227,0.5); padding-top:8px;" role="menu-item" data-ng-repeat="n in navbar.newNotifications track by $index">
 				                        	
 					                      
-					                       			<span style="padding-left:3px; padding-right:7px; float:left; width:10%;">
-					                       				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
-					                       			</span>
-					                       		<a href="" data-ng-click="navbar.clickOnNotify(n)">
-							                     	<p style="margin-left:5px; padding-right:3px; white-space:normal;">    
+					                       			
+					                       			<img style="float:left; width:20%; margin-right:3px;" class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
+					                       		
+					                       			<a href="" data-ng-click="navbar.clickOnNotify(n)" >
+							                     		<p  style="white-space:normal;">    
 							                       				 {{n.text}} <br><br>
 							                       				<span style="float:right;" data-ng-if="!n.formatDate" class="label label-primary">Adesso</span>
 							                       				<span style="float:right;"  data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>
-							                  	    </p>
-												</a>
+							                  	    	</p>
+													</a>
 					                  		
 					                        <hr data-ng-hide="navbar.newNotifications.length>=10 && $index==navbar.newNotifications.length-1 && navbar.oldNotifications.length>0" style="margin-bottom:0px;">
 				                        	
@@ -51,11 +52,11 @@
 				                     
 				                     	<li style="padding-top:8px;" role="menu-item" data-ng-repeat="n in navbar.oldNotifications track by $index" data-ng-style="n.viewed == false ? { 'background-color':'rgba(224,227,227,0.5)'} : {  }">
 				                     		
-				                     			<span style="padding-left:7px; padding-right:7px; float:left; width:15%;">
-				                     				<img class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
-				                     			</span>
-				                     			<a href="" data-ng-click="navbar.clickOnNotify(n)">
-						                       		<p style="padding-right:7px; white-space:normal;">    				                      			
+				                     			
+				                     			<img style="float:left; width:20%; margin-right:3px;" class="img-circle imgPreviewM" data-ng-src={{navbar.getSrcPhoto(n)}} data-err-src={{navbar.getErrPhoto(n)}}>
+				                     		
+				                     			<a href="" data-ng-click="navbar.clickOnNotify(n)" >
+						                       		<p style="white-space:normal;">    				                      			
 						                      			{{n.text}} <br><br>
 						                      			
 						                      			<span style="float:right;" data-ng-if="n.formatDate" class="label label-primary">{{ n.formatDate }}</span>	

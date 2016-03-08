@@ -7,7 +7,6 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS', 
 			map : "@"
 		},
 		link : function(scope, element, attrs){
-			console.log(scope.post);
 			var ctx = element[0].getContext('2d');
 			var canvas = ctx.canvas;
 			//TODO adattare la dimensione del canvas a quella del modal???
@@ -70,7 +69,6 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS', 
 	}
 }]);
 //			element.on("click", function(event) {
-//				console.log(event);
 //				var pin = {};
 //				pin.x = event.offsetX/event.target.width;
 //				pin.y = event.offsetY/event.target.height;
@@ -78,10 +76,8 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS', 
 //
 //				var x = event.offsetX-20;
 //				var y = event.offsetY-40;
-//				console.log(x+" "+y);
 //
 //				var el = angular.element("#pin");
-//				console.log(el);
 //				el.attr("style", "top: "+y+"px; left: "+x+"px; visibility: visible;");
 //				scope.$apply(function(){
 //					$compile(el)(scope);
@@ -94,15 +90,12 @@ angular.module("smiled.application").directive('pinPointCanvas', [ 'CONSTANTS', 
 //			});
 
 //			angular.element($window).bind('resize', function() {
-//			console.log("------------------->RESIZE");
 //			var mapX = element.find('#map-layer').width(); 
 //			var mapY = element.find('#map-layer').height();
-//			console.log(mapX+" "+mapY)
 //			for(var i=0; i<ctrl.pinPoints.length; i++){
 //			var id = "pin"+(i+1);
 //			var newX = Math.round(((ctrl.pinPoints[i].x*ctrl.pinPoints[i].naturalX)/mapX))-20;
 //			var newY = Math.round(((ctrl.pinPoints[i].y*ctrl.pinPoints[i].naturalY)/mapY))-40;
-////			console.log(newX+" "+newY);
 ////			var el = angular.element(id);
 ////			el.attr("style" , "top: "+newX+"px; left: "+newY+"px;");
 ////			$scope = el.scope();

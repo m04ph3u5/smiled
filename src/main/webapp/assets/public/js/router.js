@@ -771,9 +771,7 @@ angular.module('smiled.application')
         $rootScope.$stateParams = $stateParams;
         
                 
-    	  console.log("Run application");
     	  Permission.defineRole('anonymous',function(stateParams){
-    		  console.log("check anonymous");
     		  var deferred = $q.defer();
     		  userService.getMe().then(
     				  function(data){
@@ -787,7 +785,6 @@ angular.module('smiled.application')
 
     	  });
     	  Permission.defineRole('user',function(stateParams){
-    		  console.log("check user");
     		  var deferred = $q.defer();
     		  userService.getMe().then(
     				  function(data){
@@ -803,7 +800,6 @@ angular.module('smiled.application')
     		  return deferred.promise;    			
     	  });
     	  Permission.defineRole('teacher',function(stateParams){
-    		  console.log("check teacher");
     		  var deferred = $q.defer();
     		  userService.getMe().then(
     				  function(data){
@@ -819,7 +815,6 @@ angular.module('smiled.application')
     		  return deferred.promise; 
     	  });
     	  Permission.defineRole('admin',function(stateParams){
-    		  console.log("check admin");
     		  var deferred = $q.defer();
     		  userService.getMe().then(
     				  function(data){

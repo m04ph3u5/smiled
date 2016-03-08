@@ -38,11 +38,9 @@ angular.module("smiled.application").directive('forminput',['$compile', function
 		};
 		
 		var addMessages = function(form, element, name, $compile, scope){
-			console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			console.log(form +" "+element +" "+ name+" "+ form.$name);
+			
 			var messages = "<div class='help-block' ng-messages='" + form.$name + "."+
 				name + ".$error" + "' ng-messages-include='assets/public/partials/messages.html'></div>";
-			console.log(messages);
 			element.append($compile(messages)(scope));
 			//scope-$watch guarda all'invalid flag associato al form e chiama l'updater se il watcher restituisce true
 			scope.$watch(watcherFor(form, name), updaterFor(element));

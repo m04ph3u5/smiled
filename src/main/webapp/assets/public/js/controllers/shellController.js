@@ -2,10 +2,8 @@ angular.module('smiled.application').controller('shellCtrl', ['$scope', '$locati
          function shellCtrl($scope, $location, userService,$state){
 	
 	if(!userService.isLogged){
-		console.log("---------->ShellCTRL, LOGIN");
 		$state.go("login");
 	}else{
-		console.log("---------->ShellCTRL, LOGGED");		
 		switch($location.path()){
 			case "/":
 				$state.go("logged");

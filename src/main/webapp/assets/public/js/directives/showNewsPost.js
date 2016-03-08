@@ -289,7 +289,6 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			assignFileType();
 			
 			self.addFileToPost = function(file){
-				console.log("add File");
 				uploadMediaToPost(file,false);
 			}
 			self.removeFile =function(file){
@@ -326,14 +325,12 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			}
 			
 			self.getMedia = function(id){
-				console.log("id dell'img:" + id);
 				return CONSTANTS.urlMedia(id);
 			}
 
 			self.deletePost = function(){
 				apiService.deletePost(self.scenario.id, self.post.id).then(
 						function(data){
-							console.log("DELETE POST OK");
 							self.deleted=true;
 							self.post = {};
 						},
@@ -366,7 +363,6 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 
 				apiService.updateStatus(self.scenario.id, self.post.id, self.postDTO).then(
 						function(data){
-							console.log("UPDATE STATUS OK");
 							self.post = data;
 							self.originalTagsList = angular.copy(self.post.tags);
 							self.newCharactersToTags = [];
@@ -409,17 +405,12 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 					}
 				}
 
-				console.log("vecchi tag");
-				console.log(oldTags);
-				console.log("nuovi tag");
-				console.log(newTags);
-
+		
 				self.postDTO.tags = newTags;
 				self.postDTO.tags = self.postDTO.tags.concat(oldTags);
 
 				apiService.updateEvent(self.scenario.id, self.post.id, self.postDTO).then(
 						function(data){
-							console.log("UPDATE STATUS OK");
 							self.post = data;
 							self.originalTagsList = angular.copy(self.post.tags);
 							self.newCharactersToTags = [];
@@ -470,8 +461,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 							selectable.push(self.scenario.characters[i]);
 					}
 				}
-				console.log("i selezionabili sono: ");
-				console.log(selectable);	
+				
 
 				var regex = new RegExp("(^|\\s|-|'|,|\.)"+$query,"gi");
 				if(selectable){
@@ -529,10 +519,8 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			        })
 //			            .progress(function (evt) {
 //			            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//			            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 //			        })
 			        .then(function (response) {
-			           console.log("SUCCESS UPLOAD");
 			           if(isImage){
 				           var uploadedFile = {};
 			        	   uploadedFile.id = response.data.id;

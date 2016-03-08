@@ -15,8 +15,7 @@ angular.module("smiled.application").directive('bsSwitch', function() {
         onSwitchChange: function(event, state) {
           scope.state = state;
           scope.$apply(function() {
-        	 console.log("on switch change");
-        	 console.log(state);
+        	 
             ngModelCtrl.$setViewValue(state);
           });
         }

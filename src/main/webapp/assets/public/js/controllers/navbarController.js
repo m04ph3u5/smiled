@@ -1,10 +1,9 @@
-angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService', '$timeout',
-                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService, $timeout){
+angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService', '$timeout','$window',
+                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService, $timeout, $window){
 	
  /*  WebSocketService viene iniettato affiché lo stessa venga istanziato e quindi inizializzato per aprire la connessione websocket.
   */	
 	var self = this;
-	console.log("NAVBAR LOGGED CONTROLLER");
 	self.newNotifications = [];
 	self.oldNotifications = [];
 	self.numNewNotifications=0;
@@ -18,6 +17,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	userService.getMe().then(		
 		function(data){
 			self.user=data;
+			console.log("***********"); console.log(self.user);
 			if(self.user.role.authority=="ROLE_TEACHER" || self.user.role.authority=="ROLE_ADMIN"){
 				self.basicCover=CONSTANTS.basicTeacherCover;
 			}
@@ -27,7 +27,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			
 		},
 		function(reason){
-			console.log(reason);
+			console.log("errore");
 		}
 	);
 	
@@ -254,7 +254,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 						},
 						function(reason){
 							console.log("Error retriving old notification (REST)");
-							console.log(reason);
+							
 						}
 				);
 		}
@@ -266,6 +266,9 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		
 		if (self.openNotifications){ //era aperto quindi sto chiudendo
 			closeDropDown();
+			var element = $window.document.getElementById("notificationButton");
+			if(element)
+				element.blur();
 		}else{ //era chiuso quindi sto aprendo
 			openDropDown();		
 		}
@@ -353,7 +356,10 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 				
 				return "assets/public/img/ic_teacher.png";
 			}else if(n.verb=="METACOMMENT_TO_POST"){
-				return "assets/public/img/ic_student.png";
+				if(isTeacher(n.actorId))
+					return "assets/public/img/ic_teacher.png";
+				else
+					return "assets/public/img/ic_student.png";
 			}else if(n.verb=="MODIFIED"){
 				if(n.actorId){
 					return "assets/public/img/icon/pg.png";
@@ -368,51 +374,38 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		}
 	}
 	
-//	var updateNotifications = function(){
-//		console.log("new notifications (navbar controller)");
-//		var oldNoRead = angular.copy(self.newNotifications);
-//		self.newNotifications = angular.copy(notifyService.readNewNotifications()).concat(oldNoRead);	
-//		console.log("New notifications: ")
-//		console.log(self.newNotifications);
-//		console.log("Lunghezza: ");
-//		console.log(self.newNotifications.length);
-//	}
-	
-//	self.setNotificationsToRead = function(){
-//		self.oldNotifications = self.oldNotifications.concat(angular.copy(self.newNotifications));
-//		self.newNotifications = [];
-//		console.log("Notifiche già lette: ");
-//		console.log(self.oldNotifications);
-//		self.iHaveDone=true;
-//	}
-	
+
+	var isTeacher = function(id){
+		
+		if(self.user.role.authority=="ROLE_TEACHER"  ){
+			if( self.user.colleagues){
+				console.log("colleghi");
+				console.log(self.user.colleagues);
+				for(var i=0; i< self.user.colleagues.length; i++){
+					if(self.user.colleagues[i].id == id)
+						return true;
+				}
+			}
+			
+		}
+		
+		else if(self.user.role.authority=="ROLE_USER"  ){
+			if(self.user.teachers){
+				for(var i=0; i< self.user.teachers.length; i++){
+					if(self.user.teachers[i].id == id)
+						return true;
+				}
+			}
+			
+		}
+		return false;
+	}
 
 	
 	
 	
 	
-		  
-//	function isLoggedUpdate(){
-//		console.log("isLoggedUpdate call")
-//		self.isLogged = userService.isLogged();
-//		if(self.isLogged){
-//			apiService.getMe().then(
-//					function(data){
-//						self.user=data;
-//						console.log(data);
-//						
-//						var imageProfileUrl = baseImageProfile;
-//						var random = new Date();
-//						self.cover = imageProfileUrl+"?"+random.toString();
-//					},
-//					function(reason){
-//						console.log("Something wrong");
-//					}
-//			);
-//		}
-//		console.log(userService.isLogged());
-//	}
-	
+		
 	function logout(){
 		userService.logout().then(
 				function(data){

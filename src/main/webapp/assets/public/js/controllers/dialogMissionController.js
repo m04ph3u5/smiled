@@ -2,8 +2,7 @@ angular.module('smiled.application').controller('dialogMissionCtrl', ['modalServ
                  function dialogMissionCtrl(modalService, apiService, alertingGeneric, $scope){
 	var self = this;
 	self.mission = {};
-	console.log("prova------->");
-	console.log($scope.scenario);
+	
 	
 	self.createMission = function (scenId){
 		if(scenId == null){
