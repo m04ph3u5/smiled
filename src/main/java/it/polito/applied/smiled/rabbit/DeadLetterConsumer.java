@@ -44,17 +44,19 @@ public class DeadLetterConsumer implements MessageListener{
 				
 				c = mapper.readValue(message.getBody(), Comunication.class);	
 				if(c.getClass().equals(Notification.class)){
-					Notification n = (Notification) c;
-					n.setReceiverId(userId);
-					if(!notification.getVerb().equals(NotificationType.NEW_POST) && !notification.getVerb().equals(NotificationType.UPD_POST)){
-						notificationRepo.saveToReadNotification(n);
+					notification = (Notification) c;
+					notification.setReceiverId(userId);
+					if(!notification.getVerb().equals(NotificationType.NEW_POST) && !notification.getVerb().equals(NotificationType.UPD_POST)
+							&& !notification.getVerb().equals(NotificationType.UPD_NEW_COMMENT) && !notification.getVerb().equals(NotificationType.UPD_NEW_META)
+							&& !notification.getVerb().equals(NotificationType.UPD_DEL_COMMENT) && !notification.getVerb().equals(NotificationType.UPD_DEL_METACOMMENT)){
+						notificationRepo.saveToReadNotification(notification);
 					}
 				}else if(c.getClass().equals(UserMessage.class)){
 					
 				}
 			}
 		}catch(Exception e){
-			System.out.println("EXCEPTION ON DEAD LETTER HANDELR:\n"+e.getMessage());
+			System.out.println("EXCEPTION ON DEAD LETTER HANDELR:\n"+e.getMessage()+" "+e.getClass().getName());
 		}
 	}
 	

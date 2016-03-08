@@ -13,7 +13,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	
 	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
 	self.iHaveDone = false;
-	var openNotifications = false;
+	self.openNotifications = false;
 	
 	userService.getMe().then(		
 		function(data){
@@ -213,7 +213,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 
 		}
 		self.numNewNotifications=0;
-		openNotifications=false;
+		self.openNotifications=false;
 		
 		if(ack && ack.ids)
 			webSocketService.send(ack);
@@ -231,7 +231,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 			formatDate(self.oldNotifications);
 		
 		
-		openNotifications=true;	
+		self.openNotifications=true;	
 		if(self.newNotifications.length+self.oldNotifications.length<10){
 			var older="";
 			var num=10;
@@ -264,7 +264,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		//se openNotifications==true significa che sto chiudendo il dropDown delle notifiche
 		//se openNotifications==false significa che sto aprendo il dropDown delle notifiche
 		
-		if (openNotifications){ //era aperto quindi sto chiudendo
+		if (self.openNotifications){ //era aperto quindi sto chiudendo
 			closeDropDown();
 		}else{ //era chiuso quindi sto aprendo
 			openDropDown();		

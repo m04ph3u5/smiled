@@ -29,8 +29,6 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.rabbit.BrokerProducer;
-import it.polito.applied.smiled.rabbit.NotifyService;
-import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.PostRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
@@ -53,8 +51,6 @@ public class AsyncUpdater {
 	@Autowired
 	private ScenarioRepository scenarioRepository;
 
-	@Autowired
-	private CharacterRepository characterRepository;
 	
 	@Autowired
 	private PostRepository postRepository;
@@ -71,8 +67,6 @@ public class AsyncUpdater {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 	
-	@Autowired
-	private NotifyService notify;
 	
 	private final String USER_QUEUE_PREFIX="user.";
 
