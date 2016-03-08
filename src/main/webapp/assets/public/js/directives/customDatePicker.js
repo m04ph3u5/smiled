@@ -252,8 +252,7 @@ angular.module("smiled.application").directive("customDatePicker",[ 'CONSTANTS',
 	        			julianNumberToDate(n,self.currentMonthDate);
 	        			elaborateDaysOfMonth(self.currentMonthDate);
 	        		}
-	        		else
-	        			//TODO cambiare classe freccia dx per non renderla più cliccabile
+	        		
         		}else{
             		var index = self.yearMatrix[yearMatrixSize-1][yearMatrixSize-1]+1-self.startDate.year;
             		if(index<years.length && index>0){

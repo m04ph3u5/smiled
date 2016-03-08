@@ -35,8 +35,7 @@ angular.module("smiled.application").directive('likeTo', [ 'apiService',
 									console.log("Error in like");
 								}
 						);
-					}else
-					 //do nothing
+					}
 				}
 			},
 			controllerAs: "likeTo",

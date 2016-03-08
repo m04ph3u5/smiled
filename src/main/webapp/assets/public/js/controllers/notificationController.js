@@ -140,7 +140,10 @@ angular.module('smiled.application').controller('notificationCtrl', ['$rootScope
 				
 				return "assets/public/img/ic_teacher.png";
 			}else if(n.verb=="METACOMMENT_TO_POST"){
-				return "assets/public/img/ic_student.png";
+				if(isTeacher(n.actorId))
+					return "assets/public/img/ic_teacher.png";
+				else
+					return "assets/public/img/ic_student.png";
 			}else if(n.verb=="MODIFIED"){
 				if(n.actorId){
 					return "assets/public/img/icon/pg.png";
@@ -255,6 +258,32 @@ angular.module('smiled.application').controller('notificationCtrl', ['$rootScope
 				}
 		}
 				
+	}
+	
+	var isTeacher = function(id){
+		
+		if(self.user.role.authority=="ROLE_TEACHER"  ){
+			if( self.user.colleagues){
+				console.log("colleghi");
+				console.log(self.user.colleagues);
+				for(var i=0; i< self.user.colleagues.length; i++){
+					if(self.user.colleagues[i].id == id)
+						return true;
+				}
+			}
+			
+		}
+		
+		else if(self.user.role.authority=="ROLE_USER"  ){
+			if(self.user.teachers){
+				for(var i=0; i< self.user.teachers.length; i++){
+					if(self.user.teachers[i].id == id)
+						return true;
+				}
+			}
+			
+		}
+		return false;
 	}
 
 }]);

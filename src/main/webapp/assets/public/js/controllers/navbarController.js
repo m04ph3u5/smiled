@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService', '$timeout',
-                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService, $timeout){
+angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService', '$timeout','$window',
+                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService, $timeout, $window){
 	
  /*  WebSocketService viene iniettato affiché lo stessa venga istanziato e quindi inizializzato per aprire la connessione websocket.
   */	
@@ -17,6 +17,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	userService.getMe().then(		
 		function(data){
 			self.user=data;
+			console.log("***********"); console.log(self.user);
 			if(self.user.role.authority=="ROLE_TEACHER" || self.user.role.authority=="ROLE_ADMIN"){
 				self.basicCover=CONSTANTS.basicTeacherCover;
 			}
@@ -265,6 +266,9 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		
 		if (openNotifications){ //era aperto quindi sto chiudendo
 			closeDropDown();
+			var element = $window.document.getElementById("notificationButton");
+			if(element)
+				element.blur();
 		}else{ //era chiuso quindi sto aprendo
 			openDropDown();		
 		}
@@ -352,7 +356,10 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 				
 				return "assets/public/img/ic_teacher.png";
 			}else if(n.verb=="METACOMMENT_TO_POST"){
-				return "assets/public/img/ic_student.png";
+				if(isTeacher(n.actorId))
+					return "assets/public/img/ic_teacher.png";
+				else
+					return "assets/public/img/ic_student.png";
 			}else if(n.verb=="MODIFIED"){
 				if(n.actorId){
 					return "assets/public/img/icon/pg.png";
@@ -368,7 +375,31 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	}
 	
 
-	
+	var isTeacher = function(id){
+		
+		if(self.user.role.authority=="ROLE_TEACHER"  ){
+			if( self.user.colleagues){
+				console.log("colleghi");
+				console.log(self.user.colleagues);
+				for(var i=0; i< self.user.colleagues.length; i++){
+					if(self.user.colleagues[i].id == id)
+						return true;
+				}
+			}
+			
+		}
+		
+		else if(self.user.role.authority=="ROLE_USER"  ){
+			if(self.user.teachers){
+				for(var i=0; i< self.user.teachers.length; i++){
+					if(self.user.teachers[i].id == id)
+						return true;
+				}
+			}
+			
+		}
+		return false;
+	}
 
 	
 	
