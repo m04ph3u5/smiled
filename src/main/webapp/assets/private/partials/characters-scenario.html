@@ -2,7 +2,7 @@
 
 
 	<div class="box boxGray row ">
-		<h4>Scenario 
+		<h4>Info Scenario 
 		<a href=""><span class="glyphicon glyphicon-cog" data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})"></span>
 		</a>
 		</h4>
@@ -12,57 +12,57 @@
 		
 		<div data-ng-if="scenario.showBoxInfo " >
 		
-			<div class= "row marginMTop hidden-xs visible-sm visible-md visible-lg marginMRight">
-				<label>Creatore: </label>
+<!-- 			<div class= "row marginMTop hidden-xs visible-sm visible-md visible-lg marginMRight"> -->
+<!-- 				<label>Creatore: </label> -->
+<!-- 				<img style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})" data-ng-src="api/v1/users/{{scenario.scen.teacherCreator.id}}/cover" data-err-src="assets/public/img/ic_teacher.png" -->
+<!-- 							class="img-circle imgPreviewL marginMLeft">  -->
+<!-- 				<span style="cursor:pointer;" class="marginMLeft" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})"><a href="">{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</a></span> -->
+				
+<!-- 			</div> -->
+	
+			<div class= "row marginMTop marginMRight" style="text-align:center; margin-left:20px;">
+				<h4><i>{{scenario.scen.name}}</i></h4>
+			</div>
+			
+			<div class= "row marginMTop marginMRight" style="text-align:right; margin-left:20px;">
+				<label>Creato da: </label> 
+				<span style="cursor:pointer;" class="marginMLeft" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})"><a href=""><i>{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</i></a></span>
 				<img style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})" data-ng-src="api/v1/users/{{scenario.scen.teacherCreator.id}}/cover" data-err-src="assets/public/img/ic_teacher.png"
-							class="img-circle imgPreviewL marginMLeft"> 
-				<span style="cursor:pointer;" class="marginMLeft" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})"><a href="">{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</a></span>
-				
-			</div>
-			<div class= "row marginMTop visible-xs hidden-sm hidden-md hidden-lg">
-				<label>Creatore: </label>
-				<div class="row"><img style="cursor:pointer;" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})" data-ng-src="api/v1/users/{{scenario.scen.teacherCreator.id}}/cover" data-err-src="assets/public/img/ic_teacher.png"
-							class="img-circle imgPreviewL marginMLeft"></div>
-				<span style="cursor:pointer;" class="marginMLeft" data-ui-sref="logged.userProfile({id: '{{scenario.scen.teacherCreator.id}}'})"><a href="">{{scenario.scen.teacherCreator.firstname}} {{scenario.scen.teacherCreator.lastname}}</a></span>
-				
-			</div>
-			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
-				<label>Nome: </label>
-				{{scenario.scen.name}}
+							class="img-circle imgPreviewM marginMLeft">
 			</div>
 			
 			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
-				<label>Descrizione: </label> <span data-ng-if="!scenario.scen.description">Descrizione non disponibile</span>
-				{{scenario.scen.description}}
+				<label>Descrizione: </label> <span style="cursor:pointer;" class="marginMLeft" data-ng-if="!scenario.scen.description">Descrizione non disponibile</span>
+				<span style="cursor:pointer;" class="marginMLeft"><i>{{scenario.scen.description}}</i></span>
 			</div>
 				
 			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
 				<label>Data creazione: </label>
-				<span data-ng-if="!scenario.scen.creationDate">Data non disponibile</span>
-				{{scenario.scen.creationDate |  date:scenario.dateFormat}}
+				<i><span style="cursor:pointer;" class="marginMLeft" data-ng-if="!scenario.scen.creationDate">Data non disponibile</span></i>
+				<span style="cursor:pointer;" class="marginMLeft"><i>{{scenario.scen.creationDate |  date:scenario.dateFormat}}</i></span>
 			</div>	
 			
 			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
 				<label>Data attivazione: </label>
-				<span data-ng-if="!scenario.scen.startDate">Data non disponibile</span>
-				{{scenario.scen.startDate |  date:scenario.dateFormat}}
+				<i><span style="cursor:pointer;" class="marginMLeft" data-ng-if="!scenario.scen.startDate">Data non disponibile</span></i>
+				<span style="cursor:pointer;" class="marginMLeft"><i>{{scenario.scen.startDate |  date:scenario.dateFormat}}</i></span>
 			</div>	
 			
 			<div class= "row marginMTop marginMRight" style="text-align:left; margin-left:20px;">
 				<label>Data ultima modifica: </label>
-				<span data-ng-if="!scenario.scen.lastUpdateDate">Data non disponibile</span>
-				{{scenario.scen.lastUpdateDate |  date:scenario.dateFormat}}
+				<i><span style="cursor:pointer;" class="marginMLeft" data-ng-if="!scenario.scen.lastUpdateDate">Data non disponibile</span></i>
+				<span style="cursor:pointer;" class="marginMLeft"><i>{{scenario.scen.lastUpdateDate |  date:scenario.dateFormat}}</i></span>
 			</div>	
 			
 			<hr>
 			<div class= "row marginMTop marginMRight">
 				<div data-ng-if="scenario.scen.history.startDate" class="col-xs-6  " >
 					<label>Inizio della storia: </label>
-						{{scenario.scen.history.startDate.day}}/{{scenario.scen.history.startDate.month}}/{{scenario.scen.history.startDate.year}} <span data-ng-if="!scenario.scen.history.startDate.afterChrist"> a.C.</span>
+						<span style="cursor:pointer;" class="marginMLeft"><i>{{scenario.scen.history.startDate.day}}/{{scenario.scen.history.startDate.month}}/{{scenario.scen.history.startDate.year}} <span data-ng-if="!scenario.scen.history.startDate.afterChrist"> a.C.</span></i></span>
 				</div>
 				<div data-ng-if="scenario.scen.history.endDate" class="col-xs-6  " >
 					<label>Fine della storia: </label>
-						{{scenario.scen.history.endDate.day}}/{{scenario.scen.history.endDate.month}}/{{scenario.scen.history.endDate.year}} <span data-ng-if="!scenario.scen.history.endDate.afterChrist"> a.C.</span>
+						<span style="cursor:pointer;" class="marginMLeft"><i>{{scenario.scen.history.endDate.day}}/{{scenario.scen.history.endDate.month}}/{{scenario.scen.history.endDate.year}} <span data-ng-if="!scenario.scen.history.endDate.afterChrist"> a.C.</span></i></span>
 				</div>
 			</div>
 			

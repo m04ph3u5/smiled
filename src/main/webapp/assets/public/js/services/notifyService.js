@@ -49,6 +49,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 				}
 			}
 			else{
+				console.log(n.sender);
 				$rootScope.$broadcast('notification.newNotificationEvent', {notification: n});
 				
 			}
