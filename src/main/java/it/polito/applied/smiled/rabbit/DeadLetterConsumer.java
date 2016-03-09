@@ -50,7 +50,7 @@ public class DeadLetterConsumer implements MessageListener{
 							&& !notification.getVerb().equals(NotificationType.UPD_NEW_COMMENT) && !notification.getVerb().equals(NotificationType.UPD_NEW_META)
 							&& !notification.getVerb().equals(NotificationType.UPD_DEL_COMMENT) && !notification.getVerb().equals(NotificationType.UPD_DEL_METACOMMENT)){
 						
-						if(!notification.getSender().equals(userId))
+						if((notification.getSender()!=null && !notification.getSender().equals(userId)) || notification.getSender()==null)
 							notificationRepo.saveToReadNotification(notification);
 					}
 				}else if(c.getClass().equals(UserMessage.class)){
