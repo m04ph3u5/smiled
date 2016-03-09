@@ -141,6 +141,20 @@ angular.module("smiled.application").directive("insertMission", [ 'CONSTANTS', '
 				if(newVal && newVal!=oldVal)
 					ctrl.dirty=true;
 			});
+			
+			scope.$watch('insertMission.scenario.mission.title', function(newVal, oldVal){
+				if(newVal && newVal!=oldVal && !ctrl.character){
+					ctrl.mission.title = newVal;
+					ctrl.newMission.title = newVal;
+				}
+			});
+			
+			scope.$watch('insertMission.scenario.mission.description', function(newVal, oldVal){
+				if(newVal && newVal!=oldVal && !ctrl.character){
+					ctrl.mission.description = newVal;
+					ctrl.newMission.description = newVal;
+				}
+			});
 		}
 	}
 }]);

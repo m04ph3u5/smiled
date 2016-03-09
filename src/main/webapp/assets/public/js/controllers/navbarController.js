@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService', '$timeout','$window',
-                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService, $timeout, $window){
+angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '$state', 'CONSTANTS', '$scope','webSocketService', 'notifyService', '$timeout','$window', '$rootScope',
+                                                              function navbarCtrl(userService,$state, CONSTANTS, $scope, webSocketService, notifyService, $timeout, $window, $rootScope){
 	
  /*  WebSocketService viene iniettato affiché lo stessa venga istanziato e quindi inizializzato per aprire la connessione websocket.
   */	
@@ -300,9 +300,21 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		}else if(n.verb=="COMMENT_TO_POST" || n.verb=="METACOMMENT_TO_POST"){
 			var idPost = n.objectId.substring(0, n.objectId.indexOf("/"));
 			$state.go('logged.scenario.post', {"id":n.scenarioId , "idPost": idPost});
-		}else if(n.verb=="NEW_PERSONAL_MISSION" || n.verb=="NEW_GLOBAL_MISSION"){
-			$state.go('logged.scenario.missions', {"id":n.scenarioId });
-		}else if(n.verb=="DEL_ASSOCIATION" || n.verb=="OPEN_SCENARIO" || n.verb=="NEW_ATTENDEE"){
+		}else if(n.verb=="NEW_PERSONAL_MISSION"){
+			if($state.current.name=='logged.scenario.missions'){
+				$rootScope.$broadcast('notification.updateCharacterMission',{idS:n.scenarioId, idC:n.actorId});
+				
+			}else{
+				$state.go('logged.scenario.missions', {"id":n.scenarioId });
+			}
+ß		}else if(n.verb=="NEW_GLOBAL_MISSION"){
+			if($state.current.name=='logged.scenario.missions'){
+				$rootScope.$broadcast('notification.updateGlobalMission',{idS:n.scenarioId});
+			}else{
+				$state.go('logged.scenario.missions', {"id":n.scenarioId });
+			}
+		}
+		else if(n.verb=="DEL_ASSOCIATION" || n.verb=="OPEN_SCENARIO" || n.verb=="NEW_ATTENDEE"){
 			$state.go('logged.scenario.characters', {"id":n.scenarioId });
 		}else if(n.verb=="NEW_ASSOCIATION"){
 			$state.go('logged.scenario.charprofile', {"id":n.scenarioId, "idCharacter": n.actorId});
