@@ -303,7 +303,7 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 
 	@Override
-	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor, Mission m) {
+	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor, Mission m, String senderId) {
 		Notification n = new Notification();
 		n.setDate(new Date());
 
@@ -319,7 +319,7 @@ public class NotifyServiceImpl implements NotifyService{
 				n.setObjectContent(m.getDescription().substring(0, PREVIEW)+"...");
 		}
 		n.setObjectId(user.getId());
-		n.setSender(user.getId());
+		n.setSender(senderId);
 		n.setVerb(NotificationType.NEW_PERSONAL_MISSION);
 		n.setActorId(actor.getId());
 		n.setActorName(actor.getName());

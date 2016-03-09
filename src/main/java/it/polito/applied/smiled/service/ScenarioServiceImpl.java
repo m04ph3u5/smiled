@@ -2498,7 +2498,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		u.set("mission", m);
 		Character c = characterRepository.updateCharacter(idCharacter, u);
 		Scenario s = scenarioRepository.findById(c.getScenarioId());
-		notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m);
+		notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m, activeUser.getId());
 		return c;
 
 	}
