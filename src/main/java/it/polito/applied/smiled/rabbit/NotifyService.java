@@ -26,8 +26,8 @@ public interface NotifyService {
 	public void notifyNewComment(Scenario s, Post p, Comment c) ;
 	public void notifyNewMetaComment(Scenario s, Post p, MetaComment c) ;
 	public void notifyLikeToPost(Scenario s, Post p, CharacterReference actor) ;
-	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s) ;
-	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s) ;
+	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s, String senderId) ;
+	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s, String senderId) ;
 	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor, Mission m) ;
 	public void notifyNewGlobalMission(Reference user, Scenario s, Mission m) ;
 	public void notifyNewModerator(Reference user, Scenario s, Reference actor) ;

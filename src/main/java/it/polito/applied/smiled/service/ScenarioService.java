@@ -66,12 +66,12 @@ public interface ScenarioService {
 
 	public void removeCharacterFromScenario(String id, String characterId) throws BadRequestException, NotFoundException;
 
-	public Character updateUserCharacter(String scenarioId, String characterId, String userId) throws BadRequestException, NotFoundException;
+	public Character updateUserCharacter(String scenarioId, String characterId, String userId, CustomUserDetails activeUser) throws BadRequestException, NotFoundException;
 
 	public void moveFromInvitedToAttendees(Reference userRef, String id);
 
 	public void removeUserFromCharacter(String id, String characterId,
-			String userId) throws NotFoundException, BadRequestException;
+			String userId, CustomUserDetails activeUser) throws NotFoundException, BadRequestException;
 
 	public Id insertStatus(String idScenario, String characterId, StatusDTO statusDTO, Authentication auth) throws BadRequestException, ForbiddenException, IOException, NotFoundException;
 
@@ -121,5 +121,7 @@ public interface ScenarioService {
 	public void lastUpdateScenario(String scenarioId, Date d);
 	public List<Post> getLastNPost(String id, String lastPostId, Integer nItem, Boolean orderDesc);
 	public List<Post> getLastNHistoricPost(String id, Long date, Integer time, Integer nItem, Boolean orderDesc);
+	public List<Post> getCharacterPosts(String id, String characterId, Long date, Integer time, Integer nItem,
+			Authentication auth) throws BadRequestException;
 	
 }

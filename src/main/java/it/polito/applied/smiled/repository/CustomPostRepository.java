@@ -31,4 +31,7 @@ public interface CustomPostRepository {
 	public List<Post> findLastInNaturalOrderAsc(String scenarioId, String lastPostId, Integer nItem);
 	public List<Post> findLastInHistoricOrderDesc(String scenarioId, Long date, Integer time, Integer nItem);
 	public List<Post> findLastInHistoricOrderAsc(String scenarioId, Long date, Integer time, Integer nItem);
+	public List<Post> findLastCharacterPostInHistoricOrderDesc(String scenarioId, String characterId, Long date, Integer time,
+			Integer nItem);
+
 }

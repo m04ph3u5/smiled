@@ -264,3 +264,14 @@
 		
 </section>
 <aside></aside>
+<hr class="divider">
+<section>
+	<div infinite-scroll='characterProfile.nextPost()' infinite-scroll-disabled='characterProfile.busy' infinite-scroll-distance='1' class="row">
+	<div data-ng-repeat="s in characterProfile.posts">
+		<show-news-post post="s" scenario="characterProfile.scen" 
+			logged-user= "scenario.loggedUser" current-character="scenario.currentCharacter"
+			map-id="{{characterProfile.scen.history.mapId}}"></show-news-post>
+	</div>
+	
+</div>
+</section>

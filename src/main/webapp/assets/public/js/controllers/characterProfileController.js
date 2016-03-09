@@ -7,6 +7,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	var idChar = $stateParams.idCharacter;
 	self.idChar = idChar;
 	var scenarioId = $scope.scenario.scen.id;
+	self.scen = $scope.scenario.scen;
 	self.editProfile = false;
 	
 	self.actualUserCover = null;
@@ -20,6 +21,7 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 	//var idUser = $scope.scenario.loggedUser.id;
 	self.currentChar = $scope.scenario.currentCharacter.id;
 	
+
 	Object.size = function(obj) {
 	    var size = 0, key;
 	    for (key in obj) {
@@ -230,6 +232,55 @@ angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTA
 		return true;
 		
 	}
+
+	var getPost =function(date, time){
+		console.log("GET POST");
+		apiService.getLastCharacterPosts(self.scen.id, idChar, scrollable, date, time).then(
+				function(data){
+					console.log(data);
+					var newPosts = [];
+					newPosts = data;
+					if(data.length==0)
+						stopScroll=true;
+
+					for(var i=0; newPosts && i<newPosts.length;i++){
+						if(newPosts[i].character){
+							newPosts[i].character.cover = CONSTANTS.urlCharacterCover(self.scen.id,newPosts[i].character.id);
+						
+							for(var j=0; j<newPosts[i].likes.length; j++){
+								if(newPosts[i].likes[j].id==idChar){
+									newPosts[i].youLike=true;
+									break;
+								}
+							}
+						}
+						self.posts.push(angular.copy(newPosts[i]));
+					}
+					self.busy=false;
+					
+				}, function(reason){
+					console.log("errore");
+					self.busy=false;
+				}
+			);
+	}
+	
+	self.posts = [];
+	self.busy = false;
+	var scrollable = CONSTANTS.numberOfPostForScroll;
+	var stopScroll = false;
+	
+	self.nextPost = function(){
+		if(self.busy || stopScroll)
+			return;
+		self.busy=true;
+		if(self.posts.length==0){
+			getPost();
+		}else{
+			getPost(self.posts[self.posts.length-1].julianDayNumber,self.posts[self.posts.length-1].timeNumber);
+		}
+	}
+	
 	
 //	self.getUserCover = function(){
 //		self.userCover = CONSTANTS.urlUserCover(id);				

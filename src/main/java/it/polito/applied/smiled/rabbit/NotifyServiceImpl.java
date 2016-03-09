@@ -74,7 +74,7 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 		Notification n = new Notification();
 		n.setDate(new Date());
-
+		n.setSender(actor.getId());
 		n.setObjectId(s.getId());
 		n.setObjectContent(s.getName());
 		n.setVerb(NotificationType.OPEN_SCENARIO);
@@ -93,7 +93,7 @@ public class NotifyServiceImpl implements NotifyService{
 	public void notifyCloseScenario(Scenario s, Reference actor) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-
+		n.setSender(actor.getId());
 		n.setObjectId(s.getId());
 		n.setObjectContent(s.getName());
 		n.setVerb(NotificationType.CLOSE_SCENARIO);
@@ -266,10 +266,10 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 
 	@Override
-	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s) {
+	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s, String sender) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-
+		n.setSender(sender);
 		n.setObjectId(user.getId());
 		n.setObjectContent(user.getFirstname() +" "+user.getLastname());
 		n.setVerb(NotificationType.NEW_ASSOCIATION);
@@ -282,10 +282,10 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 
 	@Override
-	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s) {
+	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s, String sender) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-
+		n.setSender(sender);
 		n.setObjectId(user.getId());
 		n.setObjectContent(user.getFirstname() +" "+user.getLastname());
 		n.setVerb(NotificationType.DEL_ASSOCIATION);
@@ -319,6 +319,7 @@ public class NotifyServiceImpl implements NotifyService{
 				n.setObjectContent(m.getDescription().substring(0, PREVIEW)+"...");
 		}
 		n.setObjectId(user.getId());
+		n.setSender(user.getId());
 		n.setVerb(NotificationType.NEW_PERSONAL_MISSION);
 		n.setActorId(actor.getId());
 		n.setActorName(actor.getName());
@@ -352,7 +353,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setActorName(user.getFirstname()+" "+user.getLastname());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-
+		n.setSender(user.getId());
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
 
@@ -368,6 +369,7 @@ public class NotifyServiceImpl implements NotifyService{
 		if(actor!=null){
 			n.setActorId(actor.getId());
 			n.setActorName(actor.getFirstname()+" "+actor.getLastname());
+			n.setSender(actor.getId());
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
@@ -390,6 +392,7 @@ public class NotifyServiceImpl implements NotifyService{
 		if(actor!=null){
 			n.setActorId(actor.getId());
 			n.setActorName(actor.getFirstname()+" "+user.getLastname());
+			n.setSender(actor.getId());
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());

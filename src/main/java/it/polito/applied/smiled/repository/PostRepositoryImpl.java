@@ -305,4 +305,30 @@ public class PostRepositoryImpl implements CustomPostRepository{
 
 		return mongoOp.find(q, Post.class);
 	}
+
+	@Override
+	public List<Post> findLastCharacterPostInHistoricOrderDesc(String scenarioId, String characterId, Long date, Integer time,
+			Integer nItem) {
+		Query q = new Query();
+		System.out.println(characterId);
+		if(date==null)
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)
+					.andOperator(Criteria.where("character._id").is(new ObjectId(characterId)))));
+		else{
+			Criteria c1 = new Criteria();
+			c1.andOperator(Criteria.where("julianDayNumber").is(date),Criteria.where("timeNumber").lt(time));
+			Criteria c2 = new Criteria();
+			c2.orOperator(c1, Criteria.where("julianDayNumber").lt(date));
+			
+			q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+					.andOperator(c2
+					.andOperator(Criteria.where("status").is(PostStatus.PUBLISHED)
+					.andOperator(Criteria.where("character._id").is(new ObjectId(characterId))))));
+		}
+		q.with(new Sort(new Sort.Order(Sort.Direction.DESC, "julianDayNumber"), new Sort.Order(Sort.Direction.DESC, "timeNumber")));
+		q.limit(nItem);
+
+		return mongoOp.find(q, Post.class);
+	}
 }

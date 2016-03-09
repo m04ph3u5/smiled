@@ -285,7 +285,7 @@ public class ScenarioController extends BaseController{
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/users/{userId}", method=RequestMethod.PUT)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public Character updateUserCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
-		Character c = scenarioService.updateUserCharacter(id, characterId, userId);
+		Character c = scenarioService.updateUserCharacter(id, characterId, userId, activeUser);
 		logService.logNewAssociation(id, activeUser.getId(), c.getId());
 		scenarioService.lastUpdateScenario(id, new Date());
 		return c;
@@ -295,7 +295,7 @@ public class ScenarioController extends BaseController{
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/users/{userId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'MODERATOR')")
 	public void removeUserFromCharacter(@PathVariable String id, @PathVariable String characterId, @PathVariable String userId, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, NotFoundException{
-		scenarioService.removeUserFromCharacter(id, characterId, userId);
+		scenarioService.removeUserFromCharacter(id, characterId, userId, activeUser);
 		logService.logRemoveAssociation(id, activeUser.getId(), characterId);
 		scenarioService.lastUpdateScenario(id, new Date());
 
@@ -420,22 +420,30 @@ public class ScenarioController extends BaseController{
 		return scenarioService.customPageableFindAll(id, idOfPosts, auth);
 	}
 
+	//I post del personaggio vengono presi sempre e solo per data storica decresente
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value="/v1/scenarios/{id}/characters/{characterId}/posts", method=RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#id, 'Scenario', 'READ')")
-	public Page<Post> getPagedPostsOfCharacter(@PathVariable String id, @PathVariable String characterId, @RequestParam(value = "nPag", required=false) Integer nPag, @RequestParam(value = "nItem", required=false) Integer nItem, @RequestParam(value = "historicOrder", required=false) Boolean historicOrder) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
+	public List<Post> getPagedPostsOfCharacter(@PathVariable String id, @PathVariable String characterId, 
+			@RequestParam(value = "date", required=false) Long date, @RequestParam(value = "time", required=false) Integer time, 
+			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, NotFoundException, ForbiddenException, BadRequestException{
 
-		if(nPag==null || nPag<0)
-			nPag=0;
+		if((date==null && time!=null) || (date!=null && time==null))
+			throw new BadRequestException();
+		
+		if((date!=null && date<0) || (time!=null && time<0))
+			throw new BadRequestException();
+		
+
 		if(nItem==null || nItem<=0)
 			nItem=5;
-		if(historicOrder==null)
-			historicOrder=false;
+		if(nItem>10)
+			nItem=10;
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		//TODO considerare se possibile anche per i character richiederli in ordine discendente (penultimo parametro false).
-		return scenarioService.getPagedPosts(id, characterId, nPag, nItem, historicOrder, true, auth);
+		return scenarioService.getCharacterPosts(id, characterId, date, time, nItem, auth);
 	}
 
 	@ResponseStatus(value = HttpStatus.CREATED)

@@ -355,6 +355,38 @@
 		return c.promise;
 	}
 	
+	var getLastCharacterPosts = function(scenarioId, characterId, nItem, date, time){
+		var first=false;
+		if(typeof date === 'undefined'){ 
+			first = true; 
+		}
+		var c = $q.defer();
+
+		if(first){
+			$http.get("/api/v1/scenarios/"+scenarioId+"/characters/"+characterId+"/posts", {
+				params: {"nItem": nItem}}).then(
+						function(response){
+							c.resolve(response.data);
+						},
+						function(reason){
+							c.reject(reason);
+						}
+				);
+		}else{
+			$http.get("/api/v1/scenarios/"+scenarioId+"/characters/"+characterId+"/posts", {
+				params: {"nItem": nItem, "date": date, "time":time}}).then(
+						function(response){
+							c.resolve(response.data);
+						},
+						function(reason){
+							c.reject(reason);
+						}
+				);
+		}
+
+		return c.promise;
+	}
+	
 	
 	var getListOfNewPosts = function(id, listOfPosts){
 		var s = $q.defer();
@@ -901,8 +933,8 @@
 		getListOfNewPosts : getListOfNewPosts,
 		getLastUserNotifications : getLastUserNotifications,
 		getLastPosts : getLastPosts,
-		getLastHistoricPosts: getLastHistoricPosts
-		
+		getLastHistoricPosts: getLastHistoricPosts,
+		getLastCharacterPosts : getLastCharacterPosts		
 	}
 
 

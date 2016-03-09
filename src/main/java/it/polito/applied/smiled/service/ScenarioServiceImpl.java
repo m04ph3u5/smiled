@@ -933,7 +933,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 
 	@Override
-	public Character updateUserCharacter(String scenarioId, String characterId, String userId)
+	public Character updateUserCharacter(String scenarioId, String characterId, String userId, CustomUserDetails activeUser)
 			throws BadRequestException, NotFoundException {
 		try{			
 			User user = userRepository.findById(userId);
@@ -1013,11 +1013,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 				/*Gestione dei permessi: togliamo il permesso di scrittura sul character al vecchio possessore e lo assegniamo al nuovo*/
 				if(oldUser!=null){
 					userService.removeActualCharacterToUser(oldUser.getId(), characterRef.getId(), scenarioId);
-					notify.notifyDeleteAssociation(oldUser, cRef, scen);
+					notify.notifyDeleteAssociation(oldUser, cRef, scen, activeUser.getId());
 				}
 
 				userService.addActualCharacterToUser(userId, characterRef, scenarioId);
-				notify.notifyNewAssociation(ref, cRef, scen);
+				notify.notifyNewAssociation(ref, cRef, scen, activeUser.getId());
 			}
 
 
@@ -1038,7 +1038,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Override
 	public void removeUserFromCharacter(String id, String characterId,
-			String userId) throws NotFoundException, BadRequestException {
+			String userId, CustomUserDetails activeUser) throws NotFoundException, BadRequestException {
 
 		Scenario scenario = scenarioRepository.findById(id);
 		if(scenario==null)
@@ -1064,7 +1064,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		scenarioRepository.updateCharacterToScenario(charRef, id);
 
 		if(scenario.getStatus().equals(ScenarioStatus.ACTIVE))
-			notify.notifyDeleteAssociation(userRef, charRef, scenario);
+			notify.notifyDeleteAssociation(userRef, charRef, scenario, activeUser.getId());
 
 
 	}
@@ -1237,6 +1237,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	//Questo metodo � pensato per ritornare la lista paginata di post dello Scenario con quello scenarioId se characterId=null,
 	//in caso contrario ritorna la lista paginata di post del Character con quel characterId se esiste all'interno dello Scenario con quello scenarioId
+	//ATTENZIONE NON PIÙ UTILIZZATO DAL MOMENTO DELL'IMPLEMENTAZIONE DEL MECCANISMO DELLE NOTIFICHE!!!!
 	@Override
 	public Page<Post> getPagedPosts(String scenarioId, String characterId, Integer nPag,
 			Integer nItem, Boolean historicOrder, Boolean orderDesc, Authentication auth) throws NotFoundException, BadRequestException {
@@ -1307,6 +1308,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 		boolean moderator = permissionEvaluator.hasPermission(auth, scenarioId, "Scenario", "MODERATOR");
 
 		return postRepository.customPageableFindAll(postsId,size,p,historicOrder, orderDesc,activeUser.getId(), moderator);
+	}
+	
+	@Override
+	public List<Post> getCharacterPosts(String scenarioId, String characterId, Long date, Integer time, Integer nItem,
+			Authentication auth) throws BadRequestException {
+		Character c = characterRepository.findById(characterId);
+		if(c==null)
+			throw new BadRequestException();
+		
+		return postRepository.findLastCharacterPostInHistoricOrderDesc(scenarioId, characterId, date, time, nItem);
 	}
 
 	public Page<Post> customPageableFindAll(String scenarioId, List<Id> postsId, Authentication auth) {
@@ -2733,4 +2744,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		// TODO Auto-generated method stub
 		scenarioRepository.lastUpdateScenario(scenarioId, d);
 	}
+
+
+	
 }
