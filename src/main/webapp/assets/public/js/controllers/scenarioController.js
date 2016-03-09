@@ -17,7 +17,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.showBoxCollaborators = false;
 	self.showBoxInfo = true;
 	self.numNewPost = 0;
-	self.dateFormat = CONSTANTS.realDateFormatWithSecond;
+	self.dateFormat = CONSTANTS.realDateFormatWithMinute;
 	
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/
