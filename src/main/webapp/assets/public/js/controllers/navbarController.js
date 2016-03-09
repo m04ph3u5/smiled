@@ -248,8 +248,10 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 							formatDate(data);
 							formatVerb(data);
 							for(var i=0; data && i<data.length; i++){
-								data[i].read=false;
-								self.oldNotifications.push(data[i]);
+								if(data[i].sender != self.user.id){
+									data[i].read=false;
+									self.oldNotifications.push(data[i]);
+								}
 							}
 						},
 						function(reason){
