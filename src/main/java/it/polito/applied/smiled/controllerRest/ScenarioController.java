@@ -160,7 +160,7 @@ public class ScenarioController extends BaseController{
 
 		//Valido la lista di email che ricevo. Tutte le email che arrivano devono essere corrette
 		if(result.hasErrors()){
-			throw new BadRequestException();
+			throw new BadRequestException("Invalid email");
 		}	
 		List<Reference> list = scenarioService.subscribeStudentIfNotPresent(studentsEmail, activeUser.getId(), id);
 		logService.logNewAttendees(id, activeUser.getId(), list);

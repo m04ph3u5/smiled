@@ -202,21 +202,14 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	
 	var closeDropDown = function(){
 		if(self.newNotifications && self.newNotifications.length>0){
-			var ack={};
-			ack.ids = [];
-			ack.type="ACK_N";
 			for(var i=self.newNotifications.length-1; i>=0; i--){
 				self.oldNotifications.splice(0,0,angular.copy(self.newNotifications[i]));
-				ack.ids.push(angular.copy(self.newNotifications[i].id));
 			}
 			self.newNotifications = [];
 
 		}
 		self.numNewNotifications=0;
 		self.openNotifications=false;
-		
-		if(ack && ack.ids)
-			webSocketService.send(ack);
 	}
 	
 	self.onBlurDropDown = function(){
@@ -225,11 +218,21 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	
 	var openDropDown = function(){
 		
-		if(self.newNotifications.length>0)
+		if(self.newNotifications.length>0){
 			formatDate(self.newNotifications);
+			var ack={};
+			ack.ids = [];
+			ack.type="ACK_N";
+			for(var i=self.newNotifications.length-1; i>=0; i--){
+				ack.ids.push(angular.copy(self.newNotifications[i].id));
+			}
+			if(ack && ack.ids)
+				webSocketService.send(ack);
+		}
 		if(self.oldNotifications.length>0)		
 			formatDate(self.oldNotifications);
 		
+	
 		
 		self.openNotifications=true;	
 		if(self.newNotifications.length+self.oldNotifications.length<10){
