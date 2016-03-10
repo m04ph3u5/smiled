@@ -728,7 +728,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							self.notAssociatedAttendees.push(newCollaborator);
 						}, 
 					function(reason){
-							alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
+							alertingGeneric.addWarning("Errore nell'aggiunta del collaboratore. Operazione consentita solo al creatore dello scenario.");
 					});
 		}
 		
@@ -764,7 +764,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						}
 					},
 					function(reason){
-						alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
+						if(emailsDTO.length==1)
+							alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
+						else if(emailsDTO.length>1)
+							alertingGeneric.addWarning("Errore nell'aggiunta dei partecipanti");
 						
 					}
 			);
@@ -789,6 +792,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						manageAssociationOnAttendeeDeletion(s);
 					},
 					function(reason){
+						alertingGeneric.addWarning("Errore nella rimozione del partecipante.");
 						console.log("Delete attendee failed: "+reason);
 					}
 			)
@@ -808,6 +812,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						//reInsertInSelectableCollaborators(c);
 					},
 					function(reason){
+						alertingGeneric.addWarning("Errore nella rimozione del collaboratore. Operazione consentita solo al creatore dello scenario.");
 						console.log("Delete collaborator failed: "+reason);
 					}
 			)
