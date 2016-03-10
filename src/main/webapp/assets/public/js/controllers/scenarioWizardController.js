@@ -766,8 +766,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(reason){
 						if(emailsDTO.length==1)
 							alertingGeneric.addWarning("Errore nell'aggiunta del partecipante");
-						else if(emailsDTO.length>1)
-							alertingGeneric.addWarning("Errore nell'aggiunta dei partecipanti");
+						
 						
 					}
 			);
