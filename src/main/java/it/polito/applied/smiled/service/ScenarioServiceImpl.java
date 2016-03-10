@@ -357,6 +357,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			/*Lista di Reference che sarà ritornata dal metodo*/
 			List<Reference> l = new ArrayList<Reference>();
 			Map<String, String> toSendEmail = new HashMap<String, String>();
+			List<User> toUpdateUser = new ArrayList<User>();
 
 			/*Recupero il Teacher che sta provando a fare questa operazione e ne genero il Reference (utile nelle liste degli Student,
 			 * oltre che nello Scenario). Ovviamente non può essere NULL*/
@@ -435,11 +436,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 								}else if(!u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD) && !scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 									userRepository.addInvitingScenario(ref.getId(), scen.getId());
 									userService.addTeacherToStudent(ref.getId(), teacherRef, true);
+									userService.addStudentToTeacher(teacherRef.getId(), ref);
 								}else if(!u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD) && scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 									userService.addTeacherToStudent(ref.getId(), teacherRef, true);
 									userRepository.openScenarioToUser(ref.getId(), scenarioRef);
 									scenarioRepository.addAttendeeToScenario(ref, scen.getStatus(), scen.getId());
 									permissionEvaluator.addPermission(u.getId(), Scenario.class, "WRITE", scen.getId());
+									userService.addStudentToTeacher(teacherRef.getId(), ref);
+									toUpdateUser.add(u);
 								}
 
 
@@ -463,11 +467,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 								userRepository.addInvitingScenario(ref.getId(), scen.getId());
 								userService.addTeacherToStudent(ref.getId(), teacherRef, true);
 								scenarioRepository.addAttendeeToScenario(ref, scen.getStatus(), scen.getId());
+								userService.addStudentToTeacher(teacherRef.getId(), ref);
 							}else if(!u.getStatus().equals(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD) && scen.getStatus().equals(ScenarioStatus.ACTIVE)){
 								userService.addTeacherToStudent(ref.getId(), teacherRef, true);
 								userRepository.openScenarioToUser(ref.getId(), scenarioRef);
 								scenarioRepository.addAttendeeToScenario(ref, scen.getStatus(), scen.getId());
+								userService.addStudentToTeacher(teacherRef.getId(), ref);
 								permissionEvaluator.addPermission(u.getId(), Scenario.class, "WRITE", scen.getId());
+								toUpdateUser.add(u);
 							}
 
 
@@ -479,9 +486,10 @@ public class ScenarioServiceImpl implements ScenarioService{
 						}
 					}
 				}
+				
+				asyncUpdater.sendStudentsRegistrationEmail(toSendEmail,teacherRef);
+				asyncUpdater.addRelationShipToUser(toUpdateUser, scen.getId());
 			}
-
-			asyncUpdater.sendStudentsRegistrationEmail(toSendEmail,teacherRef);
 
 			return l;
 
@@ -711,7 +719,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 				permissionEvaluator.addPermission(r.getId(), Scenario.class, "MODERATOR", scen.getId());
 				userService.addColleagueToTeacher(teacherCreatorRef.getId(), r);  //aggiungo questo collaboratore alla lista di colleghi del teacher creator dello scenario
 				userService.addColleagueToTeacher(collaborator.getId(), teacherCreatorRef); //aggiungo il teacher creator alla lista di colleghi del collaboratore appena aggiunto allo scenario
-				asyncUpdater.addRelationShipToUser(collaborator, scen);   /*L'aggiornamento delle relazioni va fatto solo se lo scenario è già attivo, altrimenti verrà fatto all'attivazione per tutti i partecipanti*/
 				if(scen.getStatus().equals(ScenarioStatus.CREATED_V1) || scen.getStatus().equals(ScenarioStatus.CREATED_V2) || scen.getStatus().equals(ScenarioStatus.CREATED_V3)){
 					userService.insertInCreatedScenarioOfUser(r, new ScenarioReference(scen));
 				}else if(scen.getStatus().equals(ScenarioStatus.ACTIVE)){

@@ -46,6 +46,8 @@ public abstract class User {
 	protected List<String> invitingScenariosId;
 	
 	protected List<String> draftPostsId;
+	
+	protected List<String> blockedUsersId;
 
 	
 	public boolean isAgree() {
@@ -211,6 +213,14 @@ public abstract class User {
 
 	public void setCreatingScenarios(List<ScenarioReference> creatingScenarios) {
 		this.creatingScenarios = creatingScenarios;
+	}
+
+	public List<String> getBlockedUsersId() {
+		return blockedUsersId;
+	}
+
+	public void setBlockedUsersId(List<String> blockedUsersId) {
+		this.blockedUsersId = blockedUsersId;
 	}
 	
 	

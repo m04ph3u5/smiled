@@ -24,6 +24,7 @@ import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
 import it.polito.applied.smiled.pojo.scenario.Status;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
@@ -85,17 +86,15 @@ public class AsyncUpdater {
 	
 	
 	/*Costruisco le relazioni relative ad un utente aggiunto ad uno scenario già attivo*/
-	public void addRelationShipToUser(User u, Scenario scenario)  {
-		// TODO Auto-generated method stub
-		System.out.println("changeFirst-update asincrono: "+System.currentTimeMillis());
-
-		
+	public void addRelationShipToUser(List<User> users, String scenarioId)  {
+		Runnable r = new UpdateUserReference(users, scenarioId);
+		taskExecutor.execute(r);
 	}
 	
 	/*Costruisco le relazioni relative a tutti gli utenti che appartengono ad uno scenario, al momento dell'attivazione*/
 	public void createScenarioRelationship(Scenario scenarioUpdated) {
-		// TODO Auto-generated method stub
-		
+		Runnable r = new CreateScenarioRelationship(scenarioUpdated);
+		taskExecutor.execute(r);
 	}
 	
 	public void updateNameOfScenarioReference(List<String> idOfPeopleToUpdate, Scenario scenario, String newScenarioName){
@@ -168,6 +167,82 @@ public class AsyncUpdater {
 	public void removeModeratorFromScenario(Reference user, Scenario s) {
 		Runnable r = new RemoveModeratorFromScenario(user, s);
 		taskExecutor.execute(r);		
+	}
+	
+	private class CreateScenarioRelationship implements Runnable{
+		
+		private Scenario scenario;
+		
+		public CreateScenarioRelationship(Scenario scenario){
+			this.scenario = scenario;
+		}
+
+		@Override
+		public void run() {
+			List<Reference> attendees = scenario.getAttendees();
+			if(attendees==null || attendees.size()==0)
+				return;
+			
+			for(int i=0; i<attendees.size()-1; i++){
+				userRepository.addFriendsToUser(attendees.get(i).getId(), attendees.subList(i+1, attendees.size()));
+				userRepository.addFriendToUsers(attendees.subList(i+1, attendees.size()), attendees.get(i));
+			}
+		}
+		
+		
+	}
+	
+	private class UpdateUserReference implements Runnable{
+		
+		private List<User> users;
+		private String scenarioId;
+		
+		public UpdateUserReference(List<User> users, String scenarioId){
+			this.users = users;
+			this.scenarioId = scenarioId;
+		}
+
+		@Override
+		public void run() {
+			Scenario scenario = scenarioRepository.findById(scenarioId);
+			if(scenario==null || !scenario.getStatus().equals(ScenarioStatus.ACTIVE))
+				return;
+			
+			List<Reference> newFriends = new ArrayList<Reference>();
+			for(int i=0; i<users.size(); i++){
+				User u = users.get(i);
+				if(!u.getClass().equals(Student.class))
+					continue;
+				Student student = (Student) u;
+				Reference studentRef = new Reference(student);
+				for(Reference r : scenario.getAttendees()){
+					if((student.getFriends()==null || !student.getFriends().contains(r)) && (student.getBlockedUsersId()==null || !student.getBlockedUsersId().contains(r.getId())) 
+							&& !r.getId().equals(u.getId()))
+						newFriends.add(r);
+				}
+				if(newFriends.size()>0){
+					userRepository.addFriendsToUser(u.getId(), newFriends);
+					userRepository.addFriendToUsers(newFriends, studentRef);
+				}
+				
+				for(int j=i+1; j<users.size(); j++){
+					User tmp = users.get(j);
+					if(!tmp.getClass().equals(Student.class))
+						continue;
+					Student tmpS = (Student) tmp;
+					if(newFriends.contains(new Reference(tmp))){
+						if(tmpS.getFriends()==null || !tmpS.getFriends().contains(studentRef)){
+							List<Reference> tmpFriends = tmpS.getFriends();
+							if(tmpFriends==null)
+								tmpFriends = new ArrayList<Reference>();
+							tmpFriends.add(studentRef);
+							tmpS.setFriends(tmpFriends);
+						}
+					}
+				}
+				newFriends.clear();
+			}
+		}
 	}
 	
 	private class RemoveModeratorFromScenario implements Runnable{
@@ -617,7 +692,9 @@ public class AsyncUpdater {
 					/*Per gli scenari aperti faccio partire solo la creazione delle relazioni in quanto tutti gli altri aggiornamenti li ho già
 					 * fatti in modo sincrono*/
 					Scenario s = scenarioRepository.findById(scenarioRef.getId());
-					addRelationShipToUser(student,s);
+					List<User> u = new ArrayList<User>(1);
+					u.add(student);
+					addRelationShipToUser(u,s.getId());
 				}
 			}
 			if(student.getInvitingScenariosId()!=null){

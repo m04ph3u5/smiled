@@ -32,6 +32,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.query.Update.PushOperatorBuilder;
 
 import com.mongodb.DB;
 import com.mongodb.DBRef;
@@ -626,6 +627,28 @@ public class UserRepositoryImpl implements CustomUserRepository {
 			return true;
 		else
 			return false;
+	}
+
+	@Override
+	public void addFriendsToUser(String userId, List<Reference> newFriends) {
+		Query q = new Query();
+		q.addCriteria(Criteria.where("id").is(userId));
+		Update u = new Update();
+		PushOperatorBuilder push = u.push("friends");
+		push.each(newFriends);
+		mongoOp.updateFirst(q, u, User.class);
+	}
+
+	@Override
+	public void addFriendToUsers(List<Reference> users, Reference user) {
+		Query q = new Query();
+		List<String> ids = new ArrayList<String>(users.size());
+		for(Reference r : users)
+			ids.add(r.getId());
+		q.addCriteria(Criteria.where("id").in(ids));
+		Update u = new Update();
+		u.push("friends", user);
+		mongoOp.updateMulti(q, u, User.class);
 	}
 
 	

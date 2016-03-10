@@ -60,5 +60,8 @@ public interface CustomUserRepository {
 	public boolean updateNameOfOneScenarioReference(String userId, Scenario scenario, String newNameOfScenario);
 	public boolean updateNameOfAllScenarioReference( List<String> idOfPeopleToUpdate, Scenario scenario,
 			String newScenarioName);
+	
+	public void addFriendsToUser(String userId, List<Reference> newFriends);
+	public void addFriendToUsers(List<Reference> users, Reference user);
 
 }
