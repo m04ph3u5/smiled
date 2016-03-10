@@ -641,5 +641,14 @@ public class ScenarioController extends BaseController{
 	public List<Action> getSocialGraph(@PathVariable String id) throws NotFoundException{
 		return scenarioService.getSocialGraph(id);
 	}
+	
+	@ResponseStatus(value = HttpStatus.OK)
+	@RequestMapping(value="/v1/scenarios/updateReference", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void updateReferenceOfOldScenarios(){
+		scenarioService.updateOldScenariosReference();
+	}
+	
+	
 
 }

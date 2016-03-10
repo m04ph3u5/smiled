@@ -32,6 +32,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.query.Update.AddToSetBuilder;
 import org.springframework.data.mongodb.core.query.Update.PushOperatorBuilder;
 
 import com.mongodb.DB;
@@ -634,8 +635,8 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("id").is(userId));
 		Update u = new Update();
-		PushOperatorBuilder push = u.push("friends");
-		push.each(newFriends);
+		AddToSetBuilder addToSet = u.addToSet("friends");
+		addToSet.each(newFriends);
 		mongoOp.updateFirst(q, u, User.class);
 	}
 
@@ -647,11 +648,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 			ids.add(r.getId());
 		q.addCriteria(Criteria.where("id").in(ids));
 		Update u = new Update();
-		u.push("friends", user);
+		u.addToSet("friends", user);
 		mongoOp.updateMulti(q, u, User.class);
 	}
-
-	
-
-
 }

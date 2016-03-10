@@ -2753,5 +2753,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 	}
 
 
+	@Override
+	public void updateOldScenariosReference() {
+		asyncUpdater.updateOldScenariosReference();
+	}
+
+
 	
 }

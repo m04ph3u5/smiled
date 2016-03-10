@@ -123,5 +123,6 @@ public interface ScenarioService {
 	public List<Post> getLastNHistoricPost(String id, Long date, Integer time, Integer nItem, Boolean orderDesc);
 	public List<Post> getCharacterPosts(String id, String characterId, Long date, Integer time, Integer nItem,
 			Authentication auth) throws BadRequestException;
+	public void updateOldScenariosReference();
 	
 }

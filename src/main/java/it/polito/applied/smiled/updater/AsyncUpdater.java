@@ -183,9 +183,27 @@ public class AsyncUpdater {
 			if(attendees==null || attendees.size()==0)
 				return;
 			
+			List<Reference> newFriends = new ArrayList<Reference>();
+			
 			for(int i=0; i<attendees.size()-1; i++){
-				userRepository.addFriendsToUser(attendees.get(i).getId(), attendees.subList(i+1, attendees.size()));
-				userRepository.addFriendToUsers(attendees.subList(i+1, attendees.size()), attendees.get(i));
+				User u = userRepository.findById(attendees.get(i).getId());
+				
+				if(u.getClass().equals(Student.class)){
+					Student s = (Student) u;
+					
+					if(s.getBlockedUsersId()==null || s.getBlockedUsersId().size()==0){
+						userRepository.addFriendsToUser(attendees.get(i).getId(), attendees.subList(i+1, attendees.size()));
+						userRepository.addFriendToUsers(attendees.subList(i+1, attendees.size()), attendees.get(i));
+					}else{
+						for(Reference r : attendees){
+							if(!s.getBlockedUsersId().contains(r.getId()))
+								newFriends.add(r);
+						}
+						userRepository.addFriendsToUser(s.getId(), newFriends);
+						userRepository.addFriendToUsers(newFriends, attendees.get(i));
+						newFriends.clear();
+					}
+				}
 			}
 		}
 		
@@ -898,4 +916,32 @@ public class AsyncUpdater {
 
 	}
 
+
+	public void updateOldScenariosReference() {
+		Runnable r = new UpdateOldScenariosReference();
+		taskExecutor.execute(r);
+	}
+
+	private class UpdateOldScenariosReference implements Runnable{
+
+		@Override
+		public void run() {
+			System.out.println("RUN");
+			List<Scenario> scenarios = scenarioRepository.findByStatus(ScenarioStatus.ACTIVE);
+			if(scenarios!=null){
+				for(Scenario s : scenarios){
+					List<Reference> attendees = s.getAttendees();
+					if(attendees==null || attendees.size()==0)
+						continue;
+					
+					for(int i=0; i<attendees.size()-1; i++){
+						userRepository.addFriendsToUser(attendees.get(i).getId(), attendees.subList(i+1, attendees.size()));
+						userRepository.addFriendToUsers(attendees.subList(i+1, attendees.size()), attendees.get(i));
+					}
+				}
+				System.out.println("UPDATED "+scenarios.size()+" SCENARIOS");
+			}
+		}
+		
+	}
 }
