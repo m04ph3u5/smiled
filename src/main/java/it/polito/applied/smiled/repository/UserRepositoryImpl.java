@@ -346,8 +346,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		
 		if(studentRef.getType().equals(Student.class.getSimpleName()))
 			u.addToSet("students", studentRef);
-		else
-			u.addToSet("colleagues", studentRef);
+		
 
 		WriteResult w = mongoOp.updateFirst(q, u, User.class);
 		return w.getN();
