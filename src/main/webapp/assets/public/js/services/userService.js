@@ -1,5 +1,5 @@
-angular.module('smiled.application').factory('userService', [ '$http', '$q', '$cookies',
-               function userService($http, $q, $cookies){
+angular.module('smiled.application').factory('userService', [ '$http', '$q', '$cookies', '$rootScope',
+               function userService($http, $q, $cookies, $rootScope){
 
 
 	var lastScenarioId = "";
@@ -25,6 +25,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 				u.resolve(response.data);
 				$cookies.put('myMescholaId', response.data.id);
 				lastMe=response.data;
+				$rootScope.$broadcast("meschola.login",{id : response.data.id});
 			},
 			function(reason){
 				u.reject(reason);
@@ -119,6 +120,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 					lastMe={};
 					$cookies.remove('myMescholaId');
 					log.resolve(data);
+					$rootScope.$broadcast("meschola.logout");
 				},
 				function(reason){
 					console.log("Logout failed: "+reason);
@@ -206,6 +208,14 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		return s.promise;
 	}
 	
+	var getMeForPermission = function(){
+		if(lastMe.hasOwnProperty('id')){
+			var s = $q.defer();
+			s.resolve(lastMe);
+			return s.promise;
+		}else
+			return getMe();
+	}
 	
 	return {
 		login: login,
@@ -223,7 +233,8 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		confirmRegisterTeacher : confirmRegisterTeacher,
 		forgotPasswordRequest : forgotPasswordRequest,
 		deleteRegisterTeacher : deleteRegisterTeacher,
-		getUserByEmail : getUserByEmail
+		getUserByEmail : getUserByEmail,
+		getMeForPermission : getMeForPermission
 	}
 
 	

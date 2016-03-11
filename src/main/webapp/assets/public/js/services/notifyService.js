@@ -25,6 +25,18 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 	
 	var newNotifyOrPost = function(n){
 		
+		if(n.verb=="OPEN_SCENARIO" || n.verb=="CLOSE_SCENARIO" ){ //eventi da dare a tutte le dashboard
+			$rootScope.$broadcast('dashboard.reloadDashboard');
+		}
+		else if(n.verb=="NEW_MOD" || n.verb=="DEL_MOD"){ //eventi da dare alla dashboard teacher
+			$rootScope.$broadcast('dashboardTeacher.reloadDashboard');
+		}
+		else if((n.verb=="NEW_ASSOCIATION" && n.objectId==me) || n.verb=="DEL_ASSOCIATION" || n.verb=="NEW_ATTENDEE" || n.verb=="DEL_ATTENDEE"){  //eventi da dare alla dashboard student
+			$rootScope.$broadcast('dashboardStudent.reloadDashboard');
+		}else if(n.verb=="NEW_PERSONAL_MISSION" || n.verb=="NEW_GLOBAL_MISSION"){
+			$rootScope.$broadcast('dashboardStudent.reloadMission');
+		}
+		
 		if(n.sender!=me){
 			
 			if(n.verb=="NEW_POST"){
@@ -49,21 +61,7 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 				}
 			}
 			else{
-				if(n.verb=="OPEN_SCENARIO" || n.verb=="CLOSE_SCENARIO" ){ //eventi da dare a tutte le dashboard
-					$rootScope.$broadcast('dashboard.reloadDashboard');
-				}
-				else if(n.verb=="NEW_MOD" || n.verb=="DEL_MOD"){ //eventi da dare alla dashboard teacher
-					$rootScope.$broadcast('dashboardTeacher.reloadDashboard');
-				}
-				else if((n.verb=="NEW_ASSOCIATION" && n.objectId==me) || n.verb=="DEL_ASSOCIATION" || n.verb=="NEW_ATTENDEE" || n.verb=="DEL_ATTENDEE"){  //eventi da dare alla dashboard student
-					$rootScope.$broadcast('dashboardStudent.reloadDashboard');
-				}else if(n.verb=="NEW_PERSONAL_MISSION" || n.verb=="NEW_GLOBAL_MISSION"){
-					$rootScope.$broadcast('dashboardStudent.reloadMission');
-				}
-				
-				console.log(n.sender);
 				$rootScope.$broadcast('notification.newNotificationEvent', {notification: n});
-				
 			}
 		}
 		//else --> non fare niente perchè è una notifica generata da me
@@ -149,6 +147,21 @@ angular.module('smiled.application').factory('notifyService', [ '$q','$cookies',
 		else
 			return true;
 	}
+	
+	  
+    var onLoginListener = $rootScope.$on('meschola.login', function (event, data) {
+    	console.log(data.id);
+    	me = data.id;
+    });
+    
+    var onLogoutListener = $rootScope.$on('meschola.logout', function () {
+    	me = "";
+    });
+	
+    $rootScope.$on("$destroy", function() {
+		onLoginListener();
+		onLogoutListener();
+	});
 	
 	return {
 		newNotifyOrPost : newNotifyOrPost,

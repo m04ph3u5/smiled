@@ -1,10 +1,11 @@
-angular.module('smiled.application').factory('webSocketService', [ '$timeout','messageService', 'notifyService',
-               function webSocketService($timeout, messageService, notifyService){
+angular.module('smiled.application').factory('webSocketService', [ '$timeout','messageService', 'notifyService', '$rootScope',
+               function webSocketService($timeout, messageService, notifyService, $rootScope){
 
 	var service = {};
 	
 	var socket = {};
 	var exp=0;
+	var logged=true;
 	
 	service.RECONNECT_TIMEOUT = 1000;
 	service.START_AFTER_TIME_TO_SETUP=700;
@@ -34,9 +35,11 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 
 	 
 	var reconnect = function() {
-	      $timeout(function() {
-	        retry();
-	      }, getTimeout());  //aggiungere un meccanismo di backoff esponenziale per la riconnessione
+		if(logged){
+			$timeout(function() {
+				retry();
+		    }, getTimeout());  //aggiungere un meccanismo di backoff esponenziale per la riconnessione
+		}
 	};
 	
 	var retry = function(){
@@ -73,6 +76,20 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	};
 	 
 	initialize();
+	
+    var onLoginListener = $rootScope.$on('meschola.login', function (event, data) {
+    	logged=true;
+    	initialize();
+    });
+    
+    var onLogoutListener = $rootScope.$on('meschola.logout', function () {
+    	logged=false;
+    });
+	
+	$rootScope.$on("$destroy", function() {
+		onLoginListener();
+		onLogoutListener();
+	});
 	
 	
 //	$timeout(function() {

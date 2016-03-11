@@ -283,7 +283,10 @@ angular.module('smiled.application')
 			},
 			data : {
 				pageTitle : 'I miei compiti - Meschola'
-			}
+			},
+			params: {
+				missions: null
+			},
 		})
 		.state('logged.dashboard.filesList',{
 			url: "/materiale",
@@ -347,10 +350,7 @@ angular.module('smiled.application')
 			}
 		})
 		.state('logged.myNotifications',{
-			url: "/utente/{id}/notifiche",
-			params: {
-				id : null
-			},
+			url: "/notifiche",
 			views: {
 				'content': {
 					templateUrl: "assets/private/partials/myNotifications.html",
@@ -786,7 +786,7 @@ angular.module('smiled.application')
     	  });
     	  Permission.defineRole('user',function(stateParams){
     		  var deferred = $q.defer();
-    		  userService.getMe().then(
+    		  userService.getMeForPermission().then(
     				  function(data){
     					  if(data.role.authority=="ROLE_USER")
     						  deferred.resolve();
@@ -801,7 +801,7 @@ angular.module('smiled.application')
     	  });
     	  Permission.defineRole('teacher',function(stateParams){
     		  var deferred = $q.defer();
-    		  userService.getMe().then(
+    		  userService.getMeForPermission().then(
     				  function(data){
     					  if(data.role.authority=="ROLE_TEACHER")
     						  deferred.resolve();
@@ -816,7 +816,7 @@ angular.module('smiled.application')
     	  });
     	  Permission.defineRole('admin',function(stateParams){
     		  var deferred = $q.defer();
-    		  userService.getMe().then(
+    		  userService.getMeForPermission().then(
     				  function(data){
     					  if(data.role.authority=="ROLE_ADMIN")
     						  deferred.resolve();

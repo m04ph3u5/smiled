@@ -36,7 +36,7 @@ public class NotificationRepositoryImpl implements CustomNotificationRepository{
 	public List<Notification> findToReadNotificationOfUser(String userId) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("receiverId").is(userId));
-		
+		q.with(new Sort(Sort.Direction.ASC, "date"));
 		return mongoOp.find(q, Notification.class, TO_READ);
 	}
 

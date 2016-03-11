@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('notificationCtrl', ['$rootScope', '$stateParams','$state', 'userService', 'apiService','CONSTANTS', '$timeout','webSocketService',
-              function characterProfileCtrl($rootScope, $stateParams, $state, userService, apiService, CONSTANTS, $timeout, webSocketService){
+angular.module('smiled.application').controller('notificationCtrl', ['$rootScope', '$state', 'userService', 'apiService','CONSTANTS', '$timeout','webSocketService',
+              function characterProfileCtrl($rootScope, $state, userService, apiService, CONSTANTS, $timeout, webSocketService){
 	
 	var self = this;
 	self.notifications = [];

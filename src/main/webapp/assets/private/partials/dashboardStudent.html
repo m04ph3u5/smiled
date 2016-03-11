@@ -237,11 +237,11 @@
 				
 				<!-- COMPITI MD/LG-->
 				<div class="col-md-6 col-sm-8 hidden-xs hidden-sm visible-md visible-lg singleRow box boxLightblue">
-					<h1 style="margin-bottom: 0px;" data-ui-sref="logged.dashboard.missionsList" class="dashTitle">
+					<h1 style="margin-bottom: 0px;" data-ui-sref="logged.dashboard.missionsList({missions : dashboard.myMissions})" class="dashTitle">
 						MISSIONI
 						<img data-ng-src="assets/public/img/titoli_dashboard/ic_mission.png" class="titleIcon">			
 						<span data-ng-if="dashboard.myMissions.length>4" class="pull-right" style="font-size:0.9em;">
-							<a data-ui-sref="logged.dashboard.scenariosList">
+							<a>
 								<img data-ng-src="assets/public/img/icon/view_more_vert.png"	class="scenDashIconSmall">		
 							</a>
 						</span>		
@@ -285,7 +285,7 @@
 						MISSIONI
 						<img data-ng-src="assets/public/img/titoli_dashboard/ic_mission.png" class="titleIcon">			
 						<span data-ng-if="dashboard.myMissions.length>2" class="pull-right" style="font-size:0.9em;">
-							<a data-ui-sref="logged.dashboard.scenariosList">
+							<a>
 								<img data-ng-src="assets/public/img/icon/view_more_vert.png"	class="scenDashIconSmall">		
 							</a>
 						</span>				
