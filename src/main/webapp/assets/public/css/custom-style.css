@@ -594,6 +594,12 @@
 			margin-top:10px;
 			margin-bottom:10px;
 		}
+		.scenDashIconSmall{
+			height:30px;
+			width: 50px;
+			margin-top:5px;
+			margin-bottom:5px;
+		}
 		.scenDashIcon2{
 			width:80px;
 			margin-top:10px;

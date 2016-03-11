@@ -239,32 +239,42 @@
 				<div class="col-md-6 col-sm-8 hidden-xs hidden-sm visible-md visible-lg singleRow box boxLightblue">
 					<h1 style="margin-bottom: 0px;" data-ui-sref="logged.dashboard.missionsList" class="dashTitle">
 						MISSIONI
-						<img data-ng-src="assets/public/img/titoli_dashboard/ic_mission.png" class="titleIcon">					
+						<img data-ng-src="assets/public/img/titoli_dashboard/ic_mission.png" class="titleIcon">			
+						<span data-ng-if="dashboard.myMissions.length>4" class="pull-right" style="font-size:0.9em;">
+							<a data-ui-sref="logged.dashboard.scenariosList">
+								<img data-ng-src="assets/public/img/icon/view_more_vert.png"	class="scenDashIconSmall">		
+							</a>
+						</span>		
 					</h1>
-					<div data-ng-if="dashboard.myMissions==null || dashboard.myMission.length==0">
+					<div data-ng-if="dashboard.myMissions==null || dashboard.myMissions.length==0">
 						Qui verranno inserite le proprie missioni
 					</div>
-					<div class="row" data-ng-repeat="m in dashboard.myMissions | limitTo: 3">
-						<div class="col-sm-2 col-xs-2">
-							<div style="cursor:pointer;" data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})" class='square-box'>
-    							<div class='square-content'>
-    								<div><span>{{m.assignDate | date : dashboard.missionDateFormatDay}}<br>{{m.assignDate | date : dashboard.missionDateFormatMonth}}</span></div>
-    							</div>
-    						</div>
-						</div>
-						<div class="col-xs-10 col-sm-10 text-left">
-							<h4 data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})">
-								<a href="" style="color:#232323;">
-									<span data-ng-show="m.title">{{m.title | limitTo: 40}}<span data-ng-show="m.title.length>40">...</span></span>
-									<span data-ng-hide="m.title">{{m.description | limitTo: 40}}<span data-ng-show="m.description.length>40">...</span></span>
-								</a>
-							</h4>
-							<p >
-								<i data-ui-sref="logged.scenario.posts({id : '{{m.scenarioId}}'})"><a class="blueLink" href="">{{m.scenarioName}}</a></i>
-								<span data-ng-show="m.characterName"> - 
-									<span data-ui-sref="logged.scenario.charprofile({id : '{{m.scenarioId}}', idCharacter : '{{m.characterId}}'})"><a class="blueLink" href="">{{m.characterName}}</a></span>
-								</span>
-							</p>
+					<div style="margin-top:10px;"></div>
+					<div class="row">
+						<div  data-ng-repeat="m in dashboard.myMissions | limitTo: 4">
+							<div class="col-md-6">
+								<div class="col-sm-2 col-xs-2">
+									<div style="cursor:pointer;" data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})" class='square-box'>
+		    							<div class='square-content'>
+		    								<div><span>{{m.assignDate | date : dashboard.missionDateFormatDay}}<br>{{m.assignDate | date : dashboard.missionDateFormatMonth}}</span></div>
+		    							</div>
+		    						</div>
+								</div>
+								<div class="col-xs-10 col-sm-10 text-left">
+									<h4 data-ui-sref="logged.scenario.missions({id : '{{m.scenarioId}}'})">
+										<a href="" style="color:#232323;">
+											<span data-ng-show="m.title">{{m.title | limitTo: 40}}<span data-ng-show="m.title.length>40">...</span></span>
+											<span data-ng-hide="m.title">{{m.description | limitTo: 40}}<span data-ng-show="m.description.length>40">...</span></span>
+										</a>
+									</h4>
+									<p >
+										<i data-ui-sref="logged.scenario.posts({id : '{{m.scenarioId}}'})"><a class="blueLink" href="">{{m.scenarioName}}</a></i>
+										<span data-ng-show="m.characterName"> - 
+											<span data-ui-sref="logged.scenario.charprofile({id : '{{m.scenarioId}}', idCharacter : '{{m.characterId}}'})"><a class="blueLink" href="">{{m.characterName}}</a></span>
+										</span>
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -273,9 +283,14 @@
 				<div class="col-md-6 col-sm-8 visible-xs visible-sm hidden-md hidden-lg singleRow box boxLightblue">
 					<h1 data-ui-sref="logged.dashboard.missionsList" class="dashTitle">
 						MISSIONI
-						<img data-ng-src="assets/public/img/titoli_dashboard/ic_mission.png" class="titleIcon">					
-					</h3>
-					<div data-ng-if="dashboard.myMissions==null || dashboard.myMission.length==0">
+						<img data-ng-src="assets/public/img/titoli_dashboard/ic_mission.png" class="titleIcon">			
+						<span data-ng-if="dashboard.myMissions.length>2" class="pull-right" style="font-size:0.9em;">
+							<a data-ui-sref="logged.dashboard.scenariosList">
+								<img data-ng-src="assets/public/img/icon/view_more_vert.png"	class="scenDashIconSmall">		
+							</a>
+						</span>				
+					</h1>
+					<div data-ng-if="dashboard.myMissions==null || dashboard.myMissions.length==0">
 						Qui verranno inserite le proprie missioni
 					</div>
 					<div class="row" data-ng-repeat="m in dashboard.myMissions | limitTo: 2">

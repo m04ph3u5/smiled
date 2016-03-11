@@ -354,6 +354,24 @@ span.clickable:hover {
     display: block;
     padding-top: 100%;
 }
+
+.square-box-less-margin{
+	margin-top: 3%;
+	margin-left: 10%;
+    position: relative;
+    width: 80%;
+    overflow: hidden;
+    background: #cdc08c;
+    min-width : 40px;
+}
+
+.square-box-less-margin:before{
+	content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+
 .square-content{
     position:  absolute;
     top: 0;
