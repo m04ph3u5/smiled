@@ -929,14 +929,31 @@ public class AsyncUpdater {
 			System.out.println("RUN");
 			List<Scenario> scenarios = scenarioRepository.findByStatus(ScenarioStatus.ACTIVE);
 			if(scenarios!=null){
+				List<Reference> newFriends = new ArrayList<Reference>();
 				for(Scenario s : scenarios){
 					List<Reference> attendees = s.getAttendees();
 					if(attendees==null || attendees.size()==0)
-						continue;
+						return;
 					
 					for(int i=0; i<attendees.size()-1; i++){
-						userRepository.addFriendsToUser(attendees.get(i).getId(), attendees.subList(i+1, attendees.size()));
-						userRepository.addFriendToUsers(attendees.subList(i+1, attendees.size()), attendees.get(i));
+						User u = userRepository.findById(attendees.get(i).getId());
+						
+						if(u.getClass().equals(Student.class)){
+							Student stud = (Student) u;
+							
+							if(stud.getBlockedUsersId()==null || stud.getBlockedUsersId().size()==0){
+								userRepository.addFriendsToUser(attendees.get(i).getId(), attendees.subList(i+1, attendees.size()));
+								userRepository.addFriendToUsers(attendees.subList(i+1, attendees.size()), attendees.get(i));
+							}else{
+								for(Reference r : attendees){
+									if(!stud.getBlockedUsersId().contains(r.getId()))
+										newFriends.add(r);
+								}
+								userRepository.addFriendsToUser(s.getId(), newFriends);
+								userRepository.addFriendToUsers(newFriends, attendees.get(i));
+								newFriends.clear();
+							}
+						}
 					}
 				}
 				System.out.println("UPDATED "+scenarios.size()+" SCENARIOS");
