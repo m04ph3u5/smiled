@@ -149,37 +149,12 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	    );
 	}
 	
-	var interval;
-	var intervalSet = false;
-	var startUpdateUser = function(){
-		if(!intervalSet){
-			interval = $interval(getLoggedUser,20000);
-			intervalSet=true;
-		}
-	}
-	
-	var stopUpdateUser = function(){
-		if(intervalSet){
-			$interval.cancel(interval);
-			intervalSet=false;
-		}
-	}
-	
-    startUpdateUser();
+
     createArrayOfScenariosToShow();
 	
-	$scope.$on('$destroy', function() {
-      	stopUpdateUser();
-	});
 	
-	self.scenarioChanged  = function(){
-		//aggiorna la lista degli studenti e ci inserisce solo quelli che fanno parte di quello scenario
-		
-	}
-	self.studentChanged  = function(){
-		//aggiorna la lista degli scenari e ci inserisce solo quelli in cui lo studente è iscritto
-		
-	}	
+	
+	
 	
 	self.openCollCard= function(userID,index){
 		self.selectedUserID = userID;
@@ -194,6 +169,51 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 		}
 	}
 	
+	
+	var reloadDashboardListener = $scope.$on('dashboard.reloadDashboard', function () {
+		console.log('dashboard.reloadDashboard');
+		getLoggedUser();
+       
+    });
+	
+	var reloadSpecificDashboardListener=null;
+	var reloadMissionListener=null;
+	
+	if(loggedUser.role.authority=="ROLE_USER"){
+		reloadSpecificDashboardListener = $scope.$on('dashboardStudent.reloadDashboard', function () {
+			
+			getLoggedUser();
+	       
+	    });
+		reloadMissionListener = $scope.$on('dashboardStudent.reloadMission', function () {
+			
+			apiService.getMyMissions().then(
+					function(data){
+						self.myMissions = data;
+					},
+					function(reason){
+						console.log("Error retrieve missions");
+						console.log(reason);
+					}
+			);
+	       
+	    });
+		
+	}else if(loggedUser.role.authority=="ROLE_TEACHER"){
+		reloadSpecificDashboardListener =$scope.$on('dashboardTeacher.reloadDashboard', function () {
+			
+			getLoggedUser();
+		});
+
+	}
+	
+    $scope.$on('$destroy', function() {
+    	reloadDashboardListener();
+    	if(reloadSpecificDashboardListener!=null)
+    		reloadSpecificDashboardListener();
+    	if(reloadMissionListener!=null)
+    		reloadMissionListener();
+	});
 
 	
 	
