@@ -95,8 +95,8 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
 	<!-- CUSTOM SCRIPT -->
-	<script src="/assets/public/js/app.js"></script>
-	<script src="/assets/public/js/router.js"></script>
+<!-- 	<script src="/assets/public/js/app.js"></script> -->
+<!-- 	<script src="/assets/public/js/router.js"></script> -->
 <!-- 	<script src="/assets/public/js/controllers/mainController.js"></script> -->
 <!-- 	<script src="/assets/public/js/controllers/loggedController.js"></script> -->
 <!-- 	<script src="/assets/public/js/controllers/loginController.js"></script> -->
@@ -183,10 +183,10 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	
 <!-- 	<script src="/assets/public/js/controllers/dialogConfirmRegistrationController.js"></script> -->
 	
-<!-- 	<!-- CUSTOM SCRIPT WRAPPING --> -->
-	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>  
-	<script src="/assets/public/js/wrapping/requestCounter.js"></script>
-	<script src="/assets/public/js/wrapping/stateChangeErrors.js"></script>
+ 	<!-- CUSTOM SCRIPT WRAPPING --> 
+<!-- 	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>   -->
+<!-- 	<script src="/assets/public/js/wrapping/requestCounter.js"></script> -->
+<!-- 	<script src="/assets/public/js/wrapping/stateChangeErrors.js"></script> -->
 
 	<script src="/assets/public/build/meschola.min.js"></script>
 	
