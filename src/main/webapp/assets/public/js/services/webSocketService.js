@@ -3,9 +3,10 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 
 	var service = {};
 	
-	var socket = {};
+	var socket = null;
 	var exp=0;
 	var logged=true;
+
 	
 	service.RECONNECT_TIMEOUT = 1000;
 	service.START_AFTER_TIME_TO_SETUP=700;
@@ -54,7 +55,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 		socket = new SockJS(service.SOCKET_URL);
 		console.log(socket);
 
-		console.log('open ws connection on webSocketService');
+		console.log('open ws connection on webSocketService!!!!');
 		
 		socket.onopen = function(){
 			resetTimeout();
@@ -74,12 +75,20 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	 	    reconnect();
 	 	};
 	};
-	 
-	initialize();
 	
-    var onLoginListener = $rootScope.$on('meschola.login', function (event, data) {
+	
+	if(!socket || socket==null){
+		console.log("WEB SOCKET SERVICE INITIALIZING after load of webSocketService...");
+		initialize();
+	}
+	
+	
+    var onLoginListener = $rootScope.$on('meschola.login', function () {
     	logged=true;
-    	initialize();
+    	if(!socket || socket==null){
+    		console.log("WEB SOCKET SERVICE INITIALIZING after onLoginListener...");
+    		initialize();
+    	}
     });
     
     var onLogoutListener = $rootScope.$on('meschola.logout', function () {
