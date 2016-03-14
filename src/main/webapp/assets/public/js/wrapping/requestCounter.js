@@ -35,8 +35,8 @@ angular.module('smiled.application').factory('requestCounter',['$q', function re
         };
 
 }])
-.config(['$httpProvider', function ($httpProvider) {
+.config(function ($httpProvider) {
             $httpProvider.interceptors.push("requestCounter");
-}]);
+});
 
    

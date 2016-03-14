@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('mainCtrl', ['$state', '$rootScope', '$scope', '$timeout', '$q',
-         function loggedCtrl($state, $rootScope, $scope, $timeout){
+angular.module('smiled.application').controller('mainCtrl', ['$state', '$rootScope',
+         function loggedCtrl($state, $rootScope){
 	
 	 $rootScope.$on('unauthorized', function() {
         $state.go('notLogged.login');

@@ -1,6 +1,6 @@
-angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', 'modalService', '$q', 'Upload', 'modalService', 'notifyService',
+angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'apiService', 'Lightbox', '$q', 'Upload', 'modalService', 'notifyService',
 
-                                                                 function(CONSTANTS, apiService, Lightbox, modalService, $q, Upload, modalService, notifyService){
+                                                                 function(CONSTANTS, apiService, Lightbox, $q, Upload, modalService, notifyService){
 	return {
 		templateUrl: "assets/private/partials/show-news-post-template.html",
 		scope : {

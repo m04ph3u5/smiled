@@ -1,5 +1,5 @@
-angular.module("smiled.application").service('unauthorizedInterceptor', ['$rootScope', '$q',                                                                        
- function($rootScope,$q,$state) {
+angular.module("smiled.application").service('unauthorizedInterceptor', ['$rootScope', '$q',                                                                  
+ function($rootScope,$q) {
 	
 	return{
 	  // optional method

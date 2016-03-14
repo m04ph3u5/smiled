@@ -765,8 +765,7 @@ angular.module('smiled.application')
 		RestangularProvider.setBaseUrl('/api/v1');
 		RestangularProvider.setDefaultHeaders({'Content-Type' : 'application/json'});
 	}])
-	.run(
-	      function (Permission,userService, $q, $rootScope, $stateParams, $state) {
+	.run(function (Permission,userService, $q, $rootScope, $stateParams, $state) {
 		
 		$rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
