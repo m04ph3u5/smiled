@@ -1,4 +1,4 @@
-angular.module('smiled.application').config(
+angular.module('smiled.application').config(['$provide', 
                function interpolateService($provide){
   //wrapping dell'interpolator. Serve a tenere sotto controllo il two-way data binding          	   
             	   $provide.decorator("$interpolate", function ($delegate, $log) {
@@ -24,4 +24,4 @@ angular.module('smiled.application').config(
                        return serviceWrapper;
                    });
        
-});
+}]);

@@ -82,11 +82,14 @@ public class NotificationWebSocketController implements WebSocketHandler{
 			System.out.println("Error in stopping container");
 		} finally{
 			session.close();
+			System.out.println("Connection closed");
+
 		}
 	}
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		System.out.println("Connection established");
 		Authentication auth = (Authentication) session.getPrincipal();
 		CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 
@@ -147,6 +150,7 @@ public class NotificationWebSocketController implements WebSocketHandler{
 
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable arg1) throws Exception {
+		System.out.println("Handle Transport Error");
 	}
 
 	@Override

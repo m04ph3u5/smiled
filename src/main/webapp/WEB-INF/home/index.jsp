@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta description="Meschola è la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
+	<meta description="Meschola Ã¨ la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
 <link rel="shortcut icon" href="/assets/public/img/icon/favicon.ico">
 <link rel="icon" type="image/png" href="/assets/public/img/icon/favicon.png">
 <link rel="stylesheet"
@@ -32,7 +32,7 @@
 
 <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 <script type="text/javascript">
-    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalità che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformità con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
+    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalitï¿½ che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformitï¿½ con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
 </script>
 
 <script type="text/javascript" 

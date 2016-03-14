@@ -51,6 +51,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 	}
 	
 	var initialize = function() {
+		if(socket)
 		socket = new SockJS(service.SOCKET_URL);
 		console.log(socket);
 
