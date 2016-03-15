@@ -1,6 +1,6 @@
 angular.module('smiled.application')
-	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$httpProvider',
-	         function($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $httpProvider){
+	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
+	         function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
 	
 		var notFoundPath;
 		$stateProvider
@@ -762,8 +762,6 @@ angular.module('smiled.application')
 	    $httpProvider.interceptors.push('unauthorizedInterceptor');
 		$locationProvider.html5Mode(true);
 		$httpProvider.useApplyAsync(true);
-		RestangularProvider.setBaseUrl('/api/v1');
-		RestangularProvider.setDefaultHeaders({'Content-Type' : 'application/json'});
 	}])
 	.run(function (Permission,userService, $q, $rootScope, $stateParams, $state) {
 		

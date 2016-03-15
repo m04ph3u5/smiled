@@ -16,32 +16,53 @@ module.exports = function(grunt) {
 	//			}
 				files : {
 					'assets/public/build/<%= pkg.name %>.min.js' : ['assets/public/js/app.js', 'assets/public/js/router.js', 'assets/public/js/controllers/**/*.js', 'assets/public/js/services/**/*.js', 'assets/public/js/directives/**/*.js', 'assets/public/js/wrapping/**/*.js'],
+					'assets/public/js/vendor/angular-permission/dist/angular-permission.min.js' : ['assets/public/js/vendor/angular-permission/dist/angular-permission.js'],
+					'assets/public/js/vendor/angular-native-dragdrop/draganddrop.min.js' : ['assets/public/js/vendor/angular-native-dragdrop/draganddrop.js'],
+					'assets/public/js/support/datepicker.min.js' : ['assets/public/js/support/datepicker.js'],
+					'assets/public/js/support/jquery.downCount.min.js' : ['assets/public/js/support/jquery.downCount.js']
 				}
 			}
 		},
 		cssmin : {
 			my_target :{
-//				options: {
-//					banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd")  %> Buonaiuto Andrea - Parlato Luigi */\n',
-//					shorthandCompacting: false,
-//					roundingPrecision : -1
-//				},
-//				files : {
-//					'assets/public/build/<%= pkg.name %>.min.css' : ['assets/public/css/custom-style.css', 'assets/public/css/secondaryCss.css', 'assets/public/css/storyline.css']
-//				}
-				files : [{
-					expand : true,
-					cwd : 'assets/public/css',
-					src : ['custom-style.css', 'secondaryCss.css', 'storyline.css'],
-					dest : 'assets/public/build',
-					ext : '.min.css'
-				}]
+				options: {
+					banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd")  %> Buonaiuto Andrea - Parlato Luigi */\n',
+					shorthandCompacting: false,
+					roundingPrecision : -1
+				},
+				files : {
+					'assets/public/css/<%= pkg.name %>.min.css' : ['assets/public/css/custom-style.css', 'assets/public/css/secondaryCss.css', 
+					                                               'assets/public/css/storyline.css', 'assets/public/css/validation-form.css',
+					                                               'assets/public/js/vendor/ui-slider/slider.css'],
+					'assets/public/css/login-style.min.css' : ['assets/public/css/login-style.css']
+				}
+//				files : [{
+//					expand : true,
+//					cwd : 'assets/public/css',
+//					src : ['custom-style.css', 'secondaryCss.css', 'storyline.css'],
+//					dest : 'assets/public/build',
+//					ext : '.min.css'
+//				}]
 			}
 		
+		}, 
+		imagemin : {
+			dist : {
+				options:{
+					optmiizationLevel : 7
+				},
+				files : [{
+					expand : true,
+					cwd : 'assets/public/img',
+					src : ['**/*.{png,jpg,jpeg,gif}'],
+					dest : 'assets/public/img_min'
+				}]
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.registerTask('default', ['uglify','cssmin']);
 };

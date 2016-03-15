@@ -1,26 +1,20 @@
- angular.module('smiled.application').factory('apiService', ['$http', '$q', 'Restangular',
-                                                            function apiService($http,$q, Restangular){
+ angular.module('smiled.application').factory('apiService', ['$http', '$q',
+                                                            function apiService($http,$q){
 
-	/* TODO Da riscrivere utilizzando il pattern giusto $http */
-
-	var register = Restangular.one('register');
-
-	function postRegister(registerObject){
-		return register.post("",registerObject);
+	var postRegister = function(registerObject){
+		var s = $q.defer();
+		$http.post("/api/v1/register", registerObject).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
 	}
 
-// function createScenario(scenarioDTO){
-// var scenario = Restangular.one("scenarios");
-// return scenario.post("",scenarioDTO);
-// }
 
-// function updateScenario(id,scenarioDTO){
-// var scenario = Restangular.one("scenarios",id);
-// scenario.name = scenarioDTO.name;
-// scenario.startHistoryDate = scenarioDTO.startHistoryDate;
-// scenario.endHistoryDate = scenarioDTO.endHistoryDate;
-// scenario.put();
-// }
 	/*-----------------------------------------------------------*/	
 
 	var getScenario = function(idScenario){
@@ -292,7 +286,7 @@
 		
 		var c = $q.defer();
 
-		$http.get("/api/v1/scenarios/"+id+"/posts", {
+		$http.get("/api/v1/scenarios/"+id+"/paged-posts", {
 			params: { "nPag": nPag, "nItem": nItem, "historicOrder": historicalOrder, "orderDesc" : orderDesc }}).then(
 					function(response){
 						c.resolve(response.data);

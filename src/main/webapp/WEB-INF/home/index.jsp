@@ -11,26 +11,26 @@
 
 
 <link rel="stylesheet"
-	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-csp.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css">
-<link rel="stylesheet" href="/assets/public/css/validation-form.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/ngDialog/css/ngDialog.min.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
-<link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
-<link rel="stylesheet" href="assets/public/js/vendor/ui-slider/slider.css">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/ui-lightness/jquery-ui.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.1/css/ngDialog.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.0.0/ng-tags-input.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-lightbox/0.9.0/angular-bootstrap-lightbox.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.2/css/bootstrap-select.min.css">
 
 <!-- Own Style file -->
 <!-- <link rel="stylesheet" href="/assets/public/css/custom-style.css"> -->
 <!-- <link rel="stylesheet" href="/assets/public/css/secondaryCss.css"> -->
 <!-- <link rel="stylesheet" href="/assets/public/css/storyline.css"> -->
+<!-- <link rel="stylesheet" href="/assets/public/css/validation-form.css"> -->
+<!-- <link rel="stylesheet" href="assets/public/js/vendor/ui-slider/slider.css"> -->
+
+
 
 <!-- Own Style file MIN -->
-<link rel="stylesheet" href="/assets/public/css/custom-style.min.css">
-<link rel="stylesheet" href="/assets/public/css/secondaryCss.min.css">
-<link rel="stylesheet" href="/assets/public/css/storyline.min.css">
+<link rel="stylesheet" href="/assets/public/css/meschola.min.css">
 
 
 
@@ -38,7 +38,7 @@
     <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet'
         type='text/css'>
-    <link href="/assets/public/js/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <title data-ng-bind="$state.current.data.pageTitle">Meschola</title>    
 
@@ -62,47 +62,45 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 </div>
 	<!-- VENDOR SCRIPT -->
 	
-	<script src="/assets/public/js/vendor/jquery/dist/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-	<script src="/assets/public/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="/assets/public/js/vendor/jquery-ui/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+			  integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+			  crossorigin="anonymous"></script>	
+			  
 	<script src="/assets/public/js/vendor/jquery-ui/ui/i18n/datepicker-it.js"></script>
-	<script src="/assets/public/js/vendor/angular/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
 	<script src="/assets/public/js/support/angular-locale_it-it.js"></script>
-	<script src="/assets/public/js/vendor/angular-ui-date/src/date.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-date/0.0.8/date.min.js"></script>
 		
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-cookies.min.js"></script>
 	<script
-		src="/assets/public/js/vendor/angular-cookies/angular-cookies.min.js"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 	<script
-		src="/assets/public/js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/ngstorage/0.3.9/ngStorage.min.js"></script>
 	<script
-		src="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js"></script>
-	<script src="/assets/public/js/vendor/ngstorage/ngStorage.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-resource.min.js"></script>
 	<script
-		src="/assets/public/js/vendor/angular-resource/angular-resource.min.js"></script>
-	<script
-		src="/assets/public/js/vendor/angular-permission/dist/angular-permission.js"></script>
-	<script src="/assets/public/js/vendor/lodash/lodash.min.js"></script>
-	<script src="/assets/public/js/vendor/restangular/dist/restangular.min.js"></script>
-	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload.min.js"></script>
-	<script src="/assets/public/js/vendor/ng-file-upload/ng-file-upload-shim.min.js"></script>
-	<script src="/assets/public/js/vendor/sockjs-client/dist/sockjs.min.js"></script>
-	<script src="/assets/public/js/vendor/ngDialog/js/ngDialog.min.js"></script>
-	<script src="/assets/public/js/vendor/angular-native-dragdrop/draganddrop.js"></script>
-	<script src="/assets/public/js/vendor/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
-	<script src="/assets/public/js/vendor/ng-tags-input/ng-tags-input.min.js"></script>
-	<script src="/assets/public/js/vendor/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.js"></script>
-	<script src="/assets/public/js/vendor/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
-	<script src="/assets/public/js/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-	<script src="/assets/public/js/vendor/angular-sanitize/angular-sanitize.min.js"></script>
+		src="/assets/public/js/vendor/angular-permission/dist/angular-permission.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/7.3.8/ng-file-upload.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/7.3.8/ng-file-upload-shim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.1/js/ngDialog.min.js"></script>
+	<script src="/assets/public/js/vendor/angular-native-dragdrop/draganddrop.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.0.0/ng-infinite-scroll.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.0.0/ng-tags-input.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-lightbox/0.9.0/angular-bootstrap-lightbox.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.2/js/bootstrap-select.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-sanitize.min.js"></script>
 	<script src="/assets/public/js/vendor/ui-slider/slider.js"></script>
 	<script src="/assets/public/js/vendor/angular-fullscreen/angular-fullscreen.js"></script>
 	<script src="/assets/public/js/support/angular-p5.js"></script>
-	<script src="assets/public/js/support/socialGraphLib/p5.js" type="text/javascript"></script>
-	<script src="assets/public/js/support/socialGraphLib/p5.dom.js" type="text/javascript"></script>
-	<script src="assets/public/js/support/socialGraphLib/p5.sound.js" type="text/javascript"></script>
-	<script src="/assets/public/js/support/jqSupport.js"></script>
-	<script src="/assets/public/js/support/datepicker.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/p5.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.min.js" type="text/javascript"></script>
+	<script src="/assets/public/js/support/datepicker.min.js"></script>
 	
 <!-- 	<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> -->
 	
@@ -203,10 +201,10 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/build/meschola.min.js"></script>
 	
 	<!-- SCRIPT PER VETRINA -->
-	 <script src="/assets/public/js/support/jquery.backstretch.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js" type="text/javascript"></script>
     <script src="/assets/public/js/vendor/scrollReveal.js/dist/scrollReveal.min.js" type="text/javascript"></script>
    	<script src="/assets/public/js/vendor/fox-angular-scrollReveal.js/dist/fox-angular-scrollReveal.min.js"></script>
-       <script src="/assets/public/js/support/jquery.downCount.js" type="text/javascript"></script>
+    <script src="/assets/public/js/support/jquery.downCount.min.js" type="text/javascript"></script>
 <!--     <script src="/assets/public/js/support/showcase-custom.js" type="text/javascript"></script> -->
 	<!-- FINE SCRIPT PER VETRINA -->
 	

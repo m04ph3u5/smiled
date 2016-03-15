@@ -71,6 +71,7 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 		};
 		
 		socket.onclose = function() {
+			socket = null;
 	 	    console.log('close ws connection on webSocketService');
 	 	    reconnect();
 	 	};
