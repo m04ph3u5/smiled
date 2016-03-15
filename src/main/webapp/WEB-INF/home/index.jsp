@@ -7,11 +7,12 @@
 	<meta description="Meschola è la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
 <link rel="shortcut icon" href="/assets/public/img/icon/favicon.ico">
 <link rel="icon" type="image/png" href="/assets/public/img/icon/favicon.png">
+
+
+
 <link rel="stylesheet"
 	href="/assets/public/js/vendor/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/angular-ui-bootstrap-bower/ui-bootstrap-csp.css">
-<link rel="stylesheet" href="/assets/public/css/custom-style.css">
-<link rel="stylesheet" href="/assets/public/css/secondaryCss.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/jquery-ui/themes/ui-lightness/jquery-ui.min.css">
 <link rel="stylesheet" href="/assets/public/css/validation-form.css">
 <link rel="stylesheet" href="/assets/public/js/vendor/ngDialog/css/ngDialog.min.css">
@@ -21,7 +22,18 @@
 <link rel="stylesheet" href="/assets/public/js/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="assets/public/js/vendor/ui-slider/slider.css">
 
-<link rel="stylesheet" href="/assets/public/css/storyline.css">
+<!-- Own Style file -->
+<!-- <link rel="stylesheet" href="/assets/public/css/custom-style.css"> -->
+<!-- <link rel="stylesheet" href="/assets/public/css/secondaryCss.css"> -->
+<!-- <link rel="stylesheet" href="/assets/public/css/storyline.css"> -->
+
+<!-- Own Style file MIN -->
+<link rel="stylesheet" href="/assets/public/css/custom-style.min.css">
+<link rel="stylesheet" href="/assets/public/css/secondaryCss.min.css">
+<link rel="stylesheet" href="/assets/public/css/storyline.min.css">
+
+
+
   <!-- Google Web Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet'
