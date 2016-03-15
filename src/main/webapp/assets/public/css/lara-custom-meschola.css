@@ -1,0 +1,95 @@
+
+/*css per meschola news*/
+body{
+ 
+    font-family: 'Coustard', serif;
+   
+}
+
+.navbar, .navbar-default, .navbar-collapse {
+    
+    background-color: #f5f2ea;
+}
+
+/*css to add from here*/
+
+.enfasize{
+    font-size: 20px;
+     text-align: justify;
+    text-justify: inter-word;
+    color: dimgray;
+    margin-bottom: 32px;
+}
+
+.ic_news{
+    width: 52px;
+    float: left;
+    margin-right: 15px;
+    opacity: 0.4;
+    vertical-align: top;    
+    white-space: nowrap;
+    
+}
+
+.news li{
+    list-style: none;
+    text-decoration: none;
+    margin-top: 15px;
+    color: dimgray;
+    
+}
+
+.news{
+    padding-bottom: 22px;
+      text-align: justify;
+    text-justify: inter-word;
+} 
+
+@media screen and (max-width:768px) {
+    
+    .news{
+    padding-bottom: 72px;
+      text-align: left;
+   
+} 
+
+}
+
+
+/* check if there are no conflict with link style*/
+
+.link{
+    color: white;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.news-title{
+    font-weight: 400;
+    font-size: 16px;
+    background-color: burlywood;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: white;
+}
+
+.news p{
+ overflow: hidden;
+}
+
+.logo-name{
+   color:  #cb654f;
+    font-weight: 300;
+}
+
+
+.center {
+    text-align: center;
+}
+
+.call-to-action{
+    margin-top: 32px;
+   padding-top: 32px;
+    padding-bottom: 32px;
+    background-color: #c3d4c5;
+}

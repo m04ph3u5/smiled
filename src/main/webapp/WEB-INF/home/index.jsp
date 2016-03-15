@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.2/css/bootstrap-select.min.css">
 
+<link rel="stylesheet" href="/assets/public/css/lara-custom-meschola.css">
 <!-- Own Style file MIN -->
 <link rel="stylesheet" href="/assets/public/css/meschola.min.css">
 
