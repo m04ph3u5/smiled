@@ -12,12 +12,12 @@
 	.titleNav{
 		font-family: 'Coustard', sans-serif;
 		font-size:20px;
-		color: #cb654f;						
+		color: #cb654f !important;						
 	}
-	.titleNav{
-		font-size:20px;
-		color: #cb654f;						
-	}
+/* 	.titleNav{ */
+/* 		font-size:20px; */
+/* 		color: #cb654f;						 */
+/* 	} */
 	.titleNav::hover{			
 		color: #cb654f;						
 	}

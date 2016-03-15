@@ -655,7 +655,7 @@
 		color: #5B5955;
 	}
 	.titleNav{
-		color: #cb654f;						
+		color: #cb654f !important;						
 		font-family: 'Coustard', sans-serif;
 		font-size:20px;
 	}
