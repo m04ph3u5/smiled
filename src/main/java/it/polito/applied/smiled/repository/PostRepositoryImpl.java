@@ -193,11 +193,13 @@ public class PostRepositoryImpl implements CustomPostRepository{
 	public List<Post> findByScenarioIdAndPostStatus(String scenarioId,
 			PostStatus status) {
 		Query q = new Query();
-		Criteria c = new Criteria();
-		c.orOperator(Criteria.where("_class").is(Status.class.getName()),Criteria.where("_class").is(Event.class.getName()));
-		q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
-				.andOperator(Criteria.where("status").is(status)
-						.andOperator(c)));
+		
+	
+		Criteria cOr = new Criteria();
+
+		cOr.orOperator(Criteria.where("_class").is(Event.class.getName()), Criteria.where("_class").is(Status.class.getName()));
+
+		q.addCriteria(Criteria.where("scenarioId").is(scenarioId).andOperator(Criteria.where("status").is(status).andOperator(cOr)));
 		return mongoOp.find(q, Post.class);
 	}
 

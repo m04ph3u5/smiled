@@ -86,7 +86,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.min.js" type="text/javascript"></script>
 	<script src="/assets/public/js/support/datepicker.min.js"></script>
 
-	<script src="/assets/public/build/meschola.min.js"></script>
+	<script src="/assets/public/build/meschola_1.min.js"></script>
 	
 	<!-- SCRIPT PER VETRINA -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js" type="text/javascript"></script>
