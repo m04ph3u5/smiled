@@ -75,6 +75,24 @@ angular.module('smiled.application')
 				pageTitle : 'Recupera password - Meschola'
 			}
 		})
+		.state('notLogged.moreInfo',{
+			url: "/informazioni-meschola",
+			views: {
+				'header': {
+					templateUrl: 'assets/public/partials/navbar-login.html',
+					controller: "loginCtrl",
+					controllerAs:"login",
+				},
+				'content': {
+					templateUrl: 'assets/public/partials/moreInfo.html',
+					controller: "moreInfoCtrl",
+					controllerAs:"moreInfo",
+				}
+			},
+			data : {
+				pageTitle : 'Info - Meschola'
+			}
+		})
 		.state('notLogged.policy',{
 			url: "/cookie-policy",
 			views: {
