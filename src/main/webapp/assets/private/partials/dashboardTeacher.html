@@ -77,10 +77,12 @@
 										</a>
 									</div>
 									<div style="cursor:pointer;" data-ui-sref="logged.scenarioWizard.info({id : '{{s.id}}' })" data-ng-switch-when=false>
-										<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
-											data-err-src="assets/public/img/icon/ic_scen.png"
-											class="img-circle imgPreviewL"/> 
-										<h5><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span data-ng-if="s.name.length>15">...</span></h5>
+										<a href="">
+											<img data-ng-src="api/v1/scenarios/{{s.id}}/cover"
+												data-err-src="assets/public/img/icon/ic_scen.png"
+												class="img-circle imgPreviewL"/> 
+											<h5><span class="glyphicon glyphicon-cog"></span> {{s.name | limitTo:15}} <span data-ng-if="s.name.length>15">...</span></h5>
+										</a>
 									</div>
 								</div>
 							</div>

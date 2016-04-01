@@ -15,9 +15,8 @@ angular.module('smiled.application').controller('moreInfoCtrl',['$window',
 //	}
 	
 	self.downloadPdf = function(){
-		console.log("downloadPDf");
-		console.log($window.location);
-		$window.location = "https://localhost:8443/assets/public/pdf/meschola_guida.ppt";	
+		
+		$window.location = "assets/public/pdf/meschola_guida.ppt";	
 	}
 	
 	//CAROUSEL
