@@ -76,7 +76,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setDate(new Date());
 		n.setSender(actor.getId());
 		n.setObjectId(s.getId());
-		n.setObjectContent(s.getName());
+		
 		n.setVerb(NotificationType.OPEN_SCENARIO);
 		if(actor!=null){
 			n.setActorId(actor.getId());
@@ -95,7 +95,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setDate(new Date());
 		n.setSender(actor.getId());
 		n.setObjectId(s.getId());
-		n.setObjectContent(s.getName());
+		
 		n.setVerb(NotificationType.CLOSE_SCENARIO);
 		if(actor!=null){
 			n.setActorId(actor.getId());
@@ -231,13 +231,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setDate(new Date());
 
 		n.setObjectId(p.getId());
-		if(p.getClass().equals(Status.class)){
-			Status status = (Status) p;
-			
-		}else if(p.getClass().equals(Event.class)){
-			Event event = (Event) p;
-			
-		}
+	
 		n.setVerb(NotificationType.LIKE_TO_POST);
 		n.setActorId(actor.getId());
 		n.setActorName(actor.getName());
