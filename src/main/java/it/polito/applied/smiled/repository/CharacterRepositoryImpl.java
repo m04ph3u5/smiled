@@ -130,6 +130,7 @@ public class CharacterRepositoryImpl implements CustomCharacterRepository{
 		return mongoOp.find(q, Character.class);
 		
 	}
+	
 
 	@Override
 	public boolean deleteMissionToCharacter(String idCharacter) {

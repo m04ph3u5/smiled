@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta description="Meschola è la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
+	<meta description="Meschola e' la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
 <link rel="shortcut icon" href="/assets/public/img/icon/favicon.ico">
 <link rel="icon" type="image/png" href="/assets/public/img/icon/favicon.png">
 
@@ -51,8 +51,8 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
-			  integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
-			  crossorigin="anonymous"></script>	
+			  data-integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+			  data-crossorigin="anonymous"></script>	
 	<script src="/assets/public/js/vendor/jquery-ui/ui/i18n/datepicker-it.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
 	<script src="/assets/public/js/support/angular-locale_it-it.js"></script>
@@ -86,7 +86,9 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.min.js" type="text/javascript"></script>
 	<script src="/assets/public/js/support/datepicker.min.js"></script>
 
-	<script src="/assets/public/build/meschola.min.js"></script>
+	<script src="/assets/public/build/meschola_1.min.js"></script>
+	<script src="/assets/public/js/controllers/moreInfoController.js"></script>
+	
 	
 	<!-- SCRIPT PER VETRINA -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js" type="text/javascript"></script>

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -67,7 +68,6 @@ import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
 import it.polito.applied.smiled.pojo.user.UserStatus;
-import it.polito.applied.smiled.rabbit.Notification;
 import it.polito.applied.smiled.rabbit.NotifyService;
 import it.polito.applied.smiled.repository.CharacterRepository;
 import it.polito.applied.smiled.repository.PostRepository;
@@ -2505,7 +2505,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		u.set("mission", m);
 		Character c = characterRepository.updateCharacter(idCharacter, u);
 		Scenario s = scenarioRepository.findById(c.getScenarioId());
-		notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m, activeUser.getId());
+		
+		if(c.getActualUser()!=null)
+			notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m, activeUser.getId());
 		return c;
 
 	}
@@ -2529,15 +2531,24 @@ public class ScenarioServiceImpl implements ScenarioService{
 	 * (tags, like, comments). Non si tiene conto degli eventi e nemmeno delle relazioni (ancora non implementate)*/
 	@Override
 	public List<Action> getSocialGraph(String id) throws NotFoundException {
-		List<Post> posts = postRepository.findByScenarioIdAndPostStatus(id, PostStatus.PUBLISHED);
+		
+//      TODO decidere se mostrare nel socialGraph anche le informazioni relative ai personaggi che sono stati cancellati ma hanno prodotto post o altri contenuti	
+//		List<ObjectId> idOfCharactersNotDeleted = new ArrayList<ObjectId>();
+//		List<Character> charOfScen = characterRepository.getAllCharactersFromScenario(id);
+//		
+//		for(int i = 0; i < charOfScen.size(); i++){
+//			idOfCharactersNotDeleted.add(new ObjectId(charOfScen.get(i).getId()));
+//			
+//		}
+//      List<Post> posts = postRepository.findByScenarioIdAndPostStatusAndCharNotDeleted(id, PostStatus.PUBLISHED, idOfCharactersNotDeleted);
+		
+		 List<Post> posts = postRepository.findByScenarioIdAndPostStatus(id, PostStatus.PUBLISHED);
 		if(posts==null)
 			throw new NotFoundException();
 
 		List<Action> actions = new ArrayList<Action>();
 
 		for(int i=0; i<posts.size(); i++){
-
-
 			/*STATUS*/
 			if(posts.get(i).getClass().equals(Status.class)){
 				/*POST*/
@@ -2563,17 +2574,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 
 				/*LIKE AL POST*/
-				Set<CharacterReference> likes = s.getLikes();
-				if(likes!=null && likes.size()!=0){
-					for(CharacterReference r : likes){
-						Action aLike = new Action();
-						aLike.setAction(ActionType.LIKE);
-						aLike.setAuthor(new AuthorActionReference(r));
-						aLike.setDate(s.getCreationDate());
-						aLike.setObject(authorPost);
-						actions.add(aLike);
-					}
-				}
+//				Set<CharacterReference> likes = s.getLikes();
+//				if(likes!=null && likes.size()!=0){
+//					for(CharacterReference r : likes){
+//						Action aLike = new Action();
+//						aLike.setAction(ActionType.LIKE);
+//						aLike.setAuthor(new AuthorActionReference(r));
+//						aLike.setDate(s.getCreationDate());
+//						aLike.setObject(authorPost);
+//						actions.add(aLike);
+//					}
+//				}
 
 				/*COMMENTI AL POST*/
 				List<Comment> comments = s.getComments();
@@ -2601,17 +2612,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 						}
 
 						/*LIKE AL COMMENTO*/
-						List<CharacterReference> likeComment = c.getLikes();
-						if(likeComment!=null && likeComment.size()!=0){
-							for(CharacterReference rLikeComment : likeComment){
-								Action aLikeComment = new Action();
-								aLikeComment.setAction(ActionType.LIKE);
-								aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
-								aLikeComment.setDate(c.getCreationDate());
-								aLikeComment.setObject(authorComment);
-								actions.add(aLikeComment);
-							}
-						}
+//						List<CharacterReference> likeComment = c.getLikes();
+//						if(likeComment!=null && likeComment.size()!=0){
+//							for(CharacterReference rLikeComment : likeComment){
+//								Action aLikeComment = new Action();
+//								aLikeComment.setAction(ActionType.LIKE);
+//								aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
+//								aLikeComment.setDate(c.getCreationDate());
+//								aLikeComment.setObject(authorComment);
+//								actions.add(aLikeComment);
+//							}
+//						}
 					}
 					/*Event*/
 				}
@@ -2639,17 +2650,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 				}
 
 				/*LIKE AL POST*/
-				Set<CharacterReference> likes = e.getLikes();
-				if(likes!=null && likes.size()!=0){
-					for(CharacterReference r : likes){
-						Action aLike = new Action();
-						aLike.setAction(ActionType.LIKE);
-						aLike.setAuthor(new AuthorActionReference(r));
-						aLike.setDate(e.getCreationDate());
-						aLike.setObject(authorPost);
-						actions.add(aLike);
-					}
-				}
+//				Set<CharacterReference> likes = e.getLikes();
+//				if(likes!=null && likes.size()!=0){
+//					for(CharacterReference r : likes){
+//						Action aLike = new Action();
+//						aLike.setAction(ActionType.LIKE);
+//						aLike.setAuthor(new AuthorActionReference(r));
+//						aLike.setDate(e.getCreationDate());
+//						aLike.setObject(authorPost);
+//						actions.add(aLike);
+//					}
+//				}
 
 				/*COMMENTI AL POST*/
 				List<Comment> comments = e.getComments();
@@ -2677,17 +2688,17 @@ public class ScenarioServiceImpl implements ScenarioService{
 						}
 
 						/*LIKE AL COMMENTO*/
-						List<CharacterReference> likeComment = c.getLikes();
-						if(likeComment!=null && likeComment.size()!=0){
-							for(CharacterReference rLikeComment : likeComment){
-								Action aLikeComment = new Action();
-								aLikeComment.setAction(ActionType.LIKE);
-								aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
-								aLikeComment.setDate(c.getCreationDate());
-								aLikeComment.setObject(authorComment);
-								actions.add(aLikeComment);
-							}
-						}
+//						List<CharacterReference> likeComment = c.getLikes();
+//						if(likeComment!=null && likeComment.size()!=0){
+//							for(CharacterReference rLikeComment : likeComment){
+//								Action aLikeComment = new Action();
+//								aLikeComment.setAction(ActionType.LIKE);
+//								aLikeComment.setAuthor(new AuthorActionReference(rLikeComment));
+//								aLikeComment.setDate(c.getCreationDate());
+//								aLikeComment.setObject(authorComment);
+//								actions.add(aLikeComment);
+//							}
+//						}
 					}
 				}
 

@@ -148,10 +148,7 @@ public class NotifyServiceImpl implements NotifyService{
 			if(status.getTags()!=null){
 				l.addAll(status.getTags());
 			}
-			if(status.getText().length()<=PREVIEW)
-				n.setObjectContent(status.getText());
-			else
-				n.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
+			
 		}else if(p.getClass().equals(Event.class)){
 			Event event = (Event) p;
 			if(event.getTags()!=null){
@@ -193,10 +190,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setDate(new Date());
 
 		n.setObjectId(p.getId()+"/"+c.getId());
-		if(c.getText().length()<=PREVIEW)
-			n.setObjectContent(c.getText());
-		else
-			n.setObjectContent(c.getText().substring(0, PREVIEW)+"...");
+		
 		n.setVerb(NotificationType.COMMENT_TO_POST);
 		n.setActorId(c.getCharacter().getId());
 		n.setActorName(c.getCharacter().getFirstname());
@@ -216,10 +210,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setDate(new Date());
 
 		n.setObjectId(p.getId()+"/"+c.getId());
-		if(c.getText().length()<=PREVIEW)
-			n.setObjectContent(c.getText());
-		else
-			n.setObjectContent(c.getText().substring(0, PREVIEW)+"...");
+		
 		n.setVerb(NotificationType.METACOMMENT_TO_POST);
 		n.setActorId(c.getUser().getId());
 		n.setActorName(c.getUser().getFirstname()+" "+c.getUser().getLastname());
@@ -242,16 +233,10 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setObjectId(p.getId());
 		if(p.getClass().equals(Status.class)){
 			Status status = (Status) p;
-			if(status.getText().length()<=PREVIEW)
-				n.setObjectContent(status.getText());
-			else
-				n.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
+			
 		}else if(p.getClass().equals(Event.class)){
 			Event event = (Event) p;
-			if(event.getText().length()<=PREVIEW)
-				n.setObjectContent(event.getText());
-			else
-				n.setObjectContent(event.getText().substring(0, PREVIEW)+"...");
+			
 		}
 		n.setVerb(NotificationType.LIKE_TO_POST);
 		n.setActorId(actor.getId());
@@ -307,17 +292,7 @@ public class NotifyServiceImpl implements NotifyService{
 		Notification n = new Notification();
 		n.setDate(new Date());
 
-		if(!m.getTitle().isEmpty()){
-			if(m.getTitle().length()<=PREVIEW)
-				n.setObjectContent(m.getTitle());
-			else
-				n.setObjectContent(m.getTitle().substring(0, PREVIEW)+"...");
-		}else if(!m.getDescription().isEmpty()){
-			if(m.getDescription().length()<=PREVIEW)
-				n.setObjectContent(m.getDescription());
-			else
-				n.setObjectContent(m.getDescription().substring(0, PREVIEW)+"...");
-		}
+		
 		n.setObjectId(user.getId());
 		n.setSender(senderId);
 		n.setVerb(NotificationType.NEW_PERSONAL_MISSION);
@@ -337,17 +312,7 @@ public class NotifyServiceImpl implements NotifyService{
 	public void notifyNewGlobalMission(Reference user, Scenario s, Mission m) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		if(!m.getTitle().isEmpty()){
-			if(m.getTitle().length()<=PREVIEW)
-				n.setObjectContent(m.getTitle());
-			else
-				n.setObjectContent(m.getTitle().substring(0, PREVIEW)+"...");
-		}else if(!m.getDescription().isEmpty()){
-			if(m.getDescription().length()<=PREVIEW)
-				n.setObjectContent(m.getDescription());
-			else
-				n.setObjectContent(m.getDescription().substring(0, PREVIEW)+"...");
-		}
+		
 		n.setVerb(NotificationType.NEW_GLOBAL_MISSION);
 		n.setActorId(user.getId());
 		n.setActorName(user.getFirstname()+" "+user.getLastname());
@@ -562,10 +527,7 @@ public class NotifyServiceImpl implements NotifyService{
 				nTag.setActorId(status.getCharacter().getId());
 				nTag.setActorName(status.getCharacter().getName());
 				nTag.setObjectId(status.getId());
-				if(status.getText().length()<=PREVIEW)
-					nTag.setObjectContent(status.getText());
-				else
-					nTag.setObjectContent(status.getText().substring(0, PREVIEW)+"...");
+				
 				nTag.setSender(senderId);
 				nTag.setTagged(newTagged);
 				nTag.setScenarioId(s.getId());
@@ -600,10 +562,7 @@ public class NotifyServiceImpl implements NotifyService{
 				nTag.setActorId("");
 				nTag.setActorName("NARRATORE");
 				nTag.setObjectId(event.getId());
-				if(event.getText().length()<=PREVIEW)
-					nTag.setObjectContent(event.getText());
-				else
-					nTag.setObjectContent(event.getText().substring(0, PREVIEW)+"...");
+				
 				nTag.setSender(senderId);
 				nTag.setTagged(newTagged);
 				nTag.setScenarioId(s.getId());
