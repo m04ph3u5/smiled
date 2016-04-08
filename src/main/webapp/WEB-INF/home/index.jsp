@@ -47,6 +47,8 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<div data-ui-view></div>
 
 </div>
+
+    
 	<!-- VENDOR SCRIPT -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -55,6 +57,9 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 			  data-crossorigin="anonymous"></script>	
 	<script src="/assets/public/js/vendor/jquery-ui/ui/i18n/datepicker-it.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+	
+	<script src="/assets/public/build/meschola_2.min.js"></script>
+	
 	<script src="/assets/public/js/support/angular-locale_it-it.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-date/0.0.8/date.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-cookies.min.js"></script>
@@ -85,8 +90,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/p5.min.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.min.js" type="text/javascript"></script>
 	<script src="/assets/public/js/support/datepicker.min.js"></script>
-	
-	
+
 	
 	<!-- SCRIPT PER VETRINA -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js" type="text/javascript"></script>
@@ -95,7 +99,6 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
     <script src="/assets/public/js/support/jquery.downCount.min.js" type="text/javascript"></script>
 	<!-- FINE SCRIPT PER VETRINA -->
 	
-	<script src="/assets/public/build/meschola_1.min.js"></script>
 	
 	
 	<script>
