@@ -85,9 +85,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/p5.min.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.min.js" type="text/javascript"></script>
 	<script src="/assets/public/js/support/datepicker.min.js"></script>
-
-	<script src="/assets/public/build/meschola_1.min.js"></script>
-	<script src="/assets/public/js/controllers/moreInfoController.js"></script>
+	
 	
 	
 	<!-- SCRIPT PER VETRINA -->
@@ -96,6 +94,9 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
    	<script src="/assets/public/js/vendor/fox-angular-scrollReveal.js/dist/fox-angular-scrollReveal.min.js"></script>
     <script src="/assets/public/js/support/jquery.downCount.min.js" type="text/javascript"></script>
 	<!-- FINE SCRIPT PER VETRINA -->
+	
+	<script src="/assets/public/build/meschola_1.min.js"></script>
+	
 	
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
