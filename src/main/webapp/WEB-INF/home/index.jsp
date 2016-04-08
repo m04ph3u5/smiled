@@ -58,7 +58,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/vendor/jquery-ui/ui/i18n/datepicker-it.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
 	
-	<script src="/assets/public/build/meschola_2.min.js"></script>
+	<script src="/assets/public/build/meschola.app.js"></script>
 	
 	<script src="/assets/public/js/support/angular-locale_it-it.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-date/0.0.8/date.min.js"></script>
