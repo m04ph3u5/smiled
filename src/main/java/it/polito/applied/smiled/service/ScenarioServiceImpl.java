@@ -2047,6 +2047,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 		else{
 			scenarioRepository.removePost(post.getScenarioId(), post.getId());
+			postRepository.putInDeleteStatus(post.getId());
 			if(post.getClass().equals(Status.class)){
 				Status s = (Status) post;
 				characterRepository.removePostFromCharacter(s.getCharacter().getId(), post.getId());
@@ -2065,7 +2066,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 				fileService.putListOfFilesInDelete(filesToDelete);
 
 			}else if(post.getClass().equals(Event.class)){
-				postRepository.putInDeleteStatus(post.getId());
 				Event e = (Event) post;
 
 				List<String> imagesToDelete = new ArrayList<String>();
