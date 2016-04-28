@@ -1992,12 +1992,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(permissionEvaluator.hasPermission(auth, status.getCharacter().getId(), "Character", "WRITE"))
 					permit=true;
 			}
-			if(post.getStatus().equals(PostStatus.PUBLISHED) && permissionEvaluator.hasPermission(auth, status.getScenarioId(), "Scenario", "MODERATOR")){
-				user = userRepository.findById(activeUser.getId());
-				if(user.getClass().equals(Teacher.class))
-					permit=true;
+			if(post.getStatus().equals(PostStatus.PUBLISHED) && permissionEvaluator.hasPermission(auth, status.getScenarioId(), "Scenario", "MODERATOR")){	
+				permit=true;
 			}
-
 
 		}else if (post.getClass().equals(Event.class)){
 			Event event = (Event) post;
@@ -2005,10 +2002,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(event.getUser().getId().equals(activeUser.getId()))
 					permit=true;
 				else{
-					if(post.getStatus().equals(PostStatus.PUBLISHED)){
-						user = userRepository.findById(activeUser.getId());
-						if(user.getClass().equals(Teacher.class))
-							permit=true;
+					if(post.getStatus().equals(PostStatus.PUBLISHED)){	
+						permit=true;
 					}
 				}
 			}
