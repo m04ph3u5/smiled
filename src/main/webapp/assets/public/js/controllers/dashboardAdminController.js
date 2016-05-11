@@ -67,6 +67,9 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.noMoreissues = "";
 	
 	
+	self.infoStatistics={};
+	
+	
 	var mapOfUsersInLog = {};
 	var mapOfScenariosInLog = {};
 
@@ -304,6 +307,24 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     	);
 	}
 	
+	
+	self.getInfoStatistics = function(idUser, idScenario, userFirstName, userLastName, scenarioName){
+		
+		self.infoStatistics = {};
+		self.nameOfUser = userFirstName+" "+userLastName;
+		self.nameOfScenario=scenarioName;
+		apiService.getInfoStatistics(idUser, idScenario).then(
+    			function(data){
+    				console.log("getInfoStatistics done!!!");
+    				console.log(data);
+    				self.infoStatistics=data;
+
+    			}, function(reason){
+    				console.log("errore in getInfoStatistics!!!");
+
+    			}
+    	);
+	}
 	self.searchUsersByFirstNameAndLastName = function(){
 		
 		if( ( self.firstName==null || self.firstName=="" ) &&

@@ -235,6 +235,20 @@ angular.module('smiled.application')
 			url : "/log",
 			templateUrl: "assets/private/partials/admin-logs.html",
 		})
+		.state('logged.dashboard.admin.logUser',{
+			url : "/logUser/{idUser}",
+			params : {
+				idUser : null
+			},
+			templateUrl: "assets/private/partials/admin-userLogs.html",
+		})
+		.state('logged.dashboard.admin.logScenario',{
+			url : "/logScenario/{idScenario}",
+			params : {
+				idScenario : null
+			},
+			templateUrl: "assets/private/partials/admin-scenarioLogs.html",
+		})
 		.state('logged.dashboard.admin.issueSegnalations',{
 			url : "/anomalieAdmin",
 			templateUrl: "assets/private/partials/admin-issues.html",

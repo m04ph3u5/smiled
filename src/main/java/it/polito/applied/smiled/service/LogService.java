@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.pojo.InfoStatistics;
 import it.polito.applied.smiled.pojo.Log;
+import it.polito.applied.smiled.pojo.LogType;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.RegistrationToken;
 
@@ -94,7 +96,26 @@ public interface LogService {
 	public void logUpdateTrustedMedia(String idScenario, String userId,
 			String idMedia);
 
-	public Page<Log> getAllLogs(Integer nPag, Integer nItem) throws BadRequestException;
+	public Page<Log> getAllLogs(Date start, Date end, LogType type, Integer nPag, Integer nItem) throws BadRequestException;
+	
+	public Page<Log> getAllLogsOfUser(Date start, Date end, String userId, LogType type, Integer nPag, Integer nItem) throws BadRequestException;
+	
+	public Page<Log> getAllLogsOfScenario(Date start, Date end, String scenarioId, LogType type, Integer nPag, Integer nItem) throws BadRequestException;
+	
+	public Page<Log> getAllLogsOfUserInScenario(Date start, Date end, String userId, String scenarioId, LogType type, Integer nPag, Integer nItem) throws BadRequestException;
+	
+	public long numOfLogOfUser(String userId) throws BadRequestException;
+	
+	public long numOfLogOfScenario(String scenarioId) throws BadRequestException;
+	
+	public long numOfLogOfUserInScenario(String userId, String scenarioId) throws BadRequestException;
 	
 	public Page<RegistrationToken> getPagedRegistrationRequests (Integer nPag, Integer nItem) throws BadRequestException;
+
+	public InfoStatistics getInfoStatisticsUser (String userId) throws BadRequestException;
+	
+	public InfoStatistics getInfoStatisticsScenario (String scenarioId) throws BadRequestException;
+	
+	public InfoStatistics getInfoStatisticsUserInScenario (String userId, String scenarioId) throws BadRequestException;
+		
 }

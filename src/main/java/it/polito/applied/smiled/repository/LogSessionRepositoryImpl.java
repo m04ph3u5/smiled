@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.repository;
 
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.pojo.InfoStatistics;
 import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.LogSession;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
@@ -115,6 +116,7 @@ public class LogSessionRepositoryImpl implements CustomLogSessionRepository{
 		mongoOp.updateFirst(q, u, LogSession.class);
 	}
 
+	
 	
 
 }

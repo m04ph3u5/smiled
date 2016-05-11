@@ -858,6 +858,39 @@
 		return s.promise;
 	}
 	
+	
+	var getInfoStatistics = function(idUser, idScenario){
+		
+		if(idUser==null && idScenario==null)
+			return;
+		
+		var url="";
+		var s = $q.defer();
+		
+		if(idUser!=null && idScenario!=null){
+		
+			url="api/v1/infoStatisticsScenario/"+idScenario+"/user/"+idUser;
+			
+		}else if(idUser!=null && idScenario==null){
+		
+			url="api/v1/infoStatisticsUser/"+idUser;
+
+		}else if(idUser==null && idScenario !=null){
+			url="api/v1/infoStatisticsScenario/"+idScenario;
+			
+		}
+		$http.get(url).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+
+		return s.promise;
+		
+	}
 	var getLastUserNotifications = function(older, num){
 		var s = $q.defer();
 		var url="api/v1/lastNotifications?num="+num+"&old="+older;
@@ -929,7 +962,8 @@
 		getLastUserNotifications : getLastUserNotifications,
 		getLastPosts : getLastPosts,
 		getLastHistoricPosts: getLastHistoricPosts,
-		getLastCharacterPosts : getLastCharacterPosts		
+		getLastCharacterPosts : getLastCharacterPosts,
+		getInfoStatistics : getInfoStatistics
 	}
 
 

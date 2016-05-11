@@ -18,8 +18,10 @@
 		
 			{{dashboardAdmin.noMoreUsers}}
 			<div data-ng-repeat="t in dashboardAdmin.myListOfUsers">
-				<li><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
+				<li><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
 					<ul>
+						<li><a href="" style="cursor:pointer;" data-ng-click="dashboardAdmin.getInfoStatistics(t.id, null, t.firstName, t.lastName, null)"
+						data-ui-sref="logged.dashboard.admin.logUser({idUser:'{{t.id}}'})"><b>Log attività </b></a></li>
 						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}} <span data-ng-show="!t.profile || !t.profile.bornDate"> Data non disponibile</span></li>
 						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{t.email}}</li>
@@ -46,6 +48,7 @@
 											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenC.id}}' })">Entra nel Wizard</a></u> <br> 
 											<b>Data di creazione: </b> {{scenC.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b>  <span data-ng-show="!scenC.myCharacterName"> Nessuno</span>
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenC.id}}' , idCharacter: '{{scenC.myCharacterId}}' })">{{scenC.myCharacterName}}</a></u>
+											
 										</div>
 									</li>
 								</div>
