@@ -2,6 +2,7 @@
 	
 	<div>
 		<h4>Cerca log: </h4>
+		
 		<div class="row">
 			<label for="allLogsNum">Risultati per pagina (max 20): </label> <input size="4" id="allLogsNum" data-ng-model="dashboardAdmin.nItemLogs">
 			<label for="allLogsPag">Numero pagina: </label> 
@@ -14,11 +15,55 @@
 			</button>
 			<label>Risultati trovati: </label> <b>{{dashboardAdmin.numLogsFounded}}</b>
 		</div>
+		<br>
+		<div class="row">
+			
+			<input class="customCheckBox"  id="showTwoCal" type="checkbox"  data-ng-model="dashboardAdmin.showTwoCal"  value=false />
+						<span class="labelCheckBox" for="showTwoCal">Seleziona periodo</label>
+			<div data-ng-if="dashboardAdmin.showTwoCal" class="col-md-3 form-group ">
+		
+							<span class="col-md-1">Da:</span>
+							<div id="dataStart" class="input-group col-md-10">
+								<input data-ui-date="dashboardAdmin.dateStartOptions" data-ng-model="dashboardAdmin.dateStart"  id="date-from"
+									class="form-control col-xs-9 datepicker"> <span
+									id="calend" class="input-group-addon">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</span>
+							</div>
+			</div>
+	
+			<div data-ng-if="dashboardAdmin.showTwoCal" class="col-md-3 ">
+
+				<span class="col-md-1">A:</span>
+
+				<div id="dataEnd" class="input-group col-md-10">
+
+					<input data-ui-date="dashboardAdmin.dateEndOptions" data-ng-model="dashboardAdmin.dateEnd"  id="date-to"
+						class="form-control col-xs-9 datepicker"> <span
+						id="calend2" class="input-group-addon">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</span>
+				</div>
+
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<select data-ng-model="dashboardAdmin.typeOfLog">
+			  <option value="ALL" selected="selected">Tutti</option>
+			  <option value="NEW_POST">Nuovo post</option>
+			  <option value="NEW_COMM">Nuovo commento</option>
+			  <option value="NEW_META_COMM">Nuovo suggerimento</option>
+			  <option value="ADD_LIKE_POST">Nuovo like</option>
+			  <option value="NEW_TRUST_FILE">Aggiunta file</option>
+			</select>
+		</div>
 		<div class="row">
 			<button class="btn btn-success" data-ng-click="dashboardAdmin.searchLogs()">Cerca</button>
 			<button data-ng-if="dashboardAdmin.showResetLogs()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetLogs()">Reset</button>
 		</div>
 		<br>
+
 		<ol>
 			{{dashboardAdmin.noMoreLogs}}
 			<div data-ng-repeat="l in dashboardAdmin.myListOfLogs">

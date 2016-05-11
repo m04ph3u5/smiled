@@ -116,6 +116,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/controllers/registrationConfirmController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardAdminController.js"></script>
+	<script src="/assets/public/js/controllers/dashboardAdminUserLogController.js"></script>
 	<script src="/assets/public/js/controllers/scenariosListController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioWizardController.js"></script>
 	<script src="/assets/public/js/controllers/navbarController.js"></script>

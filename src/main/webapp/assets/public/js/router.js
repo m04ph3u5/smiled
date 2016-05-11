@@ -241,6 +241,8 @@ angular.module('smiled.application')
 				idUser : null
 			},
 			templateUrl: "assets/private/partials/admin-userLogs.html",
+			controller: dashboardAdminUserLogCtrl,
+			controllerAs: dashboardAdminUserLog,
 		})
 		.state('logged.dashboard.admin.logScenario',{
 			url : "/logScenario/{idScenario}",

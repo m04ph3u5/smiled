@@ -19,9 +19,10 @@
 			{{dashboardAdmin.noMoreUsers}}
 			<div data-ng-repeat="t in dashboardAdmin.myListOfUsers">
 				<li><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
+					<button class="btn btn-info"><a href="" style="cursor:pointer;")
+						data-ui-sref="logged.dashboard.admin.logUser({idUser:'{{t.id}}'}})"><b>Log attività </b></a></button>
 					<ul>
-						<li><a href="" style="cursor:pointer;" data-ng-click="dashboardAdmin.getInfoStatistics(t.id, null, t.firstName, t.lastName, null)"
-						data-ui-sref="logged.dashboard.admin.logUser({idUser:'{{t.id}}'})"><b>Log attività </b></a></li>
+						
 						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}} <span data-ng-show="!t.profile || !t.profile.bornDate"> Data non disponibile</span></li>
 						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{t.email}}</li>

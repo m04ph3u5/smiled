@@ -176,7 +176,7 @@ public class LogRepositoryImpl implements CustomLogRepository{
 	@Override
 	public Page<Log> getPagingLogs(Date start, Date end, LogType type, Integer nPag, Integer nItem) {
 		List<Criteria> criterias = new ArrayList<Criteria>();
-		Criteria c1, c2;
+		Criteria c1, c2, c3;
 		Query q = new Query();
 		Sort s;
 		s = new Sort( new Order(Direction.DESC, "date"));
@@ -190,9 +190,9 @@ public class LogRepositoryImpl implements CustomLogRepository{
 			c2 = Criteria.where("date").lte(end);
 			criterias.add(c2);
 		}if(type!=null){
-			c2=new Criteria();
-			c2 = Criteria.where("date").lte(end);
-			criterias.add(c2);
+			c3=new Criteria();
+			c3 = Criteria.where("type").is(type);
+			criterias.add(c3);
 		}
 		
 		if(criterias.size()>0){
@@ -248,7 +248,7 @@ public class LogRepositoryImpl implements CustomLogRepository{
 	}
 
 	@Override
-	public InfoStatistics getInfoStatisticsUser(String userId) {
+	public InfoStatistics getInfoStatisticsUser(String userId) throws BadRequestException {
 		
 		Criteria c = new Criteria();
 		Criteria cOr = new Criteria();
@@ -281,11 +281,17 @@ public class LogRepositoryImpl implements CustomLogRepository{
 			else if(t.getType().equals(LogType.ADD_LIKE_POST))
 				info.setNumLike(t.getTypeCount());
 		}
+		
+		long totLog;
+		//faccio un'altra query al db per reperire il numero totale di operazioni fatte dall'utente
+		totLog=numLogOfUser(userId);
+		info.setNumTotalLog(totLog);
+		
 		return info;
 	}
 
 	@Override
-	public InfoStatistics getInfoStatisticsScenario(String scenarioId) {
+	public InfoStatistics getInfoStatisticsScenario(String scenarioId) throws BadRequestException {
 		Criteria c = new Criteria();
 		Criteria cOr = new Criteria();
 		cOr.orOperator(Criteria.where("type").is(LogType.NEW_POST), 
@@ -316,11 +322,16 @@ public class LogRepositoryImpl implements CustomLogRepository{
 			else if(t.getType().equals(LogType.ADD_LIKE_POST))
 				info.setNumLike(t.getTypeCount());
 		}
+		
+		long totLog;
+		//faccio un'altra query al db per reperire il numero totale di operazioni fatte nello scenario
+		totLog=numLogOfScenario(scenarioId);
+		info.setNumTotalLog(totLog);
 		return info;
 	}
 
 	@Override
-	public InfoStatistics getInfoStatisticsUserInScenario(String userId, String scenarioId) {
+	public InfoStatistics getInfoStatisticsUserInScenario(String userId, String scenarioId) throws BadRequestException {
 		Criteria c = new Criteria();
 		Criteria cAnd = new Criteria();
 		Criteria cOr = new Criteria();
@@ -353,6 +364,12 @@ public class LogRepositoryImpl implements CustomLogRepository{
 			else if(t.getType().equals(LogType.ADD_LIKE_POST))
 				info.setNumLike(t.getTypeCount());
 		}
+		
+		long totLog;
+		//faccio un'altra query al db per reperire il numero totale di operazioni fatte nello scenario dall'utente
+		totLog=numLogOfUserInScenario(userId, scenarioId);
+		info.setNumTotalLog(totLog);
+		
 		return info;
 	}
 

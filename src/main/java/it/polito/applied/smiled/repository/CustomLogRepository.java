@@ -19,7 +19,7 @@ public interface CustomLogRepository {
 	public long numLogOfUserInScenario(String userId, String scenarioId) throws BadRequestException;
 	public int deleteByScenarioId(String scenarioId);
 	public Page<Log> getPagingLogs(Date start, Date end, LogType type, Integer nPag, Integer nItem);
-	public InfoStatistics getInfoStatisticsUser(String userId);
-	public InfoStatistics getInfoStatisticsScenario(String scenarioId);
-	public InfoStatistics getInfoStatisticsUserInScenario(String userId, String scenarioId);
+	public InfoStatistics getInfoStatisticsUser(String userId) throws BadRequestException;
+	public InfoStatistics getInfoStatisticsScenario(String scenarioId) throws BadRequestException;
+	public InfoStatistics getInfoStatisticsUserInScenario(String userId, String scenarioId) throws BadRequestException;
 }

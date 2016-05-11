@@ -416,12 +416,19 @@
 		return c.promise;
 	}
 	
-	var getPagedLogs = function(nPag, nItem){
+	var getPagedLogs = function(start, end, type, nPag, nItem, idUser, idScenario){
 		
 		var c = $q.defer();
-
+        var s=null; 
+        var e = null;
+		if(start!=null)
+			s=start.getTime();
+		if(end!=null)
+			e=end.getTime();
 		$http.get("/api/v1/log", {
-			params: { "nPag": nPag, "nItem": nItem}}).then(
+			params: { "start" : s, "end" : e, 
+				      "type" : type, "nPag": nPag, "nItem": nItem, "idUser":idUser, "idScenario":idScenario}})
+				    .then(
 					function(response){
 						c.resolve(response.data);
 					},

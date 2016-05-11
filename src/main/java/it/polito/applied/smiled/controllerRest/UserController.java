@@ -44,6 +44,7 @@ import it.polito.applied.smiled.pojo.Id;
 import it.polito.applied.smiled.pojo.InfoStatistics;
 import it.polito.applied.smiled.pojo.Issue;
 import it.polito.applied.smiled.pojo.Log;
+import it.polito.applied.smiled.pojo.LogType;
 import it.polito.applied.smiled.pojo.Message;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.RegistrationToken;
@@ -463,13 +464,35 @@ public class UserController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/v1/log", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public Page<Log> getAllLogs(@RequestParam(value = "nPag", required=false) Integer nPag, 
-			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+	public Page<Log> getAllLogs(@RequestParam(value = "start", required=false) Long start, @RequestParam(value = "end", required=false) Long end, 
+			@RequestParam(value = "type", required=false) LogType type,  @RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem,
+			@RequestParam(value = "idUser", required=false) String idUser,
+			@RequestParam(value = "idScenario", required=false) String idScenario) throws MongoException, BadRequestException{
 		if(nPag==null)
 			nPag=0;
 		if(nItem==null || nItem>(maxItem) || nItem<=0)
 			nItem=(maxItem);
-		return logService.getAllLogs(null, null, null, nPag, nItem);
+		Date s=null, e=null;
+		if(start!=null){
+			s = new Date(start);
+		}
+		if(end!=null){
+			e = new Date(end);
+		}
+		
+		
+		if(idUser==null && idScenario==null){
+			return logService.getAllLogs(s, e, type, nPag, nItem);
+		}
+		else if(idUser!=null && idScenario==null){
+			return logService.getAllLogsOfUser(s, e, idUser, type, nPag, nItem);
+		}else if(idUser==null && idScenario!=null){
+			return logService.getAllLogsOfScenario(s, e, idScenario, type, nPag, nItem);
+		}else{
+			return logService.getAllLogsOfUserInScenario(s, e, idUser, idScenario, type, nPag, nItem);
+		}
+		
 	}
 	
 	/*

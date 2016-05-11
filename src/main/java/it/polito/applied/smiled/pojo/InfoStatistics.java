@@ -7,7 +7,16 @@ public class InfoStatistics {
 	private long numMetaComment;
 	private long numFile;
 	private long numLike;
+	private long numTotalLog;
 	
+	
+	
+	public long getNumTotalLog() {
+		return numTotalLog;
+	}
+	public void setNumTotalLog(long numTotalLog) {
+		this.numTotalLog = numTotalLog;
+	}
 	public long getNumPost() {
 		return numPost;
 	}
