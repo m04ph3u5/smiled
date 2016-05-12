@@ -256,7 +256,11 @@ public class LogRepositoryImpl implements CustomLogRepository{
 				Criteria.where("type").is(LogType.NEW_COMM), 
 				Criteria.where("type").is(LogType.NEW_META_COMM),
 				Criteria.where("type").is(LogType.NEW_TRUST_FILE),
-				Criteria.where("type").is(LogType.ADD_LIKE_POST)
+				Criteria.where("type").is(LogType.ADD_LIKE_POST),
+				Criteria.where("type").is(LogType.UP_POST),
+				Criteria.where("type").is(LogType.DEL_POST),
+				Criteria.where("type").is(LogType.NEW_SCEN),
+				Criteria.where("type").is(LogType.CHANGE_PWD)
 				);
 		c = Criteria.where("userId").is(userId).andOperator(cOr);
 		
@@ -268,7 +272,19 @@ public class LogRepositoryImpl implements CustomLogRepository{
 		
 		List<TypeCountOnLog> l = result.getMappedResults();
 		
+		InfoStatistics info = getInfo(l);
+		
+		long totLog;
+		//faccio un'altra query al db per reperire il numero totale di operazioni fatte dall'utente
+		totLog = numLogOfUser(userId);
+		info.setNumTotalLog(totLog);
+		
+		return info;
+	}
+
+	private InfoStatistics getInfo(List<TypeCountOnLog> l){
 		InfoStatistics info = new InfoStatistics();
+		
 		for (TypeCountOnLog t : l){
 			if(t.getType().equals(LogType.NEW_POST))
 				info.setNumPost(t.getTypeCount());
@@ -280,16 +296,19 @@ public class LogRepositoryImpl implements CustomLogRepository{
 				info.setNumFile(t.getTypeCount());
 			else if(t.getType().equals(LogType.ADD_LIKE_POST))
 				info.setNumLike(t.getTypeCount());
+			else if(t.getType().equals(LogType.UP_POST))
+				info.setUpdatePost(t.getTypeCount());
+			else if(t.getType().equals(LogType.DEL_POST))
+				info.setDeletePost(t.getTypeCount());
+			else if(t.getType().equals(LogType.NEW_SCEN))
+				info.setNewScen(t.getTypeCount());
+			else if(t.getType().equals(LogType.CHANGE_PWD))
+				info.setChangePwd(t.getTypeCount());
 		}
-		
-		long totLog;
-		//faccio un'altra query al db per reperire il numero totale di operazioni fatte dall'utente
-		totLog=numLogOfUser(userId);
-		info.setNumTotalLog(totLog);
 		
 		return info;
 	}
-
+	
 	@Override
 	public InfoStatistics getInfoStatisticsScenario(String scenarioId) throws BadRequestException {
 		Criteria c = new Criteria();
@@ -303,25 +322,14 @@ public class LogRepositoryImpl implements CustomLogRepository{
 		c = Criteria.where("scenarioId").is(scenarioId).andOperator(cOr);
 		
 		Aggregation agg = Aggregation.newAggregation(Aggregation.match(c), 
-				Aggregation.group("type").count().as("typeCount"));
+				Aggregation.group("type").count().as("typeCount"),
+				Aggregation.project("typeCount").and("type").previousOperation());
 		
 		AggregationResults result = mongoOp.aggregate(agg, Log.class, TypeCountOnLog.class);
 		
 		List<TypeCountOnLog> l = result.getMappedResults();
 		
-		InfoStatistics info = new InfoStatistics();
-		for (TypeCountOnLog t : l){
-			if(t.getType().equals(LogType.NEW_POST))
-				info.setNumPost(t.getTypeCount());
-			else if(t.getType().equals(LogType.NEW_COMM))
-				info.setNumComment(t.getTypeCount());
-			else if(t.getType().equals(LogType.NEW_META_COMM))
-				info.setNumMetaComment(t.getTypeCount());
-			else if(t.getType().equals(LogType.NEW_TRUST_FILE))
-				info.setNumFile(t.getTypeCount());
-			else if(t.getType().equals(LogType.ADD_LIKE_POST))
-				info.setNumLike(t.getTypeCount());
-		}
+		InfoStatistics info = getInfo(l);
 		
 		long totLog;
 		//faccio un'altra query al db per reperire il numero totale di operazioni fatte nello scenario
@@ -341,29 +349,17 @@ public class LogRepositoryImpl implements CustomLogRepository{
 				Criteria.where("type").is(LogType.NEW_TRUST_FILE),
 				Criteria.where("type").is(LogType.ADD_LIKE_POST)
 				);
-		cAnd = Criteria.where("userId").is(userId).andOperator(Criteria.where("scenarioId").is(scenarioId));
-		c = cAnd.andOperator(cOr);
+		c = Criteria.where("userId").is(userId).andOperator(Criteria.where("scenarioId").is(scenarioId).andOperator(cOr));
 		
 		Aggregation agg = Aggregation.newAggregation(Aggregation.match(c), 
-				Aggregation.group("type").count().as("typeCount"));
+				Aggregation.group("type").count().as("typeCount"),
+				Aggregation.project("typeCount").and("type").previousOperation());
 		
 		AggregationResults result = mongoOp.aggregate(agg, Log.class, TypeCountOnLog.class);
 		
 		List<TypeCountOnLog> l = result.getMappedResults();
 		
-		InfoStatistics info = new InfoStatistics();
-		for (TypeCountOnLog t : l){
-			if(t.getType().equals(LogType.NEW_POST))
-				info.setNumPost(t.getTypeCount());
-			else if(t.getType().equals(LogType.NEW_COMM))
-				info.setNumComment(t.getTypeCount());
-			else if(t.getType().equals(LogType.NEW_META_COMM))
-				info.setNumMetaComment(t.getTypeCount());
-			else if(t.getType().equals(LogType.NEW_TRUST_FILE))
-				info.setNumFile(t.getTypeCount());
-			else if(t.getType().equals(LogType.ADD_LIKE_POST))
-				info.setNumLike(t.getTypeCount());
-		}
+		InfoStatistics info = getInfo(l);
 		
 		long totLog;
 		//faccio un'altra query al db per reperire il numero totale di operazioni fatte nello scenario dall'utente

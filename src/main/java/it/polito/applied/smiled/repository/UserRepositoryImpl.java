@@ -193,14 +193,15 @@ public class UserRepositoryImpl implements CustomUserRepository {
 	public Page<User> getPagingUsers(Integer nPag, Integer nItem, int type) {  //type mi dice se voglio dei teacher (1), degli student(2) o entrambi + moderatori(3)
 		Query q = new Query();
 		if(type==1){
-			q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher"));
+			q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Teacher").andOperator(Criteria.where("status").ne(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD).andOperator(Criteria.where("status").ne(UserStatus.STATUS_PENDING).andOperator(Criteria.where("status").ne(UserStatus.STATUS_CANCELED)))));
 		}else if(type==2){
-			q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Student"));
+			q.addCriteria(Criteria.where("_class").is("it.polito.applied.smiled.pojo.user.Student").andOperator(Criteria.where("status").ne(UserStatus.STATUS_PENDING_DEFAULT_PASSWORD).andOperator(Criteria.where("status").ne(UserStatus.STATUS_PENDING).andOperator(Criteria.where("status").ne(UserStatus.STATUS_CANCELED)))));
 		}else if(type==3){
-			;   //restituisce tutti: studenti, teacher e moderatori
+			;   //restituisce tutti: studenti, teacher e moderatori NOT USED
 		}else{
 			return null;
 		}
+		
 		
 		Sort s;
 		s = new Sort( new Order(Direction.DESC, "registrationDate"));

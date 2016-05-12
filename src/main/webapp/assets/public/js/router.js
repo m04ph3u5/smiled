@@ -235,21 +235,29 @@ angular.module('smiled.application')
 			url : "/log",
 			templateUrl: "assets/private/partials/admin-logs.html",
 		})
-		.state('logged.dashboard.admin.logUser',{
+		.state('logged.dashboard.admin.logSpecificUser',{
 			url : "/logUser/{idUser}",
 			params : {
-				idUser : null
+				idUser : null,
+				firstName: null,
+				lastName: null
 			},
 			templateUrl: "assets/private/partials/admin-userLogs.html",
-			controller: dashboardAdminUserLogCtrl,
-			controllerAs: dashboardAdminUserLog,
+			controller: "dashboardAdminSpecificLogCtrl",
+			controllerAs: "dashboardAdminSpecificLog",
 		})
-		.state('logged.dashboard.admin.logScenario',{
-			url : "/logScenario/{idScenario}",
+		.state('logged.dashboard.admin.logSpecificScenario',{
+			url : "/logScenario/{idScenario}/{idUser}",
 			params : {
-				idScenario : null
+				idScenario: null,
+				idUser : null,
+				firstName: null,
+				lastName: null,
+				scenarioName: null
 			},
 			templateUrl: "assets/private/partials/admin-scenarioLogs.html",
+			controller: "dashboardAdminSpecificLogCtrl",
+			controllerAs: "dashboardAdminSpecificLog",
 		})
 		.state('logged.dashboard.admin.issueSegnalations',{
 			url : "/anomalieAdmin",
