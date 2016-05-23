@@ -48,7 +48,7 @@ public class NewspaperController extends BaseController{
 	    //idTemplate una volta scelto per un newspaper (un numero del giornale dello scenario) non è più modificabile per quel numero, ma numeri successivi potranno usare template diverso.
 		@ResponseStatus(value = HttpStatus.CREATED)
 		@RequestMapping(value="/v1/scenarios/{idScenario}/newspapers", method=RequestMethod.POST)
-		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'NEWSPAPER')")
+		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'READ')")
 		public Id createNewspaper(@PathVariable String idScenario, @RequestBody @Valid NewspaperDTO newspaperDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws ForbiddenException, MongoException, BadRequestException{
 			/*Controllo se la validazione dei campi obbligatori va a buon fine*/
 			System.out.println("CREAZIONE NUOVO GIORNALE IN CORSO...");
@@ -59,27 +59,34 @@ public class NewspaperController extends BaseController{
 			NewspaperTemplate template = newspaperService.findNewspaperTemplateByIdTemplate(newspaperDTO.getIdTemplate());
 			
 			if(template == null || !newspaperService.validateCheckingConstraintsOnCreation(newspaperDTO, template))
-				throw new BadRequestException("idTeplate not valid! ");
-			Newspaper n = newspaperService.saveNewspaper(newspaperDTO);
+				throw new BadRequestException("idTemplate not valid or constraints not observed ");
+			Newspaper n = newspaperService.saveNewspaper(newspaperDTO, idScenario, activeUser.getId());
 			Id id = new Id(n.getId());
 			//logService.logCreateNewspaper(idScenario, id.getId(), activeUser.getId());
 			return id;
 		}
 		
 		//il parametro number è opzionale. Se non viene passato questo metodo ritorna l'ultimo numero creato per quello scenario.
-		//viene scatenata NotFoundException se non sono stati ancora creati newspaper per quello scenario
+		//viene scatenata NotFoundException se non sono stati ancora creati newspaper per quello scenario oppure se si ricerca un numero specifico che non viene trovato
 		@ResponseStatus(value = HttpStatus.OK)
 		@RequestMapping(value="/v1/scenarios/{idScenario}/newspapers", method=RequestMethod.GET)
 		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'READ')")
 		public Newspaper getNewspaper(@PathVariable String idScenario, @RequestParam(value = "number", required=false) Integer number) throws MongoException, NotFoundException, ForbiddenException{
 
-			
 			System.out.println("Getting newspaper");
-
-			return null;
+			Newspaper n = newspaperService.findNewspaperByIdScenarioAndNumber(idScenario, number);
+			if (n==null){
+				if(number==null)
+					throw new NotFoundException("No newspaper founded in scenario");
+				else
+					throw new NotFoundException("No newspaper with number "+number+" founded in scenario");
+			}
+				
+			return n;
 		}
 		
 		//utile per settare già il nome del giornale per numeri successivi al primo (l'utente è comunque libero di modificare il nome ad ogni edizione del giornale e la modifica non è retroattiva)
+		//se il giornale esiste ma non ha ancora un nome ritorna null
 		@ResponseStatus(value = HttpStatus.OK)
 		@RequestMapping(value="/v1/scenarios/{idScenario}/lastNewspaperName", method=RequestMethod.GET)
 		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'READ')")
@@ -87,8 +94,16 @@ public class NewspaperController extends BaseController{
 
 			
 			System.out.println("Getting last newspaper name");
-
-			return null;
+			Newspaper n = newspaperService.findNewspaperByIdScenarioAndNumber(idScenario, null);
+			if (n==null){
+				throw new NotFoundException("No newspaper founded in scenario");
+			}
+			if(n.getName()!=null)
+				return n.getName();
+			else
+				return null;
+				
+			
 		}
 		
 		//Ritorna un oggetto Newspaper (e prende in ingresso un oggetto NewspaperDTOPut )
@@ -96,8 +111,8 @@ public class NewspaperController extends BaseController{
 		@ResponseStatus(value = HttpStatus.OK)
 		@RequestMapping(value="/v1/scenarios/{idScenario}/newspapers/{number}", method=RequestMethod.PUT)
 		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'NEWSPAPER')")
-		public Newspaper updateNewspaper(@PathVariable String id, @RequestBody NewspaperDTOPut newspaperDTOPut, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException{
-			Newspaper n = new Newspaper();
+		public Newspaper updateNewspaper(@PathVariable String idScenario, @PathVariable int number, @RequestBody NewspaperDTOPut newspaperDTOPut, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException{
+			newspaperService.updateNewspaper(idScenario, number, newspaperDTOPut);
 			//logService.logUpdateNewspaper(idScenario,n.getId(), activeUser.getId());
 			return null;
 		}
@@ -105,10 +120,10 @@ public class NewspaperController extends BaseController{
 		@ResponseStatus(value = HttpStatus.NO_CONTENT)
 		@RequestMapping(value="/v1/scenarios/{idScenario}/newspapers/{number}", method=RequestMethod.DELETE)
 		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Scenario', 'NEWSPAPER')")
-		public void deleteNewspaper(@PathVariable String idScenario, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
+		public void deleteNewspaper(@PathVariable String idScenario,@PathVariable int number, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
 			if(idScenario == null)
 				throw new BadRequestException();
-
+			newspaperService.deleteNewspaper(idScenario, number);
 			
 			//logService.logDeleteScenario(id, activeUser.getId());
 			//scenarioService.lastUpdateScenario(id, new Date());

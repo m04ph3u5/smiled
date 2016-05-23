@@ -15,13 +15,13 @@ public class Newspaper {
 	@Id
 	private String id;
 	private String name;
-	private HistoricalDate date;
+	private HistoricalDate historicalDate;
 	private int idTemplate;
 	private Date lastUpdate;
 	private int number;
 	private List<Article> articles;
 	private String idScenario;
-	private Reference actualUser;
+	private String actualUserId;
 	private PostStatus status;
 	private Date publishedDate;
 	
@@ -36,12 +36,15 @@ public class Newspaper {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public HistoricalDate getDate() {
-		return date;
+
+	public HistoricalDate getHistoricalDate() {
+		return historicalDate;
 	}
-	public void setDate(HistoricalDate date) {
-		this.date = date;
+
+	public void setHistoricalDate(HistoricalDate historicalDate) {
+		this.historicalDate = historicalDate;
 	}
+
 	public int getIdTemplate() {
 		return idTemplate;
 	}
@@ -72,12 +75,15 @@ public class Newspaper {
 	public void setIdScenario(String idScenario) {
 		this.idScenario = idScenario;
 	}
-	public Reference getActualUser() {
-		return actualUser;
+	
+	public String getActualUserId() {
+		return actualUserId;
 	}
-	public void setActualUser(Reference actualUser) {
-		this.actualUser = actualUser;
+
+	public void setActualUserId(String actualUserId) {
+		this.actualUserId = actualUserId;
 	}
+
 	public PostStatus getStatus() {
 		return status;
 	}
