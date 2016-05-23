@@ -23,10 +23,16 @@ angular.module('smiled.application').controller('dashboardAdminSpecificLogCtrl' 
 	var onStartup = function(){
 		
 		firstName=$stateParams.firstName;
+		if(firstName)
+			firstName = decodeURIComponent(firstName);
 		lastName=$stateParams.lastName;
+		if(lastName)
+			lastName = decodeURIComponent(lastName);
 		idUser=$stateParams.idUser;
 		idScenario=$stateParams.idScenario;
 		scenarioName=$stateParams.scenarioName;
+		if(scenarioName)
+			scenarioName = decodeURIComponent(scenarioName);
 		
 		if(idUser && ( !firstName || !lastName) && !idScenario){
 			whoIsUserAndInfoStatistics();

@@ -99,6 +99,13 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.typeOfLog="ALL";
 	var count = 0;
 
+	self.getCodedName = function(name){
+		if(name)
+			return encodeURIComponent(name);
+		else
+			return "";
+	}
+	
 	self.whoIsUser = function(l){
 		
 		

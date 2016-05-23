@@ -32,7 +32,7 @@
 						<div class="col-sm-6">
 							<b>Nome:</b> {{s.name}}
 							<button class="btn btn-info" style="float:right;">
-							<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idScenario:'{{s.id}}' , scenarioName:'{{s.name}}' })"><b>Log attività </b></a></button>
+							<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idScenario:'{{s.id}}' , scenarioName:dashboardAdmin.getCodedName(s.name) })"><b>Log attività </b></a></button>
 						</div>
 					</div>
 					<ul>

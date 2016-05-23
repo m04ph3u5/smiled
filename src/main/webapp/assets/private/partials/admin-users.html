@@ -20,9 +20,9 @@
 			<div  data-ng-repeat="t in dashboardAdmin.myListOfUsers">
 				
 				    <div class="row">
-						<div class="col-sm-6"><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
+						<div class="col-sm-6"><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a> 
 							<button class="btn btn-info" style="float:right;">
-							<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{t.id}}' , firstName:'{{t.firstName}}' , lastName:'{{t.lastName}}' })"><b>Log attività </b></a></button>
+							<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{t.id}}' , firstName: dashboardAdmin.getCodedName(t.firstName), lastName:dashboardAdmin.getCodedName(t.lastName) })"><b>Log attività </b></a></button>
 						</div>
 					</div>
 					<ul>
@@ -75,7 +75,7 @@
 												<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
 												
 												<button class="btn btn-info" style="float:right;">
-													<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{t.id}}' , firstName:'{{t.firstName}}' , lastName:'{{t.lastName}}' , idScenario:'{{scenO.id}}', scenarioName:'{{scenO.name}}'})">
+													<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{t.id}}' , firstName: dashboardAdmin.getCodedName(t.firstName) , lastName:dashboardAdmin.getCodedName(t.lastName) , idScenario:'{{scenO.id}}', scenarioName: dashboardAdmin.getCodedName(scenO.name)})">
 														<b>Log attività </b>
 													</a>
 												</button>
@@ -123,7 +123,7 @@
 				<div class="row">
 					<div class="col-sm-6"><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
 						<button class="btn btn-info" style="float:right;">
-						<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{t.id}}' , firstName:'{{t.firstName}}' , lastName:'{{t.lastName}}' })"><b>Log attività </b></a></button>
+						<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{t.id}}' , firstName:dashboardAdmin.getCodedName(t.firstName) , lastName:dashboardAdmin.getCodedName(t.lastName) })"><b>Log attività </b></a></button>
 					</div>
 				</div>
 				
@@ -172,7 +172,7 @@
 												<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
 												
 												<button class="btn btn-info" style="float:right;">
-													<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{t.id}}' , firstName:'{{t.firstName}}' , lastName:'{{t.lastName}}' , idScenario:'{{scenO.id}}', scenarioName:'{{scenO.name}}'})">
+													<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{t.id}}' , firstName: dashboardAdmin.getCodedName(t.firstName) , lastName:dashboardAdmin.getCodedName(t.lastName) , idScenario:'{{scenO.id}}', scenarioName:dashboardAdmin.getCodedName(scenO.name)})">
 														<b>Log attività </b>
 													</a>
 												</button>
@@ -216,7 +216,7 @@
 				<div class="row">
 					<div class="col-sm-6"><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{s.id}}' })">{{s.firstName}} {{s.lastName}}</a>
 						<button class="btn btn-info" style="float:right;">
-						<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{s.id}}' , firstName:'{{s.firstName}}' , lastName:'{{s.lastName}}' })"><b>Log attività </b></a></button>
+						<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{s.id}}' , firstName:dashboardAdmin.getCodedName(s.firstName) , lastName:dashboardAdmin.getCodedName(s.lastName) })"><b>Log attività </b></a></button>
 					</div>
 				</div>
 					<ul>
@@ -250,7 +250,7 @@
 													<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenOStudent.id}}' , idCharacter: '{{scenOStudentStudent.myCharacterId}}' })">{{scenOStudent.myCharacterName}}</a></u>
 													
 													<button class="btn btn-info" style="float:right;">
-														<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{s.id}}' , firstName:'{{s.firstName}}' , lastName:'{{s.lastName}}' , idScenario:'{{scenOStudent.id}}', scenarioName:'{{scenOStudent.name}}'})">
+														<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{s.id}}' , firstName:dashboardAdmin.getCodedName(s.firstName) , lastName:dashboardAdmin.getCodedName(s.lastName) , idScenario:'{{scenOStudent.id}}', scenarioName:dashboardAdmin.getCodedName(scenOStudent.name)})">
 															<b>Log attività </b>
 														</a>
 													</button>
