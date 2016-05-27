@@ -1,0 +1,106 @@
+<div  class="container-fluid">
+
+	<div class="row">
+		<div class="col-sm-12 header-container">
+		<h4 style="text-align: center;"> Bozza dell'articolo </h4>
+		</div>
+	
+		<div class ="col-sm-12 body-container">
+		
+		<!-- COUNT chars container -->
+		
+		<div class="col-sm-12">
+		<span class="glyphicon glyphicon-time count"></span>
+		<input class="customCheckBox"  id="showCount" type="checkbox"  
+		 name="show-count" value="show-count" ng-model="draft.isChecked" /> 
+		<label for="showCount">Attiva il conteggio caratteri per sapere quanto puoi scrivere</label>
+		</div>
+		
+		<!-- Count chars cirlces containers -->
+		
+		<div class="row" style="background-color:#f6f2ea" ng-if="draft.isChecked">
+		<!-- <div class="col-sm-6">
+		 <h5 ng-if = "draft.id == 1"><span class="blue"  ng-class="{'red': draft.article.title.length >= 26 }"
+		>{{25 - draft.article.title.length}}</span> Battute titolo</h5> 
+		
+		</div> -->
+		
+		<!-- <div class="col-sm-6">
+		<h5><span class="yellow">1</span>Battute sottotitolo</h5>
+		</div -->
+		
+		<div class="col-sm-6 animated fadeInDown">
+		<h5 ng-if="draft.id == 2"><span class="green" ng-class="{'red': draft.article.text.length >= 1160 }"
+		>{{1159 - draft.article.text.length}}</span>Battute testo articolo</h5>
+		</div>
+		
+		</div>
+		
+		<!-- CITY selector container -->
+			<div class="col-sm-12 col-xs-12">
+			<span class= "glyphicon glyphicon-map-marker count"></span>
+				<input class="customCheckBox" id="showCount" type="checkbox"
+					name="show-count" value="show-count" ng-model="draft.isCityChecked" />
+				<label for="showCount">
+				Aggiungi o modifica la città del tuo articolo</label>
+			</div>
+			
+			<div class="col-sm-12 col-xs-12 animated fadeInDown" data-ng-if="draft.isCityChecked">
+			<input  class= "selectCity" placeholder="Nome città" ng-model="draft.article.city"> </input>
+			</div>
+		
+		
+		<div class ="col-sm-12 textarea-container">
+		<div class = "row">
+		<div class ="col-sm-12">
+		
+		<textarea class="title-textarea" rows="1" ng-model="draft.article.title"
+		placeholder="{{draft.article.title}}"
+		 > </textarea>
+		 
+		<textarea class="subtitle-textarea" rows="1" data-ng-if="draft.article.subtitle.length>0"
+		 placeholder="{{draft.article.subtitle}}" ng-model="draft.article.subtitle" 
+		 style="width: 100%;"> </textarea>
+		</div>
+		
+		<div class ="col-sm-12">
+		<textarea class="column-textarea" ng-model="draft.article.text" 
+		placeholder="{{draft.article.text}}"
+		 rows="18" style="width: 100%;">
+		
+		
+		</textarea>
+		</div>
+		
+		</div>
+		
+		</div> 
+		
+		
+		
+		<div class="col-sm-12 background-container" >
+		
+		 <img
+		 src="/assets/public/img/newspaper-img/sfondo-assets.png" class="img-responsive" /> 
+		
+		</div>
+		
+	</div>
+	
+	
+	<div class ="col-sm-12 button-container">
+		
+		<button style="cursor:pointer;" class="positiveButton btn" 
+							data-ng-click="draft.setData(draft.article)">
+	<span class="glyphicon glyphicon-floppy-save"></span>SALVA BOZZA</button>
+		
+		</div>
+
+</div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>

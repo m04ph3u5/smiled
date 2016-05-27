@@ -1,0 +1,55 @@
+
+/*PALETTE MESCHOLA*/
+
+@text-color: #404b41; 
+@lighter-cream: #f5f2ea; 
+@medium-cream: #e2ddd0;
+@darker-cream: #cdc08c;
+@lighter-green: #abbe90;
+@darker-green: #88b150;
+@meschola-red: #cb654f;
+@meschola-blue: #8cbea3;
+@meschola-yellow: #fad77b;
+
+@lighten-percentage: 10%;
+
+.lighten-red
+{
+	background: lighten(@meschola-red, @lighten-percentage);
+}
+
+/*TYPOGRAPHY*/
+
+ @articles-box: 2px solid @medium-cream;
+ @font-titles: Philosopher, Sans serif;  
+ @font-text: Montaga; 
+ @font-medium-titles: Coustard; 
+ @font-headers: Patrick Hand;
+ @font-text-general: Raleway; 
+
+/* LINEE IMPAGINAZIONE GIORNALE */
+
+.line-cream {
+    border-bottom: 5px solid @medium-cream;
+    border-radius: 10px;
+}
+
+.line-green {
+	border-bottom: 3px solid @darker-green;
+    border-radius: 8px;
+    margin: 2px; 
+}
+
+.line-red {
+   margin-top: 4px;
+	border-bottom: 5px solid @meschola-red;
+	border-radius: 10px;
+
+}
+
+.thin-red-line {
+   margin-top: 4px;
+	border-bottom: 3px solid @meschola-red;
+	border-radius: 10px;
+
+}

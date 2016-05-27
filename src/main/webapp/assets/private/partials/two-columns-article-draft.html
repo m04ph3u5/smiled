@@ -1,0 +1,181 @@
+
+<div class="container-fluid">
+
+	<div class="row"> 
+		<div class="col-sm-12 col-xs-12 header-container">
+			<h4 style="text-align: center;">Bozza dell'articolo</h4>
+		</div>
+
+		<div class="col-sm-12 col-xs-12  body-container">
+
+		
+			<div class="col-sm-12 col-xs-12" >
+			<span class="glyphicon glyphicon-time count"></span>
+				<input class="customCheckBox" id="showCount" type="checkbox"
+					name="show-count" value="show-count" ng-model="draft.isChecked" />
+				<label for="showCount">Attiva il conteggio caratteri per sapere quanto puoi scrivere!</label>
+			</div>
+		<div id="sticky-anchor"></div>
+			<!-- Count chars cirlces containers -->
+			<div class="row" ng-if="draft.isChecked" id="sticky"
+				style="background-color: #f6f2ea">
+				<div class="col-sm-12 col-xs-12">
+					<h5>Controlla qui il numero di caratteri che hai ancora a
+						disposizione per ciascun campo:</h5>
+				</div>
+				<!-- First row circles -->
+				<div class="col-sm-6 col-xs-12 animated fadeInDown">
+					<h5 ng-if="draft.id == 1">
+						<span class="blue"
+							ng-class="{'red': draft.article.title.length >= 26 }">{{25
+							- draft.article.title.length}}</span> Battute titolo
+					</h5>
+
+					<h5 ng-if="draft.id == 3">
+						<span class="blue"
+							ng-class="{'red': draft.article.title.length >= 28 }">{{27
+							- draft.article.title.length}}</span> Battute titolo
+					</h5>
+
+				</div>
+				<div class="col-sm-6 col-xs-12 animated fadeInDown">
+					<h5 ng-if="draft.id == 1">
+						<span class="green"
+							ng-class="{'red': draft.article.text.col1.length >= 683 }">
+							{{682 - draft.article.text.col1.length}} </span>Battute testo prima
+						colonna
+					</h5>
+
+					<h5 ng-if="draft.id == 3">
+						<span class="green"
+							ng-class="{'red': draft.article.text.col1.length >= 595 }">
+							{{594 - draft.article.text.col1.length}} </span>Battute testo prima
+						colonna
+					</h5>
+				</div>
+
+				<div class="col-sm-6 col-xs-12 animated fadeInDown">
+					<h5 ng-if="draft.id == 1">
+						<span class="yellow"
+							ng-class="{'red': draft.article.subtitle.length >= 28 }">
+							{{27 - draft.article.subtitle.length}} </span>Battute sottotitolo
+					</h5>
+
+					<h5 ng-if="draft.id == 3">
+						<span class="yellow"
+							ng-class="{'red': draft.article.subtitle.length >= 27 }">
+							{{26 - draft.article.subtitle.length}} </span>Battute sottotitolo
+					</h5>
+				</div>
+
+				<div class="col-sm-6 col-xs-12 animated fadeInDown">
+					<h5 ng-if="draft.id == 1">
+						<span class="green"
+							ng-class="{'red': draft.article.text.col2.length >= 683 }">
+							{{682 - draft.article.text.col2.length}} </span>Battute testo seconda
+						colonna
+					</h5>
+
+					<h5 ng-if="draft.id == 3">
+						<span class="green"
+							ng-class="{'red': draft.article.text.col2.length >= 595 }">
+							{{594 - draft.article.text.col2.length}} </span>Battute testo seconda
+						colonna
+					</h5>
+				</div>
+			</div>
+
+	<!-- CITY selector container -->
+			<div class="col-sm-12 col-xs-12" >
+			<span class= "glyphicon glyphicon-map-marker count"></span>
+				<input class="customCheckBox selectCity" id="showCount" type="checkbox"
+					name="show-count" value="show-count" ng-model="draft.isCityChecked" />
+				<label>
+				Aggiungi o modifica la città del tuo articolo</label>
+			</div>
+			<div class="col-sm-12 col-xs-12 animated fadeInDown" data-ng-if="draft.isCityChecked">
+			<input class= "selectCity" placeholder="Nome città" ng-model="draft.article.city"> </input>
+			</div>
+			
+	<!-- UPLOAD MEDIA -->
+	
+	<div class="col-sm-12 col-xs-12" >
+			<span class="glyphicon glyphicon-camera count"></span>
+				<label style= "margin-top: -6%; margin-left: 3%;">Carica qui l'immagine dell'articolo </label>
+			</div>
+
+			<div class="col-sm-12 col-xs-12 textarea-container">
+				<div class="row">
+					<div class="col-sm-12">
+						<textarea class="title-textarea" rows="1"
+							ng-model="draft.article.title"
+							placeholder="Titolo dell'articolo"> </textarea>
+
+						<textarea class="subtitle-textarea" rows="1"
+							placeholder="Sottotitolo dell'articolo"
+							data-ng-if="draft.article.subtitle.length>0"
+							ng-model="draft.article.subtitle" style="width: 100%;"> </textarea>
+					</div>
+
+					<div class="col-sm-6 col-xs-12">
+						<textarea class="column-textarea"
+							ng-model="draft.article.text.col1" 
+							placeholder="Testo dell'articolo" rows="18" style="width: 100%;">
+		
+		</textarea>
+					</div>
+
+
+
+					<div class="col-sm-6 col-xs-12">
+						<textarea class="column-textarea"
+							ng-model="draft.article.text.col2" rows="18" 
+							placeholder = "Testo dell'articolo" style="width: 100%;">
+		
+		</textarea>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="col-sm-12 col-xs-12 background-container">
+
+				<img src="/assets/public/img/newspaper-img/sfondo-assets.png"
+					class="img-responsive" />
+
+			</div>
+
+		</div>
+		<div class="col-sm-12 col-xs-12 button-container">
+
+			<button style="cursor: pointer;" class="positiveButton btn"
+				data-ng-click="draft.setData(draft.article)">
+				<span class="glyphicon glyphicon-floppy-save"></span>SALVA BOZZA
+			</button>
+
+		</div>
+
+	</div>
+</div>
+<script>
+
+function sticky_relocate() {
+    var window_top = $(window).scrollTop();
+    var div_top = $('#sticky-anchor').offset().top;
+    if (window_top > div_top) {
+        $('#sticky').addClass('stick');
+        $('#sticky-anchor').height($('#sticky').outerHeight());
+    } else {
+        $('#sticky').removeClass('stick');
+        $('#sticky-anchor').height(0);
+    }
+}
+
+/* $(function() {
+    $(window).scroll(sticky_relocate);
+    sticky_relocate();
+}); */
+
+
+</script>
+

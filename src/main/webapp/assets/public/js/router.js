@@ -362,6 +362,9 @@ angular.module('smiled.application')
 				pageTitle : 'Notifiche - Meschola'
 			}
 		})
+		
+		
+		
 		.state('logged.scenario',{
 			url: "/scenario/{id}",
 			abstract: true,
@@ -459,7 +462,7 @@ angular.module('smiled.application')
 		.state('logged.scenario.missions',{
 			url: '/compiti',
 			views : {
-				'body' : {
+				'body' : {	
 					templateUrl : "assets/private/partials/missions.html",
 					controller : "scenarioMissionsCtrl",
 					controllerAs : "scenarioMissions"
@@ -494,6 +497,111 @@ angular.module('smiled.application')
 				pageTitle : "Grafo delle relazioni - Meschola"
 			}
 		})
+		
+		//first page redazione 
+		
+		.state('logged.scenario.editorial',{
+			url: '/giornale-dashboard',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/dashboard-news.html",
+					controller:  "dashboardNewspaperCtrl",  
+					controllerAs: "dashboardNewspaper"
+					 
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		//Impaginazione 1 - INTERNA ALLO SCENARIO
+		
+		.state('logged.scenario.template1',{
+			url: '/giornale-impaginazione1',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/first-template-newspaper.html",
+					controller: "firstTemplateCtrl", 
+					controllerAs: "firstTemplate"	
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		//impaginazione 2 
+		.state('logged.scenario.template2',{
+			url: '/giornale-impaginazione2',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/second-template-newspaper.html",
+					controller: "secondTemplateCtrl", 
+					controllerAs: "secondTemplate"	
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		
+		//bozza articolo su 2 colonne - TOTALE
+		
+		.state('logged.draftArticle2col',{
+			url: '/draft-first',
+			views : {
+				'content' : {
+					templateUrl : "assets/private/partials/first-article-draft.html",
+					controller: "draftCtrl"
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		//Bozza articolo - (2 colonne)
+		
+			.state('logged.scenario.draftArticle2col',{
+			url: '/2col-dashboard-draft',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/two-columns-article-draft.html",
+					controller: "draftCtrl",
+					controllerAs: "draft"
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		//Bozza articolo - SIMPLE (1 colonna) 
+		
+			.state('logged.scenario.draftArticleSimple',{
+			url: '/simple-dashboard-draft',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/simple-article-draft.html",
+					controller: "draftCtrl",
+					controllerAs: "draft"
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		
+		
+		
+		
 		.state('logged.scenario.charprofile',{
 			url: '/personaggi/{idCharacter}',
 			views: {

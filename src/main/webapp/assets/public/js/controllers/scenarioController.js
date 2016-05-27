@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload','notifyService','$scope','$interval',
-                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService, $scope, $interval){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload','notifyService','$scope','$interval','$state','article','$log',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService, $scope, $interval, $state, article, $log){
 	
 	
 	var self = this;
@@ -18,7 +18,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.showBoxInfo = true;
 	self.numNewPost = 0;
 	self.dateFormat = CONSTANTS.realDateFormatWithMinute;
-	
+	self.continueProduction = article.getBooleanRedazione(); 
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/
 	
@@ -87,6 +87,14 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		
 	}
 	
+	self.goToNewspaper = function() {
+		
+			$state.go('logged.scenario.editorial');			
+		
+				
+	}
+			
+	
 	/*-----------------------------------UTILIY------------------------------------------------*/
 	
 	
@@ -154,11 +162,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	
 	
 	
-	self.goToBody = function(){
-		$location.hash("body-content");
-	    $anchorScroll();
-	    $location.url($location.path());
-	}
+	 
 	
 	var newPostListener = $scope.$on('notification.newPostEvent', function () {
         self.incrementNumNewPost();

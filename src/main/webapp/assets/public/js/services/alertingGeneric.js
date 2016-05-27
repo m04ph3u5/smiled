@@ -1,7 +1,7 @@
 angular.module('smiled.application').factory('alertingGeneric',['$timeout', function($timeout) {
         
         var currentAlerts = [];
-        var alertTypes = ["success", "info", "warning", "danger"];
+        var alertTypes = ["success", "info", "warning", "danger", "arrow_box1"];
 
         var addWarning = function (message) {
             addAlert("warning", message);
@@ -18,6 +18,7 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
         var addSuccess = function (message) {
             addAlert("success", message);
         };
+        
 
         var addAlert = function (type, message) {
         	
@@ -51,6 +52,7 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
                 addDanger(description);
             };
         };
+        
 
         return {
             addWarning: addWarning,

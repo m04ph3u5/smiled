@@ -65,24 +65,24 @@
 		input[type=search],
 		input[type=password]:focus,
 		input:focus,
-		textarea:focus{
+		 textarea:focus, textarea:not(#text-area){
 		    background-color:#E0D8A9 !important;
 		    outline:none;
 		    -webkit-box-shadow: none;
     		box-shadow: none;
     		border: 0px 0px 0px 2px;
     		border-bottom-color: #5B5955;
-		}
+		} 
 		
-		textarea#textarea-event:focus{
+		 textarea#textarea-event:focus{
 			background-color:#E0D8A9;
-		  /*  background-color:rgba(204, 255, 204, 1);*/
+		   background-color:rgba(204, 255, 204, 1);
 		    outline:none;
 		    -webkit-box-shadow: none;
     		box-shadow: none;
     		border: 0px 0px 0px 2px;
     		border-bottom-color: #5B5955;
-		}
+		} 
 		
 		.form-control, .generalInput, textarea:not(.resource-text-area), input:not(.customCheckBox){
 			background-color:transparent;

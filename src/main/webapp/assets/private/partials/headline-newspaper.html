@@ -1,0 +1,31 @@
+
+<div class="col-sm-12 line-2"></div>
+<div class="col-sm-12 testata">
+
+	<h5 id="number">Numero {{numero}}</h5>
+	<!-- aggiungere ng-model="title" -->
+	<label  style="cursor: pointer;" id="text-area-title-newspaper"
+		rows="1" data-ng-model="headlineNewspaper.headline.title" 
+		data-ng-click="headlineNewspaper.showPopUpCreationTitle()" placeholder="Scegli il nome del giornale">
+		 {{headlineNewspaper.headline.title}}
+		
+		</label>
+		
+		
+			
+	<div data-ng-click="headlineNewspaper.setDateNewNumber()"
+				class="glyphicon glyphicon-calendar" style="float:right; margin-top: 10px; margin-left: 4px;"></div>		
+	<h5 id="date">Data il giornale</h5>
+
+<label class="col-sm-6 arrow_box arrow_box:after arrow_box:before animated pulse" 
+ng-if="headlineNewspaper.showWarning">
+ Attento, il titolo è troppo lungo! Scegli un nome più corto per il giornale. 
+</label>
+
+</div>
+<div class="col-sm-12 line-2"></div>
+<div class="col-sm-12 line"></div>
+
+
+
+

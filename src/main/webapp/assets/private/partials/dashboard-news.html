@@ -1,0 +1,138 @@
+
+<div data-ng-if="!dashboardNewspaper.continueProduction"
+	class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12 header-container">
+			<h4 style="text-align: center;">BENVENUTO IN REDAZIONE</h4>
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12 body-container"
+			style="background-color: #eae5dc;">
+			<div class="col-md-12 col-sm-12 col-xs-12 background-container">
+				<img class="img-responsive background-news" style="margin-top: 50%;"
+					src="assets/public/img/newspaper-img/bg_dashboard_welcome-sol-II.png">
+			</div>
+			<div class="col-md-8 col-sm-8 col-xs-8">
+				<img class="img-responsive-numero animated wow pulse"
+					src="assets/public/img/titoli-giornale/nuovo_numero.png"
+					style="cursor: pointer;"
+					data-ng-click="dashboardNewspaper.showPopUpTemplates()">
+			</div>
+			<div
+				class="col-md-12 col-sm-12 col-xs-12 previews-container dimensions"
+				style="margin-top: 70%;">
+				<h3 style="text-align: center; color: #404b41">Numeri
+					pubblicati</h3>
+
+				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- Vista per chi ha già in produzione un numero -->
+
+<div data-ng-if="dashboardNewspaper.continueProduction"
+	class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12 header-container">
+			<h4 style="text-align: center;">BENTORNATO NELLA REDAZIONE DEL
+				GIORNALE</h4>
+		</div>
+		<div class="col-sm-12 col-xs-12 body-container">
+			<div class="col-sm-12 col-xs-12 bg-title">
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+					<img class="img-responsive-wipTitle"
+						style="margin-top: 10%; margin-left: none;"
+						src="assets/public/img/titoli-giornale/continua_la_produzione.png">
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+					style="cursor: pointer;"
+					ng-click="dashboardNewspaper.goToTemplate()">
+					<img class="img-responsive-wip"
+						src="assets/public/img/newspaper-img/ic_wipNewspaper.png">
+				</div>
+			</div>
+			<!-- 
+</div> -->
+
+			<div class="col-sm-12 hidden-xs background-container">
+				<img
+					src="/assets/public/img/newspaper-img/bg_dashboard_giornalista.png"
+					class="img-responsive backgroundParallax-news"
+					style="z-index: 0; margin-top: -50%;" />
+			</div>
+			<div
+				class="col-sm-12 col-sx-12  hidden-xs previews-container dimensions"
+				style="z-index: +2; margin-top: 50%;">
+				<h3 style="text-align: center; color: #404b41">Numeri
+					pubblicati</h3>
+				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+			</div>
+			<!-- Small views-->
+			<div
+				class="col-sm-12 hidden-lg hidden-md hidden-sm visible-xs bg-image-xs">
+				<img
+					src="/assets/public/img/newspaper-img/bg_dashboard_giornalista.png"
+					class="img-responsive" style="z-index: 0;" />
+			</div>
+			<div
+				class="col-sm-12 col-sx-12 hidden-lg hidden-md hidden-sm visible-xs bg-image-xs 
+		 previews-container dimensions-xs">
+				<h3 style="text-align: center; color: #404b41">Numeri
+					pubblicati</h3>
+				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	new WOW().init();
+</script>
+
+<!--  PROVA PARALLAX  -->
+
+<script>
+	$(window).bind('scroll', function(e) {
+		parallaxScroll();
+	});
+
+	function parallaxScroll() {
+		var scrolled = $(window).scrollTop();
+		if (window.innerWidth > 992) {
+			$('.backgroundParallax-news').css('top',
+					(850 - (scrolled * .5)) + 'px');
+		}
+		if (window.innerWidth<992 && window.innerWidth>768) {
+			$('.backgroundParallax-news').css('top',
+					(880 - (scrolled * .5)) + 'px');
+		}
+		if (window.innerWidth<768  && window.innerWidth>600) {
+			$('.backgroundParallax-news').css('top',
+					(1300 - (scrolled * .4)) + 'px');
+		}
+		if (window.innerWidth<600 && window.innerWidth>400) {
+			$('.backgroundParallax-news').css('top',
+					(1100 - (scrolled * .35)) + 'px');
+		}
+		if (window.innerWidth < 400) {
+			$('.backgroundParallax-news').css('top',
+					(880 - (scrolled * .25)) + 'px');
+		}
+
+		//$('.secondSlide').css('top',(800-(scrolled*.5))+'px');
+		$('#parallax-bg3').css('top', (0 - (scrolled * .75)) + 'px');
+	}
+</script>
+
+
+
+
+
+
+
+
+
+

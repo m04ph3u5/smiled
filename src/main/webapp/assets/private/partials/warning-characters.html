@@ -1,0 +1,18 @@
+
+<label 
+data-ng-if = "stylebox == 'bottom'"
+ class="col-sm-6 warning-container-bottom arrow_box1 arrow_box1:after arrow_box1:before animated pulse"
+> Attento, hai scritto troppi caratteri. 		  
+<a style="cursor: pointer" data-ng-click="warningCharacters.modifyNow()"> MODIFICA ORA </a> e attiva il conteggio 
+caratteri nelle bozze.
+<br/>
+<a data-ng-click="warningCharacters.close()" style="color:#cb654f; cursor: pointer;"> Chiudi </a></label>
+
+<label 
+data-ng-if = "stylebox == 'up'" 
+ class="col-sm-6 arrow_box arrow_box:after arrow_box:before animated pulse"
+> Attento, hai scritto troppi caratteri.		  
+<a style="cursor: pointer;" data-ng-click="warningCharacters.modifyNow()"> MODIFICA ORA </a> e attiva il conteggio 
+caratteri nelle bozze.
+<br/>
+<a data-ng-click="warningCharacters.close()" style="color:#cb654f; cursor: pointer;"> Chiudi </a></label>

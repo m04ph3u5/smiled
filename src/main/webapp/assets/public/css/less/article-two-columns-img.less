@@ -1,0 +1,206 @@
+
+@import "colors.less";
+@import "mixins.less";
+@import "media-queries.less";
+
+
+
+#title-art-img{
+    .article-title; 
+    font-weight: 250;
+    font-size: 2.0em; 
+    text-rendering: optimizeLegibility;
+    letter-spacing: 0.02em;
+    line-height: 1.0em;   
+}
+
+#subtitle-art-img{
+     .article-subtitle;
+     font-weight: 100;
+     text-transform: uppercase;
+     color: #404b41;
+     text-rendering: optimizeLegibility;
+     font-family: Montaga;
+     
+     @media @tablets-lg {
+     
+     padding-bottom: 8%; 
+     } 
+     
+     @media @desktop-lg {
+     
+     padding-bottom: 8%; 
+     
+     } 
+     
+           
+}
+
+.line-5{
+    .line-green;
+}
+
+.img-responsive {
+    display: inline-block;
+    height: auto;
+    max-width: 100%;
+    /*border: #abbe90 solid 3px; */
+    border-radius: 1px; 
+}
+
+.img-container-art {
+	
+	margin-top: 14%; 
+	 @media @tablets-lg{
+    margin-top: 2%; 
+    }
+	
+	@media @desktop-lg-xxx{
+    
+    margin-top: 2%; 
+    
+    }
+}
+
+.line-6{
+   .line-green;
+}
+
+.body-text{    
+    margin-top: 8px;
+    margin-left: 0px;
+    
+}
+
+.text-art{
+	.article-text; 
+    line-height: 1.5em;
+    font-size: 18px;  
+    letter-spacing: -0.02em;
+    word-spacing: -0.1em;
+    margin-top: 5px; 
+    
+    @media @smartphones-sxxx {
+    font-size: 20px !important;
+    min-height: 525px !important;
+    
+    
+    }
+    
+    @media @smartphones-sxx {
+    
+    font-size: 20px !important;  
+ 	min-height: 570px !important; 
+    
+    }
+    
+    @media @smartphones-sx {
+    
+    font-size: 20px !important;  
+ 	min-height: 350px !important;
+    
+    }
+    
+     @media @smartphones-sm {
+    
+ 	font-size: 20px !important;   
+ 	min-height: 320px !important;
+    }
+     
+    
+    @media @tablets-sxx {
+    
+    font-size: 18px !important;  
+ 	min-height: 310px !important;
+    
+    }
+    
+    @media @tablets-sx {
+    
+    min-height: 720px !important; 
+    font-size: 18px !important; 
+    
+    }
+    
+    @media @tablets-md {
+    
+    min-height: 530px !important; 
+    font-size: 18px !important; 
+    
+    }
+    
+     @media @tablets-lg {
+    min-height: 510px !important;
+	font-size: 18px !important; 
+    }
+    
+    @media @desktop-sx {
+    
+   font-size: 18px !important;  
+ 	min-height: 530px !important;  
+}
+    
+    
+     @media @desktop-md {
+    font-size: 18px !important;  
+ 	min-height: 540px !important;
+    
+    }
+    
+    
+     @media @desktop-lg {
+    
+    font-size: 18px !important;  
+ 	min-height: 440px !important;
+ 	
+ 	.image-twocol {
+ 	
+ 	margin-top: 10%; 
+ 	
+ 	}
+ 	
+    } 
+    
+    
+   @media @desktop-lg-xx {
+   
+   min-height: 340px !important;
+   margin-top: none;  
+   
+   }
+   
+   
+   @media @desktop-lg-xxx{
+   min-height: 330px !important;
+   
+   }
+    
+}
+
+
+
+/*media adjustments&queries*/
+
+
+
+@media screen and (min-width: 960px) and (max-width: 992px) {
+		.text-art {    
+ 	font-size: 18px;  
+ 	min-height: 630px;
+
+	
+	}
+}
+
+
+
+
+@media screen and (min-width: 1920px) and (max-width: 2024px) {
+		.text-art {    
+ 	font-size: 18px;  
+ 	min-height: 370px;
+
+	
+	}
+}
+ 

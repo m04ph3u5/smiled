@@ -70,6 +70,11 @@
 			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".resources">
 				<img class="img imgMediumTemplate marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>	
+			
+			<!--  INSERIRE IL CONTROLLO - IF studente = GIORNALISTA viene indirizzato alla sua pagina, altrimenti archivio giornali -->
+			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" ng-click ="scenario.goToNewspaper()"  >
+				<img class="img imgMediumTemplate marginEmS" src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
+			</div>	
 		</div>
 		<div class="box hidden-xs visible-sm hidden-md hidden-lg">
 			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll || scenario.loggedUser.role.authority=='ROLE_ADMIN'">
@@ -81,18 +86,28 @@
 			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" data-ui-sref=".resources">
 				<img class="img imgSmallTemplate marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>	
+			
+			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" ng-click ="scenario.goToNewspaper()" >
+				<img class="img imgSmallTemplate marginEmS" src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
+			</div>	
+			
 		</div>
 		
 		<div class="row visible-xs hidden-sm hidden-md hidden-lg text-center">
-			<div style="cursor:pointer;" class="col-xs-4" data-ui-sref=".missions" >
+			<div style="cursor:pointer;" class="col-xs-3" data-ui-sref=".missions" >
 				<img class="img imgSmallTemplate " src="assets/public/img/icon/ic_hws.png">
 			</div>
-			<div style="cursor:pointer;" class="col-xs-4" data-ui-sref=".resources">
+			<div style="cursor:pointer;" class="col-xs-3" data-ui-sref=".resources">
 				<img class="img imgSmallTemplate " src="assets/public/img/icon/ic_mat_clip.png">
 			</div>	
-			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="col-xs-4 " data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll || scenario.loggedUser.role.authority=='ROLE_ADMIN'">
+			<div style="cursor:pointer;" data-ui-sref=".socialGraph" class="col-xs-3 " data-ng-if="scenario.isModerator || scenario.scen.showRelationsToAll || scenario.loggedUser.role.authority=='ROLE_ADMIN'">
 				<img class="img imgSmallTemplate" src="assets/public/img/icon/ic_socialgraph.png">
 			</div>
+			
+		   <div style="cursor:pointer;" ng-click ="scenario.goToNewspaper()"   class="col-xs-3" >
+				<img class="img imgSmallTemplate " src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
+			</div> 
+			
 		</div>
 		
 	</div>
@@ -213,6 +228,11 @@
 				<img class="img title marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>
 			
+			<div style="cursor:pointer" ng-click ="scenario.goToNewspaper()" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg">
+			
+				<img class="img title marginEmS" src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
+				
+			</div>
 			
 		</div>
 	</div>

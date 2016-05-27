@@ -1,0 +1,60 @@
+
+<div class="col-sm-12 line-6">
+</div>
+<!--title & subtitle -->
+<div class="col-sm-12">
+<div class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right 
+			wow bounceInUp "style="animation-delay: 1s;" >
+		<a style="cursor: pointer;"  data-placement="bottom"
+		ng-click = "articleTwoColumnsImg.goToDraft()" > 
+			<img
+	data-toggle="tooltip" title="Modifica articolo" 
+		src="/assets/public/img/newspaper-img/ic_edit_article.png"
+		class="img-mod-3">
+			</a>
+						</div>
+</div>
+
+<h3 id="title-art-img">{{articleTwoColumnsImg.article.title |
+	limitTo:27}}</h3>
+	
+	<warning-characters data-ng-if="articleTwoColumnsImg.showWarningTitle"
+	stylebox="up" edit="articleTwoColumnsImg.goToDraft()"
+	close="articleTwoColumnsImg.closeWarning('title')"></warning-characters>
+<div class="row">
+	<div class="col-sm-12 line-5">
+	</div>
+</div>
+<h5 id="subtitle-art-img">{{articleTwoColumnsImg.article.subtitle|
+	limitTo: 26}}</h5>
+	<warning-characters
+	data-ng-if="articleTwoColumnsImg.showWarningSubtitle" stylebox="up"
+	edit="articleTwoColumnsImg.goToDraft()"
+	close="articleTwoColumnsImg.closeWarning('subtitle')"></warning-characters>
+
+<label class="text-art" style="border: 2px solid #e2ddd0; margin: 0;">
+<span data-ng-if="articleTwoColumnsImg.article.city != ''" style= "font-family:serif;"> 
+            {{articleTwoColumnsImg.article.city}} - </span>
+	{{articleTwoColumnsImg.article.text.col1 | limitTo: 594}}</label>
+	<warning-characters
+	data-ng-if="articleTwoColumnsImg.showWarningTextCol1" stylebox="up"
+	edit="articleTwoColumnsImg.goToDraft()"
+	close="articleTwoColumnsImg.closeWarning('col1')"></warning-characters>
+
+<label class="text-art" style="border: 2px solid #e2ddd0;">
+	{{articleTwoColumnsImg.article.text.col2 | limitTo: 594}} </label>
+	<warning-characters
+	data-ng-if="articleTwoColumnsImg.showWarningTextCol2" stylebox="up"
+	edit="articleTwoColumnsImg.goToDraft()"
+	close="articleTwoColumnsImg.closeWarning('col2')"></warning-characters>
+
+<br />
+<div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
+<div class="img-container img-container-art">
+	<!-- Aggiungere classe enlarge dell'immagine quando il numero è pubblicato (cioè per chi legge) -->
+	<img src="{{articleTwoColumnsImg.article.image}}"
+		class="img-responsive img-article" /> <span
+		class="pull-right uploadImage glyphicon glyphicon-camera"></span>
+</div>
+
+

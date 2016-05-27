@@ -1,4 +1,4 @@
-angular.module('smiled.application').factory('modalService', ['$modal', 'apiService', function modalService($modal, apiService){
+angular.module('smiled.application').factory('modalService', ['$modal', 'apiService','$anchorScroll','$location',function modalService($modal, apiService, $anchorScroll, $location){
 	
 		var scenario = {
 				
@@ -38,6 +38,17 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceDeletePost;
 		var modalInstanceConfirmRegistration;
 		var modalInstanceConcurrentModPost;
+		var modalInstanceCreateTitle; 
+		var modalInstanceChooseTemplate;
+		
+		
+		var optionsChooseTemplate = {
+				templateUrl: 'assets/private/partials/chooseTemplate.html',
+				controller: 'dialogChooseTemplateCtrl',
+				controllerAs: 'dialogChooseTemplate',
+				size: 'md',
+				
+		}
 		
 		var optionsConcurrentModPost = {
 				templateUrl: 'assets/private/partials/concurrentModPostTemplate.html',
@@ -206,6 +217,18 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		};
 		
 		
+		// template MODAL NEWSPAPER 
+		
+		var showCreateTitle = {
+				
+				templateUrl: 'assets/private/partials/createTitle.html',
+				controller: 'dialogHeadlineCtrl',
+				controllerAs: 'dialogHeadline',
+				size: 'lg',
+				/*windowClass: 'center-modal'*/		
+		};
+		
+			
 		var showModalCreateScen = function(){
 			modalInstanceCreateScen = $modal.open(optionsCreateScen);
 			return modalInstanceCreateScen.result;
@@ -269,6 +292,17 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var closeModalDeleteCharacter = function(){
 			modalInstanceDeleteCharacter.close();
 		}
+		
+		// MODAL NEWSPAPER 
+		var showModalCreateTitle = function(){
+			modalInstanceCreateTitle = $modal.open(showCreateTitle);
+			return modalInstanceCreateTitle.result; 
+		}
+		
+		var closeModalCreateTitle = function(){
+			modalInstanceCreateTitle.close(); 
+		}
+			
 		
 		var createScenario = function(scenario){
 			 var history ={
@@ -391,6 +425,15 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceSetHistoryDate = $modal.open(optionSetHistoryDate);
 			return modalInstanceSetHistoryDate.result;
 		}
+		
+		
+		//datePicker Headline
+		var showModalSetNewspaperDate = function(sDate, eDate){
+			startDate = sDate;
+			endDate = eDate;
+			modalInstanceSetHistoryDate = $modal.open(optionSetHistoryDate);
+			return modalInstanceSetHistoryDate.result;
+		}
 	
 		var closeModalSetHistoryDate = function(){
 			modalInstanceSetHistoryDate.close();
@@ -443,6 +486,20 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var closeModalConcurrentModPost = function(){
 			modalInstanceConcurrentModPost.close();
 		}
+		
+		
+		
+		var showChooseTemplate = function(){
+			modalInstanceChooseTemplate = $modal.open(optionsChooseTemplate);
+			return modalInstanceChooseTemplate.result;
+			
+		}
+		
+		var closeModalShowChooseTemplate = function(){
+			modalInstanceChooseTemplate.close();
+			
+		}
+		
 			
 		return {
 			createScenario : createScenario,
@@ -482,7 +539,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			getRegistrationToConfirm : getRegistrationToConfirm,
 			closeModalConfirmRegistration : closeModalConfirmRegistration,
 			showConcurrentModPost: showConcurrentModPost,
-			closeModalConcurrentModPost : closeModalConcurrentModPost
+			closeModalConcurrentModPost : closeModalConcurrentModPost,
+			showChooseTemplate: showChooseTemplate,
+			closeModalShowChooseTemplate: closeModalShowChooseTemplate,
+			
+			showModalCreateTitle : showModalCreateTitle,
+			closeModalCreateTitle : closeModalCreateTitle,
+			showModalSetNewspaperDate: showModalSetNewspaperDate,
+			
 		}
 }]);
 

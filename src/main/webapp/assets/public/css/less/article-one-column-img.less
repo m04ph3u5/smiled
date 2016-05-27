@@ -1,0 +1,315 @@
+@import "colors.less";
+@import "mixins.less";
+@import "media-queries.less";
+
+@font-size-tablet: 18px; 
+.title-art-1col {
+	.article-title; 
+    background-color: #abbe90;
+    border-radius: 2px;
+    margin-left: 2px;
+    margin-top: 3%; 
+    font-size: 130%; 
+    background-image: url('dash_bg_gray.jpg');
+    background-size: cover;  
+    
+}
+
+.line-4{   
+   .line-cream;  
+}  
+
+.body-article{
+    margin-top: 1em;
+    .article-text;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6em;
+    font-size: 18px;
+    min-height: 1000px;  
+   
+      
+    @media @smartphones-sxx {
+    
+    font-size: 20px !important;  
+ 	min-height: 1200px !important;
+    
+    }
+    
+     @media @smartphones-sx {
+    
+    font-size: 20px !important;  
+ 	min-height: 610px !important;
+    
+    }
+    
+    @media @smartphones-sm {
+    
+    min-height: 680px;
+    font-size: 20px !important; 
+    }
+    
+    
+    @media @tablets-sxx {
+    
+    font-size: 18px !important;  
+ 	min-height: 690px !important; 
+    
+    
+    }
+    
+    @media @tablets-sx {
+    
+    min-height: 660px !important;
+    font-size: 18px !important; 
+    
+    }
+    
+    @media @tablets-md {
+    
+    min-height: 1190px !important; 
+    font-size: 18px !important; 
+    
+    }
+    
+    
+    @media @tablets-lg {
+    min-height: 1100px !important;
+	font-size: 18px !important; 
+	
+
+    }
+    
+    @media @desktop-sx {
+    
+    min-height: 970px;
+	font-size: 18px !important;    
+}
+    
+    
+    @media @desktop-md {
+    min-height: 1190px !important;
+    font-size: 18px !important;
+    
+    }
+    
+    
+    @media @desktop-lg {
+    
+    font-size: 18px !important;  
+ 	min-height: 1020px !important;
+    }
+    
+    @media @desktop-lg-xx{
+    font-size: 18px !important; 
+    min-height: 720px;     
+    }
+    
+    
+    @media @desktop-lg-xxx{
+    min-height: 710px !important; 
+    
+    }
+    
+}
+
+.img-container {
+  	padding: 0;  
+   .image-upload-container;
+    .background; 
+    /* background-color: black; */
+    
+   /*  @media @tablets-lg{
+    
+    margin-top: 7%; 
+    
+    }
+    
+    @media @desktop-lg{
+      margin-top: 8%; 
+    
+    } */
+}
+
+.img-container:hover{
+		display: block;
+		background: rgba(1, 1, 1, .6);
+}
+
+
+.uploadImage{	
+font-size: 3em; 
+margin-top: -40%;  
+margin-right: 45%; 
+width: 15%; 
+z-index:+1;	 display: none; 
+color: @medium-cream; 
+
+}
+
+.uploadImage:hover {
+	display: block; 
+	
+}
+
+.uploadImage-sm {
+font-size: 3em; 
+margin-top: -40%;  
+margin-right: 45%; 
+width: 15%; 
+z-index:+1;	
+color: @medium-cream; 
+	
+	
+}
+
+ .img-article:hover{
+	 .imageOpacityHover;
+}
+
+.img-article:hover + span.uploadImage {
+   display: block; 
+} 
+
+
+
+
+.enlarge:hover {
+	
+  -webkit-transform: scale(1.4);
+  -moz-transform: scale(1.4);
+  -o-transform: scale(1.4);
+  transform: scale(1.4);
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s; 
+  z-index: 999; 
+  display: block;  
+	
+}
+
+.body-text-temp2{
+	
+	margin-top: 1em;
+    .article-text;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6em;
+    font-size: 18px; 
+	
+	@media @smartphones-sxx {
+    min-height: 730px !important;
+    font-size: 20px !important;  
+  
+    
+    }
+    
+     @media @smartphones-sx {
+    min-height: 600px !important;
+    font-size: 20px !important;  
+ 	
+    
+    }
+    
+    @media @smartphones-sm {
+    
+    min-height: 480px !important;
+    font-size: 20px !important; 
+    }
+    
+    
+    @media @tablets-sxx {
+    min-height: 550px !important;
+    font-size: 18px !important;  
+ 	
+    
+    
+    }
+    
+    @media @tablets-sx {
+    
+    min-height: 530px !important;
+    font-size: 18px !important; 
+    
+    }
+    
+    @media @tablets-md {
+    
+    min-height: 450px !important;
+    font-size: 18px !important; 
+    
+    }
+    
+    
+    @media @tablets-lg {
+    min-height: 1100px !important;
+	font-size: 18px !important; 
+    }
+    
+    @media @desktop-sx {
+        min-height: 1010px !important;
+		font-size: 18px !important;    
+}
+    
+    
+    @media @desktop-md {
+    min-height: 1214px !important;
+    font-size: 18px !important;
+    
+    }
+    
+    
+    @media @desktop-lg {
+    min-height: 1020px !important;
+    font-size: 18px !important;  
+ 
+    }
+    
+    @media @desktop-lg-xx{
+    
+    font-size: 18px !important; 
+        
+    }
+    
+    
+    @media @desktop-lg-xxx{
+  	min-height: 750px !important;
+    font-size: 18px !important; 
+    }
+	
+	
+	}
+
+
+/*media adjustments&queries*/
+
+@media screen and (min-width: 400px) and (max-width: 599px) {
+		#body-article {    
+ 	font-size: 20px !important;  
+ 	min-height: 1070px; 
+
+	
+	}
+}
+
+
+@media screen and (min-width: 1000px) and (max-width: 1024px) {
+		#body-article {    
+ 	font-size: 18px;  
+ 	min-height: 1170px;
+
+	}
+}
+
+
+
+@media screen and (min-width: 1920px) and (max-width: 2024px) {
+		#body-article {    
+ 	font-size: 18px;  
+ 	min-height: 740px;
+
+	
+	}
+}
+ 
+
+
+
+

@@ -25,5 +25,7 @@
 		"bootstrap-switch":"latest",
 		"fox-angular-scrollReveal.js" : "latest",
 		"angular-bootstrap" : "latest"
-	}
+		
+}	
+	
 }

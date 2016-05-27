@@ -1,0 +1,29 @@
+<div class="modal-header">
+	<h3 class="modal-title">Scrivi il titolo del giornale</h3>
+</div>
+
+<div class="modal-body">
+
+	<div class="row">
+		<div class="col-sm-3">
+			<label> <strong> Titolo: </label>
+		</div>
+		<div class="col-sm-9">
+      		
+			<textarea id="modal-title" rows="1" data-ng-model="dialogHeadline.headline.title" 
+			placeholder="{{dialogHeadline.headline.title}}"> </textarea>
+			
+		</div>
+	</div>
+	<alertgeneric></alertgeneric>
+</div>
+
+
+
+<div class="modal-footer">
+
+	<button ng-disabled="dialogHeadline.invalidTitle" class="positiveButton btn" 
+	data-ng-click="dialogHeadline.setHeadline()"><span class="glyphicon glyphicon-floppy-save"></span>SALVA</button>
+	<button class="warningButton btn" data-ng-click="dialogHeadline.closeDialog()">ANNULLA</button>
+	
+</div>

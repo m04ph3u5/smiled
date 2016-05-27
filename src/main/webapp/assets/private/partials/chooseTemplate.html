@@ -1,0 +1,36 @@
+	<div class="modal-header">
+	<h3 class="modal-title">Scegli l'impaginazione del giornale!</h3>
+</div>
+
+<div class="modal-body">
+
+<div class ="row">
+ <div class="col-lg-12 col-sm-12 col-xs-12">
+ <div class= "col-lg-1 col-sm-1 col-xs-12"> </div>
+ <div class= "col-lg-9 col-sm-9">
+ <carousel interval="myInterval">
+     
+        <slide ng-repeat="slide in slides" active="slide.active">
+        <h4>Impaginazione {{$index+1}}</h4>
+        
+          <img class= "img responsive animated bounceInDown" style="width: 200%; height: 200%;" ng-src="{{slide.image}}">
+           <div class="carousel-caption">
+            <button  class="button-carousel animated bounceInUp" data-ng-click="dialogChooseTemplate.loadTemplate($index+1)"	
+             >Scegli</button>
+          </div>
+        </slide>  
+         
+      </carousel>
+      </div>
+ <div class= "col-lg-1 col-sm-1"> </div>
+ </div>     
+  </div> 
+
+</div> 
+
+
+<div class="modal-footer">
+ <div class="row" style="margin-bottom:0%; cursor: pointer">
+        <button class="warningButton btn" style="margin-right: 5%; background-color:#abbe90;" data-ng-click="$dismiss()">CHIUDI</button>
+        </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="container-fluid">
+
+	<div class="row row-centered">
+		<div class="col-sm-12" id="header">
+			<h4 id="page-title">Ora che hai scelto l'impaginazione del
+				numero inizia a scrivere gli articoli:</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div
+			class="col-lg-12 col-sm-12 col-md-12 col-xs-12 col-md-offset-0 giornale"
+			style="padding-bottom: 2%;">
+			<div class="row" style="padding: 7px;">
+				<headline-newspaper></headline-newspaper>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+					<article-column-image></article-column-image>
+
+					<article-one-column></article-one-column>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+					<article-one-column-img></article-one-column-img>
+					<div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<article-two-columns> </article-two-columns>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-10 col-xs-8">
+				<img style="width: 30%; margin-top: 3%;"
+					ng-src="assets/public/img/wizard/elimina.png">
+			</div>
+			<div class="col-sm-2 col-xs-4" style="margin-top: 4%;">
+				<a href="javascript:" id="return-to-top" data-toggle="tooltip"
+					title="Torna su"><i class="glyphicon glyphicon-chevron-up"
+					style="color: white;"></i></a>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
+
+<script>
+	//Go to top - script
+	$('#return-to-top').click(function() {
+		$('body,html').animate({
+			scrollTop : 0
+		}, 500);
+	});
+</script>
+
+<script>
+	new WOW().init();
+</script>

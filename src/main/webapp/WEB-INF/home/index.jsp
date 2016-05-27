@@ -19,14 +19,41 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.2/css/bootstrap-select.min.css">
 
 <link rel="stylesheet" href="/assets/public/css/lara-custom-meschola.css">
+
+<!-- CSS and LESS newspaper -->
+ <link rel="stylesheet/less" href="/assets/public/css/custom-newspaper.less">
+<link rel="stylesheet/less" href="/assets/public/css/less/colors.less"> 
+<link rel="stylesheet/less" href="/assets/public/css/less/mixins.less">
+<link rel="stylesheet/less" href="/assets/public/css/less/media-queries.less">
+<link rel="stylesheet/less" href="/assets/public/css/less/article-two-columns.less">
+<link rel="stylesheet/less" href="/assets/public/css/less/article-one-column-img.less">
+<link rel="stylesheet/less" href="/assets/public/css/less/article-two-columns-img.less">
+<link rel="stylesheet/less" href="/assets/public/css/less/article-column-image.less">
+<link rel="stylesheet/less" href="/assets/public/css/less/article-one-column.less">
+<link rel="stylesheet" href="/assets/public/css/carousel.css">
+<link rel="stylesheet" href="/assets/public/css/animate.css">
+<script  type="text/javascript" src="/assets/public/js/vendor/less/less.js"></script>
+<script  type="text/javascript" src="/assets/public/js/vendor/wow.js"></script>
+
 <!-- Own Style file MIN -->
 <link rel="stylesheet" href="/assets/public/css/meschola.min.css">
+
 
   <!-- Google Web Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet'
         type='text/css'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+
+  <!-- Fonts newspaper -->
+    <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montaga' rel='stylesheet' type='text/css'>
+    
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+  	<link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet' type='text/css'>
+  	<link href='https://fonts.googleapis.com/css?family=Patrick+Hand' rel='stylesheet' type='text/css'>
+  
 
 <title data-ng-bind="$state.current.data.pageTitle">Meschola</title>    
 
@@ -85,8 +112,129 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/p5.min.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.min.js" type="text/javascript"></script>
 	<script src="/assets/public/js/support/datepicker.min.js"></script>
+	
 
-	<script src="/assets/public/build/meschola_1.min.js"></script>
+<!-- CUSTOM SCRIPT -->
+	<script src="/assets/public/js/app.js"></script>
+	<script src="/assets/public/js/router.js"></script>
+	<script src="/assets/public/js/controllers/mainController.js"></script>
+	<script src="/assets/public/js/controllers/loggedController.js"></script>
+	<script src="/assets/public/js/controllers/loginController.js"></script>
+	<script src="/assets/public/js/controllers/registerController.js"></script>
+	<script src="/assets/public/js/controllers/setPasswordController.js"></script>
+	<script src="/assets/public/js/controllers/registrationConfirmController.js"></script>
+	<script src="/assets/public/js/controllers/dashboardController.js"></script>
+	<script src="/assets/public/js/controllers/dashboardAdminController.js"></script>
+	<script src="/assets/public/js/controllers/scenariosListController.js"></script>
+	<script src="/assets/public/js/controllers/scenarioWizardController.js"></script>
+	<script src="/assets/public/js/controllers/navbarController.js"></script>
+	<script src="/assets/public/js/controllers/updateScenarioController.js"></script>
+	<script src="/assets/public/js/controllers/scenarioController.js"></script>
+	<script src="/assets/public/js/controllers/scenarioPostController.js"></script>
+	<script src="/assets/public/js/controllers/singlePostController.js"></script>
+	<script src="/assets/public/js/controllers/scenarioCharactersController.js"></script>
+	<script src="/assets/public/js/controllers/scenarioMapController.js"></script>
+	<script src="/assets/public/js/controllers/personalProfileController.js"></script>
+	<script src="/assets/public/js/controllers/notificationController.js"></script>
+	<script src="/assets/public/js/controllers/studentsListController.js"></script>
+	<script src="/assets/public/js/controllers/colleaguesListController.js"></script>
+	<script src="/assets/public/js/controllers/filesListController.js"></script>
+	<script src="/assets/public/js/controllers/characterProfileController.js"></script>
+	<script src="/assets/public/js/controllers/dialogScenarioController.js"></script>
+	<script src="/assets/public/js/controllers/dialogMissionController.js"></script>
+	<script src="/assets/public/js/controllers/dialogSetDateController.js"></script>
+	<script src="/assets/public/js/controllers/scenarioStorylineController.js"></script>
+	<script src="/assets/public/js/controllers/openMapController.js"></script>
+	<script src="/assets/public/js/controllers/openMapForPostController.js"></script>
+	<script src="/assets/public/js/controllers/issuesController.js"></script>	
+	<script src="/assets/public/js/controllers/customDatePickerTemplateController.js"></script>	
+	<script src="/assets/public/js/controllers/oldCharacterChangeOnCommentController.js"></script>	
+	<script src="/assets/public/js/controllers/toolMapController.js"></script>	
+	<script src="/assets/public/js/controllers/scenarioMissionsCtrl.js"></script>	
+	<script src="/assets/public/js/controllers/scenarioResourcesController.js"></script>	
+	<script src="/assets/public/js/controllers/deleteResourceController.js"></script>	
+	<script src="/assets/public/js/controllers/personalMissionController.js"></script>	
+	<script src="/assets/public/js/controllers/draftsListController.js"></script>	
+	<script src="/assets/public/js/controllers/editDraftController.js"></script>	
+	<script src="/assets/public/js/controllers/forgotController.js"></script>	
+	
+	<!-- NEWSPAPER CONTROLLERS -->
+	
+	<script src="/assets/public/js/controllers/firstTemplateController.js"></script>
+	<script src="/assets/public/js/controllers/secondTemplateController.js"></script>
+	<script src="/assets/public/js/controllers/draftController.js"></script>
+	<script src="/assets/public/js/controllers/dialogHeadlineController.js"></script>
+	<script src="/assets/public/js/controllers/dashboardNewspaperController.js"></script>
+	<script src="/assets/public/js/controllers/dialogChooseTemplateController.js"></script>
+	
+	<script src="/assets/public/js/services/userService.js"></script>
+	<script src="/assets/public/js/services/notifyService.js"></script>
+	<script src="/assets/public/js/services/messageService.js"></script>
+	<script src="/assets/public/js/services/webSocketService.js"></script>	
+	<script src="/assets/public/js/services/apiService.js"></script>
+	<script src="/assets/public/js/services/modalService.js"></script>
+	<script src="/assets/public/js/services/alertingLogin.js"></script>
+	<script src="/assets/public/js/services/alertingGeneric.js"></script>
+	<script src="/assets/public/js/services/alertingScenario.js"></script>
+	<script src="/assets/public/js/services/constantService.js"></script>
+	<script src="/assets/public/js/services/alertingRegistration.js"></script>
+	<script src="/assets/public/js/services/unauthorizedInterceptor.js"></script>
+	<script src="/assets/public/js/services/dateUtil.js"></script>
+	<script src="/assets/public/js/services/social-graph-sketch.js"></script>
+	
+	<!-- SERVICE ARTICLES NEWSPAPER - Storage -->
+	
+	<script src="/assets/public/js/services/article.js"></script>
+	
+	<script src="/assets/public/js/directives/alertLogin.js"></script>
+	<script src="/assets/public/js/directives/showOnHoverParent.js"></script> 
+	<script src="/assets/public/js/directives/hideOnHoverParent.js"></script> 
+	<script src="/assets/public/js/directives/insertStatus.js"></script> 
+	<script src="/assets/public/js/directives/insertMission.js"></script> 
+	<script src="/assets/public/js/directives/insertEvent.js"></script> 
+	<script src="/assets/public/js/directives/insertPost.js"></script> 
+	<script src="/assets/public/js/directives/tagBox.js"></script> 
+	<script src="/assets/public/js/directives/alertRegistration.js"></script>
+	<script src="/assets/public/js/directives/alertGeneric.js"></script>
+	<script src="/assets/public/js/directives/alertScenario.js"></script>
+	<script src="/assets/public/js/directives/workSpinner.js"></script> 
+	<script src="/assets/public/js/directives/historicalDatePicker.js"></script>
+	<script src="/assets/public/js/directives/showNewsPost.js"></script>
+	<script src="/assets/public/js/directives/summarizeInfoPost.js"></script>
+	<script src="/assets/public/js/directives/likeTo.js"></script>
+	<script src="/assets/public/js/directives/commentTo.js"></script>
+	<script src="/assets/public/js/directives/metaCommentTo.js"></script>
+	<script src="/assets/public/js/directives/errSrc.js"></script>
+	<script src="/assets/public/js/directives/pin-point-canvas.js"></script>
+	<script src="/assets/public/js/directives/bsSwitch.js"></script>
+	<script src="/assets/public/js/directives/updatePostOnScroll.js"></script>
+	<script src="/assets/public/js/directives/mapPostView.js"></script>
+	<script src="/assets/public/js/directives/mapScenario.js"></script>
+	<script src="/assets/public/js/directives/customDatePicker.js"></script>
+	<script src="/assets/public/js/directives/userCard.js"></script>
+	<script src="/assets/public/js/directives/editDraftPost.js"></script>
+	<script src="/assets/public/js/directives/blurElement.js"></script>
+	
+	<script src="/assets/public/js/controllers/dialogConfirmRegistrationController.js"></script>
+	
+<!--  	CUSTOM SCRIPT WRAPPING  -->
+	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>  
+	<script src="/assets/public/js/wrapping/requestCounter.js"></script>
+	<script src="/assets/public/js/wrapping/stateChangeErrors.js"></script>
+	
+	<!-- Custom NEWSPAPER DIRECTIVES -->
+    <script src="/assets/public/js/directives/headlineNewspaper.js"></script> 
+   	<script src="/assets/public/js/directives/articleTwoColumns.js"></script> 
+   	<script src="/assets/public/js/directives/articleOneColumnImg.js"></script> 
+   	<script src="/assets/public/js/directives/articleTwoColumnsImg.js"></script>
+   	<script src="/assets/public/js/directives/articleColumnImage.js"></script>
+   	<script src="/assets/public/js/directives/articleOneColumn.js"></script>
+   	<script src="/assets/public/js/directives/warningCharacters.js"></script> 
+   		
+   	<script src="/assets/public/js/directives/alertArticle.js"></script> 
+
+	<!--   <script src="/assets/public/build/meschola_1.min.js"></script> -->
+	
 	
 	<!-- SCRIPT PER VETRINA -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js" type="text/javascript"></script>

@@ -1,0 +1,68 @@
+<div class="col-sm-12 col-xs-12 line-cream" style="margin-top: 2%;">
+</div>
+<div class="col-sm-12">
+<!-- edit icon -->
+	<div class="col-xs-4 col-sm-4
+	visible-xs visible-sm visible-md visible-lg pull-right wow bounceInUp"
+		style="margin-top: 25px;" >
+				<a style="cursor: pointer" ng-click = "articleColumnImage.goToDraft()"
+			> <img
+		data-toggle="tooltip" title="Modifica articolo" 
+		src="/assets/public/img/newspaper-img/ic_edit_article.png"
+		class="img-mod-2">
+			</a>
+	</div>
+	</div>
+<h3 id="title-art-img">{{articleColumnImage.article.title}}</h3>
+<div class="col-sm-12 line-5"></div>
+<h5 id="subtitle-art">{{articleColumnImage.article.subtitle}}</h5>
+<div class="row">
+	
+	<div class="col-sm-12 col-md-12">
+		<div class="embedded-image-container col-sm-4 col-md-6 col-lg-6" 
+		style="align:left; margin-top:4%;"> 
+		<img
+				src="assets/public/img/newspaper-img/ic_photo_default-vertical.jpg"
+				class="img-responsive img-article"> 
+				<span 
+				class="
+				pull-right uploadImage glyphicon glyphicon-camera"
+				style="margin-top: -60%; margin-right: 50%;">
+				</span>
+				
+		</div>
+		<p class= "text-container-artimg" style="cursor: pointer;" data-ng-click="articleColumnImage.goToDraft()"> 
+		   <span data-ng-if="articleColumnImage.article.city != ''" style= "font-family:serif;"> 
+            {{articleColumnImage.article.city}} - </span>
+			{{articleColumnImage.article.text}} </p>
+		
+</div>		
+		
+<!-- 		<label class="text-container-artimg" style="cursor: pointer;"
+			ng-click="articleColumnImage.goToDraft()"> 
+			
+				<span
+			class="col-lg-6 col-md-6 col-sm-6 col-xs-6 embedded-image-container"
+			style="margin-top: 4%; margin-right: 2%;"> <img
+				src="assets/public/img/newspaper-img/ic_photo_default-vertical.jpg"
+				class="img-responsive img-article"> <span
+				class="pull-right uploadImage glyphicon glyphicon-camera"
+				style="margin-top: -60%; margin-right: 50%;"></span>
+		</span> 
+			
+			{{articleColumnImage.article.text}}
+			
+		
+		
+		</label> -->
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+
+
