@@ -43,6 +43,7 @@ import it.polito.applied.smiled.pojo.ResetPasswordToken;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
 import it.polito.applied.smiled.pojo.Suggestion;
+import it.polito.applied.smiled.pojo.newspaper.Newspaper;
 import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
@@ -513,6 +514,16 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 	
 	@Override
+	public Reference getUserReferenceById(String id) throws UserNotFoundException {
+		User u= userRepository.findById(id);
+		if(u==null)
+			throw new UserNotFoundException();
+		Reference r =new Reference(u);
+		
+		return r;
+	}
+	
+	@Override
 	public UserDTO getUserByEmail(String email) throws UserNotFoundException {
 		User u= userRepository.findByEmail(email);
 		if(u==null)
@@ -618,6 +629,18 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public void removeScenarioAndSaveInBlockedList(String userToDelete,
 			String id) {
 		userRepository.removeScenarioAndSaveInBlockedList(userToDelete, id);
+		
+	}
+	
+	@Override
+	public void removeJournalistPermission(String userId, String scenarioId) {
+		permissionEvaluator.removeOnePermission(userId, Newspaper.class, scenarioId);
+		
+	}
+
+	@Override
+	public void addJournalistPermission(String userId, String scenarioId) {
+		permissionEvaluator.addPermission(userId, Newspaper.class, "WRITE", scenarioId);
 		
 	}
 
@@ -841,6 +864,10 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public Page<Suggestion> getAllSuggestions(Integer nPag, Integer nItem) throws BadRequestException {
 		return suggestionRepository.getPagingSuggestions(nPag, nItem);
 	}
+
+	
+
+	
 	
 	
 }

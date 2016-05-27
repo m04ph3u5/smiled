@@ -47,6 +47,8 @@
 				<span data-ng-if="!scenario.scen.characters"><label>0</label> personaggi<br></span>
 				<span data-ng-if="scenario.scen.collaborators"><label>{{scenario.scen.collaborators.length}}</label> collaboratori<br></span>
 				<span data-ng-if="!scenario.scen.collaborators"><label>0</label> collaboratori<br></span>
+				<h5 data-ng-if="scenario.scen.newspaperEnabled"><hr> Giornale attivo</h5>
+				<span data-ng-if="scenario.scen.actualJournalist">Giornalista: </span> {{scenario.scen.actualJournalist.firstname}} {{scenario.scen.actualJournalist.lastname}}
 			
 			
 			<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
@@ -188,7 +190,9 @@
 					<span data-ng-if="!scenario.scen.characters"><label>0</label> personaggi<br></span>
 					<span data-ng-if="scenario.scen.collaborators"><label>{{scenario.scen.collaborators.length}}</label> collaboratori<br></span>
 					<span data-ng-if="!scenario.scen.collaborators"><label>0</label> collaboratori<br></span>
-				
+					<h5 data-ng-if="scenario.scen.newspaperEnabled"><hr> Giornale attivo</h5>
+				    <span data-ng-if="scenario.scen.actualJournalist"><u>Giornalista:</u> </span> {{scenario.scen.actualJournalist.firstname}} {{scenario.scen.actualJournalist.lastname}}
+			
 				
 				<div data-ng-if="scenario.isModerator" data-ui-sref="logged.scenarioWizard.info({id: '{{scenario.scen.id}}'})">
 					<hr>

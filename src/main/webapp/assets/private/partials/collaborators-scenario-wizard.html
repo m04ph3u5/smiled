@@ -6,7 +6,7 @@
 	  	<input type="search" ng-model="scenarioWizard.selectedCollaborator" class="searchBar form-control input-medium search-query" placeholder="Cerca altri docenti" 
 	  		typeahead="t as t.lastname+' '+t.firstname for t in scenarioWizard.getPagedTeacherByRegex($viewValue) " 
 	  		typeahead-min-length='2' 
-	  		typeahead-on-select='scenarioWizard.addCollaborator(scenarioWizard.selectedCollaborator)'  
+	  		typeahead-on-select='scenarioWizard.addCollaborator()'  
 	  	typeahead-template-url="customTemplate.html" class="form-control">
 	 </div>
 </form>

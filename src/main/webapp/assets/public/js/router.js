@@ -578,20 +578,24 @@ angular.module('smiled.application')
 			templateUrl: "assets/private/partials/info-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.attendees',{
-			url : "/{id}/attendees",
+			url : "/{id}/partecipanti",
 			templateUrl: "assets/private/partials/attendees-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.characters',{
-			url : "/{id}/characters",
+			url : "/{id}/personaggi",
 			templateUrl: "assets/private/partials/characters-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.associations',{
-			url : "/{id}/associations",
+			url : "/{id}/associazioni",
 			templateUrl: "assets/private/partials/associations-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.collaborators',{
-			url : "/{id}/collaborators",
+			url : "/{id}/collaboratori",
 			templateUrl: "assets/private/partials/collaborators-scenario-wizard.html",
+		})
+		.state('logged.scenarioWizard.newspaper',{
+			url : "/{id}/giornale",
+			templateUrl: "assets/private/partials/newspaper-scenario-wizard.html",
 		})
 		
 //		.state('logout',{

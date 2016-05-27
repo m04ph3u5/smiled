@@ -1,7 +1,5 @@
 package it.polito.applied.smiled.dto;
 
-import it.polito.applied.smiled.pojo.Reference;
-
 public class ArticleDTO {
 
 	private String title;
@@ -9,11 +7,22 @@ public class ArticleDTO {
 	private String text1;
 	private String text2;
 	private String imageId;
-	private Reference user;
+	private int idArticleTemplate;
+	
 	private String city;
+	
 	public String getTitle() {
 		return title;
 	}
+	
+	public int getIdArticleTemplate() {
+		return idArticleTemplate;
+	}
+
+	public void setIdArticleTemplate(int idArticleTemplate) {
+		this.idArticleTemplate = idArticleTemplate;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -41,12 +50,7 @@ public class ArticleDTO {
 	public void setImageId(String imageId) {
 		this.imageId = imageId;
 	}
-	public Reference getUser() {
-		return user;
-	}
-	public void setUser(Reference user) {
-		this.user = user;
-	}
+	
 	public String getCity() {
 		return city;
 	}

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -112,6 +111,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Autowired
 	private NotifyService notify;
+	
+	@Autowired
+	private NewspaperService newspaperService;
 
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
@@ -122,9 +124,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(t==null)
 				throw new BadRequestException();			
 			Reference ref = new Reference(t);
-			System.out.println("scenarioDTO: "+ scenarioDTO.isShowRelationsToAll());
 			Scenario scenario = new Scenario(scenarioDTO,ref);
-			System.out.println("scenario: "+ scenario.isShowRelationsToAll());
 			scenario = scenarioRepository.insert(scenario);
 			int n = userRepository.createScenarioToUser(t.getId(),new ScenarioReference(scenario));
 			if(n!=1){
@@ -161,6 +161,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			//TODO controllare
 			u.set("showRelationsToAll", scenario.isShowRelationsToAll());
+			u.set("newspaperEnabled", scenario.isNewspaperEnabled());
+			
+			if(scenario.isNewspaperEnabled()==false){
+				newspaperService.updateJournalist(id, null);
+			}
 
 			if(scenario.getHistory()!=null){
 				if(scenario.getHistory().getDescription()!=null){
@@ -280,7 +285,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 							}
 						}
 					}
+					Reference newJournalist = scenarioUpdated.getActualJournalist();
 					notify.notifyOpenScenario(scenarioUpdated, r);
+					if(newJournalist!=null){
+						userService.addJournalistPermission(newJournalist.getId(), scenarioUpdated.getId());
+						notify.notifyNewJournalist(newJournalist, scenarioUpdated, newJournalist.getId());
+					}
+					
 				}
 			}
 

@@ -276,91 +276,98 @@ public class AsyncUpdater {
 		@Override
 		public void run(){
 			List<String> ids = new LinkedList<String>();
-			for(PostReference p : scenario.getPosts()){
-				ids.add(p.getId());
-			}
+			if(scenario.getPosts()!=null)
+				for(PostReference p : scenario.getPosts()){
+					ids.add(p.getId());
+				}
 			
 			String actualChar = "";
-			for(CharacterReference charRef : scenario.getCharacters()){
-				if(charRef.getUserId().equals(user.getId())){
-					actualChar=charRef.getId();
-					break;
-				}
-			}
-			List<Post> posts = postRepository.findByIds(ids);
-			for(Post p : posts){
-				if(p.getClass().equals(Status.class)){
-					Status s = (Status) p;
-					if(!actualChar.isEmpty()){
-						if(s.getUser().getId().equals(user.getId())){
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "p"+s.getId());
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
-							break;
-						}
-						List<Reference> tagged = s.getTags();
-						Reference charRef = new Reference();
-						charRef.setId(actualChar);
-						if(tagged.contains(actualChar)){
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "p"+s.getId());
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
-							break;
-						}
-						List<Comment> comments = s.getComments();
-						boolean founded=false;
-						for(Comment c : comments){
-							if(c.getUser().getId().equals(user.getId())){
-								brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
-								founded=true;
-								break;
-							}
-						}
-						if(founded)
-							break;
-					}
-					List<MetaComment> metaComments = s.getMetaComments();
-					for(MetaComment m : metaComments){
-						if(m.getUser().getId().equals(user.getId())){
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
-							break;
-						}
-					}
-				}else if(p.getClass().equals(Event.class)){
-					Event e = (Event) p;
-					if(e.getUser().getId().equals(user.getId())){
-						brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "p"+e.getId());
-						brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+e.getId());
+			if(scenario.getCharacters()!=null)
+				for(CharacterReference charRef : scenario.getCharacters()){
+					if(charRef.getUserId().equals(user.getId())){
+						actualChar=charRef.getId();
 						break;
 					}
-					if(!actualChar.isEmpty()){
-						List<Reference> tagged = e.getTags();
-						Reference charRef = new Reference();
-						charRef.setId(actualChar);
-						if(tagged.contains(actualChar)){
+				}
+			List<Post> posts = postRepository.findByIds(ids);
+			if(posts!=null)
+				for(Post p : posts){
+					if(p.getClass().equals(Status.class)){
+						Status s = (Status) p;
+						if(!actualChar.isEmpty()){
+							if(s.getUser().getId().equals(user.getId())){
+								brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "p"+s.getId());
+								brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
+								break;
+							}
+							List<Reference> tagged = s.getTags();
+							Reference charRef = new Reference();
+							charRef.setId(actualChar);
+							if(tagged.contains(actualChar)){
+								brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "p"+s.getId());
+								brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
+								break;
+							}
+							List<Comment> comments = s.getComments();
+							boolean founded=false;
+							if(comments!=null)
+								for(Comment c : comments){
+									if(c.getUser().getId().equals(user.getId())){
+										brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
+										founded=true;
+										break;
+									}
+								}
+							if(founded)
+								break;
+						}
+						List<MetaComment> metaComments = s.getMetaComments();
+						if(metaComments!=null)
+							for(MetaComment m : metaComments){
+								if(m.getUser().getId().equals(user.getId())){
+									brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+s.getId());
+									break;
+								}
+							}
+					}else if(p.getClass().equals(Event.class)){
+						Event e = (Event) p;
+						if(e.getUser().getId().equals(user.getId())){
 							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "p"+e.getId());
 							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+e.getId());
 							break;
 						}
-						List<Comment> comments = e.getComments();
-						boolean founded=false;
-						for(Comment c : comments){
-							if(c.getUser().getId().equals(user.getId())){
+						if(!actualChar.isEmpty()){
+							List<Reference> tagged = e.getTags();
+							Reference charRef = new Reference();
+							charRef.setId(actualChar);
+							if(tagged.contains(actualChar)){
+								brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "p"+e.getId());
 								brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+e.getId());
-								founded=true;
 								break;
 							}
+							List<Comment> comments = e.getComments();
+							boolean founded=false;
+							if(comments!=null)
+								for(Comment c : comments){
+									if(c.getUser().getId().equals(user.getId())){
+										brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+e.getId());
+										founded=true;
+										break;
+									}
+								}
+							if(founded)
+								break;
 						}
-						if(founded)
-							break;
-					}
-					List<MetaComment> metaComments = e.getMetaComments();
-					for(MetaComment m : metaComments){
-						if(m.getUser().getId().equals(user.getId())){
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+e.getId());
-							break;
-						}
+						List<MetaComment> metaComments = e.getMetaComments();
+						if(metaComments!=null)
+							for(MetaComment m : metaComments){
+								if(m.getUser().getId().equals(user.getId())){
+									brokerProducer.removeBinding(USER_QUEUE_PREFIX+user.getId(), "TOPIC", "pc"+e.getId());
+									break;
+								}
+							}
 					}
 				}
-			}
 		}
 	}
 	
@@ -380,74 +387,80 @@ public class AsyncUpdater {
 		@Override
 		public void run(){
 			List<String> ids = new LinkedList<String>();
-			for(PostReference p : scenario.getPosts()){
-				ids.add(p.getId());
-			}
+			if(scenario.getPosts()!=null)
+				for(PostReference p : scenario.getPosts()){
+					ids.add(p.getId());
+				}
 			List<Post> posts = postRepository.findByIds(ids);
-			for(Post p : posts){
-				if(p.getClass().equals(Status.class)){
-					Status s = (Status) p;
-					if(s.getCharacter().getId().equals(character.getId()) 
-							&& s.getUser().getId().equals(userId)){
-						brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "p"+s.getId());
-						brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+s.getId());
-						break;
-					}else{
-						List<Reference> tagged = s.getTags();
-						if(tagged.contains(new Reference(character))){
+			if(posts!=null)
+				for(Post p : posts){
+					if(p.getClass().equals(Status.class)){
+						Status s = (Status) p;
+						if(s.getCharacter().getId().equals(character.getId()) 
+								&& s.getUser().getId().equals(userId)){
 							brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "p"+s.getId());
 							brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+s.getId());
 							break;
-						}
-						List<Comment> comments = s.getComments();
-						boolean founded=false;
-						for(Comment c : comments){
-							if(c.getCharacter().equals(character.getId()) 
-								&& c.getUser().getId().equals(userId)){
+						}else{
+							List<Reference> tagged = s.getTags();
+							if(tagged.contains(new Reference(character))){
+								brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "p"+s.getId());
 								brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+s.getId());
-								founded=true;
 								break;
 							}
+							List<Comment> comments = s.getComments();
+							boolean founded=false;
+							if(comments!=null)
+								for(Comment c : comments){
+									if(c.getCharacter().equals(character.getId()) 
+										&& c.getUser().getId().equals(userId)){
+										brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+s.getId());
+										founded=true;
+										break;
+									}
+								}
+							if(founded)
+								break;
+							List<MetaComment> metaComments = s.getMetaComments();
+							if(metaComments!=null)
+								for(MetaComment m : metaComments){
+									if(m.getUser().getId().equals(userId)){
+										brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+s.getId());
+										break;
+									}
+								}
 						}
+					}else if(p.getClass().equals(Event.class)){
+						Event e = (Event) p;
+						List<Reference> tagged = e.getTags();
+						if(tagged.contains(new Reference(character))){
+							brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "p"+scenario.getId());
+							brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+scenario.getId());
+							break;
+						}
+						List<Comment> comments = e.getComments();
+						boolean founded=false;
+						if(comments!=null)
+							for(Comment c : comments){
+								if(c.getCharacter().equals(character.getId()) 
+									&& c.getUser().getId().equals(userId)){
+									brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+scenario.getId());
+									founded=true;
+									break;
+								}
+							}
 						if(founded)
 							break;
-						List<MetaComment> metaComments = s.getMetaComments();
-						for(MetaComment m : metaComments){
-							if(m.getUser().getId().equals(userId)){
-								brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+s.getId());
-								break;
+						List<MetaComment> metaComments = e.getMetaComments();
+						if(metaComments!=null)
+							for(MetaComment m : metaComments){
+								if(m.getUser().getId().equals(userId)){
+									brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+scenario.getId());
+									break;
+								}
 							}
-						}
-					}
-				}else if(p.getClass().equals(Event.class)){
-					Event e = (Event) p;
-					List<Reference> tagged = e.getTags();
-					if(tagged.contains(new Reference(character))){
-						brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "p"+scenario.getId());
-						brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+scenario.getId());
-						break;
-					}
-					List<Comment> comments = e.getComments();
-					boolean founded=false;
-					for(Comment c : comments){
-						if(c.getCharacter().equals(character.getId()) 
-							&& c.getUser().getId().equals(userId)){
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+scenario.getId());
-							founded=true;
-							break;
-						}
-					}
-					if(founded)
-						break;
-					List<MetaComment> metaComments = e.getMetaComments();
-					for(MetaComment m : metaComments){
-						if(m.getUser().getId().equals(userId)){
-							brokerProducer.removeBinding(USER_QUEUE_PREFIX+userId, "TOPIC", "pc"+scenario.getId());
-							break;
-						}
 					}
 				}
-			}
 		}
 	}
 	

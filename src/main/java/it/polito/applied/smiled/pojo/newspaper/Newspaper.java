@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.pojo.newspaper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import it.polito.applied.smiled.pojo.HistoricalDate;
-import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
 
 @Document
@@ -17,6 +17,7 @@ public class Newspaper {
 	private String name;
 	private HistoricalDate historicalDate;
 	private int idTemplate;
+	private Date creationDate;
 	private Date lastUpdate;
 	private int number;
 	private List<Article> articles;
@@ -25,11 +26,24 @@ public class Newspaper {
 	private PostStatus status;
 	private Date publishedDate;
 	
+	public Newspaper(){
+		super();
+		articles = new ArrayList<Article>();
+	}
 	
 	public String getId() {
 		return id;
 	}
 	
+	
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
 	public String getName() {
 		return name;
 	}

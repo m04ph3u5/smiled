@@ -7,6 +7,16 @@ public class NewspaperDTOPut {
 	private String name;
 	private HistoricalDate date;
 	
+	//booleano che se a true chiede di pubblicare il newspaper
+	private boolean publish;
+	
+	
+	public boolean getPublish() {
+		return publish;
+	}
+	public void setPublish(boolean publish) {
+		this.publish = publish;
+	}
 	public String getName() {
 		return name;
 	}

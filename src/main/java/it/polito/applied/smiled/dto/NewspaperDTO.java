@@ -11,7 +11,8 @@ public class NewspaperDTO {
 	private int idTemplate;
 	private String name;
 	private HistoricalDate date;
-	private Article article;
+	private ArticleDTO articleDTO;
+	
 	public int getIdTemplate() {
 		return idTemplate;
 	}
@@ -30,12 +31,13 @@ public class NewspaperDTO {
 	public void setDate(HistoricalDate date) {
 		this.date = date;
 	}
-	public Article getArticle() {
-		return article;
+	public ArticleDTO getArticleDTO() {
+		return articleDTO;
 	}
-	public void setArticle(Article article) {
-		this.article = article;
+	public void setArticleDTO(ArticleDTO articleDTO) {
+		this.articleDTO = articleDTO;
 	}
+	
 	
 	
 }

@@ -606,4 +606,16 @@ public class NotifyServiceImpl implements NotifyService{
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
 	}
 
+	@Override
+	public void notifyNewJournalist(Reference user, Scenario s, String senderId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyDeleteJournalist(Reference user, Scenario s, String senderId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

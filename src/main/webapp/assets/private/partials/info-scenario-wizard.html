@@ -11,7 +11,10 @@
 <label for="endDate">DATA FINE</label>
 <input style="cursor:pointer" id="endDate" type="text" class="form-control" placeholder="yyyy-MM-dd" readonly="readonly" data-ng-click="scenarioWizard.showPopUpSetDate(false)"
 		value="{{scenarioWizard.scenario.history.endDate.day}}/{{scenarioWizard.scenario.history.endDate.month}}/{{scenarioWizard.scenario.history.endDate.year}} {{scenarioWizard.scenario.history.endDate.afterChrist ? 'd.C.' : 'a.C.'}}"/>	
-
+<br>
+<label for="newspaperEnabled">Attiva giornale dello scenario</label>
+<input class="customCheckBox"  id="newspaperEnabled" type="checkbox"  data-ng-model="scenarioWizard.scenario.newspaperEnabled" name="newspaper-enabled" value="newspaper-enabled" />
+<br>
 <label for="showRelations">Grafo delle relazioni visibile anche agli studenti</label>
 <input class="customCheckBox"  id="showRelations" type="checkbox"  data-ng-model="scenarioWizard.scenario.showRelationsToAll" name="show-relations" value="show-relations" />
 <button class="generalButton1 btn pull-right" style="margin-top:5px;" data-ng-click="scenarioWizard.saveInfo()"><span class="glyphicon glyphicon-floppy-save"></span> SALVA</button>
