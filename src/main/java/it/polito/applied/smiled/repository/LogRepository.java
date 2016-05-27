@@ -9,7 +9,7 @@ import it.polito.applied.smiled.pojo.Log;
 public interface LogRepository extends MongoRepository<Log, String>, CustomLogRepository{
 
 	public List<Log> findByUserId(String userId);
-	public List<Log> findByScenarioId(String scenarioId);
-	public List<Log> findByUserIdAndScenarioId(String userId, String scenarioId);
+//	public List<Log> findByScenarioId(String scenarioId);
+//	public List<Log> findByUserIdAndScenarioId(String userId, String scenarioId);
 	
 }

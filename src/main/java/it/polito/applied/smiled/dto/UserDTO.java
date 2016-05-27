@@ -1,18 +1,15 @@
 package it.polito.applied.smiled.dto;
 
+import java.util.Date;
+import java.util.List;
+
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.Role;
 import it.polito.applied.smiled.pojo.ScenarioReference;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.pojo.user.UserStatus;
 import it.polito.applied.smiled.pojo.user.Student;
 import it.polito.applied.smiled.pojo.user.Teacher;
 import it.polito.applied.smiled.pojo.user.User;
-import it.polito.applied.smiled.pojo.user.UserOpenScenario;
 import it.polito.applied.smiled.pojo.user.UserProfile;
-
-import java.util.Date;
-import java.util.List;
 
 public class UserDTO {
 	
@@ -70,6 +67,8 @@ public class UserDTO {
 	}
 
 	
+	
+
 	public boolean isAgree() {
 		return agree;
 	}

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mongodb.MongoException;
 
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.pojo.InfoStatistics;
 import it.polito.applied.smiled.pojo.Log;
 import it.polito.applied.smiled.pojo.LogSession;
 import it.polito.applied.smiled.pojo.LogType;
@@ -491,9 +492,9 @@ public class LogServiceImpl implements LogService{
 	}
 
 	@Override
-	public Page<Log> getAllLogs(Integer nPag, Integer nItem) throws BadRequestException {
+	public Page<Log> getAllLogs(Date start, Date end, LogType type, Integer nPag, Integer nItem) throws BadRequestException {
 		try{
-			Page<Log> logs = logRepo.getPagingLogs(nPag, nItem);
+			Page<Log> logs = logRepo.getPagingLogs(start, end, type, nPag, nItem);
 			return logs;
 		}catch(MongoException e ){
 			throw e;
@@ -506,6 +507,91 @@ public class LogServiceImpl implements LogService{
 		try{
 			Page<RegistrationToken> reg = regRepo.getPagedRegistrationRequests(nPag, nItem);
 			return reg;
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public Page<Log> getAllLogsOfUser(Date start, Date end, String userId, LogType type, Integer nPag, Integer nItem) throws BadRequestException {
+		try{
+			Page<Log> logs = logRepo.findByUserInDateAndType(userId, start, end, type, nPag, nItem);
+			return logs;
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public Page<Log> getAllLogsOfScenario(Date start, Date end, String scenarioId, LogType type, Integer nPag, Integer nItem) throws BadRequestException {
+		try{
+			Page<Log> logs = logRepo.findByScenarioInDateAndType(scenarioId, start, end, type, nPag, nItem);
+			return logs;
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public Page<Log> getAllLogsOfUserInScenario(Date start, Date end, String userId, String scenarioId, LogType type, Integer nPag, Integer nItem)
+			throws BadRequestException {
+		try{
+			Page<Log> logs = logRepo.findByUserAndScenarioInDateAndType(userId,scenarioId, start, end, type, nPag, nItem);
+			return logs;
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public long numOfLogOfUser(String userId) throws BadRequestException {
+		try{
+			return logRepo.numLogOfUser(userId);
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public long numOfLogOfScenario(String scenarioId) throws BadRequestException {
+		try{
+			return logRepo.numLogOfScenario(scenarioId);
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public long numOfLogOfUserInScenario(String userId, String scenarioId) throws BadRequestException {
+		try{
+			return logRepo.numLogOfUserInScenario(userId, scenarioId);
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public InfoStatistics getInfoStatisticsUser(String userId) throws BadRequestException {
+		try{
+			return logRepo.getInfoStatisticsUser(userId);
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public InfoStatistics getInfoStatisticsScenario(String scenarioId) throws BadRequestException {
+		try{
+			return logRepo.getInfoStatisticsScenario(scenarioId);
+		}catch(MongoException e ){
+			throw e;
+		}
+	}
+
+	@Override
+	public InfoStatistics getInfoStatisticsUserInScenario(String userId, String scenarioId) throws BadRequestException {
+		try{
+			return logRepo.getInfoStatisticsUserInScenario(userId, scenarioId);
 		}catch(MongoException e ){
 			throw e;
 		}

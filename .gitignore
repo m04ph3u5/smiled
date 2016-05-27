@@ -1,3 +1,4 @@
 /target/
 src/main/resources/application.properties
 src/main/webapp/WEB-INF/web.xml
+.DS_Store

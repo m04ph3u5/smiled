@@ -1,36 +1,5 @@
 package it.polito.applied.smiled.controllerRest;
 
-import it.polito.applied.smiled.dto.ChangePasswordDTO;
-import it.polito.applied.smiled.dto.EmailDTO;
-import it.polito.applied.smiled.dto.FirstPasswordDTO;
-import it.polito.applied.smiled.dto.RegisterTeacherDTO;
-import it.polito.applied.smiled.dto.UpdateUserDTO;
-import it.polito.applied.smiled.dto.UserDTO;
-import it.polito.applied.smiled.exception.BadCredentialsException;
-import it.polito.applied.smiled.exception.BadRequestException;
-import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
-import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
-import it.polito.applied.smiled.exception.UserAlreadyExistsException;
-import it.polito.applied.smiled.exception.UserNotFoundException;
-import it.polito.applied.smiled.pojo.EmailAddress;
-import it.polito.applied.smiled.pojo.ExceptionOnClient;
-import it.polito.applied.smiled.pojo.Id;
-import it.polito.applied.smiled.pojo.Issue;
-import it.polito.applied.smiled.pojo.Log;
-import it.polito.applied.smiled.pojo.Message;
-import it.polito.applied.smiled.pojo.Reference;
-import it.polito.applied.smiled.pojo.RegistrationToken;
-import it.polito.applied.smiled.pojo.Suggestion;
-import it.polito.applied.smiled.pojo.scenario.Post;
-import it.polito.applied.smiled.pojo.scenario.Scenario;
-import it.polito.applied.smiled.pojo.user.User;
-import it.polito.applied.smiled.rabbit.Notification;
-import it.polito.applied.smiled.rabbit.NotifyService;
-import it.polito.applied.smiled.security.CustomUserDetails;
-import it.polito.applied.smiled.service.LogService;
-import it.polito.applied.smiled.service.UserService;
-import it.polito.applied.smiled.validator.UserDTOValidator;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +25,39 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.MongoException;
+
+import it.polito.applied.smiled.dto.ChangePasswordDTO;
+import it.polito.applied.smiled.dto.EmailDTO;
+import it.polito.applied.smiled.dto.FirstPasswordDTO;
+import it.polito.applied.smiled.dto.RegisterTeacherDTO;
+import it.polito.applied.smiled.dto.UpdateUserDTO;
+import it.polito.applied.smiled.dto.UserDTO;
+import it.polito.applied.smiled.exception.BadCredentialsException;
+import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.InvalidRegistrationTokenException;
+import it.polito.applied.smiled.exception.RegistrationTokenExpiredException;
+import it.polito.applied.smiled.exception.UserAlreadyExistsException;
+import it.polito.applied.smiled.exception.UserNotFoundException;
+import it.polito.applied.smiled.pojo.EmailAddress;
+import it.polito.applied.smiled.pojo.ExceptionOnClient;
+import it.polito.applied.smiled.pojo.Id;
+import it.polito.applied.smiled.pojo.InfoStatistics;
+import it.polito.applied.smiled.pojo.Issue;
+import it.polito.applied.smiled.pojo.Log;
+import it.polito.applied.smiled.pojo.LogType;
+import it.polito.applied.smiled.pojo.Message;
+import it.polito.applied.smiled.pojo.Reference;
+import it.polito.applied.smiled.pojo.RegistrationToken;
+import it.polito.applied.smiled.pojo.Suggestion;
+import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.Scenario;
+import it.polito.applied.smiled.pojo.user.User;
+import it.polito.applied.smiled.rabbit.Notification;
+import it.polito.applied.smiled.rabbit.NotifyService;
+import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.service.LogService;
+import it.polito.applied.smiled.service.UserService;
+import it.polito.applied.smiled.validator.UserDTOValidator;
 
 @RestController
 public class UserController extends BaseController{
@@ -462,13 +464,74 @@ public class UserController extends BaseController{
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/v1/log", method=RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public Page<Log> getAllLogs(@RequestParam(value = "nPag", required=false) Integer nPag, 
-			@RequestParam(value = "nItem", required=false) Integer nItem) throws MongoException, BadRequestException{
+	public Page<Log> getAllLogs(@RequestParam(value = "start", required=false) Long start, @RequestParam(value = "end", required=false) Long end, 
+			@RequestParam(value = "type", required=false) LogType type,  @RequestParam(value = "nPag", required=false) Integer nPag, 
+			@RequestParam(value = "nItem", required=false) Integer nItem,
+			@RequestParam(value = "idUser", required=false) String idUser,
+			@RequestParam(value = "idScenario", required=false) String idScenario) throws MongoException, BadRequestException{
 		if(nPag==null)
 			nPag=0;
 		if(nItem==null || nItem>(maxItem) || nItem<=0)
 			nItem=(maxItem);
-		return logService.getAllLogs(nPag, nItem);
+		Date s=null, e=null;
+		if(start!=null){
+			s = new Date(start);
+		}
+		if(end!=null){
+			e = new Date(end);
+		}
+		
+		
+		if(idUser==null && idScenario==null){
+			return logService.getAllLogs(s, e, type, nPag, nItem);
+		}
+		else if(idUser!=null && idScenario==null){
+			return logService.getAllLogsOfUser(s, e, idUser, type, nPag, nItem);
+		}else if(idUser==null && idScenario!=null){
+			return logService.getAllLogsOfScenario(s, e, idScenario, type, nPag, nItem);
+		}else{
+			return logService.getAllLogsOfUserInScenario(s, e, idUser, idScenario, type, nPag, nItem);
+		}
+		
+	}
+	
+	/*
+	 *  InfoStatistics è un oggetto che fornisce un riepilogo dei log prodotti
+	 *  ed ha i seguenti campi:
+	 *  private long numPost;
+		private long numComment;
+		private long numMetaComment;
+		private long numFile;
+		private long numLike;
+	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/infoStatisticsUser/{id}", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public InfoStatistics getInfoStatisticsUser(@PathVariable String id) throws MongoException, BadRequestException{
+		if(id==null)
+			throw new BadRequestException();
+		return logService.getInfoStatisticsUser(id);
+		
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/infoStatisticsScenario/{id}", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public InfoStatistics getInfoStatisticsScenario(@PathVariable String id) throws MongoException, BadRequestException{
+		if(id==null)
+			throw new BadRequestException();
+		return logService.getInfoStatisticsScenario(id);
+		
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/v1/infoStatisticsScenario/{scenarioId}/user/{userId}", method=RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public InfoStatistics getInfoStatisticsUserInScenario(@PathVariable String scenarioId, @PathVariable String userId) throws MongoException, BadRequestException{
+		if(scenarioId==null || userId == null)
+			throw new BadRequestException();
+		return logService.getInfoStatisticsUserInScenario(userId, scenarioId);
+		
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

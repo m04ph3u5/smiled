@@ -29,8 +29,16 @@ public class ScenarioDTO {
 	
 	private boolean showRelationsToAll;
 	
+	private boolean newspaperEnabled;
 	
 	
+	
+	public boolean isNewspaperEnabled() {
+		return newspaperEnabled;
+	}
+	public void setNewspaperEnabled(boolean newspaperEnabled) {
+		this.newspaperEnabled = newspaperEnabled;
+	}
 	public String getName() {
 		return name;
 	}

@@ -67,13 +67,45 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.noMoreissues = "";
 	
 	
+	
 	var mapOfUsersInLog = {};
 	var mapOfScenariosInLog = {};
-
-
 	
+	/*
+	 * INIZIO-----------------------------------------------------------Seleziona intervallo date per i log
+	 */
+	self.showTwoCal=false;
+	var today = new Date();
+	self.dateStartOptions = {
+			"regional" : "it",
+			"minDate" : new Date(2015,0,1,0,0,0,0),
+			"maxDate" : today,
+		    "numberOfMonths": 1
+	};
+	self.dateEndOptions = {
+			"regional" : "it",
+			"minDate" : new Date(2015,0,1,0,0,0,0),
+			"maxDate" : today,
+            "numberOfMonths": 1
+	};
+	
+	var weekAgo = new Date();
+	weekAgo.setDate(weekAgo.getDate()-7);
+	self.dateEnd=today;
+	self.dateStart=weekAgo;
+	/*
+	 * FINE-----------------------------------------------------------Seleziona intervallo date per i log
+	 */
+	self.typeOfLog="ALL";
 	var count = 0;
 
+	self.getCodedName = function(name){
+		if(name)
+			return encodeURIComponent(name);
+		else
+			return "";
+	}
+	
 	self.whoIsUser = function(l){
 		
 		
@@ -304,6 +336,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
     	);
 	}
 	
+	
+	
 	self.searchUsersByFirstNameAndLastName = function(){
 		
 		if( ( self.firstName==null || self.firstName=="" ) &&
@@ -405,7 +439,19 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 	self.searchLogs = function(){
 		if(self.nItemLogs>maxItemDefault)
 			self.nItemLogs=maxItemDefault;
-		apiService.getPagedLogs(self.nPagLogs, self.nItemLogs).then(
+		var start=null;
+		var end = null;
+		var type=null;
+		console.log("searchLogs");
+		console.log(self.typeOfLog);
+		type=self.typeOfLog;
+		if(type=="ALL")
+			type=null;
+		if(self.showTwoCal){
+			start = self.dateStart;
+			end = self.dateEnd;
+		}
+		apiService.getPagedLogs(start, end, type, self.nPagLogs, self.nItemLogs, null, null).then(
     			function(data){
     				self.numLogsFounded= data.totalElements;
     				self.myListOfLogs = data.content;
@@ -506,6 +552,8 @@ angular.module('smiled.application').controller('dashboardAdminCtrl', ['loggedUs
 		self.nPagLogs=0;
 		self.noMoreLogs = "";
 		self.numLogsFounded=0;
+		self.showTwoCal=false;
+		self.typeOfLog="ALL";
 	}
 	self.resetScenarios = function(){
 		self.myListOfScenarios = [];

@@ -27,7 +27,14 @@
 		<ol>
 			{{dashboardAdmin.noMoreScenarios}}
 			<div data-ng-repeat="s in dashboardAdmin.myListOfScenarios">
-				<li><b>Nome:</b> {{s.name}}
+				
+					<div class="row">
+						<div class="col-sm-6">
+							<b>Nome:</b> {{s.name}}
+							<button class="btn btn-info" style="float:right;">
+							<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idScenario:'{{s.id}}' , scenarioName:dashboardAdmin.getCodedName(s.name) })"><b>Log attività </b></a></button>
+						</div>
+					</div>
 					<ul>
 							<li><b>Stato:</b> {{s.status}}</li>
 							<li><b>Data creazione:</b> {{s.creationDate | date:dashboardAdmin.dateFormat}}</li>
@@ -42,8 +49,8 @@
 							<li data-ng-show="s.posts"><b>Numero post prodotti: </b> {{s.posts.length}}</li>
 							<li><a style="cursor:pointer;" href="" data-ui-sref="logged.scenarioWizard.info({id: '{{s.id}}' })">Entra nel Wizard</a></li>
 					</ul>
-				</li>
 				
+					<hr>
 			</div>
 		</ol>
 	</div>

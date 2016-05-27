@@ -1,0 +1,110 @@
+<div>
+	<div>
+		<h3>{{dashboardAdminSpecificLog.nameOfScenario}}</h3>
+		<h5>{{dashboardAdminSpecificLog.nameOfUser}}</h5>
+		<p>Riepilogo azioni: </p>
+		<ul>
+	
+			<li><b>Numero post: </b>{{dashboardAdminSpecificLog.infoStatistics.numPost}} </li>
+			<li><b>Numero commenti: </b>{{dashboardAdminSpecificLog.infoStatistics.numComment}} </li>
+			<li><b>Numero suggerimenti: </b>{{dashboardAdminSpecificLog.infoStatistics.numMetaComment}}</li>
+			<li><b>Numero file caricati: </b>{{dashboardAdminSpecificLog.infoStatistics.numFile}} </li>
+			<li><b>Numero like: </b>{{dashboardAdminSpecificLog.infoStatistics.numLike}} </li>
+			
+			<li><b>Totale log attività: </b>{{dashboardAdminSpecificLog.infoStatistics.numTotalLog}} </li>
+		</ul>
+		
+	</div>
+	
+	<hr>
+	
+	<div>
+	
+	<div>
+		<h4>Cerca log <span data-ng-if="dashboardAdminSpecificLog.nameOfUser">di </span> {{dashboardAdminSpecificLog.nameOfUser}} <span data-ng-if="dashboardAdminSpecificLog.nameOfScenario"> nello scenario </span> {{dashboardAdminSpecificLog.nameOfScenario}}</h4>
+		
+		<div class="row">
+			<label for="allLogsNum">Risultati per pagina (max 20): </label> <input size="4" id="allLogsNum" data-ng-model="dashboardAdminSpecificLog.nItemLogs">
+			<label for="allLogsPag">Numero pagina: </label> 
+			<button data-ng-show="dashboardAdminSpecificLog.nPagLogs!=0" data-ng-click="dashboardAdminSpecificLog.changeLogsToPrev()">
+				<span class=" glyphicon glyphicon-chevron-left"></span>
+			</button>
+			<input size="4" id="allLogsPag" data-ng-model="dashboardAdminSpecificLog.nPagLogs">
+			<button data-ng-click="dashboardAdminSpecificLog.changeLogsToNext()">
+				<span class=" glyphicon glyphicon-chevron-right"></span>
+			</button>
+			<label>Risultati trovati: </label> <b>{{dashboardAdminSpecificLog.numLogsFounded}}</b>
+		</div>
+		<br>
+		<div class="row">
+			
+			<input class="customCheckBox"  id="showTwoCal" type="checkbox"  data-ng-model="dashboardAdminSpecificLog.showTwoCal"  value=false />
+						<span class="labelCheckBox" for="showTwoCal">Seleziona periodo</label>
+			<div data-ng-if="dashboardAdminSpecificLog.showTwoCal" class="col-md-3 form-group ">
+		
+							<span class="col-md-1">Da:</span>
+							<div id="dataStart" class="input-group col-md-10">
+								<input data-ui-date="dashboardAdminSpecificLog.dateStartOptions" data-ng-model="dashboardAdminSpecificLog.dateStart"  id="date-from"
+									class="form-control col-xs-9 datepicker"> <span
+									id="calend" class="input-group-addon">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</span>
+							</div>
+			</div>
+	
+			<div data-ng-if="dashboardAdminSpecificLog.showTwoCal" class="col-md-3 ">
+
+				<span class="col-md-1">A:</span>
+
+				<div id="dataEnd" class="input-group col-md-10">
+
+					<input data-ui-date="dashboardAdminSpecificLog.dateEndOptions" data-ng-model="dashboardAdminSpecificLog.dateEnd"  id="date-to"
+						class="form-control col-xs-9 datepicker"> <span
+						id="calend2" class="input-group-addon">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</span>
+				</div>
+
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<select data-ng-model="dashboardAdminSpecificLog.typeOfLog">
+			  <option value="ALL" selected="selected">Tutti</option>
+			  <option value="NEW_POST">Nuovo post</option>
+			  <option value="NEW_COMM">Nuovo commento</option>
+			  <option value="NEW_META_COMM">Nuovo suggerimento</option>
+			  <option value="ADD_LIKE_POST">Nuovo like</option>
+			  <option value="NEW_TRUST_FILE">Aggiunta file</option>
+			</select>
+		</div>
+		<div class="row">
+			<button class="btn btn-success" data-ng-click="dashboardAdminSpecificLog.searchLogs()">Cerca</button>
+			<button data-ng-if="dashboardAdminSpecificLog.showResetLogs()" class="btn btn-danger" data-ng-click="dashboardAdminSpecificLog.resetLogs()">Reset</button>
+		</div>
+		<br>
+
+		<ol>
+			{{dashboardAdminSpecificLog.noMoreLogs}}
+			<div data-ng-repeat="l in dashboardAdminSpecificLog.myListOfLogs">
+				<li>
+					<ul>
+<!-- 						<li><b>Id:</b> {{e.id}}</li> -->
+						<li><b>Tipo: </b> {{l.type}}</li>
+						<li><b>Data: </b> {{l.date | date:dashboardAdminSpecificLog.dateFormat}}</li>
+						
+						<li data-ng-if="!dashboardAdminSpecificLog.nameOfUser"><b>Utente che ha generato il log: </b><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{l.userId}}' })"> {{l.firstName}} {{l.lastName}} ({{l.email}})</a></li>
+						
+						<li data-ng-show="l.scenarioId"><b>Scenario in cui si è verificato il log: </b><u><a style="cursor:pointer;" href="" data-ui-sref="logged.scenarioWizard.info({id: '{{l.scenarioId}}' })">{{l.nameScenario}} ({{l.creator}})</a></u></li>
+					</ul>
+				</li>
+			</div>
+		</ol>
+		
+	</div>
+	<hr>
+	
+
+</div>
+
+</div>

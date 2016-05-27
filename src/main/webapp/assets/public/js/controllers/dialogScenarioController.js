@@ -11,6 +11,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	self.scenario.startDate = {};
 	self.scenario.endDate = {};
 	self.scenario.showRelationsToAll = true;
+	self.scenario.newspaperEnabled = true;
 	self.scenario.startDate.afterChrist = true;
 	self.scenario.endDate.afterChrist = true;
 	self.startDate = {};

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -112,6 +111,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 	@Autowired
 	private NotifyService notify;
+	
+	@Autowired
+	private NewspaperService newspaperService;
 
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
@@ -122,9 +124,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			if(t==null)
 				throw new BadRequestException();			
 			Reference ref = new Reference(t);
-			System.out.println("scenarioDTO: "+ scenarioDTO.isShowRelationsToAll());
 			Scenario scenario = new Scenario(scenarioDTO,ref);
-			System.out.println("scenario: "+ scenario.isShowRelationsToAll());
 			scenario = scenarioRepository.insert(scenario);
 			int n = userRepository.createScenarioToUser(t.getId(),new ScenarioReference(scenario));
 			if(n!=1){
@@ -161,6 +161,11 @@ public class ScenarioServiceImpl implements ScenarioService{
 			}
 			//TODO controllare
 			u.set("showRelationsToAll", scenario.isShowRelationsToAll());
+			u.set("newspaperEnabled", scenario.isNewspaperEnabled());
+			
+			if(scenario.isNewspaperEnabled()==false){
+				newspaperService.updateJournalist(id, null);
+			}
 
 			if(scenario.getHistory()!=null){
 				if(scenario.getHistory().getDescription()!=null){
@@ -280,7 +285,13 @@ public class ScenarioServiceImpl implements ScenarioService{
 							}
 						}
 					}
+					Reference newJournalist = scenarioUpdated.getActualJournalist();
 					notify.notifyOpenScenario(scenarioUpdated, r);
+					if(newJournalist!=null){
+						userService.addJournalistPermission(newJournalist.getId(), scenarioUpdated.getId());
+						notify.notifyNewJournalist(newJournalist, scenarioUpdated, newJournalist.getId());
+					}
+					
 				}
 			}
 
@@ -1992,12 +2003,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(permissionEvaluator.hasPermission(auth, status.getCharacter().getId(), "Character", "WRITE"))
 					permit=true;
 			}
-			if(post.getStatus().equals(PostStatus.PUBLISHED) && permissionEvaluator.hasPermission(auth, status.getScenarioId(), "Scenario", "MODERATOR")){
-				user = userRepository.findById(activeUser.getId());
-				if(user.getClass().equals(Teacher.class))
-					permit=true;
+			if(post.getStatus().equals(PostStatus.PUBLISHED) && permissionEvaluator.hasPermission(auth, status.getScenarioId(), "Scenario", "MODERATOR")){	
+				permit=true;
 			}
-
 
 		}else if (post.getClass().equals(Event.class)){
 			Event event = (Event) post;
@@ -2005,10 +2013,8 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(event.getUser().getId().equals(activeUser.getId()))
 					permit=true;
 				else{
-					if(post.getStatus().equals(PostStatus.PUBLISHED)){
-						user = userRepository.findById(activeUser.getId());
-						if(user.getClass().equals(Teacher.class))
-							permit=true;
+					if(post.getStatus().equals(PostStatus.PUBLISHED)){	
+						permit=true;
 					}
 				}
 			}
@@ -2047,6 +2053,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 		}
 		else{
 			scenarioRepository.removePost(post.getScenarioId(), post.getId());
+			postRepository.putInDeleteStatus(post.getId());
 			if(post.getClass().equals(Status.class)){
 				Status s = (Status) post;
 				characterRepository.removePostFromCharacter(s.getCharacter().getId(), post.getId());
@@ -2065,7 +2072,6 @@ public class ScenarioServiceImpl implements ScenarioService{
 				fileService.putListOfFilesInDelete(filesToDelete);
 
 			}else if(post.getClass().equals(Event.class)){
-				postRepository.putInDeleteStatus(post.getId());
 				Event e = (Event) post;
 
 				List<String> imagesToDelete = new ArrayList<String>();
@@ -2505,7 +2511,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 		u.set("mission", m);
 		Character c = characterRepository.updateCharacter(idCharacter, u);
 		Scenario s = scenarioRepository.findById(c.getScenarioId());
-		notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m, activeUser.getId());
+		
+		if(c.getActualUser()!=null)
+			notify.notifyNewPersonalMission(c.getActualUser(), s, new CharacterReference(c), m, activeUser.getId());
 		return c;
 
 	}

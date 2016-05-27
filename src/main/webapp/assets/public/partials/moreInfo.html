@@ -1,0 +1,132 @@
+<link href='https://fonts.googleapis.com/css?family=Open+Sans'
+	rel='stylesheet' type='text/css'>
+<link href="/assets/public/css/login-style.min.css" rel='stylesheet'
+	type='text/css'>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
+
+
+<img class="backgroundParallax" src="assets/public/img/landing page/bg landing.jpg">
+<meta charset="UTF-8">
+
+<div class="container-fluid noPadding">
+
+	<div class="firstSlide">
+		<div class="row rowTitle">		
+					<div class="col-md-3 col-xs-4">
+						<a href="" data-ui-sref="notLogged.login"><img src="assets/public/img/calderone1.png" class="img bigLogo" ></a>
+					</div>
+					<div class="col-md-offset-3 col-md-6 col-xs-8 titleContainer ">
+						<div class="row text-center divWithMarginRight">
+							<div class=" col-xs-12 mescholaTitle"><a href="" data-ui-sref="notLogged.login"><i>me</i>schola</a> </div> 
+							<div class="col-xs-12 mescholaSubtitle">La piattaforma capace di rendere vivi<br> fatti, argomenti e personaggi attraverso il <i>role-play</i></div>
+						</div>
+		
+					</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-offset-1 col-sm-10">
+				<div class="boxForm" id="form">
+					   <h2>Se sei curioso di scoprire ...</h2><br>
+					<ul>
+						<li align="left"><h2>Che cos'e' <i>me</i>schola?</h2></li>
+						<li align="left"><h2>A chi si rivolge?</h2></li>
+						<li align="left"><h2>Cosa si puo' fare con <i>me</i>schola?</h2></li>
+						<li align="left"><h2>E altro ancora ...</h2></li>
+					</ul><br>
+					<p class="row text-right">
+						<a href='' data-ng-click="moreInfo.downloadPdf()"><b>Clicca qui</b></a> per scaricare gratuitamente la guida di <i>me</i>schola in PDF
+					</p>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+	<div class="secondSlide ">
+		<div class="row text-center">
+			<div class="col-md-4 featuresBox">
+				<img class="img img-circle featuresImg" src="assets/public/img/landing page/Personalizzabile.png">
+				<h2>Personalizzabile</h2>
+				<p class="featuresText">Permette ai docenti di scegliere o creare scenari didattici ispirati ad opere letterarie, periodi storici, temi di attualità , progetti di classe o argomenti di varie materie</p>
+			</div>
+			<div class="col-md-4 featuresBox">
+				<img class="img img-circle featuresImg" src="assets/public/img/landing page/Collaborativa.png">
+				<h2>Collaborativa</h2>
+				<p class="featuresText">Propone un approccio collaborativo, in cui ciascuno studente può dare il proprio contributo reativo all’interno dello scenario didattico</p>
+			</div>
+			<div class="col-md-4 featuresBox">
+				<img class="img img-circle featuresImg" src="assets/public/img/landing page/Sicura.png">
+				<h2>Sicura</h2>
+				<p class="featuresText">È una piattaforma digitale accessibile solo a docenti e studenti, che permette ai ragazzi di usare i meccanismi di comunicazione dei social network per imparare divertendosi</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="text-center thirdSlide">
+		<h2>Scenari appena pubblicati</h2>
+		<div class="carousel hidden-xs hidden-sm visible-md visible-lg">
+			<div class="row innerCarousel">
+				<div class="col-md-1 arrows" data-ng-hide="moreInfo.hideArrowsL" data-ng-click="moreInfo.shiftScenariosBeforeL()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+				<div class="col-md-2" data-ng-repeat="s in moreInfo.scenariosToShowL">
+					<img class="img img-circle closedScen" src="{{s.img}}">
+				</div>
+				<div class="col-md-1" data-ng-hide="moreInfo.hideArrowsL" data-ng-click="moreInfo.shiftScenariosAfterL()"><span class="glyphicon glyphicon-chevron-right arrows"></span></div>
+			</div>
+		</div>
+		<div class="carousel hidden-xs visible-sm hidden-md hidden-lg">
+			<div class="row innerCarousel">
+				<div class="col-sm-1 arrows" data-ng-hide="moreInfo.hideArrowsM" data-ng-click="moreInfo.shiftScenariosBeforeM()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+				<div class="col-sm-3" data-ng-repeat="s in moreInfo.scenariosToShowM">
+					<img class="img img-circle closedScen" src="{{s.img}}">
+				</div>
+				<div class="col-sm-1" data-ng-hide="moreInfo.hideArrowsM" data-ng-click="moreInfo.shiftScenariosAfterM()"><span class="glyphicon glyphicon-chevron-right arrows"></span></div>
+			</div>
+		</div>
+		<div class="carousel visible-xs hidden-sm hidden-md hidden-lg">
+			<div class="row innerCarousel">
+				<div class="col-xs-3 arrows" data-ng-hide="moreInfo.hideArrowsS" data-ng-click="moreInfo.shiftScenariosBeforeS()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+				<div class="col-xs-6" data-ng-repeat="s in moreInfo.scenariosToShowS">
+					<img class="img img-circle closedScen" src="{{s.img}}">
+				</div>
+				<div class="col-xs-3" data-ng-hide="moreInfo.hideArrowsS" data-ng-click="moreInfo.shiftScenariosAfterS()"><span class="glyphicon glyphicon-chevron-right arrows"></span></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="fourthSlide text-center">
+		<div class="claim">Diventa protagonista!</div>
+		<a href="" data-ui-sref="notLogged.login"><button class="btn ctaSecond">Entra nella storia!</button></a>
+	</div>
+
+
+</div>
+
+
+<script>
+$(window).bind('scroll',function(e){
+    parallaxScroll();
+});
+
+function parallaxScroll(){
+    var scrolled = $(window).scrollTop();
+    if(window.innerWidth>992){
+    	$('.backgroundParallax').css('top',(850-(scrolled*.5))+'px');
+    }
+    if(window.innerWidth<992 && window.innerWidth>768){
+    	$('.backgroundParallax').css('top',(880-(scrolled*.5))+'px');
+    }
+    if(window.innerWidth<768  && window.innerWidth>600){
+    	$('.backgroundParallax').css('top',(1300-(scrolled*.4))+'px');
+    }
+    if(window.innerWidth<600 && window.innerWidth>400){
+    	$('.backgroundParallax').css('top',(1100-(scrolled*.35))+'px');
+    }
+    if(window.innerWidth<400){
+    	$('.backgroundParallax').css('top',(880-(scrolled*.25))+'px');
+    }
+    
+ 
+    //$('.secondSlide').css('top',(800-(scrolled*.5))+'px');
+    $('#parallax-bg3').css('top',(0-(scrolled*.75))+'px');
+}
+</script>

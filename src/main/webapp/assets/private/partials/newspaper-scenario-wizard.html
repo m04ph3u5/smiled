@@ -1,0 +1,42 @@
+<alertgeneric></alertgeneric>
+<label>SELEZIONA IL GIORNALISTA DELLO SCENARIO</label>
+<form class="form-search">
+	 <div class="inner-addon left-addon">
+		<i class="glyphicon glyphicon-user"></i>
+	  	<input type="search" ng-model="scenarioWizard.selectedJournalist" class="searchBar form-control input-medium search-query" placeholder="Cerca partecipanti o collaboratori" 
+	  		typeahead="s as s.lastname+' '+s.firstname for s in scenarioWizard.allPeopleInScenario | filter:$viewValue | limitTo:10" 
+		    typeahead-min-length='2' 
+	  		typeahead-on-select='scenarioWizard.selectNewJournalist()'  
+	  	typeahead-template-url="customTemplate.html" class="form-control">
+	 </div>
+</form>
+<br>
+<div class="container-fluid">
+	<div class="row ">
+
+		<div class="col-md-4" >
+			<h4>GIORNALISTA</h4>
+			<p data-ng-if="!scenarioWizard.actualJournalist">Nessun giornalista presente nello scenario!</p>
+			<div class="enlight" data-ng-if="scenarioWizard.actualJournalist">
+				<a href="" data-ui-sref="logged.userProfile({id: '{{scenarioWizard.actualJournalist.id}}'})">
+					<img data-ng-src="api/v1/users/{{scenarioWizard.actualJournalist.id}}/cover" 
+					data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM"> {{scenarioWizard.actualJournalist.firstname}} {{scenarioWizard.actualJournalist.lastname}}
+				</a>
+				<span show-on-hover-parent style="display:none" class="glyphicon glyphicon-trash marginMTop" 
+				data-ng-click="scenarioWizard.removeJournalist() "></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<br>
+<a href="">
+<img ng-src="assets/public/img/wizard/indietro.png" class="pull-left marginMTop wizButton" data-ui-sref="logged.scenarioWizard.associations" >
+</a>
+<script type="text/ng-template" id="customTemplate.html">
+  <a href="">
+      <img data-ng-src="api/v1/users/{{match.model.id}}/cover" 
+						data-err-src="assets/public/img/ic_student.png" class="img-circle imgPreviewM">
+	  <b>{{match.model.lastname}} {{match.model.firstname}}</b>
+  </a>
+</script>

@@ -15,6 +15,7 @@
 	}
 
 
+
 	/*-----------------------------------------------------------*/	
 
 	var getScenario = function(idScenario){
@@ -415,12 +416,19 @@
 		return c.promise;
 	}
 	
-	var getPagedLogs = function(nPag, nItem){
+	var getPagedLogs = function(start, end, type, nPag, nItem, idUser, idScenario){
 		
 		var c = $q.defer();
-
+        var s=null; 
+        var e = null;
+		if(start!=null)
+			s=start.getTime();
+		if(end!=null)
+			e=end.getTime();
 		$http.get("/api/v1/log", {
-			params: { "nPag": nPag, "nItem": nItem}}).then(
+			params: { "start" : s, "end" : e, 
+				      "type" : type, "nPag": nPag, "nItem": nItem, "idUser":idUser, "idScenario":idScenario}})
+				    .then(
 					function(response){
 						c.resolve(response.data);
 					},
@@ -857,6 +865,39 @@
 		return s.promise;
 	}
 	
+	
+	var getInfoStatistics = function(idUser, idScenario){
+		
+		if(idUser==null && idScenario==null)
+			return;
+		
+		var url="";
+		var s = $q.defer();
+		
+		if(idUser!=null && idScenario!=null){
+		
+			url="api/v1/infoStatisticsScenario/"+idScenario+"/user/"+idUser;
+			
+		}else if(idUser!=null && idScenario==null){
+		
+			url="api/v1/infoStatisticsUser/"+idUser;
+
+		}else if(idUser==null && idScenario !=null){
+			url="api/v1/infoStatisticsScenario/"+idScenario;
+			
+		}
+		$http.get(url).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+
+		return s.promise;
+		
+	}
 	var getLastUserNotifications = function(older, num){
 		var s = $q.defer();
 		var url="api/v1/lastNotifications?num="+num+"&old="+older;
@@ -872,6 +913,186 @@
 
 		return s.promise;
 	}
+	
+	/*
+	 * NEWSPAPER API START-----------------------------------------------------
+	 * 
+	 */
+	
+	var createnewspaper = function(newspaperDTO, idScenario){
+		var s = $q.defer();
+		$http.post("/api/v1/scenarios/"+idScenario+"/newspapers", scenarioDTO).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
+	var getLastNewspaper = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/newspapers/last").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var getMyLastNewspaper = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/myNewspapers/last").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var getnewspaperNumber = function(idScenario, number){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/newspapers/"+number).then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var getmyNewspaperNumber = function(idScenario, number){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/myNewspapers/"+number).then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	var getpublishedNewspapers = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/newspapers").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	var getMyNewspapers = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/myNewspapers").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	var lastNewspaperName = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/lastNewspaperName").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var updateNewspaper = function(idScenario, number, newspaperDTOPut){
+		var c = $q.defer();
+		$http.put("/api/v1/scenarios/"+idScenario+"/newspapers?number="+number, newspaperDTOPut).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+
+	var deleteNewspaper = function(idScenario, number){
+		var s = $q.defer();
+		$http.delete("/api/v1/scenarios/"+idScenario+"/newspapers?number="+number).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	var updateArticle = function(idScenario, number, articleDTO){
+		var c = $q.defer();
+		$http.put("/api/v1/scenarios/"+idScenario+"/newspapers?number="+number, articleDTO).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+	var updateUserJournalist = function(idScenario, idUser){
+		var c = $q.defer();
+		$http.put("/api/v1/scenarios/"+idScenario+"/journalist/"+idUser).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+	
+	var removeUserFromJournalist = function(idScenario){
+		var s = $q.defer();
+		$http.delete("/api/v1/scenarios/"+idScenario+"/journalist").then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	/*
+	 * NEWSPAPER API END-----------------------------------------------------
+	 * 
+	 */
 	
 
 	return {
@@ -928,7 +1149,22 @@
 		getLastUserNotifications : getLastUserNotifications,
 		getLastPosts : getLastPosts,
 		getLastHistoricPosts: getLastHistoricPosts,
-		getLastCharacterPosts : getLastCharacterPosts		
+		getLastCharacterPosts : getLastCharacterPosts,
+		getInfoStatistics : getInfoStatistics,
+		
+		createnewspaper : createnewspaper,
+		getLastNewspaper : getLastNewspaper,
+		getMyLastNewspaper : getMyLastNewspaper,
+		getnewspaperNumber : getnewspaperNumber,
+		getmyNewspaperNumber : getmyNewspaperNumber,
+		getpublishedNewspapers : getpublishedNewspapers,
+		getMyNewspapers : getMyNewspapers,
+		lastNewspaperName : lastNewspaperName,
+		updateNewspaper : updateNewspaper,
+		deleteNewspaper : deleteNewspaper,
+		updateArticle : updateArticle,
+		updateUserJournalist : updateUserJournalist,
+		removeUserFromJournalist : removeUserFromJournalist
 	}
 
 

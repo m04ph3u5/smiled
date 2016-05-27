@@ -48,6 +48,7 @@ public interface UserService {
 	public Page<Issue> getAllIssues(Integer nPag, Integer nItem) throws BadRequestException;
 	public Page<Suggestion> getAllSuggestions(Integer nPag, Integer nItem) throws BadRequestException;
 	public UserDTO getUserById(String id) throws UserNotFoundException;
+	public Reference getUserReferenceById(String id) throws UserNotFoundException;
 	public UserDTO getUserByEmail(String email) throws UserNotFoundException;
 	
 	//TODO
@@ -96,4 +97,6 @@ public interface UserService {
 	public void generateNewPasswordRequest(EmailAddress email) throws BadRequestException;
 	public boolean isPassworrdResettable(String token, String email);
 	public boolean resetPassword(ResetPasswordDTO resetPassword);
+	public void removeJournalistPermission(String userId, String scenarioId);
+	public void addJournalistPermission(String userId, String scenarioId);
 }

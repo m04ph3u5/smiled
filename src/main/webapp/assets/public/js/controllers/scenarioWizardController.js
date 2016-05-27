@@ -34,6 +34,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var currentCharacterIndex = -1;
 		var getMePromise = $q.defer();
 		var id = $stateParams.id;
+		self.showNewspaperTab;
 		
 		
 		//GET ME
@@ -107,7 +108,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						function(data){
 							self.scenarioServer = data;
 							self.scenario = angular.copy(data);
-							
+
 							self.title = data.name;
 							
 							updateSelectableAttendees();
@@ -116,7 +117,27 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							//updateSelectableCollaborators();
 							
 							updateAssociated();
-
+							if(self.scenario.newspaperEnabled){
+								
+								self.showNewspaperTab=true;
+								
+								self.actualJournalist = self.scenario.actualJournalist;
+								updateAllPeopleInScenario();
+								if(self.allPeopleInScenario!=null){
+									for(var i=0; i<self.allPeopleInScenario.length; i++){
+										if(self.actualJournalist != null && self.allPeopleInScenario[i].id == self.actualJournalist.id)
+											self.allPeopleInScenario.splice(i,1);
+									}
+								}
+								
+								
+							}else{
+								self.showNewspaperTab=false;
+								if(tab==5){
+									$state.go("logged.scenarioWizard.info");
+								}
+							}
+							
 							retrieveCharacterAndOrder();
 						
 						}, function(reason){
@@ -330,6 +351,31 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 		}
 		
+		self.selectNewJournalist = function(){
+			return apiService.updateUserJournalist(self.scenario.id, self.selectedJournalist.id).then(
+					function(data){
+						if(self.actualJournalist!=null && self.actualJournalist!=""){
+							var oldJournalist = angular.copy(self.actualJournalist);
+							self.allPeopleInScenario.push(oldJournalist);
+						}
+						self.actualJournalist=angular.copy(self.selectedJournalist);
+						self.selectedJournalist="";
+						for(var i=0; i<self.allPeopleInScenario.length; i++){
+							if(self.allPeopleInScenario[i].id == self.actualJournalist.id)
+								self.allPeopleInScenario.splice(i,1);
+						}
+						
+					},
+					function(reason){
+						console.log("failed to select new journalist");
+						self.selectedJournalist="";
+						console.log(reason);
+					}
+			
+		);
+			
+		}
+		
 		var filterListSelectableCollaborators = function(l){
 			
 			var found=false;
@@ -389,13 +435,17 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			scenarioDTO.description = self.scenario.description;
 			scenarioDTO.history = self.scenario.history;
 			scenarioDTO.showRelationsToAll = self.scenario.showRelationsToAll;
+			scenarioDTO.newspaperEnabled = self.scenario.newspaperEnabled;
 			
 			if(id==null){
 				scenarioDTO.showRelationsToAll = true;
+				scenarioDTO.newspaperEnabled = true;
+				
 				if(infoValidate()){
 					apiService.createScenario(scenarioDTO).then(
 							function(data){
 								id = data.id;
+								self.showNewspaperTab=true;
 							},
 							function(reason){								
 								console.log("Errore creazione scenario");
@@ -410,6 +460,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							function(data){
 								self.scenarioServer = data;
 								self.scenario = angular.copy(data);
+								
+								if(self.scenario.newspaperEnabled)
+									self.showNewspaperTab=true;
+								else
+									self.showNewspaperTab=false;
+								self.actualJournalist=self.scenario.actualJournalist;
+								
 								updateCover();
 								alertingGeneric.addSuccess("Scenario modificato");
 							},
@@ -424,7 +481,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.inviteStudents = function(){
 			var emails = extractEmails(self.emailList);
-			console.log(emails);
+			
 			var emailsDTO=[];
 			if(emails){
 				for(var i=0; i<emails.length; i++){
@@ -708,10 +765,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				charDTO.deadDate = null;
 		}
 		
-		self.addCollaborator = function(collaborator){
+		self.addCollaborator = function(){
 			
 			
-			apiService.addCollaboratorToScenario(collaborator.id, id).then(
+			apiService.addCollaboratorToScenario(self.selectedCollaborator.id, id).then(
 					function(data){
 							if(self.scenarioServer.collaborators==null)
 								self.scenarioServer.collaborators = new Array();
@@ -793,6 +850,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(reason){
 						alertingGeneric.addWarning("Errore nella rimozione del partecipante.");
 						console.log("Delete attendee failed: "+reason);
+					}
+			)
+		}
+		
+		self.removeJournalist = function(){
+			apiService.removeUserFromJournalist(self.scenario.id).then(
+					function(data){
+						
+						self.allPeopleInScenario.push(self.actualJournalist);
+						self.actualJournalist=null;
+					},
+					function(reason){
+						alertingGeneric.addWarning("Errore nella rimozione del giornalista.");
+						console.log("Delete journalist failed: "+reason);
 					}
 			)
 		}
@@ -1089,14 +1160,16 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			var tabString = path.substr(path.lastIndexOf('/') + 1);
 			if(tabString=="info"){
 				tab=0;
-			}else if(tabString=="attendees"){
+			}else if(tabString=="partecipanti"){
 				tab=1;
-			}else if(tabString=="characters"){
+			}else if(tabString=="personaggi"){
 				tab=2;
-			}else if(tabString=="associations"){
+			}else if(tabString=="associazioni"){
 				tab=3;
-			}else if(tabString=="collaborators"){
+			}else if(tabString=="collaboratori"){
 				tab=4;
+			}else if(tabString=="giornale"){
+				tab=5;
 			}
 		}
 		
@@ -1111,7 +1184,19 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		var updateAllPeopleInScenario = function(){
+			self.allPeopleInScenario=[];
+			self.allPeopleInScenario = self.allPeopleInScenario.concat(self.notAssociatedAttendees);
+			if(self.associations!=null){
+				for(var i=0; i<self.associations.length; i++){
+					self.allPeopleInScenario.push(self.associations[i].attendee);
+				}
+			}
+		}
+		
 		self.changeStateTab = function(newDestination){
+			if(newDestination==5)
+				updateAllPeopleInScenario();
 			switch(tab){
 				case 0 : {
 					tab = newDestination;
@@ -1119,12 +1204,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					break;
 				}
 				case 1 : {
-					tab = newDestination;
+					tab = newDestination;				
 					break;
 				}
 				case 2: {
 					self.checkOpenAccordion();
-					tab = newDestination;
+					tab = newDestination;					
 					break;
 				}
 				case 3: {
@@ -1132,6 +1217,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					break;
 				}
 				case 4: {
+					tab = newDestination;
+					break;
+				}
+				case 5: {
 					tab = newDestination;
 					break;
 				}
@@ -1158,6 +1247,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 			
 			if( a.showRelationsToAll != b.showRelationsToAll){
+				return false;
+			}
+			if( a.newspaperEnabled != b.newspaperEnabled){
 				return false;
 			}
 			
@@ -1275,7 +1367,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
 						alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 						return false;
-						return true;
 					}else if(
 						startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
 						return true;

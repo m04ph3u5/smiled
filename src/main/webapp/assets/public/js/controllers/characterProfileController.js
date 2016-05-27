@@ -1,6 +1,7 @@
 angular.module('smiled.application').controller('characterProfileCtrl', ['CONSTANTS', '$scope', '$stateParams', 'apiService', 'Upload',
               function characterProfileCtrl(CONSTANTS,$scope,$stateParams, apiService, Upload){
 	
+	
 	var self = this;
 	self.character = {};
 	//due variabili identiche perché ad api service non piaceva self.idchar

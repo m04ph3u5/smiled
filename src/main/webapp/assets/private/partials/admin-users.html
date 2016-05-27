@@ -17,9 +17,16 @@
 	<div>
 		
 			{{dashboardAdmin.noMoreUsers}}
-			<div data-ng-repeat="t in dashboardAdmin.myListOfUsers">
-				<li><a style="cursor:pointer;" href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
+			<div  data-ng-repeat="t in dashboardAdmin.myListOfUsers">
+				
+				    <div class="row">
+						<div class="col-sm-6"><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a> 
+							<button class="btn btn-info" style="float:right;">
+							<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{t.id}}' , firstName: dashboardAdmin.getCodedName(t.firstName), lastName:dashboardAdmin.getCodedName(t.lastName) })"><b>Log attività </b></a></button>
+						</div>
+					</div>
 					<ul>
+						
 						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}} <span data-ng-show="!t.profile || !t.profile.bornDate"> Data non disponibile</span></li>
 						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
 						<li><b>Email:</b> {{t.email}}</li>
@@ -46,6 +53,7 @@
 											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenC.id}}' })">Entra nel Wizard</a></u> <br> 
 											<b>Data di creazione: </b> {{scenC.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b>  <span data-ng-show="!scenC.myCharacterName"> Nessuno</span>
 											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenC.id}}' , idCharacter: '{{scenC.myCharacterId}}' })">{{scenC.myCharacterName}}</a></u>
+											
 										</div>
 									</li>
 								</div>
@@ -56,22 +64,32 @@
 							<span data-ng-show="!t.openScenarios || t.openScenarios.length==0"> Nessuno</span>
 							<ol>
 								<div data-ng-repeat="scenO in t.openScenarios">
-									<li>
-										<div>
-											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
-											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
-											<br> <b>Data di creazione: </b> 
-											{{scenO.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenO.myCharacterName"> Nessuno</span>
-											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
+									
+										<div class="row">
+											<div class="col-sm-9">
+												<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
+												<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
+												
+												<br> <b>Data di creazione: </b> 
+												{{scenO.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenO.myCharacterName"> Nessuno</span>
+												<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
+												
+												<button class="btn btn-info" style="float:right;">
+													<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{t.id}}' , firstName: dashboardAdmin.getCodedName(t.firstName) , lastName:dashboardAdmin.getCodedName(t.lastName) , idScenario:'{{scenO.id}}', scenarioName: dashboardAdmin.getCodedName(scenO.name)})">
+														<b>Log attività </b>
+													</a>
+												</button>
+									
+											</div>
 										</div>
-									</li>
+										
 										
 								</div>
 							</ol>
 						</li>
 						
 					</ul>
-				</li>
+			<hr>	
 			</div>
 		
 	
@@ -98,10 +116,17 @@
 			<button data-ng-if="dashboardAdmin.showResetTeachers()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetTeachers()">Reset</button>
 		</div>
 		<br>
-		<ol>
+		
 			{{dashboardAdmin.noMoreTeachers}}
 			<div data-ng-repeat="t in dashboardAdmin.myListOfTeachers">
-				<li><u><a href="" data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a></u>
+			
+				<div class="row">
+					<div class="col-sm-6"><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{t.id}}' })">{{t.firstName}} {{t.lastName}}</a>
+						<button class="btn btn-info" style="float:right;">
+						<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{t.id}}' , firstName:dashboardAdmin.getCodedName(t.firstName) , lastName:dashboardAdmin.getCodedName(t.lastName) })"><b>Log attività </b></a></button>
+					</div>
+				</div>
+				
 					<ul>
 						<li><b>Data di nascita:</b> {{t.profile.bornDate | date}} <span data-ng-show="!t.profile || !t.profile.bornDate"> Data non disponibile</span></li>
 						<li><b>Data di registrazione:</b> {{t.registrationDate | date:dashboardAdmin.dateFormat}}</li>
@@ -137,24 +162,32 @@
 							<span data-ng-show="!t.openScenarios || t.openScenarios.length==0"> Nessuno</span>
 							<ol>
 								<div data-ng-repeat="scenO in t.openScenarios">
-									<li>
-										<div>
-											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
-											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
-											<br> <b>Data di creazione: </b> 
-											{{scenO.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenO.myCharacterName"> Nessuno</span>
-											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
-										</div>
-									</li>
-										
+									<div class="row">
+											<div class="col-sm-9">
+												<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenO.id}}' })">{{scenO.name}}</a></u> -
+												<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenO.id}}' })">Entra nel Wizard</a></u>
+												
+												<br> <b>Data di creazione: </b> 
+												{{scenO.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenO.myCharacterName"> Nessuno</span>
+												<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenO.id}}' , idCharacter: '{{scenO.myCharacterId}}' })">{{scenO.myCharacterName}}</a></u>
+												
+												<button class="btn btn-info" style="float:right;">
+													<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{t.id}}' , firstName: dashboardAdmin.getCodedName(t.firstName) , lastName:dashboardAdmin.getCodedName(t.lastName) , idScenario:'{{scenO.id}}', scenarioName:dashboardAdmin.getCodedName(scenO.name)})">
+														<b>Log attività </b>
+													</a>
+												</button>
+									
+											</div>
+									</div>
+									
 								</div>
 							</ol>
 						</li>
 						
 					</ul>
-				</li>
+			<hr>
 			</div>
-		</ol>
+		
 		
 	</div>
 	<hr>
@@ -177,10 +210,15 @@
 			<button data-ng-if="dashboardAdmin.showResetStudents()" class="btn btn-danger" data-ng-click="dashboardAdmin.resetStudents()">Reset</button>
 		</div>
 		<br>
-		<ol>
+		
 		{{dashboardAdmin.noMoreStudents}}
 			<div data-ng-repeat="s in dashboardAdmin.myListOfStudents">
-				<li><u><a href="" data-ui-sref="logged.userProfile({id : '{{s.id}}' })">{{s.firstName}} {{s.lastName}}</a></u>  
+				<div class="row">
+					<div class="col-sm-6"><a style="cursor:pointer;" href=""  data-ui-sref="logged.userProfile({id : '{{s.id}}' })">{{s.firstName}} {{s.lastName}}</a>
+						<button class="btn btn-info" style="float:right;">
+						<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificUser({idUser:'{{s.id}}' , firstName:dashboardAdmin.getCodedName(s.firstName) , lastName:dashboardAdmin.getCodedName(s.lastName) })"><b>Log attività </b></a></button>
+					</div>
+				</div>
 					<ul>
 						<li><b>Data di nascita:</b> {{s.profile.bornDate | date}} <span data-ng-show="!s.profile || !s.profile.bornDate"> Data non disponibile</span></li>
 						<li><b>Data di registrazione:</b> {{s.registrationDate | date:dashboardAdmin.dateFormat}}</li>
@@ -194,29 +232,40 @@
 						<li data-ng-show="s.profile.bornDate"><b>Data di nascita:</b> {{s.profile.bornDate | date:dateFormatBornDate}}</li>
 						<li data-ng-show="s.profile.school"><b>Scuola:</b> {{s.profile.school}}</li>
 						<li data-ng-show="s.profile.schoolCity"><b>Città della scuola: </b> {{s.profile.schoolCity}}</li>
-						
+									
 						<li>	
 							<b>Scenari aperti in cui e' coinvolto:</b>
 							<span data-ng-show="!s.openScenarios || s.openScenarios.length==0"> Nessuno</span>
 							<ol>
-								<div data-ng-repeat="scenOStudent in s.openScenarios">
-									<li>
-										<div>
-											<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenOStudent.id}}' })">{{scenOStudent.name}}</a></u> - 
-											<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenOStudent.id}}' })">Entra nel Wizard</a></u> <br> <b>Data di creazione: </b> 
-											{{scenOStudent.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenOStudent.myCharacterName"> Nessuno</span>
-											<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenOStudent.id}}' , idCharacter: '{{scenOStudent.myCharacterId}}' })">
-											{{scenOStudent.myCharacterName}}</a></u> 
+							
+								<div data-ng-repeat="scenOStudent in s.openScenarios">		
+									<div class="row">
+												<div class="col-sm-9">												
+											
+													<u><a href="" data-ui-sref="logged.scenario.posts({id: '{{scenOStudent.id}}' })">{{scenOStudent.name}}</a></u> -
+													<u><a href="" data-ui-sref="logged.scenarioWizard.info({id: '{{scenOStudent.id}}' })">Entra nel Wizard</a></u>
+																									
+													<br> <b>Data di creazione: </b> 
+													{{scenOStudent.creationDate | date:dashboardAdmin.dateFormat}} - <b>Personaggio corrente: </b> <span data-ng-show="!scenOStudent.myCharacterName"> Nessuno</span>
+													<u><a href="" data-ui-sref="logged.scenario.charprofile({id: '{{scenOStudent.id}}' , idCharacter: '{{scenOStudentStudent.myCharacterId}}' })">{{scenOStudent.myCharacterName}}</a></u>
+													
+													<button class="btn btn-info" style="float:right;">
+														<a href="" style="cursor:pointer;" data-ui-sref="logged.dashboard.admin.logSpecificScenario({idUser:'{{s.id}}' , firstName:dashboardAdmin.getCodedName(s.firstName) , lastName:dashboardAdmin.getCodedName(s.lastName) , idScenario:'{{scenOStudent.id}}', scenarioName:dashboardAdmin.getCodedName(scenOStudent.name)})">
+															<b>Log attività </b>
+														</a>
+													</button>
+										
+												</div>
 										</div>
-									</li>
 								</div>
 							</ol>
+						
 						</li>
 						
 					</ul>
-				</li>
+			<hr>
 			</div>
-		</ol>
+	
 	</div>
 
 </div>

@@ -4,9 +4,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta description="Meschola è la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
+	<meta description="Meschola � la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
 <link rel="shortcut icon" href="/assets/public/img/icon/favicon.ico">
 <link rel="icon" type="image/png" href="/assets/public/img/icon/favicon.png">
+
+
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -34,9 +36,12 @@
 <link rel="stylesheet" href="/assets/public/css/animate.css">
 <script  type="text/javascript" src="/assets/public/js/vendor/less/less.js"></script>
 <script  type="text/javascript" src="/assets/public/js/vendor/wow.js"></script>
-
-<!-- Own Style file MIN -->
-<link rel="stylesheet" href="/assets/public/css/meschola.min.css">
+<!-- Own Style file -->
+<link rel="stylesheet" href="/assets/public/css/custom-style.css">
+<link rel="stylesheet" href="/assets/public/css/secondaryCss.css">
+<link rel="stylesheet" href="/assets/public/css/storyline.css">
+<link rel="stylesheet" href="/assets/public/css/validation-form.css">
+<link rel="stylesheet" href="assets/public/js/vendor/ui-slider/slider.css">
 
 
   <!-- Google Web Fonts -->
@@ -59,10 +64,11 @@
 
 <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 <script type="text/javascript">
-    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalità che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformità con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
+    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalit� che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformit� con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
 </script>
 
 <script type="text/javascript" 
+
 src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
 <!-- End Cookie Consent plugin -->
 </head>
@@ -75,15 +81,19 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 
 </div>
 	<!-- VENDOR SCRIPT -->
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
 			  integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
 			  crossorigin="anonymous"></script>	
+			  
 	<script src="/assets/public/js/vendor/jquery-ui/ui/i18n/datepicker-it.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
 	<script src="/assets/public/js/support/angular-locale_it-it.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-date/0.0.8/date.min.js"></script>
+		
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-cookies.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
@@ -125,6 +135,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/controllers/registrationConfirmController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardAdminController.js"></script>
+	<script src="/assets/public/js/controllers/dashboardAdminSpecificLogController.js"></script>
 	<script src="/assets/public/js/controllers/scenariosListController.js"></script>
 	<script src="/assets/public/js/controllers/scenarioWizardController.js"></script>
 	<script src="/assets/public/js/controllers/navbarController.js"></script>
@@ -236,21 +247,35 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<!--   <script src="/assets/public/build/meschola_1.min.js"></script> -->
 	
 	
+	<script src="/assets/public/js/controllers/dialogConfirmRegistrationController.js"></script>
+	
+<!--  	CUSTOM SCRIPT WRAPPING  -->
+	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>  
+	<script src="/assets/public/js/wrapping/requestCounter.js"></script>
+	<script src="/assets/public/js/wrapping/stateChangeErrors.js"></script>
+
+<!-- 	<script src="/assets/public/build/meschola.min.js"></script> -->
+	
 	<!-- SCRIPT PER VETRINA -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js" type="text/javascript"></script>
     <script src="/assets/public/js/vendor/scrollReveal.js/dist/scrollReveal.min.js" type="text/javascript"></script>
    	<script src="/assets/public/js/vendor/fox-angular-scrollReveal.js/dist/fox-angular-scrollReveal.min.js"></script>
     <script src="/assets/public/js/support/jquery.downCount.min.js" type="text/javascript"></script>
+<!--     <script src="/assets/public/js/support/showcase-custom.js" type="text/javascript"></script> -->
 	<!-- FINE SCRIPT PER VETRINA -->
 	
 	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	
-	  ga('create', 'UA-67446742-1', 'auto');
-	  ga('send', 'pageview');
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67446742-1', 'auto');
+  ga('send', 'pageview');
+
 	</script>
+
+	
+	
 </body>
 </html>
