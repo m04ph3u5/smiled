@@ -369,7 +369,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 					return "assets/public/img/narr.png";
 				}
 			}else if(n.verb=="NEW_NEWSPAPER" || n.verb=="DEL_NEWSPAPER" || n.verb=="NEWSPAPER_ON" || n.verb=="NEWSPAPER_OFF" || n.verb=="NEW_JOURNALIST" || n.verb=="DEL_JOURNALIST"){
-				return "assets/public/img/narr.png";
+				return "assets/public/img/newspaper-img/ic_edit_article.png";
 			}else{
 				if(n.verb=="TAG_ON_CREATE" ||n.verb=="TAG_ON_MOD" ){
 					if(n.actorId){
