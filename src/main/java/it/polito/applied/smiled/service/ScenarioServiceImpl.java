@@ -114,6 +114,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 	
 	@Autowired
 	private NewspaperService newspaperService;
+	
+	@Autowired
+	private LogService logService;
 
 	@Override
 	public String createScenario(ScenarioDTO scenarioDTO, String email) throws MongoException, BadRequestException{
@@ -294,7 +297,16 @@ public class ScenarioServiceImpl implements ScenarioService{
 					
 				}
 			}
-
+			//se la modifica dello scenario ha riguardato l'attivazione del giornale utilizzo logService per loggare opportunamente l'operazione
+			//se il dto dice che il giornale dello scenario è attivo e oldScenario dice il contrario significa che sto attivando
+			if(scenario.isNewspaperEnabled()==true && oldScenario.isNewspaperEnabled()==false){
+				logService.logNewspaperON(oldScenario.getId(), user.getId());
+			}
+			//se il dto dice che il giornale dello scenario è disattivo e oldScenario dice il contrario significa che sto disattivando
+			else if(scenario.isNewspaperEnabled()==false && oldScenario.isNewspaperEnabled()==true){
+				logService.logNewspaperOFF(oldScenario.getId(), user.getId());
+			}
+			
 			return scenarioUpdated;
 		}catch(MongoException e){
 			throw e;

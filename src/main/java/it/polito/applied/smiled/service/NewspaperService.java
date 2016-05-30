@@ -17,7 +17,7 @@ public interface NewspaperService {
 	
 	public Newspaper saveNewspaper(NewspaperDTO nDTO, String scenarioId, String userId) throws BadRequestException;
 	public Newspaper updateNewspaper (String scenarioId, Integer number, NewspaperDTOPut dto) throws BadRequestException;
-	public boolean deleteNewspaper(String idScenario, Integer number);
+	public String deleteNewspaper(String idScenario, Integer number)throws BadRequestException;
 	public Newspaper publishNewspaper(String idScenario, Integer number) throws BadRequestException;
 	public Newspaper updateArticle(String idScenario, Integer number, ArticleDTO articleDTO, String userId) throws BadRequestException;
 
@@ -27,6 +27,6 @@ public interface NewspaperService {
 	public Newspaper findNewspaperNumberInScenarioPRIVATE (String idScenario, int number);
 	public Newspaper findLastNewspaperInScenarioPUBLIC(String idScenario);
 	public Newspaper findLastNewspaperInScenarioPRIVATE(String idScenario);
-	public void updateJournalist(String idScenario, Reference newJournalist) throws BadRequestException;
+	public String updateJournalist(String idScenario, Reference newJournalist) throws BadRequestException;
 
 }

@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.controllerRest;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.newspaper.Newspaper;
 import it.polito.applied.smiled.pojo.newspaper.NewspaperTemplate;
 import it.polito.applied.smiled.security.CustomUserDetails;
+import it.polito.applied.smiled.service.LogService;
 import it.polito.applied.smiled.service.NewspaperService;
 import it.polito.applied.smiled.service.ScenarioService;
 import it.polito.applied.smiled.service.UserService;
@@ -45,6 +47,8 @@ public class NewspaperController extends BaseController{
 		private ScenarioService scenarioService;
 		@Autowired
 		private UserService userService;
+		@Autowired
+		private LogService logService;
 		
 	
 		//Ritorna l'id del giornale creato se si è riusciti a crearlo (e prende in ingresso un oggetto NewspaperDTO)
@@ -68,8 +72,9 @@ public class NewspaperController extends BaseController{
 			if(template == null )
 				throw new BadRequestException("idTemplate not valid or constraints not observed!");
 			Newspaper n = newspaperService.saveNewspaper(newspaperDTO, idScenario, activeUser.getId());
+			scenarioService.lastUpdateScenario(idScenario, new Date());
 			Id id = new Id(n.getId());
-			//logService.logCreateNewspaper(idScenario, id.getId(), activeUser.getId());
+			logService.logAddNewspaper(idScenario, n.getId(), activeUser.getId());
 			return id;
 		}
 		
@@ -199,13 +204,18 @@ public class NewspaperController extends BaseController{
 			Newspaper n = null;
 			if(newspaperDTOPut.getPublish()){
 				n = newspaperService.publishNewspaper(idScenario, number);
+				if(n==null)
+					throw new BadRequestException("Impossible to publish newspaper");
+				logService.logPublishNewspaper(idScenario, n.getId(), activeUser.getId());
 			}else{
 				n = newspaperService.updateNewspaper(idScenario, number, newspaperDTOPut);
-				System.out.println("update newspaper!!!");
-				//logService.logUpdateNewspaper(idScenario,n.getId(), activeUser.getId());
+				if(n==null)
+					throw new BadRequestException("Impossible to update newspaper");
+				logService.logUpdateNewspaper(idScenario, n.getId(), activeUser.getId());
 			}
-			if(n==null)
-				throw new BadRequestException("Impossible to update newspaper");
+			
+			scenarioService.lastUpdateScenario(idScenario, new Date());
+			
 			return n;
 		}
 		
@@ -215,12 +225,9 @@ public class NewspaperController extends BaseController{
 		@PreAuthorize("hasRole('ROLE_USER') and (hasPermission(#idScenario, 'Scenario', 'MODERATOR') or hasPermission(#idScenario, 'Newspaper', 'WRITE'))")
 		public void deleteNewspaper(@PathVariable String idScenario, @RequestParam(value = "number", required=true) Integer number, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
 			
-			boolean dd = newspaperService.deleteNewspaper(idScenario, number);
-			if(!dd)
-				throw new BadRequestException("Impossible to delete newspaper");
-			
-			//logService.logDeleteScenario(id, activeUser.getId(), deleted);
-			//scenarioService.lastUpdateScenario(id, new Date());
+			String idNewspaper = newspaperService.deleteNewspaper(idScenario, number);
+			scenarioService.lastUpdateScenario(idScenario, new Date());
+			logService.logRemoveNewspaper(idScenario, idNewspaper, activeUser.getId());
 		}
 		
 		//metodo usato sia per aggiungere un nuovo articolo ad un numero di giornale sia per modificarne uno esistente
@@ -229,7 +236,9 @@ public class NewspaperController extends BaseController{
 		@PreAuthorize("hasRole('ROLE_USER') and ( hasPermission(#idScenario, 'Scenario', 'MODERATOR') or hasPermission(#idScenario, 'Newspaper', 'WRITE'))")
 		public Newspaper updateArticle(@PathVariable String idScenario, @PathVariable Integer number, @RequestBody ArticleDTO articleDTO, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException{
 			Newspaper n = newspaperService.updateArticle(idScenario, number, articleDTO, activeUser.getId());
-			//logService.logUpdateNewspaper(idScenario,n.getId(), activeUser.getId());
+			
+			scenarioService.lastUpdateScenario(idScenario, new Date());
+			logService.logUpdateArticle(idScenario, n.getId(), activeUser.getId());
 			return n;
 		}
 		
@@ -242,7 +251,8 @@ public class NewspaperController extends BaseController{
 			
 			Reference newJournalist = userService.getUserReferenceById(idUser);
 		    newspaperService.updateJournalist(idScenario, newJournalist);
-			//logService.logUpdateQualcosa(idScenario,n.getId(), activeUser.getId());
+		    scenarioService.lastUpdateScenario(idScenario, new Date());
+			logService.logAddJournalist(idScenario, activeUser.getId(), idUser);
 			
 		}
 		
@@ -251,6 +261,8 @@ public class NewspaperController extends BaseController{
 		@RequestMapping(value="/v1/scenarios/{idScenario}/journalist", method=RequestMethod.DELETE)
 		@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
 		public void removeUserFromJournalist(@PathVariable String idScenario, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
-			newspaperService.updateJournalist(idScenario, null);
+			String idOldJ= newspaperService.updateJournalist(idScenario, null);
+			scenarioService.lastUpdateScenario(idScenario, new Date());
+			logService.logRemoveJournalist(idScenario, activeUser.getId(), idOldJ);
 		}
 }

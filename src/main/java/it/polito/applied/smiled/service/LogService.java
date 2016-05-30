@@ -80,6 +80,26 @@ public interface LogService {
 	public void logRemoveCharacterMission(String scenarioId, String userId, String characterId);
 
 	public void logRemoveScenarioMission(String scenarioId, String userId);
+	
+	//NEW_NEWSPAPER, DEL_NEWSPAPER, ADD_JOURNALIST, DEL_JOURNALIST, UPD_ARTICLE, NEWSPAPER_ON, NEWSPAPER_OFF;
+	
+	public void logAddNewspaper(String scenarioId, String newspaperId, String userId);
+	
+	public void logUpdateNewspaper(String scenarioId, String newspaperId, String userId);
+	
+	public void logPublishNewspaper(String scenarioId, String newspaperId, String userId);
+	
+	public void logRemoveNewspaper(String scenarioId, String newspaperId, String userId);
+	
+	public void logAddJournalist(String scenarioId, String masterUserId, String slaveUserId);
+	
+	public void logRemoveJournalist(String scenarioId, String masterUserId, String removedJournalistId);
+	
+	public void logUpdateArticle (String scenarioId, String newspaperId, String userId);
+	
+	public void logNewspaperON (String scenarioId, String userId);
+	
+	public void logNewspaperOFF (String scenarioId, String userId);
 
 	public void logUpdateScenarioCover(String scenarioId, String userId);
 

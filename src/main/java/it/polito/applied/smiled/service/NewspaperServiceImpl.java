@@ -187,20 +187,20 @@ public class NewspaperServiceImpl implements NewspaperService {
 	}
 
 	@Override
-	public boolean deleteNewspaper(String idScenario, Integer number) {
+	public String deleteNewspaper(String idScenario, Integer number) throws BadRequestException {
 		Newspaper n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeleted(idScenario, number);
 		if(n==null)
-			return false;
+			throw new BadRequestException("Newspaper not found!");
 		if(n.getStatus().equals(PostStatus.DRAFT)){
 			Long num = newspaperRepo.removeByIdScenarioAndNumber(idScenario, number);
 			if (num==0)
-				return false;
+				throw new BadRequestException("Newspaper not deleted!");
 			else 
-				return true;
+				return "-1";
 		}
 				
 		else{
-			return newspaperRepo.putInDeletedStatus(idScenario, number);
+			return newspaperRepo.putInDeletedStatus(idScenario, number).getId();
 		}
 	}
 
@@ -285,10 +285,12 @@ public class NewspaperServiceImpl implements NewspaperService {
 	}
 
 	@Override
-	public void updateJournalist(String idScenario, Reference newJournalist) throws BadRequestException {
+	public String updateJournalist(String idScenario, Reference newJournalist) throws BadRequestException {
 		Scenario scen = scenarioRepo.findById(idScenario);
 		if(scen==null)
 			throw new BadRequestException("Scenario not found!");
+		String idOldJournalist = scen.getActualJournalist().getId();
+		
 		if(newJournalist!=null){
 			List<Reference> allPeopleInScenario = new ArrayList<Reference>();
 			if(scen.getAttendees()!=null)
@@ -331,6 +333,7 @@ public class NewspaperServiceImpl implements NewspaperService {
 		
 			
 		}
+		return idOldJournalist;
 
 	}
 

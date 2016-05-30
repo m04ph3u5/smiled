@@ -13,7 +13,7 @@ public interface CustomNewspaperRepository {
 	public Newspaper findNewspaperByIdScenarioAndNumberAndStatusNotDeleted(String idScenario, int number);
 	public Newspaper findNewspaperByIdScenarioAndNumberAndStatusNotDeletedOrPublished(String idScenario, int number);
 	public List<Newspaper> findByIdScenarioAndNotDeleted(String id);
-	public boolean putInDeletedStatus(String idScenario, Integer number);
+	public Newspaper putInDeletedStatus(String idScenario, Integer number);
 	public Newspaper updateArticle(String idScenario, Integer number, Article a);
 	public Newspaper insertArticle(String idScenario, Integer number, Article a);
 	
