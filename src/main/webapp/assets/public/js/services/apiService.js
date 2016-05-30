@@ -1151,7 +1151,7 @@
 		getLastHistoricPosts: getLastHistoricPosts,
 		getLastCharacterPosts : getLastCharacterPosts,
 		getInfoStatistics : getInfoStatistics,
-		
+		/*API Newspaper*/
 		createnewspaper : createnewspaper,
 		getLastNewspaper : getLastNewspaper,
 		getMyLastNewspaper : getMyLastNewspaper,
@@ -1163,6 +1163,7 @@
 		updateNewspaper : updateNewspaper,
 		deleteNewspaper : deleteNewspaper,
 		updateArticle : updateArticle,
+		
 		updateUserJournalist : updateUserJournalist,
 		removeUserFromJournalist : removeUserFromJournalist
 	}

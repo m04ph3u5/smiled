@@ -291,8 +291,10 @@ public class NewspaperServiceImpl implements NewspaperService {
 			throw new BadRequestException("Scenario not found!");
 		if(newJournalist!=null){
 			List<Reference> allPeopleInScenario = new ArrayList<Reference>();
-			allPeopleInScenario.addAll(scen.getAttendees());
-			allPeopleInScenario.addAll(scen.getCollaborators());
+			if(scen.getAttendees()!=null)
+				allPeopleInScenario.addAll(scen.getAttendees());
+			if(scen.getCollaborators()!=null)
+				allPeopleInScenario.addAll(scen.getCollaborators());
 			allPeopleInScenario.add(scen.getTeacherCreator());
 			boolean userInScenario=false;
 			for (Reference r : allPeopleInScenario){

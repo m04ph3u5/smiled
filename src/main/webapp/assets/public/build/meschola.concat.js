@@ -3,7 +3,7 @@ angular.module('smiled.application', ['ui.router', 'ngCookies', 'ui.bootstrap',
                                       'ngFileUpload', 'ui.date', 'ngDialog',
                                       'ang-drag-drop','infinite-scroll', 'ngTagsInput',
                                       'bootstrapLightbox', 'ngSanitize', 'fox.scrollReveal',
-                                      'ui.slider', 'FBAngular', 'angular-p5']);
+                                      'ui.slider', 'FBAngular', 'angular-p5',]);
       
 
 
@@ -414,6 +414,9 @@ angular.module('smiled.application')
 				pageTitle : 'Notifiche - Meschola'
 			}
 		})
+		
+		
+		
 		.state('logged.scenario',{
 			url: "/scenario/{id}",
 			abstract: true,
@@ -511,7 +514,7 @@ angular.module('smiled.application')
 		.state('logged.scenario.missions',{
 			url: '/compiti',
 			views : {
-				'body' : {
+				'body' : {	
 					templateUrl : "assets/private/partials/missions.html",
 					controller : "scenarioMissionsCtrl",
 					controllerAs : "scenarioMissions"
@@ -546,6 +549,111 @@ angular.module('smiled.application')
 				pageTitle : "Grafo delle relazioni - Meschola"
 			}
 		})
+		
+		//first page redazione 
+		
+		.state('logged.scenario.editorial',{
+			url: '/giornale-dashboard',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/dashboard-news.html",
+					controller:  "dashboardNewspaperCtrl",  
+					controllerAs: "dashboardNewspaper"
+					 
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		//Impaginazione 1 - INTERNA ALLO SCENARIO
+		
+		.state('logged.scenario.template1',{
+			url: '/giornale-impaginazione1',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/first-template-newspaper.html",
+					controller: "firstTemplateCtrl", 
+					controllerAs: "firstTemplate"	
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		//impaginazione 2 
+		.state('logged.scenario.template2',{
+			url: '/giornale-impaginazione2',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/second-template-newspaper.html",
+					controller: "secondTemplateCtrl", 
+					controllerAs: "secondTemplate"	
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		
+		//bozza articolo su 2 colonne - TOTALE
+		
+		.state('logged.draftArticle2col',{
+			url: '/draft-first',
+			views : {
+				'content' : {
+					templateUrl : "assets/private/partials/first-article-draft.html",
+					controller: "draftCtrl"
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		//Bozza articolo - (2 colonne)
+		
+			.state('logged.scenario.draftArticle2col',{
+			url: '/2col-dashboard-draft',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/two-columns-article-draft.html",
+					controller: "draftCtrl",
+					controllerAs: "draft"
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		//Bozza articolo - SIMPLE (1 colonna) 
+		
+			.state('logged.scenario.draftArticleSimple',{
+			url: '/simple-dashboard-draft',
+			views : {
+				'body' : {
+					templateUrl : "assets/private/partials/simple-article-draft.html",
+					controller: "draftCtrl",
+					controllerAs: "draft"
+				}
+			},
+			data: {
+				pageTitle : "Redazione del Giornale - Meschola"
+			}
+		})
+		
+		
+		
+		
+		
+		
 		.state('logged.scenario.charprofile',{
 			url: '/personaggi/{idCharacter}',
 			views: {
@@ -588,20 +696,24 @@ angular.module('smiled.application')
 			templateUrl: "assets/private/partials/info-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.attendees',{
-			url : "/{id}/attendees",
+			url : "/{id}/partecipanti",
 			templateUrl: "assets/private/partials/attendees-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.characters',{
-			url : "/{id}/characters",
+			url : "/{id}/personaggi",
 			templateUrl: "assets/private/partials/characters-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.associations',{
-			url : "/{id}/associations",
+			url : "/{id}/associazioni",
 			templateUrl: "assets/private/partials/associations-scenario-wizard.html",
 		})
 		.state('logged.scenarioWizard.collaborators',{
-			url : "/{id}/collaborators",
+			url : "/{id}/collaboratori",
 			templateUrl: "assets/private/partials/collaborators-scenario-wizard.html",
+		})
+		.state('logged.scenarioWizard.newspaper',{
+			url : "/{id}/giornale",
+			templateUrl: "assets/private/partials/newspaper-scenario-wizard.html",
 		})
 		
 //		.state('logout',{
@@ -2407,6 +2519,36 @@ angular.module('smiled.application').controller('dashboardCtrl', ['loggedUser','
 	
 }]);
 
+angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService','$stateParams', '$state',
+              function firstTemplateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $stateParams, $state){
+	
+	
+	var self = this; 
+	self.continueProduction = article.getBooleanRedazione();
+	self.idTemplate = article.getIdCurrentTemplate();
+	
+	//modal Carousel scelta impaginazione
+	
+    self.showPopUpTemplates = function (){
+    	modalService.showChooseTemplate();  
+		//modalService.showModalChooseTemplate();
+	};
+	
+	self.goToTemplate = function (){	
+		if(self.idTemplate == "1")
+		{		$state.go('logged.scenario.template1');
+	}
+		if(self.idTemplate == "2"){
+			$state.go('logged.scenario.template2');
+			
+			
+		}
+	}
+	
+	
+	
+	
+}]);
 angular.module("smiled.application").controller('deleteResourceCtrl', [ 'file', 'modalService', 
 	function deleteResourceCtrll(file, modalService){
 		var self = this;
@@ -2414,6 +2556,63 @@ angular.module("smiled.application").controller('deleteResourceCtrl', [ 'file', 
 		self.file=file;
 		
 		
+}]);
+angular.module('smiled.application').controller('dialogChooseTemplateCtrl', ['modalService','alertingGeneric', '$state', 'CONSTANTS', '$scope', 'article', '$stateParams',
+       
+                                                                  function dialogChooseTemplateCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams){
+	var self = this; 
+	var scenId = $stateParams.id;
+	
+    self.loadTemplate = function (idTemplate){
+    	//A seconda del template scelto, viene caricata la pagina corrispondente
+    	
+    	if(idTemplate == "1") {
+    		
+        	article.setBooleanRedazione();
+        	article.setIdCurrentTemplate(idTemplate);
+            $state.go('logged.scenario.template1');
+        	modalService.closeModalShowChooseTemplate();	
+    		
+    		
+    	} else 
+    		
+    	if(idTemplate == "2") {
+    		
+    	article.setBooleanRedazione();
+    	article.setIdCurrentTemplate(idTemplate);
+        $state.go('logged.scenario.template2');
+        modalService.closeModalShowChooseTemplate();		
+    	} else 
+    		
+    		//cambiare lo state quando ci sarà anche il terzo template disponibile
+    		
+    	if(idTemplate == "3") {
+    		article.setBooleanRedazione();
+    		article.setIdCurrentTemplate(idTemplate); 
+            $state.go('logged.scenario.template2');
+            modalService.closeModalShowChooseTemplate();	
+    	}
+	};
+	
+	//carousel modal images
+	
+	$scope.myInterval = 4000;
+	$scope.slides = [
+	    {
+	      image: 'assets/public/img/newspaper-img/template_I.png'
+	    },
+	    {
+	      image: 'assets/public/img/newspaper-img/template_II.png'
+	    },
+	    {
+	      image: 'assets/public/img/newspaper-img/primo-template.png'
+	    },
+	    {
+	      image: 'assets/public/img/newspaper-img/primo-template.png'
+	    }
+	  ];
+	
+	
 }]);
 angular.module('smiled.application').controller('dialogConfirmRegistrationCtrl', ['modalService', 'userService', 'alertingGeneric', '$scope','confirmRegistrationBool',
                  function dialogConfirmRegistrationCtrl(modalService, userService, alertingGeneric, $scope, confirmRegistrationBool){
@@ -2454,6 +2653,76 @@ angular.module('smiled.application').controller('dialogConfirmRegistrationCtrl',
 		
 	}
 }]);
+angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalService','alertingGeneric', '$state', 'CONSTANTS', '$scope', 'article','$stateParams',
+       
+                                                                  function dialogHeadlineCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams){
+	var self = this;
+	var scenId = $stateParams.id;
+	self.invalidTitle=false;
+	self.headline = article.getTitle(); 
+	self.idCurrentTemplate = article.getIdCurrentTemplate(); 
+    self.setHeadline = function (){	
+    if(self.headline.title.length<4){
+			
+			alertingGeneric.addWarning("Inserire un titolo di almeno 4 caratteri");	
+			/*self.invalidTitle = true;*/
+			console.log("NO");
+		} else
+			
+			
+			if(self.idCurrentTemplate == "1") {
+				article.setTitle(headline);
+				modalService.closeModalCreateTitle(); 		
+				$state.go('logged.scenario.template1');	
+			}	else 
+			
+			if(self.idCurrentTemplate == "2") {
+				article.setTitle(headline);
+				modalService.closeModalCreateTitle(); 		
+				$state.go('logged.scenario.template2');	
+				
+				
+			}
+			
+			
+    
+    
+    $scope.$watch('self.headline.title', function(newVal, oldVal){
+		if(newVal) {
+		if(self.headline.title.length<4){
+			self.invalidTitle = true; 	
+			
+		}
+		
+		else {
+			
+			self.invalidTitle = false;
+				
+		}
+		
+		}
+		
+		
+	});
+    		
+	};
+	
+	
+	//se l'utente chiude la finestra cliccando su ANNULLA 
+	
+	self.closeDialog = function (){
+		
+		self.headline.title = "Assegna un nome al giornale";
+		$scope.$dismiss();
+		
+	}
+	
+}]);
+
+
+
+
+
 angular.module('smiled.application').controller('dialogMissionCtrl', ['modalService', 'apiService', 'alertingGeneric', '$scope',
                  function dialogMissionCtrl(modalService, apiService, alertingGeneric, $scope){
 	var self = this;
@@ -2498,6 +2767,7 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	self.scenario.startDate = {};
 	self.scenario.endDate = {};
 	self.scenario.showRelationsToAll = true;
+	self.scenario.newspaperEnabled = true;
 	self.scenario.startDate.afterChrist = true;
 	self.scenario.endDate.afterChrist = true;
 	self.startDate = {};
@@ -2701,6 +2971,57 @@ function dialogSetDateCtrl(modalService, alertingGeneric, $state, scen, start, C
 	
 	
 }]);
+angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','$state','article', 
+              function draftCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, $state, article){
+	 
+	var self = this; 
+	
+	//settaggio id da service - verrà preso dal DB
+	self.id = article.getArticleId(); 
+	console.log(self.id + "ID ARTICOLO");
+	self.idTemplate = article.getIdCurrentTemplate();
+	self.article = article.getArticleObject(self.id);
+	self.isChecked = false;
+	self.isCityChecked = false; 
+	
+	self.setData = function(input){
+	      
+	       if (input == undefined ) {
+	            console.log ("its undefined");
+	        }       
+	        else {
+	        	
+	        	if (input.title == "") {
+	        		input.title = "Titolo dell'articolo";
+	        	}
+	        	
+	        	/*if (input.subtitle == "") {
+	        		input.subtitle = "Sottotitolo dell'articolo";
+	        		
+	        	}*/
+	           
+	    	    if (self.idTemplate == "1") {
+	    	    	article.setArticleObject(input, self.id);
+		            $state.go('logged.scenario.template1');
+	    	    	
+	    	    } 
+	    	    
+	    	    if (self.idTemplate == "2") {
+	    	    	article.setArticleObject(input, self.id);
+		            $state.go('logged.scenario.template2');
+	    	    	
+	    	    	
+	    	    }
+	    	    
+	            /*article.setArticleObject(input, self.id);
+	            $state.go('logged.scenario.template1');*/
+	      
+	  }  
+	         
+	}
+	
+	
+}]);
 angular.module('smiled.application').controller('draftsListCtrl', ['loggedUser', 'drafts','apiService', 'CONSTANTS',
     function draftsListCtrl(loggedUser, drafts, apiService, CONSTANTS){
 	
@@ -2760,6 +3081,88 @@ angular.module('smiled.application').controller('filesListCtrl', ['loggedUser', 
 	
 	var self = this;
 	self.user = loggedUser;
+	
+}]);
+angular.module('smiled.application').controller('firstTemplateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state',
+              function firstTemplateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state){
+	
+	var self = this; 
+	self.showWarning = false;
+	
+	
+	self.goToDraft = function (id){
+		
+		//go to draft session - ID PROVVISORIO ricevuto dalla vista
+		
+			if(id==1) {	
+			var id = "1"; 
+			article.setArticleId(id); 
+			$state.go('logged.scenario.draftArticle2col');	
+		}	
+		
+		if (id==2) {
+			var id = "2";
+			article.setArticleId(id);	
+			$state.go('logged.scenario.draftArticleSimple');
+			
+		}
+		
+		if (id==3) {
+			var id = "3";
+			article.setArticleId(id);
+			$state.go('logged.scenario.draftArticle2col');		
+			
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	//recupero i dati dal service 
+	/*self.article = article.getArticleObject("1");
+	
+	
+	$scope.titlearticle1 = storageData.articles.article1col.titlearticle1; 
+	$scope.textarticle1 =  storageData.articles.article1col.textarticle1;
+	
+	$scope.imageUrl1 = storageData.articles.article2col.imageUrl;*/
+	
+	//titolo articolo 2 colonne orizzontali con immagine
+    /*$scope.titlearticle2img = storageData.articles.article2colimg.titlearticle2img; 
+    $scope.textcol1 = storageData.articles.article2colimg.text.textcol1; 
+    $scope.textcol2 = storageData.articles.article2colimg.text.textcol2;
+    $scope.imageUrl3 = storageData.articles.article2colimg.imageUrl;*/ 
+    
+    
+    
+    //Funzioni watch - per ora solo sul titolo. 
+    
+/*    $scope.$watch('self.article.titlearticle2', function(val) {
+    	
+    	if(self.article.titlearticle2.length>25) {
+    		self.showWarning = true; 
+			console.log ("ATTENZIONE" + self.showWarning);
+			
+		} else
+			{
+			self.showWarning = false; 
+			console.log ("VA BENE");
+			
+			}
+    		
+});*/ 	   		
+
+	
+	
+	
+	
+    
+   
 	
 }]);
 angular.module('smiled.application').controller('forgotCtrl', ['userService','alertingGeneric', 
@@ -4447,8 +4850,8 @@ angular.module('smiled.application').controller('scenarioCharactersCtrl', ['CONS
 	}
 	onStartup();
 }]);
-angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload','notifyService','$scope','$interval',
-                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService, $scope, $interval){
+angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'loggedUser', 'CONSTANTS', 'apiService', 'userService','modalService', '$location','$anchorScroll','Upload','notifyService','$scope','$interval','$state','article','$log',
+                                                function scenarioCtrl(scenario, loggedUser, CONSTANTS, apiService, userService, modalService, $location, $anchorScroll, Upload, notifyService, $scope, $interval, $state, article, $log){
 	
 	
 	var self = this;
@@ -4467,7 +4870,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	self.showBoxInfo = true;
 	self.numNewPost = 0;
 	self.dateFormat = CONSTANTS.realDateFormatWithMinute;
-	
+	self.continueProduction = article.getBooleanRedazione(); 
 	
 	/*-----------------------------------UTILIY------------------------------------------------*/
 	
@@ -4536,6 +4939,14 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 		
 	}
 	
+	self.goToNewspaper = function() {
+		
+			$state.go('logged.scenario.editorial');			
+		
+				
+	}
+			
+	
 	/*-----------------------------------UTILIY------------------------------------------------*/
 	
 	
@@ -4603,11 +5014,7 @@ angular.module('smiled.application').controller('scenarioCtrl', ['scenario', 'lo
 	
 	
 	
-	self.goToBody = function(){
-		$location.hash("body-content");
-	    $anchorScroll();
-	    $location.url($location.path());
-	}
+	 
 	
 	var newPostListener = $scope.$on('notification.newPostEvent', function () {
         self.incrementNumNewPost();
@@ -5491,6 +5898,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		var currentCharacterIndex = -1;
 		var getMePromise = $q.defer();
 		var id = $stateParams.id;
+		self.showNewspaperTab;
 		
 		
 		//GET ME
@@ -5564,7 +5972,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 						function(data){
 							self.scenarioServer = data;
 							self.scenario = angular.copy(data);
-							
+
 							self.title = data.name;
 							
 							updateSelectableAttendees();
@@ -5573,7 +5981,27 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							//updateSelectableCollaborators();
 							
 							updateAssociated();
-
+							if(self.scenario.newspaperEnabled){
+								
+								self.showNewspaperTab=true;
+								
+								self.actualJournalist = self.scenario.actualJournalist;
+								updateAllPeopleInScenario();
+								if(self.allPeopleInScenario!=null){
+									for(var i=0; i<self.allPeopleInScenario.length; i++){
+										if(self.actualJournalist != null && self.allPeopleInScenario[i].id == self.actualJournalist.id)
+											self.allPeopleInScenario.splice(i,1);
+									}
+								}
+								
+								
+							}else{
+								self.showNewspaperTab=false;
+								if(tab==5){
+									$state.go("logged.scenarioWizard.info");
+								}
+							}
+							
 							retrieveCharacterAndOrder();
 						
 						}, function(reason){
@@ -5787,6 +6215,31 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			
 		}
 		
+		self.selectNewJournalist = function(){
+			return apiService.updateUserJournalist(self.scenario.id, self.selectedJournalist.id).then(
+					function(data){
+						if(self.actualJournalist!=null && self.actualJournalist!=""){
+							var oldJournalist = angular.copy(self.actualJournalist);
+							self.allPeopleInScenario.push(oldJournalist);
+						}
+						self.actualJournalist=angular.copy(self.selectedJournalist);
+						self.selectedJournalist="";
+						for(var i=0; i<self.allPeopleInScenario.length; i++){
+							if(self.allPeopleInScenario[i].id == self.actualJournalist.id)
+								self.allPeopleInScenario.splice(i,1);
+						}
+						
+					},
+					function(reason){
+						console.log("failed to select new journalist");
+						self.selectedJournalist="";
+						console.log(reason);
+					}
+			
+		);
+			
+		}
+		
 		var filterListSelectableCollaborators = function(l){
 			
 			var found=false;
@@ -5846,13 +6299,17 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			scenarioDTO.description = self.scenario.description;
 			scenarioDTO.history = self.scenario.history;
 			scenarioDTO.showRelationsToAll = self.scenario.showRelationsToAll;
+			scenarioDTO.newspaperEnabled = self.scenario.newspaperEnabled;
 			
 			if(id==null){
 				scenarioDTO.showRelationsToAll = true;
+				scenarioDTO.newspaperEnabled = true;
+				
 				if(infoValidate()){
 					apiService.createScenario(scenarioDTO).then(
 							function(data){
 								id = data.id;
+								self.showNewspaperTab=true;
 							},
 							function(reason){								
 								console.log("Errore creazione scenario");
@@ -5867,6 +6324,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 							function(data){
 								self.scenarioServer = data;
 								self.scenario = angular.copy(data);
+								
+								if(self.scenario.newspaperEnabled)
+									self.showNewspaperTab=true;
+								else
+									self.showNewspaperTab=false;
+								self.actualJournalist=self.scenario.actualJournalist;
+								
 								updateCover();
 								alertingGeneric.addSuccess("Scenario modificato");
 							},
@@ -5881,7 +6345,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.inviteStudents = function(){
 			var emails = extractEmails(self.emailList);
-			console.log(emails);
+			
 			var emailsDTO=[];
 			if(emails){
 				for(var i=0; i<emails.length; i++){
@@ -6165,10 +6629,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				charDTO.deadDate = null;
 		}
 		
-		self.addCollaborator = function(collaborator){
+		self.addCollaborator = function(){
 			
 			
-			apiService.addCollaboratorToScenario(collaborator.id, id).then(
+			apiService.addCollaboratorToScenario(self.selectedCollaborator.id, id).then(
 					function(data){
 							if(self.scenarioServer.collaborators==null)
 								self.scenarioServer.collaborators = new Array();
@@ -6250,6 +6714,20 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(reason){
 						alertingGeneric.addWarning("Errore nella rimozione del partecipante.");
 						console.log("Delete attendee failed: "+reason);
+					}
+			)
+		}
+		
+		self.removeJournalist = function(){
+			apiService.removeUserFromJournalist(self.scenario.id).then(
+					function(data){
+						
+						self.allPeopleInScenario.push(self.actualJournalist);
+						self.actualJournalist=null;
+					},
+					function(reason){
+						alertingGeneric.addWarning("Errore nella rimozione del giornalista.");
+						console.log("Delete journalist failed: "+reason);
 					}
 			)
 		}
@@ -6546,14 +7024,16 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			var tabString = path.substr(path.lastIndexOf('/') + 1);
 			if(tabString=="info"){
 				tab=0;
-			}else if(tabString=="attendees"){
+			}else if(tabString=="partecipanti"){
 				tab=1;
-			}else if(tabString=="characters"){
+			}else if(tabString=="personaggi"){
 				tab=2;
-			}else if(tabString=="associations"){
+			}else if(tabString=="associazioni"){
 				tab=3;
-			}else if(tabString=="collaborators"){
+			}else if(tabString=="collaboratori"){
 				tab=4;
+			}else if(tabString=="giornale"){
+				tab=5;
 			}
 		}
 		
@@ -6568,7 +7048,19 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 		}
 		
+		var updateAllPeopleInScenario = function(){
+			self.allPeopleInScenario=[];
+			self.allPeopleInScenario = self.allPeopleInScenario.concat(self.notAssociatedAttendees);
+			if(self.associations!=null){
+				for(var i=0; i<self.associations.length; i++){
+					self.allPeopleInScenario.push(self.associations[i].attendee);
+				}
+			}
+		}
+		
 		self.changeStateTab = function(newDestination){
+			if(newDestination==5)
+				updateAllPeopleInScenario();
 			switch(tab){
 				case 0 : {
 					tab = newDestination;
@@ -6576,12 +7068,12 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					break;
 				}
 				case 1 : {
-					tab = newDestination;
+					tab = newDestination;				
 					break;
 				}
 				case 2: {
 					self.checkOpenAccordion();
-					tab = newDestination;
+					tab = newDestination;					
 					break;
 				}
 				case 3: {
@@ -6589,6 +7081,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					break;
 				}
 				case 4: {
+					tab = newDestination;
+					break;
+				}
+				case 5: {
 					tab = newDestination;
 					break;
 				}
@@ -6615,6 +7111,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			}
 			
 			if( a.showRelationsToAll != b.showRelationsToAll){
+				return false;
+			}
+			if( a.newspaperEnabled != b.newspaperEnabled){
 				return false;
 			}
 			
@@ -6732,7 +7231,6 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					if(startDate.month > endDate.month){  //startDate.month > endDate.month ERR
 						alertingGeneric.addWarning("La data di inizio deve precedere quella di fine");
 						return false;
-						return true;
 					}else if(
 						startDate.month < endDate.month){ //startDate.month < endDate.month GOOD
 						return true;
@@ -6874,6 +7372,14 @@ angular.module('smiled.application').controller('scenariosListCtrl',
 	self.showPopUpCreationScenario = function (){
 		modalService.showModalCreateScen();
 	};
+}]);
+angular.module('smiled.application').controller('secondTemplateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state',
+              function secondTemplateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state){
+	
+	
+	var self = this;
+	var idTemplate = article.getIdCurrentTemplate();
+	
 }]);
 angular.module('smiled.application').controller('setPasswordCtrl', ['userService', '$state', 'alertingRegistration', '$timeout',
                                                                  function setPasswordCtrl(userService, $state, alertingRegistration, $timeout){
@@ -7127,7 +7633,7 @@ angular.module('smiled.application').controller('updateScenarioCtrl', [ 'apiServ
 angular.module('smiled.application').factory('alertingGeneric',['$timeout', function($timeout) {
         
         var currentAlerts = [];
-        var alertTypes = ["success", "info", "warning", "danger"];
+        var alertTypes = ["success", "info", "warning", "danger", "arrow_box1"];
 
         var addWarning = function (message) {
             addAlert("warning", message);
@@ -7144,6 +7650,7 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
         var addSuccess = function (message) {
             addAlert("success", message);
         };
+        
 
         var addAlert = function (type, message) {
         	
@@ -7177,6 +7684,7 @@ angular.module('smiled.application').factory('alertingGeneric',['$timeout', func
                 addDanger(description);
             };
         };
+        
 
         return {
             addWarning: addWarning,
@@ -8304,6 +8812,186 @@ angular.module('smiled.application').factory('alertingScenario',['$timeout', '$l
 		return s.promise;
 	}
 	
+	/*
+	 * NEWSPAPER API START-----------------------------------------------------
+	 * 
+	 */
+	
+	var createnewspaper = function(newspaperDTO, idScenario){
+		var s = $q.defer();
+		$http.post("/api/v1/scenarios/"+idScenario+"/newspapers", scenarioDTO).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	
+	var getLastNewspaper = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/newspapers/last").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var getMyLastNewspaper = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/myNewspapers/last").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var getnewspaperNumber = function(idScenario, number){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/newspapers/"+number).then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var getmyNewspaperNumber = function(idScenario, number){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/myNewspapers/"+number).then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	var getpublishedNewspapers = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/newspapers").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	var getMyNewspapers = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/myNewspapers").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	var lastNewspaperName = function(idScenario){
+		var p = $q.defer();
+		$http.get('/api/v1/scenarios/'+idScenario+"/lastNewspaperName").then(
+				function(response){
+					
+					p.resolve(response.data);
+				},
+				function(reason){
+					p.reject(reason);
+				}
+		);
+		return p.promise;
+	}
+	
+	var updateNewspaper = function(idScenario, number, newspaperDTOPut){
+		var c = $q.defer();
+		$http.put("/api/v1/scenarios/"+idScenario+"/newspapers?number="+number, newspaperDTOPut).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+
+	var deleteNewspaper = function(idScenario, number){
+		var s = $q.defer();
+		$http.delete("/api/v1/scenarios/"+idScenario+"/newspapers?number="+number).then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	var updateArticle = function(idScenario, number, articleDTO){
+		var c = $q.defer();
+		$http.put("/api/v1/scenarios/"+idScenario+"/newspapers?number="+number, articleDTO).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+	var updateUserJournalist = function(idScenario, idUser){
+		var c = $q.defer();
+		$http.put("/api/v1/scenarios/"+idScenario+"/journalist/"+idUser).then(
+				function(response){
+					c.resolve(response.data);
+				},
+				function(reason){
+					c.reject(reason);
+				}
+		);
+		return c.promise;
+	}
+	
+	var removeUserFromJournalist = function(idScenario){
+		var s = $q.defer();
+		$http.delete("/api/v1/scenarios/"+idScenario+"/journalist").then(
+				function(response){
+					s.resolve(response.data);
+				},
+				function(reason){
+					s.reject(reason);
+				}
+		);
+		return s.promise;
+	}
+	/*
+	 * NEWSPAPER API END-----------------------------------------------------
+	 * 
+	 */
+	
 
 	return {
 		postRegister: postRegister,
@@ -8360,12 +9048,223 @@ angular.module('smiled.application').factory('alertingScenario',['$timeout', '$l
 		getLastPosts : getLastPosts,
 		getLastHistoricPosts: getLastHistoricPosts,
 		getLastCharacterPosts : getLastCharacterPosts,
-		getInfoStatistics : getInfoStatistics
+		getInfoStatistics : getInfoStatistics,
+		
+		createnewspaper : createnewspaper,
+		getLastNewspaper : getLastNewspaper,
+		getMyLastNewspaper : getMyLastNewspaper,
+		getnewspaperNumber : getnewspaperNumber,
+		getmyNewspaperNumber : getmyNewspaperNumber,
+		getpublishedNewspapers : getpublishedNewspapers,
+		getMyNewspapers : getMyNewspapers,
+		lastNewspaperName : lastNewspaperName,
+		updateNewspaper : updateNewspaper,
+		deleteNewspaper : deleteNewspaper,
+		updateArticle : updateArticle,
+		updateUserJournalist : updateUserJournalist,
+		removeUserFromJournalist : removeUserFromJournalist
 	}
 
 
 
 }]);
+
+angular.module('smiled.application').factory('article',
+		[ '$http', '$q', function article($http, $q) {
+
+			//Oggetti articoli --> verranno scaricati da db
+			article2col = {}; 
+			article1colImg = {};
+			article2colImg = {};
+			articleColImage = {};
+			article1colImgTemp2	= {};
+			article2colTemp2 = {};
+			article1col = {};
+			
+			idArticle = ""; 
+			idCurrentTemplate = ""; 
+			
+			headline = {}; 
+			headline.title = 'Assegna un nome al giornale';
+			headline.date = ''; 
+			headline.number = '';
+			
+			
+			article2col.title = 'Titolo primo articolo';
+			article2col.subtitle = "Sottotitolo dell'articolo";
+			article2col.text = {
+					
+					col1:"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+					col2:"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",	
+			}
+			article2col.city = "";
+			
+			
+			article1colImg.title = 'Rubrica personaggio';
+			article1colImg.subtitle = '';
+			article1colImg.text = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";
+			article1colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';	
+			
+			
+			article2colImg.title = 'Titolo di un altro articolo';
+			article2colImg.subtitle = "Sottotitolo dell'articolo";
+			article2colImg.text = {
+					col1: "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+					col2:"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",		
+			}
+			article2colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg'
+			article2colImg.city = "";
+				
+			article1colImgTemp2.title = "Il punto di vista dell'antagonista";
+			article1colImgTemp2.subtitle = ""; 
+			article1colImgTemp2.text = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";		
+			article1colImgTemp2.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';	
+			
+			articleColImage.title = "L'evento principale dello scenario";
+			articleColImage.subtitle = "Sottotitolo dell'articolo"; 
+			articleColImage.text = "Qui comparira' il testo dell'articolo. Clicca sul campo che vuoi modificare e inizia a scrivere!"
+			articleColImage.city = ""; 
+				
+			article1col.title = "La societa' nella storia";
+			article1col.subtitle = "Sottotitolo dell'articolo";
+			article1col.text = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";
+			article1col.city = "";
+			
+			article2colTemp2.title = "Articolo di fondo";
+			article2colTemp2.subtitle = "";
+			article2colTemp2.text = {
+					
+				col1: "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+				col2: "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+					
+			}
+			article2colTemp2.city = ""; 
+			
+			var setArticleObject = function(input, id) {
+				if(id == "1") {article2col = input; }
+				if (id == "2") {article1colImg = input; }
+				if (id == "3") {article2colImg = input; }
+				if(id== "4") {article1colImgTemp2 = input;}
+				if (id == "5") {articleColImage = input; }
+				if(id == "6") {article1col = input; }
+				if( id == "7") {article2colTemp2 = input; }
+				
+				 console.log(article2col);
+			}
+			
+			var getArticleObject = function(id) {
+				if (id == "1") return article2col;
+				if (id == "2") return article1colImg;
+				if (id == "3") return article2colImg;
+				if(id == "4") return article1colImgTemp2; 
+				if (id == "5") return articleColImage; 
+				if(id == "6") return article1col; 
+				if(id == "7") return article2colTemp2; 
+				
+			}
+			
+			var getTitle = function() {
+				return headline;
+			}
+			
+			var setTitle = function(headlineNewspaper){
+				headline = headlineNewspaper; 
+				console.log(headline); 
+			}
+			
+			//FUNZIONE MOLTO PROVVISORIA, RICEVE L'id dell'articolo dal controllore 
+			
+			var setArticleId = function(id){
+				
+				if(id == "1") {
+					idArticle = id;
+				}
+				
+				if(id == "2"){
+					
+					idArticle = id; 
+				}
+				
+				if(id == "3") {
+					
+					idArticle = id;
+				}
+				
+				if(id == "4") {
+					
+					idArticle = id; 
+					
+				}
+				
+				if (id == "5") {
+					idArticle = id; 
+					
+				}
+				
+				if (id == "6") {
+					idArticle = id; 
+					
+				}
+				
+				if(id == "7"){
+					
+					idArticle = id; 
+					
+				}
+			}
+			
+			
+			
+			var getArticleId = function(){
+				
+				return idArticle; 
+			}
+			
+			var continueProduction = false; 
+			
+			
+			var getBooleanRedazione = function (){
+				
+				return continueProduction; 
+			}
+			
+			var setBooleanRedazione = function () {
+				
+				continueProduction = true; 
+				
+			}
+			
+			var getIdCurrentTemplate = function(){
+				
+				return idCurrentTemplate;
+				
+			}
+			
+			var setIdCurrentTemplate = function(id) {
+				
+				idCurrentTemplate = id; 
+				
+			}
+			
+
+			return {
+
+				setArticleObject : setArticleObject, 
+				getArticleObject : getArticleObject, 			
+				getTitle : getTitle,
+				setTitle : setTitle,
+				setArticleId: setArticleId,
+				getArticleId: getArticleId,
+				setBooleanRedazione: setBooleanRedazione,
+				getBooleanRedazione: getBooleanRedazione,
+				setIdCurrentTemplate: setIdCurrentTemplate,
+				getIdCurrentTemplate: getIdCurrentTemplate
+				
+				}
+
+			
+
+		} ]);
 
 angular.module("smiled.application").constant("CONSTANTS",{
 	"realDateFormatWithHour": "d-M-yyyy H:mm",
@@ -8728,7 +9627,7 @@ angular.module('smiled.application').factory('messageService', [ '$q',
 	};
 }]);
 
-angular.module('smiled.application').factory('modalService', ['$modal', 'apiService', function modalService($modal, apiService){
+angular.module('smiled.application').factory('modalService', ['$modal', 'apiService','$anchorScroll','$location',function modalService($modal, apiService, $anchorScroll, $location){
 	
 		var scenario = {
 				
@@ -8768,6 +9667,17 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceDeletePost;
 		var modalInstanceConfirmRegistration;
 		var modalInstanceConcurrentModPost;
+		var modalInstanceCreateTitle; 
+		var modalInstanceChooseTemplate;
+		
+		
+		var optionsChooseTemplate = {
+				templateUrl: 'assets/private/partials/chooseTemplate.html',
+				controller: 'dialogChooseTemplateCtrl',
+				controllerAs: 'dialogChooseTemplate',
+				size: 'md',
+				
+		}
 		
 		var optionsConcurrentModPost = {
 				templateUrl: 'assets/private/partials/concurrentModPostTemplate.html',
@@ -8936,6 +9846,18 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		};
 		
 		
+		// template MODAL NEWSPAPER 
+		
+		var showCreateTitle = {
+				
+				templateUrl: 'assets/private/partials/createTitle.html',
+				controller: 'dialogHeadlineCtrl',
+				controllerAs: 'dialogHeadline',
+				size: 'lg',
+				/*windowClass: 'center-modal'*/		
+		};
+		
+			
 		var showModalCreateScen = function(){
 			modalInstanceCreateScen = $modal.open(optionsCreateScen);
 			return modalInstanceCreateScen.result;
@@ -9000,6 +9922,17 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceDeleteCharacter.close();
 		}
 		
+		// MODAL NEWSPAPER 
+		var showModalCreateTitle = function(){
+			modalInstanceCreateTitle = $modal.open(showCreateTitle);
+			return modalInstanceCreateTitle.result; 
+		}
+		
+		var closeModalCreateTitle = function(){
+			modalInstanceCreateTitle.close(); 
+		}
+			
+		
 		var createScenario = function(scenario){
 			 var history ={
 					 startDate : {
@@ -9029,6 +9962,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			 scenarioDTO.name = scenario.title;
 			 scenarioDTO.history = history;
 			 scenarioDTO.showRelationsToAll = scenario.showRelationsToAll;	
+			 scenarioDTO.newspaperEnabled = scenario.newspaperEnabled;
 			
 			 s = apiService.createScenario(scenarioDTO);
 			 return s; 
@@ -9121,6 +10055,15 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceSetHistoryDate = $modal.open(optionSetHistoryDate);
 			return modalInstanceSetHistoryDate.result;
 		}
+		
+		
+		//datePicker Headline
+		var showModalSetNewspaperDate = function(sDate, eDate){
+			startDate = sDate;
+			endDate = eDate;
+			modalInstanceSetHistoryDate = $modal.open(optionSetHistoryDate);
+			return modalInstanceSetHistoryDate.result;
+		}
 	
 		var closeModalSetHistoryDate = function(){
 			modalInstanceSetHistoryDate.close();
@@ -9173,6 +10116,20 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var closeModalConcurrentModPost = function(){
 			modalInstanceConcurrentModPost.close();
 		}
+		
+		
+		
+		var showChooseTemplate = function(){
+			modalInstanceChooseTemplate = $modal.open(optionsChooseTemplate);
+			return modalInstanceChooseTemplate.result;
+			
+		}
+		
+		var closeModalShowChooseTemplate = function(){
+			modalInstanceChooseTemplate.close();
+			
+		}
+		
 			
 		return {
 			createScenario : createScenario,
@@ -9212,7 +10169,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			getRegistrationToConfirm : getRegistrationToConfirm,
 			closeModalConfirmRegistration : closeModalConfirmRegistration,
 			showConcurrentModPost: showConcurrentModPost,
-			closeModalConcurrentModPost : closeModalConcurrentModPost
+			closeModalConcurrentModPost : closeModalConcurrentModPost,
+			showChooseTemplate: showChooseTemplate,
+			closeModalShowChooseTemplate: closeModalShowChooseTemplate,
+			
+			showModalCreateTitle : showModalCreateTitle,
+			closeModalCreateTitle : closeModalCreateTitle,
+			showModalSetNewspaperDate: showModalSetNewspaperDate,
+			
 		}
 }]);
 
@@ -10254,6 +11218,27 @@ angular.module('smiled.application').factory('webSocketService', [ '$timeout','m
 
 }]);
 
+angular.module("smiled.application").directive("alertArticle", [ 
+                                                              function(){
+                         	return {
+                         		restrict: 'E',
+                         		templateUrl: "assets/public/partials/alertArticle.html",
+                         		scope : {
+                         			 message: '=',
+                         				
+                         			
+                         		},
+                         		bindToController: true,
+                         		controller: ['$scope', function($scope){
+                         			var self = this;
+                         			self.messageTitle = "Attento, titolo troppo lungo";
+                         			
+                         		}],
+                         		
+                         		controllerAs: "alertArticle"
+                         		
+                         	}
+                         }]);
 angular.module("smiled.application").directive('alertgeneric',['alertingGeneric', function(alertingGeneric) {
 
         return {
@@ -10322,6 +11307,578 @@ angular.module("smiled.application").directive('alertscenario',['alertingScenari
         };
 
 }]);
+angular.module("smiled.application").directive('articleColumnImage', ['article', '$state',
+                                     function(article, $state){
+	
+	return {
+		
+		templateUrl: "assets/private/partials/article-column-image.html",
+		restrict: "E",
+		scope: {
+			
+			
+		},
+		
+		controller: ['$scope',function($scope){
+			var self = this;
+			self.idTemplate = article.getIdCurrentTemplate();
+			self.article = {};
+			
+			self.loadArticle = function(idTemplate) {
+				
+				switch (idTemplate) {
+				case "id2":
+				self.idArticle = "5";
+				self.article = article.getArticleObject(self.idArticle);
+				console.log("ERROR" + " " + self.idTemplate);
+				console.log(self.article);
+				break;
+				
+
+				default:
+				console.log("ERROR" + " " + self.idTemplate);
+					
+				}	
+				
+			}
+			
+			
+			self.loadArticle("id" + self.idTemplate);
+			
+			self.goToDraft = function (){
+				
+				//PROVVISORIO per caricamento dati corretti articolo 
+				article.setArticleId(self.idArticle);
+				$state.go('logged.scenario.draftArticleSimple');
+				console.log(self.idArticle + "ID-ARTICLE");
+				
+			}
+		}],
+		
+		controllerAs: "articleColumnImage"
+		
+		
+	}
+	
+	
+	
+}]);
+angular.module("smiled.application").directive('articleOneColumn', ['article', '$state',
+                                     function(article, $state){
+
+	return {
+		
+		templateUrl: "assets/private/partials/article-one-column.html",
+		restrict: "E",
+		scope: {
+			
+			
+		},
+		
+		controller: ['$scope',function($scope){
+		var self = this;
+		self.idTemplate = article.getIdCurrentTemplate();
+		self.article = {}; 
+		
+		self.loadArticle = function(idTemplate) {
+			
+			switch (idTemplate) {
+			case "id2":
+			self.idArticle = "6";
+			self.article = article.getArticleObject(self.idArticle);
+			break;
+			
+
+			default:
+			console.log("ERROR" + " " + self.idTemplate);
+				
+			}	
+			
+		}
+		
+		
+		self.loadArticle("id" + self.idTemplate);
+			
+		
+		self.goToDraft = function(){
+			
+			//PROVVISORIO per caricamento dati corretti articolo 
+			article.setArticleId(self.idArticle);
+			$state.go('logged.scenario.draftArticleSimple');
+			
+		}
+		
+		
+		
+		self.closeWarning = function (s){
+			
+			switch (s) {
+			
+			case "title":
+			self.showWarningTitle = false;
+			break;
+			
+			case "col1":
+			self.showWarningTextCol1 = false; 
+			break;
+			
+			
+			default:
+			console.log("ERROR");
+				
+			}
+		}
+			
+		
+	}],
+		
+		controllerAs: "articleOneColumn"
+		
+		
+	}
+	
+	
+	
+	
+}]);
+angular.module("smiled.application").directive('articleOneColumnImg', ['article', '$state',
+                                     function(article, $state){
+	return {
+
+		restrict: "AE",
+		templateUrl: "assets/private/partials/article-one-column-img.html",
+		//isolated scope 
+		scope: {
+			
+			
+		},
+		
+		controller: ['$scope',function($scope){
+			
+			var self = this;
+			self.showWarningTitle = false; 
+			self.showWarningText = false; 
+			self.idTemplate = article.getIdCurrentTemplate();
+			self.idArticle = "";
+			self.article = {};
+			self.isSubtitle = false;
+
+			
+			self.loadArticle = function(idTemplate) {
+				
+				switch (idTemplate) {
+				case "id1":
+				self.idArticle = "2"
+				self.article = article.getArticleObject(self.idArticle);
+				break;
+				
+				case "id2":
+				self.idArticle = "4";
+				self.article = article.getArticleObject(self.idArticle);
+				break;
+
+				default:
+				console.log("ERROR" + " " + self.idTemplate);
+					
+				}	
+				
+			}
+			
+			self.loadArticle("id" + self.idTemplate);
+			 
+			
+		
+			self.goToDraft = function(){
+				
+				//PROVVISORIO per caricamento dati articolo 
+				article.setArticleId(self.idArticle);
+				$state.go('logged.scenario.draftArticleSimple');
+				
+			}
+			
+			
+			self.closeWarning = function (s){
+				
+				switch (s) {
+				
+				case "title":
+				self.showWarningTitle = false;
+				break;
+				
+				case "text":
+				self.showWarningText = false; 
+				break;
+				
+				default:
+				console.log("ERROR");
+					
+				}
+			}
+			
+			
+			
+		}],
+		
+		controllerAs: "articleOneColumnImg",
+		link : function(scope,elem,attrs,ctrl){
+			/*controllo titolo */
+			scope.$watch('articleOneColumnImg.article.title', function(newVal, oldVal){
+				if(newVal){	
+			if(newVal.length>25) {
+				ctrl.showWarningTitle = true;
+				console.log ("ATTENZIONE");
+				
+			} else
+				{
+				ctrl.showWarningTitle = false; 
+				console.log ("VA BENE");
+				
+				}
+				}
+			
+			});	
+			
+			
+			
+			scope.$watch('articleOneColumnImg.article.text', function(newVal, oldVal){
+				if(newVal){	
+				if(newVal.length>1159) {
+					ctrl.showWarningText = true;
+					console.log ("ATTENZIONE");
+			
+				} else
+					{
+					ctrl.showWarningText = false; 
+					console.log ("VA BENE");
+					
+					}
+				
+				}
+				});
+			
+	
+			
+		}
+
+
+} 
+}]);
+
+angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state',
+                                     function(article, $state){
+	return {
+
+		restrict: "AE",
+		templateUrl: "assets/private/partials/article-two-columns.html",
+		scope: {
+			
+		},
+		
+		controller: ['$scope',function($scope){
+			
+			var self = this;
+			self.showWarningTitle = false; 
+			self.showWarningSubtitle = false; 
+			self.showWarningTextCol1 = false; 
+			self.showWarningTextCol2 = false; 
+			//id articolo provvisorio 
+			self.idArticle = "";
+			self.idTemplate = article.getIdCurrentTemplate();
+			self.article = {};
+	
+			//caricamento articoli in base al template scelto dall'utente
+			self.loadArticle = function(idTemplate) {
+				
+				switch (idTemplate) {
+				case "id1":
+				self.idArticle = "1";
+				self.article = article.getArticleObject(self.idArticle);
+				console.log(self.article);
+				break;
+				
+				case "id2":
+				self.idArticle = "7";
+				self.article = article.getArticleObject(self.idArticle);	
+				break;
+				
+
+				default:
+				console.log("ERROR" + " " + self.idTemplate);
+					
+				}	
+				
+			}
+			
+			self.loadArticle("id" + self.idTemplate);
+			
+			
+			
+			self.goToDraft = function(){
+				
+				article.setArticleId(self.idArticle);
+				console.log(self.idArticle + "ARTICOLO");
+				$state.go('logged.scenario.draftArticle2col');
+				
+			}
+			
+			
+			self.closeWarning = function (s){
+				
+				switch (s) {
+				
+				case "title":
+				self.showWarningTitle = false;
+				break;
+				
+				case "subtitle":
+				self.showWarningSubtitle = false;
+				console.log ("CHIUDI!");
+				break;
+				
+				case "col1":
+				self.showWarningTextCol1 = false; 
+				break;
+				
+				case "col2":
+				self.showWarningTextCol2 = false;
+				break;
+				
+				default:
+				console.log("ERROR");
+					
+				}
+			}
+			
+			
+			
+		}],
+		
+		controllerAs: "articleTwoColumns",
+		link : function(scope,elem,attrs,ctrl){
+			
+		
+			
+			/*controllo testo titolo */
+			scope.$watch('articleTwoColumns.article.title', function(newVal, oldVal){
+				if(newVal){	
+			if(newVal.length>25) {
+				ctrl.showWarningTitle = true;
+				console.log ("ATTENZIONE");
+				
+			} else
+				{
+				ctrl.showWarningTitle = false; 
+				console.log ("VA BENE");
+				
+				}
+				}
+			
+			});	
+			
+			
+			
+			/*controllo testo sottotitolo */
+			
+			scope.$watch('articleTwoColumns.article.subtitle', function(newVal, oldVal){
+				if(newVal){	
+				if(newVal.length>27) {
+					ctrl.showWarningSubtitle = true;
+					console.log ("ATTENZIONE");
+			
+				} else
+					{
+					ctrl.showWarningTextCol1= false; 
+					console.log ("VA BENE");
+					
+					}
+				
+				}
+				});
+			
+			/*controllo testo prima colonna */
+			
+			scope.$watch('articleTwoColumns.article.text.col1', function(newVal, oldVal){
+				if(newVal){	
+				if(newVal.length>682) {
+					ctrl.showWarningTextCol1 = true;
+					console.log ("ATTENZIONE");
+			
+				} else
+					{
+					ctrl.showWarningTextCol1= false; 
+					console.log ("VA BENE");
+					
+					}
+				
+				}
+				});
+			
+	
+			/*controllo testo seconda colonna */
+			
+			scope.$watch('articleTwoColumns.article.text.col2', function(newVal, oldVal){
+				if(newVal){	
+				if(newVal.length>682) {
+					ctrl.showWarningTextCol2 = true;
+					console.log ("ATTENZIONE");
+			
+				} else
+					{
+					ctrl.showWarningTextCol2= false; 
+					console.log ("VA BENE");
+					
+					}
+				
+				}
+				});
+			
+		}
+
+
+} 
+}]);
+
+angular.module("smiled.application").directive('articleTwoColumnsImg', ['article', '$state',
+                                     function( article, $state){
+	return {
+
+		restrict: "AE",
+		templateUrl: "assets/private/partials/article-two-columns-img.html",
+		scope: {
+			
+		},
+		
+		controller: ['$scope',function($scope){
+			
+			var self = this;
+			self.showWarningTitle = false; 
+			self.showWarningTextCol1 = false; 
+			self.showWarningTextCol2 = false; 
+			self.showWarningSubtitle = false; 
+			self.id = "3";
+			self.article = article.getArticleObject(self.id);
+			
+			self.goToDraft = function(){
+				
+				article.setArticleId(self.id);
+				$state.go('logged.scenario.draftArticle2col');
+				
+			}
+			
+			
+	self.closeWarning = function (s){
+				
+				switch (s) {
+				
+				case "title":
+				self.showWarningTitle = false;
+				break;
+				
+				case "subtitle":
+				self.showWarningSubtitle = false;
+				console.log ("CHIUDI!");
+				break;
+				
+				case "col1":
+				self.showWarningTextCol1 = false; 
+				break;
+				
+				case "col2":
+				self.showWarningTextCol2 = false;
+				break;
+				
+				default:
+				console.log("ERROR");
+					
+				}
+			}
+			
+			
+			
+		}],
+		
+		controllerAs: "articleTwoColumnsImg",
+		link : function(scope,elem,attrs,ctrl){
+			/*controllo titolo */
+			scope.$watch('articleTwoColumnsImg.article.title', function(newVal, oldVal){
+				if(newVal){	
+			if(newVal.length>28) {
+				ctrl.showWarningTitle = true;
+				console.log ("ATTENZIONE");
+				
+			} else
+				{
+				ctrl.showWarningTitle = false; 
+				console.log ("VA BENE");
+				
+				}
+				}
+			
+			});	
+			
+			
+			
+			/*controllo testo sottotitolo */
+			
+			scope.$watch('articleTwoColumnsImg.article.subtitle', function(newVal, oldVal){
+				if(newVal){	
+				if(newVal.length>26) {
+					ctrl.showWarningSubtitle = true;
+					console.log ("ATTENZIONE");
+			
+				} else
+					{
+					ctrl.showWarningTextCol1= false; 
+					console.log ("VA BENE");
+					
+					}
+				
+				}
+				});
+			
+			/*controllo testo prima colonna */
+			
+			scope.$watch('articleTwoColumnsImg.article.text.col1', function(newVal, oldVal){
+				if(newVal){	
+				if(newVal.length>574) {
+					ctrl.showWarningTextCol1 = true;
+					console.log ("ATTENZIONE");
+			
+				} else
+					{
+					ctrl.showWarningTextCol1= false; 
+					console.log ("VA BENE");
+					
+					}
+				
+				}
+				});
+			
+			
+			scope.$watch('articleTwoColumnsImg.article.text.col2', function(newVal, oldVal){
+				if(newVal){	
+				if(newVal.length>574) {
+					ctrl.showWarningTextCol2 = true;
+					console.log ("ATTENZIONE");
+			
+				} else
+					{
+					ctrl.showWarningTextCol2= false; 
+					console.log ("VA BENE");
+					
+					}
+				
+				}
+				});
+			
+	
+			
+		}
+
+
+} 
+}]);
+
 angular.module("smiled.application").directive('blurElement',[
     function(){
 		return {
@@ -11496,6 +13053,77 @@ angular.module("smiled.application").directive('forminput',['$compile', function
         }
 
 }]);
+angular.module("smiled.application").directive('headlineNewspaper', ['article', 'modalService',
+                                     function(article, modalService){
+	return {
+
+		restrict: "AE",
+		templateUrl: "assets/private/partials/headline-newspaper.html",
+		scope : {
+			
+		},
+		bindToController: true,
+		controller: ['$scope',function($scope){
+			
+			$scope.numero = "1";
+			
+			var self = this;
+			self.showWarning = false; 
+			self.headline = article.getTitle();
+			
+			self.showPopUpCreationTitle = function (){
+			modalService.showModalCreateTitle();	
+		};
+			
+		
+		//prova dataPicker
+		
+		/*self.startDate = angular.copy(self.scenario.history.startDate);
+		if(!self.startDate.afterChrist)
+			self.startDate.year*=-1;
+		self.endDate = angular.copy(self.scenario.history.endDate);
+		if(!self.endDate.afterChrist)
+			self.endDate.year*=-1;
+		
+		self.setDateNewNumber = function(){
+			modalService.showModalSetNewspaperDate(self.startDate, self.endDate);
+			
+		}*/
+		
+		
+			
+		}],
+		
+		controllerAs: "headlineNewspaper",
+		link : function(scope,elem,attrs,ctrl){
+			
+			scope.$watch('headlineNewspaper.headline.title', function(val){
+			if(val.length>30) {
+				ctrl.showWarning = true; 
+				console.log ("ATTENZIONE" + ctrl.showWarning);
+				
+			}
+				
+			else
+				{
+				ctrl.showWarning = false; 
+				console.log ("VA BENE");
+				
+				}
+			
+			
+			});	
+			
+			
+			
+		}
+			
+		
+       
+
+} 
+}]);
+
 angular.module('smiled.application').directive('hideOnHoverParent',
    function() {
       return {
@@ -14162,6 +15790,41 @@ angular.module("smiled.application").directive('userCard', [ 'CONSTANTS', 'userS
 				
 			}
 		}
+}]);
+angular.module("smiled.application").directive('warningCharacters', ['article','$state','$log',
+                                     function(article, $state, $log){
+	
+	return {
+		restrict: 'E',
+		templateUrl: "assets/private/partials/warning-characters.html",
+		scope: {
+			notifyWarning: '&edit',
+			notifyClose: '&close',
+			stylebox: '@'
+		},
+		controller: ['$scope', function($scope){
+			var self = this;
+			
+			self.modifyNow = function(){
+				$scope.notifyWarning(); 
+			},
+			
+			self.close = function(){
+				$scope.notifyClose();
+			}
+			 
+			
+		}],
+		
+		controllerAs: "warningCharacters", 
+		
+		link: function(scope,elem,attrs,ctrl) {
+	
+			
+		}
+		
+	}
+	
 }]);
 angular.module('smiled.application').directive('workSpinner', ['requestCounter', function (requestCounter) {
     return {

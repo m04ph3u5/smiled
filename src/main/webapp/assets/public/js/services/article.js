@@ -14,7 +14,7 @@ angular.module('smiled.application').factory('article',
 			idCurrentTemplate = ""; 
 			
 			headline = {}; 
-			headline.title = 'Assegna un nome al giornale';
+			headline.title = '';
 			headline.date = ''; 
 			headline.number = '';
 			
@@ -98,7 +98,6 @@ angular.module('smiled.application').factory('article',
 			
 			var setTitle = function(headlineNewspaper){
 				headline = headlineNewspaper; 
-				console.log(headline); 
 			}
 			
 			//FUNZIONE MOLTO PROVVISORIA, RICEVE L'id dell'articolo dal controllore 
