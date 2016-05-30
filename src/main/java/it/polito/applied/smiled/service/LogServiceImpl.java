@@ -596,10 +596,117 @@ public class LogServiceImpl implements LogService{
 			throw e;
 		}
 	}
+
+	@Override
+	public void logAddNewspaper(String scenarioId, String newspaperId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(newspaperId);
+		log.setType(LogType.NEW_NEWSPAPER);
+		logRepo.save(log);			
+	}
+
+	@Override
+	public void logUpdateNewspaper(String scenarioId, String newspaperId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(newspaperId);
+		log.setType(LogType.UP_NEWSPAPER);
+		logRepo.save(log);		
+		
+	}
+	
+	@Override
+	public void logPublishNewspaper(String scenarioId, String newspaperId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(newspaperId);
+		log.setType(LogType.PUBLISH_NEWSPAPER);
+		logRepo.save(log);		
+		
+	}
+
 	
 	
+	@Override
+	public void logRemoveNewspaper(String scenarioId, String newspaperId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(newspaperId);
+		log.setType(LogType.DEL_NEWSPAPER);
+		logRepo.save(log);		
+		
+	}
 
+	@Override
+	public void logAddJournalist(String scenarioId, String masterUserId, String slaveUserId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(masterUserId);
+		log.setRefer(slaveUserId);
+		log.setType(LogType.ADD_JOURNALIST);
+		logRepo.save(log);		
+		
+	}
 
+	@Override
+	public void logRemoveJournalist(String scenarioId, String masterUserId,String removedJournalistId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(masterUserId);
+		log.setRefer(removedJournalistId);
+		log.setType(LogType.DEL_JOURNALIST);
+		logRepo.save(log);		
+		
+	}
+
+	@Override
+	public void logUpdateArticle(String scenarioId, String newspaperId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(newspaperId);
+		log.setType(LogType.UPD_ARTICLE);
+		logRepo.save(log);		
+		
+	}
+
+	@Override
+	public void logNewspaperON(String scenarioId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(scenarioId);
+		log.setType(LogType.NEWSPAPER_ON);
+		logRepo.save(log);		
+		
+	}
+
+	@Override
+	public void logNewspaperOFF(String scenarioId, String userId) {
+		Log log = new Log();
+		log.setDate(new Date());
+		log.setScenarioId(scenarioId);
+		log.setUserId(userId);
+		log.setRefer(scenarioId);
+		log.setType(LogType.NEWSPAPER_OFF);
+		logRepo.save(log);		
+		
+	}
+
+	
 
 	
 }

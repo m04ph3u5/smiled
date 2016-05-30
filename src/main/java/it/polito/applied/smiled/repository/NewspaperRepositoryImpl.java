@@ -97,18 +97,15 @@ public class NewspaperRepositoryImpl implements CustomNewspaperRepository{
 	}
 
 	@Override
-	public boolean putInDeletedStatus(String idScenario, Integer number) {
+	public Newspaper putInDeletedStatus(String idScenario, Integer number) {
 		Query q = new Query();
 		q.addCriteria(Criteria.where("idScenario").is(idScenario)
 				.andOperator(Criteria.where("status").ne(PostStatus.DRAFT)
 				.andOperator(Criteria.where("number").is(number))));
 		Update u = new Update();
 		u.set("status", PostStatus.DELETED);
-		Newspaper deleted = mongoOp.findAndModify(q, u, Newspaper.class);
-		if(deleted==null)
-			return false;
-		else 
-			return true;
+		return mongoOp.findAndModify(q, u, Newspaper.class);
+		
 
 	}
 

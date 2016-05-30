@@ -123,7 +123,7 @@ public class ScenarioController extends BaseController{
 		}*/
 		Scenario s = scenarioService.updateScenario(id, scenarioDTO,activeUser);
 		logService.logUpdateScenarioInfo(id, activeUser.getId());
-		// la data è stata già aggiornata ;) scenarioService.lastUpdateScenario(id, new Date());
+		// la data è stata già aggiornata ;) quindi non è necessario chiamare la lastUpdateScenario(id, new Date());
 		return s;
 	}
 
