@@ -1,5 +1,5 @@
 
-<div data-ng-if="!dashboardNewspaper.continueProduction"
+<div data-ng-if="dashboardNewspaper.newspaper.status == 'PUBLISH'"
 	class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 header-container">
@@ -32,7 +32,7 @@
 
 <!-- Vista per chi ha già in produzione un numero -->
 
-<div data-ng-if="dashboardNewspaper.continueProduction"
+<div data-ng-if="dashboardNewspaper.newspaper.status == 'DRAFT'"
 	class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 header-container">

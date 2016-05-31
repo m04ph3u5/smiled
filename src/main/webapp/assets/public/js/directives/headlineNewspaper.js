@@ -10,48 +10,27 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 		bindToController: true,
 		controller: ['$scope',function($scope){
 			var self = this;
-			
 			self.showWarning = false;
-			
 			var scenId = $stateParams.id;
 			self.newspaper= {}; 
-			self.number= ''; 
-			self.headline = ''; 
-			
-			/*self.headline = article.getTitle();*/
-			
 		
 			
 			self.showPopUpCreationTitle = function (){
 			modalService.showModalCreateTitle();	
-		};
+			};
 		
 		
-		
-		// PROVA API - retrieve headline
-			self.newspaper = apiService.getMyNewspapers(scenId).then(
+		//retrieve object newspaper 
+			self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 					function(data){
-						var myNews = []; 
-						myNews = data;
-						
-						for(var i=0; myNews && i<myNews.length; i++){
-							
-							if(myNews[i].status == 'DRAFT') {
-								//oggetto giornale
-								self.newspaper = myNews[i];
-								//solo nome 
-								self.headline = myNews[i].name; 
-								self.number = myNews[i].number; 
-								break; 
-								
-							}
-						
-							
+						if(data.status == 'DRAFT'){
+							self.newspaper = data; 	
 						}
-						
+						 else 
+							//TO DO, inserire redirect alla vista del nuovo numero 
+							console.log("Non è stato possibile scaricare l'ultimo giornale");
 					},function(reason){
-						console.log("Errore.");
-						
+						console.log("Errore.");	
 					}
 		)
 			

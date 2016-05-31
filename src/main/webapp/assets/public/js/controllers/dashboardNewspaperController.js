@@ -3,8 +3,18 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 	
 	
 	var self = this; 
-	self.continueProduction = article.getBooleanRedazione();
-	self.idTemplate = article.getIdCurrentTemplate();
+	var scenId = $stateParams.id;
+	self.newspaper = {}; 
+	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
+			function(data){
+				self.newspaper = data; 
+				console.log(self.newspaper.status + "STATO");  
+			},function(reason){
+				console.log("Errore.");	
+			}
+)
+	self.idTemplate = self.newspaper.idTemplate; 
+	
 	
 	//modal Carousel scelta impaginazione
 	
@@ -14,15 +24,17 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 	};
 	
 	self.goToTemplate = function (){	
-		if(self.idTemplate == "1")
-		{		$state.go('logged.scenario.template1');
+	$state.go('logged.scenario.template1');
 	}
+	
+	
+	/*
 		if(self.idTemplate == "2"){
 			$state.go('logged.scenario.template2');
 			
 			
-		}
-	}
+		}*/
+	
 	
 	
 	

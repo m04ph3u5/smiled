@@ -2,20 +2,15 @@
 <div class="col-sm-12 line-2"></div>
 <div class="col-sm-12 testata">
 
-	<h5 id="number">Numero {{headlineNewspaper.number}}</h5>
+	<h5 id="number">Numero {{headlineNewspaper.newspaper.number}}</h5>
 	<!-- aggiungere ng-model="title" -->
 	<label 
 	 style="cursor: pointer;" id="text-area-title-newspaper"
 		rows="1" data-ng-model="headlineNewspaper.headline.title" 
 		data-ng-click="headlineNewspaper.showPopUpCreationTitle()">
 		<span data-ng-if="headlineNewspaper.headline.title == ''"> Assegna un nome al giornale</span>
-		
-		 {{headlineNewspaper.headline}}
-		
-		</label>
-		
-		
-			
+		 {{headlineNewspaper.newspaper.name}}
+		</label>		
 	<div data-ng-click="headlineNewspaper.setDateNewNumber()"
 				class="glyphicon glyphicon-calendar" style="float:right; margin-top: 10px; margin-left: 4px;"></div>		
 	<h5 id="date">Data il giornale</h5>

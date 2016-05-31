@@ -4,8 +4,21 @@ angular.module('smiled.application').controller('firstTemplateCtrl', ['CONSTANTS
 	var self = this; 
 	self.showWarning = false;
 	var scenId = $stateParams.id;
-	self.lastNews = {}; 
-	self.idTemplate = article.getIdCurrentTemplate();
+	
+	
+	//TO DO --> gestione se il giornale non fosse in bozza  
+	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
+			function(data){
+				self.newspaper = data; 
+				console.log(self.newspaper.status + "STATO");  
+			},function(reason){
+				console.log("Errore.");	
+			}
+)
+
+	self.idTemplate = self.newspaper.idTemplate; 
+
+	/*self.idTemplate = article.getIdCurrentTemplate();*/
 	
 	// PROVA API
 	self.loadNews = function(){
