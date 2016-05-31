@@ -1,6 +1,7 @@
 package it.polito.applied.smiled.repository;
 
 import it.polito.applied.smiled.pojo.Permission;
+import it.polito.applied.smiled.pojo.newspaper.Newspaper;
 import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.user.User;
@@ -47,6 +48,12 @@ public class PermissionRepositoryImpl implements CustomPermissionRepository{
 					.andOperator(Criteria.where("targetType").is(c.getSimpleName())
 					.andOperator(Criteria.where("targetId").is(ch.getId())
 					.andOperator(Criteria.where("permissions").is(permission)))));
+		}else if(c.equals(Newspaper.class)){
+			Newspaper n = (Newspaper) targetDomainObject;
+			q.addCriteria(Criteria.where("userId").is(userId)
+					.andOperator(Criteria.where("targetType").is(c.getSimpleName())
+					.andOperator(Criteria.where("targetId").is(n.getIdScenario())
+					.andOperator(Criteria.where("permissions").is(permission)))));
 		}else
 			return false;
 		
@@ -77,6 +84,11 @@ public class PermissionRepositoryImpl implements CustomPermissionRepository{
 							.andOperator(Criteria.where("targetType").is(Character.class.getSimpleName())
 							.andOperator(Criteria.where("targetId").is((String)targetId)
 							.andOperator(Criteria.where("permissions").is(permission)))));
+		}else if(targetType.equals("Newspaper")){
+				q.addCriteria(Criteria.where("userId").is(userId)
+								.andOperator(Criteria.where("targetType").is(Newspaper.class.getSimpleName())
+								.andOperator(Criteria.where("targetId").is((String)targetId)
+								.andOperator(Criteria.where("permissions").is(permission)))));	
 		}else
 			return false;
 		

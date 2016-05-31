@@ -921,7 +921,7 @@
 	
 	var createnewspaper = function(newspaperDTO, idScenario){
 		var s = $q.defer();
-		$http.post("/api/v1/scenarios/"+idScenario+"/newspapers", scenarioDTO).then(
+		$http.post("/api/v1/scenarios/"+idScenario+"/newspapers", newspaperDTO).then(
 				function(response){
 					s.resolve(response.data);
 				},

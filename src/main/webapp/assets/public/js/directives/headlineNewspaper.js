@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('headlineNewspaper', ['article', 'modalService',
-                                     function(article, modalService){
+angular.module("smiled.application").directive('headlineNewspaper', ['article', 'modalService','apiService', '$stateParams',
+                                     function(article, modalService, apiService, $stateParams){
 	return {
 
 		restrict: "AE",
@@ -9,16 +9,51 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 		},
 		bindToController: true,
 		controller: ['$scope',function($scope){
-			
-			$scope.numero = "1";
-			
 			var self = this;
-			self.showWarning = false; 
-			self.headline = article.getTitle();
+			
+			self.showWarning = false;
+			
+			var scenId = $stateParams.id;
+			self.newspaper= {}; 
+			self.number= ''; 
+			self.headline = ''; 
+			
+			/*self.headline = article.getTitle();*/
+			
+		
 			
 			self.showPopUpCreationTitle = function (){
 			modalService.showModalCreateTitle();	
 		};
+		
+		
+		
+		// PROVA API - retrieve headline
+			self.newspaper = apiService.getMyNewspapers(scenId).then(
+					function(data){
+						var myNews = []; 
+						myNews = data;
+						
+						for(var i=0; myNews && i<myNews.length; i++){
+							
+							if(myNews[i].status == 'DRAFT') {
+								//oggetto giornale
+								self.newspaper = myNews[i];
+								//solo nome 
+								self.headline = myNews[i].name; 
+								self.number = myNews[i].number; 
+								break; 
+								
+							}
+						
+							
+						}
+						
+					},function(reason){
+						console.log("Errore.");
+						
+					}
+		)
 			
 		
 		//prova dataPicker

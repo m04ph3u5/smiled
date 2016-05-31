@@ -21,7 +21,7 @@ angular.module('smiled.application').controller('dialogChooseTemplateCtrl', ['mo
     		
     	article.setBooleanRedazione();
     	article.setIdCurrentTemplate(idTemplate);
-        $state.go('logged.scenario.template2');
+        $state.go('logged.scenario.template1');
         modalService.closeModalShowChooseTemplate();		
     	} else 
     		

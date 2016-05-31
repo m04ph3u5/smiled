@@ -1,34 +1,48 @@
-angular.module('smiled.application').controller('firstTemplateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state',
-              function firstTemplateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state){
+angular.module('smiled.application').controller('firstTemplateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state', '$stateParams',
+              function firstTemplateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams){
 	
 	var self = this; 
 	self.showWarning = false;
+	var scenId = $stateParams.id;
+	self.lastNews = {}; 
+	self.idTemplate = article.getIdCurrentTemplate();
+	
+	// PROVA API
+	self.loadNews = function(){
+		self.newspaper = apiService.getMyNewspapers(scenId).then(
+				function(data){
+					var myNews = []; 
+					myNews = data;
+					
+					for(var i=0; myNews && i<myNews.length; i++){
+						
+						if(myNews[i].status == 'DRAFT') {
+							
+							self.lastNews = myNews[i];
+							console.log(self.lastNews.name +  self.lastNews.idTemplate +  self.lastNews.historicalDate); 
+							break; 
+							
+						}
+					
+						
+					}
+					
+				},function(reason){
+					console.log("Errore.");
+					
+				}
+	)
+		
+		
+	}
+
+	/*self.loadNews(); */
 	
 	
-	self.goToDraft = function (id){
-		
-		//go to draft session - ID PROVVISORIO ricevuto dalla vista
-		
-			if(id==1) {	
-			var id = "1"; 
-			article.setArticleId(id); 
-			$state.go('logged.scenario.draftArticle2col');	
-		}	
-		
-		if (id==2) {
-			var id = "2";
-			article.setArticleId(id);	
-			$state.go('logged.scenario.draftArticleSimple');
-			
-		}
-		
-		if (id==3) {
-			var id = "3";
-			article.setArticleId(id);
-			$state.go('logged.scenario.draftArticle2col');		
-			
-		}
-		
+	
+	
+	self.showPopUpDeleteNewspaper = function (){
+		modalService.showModalDeleteNewspaper();	
 	}
 	
 	

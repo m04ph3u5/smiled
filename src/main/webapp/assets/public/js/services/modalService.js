@@ -40,6 +40,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceConcurrentModPost;
 		var modalInstanceCreateTitle; 
 		var modalInstanceChooseTemplate;
+		var modalInstanceDeleteNewspaper; 
 		
 		
 		var optionsChooseTemplate = {
@@ -49,6 +50,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				size: 'md',
 				
 		}
+		
+		var optionsDeleteNewspaper = {
+				templateUrl: 'assets/private/partials/deleteNewspaper.html',
+				controller: 'firstTemplateCtrl',
+				controllerAs: 'firstTemplate',
+				size: 'md',	
+		}
+		
 		
 		var optionsConcurrentModPost = {
 				templateUrl: 'assets/private/partials/concurrentModPostTemplate.html',
@@ -302,6 +311,15 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var closeModalCreateTitle = function(){
 			modalInstanceCreateTitle.close(); 
 		}
+		
+		var showModalDeleteNewspaper = function(){
+			modalInstanceDeleteNewspaper = $modal.open(optionsDeleteNewspaper); 
+			return modalInstanceDeleteNewspaper.result; 	
+		}
+		
+		var closeModalDeleteNewspaper = function(){
+			modalInstanceDeleteNewspaper.close(); 
+		}
 			
 		
 		var createScenario = function(scenario){
@@ -541,12 +559,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalConfirmRegistration : closeModalConfirmRegistration,
 			showConcurrentModPost: showConcurrentModPost,
 			closeModalConcurrentModPost : closeModalConcurrentModPost,
+			
 			showChooseTemplate: showChooseTemplate,
 			closeModalShowChooseTemplate: closeModalShowChooseTemplate,
-			
 			showModalCreateTitle : showModalCreateTitle,
 			closeModalCreateTitle : closeModalCreateTitle,
 			showModalSetNewspaperDate: showModalSetNewspaperDate,
+			showModalDeleteNewspaper: showModalDeleteNewspaper,
+			closeModalDeleteNewspaper: closeModalDeleteNewspaper,
 			
 		}
 }]);

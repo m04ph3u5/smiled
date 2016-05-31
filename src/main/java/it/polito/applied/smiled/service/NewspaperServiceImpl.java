@@ -289,7 +289,9 @@ public class NewspaperServiceImpl implements NewspaperService {
 		Scenario scen = scenarioRepo.findById(idScenario);
 		if(scen==null)
 			throw new BadRequestException("Scenario not found!");
-		String idOldJournalist = scen.getActualJournalist().getId();
+		String idOldJournalist = null;
+		if(scen.getActualJournalist()!=null)
+			idOldJournalist=scen.getActualJournalist().getId();
 		
 		if(newJournalist!=null){
 			List<Reference> allPeopleInScenario = new ArrayList<Reference>();

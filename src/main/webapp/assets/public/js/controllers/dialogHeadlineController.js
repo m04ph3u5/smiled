@@ -3,16 +3,20 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
                                                                   function dialogHeadlineCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams, apiService){
 	var self = this;
 	var scenId = $stateParams.id;
-	console.log($stateParams.id + "ID SCENARIO")
-	self.invalidTitle=false; 
+	console.log(scenId + "ID SCENARIO"); 
+	self.isFirstEdit = true; 
 	self.headline = {}; 
-	self.newspaper = {}; 
-	/*self.headline = article.getTitle();*/ 
+	self.newspaper = {};
+	
+
+
+	self.headline = article.getTitle();
 	self.idCurrentTemplate = article.getIdCurrentTemplate(); 
 	
 	
+	
     self.setHeadline = function (){	
-    if(self.newspaper.title.length<4){
+    if(self.headline.title.length<4 || self.headline.title == ''){
 			
 			alertingGeneric.addWarning("Inserire un titolo di almeno 4 caratteri");	
 			/*self.invalidTitle = true;*/
@@ -21,28 +25,49 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 			
 			
 			if(self.idCurrentTemplate == "1") {
-				
-				//creazione newspaper 
 				self.newspaper.idTemplate = 1;
-				
+				self.newspaper.name = self.headline.title; 
 				console.log(self.newspaper); 
 				
-				article.setTitle(headline);
+				var s= apiService.createnewspaper(self.newspaper, scenId);
+				s.then(function(data){
+					 alertingGeneric.addSuccess("Giornale creato");
+					 modalService.closeModalCreateTitle(); 		
+					 $state.go('logged.scenario.template1');	
+					 
+				 }, function(reason){
+					 
+					 alertingGeneric.addWarning("Non e' stato possibile creare il giornale, riprova!");
+				 });
+				
+				
+				
+				/*article.setTitle(headline);*/
 				modalService.closeModalCreateTitle(); 		
 				$state.go('logged.scenario.template1');	
-			}	else 
-			
-			if(self.idCurrentTemplate == "2") {
-				
-				//creazione newspaper 
-				article.setTitle(headline);
-				modalService.closeModalCreateTitle(); 		
-				$state.go('logged.scenario.template2');	
 				
 				
 			}
+    
+    if(self.idCurrentTemplate == "2") {
+		
+		//creazione newspaper 
+		article.setTitle(headline);
+		modalService.closeModalCreateTitle(); 		
+		$state.go('logged.scenario.template2');
+    
+			}	
 			
+				
+				
+				
+			}
+    
+
+    
+    
 			
+		
     
     
     $scope.$watch('self.headline.title', function(newVal, oldVal){
@@ -63,7 +88,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 		
 	});
     		
-	};
+
 	
 	
 	//se l'utente chiude la finestra cliccando su ANNULLA 
