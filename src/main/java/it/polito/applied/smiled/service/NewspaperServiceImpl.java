@@ -11,6 +11,7 @@ import it.polito.applied.smiled.dto.ArticleDTO;
 import it.polito.applied.smiled.dto.NewspaperDTO;
 import it.polito.applied.smiled.dto.NewspaperDTOPut;
 import it.polito.applied.smiled.exception.BadRequestException;
+import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.newspaper.Article;
 import it.polito.applied.smiled.pojo.newspaper.ArticleTemplate;
@@ -25,6 +26,7 @@ import it.polito.applied.smiled.repository.NewspaperRepository;
 import it.polito.applied.smiled.repository.NewspaperTemplateRepository;
 import it.polito.applied.smiled.repository.ScenarioRepository;
 import it.polito.applied.smiled.repository.UserRepository;
+import it.polito.applied.smiled.security.CustomUserDetails;
 
 @Service
 public class NewspaperServiceImpl implements NewspaperService {
@@ -134,19 +136,16 @@ public class NewspaperServiceImpl implements NewspaperService {
 
 	@Override
 	public Newspaper findLastNewspaperInScenarioPUBLIC(String idScenario) {
-		// TODO Auto-generated method stub
-		return null;
+		return newspaperRepo.getLastNewspaperPublishedFromScenario(idScenario);
 	}
 
 	@Override
 	public Newspaper findLastNewspaperInScenarioPRIVATE(String idScenario) {
-		// TODO Auto-generated method stub
-		return null;
+		return newspaperRepo.getLastNewspaperFromScenario(idScenario);
 	}
 	
 	@Override
 	public List<Newspaper> findNewspapersInScenarioPUBLIC(String idScenario) {
-	
 		return newspaperRepo.findByIdScenarioAndPublished(idScenario);
 		
 	}
@@ -170,25 +169,40 @@ public class NewspaperServiceImpl implements NewspaperService {
 	
 
 	@Override
-	public Newspaper updateNewspaper(String scenarioId, Integer number, NewspaperDTOPut dto) throws BadRequestException {
+	public Newspaper updateNewspaper(String scenarioId, Integer number, NewspaperDTOPut dto, CustomUserDetails activeUser) throws BadRequestException {
 		Newspaper n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeleted(scenarioId, number);
 		if (n==null)
 			throw new BadRequestException("Number "+number+" of this newspaper not founded!");
+	
 		
 		if(dto.getDate()!=null)
 			n.setHistoricalDate(dto.getDate());
 		if(dto.getName()!=null)
 			n.setName(dto.getName());
 		if(dto.getDate()!=null || dto.getName()!=null)
-			return newspaperRepo.save(n);
+			n = newspaperRepo.save(n);
 		else
 			return null;
+		
+		if(!n.getActualUserId().equals(activeUser.getId())){
+			//genero la notifica per il giornalista solo se a fare l'operazione è un moderatore
+			User moderator = userRepo.findById(activeUser.getId());
+			Scenario scen = scenarioRepo.findById(scenarioId);
+			if(scen == null || scen.getStatus().equals(ScenarioStatus.DELETED) || scen.getStatus().equals(ScenarioStatus.CLOSED))
+				throw new BadRequestException("Scenario not founded!");
+			Reference ref = new Reference (moderator);
+			notify.notifyUpdateNewspaper(scen, ref, n);
+		}
+		
+		
+		return n;
 		
 	}
 
 	@Override
-	public String deleteNewspaper(String idScenario, Integer number) throws BadRequestException {
+	public String deleteNewspaper(String idScenario, Integer number, CustomUserDetails activeUser) throws BadRequestException {
 		Newspaper n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeleted(idScenario, number);
+		String ret;
 		if(n==null)
 			throw new BadRequestException("Newspaper not found!");
 		if(n.getStatus().equals(PostStatus.DRAFT)){
@@ -197,19 +211,36 @@ public class NewspaperServiceImpl implements NewspaperService {
 				throw new BadRequestException("Newspaper not deleted!");
 			else 
 				return "-1";
+		}else{
+			ret= newspaperRepo.putInDeletedStatus(idScenario, number).getId();
 		}
-				
-		else{
-			return newspaperRepo.putInDeletedStatus(idScenario, number).getId();
+		
+		if(!n.getActualUserId().equals(activeUser.getId())){
+			//genero la notifica per il giornalista solo se a fare l'operazione è una persona diversa dal giornalista stesso (sicuramente un moderatore)
+			User moderator = userRepo.findById(activeUser.getId());
+			Scenario scen = scenarioRepo.findById(idScenario);
+			if(scen == null || scen.getStatus().equals(ScenarioStatus.DELETED) || scen.getStatus().equals(ScenarioStatus.CLOSED))
+				throw new BadRequestException("Scenario not founded!");
+			Reference ref = new Reference (moderator);
+			notify.notifyUpdateNewspaper(scen, ref, n);
 		}
+		
+		return ret;
 	}
 
 	@Override
-	public Newspaper publishNewspaper(String idScenario, Integer number) throws BadRequestException {
+	public Newspaper publishNewspaper(String idScenario, Integer number, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException {
+		
 		// TODO Verifico che per tutti gli articoli siano rispettati i vincoli
 		Newspaper n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeletedOrPublished(idScenario, number);
 		if(n==null)
 			throw new BadRequestException("Newspaper not found or already published!");
+		Scenario scen = scenarioRepo.findById(idScenario);
+		if(scen == null || scen.getStatus().equals(ScenarioStatus.DELETED) || scen.getStatus().equals(ScenarioStatus.CLOSED))
+			throw new BadRequestException("Scenario not founded!");
+		
+		if(!activeUser.getId().equals(n.getActualUserId()))  //se un docente prova a pubblicare un newspaper senza essere il giornalista dello scenario scatta una forbidden exception
+			throw new ForbiddenException("You can't publish this article");
 		//Verifico che il numero di articoli prodotti sia corrispondente al numero di articoli definito nel template del newspaper
 		int idTemplate = n.getIdTemplate();
 		NewspaperTemplate nT = newspaperTemplateRepo.findByIdTemplate(idTemplate);
@@ -226,19 +257,29 @@ public class NewspaperServiceImpl implements NewspaperService {
 		Date publishedDate = new Date();
 		n.setPublishedDate(publishedDate);
 		n.setLastUpdate(publishedDate);
-		return newspaperRepo.save(n);
+		Newspaper publishedNewspaper = newspaperRepo.save(n);
+	
+		notify.notifyNewNewspaper(scen, activeUser.getId(), publishedNewspaper);
 		
+		return publishedNewspaper;
 	}
 
 	@Override
-	public Newspaper updateArticle(String idScenario, Integer number, ArticleDTO articleDTO, String idUser)
+	public Newspaper updateArticle(String idScenario, Integer number, ArticleDTO articleDTO, CustomUserDetails activeUser)
 			throws BadRequestException {
-		Newspaper n=null;
-		n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeleted(idScenario, number);
 		
+		Scenario s = scenarioRepo.findById(idScenario);
+		if(s==null)
+			throw new BadRequestException("Scenario with idScenario: "+idScenario+" not found!");
 		
+		Newspaper n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeleted(idScenario, number);
 		if(n==null)
-			throw new BadRequestException("Newspaper not found!");
+			throw new BadRequestException("Newspaper not found in scenario: "+s.getName());
+	
+		User user = userRepo.findById(activeUser.getId());
+		if(user==null)
+			throw new BadRequestException("User not found!");
+		Reference userRef = new Reference (user);
 		
 		PostStatus statusNewspaper = n.getStatus();
 		int idTemplate = n.getIdTemplate();
@@ -257,35 +298,40 @@ public class NewspaperServiceImpl implements NewspaperService {
 			throw new BadRequestException("idArticleTemplate not found for this newspaperTemplate!");
 		
 		
-		//Article article = new Article(articleDTO, idArticleTemplate);
-		if(statusNewspaper.equals(PostStatus.PUBLISHED)){
-			//se il newspaper è published l'articolo c'è sicuramente e quindi si tratta di una modifica
-			Article a = new Article(articleDTO, idUser);
-			if( !validateCheckingConstraints(a, nT))
-				throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+a.getIdArticleTemplate());
-			return newspaperRepo.updateArticle(idScenario, number, a);
-			
-			
-		}else{
-			//DRAFT		
-			User user = userRepo.findById(idUser);
-			if(user==null)
-				throw new BadRequestException("User not found!");
-			Reference userRef = new Reference (user);
-			Article a = new Article(articleDTO, userRef);
-			for(Article aa: n.getArticles()){
-				if(aa.getIdArticleTemplate()==a.getIdArticleTemplate()){
-					return newspaperRepo.updateArticle(idScenario, number, a);
-				}
+		if(statusNewspaper.equals(PostStatus.DELETED))
+			throw new BadRequestException("Impossible to update article in newspaper deleted!");
+		
+		for(Article aa: n.getArticles()){
+			if(aa.getIdArticleTemplate()==articleDTO.getIdArticleTemplate()){
+				//si tratta di una modifica
+				Article a = new Article(articleDTO, activeUser.getId(), aa.getUser(), aa.getCreationDate());
+				if( !validateCheckingConstraints(a, nT))
+					throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+a.getIdArticleTemplate());
+				Newspaper ret = newspaperRepo.updateArticle(idScenario, number, a);
+				notify.notifyUpdateNewspaper(s, userRef, ret);
+				return ret;
+				
 			}
-			return newspaperRepo.insertArticle(idScenario, number, a);
 			
 		}
 		
+		//se arrivo qua significa che non ho trovato un article con quell'id nel newspaper, quindi si tratta di un inserimento di un nuovo articolo
+		//controllo quindi che il newspaper non sia published poichè in quel caso l'articolo ci sarebbe già stato
+		if(statusNewspaper.equals(PostStatus.PUBLISHED))
+			throw new BadRequestException("impossible to modify article with idArticle passed. Cause: not found idArticle");
+		
+		//se arrivo qui significa che l'operazione corrisponde all'inserimento di un nuovo article (quindi creo un Article a partire da ArticleDTO)
+		
+		Article newA = new Article(articleDTO, userRef);
+		if( !validateCheckingConstraints(newA, nT))
+			throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+newA.getIdArticleTemplate());
+		Newspaper ret = newspaperRepo.insertArticle(idScenario, number, newA);
+		notify.notifyUpdateNewspaper(s, userRef, ret);
+		return ret;
 	}
 
 	@Override
-	public String updateJournalist(String idScenario, Reference newJournalist) throws BadRequestException {
+	public String updateJournalist(String idScenario, Reference newJournalist, CustomUserDetails activeUser) throws BadRequestException {
 		Scenario scen = scenarioRepo.findById(idScenario);
 		if(scen==null)
 			throw new BadRequestException("Scenario not found!");

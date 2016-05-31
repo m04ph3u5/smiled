@@ -203,12 +203,12 @@ public class NewspaperController extends BaseController{
 		public Newspaper updateNewspaper(@PathVariable String idScenario, @RequestParam(value = "number", required=true) Integer number, @RequestBody NewspaperDTOPut newspaperDTOPut, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException{
 			Newspaper n = null;
 			if(newspaperDTOPut.getPublish()){
-				n = newspaperService.publishNewspaper(idScenario, number);
+				n = newspaperService.publishNewspaper(idScenario, number, activeUser);
 				if(n==null)
 					throw new BadRequestException("Impossible to publish newspaper");
 				logService.logPublishNewspaper(idScenario, n.getId(), activeUser.getId());
 			}else{
-				n = newspaperService.updateNewspaper(idScenario, number, newspaperDTOPut);
+				n = newspaperService.updateNewspaper(idScenario, number, newspaperDTOPut, activeUser);
 				if(n==null)
 					throw new BadRequestException("Impossible to update newspaper");
 				logService.logUpdateNewspaper(idScenario, n.getId(), activeUser.getId());
@@ -225,7 +225,7 @@ public class NewspaperController extends BaseController{
 		@PreAuthorize("hasRole('ROLE_USER') and (hasPermission(#idScenario, 'Scenario', 'MODERATOR') or hasPermission(#idScenario, 'Newspaper', 'WRITE'))")
 		public void deleteNewspaper(@PathVariable String idScenario, @RequestParam(value = "number", required=true) Integer number, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
 			
-			String idNewspaper = newspaperService.deleteNewspaper(idScenario, number);
+			String idNewspaper = newspaperService.deleteNewspaper(idScenario, number, activeUser);
 			scenarioService.lastUpdateScenario(idScenario, new Date());
 			logService.logRemoveNewspaper(idScenario, idNewspaper, activeUser.getId());
 		}
@@ -235,7 +235,7 @@ public class NewspaperController extends BaseController{
 		@RequestMapping(value="/v1/scenarios/{idScenario}/newspapers/{number}/articles", method=RequestMethod.PUT)
 		@PreAuthorize("hasRole('ROLE_USER') and ( hasPermission(#idScenario, 'Scenario', 'MODERATOR') or hasPermission(#idScenario, 'Newspaper', 'WRITE'))")
 		public Newspaper updateArticle(@PathVariable String idScenario, @PathVariable Integer number, @RequestBody ArticleDTO articleDTO, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException{
-			Newspaper n = newspaperService.updateArticle(idScenario, number, articleDTO, activeUser.getId());
+			Newspaper n = newspaperService.updateArticle(idScenario, number, articleDTO, activeUser);
 			
 			scenarioService.lastUpdateScenario(idScenario, new Date());
 			logService.logUpdateArticle(idScenario, n.getId(), activeUser.getId());
@@ -250,7 +250,7 @@ public class NewspaperController extends BaseController{
 		public void updateUserJournalist(@PathVariable String idScenario, @PathVariable String idUser, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException, UserNotFoundException{
 			
 			Reference newJournalist = userService.getUserReferenceById(idUser);
-		    newspaperService.updateJournalist(idScenario, newJournalist);
+		    newspaperService.updateJournalist(idScenario, newJournalist, activeUser);
 		    scenarioService.lastUpdateScenario(idScenario, new Date());
 			logService.logAddJournalist(idScenario, activeUser.getId(), idUser);
 			
@@ -261,7 +261,7 @@ public class NewspaperController extends BaseController{
 		@RequestMapping(value="/v1/scenarios/{idScenario}/journalist", method=RequestMethod.DELETE)
 		@PreAuthorize("hasRole('ROLE_TEACHER') and hasPermission(#idScenario, 'Scenario', 'MODERATOR')")
 		public void removeUserFromJournalist(@PathVariable String idScenario, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, NotFoundException, BadRequestException, ForbiddenException{
-			String idOldJ= newspaperService.updateJournalist(idScenario, null);
+			String idOldJ= newspaperService.updateJournalist(idScenario, null, activeUser);
 			scenarioService.lastUpdateScenario(idScenario, new Date());
 			logService.logRemoveJournalist(idScenario, activeUser.getId(), idOldJ);
 		}
