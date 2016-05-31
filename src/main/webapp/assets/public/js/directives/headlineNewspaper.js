@@ -13,6 +13,7 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			self.showWarning = false;
 			var scenId = $stateParams.id;
 			self.newspaper= {}; 
+			self.isFirst; 
 		
 			
 			self.showPopUpCreationTitle = function (){
@@ -30,7 +31,9 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 							//TO DO, inserire redirect alla vista del nuovo numero 
 							console.log("Non è stato possibile scaricare l'ultimo giornale");
 					},function(reason){
-						console.log("Errore.");	
+						self.isFirst = true; 
+						
+						console.log("Errore. " + self.isFirst );	
 					}
 		)
 			
@@ -56,7 +59,7 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 		controllerAs: "headlineNewspaper",
 		link : function(scope,elem,attrs,ctrl){
 			
-			scope.$watch('headlineNewspaper.headline.title', function(val){
+			scope.$watch('self.newspaper.name', function(val){
 			if(val.length>30) {
 				ctrl.showWarning = true; 
 				console.log ("ATTENZIONE" + ctrl.showWarning);

@@ -5,14 +5,40 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 	var self = this; 
 	var scenId = $stateParams.id;
 	self.newspaper = {}; 
+	
+	
 	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 			function(data){
+				
 				self.newspaper = data; 
 				console.log(self.newspaper.status + "STATO");  
+				
+				
+				
 			},function(reason){
-				console.log("Errore.");	
+				$state.go('logged.scenario.editorial');
+				console.log("Non c'è l'ultimo giornale");	
 			}
 )
+
+	self.myNews = [];
+	
+	self.myNews = apiService.getMyNewspapers(scenId).then(
+			function(data){
+				
+				self.myNews = data;
+				console.log(self.myNews + "GIORNALI")
+				
+			},function(reason){
+				console.log("Errore.");	
+			}	
+	
+	)
+	
+	
+	
+	
+
 	self.idTemplate = self.newspaper.idTemplate; 
 	
 	

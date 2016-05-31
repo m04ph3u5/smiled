@@ -53,8 +53,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var optionsDeleteNewspaper = {
 				templateUrl: 'assets/private/partials/deleteNewspaper.html',
-				controller: 'firstTemplateCtrl',
-				controllerAs: 'firstTemplate',
+				controller: 'templateCtrl',
+				controllerAs: 'template',
 				size: 'md',	
 		}
 		
@@ -364,6 +364,12 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			 
 		}
 		
+		var deleteNewspaper = function(id, number){
+			n = apiService.deleteNewspaper(id, number);
+			return n; 
+			
+		}
+		
 		var deleteAttendee = function(){
 			console.log("delete not implemented");
 			 
@@ -567,6 +573,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showModalSetNewspaperDate: showModalSetNewspaperDate,
 			showModalDeleteNewspaper: showModalDeleteNewspaper,
 			closeModalDeleteNewspaper: closeModalDeleteNewspaper,
+			deleteNewspaper: deleteNewspaper,
 			
 		}
 }]);

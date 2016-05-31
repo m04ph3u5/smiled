@@ -564,9 +564,9 @@ angular.module('smiled.application')
 			url: '/giornale-impaginazione1',
 			views : {
 				'body' : {
-					templateUrl : "assets/private/partials/first-template-newspaper.html",
-					controller: "firstTemplateCtrl", 
-					controllerAs: "firstTemplate"	
+					templateUrl : "assets/private/partials/templates-newspaper.html",
+					controller: "templateCtrl", 
+					controllerAs: "template"	
 				}
 			},
 			data: {
@@ -582,23 +582,6 @@ angular.module('smiled.application')
 					templateUrl : "assets/private/partials/second-template-newspaper.html",
 					controller: "secondTemplateCtrl", 
 					controllerAs: "secondTemplate"	
-				}
-			},
-			data: {
-				pageTitle : "Redazione del Giornale - Meschola"
-			}
-		})
-		
-		
-		
-		//bozza articolo su 2 colonne - TOTALE
-		
-		.state('logged.draftArticle2col',{
-			url: '/draft-first',
-			views : {
-				'content' : {
-					templateUrl : "assets/private/partials/first-article-draft.html",
-					controller: "draftCtrl"
 				}
 			},
 			data: {

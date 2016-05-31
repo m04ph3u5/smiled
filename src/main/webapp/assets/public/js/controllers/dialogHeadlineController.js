@@ -5,18 +5,14 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 	var scenId = $stateParams.id;
 	console.log(scenId + "ID SCENARIO"); 
 	self.isFirstEdit = true; 
-	self.headline = {}; 
 	self.newspaper = {};
 	
-
-
-	self.headline = article.getTitle();
 	self.idCurrentTemplate = article.getIdCurrentTemplate(); 
 	
 	
 	
     self.setHeadline = function (){	
-    if(self.headline.title.length<4 || self.headline.title == ''){
+    if(self.newspaper.name.length<4 || self.newspaper.name == ''){
 			
 			alertingGeneric.addWarning("Inserire un titolo di almeno 4 caratteri");	
 			/*self.invalidTitle = true;*/
@@ -26,7 +22,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 			
 			if(self.idCurrentTemplate == "1") {
 				self.newspaper.idTemplate = 1;
-				self.newspaper.name = self.headline.title; 
+
 				console.log(self.newspaper); 
 				
 				var s= apiService.createnewspaper(self.newspaper, scenId);

@@ -1,7 +1,7 @@
 
 <!-- ------------------ TEMPLATE 1 ------------------ -->
 
-<div data-ng-if= "firstTemplate.idTemplate = 1" class="container-fluid">
+<div data-ng-if= "template.newspaper.idTemplate == 1 || template.currentIdTemplate == '1'" class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12" id="header">
 			<h4 id="page-title">Ora che hai scelto l'impaginazione del
@@ -29,7 +29,7 @@
 		</div>
 		<!-- FOOTER -->
 		<div class="row">
-	<div class="col-sm-10 col-xs-8" style="cursor: pointer;" ng-click="firstTemplate.showPopUpDeleteNewspaper()">
+	<div class="col-sm-10 col-xs-8" style="cursor: pointer;" ng-click="template.showPopUpDeleteNewspaper()">
 	<img style="width:30%; margin-top:3%;"  ng-src="assets/public/img/wizard/elimina.png">
 	</div>
 	<div class="col-sm-2 col-xs-4" style="margin-top: 4%;">
@@ -44,7 +44,7 @@
 
 <!-- ------------------ TEMPLATE 2 ------------------ -->
 
-<div data-ng-if= "firstTemplate.idTemplate = 2" class="container-fluid">
+<div data-ng-if= "template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2'" class="container-fluid">
 
 	<div class="row row-centered">
 		<div class="col-sm-12" id="header">

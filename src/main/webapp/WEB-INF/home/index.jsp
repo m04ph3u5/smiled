@@ -171,7 +171,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	
 	<!-- NEWSPAPER CONTROLLERS -->
 	
-	<script src="/assets/public/js/controllers/firstTemplateController.js"></script>
+	<script src="/assets/public/js/controllers/TemplateController.js"></script>
 	<script src="/assets/public/js/controllers/secondTemplateController.js"></script>
 	<script src="/assets/public/js/controllers/draftController.js"></script>
 	<script src="/assets/public/js/controllers/dialogHeadlineController.js"></script>
