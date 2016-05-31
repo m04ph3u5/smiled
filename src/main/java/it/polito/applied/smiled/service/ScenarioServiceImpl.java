@@ -167,7 +167,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			u.set("newspaperEnabled", scenario.isNewspaperEnabled());
 			
 			if(scenario.isNewspaperEnabled()==false){
-				newspaperService.updateJournalist(id, null);
+				newspaperService.updateJournalist(id, null, user);
 			}
 
 			if(scenario.getHistory()!=null){

@@ -50,7 +50,7 @@ public class Article {
 
 	}
 	
-	public Article(ArticleDTO aa, String userId){
+	public Article(ArticleDTO aa, String userIdDoUpdate, Reference owner, Date creationDate){
 		
 		this.idArticleTemplate=aa.getIdArticleTemplate();
 		
@@ -69,7 +69,9 @@ public class Article {
 		
 		Date now = new Date();
 		this.lastUpdate = now;
-		this.idLastUserModify = userId;
+		this.idLastUserModify = userIdDoUpdate;
+		this.user = owner;
+		this.creationDate = creationDate;
 		
 
 	}
