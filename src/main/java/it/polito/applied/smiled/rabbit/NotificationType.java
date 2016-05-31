@@ -162,7 +162,8 @@ public enum NotificationType {
 	 *  */
 	NEW_ATTENDEE,
 	
-	/*Rimosso partecipante dallo scenario
+	/*  
+	 * Rimosso partecipante dallo scenario
 	 * 
 	 *  --> Utente rimosso dallo scenario | DIRECT
 	 *  */
@@ -172,5 +173,49 @@ public enum NotificationType {
 	 * Materiale aggiunto dal docente
 	 * --> Tutti i partecipanti allo scenario | TOPIC: scenario
 	 * */
-	NEW_FILE
+	NEW_FILE,
+	
+	
+	/**
+	 * Attivazione newspaper nello scenario
+	 * --> Tutti i partecipanti allo scenario | TOPIC: scenario
+	 * */
+	NEWSPAPER_ON,
+	
+	/**
+	 * Disattivazione newspaper nello scenario
+	 * --> Tutti i partecipanti allo scenario | TOPIC: scenario
+	 * */
+	NEWSPAPER_OFF,
+	
+	/**
+	 * Nuovo numero di giornale pubblicato nello scenario
+	 * --> Tutti i partecipanti allo scenario | TOPIC: scenario
+	 * */
+	NEW_NEWSPAPER,
+	
+	/**
+	 * Numero di giornale rimosso dallo scenario da un moderatore
+	 * --> L'attuale journalist dello scenario | DIRECT
+	 * */
+	DEL_NEWSPAPER,
+	
+	/**
+	 *..
+	 * Numero di giornale modificato da un moderatore (comprende anche le modifiche agli articoli)
+	 * --> L'attuale journalist dello scenario | DIRECT
+	 * */
+	UPD_NEWSPAPER,
+	
+	/**
+	 * Assegnazione ruolo di giornalista da parte del docente a un partecipante
+	 * --> Utente a cui è stato assegnato il ruolo di giornalista | DIRECT
+	 * */
+	NEW_JOURNALIST,
+	
+	/**
+	 * Rimozione del ruolo di giornalista da parte del docente a un partecipante
+	 * --> Utente a cui è stato tolto il ruolo di giornalista | DIRECT
+	 * */
+	DEL_JOURNALIST
 }

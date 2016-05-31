@@ -5,6 +5,7 @@ import java.util.List;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.newspaper.Newspaper;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Mission;
@@ -42,6 +43,22 @@ public interface NotifyService {
 	public void notifyRemoveAttendee(Scenario s, Reference actor, String userAddedId);
 	public void notifyNewResource(ScenarioReference s, Reference actor, String filename);
 	
+	
+	/*
+	 * Notifiche relative al newspaper --------INIZIO----------------------------------
+	 */
+	
+	public void notifyNewspaperON(Scenario s, Reference actor);
+	public void notifyNewspaperOFF(Scenario s, Reference actor);
+	public void notifyNewNewspaper(Scenario s, String journalistId, Newspaper newspaper);
+	public void notifyDeleteNewspaper(Scenario s, Reference actor, Newspaper newspaper);
+	public void notifyUpdateNewspaper(Scenario s, Reference actor, Newspaper newspaper);
+	public void notifyNewJournalist(Scenario s, Reference actor, Newspaper newspaper, String newJournalistId);
+	public void notifyRemoveournalist(Scenario s, Reference actor, Newspaper newspaper, String oldJournalistId);
+	
+	/*
+	 * Notifiche relative al newspaper --------FINE----------------------------------
+	 */
 	
 	public List<Notification> getLastUserSendedNotification(CustomUserDetails user, Integer num, String old);
 	

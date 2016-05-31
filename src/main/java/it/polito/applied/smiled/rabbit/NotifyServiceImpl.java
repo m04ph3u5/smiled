@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import it.polito.applied.smiled.pojo.CharacterReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.ScenarioReference;
+import it.polito.applied.smiled.pojo.newspaper.Newspaper;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Event;
@@ -93,7 +94,9 @@ public class NotifyServiceImpl implements NotifyService{
 	public void notifyCloseScenario(Scenario s, Reference actor) {
 		Notification n = new Notification();
 		n.setDate(new Date());
-		n.setSender(actor.getId());
+		if(actor!=null){
+			n.setSender(actor.getId());
+		}
 		n.setObjectId(s.getId());
 		
 		n.setVerb(NotificationType.CLOSE_SCENARIO);
@@ -337,7 +340,7 @@ public class NotifyServiceImpl implements NotifyService{
 			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+user.getId());
 			brokerProducer.createBinding(USER_QUEUE_PREFIX+user.getId(), TOPIC, "s"+s.getId());
 		}catch(Exception e){
-			System.out.println("New moderaotor: impossibile inviare la notifica");
+			System.out.println("New moderator: impossibile inviare la notifica");
 		}
 	}
 
@@ -359,7 +362,7 @@ public class NotifyServiceImpl implements NotifyService{
 		try{
 			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+creatorId);
 		}catch(Exception e){
-			System.out.println("New moderaotor to creator: impossibile inviare la notifica");
+			System.out.println("New moderator to creator: impossibile inviare la notifica");
 		}
 	}
 
@@ -607,14 +610,187 @@ public class NotifyServiceImpl implements NotifyService{
 	}
 
 	@Override
-	public void notifyNewJournalist(Reference user, Scenario s, String senderId) {
-		// TODO Auto-generated method stub
+	public void notifyNewJournalist(Reference teacher, Scenario s, String newJournalistId) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.NEW_JOURNALIST);
+		n.setObjectId(s.getId());
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setSender(teacher.getId());
+		n.setMainReceiver(newJournalistId);
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+newJournalistId);
+		}catch(Exception e){
+			System.out.println("New journalist: impossibile inviare la notifica");
+		}
+			
 		
 	}
 
 	@Override
-	public void notifyDeleteJournalist(Reference user, Scenario s, String senderId) {
-		// TODO Auto-generated method stub
+	public void notifyDeleteJournalist(Reference teacher, Scenario s, String oldJournalistId) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		n.setVerb(NotificationType.DEL_JOURNALIST);
+		n.setObjectId(s.getId());
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setSender(teacher.getId());
+		n.setMainReceiver(oldJournalistId);
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+oldJournalistId);
+			
+		}catch(Exception e){
+			System.out.println("Remove journalist: impossibile inviare la notifica");
+		}
+	}
+
+	@Override
+	public void notifyNewspaperON(Scenario s, Reference teacher) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		n.setVerb(NotificationType.NEWSPAPER_ON);
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setSender(teacher.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
+		
+	}
+
+	@Override
+	public void notifyNewspaperOFF(Scenario s, Reference teacher) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		n.setVerb(NotificationType.NEWSPAPER_OFF);
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setSender(teacher.getId());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
+		
+	}
+
+	@Override
+	public void notifyNewNewspaper(Scenario s, String journalistId, Newspaper newspaper) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		n.setVerb(NotificationType.NEW_NEWSPAPER);
+		n.setActorId(journalistId);
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setSender(journalistId);
+		n.setObjectId(newspaper.getId());
+		n.setObjectContent(newspaper.getName() +" ,numero: "+newspaper.getNumber());
+		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
+		
+	}
+
+	//viene generata solo se a rimuovere il newspaper è un docente
+	@Override
+	public void notifyDeleteNewspaper(Scenario s, Reference teacher, Newspaper newspaper) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		n.setVerb(NotificationType.DEL_NEWSPAPER);
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setSender(teacher.getId());
+		n.setObjectId(newspaper.getId());
+		n.setObjectContent(newspaper.getName() +" ,numero: "+newspaper.getNumber());
+
+
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+ newspaper.getActualUserId());
+		}catch(Exception e){
+			System.out.println("Delete newspaper by teacher: impossibile inviare la notifica");
+		}
+		
+	
+		
+	}
+
+	//viene generata solo se a modificare il newspaper è un docente
+	@Override
+	public void notifyUpdateNewspaper(Scenario s, Reference teacher, Newspaper newspaper) {
+		
+		String journalist = newspaper.getActualUserId();
+		if(journalist==null) //se il giornale non ha un giornalista in quel momento non viene generata nessuna notifica
+			return;
+		
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		n.setVerb(NotificationType.UPD_NEWSPAPER);
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setSender(teacher.getId());
+		n.setObjectId(newspaper.getId());
+		n.setObjectContent(newspaper.getName() +" ,numero: "+newspaper.getNumber());
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+ newspaper.getActualUserId());
+			
+		}catch(Exception e){
+			System.out.println("Update newspaper by teacher: impossibile inviare la notifica");
+		}
+		
+		
+	}
+
+	@Override
+	public void notifyNewJournalist(Scenario s, Reference teacher, Newspaper newspaper, String newJournalist) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		n.setVerb(NotificationType.NEW_JOURNALIST);
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setSender(teacher.getId());
+		n.setObjectId(newspaper.getId());
+
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+ newJournalist);
+		}catch(Exception e){
+			System.out.println("New journalist: impossibile inviare la notifica");
+		}
+		
+	}
+
+	@Override
+	public void notifyRemoveournalist(Scenario s, Reference teacher, Newspaper newspaper, String oldJournalist) {
+		Notification n = new Notification();
+		n.setDate(new Date());
+		
+		n.setVerb(NotificationType.DEL_JOURNALIST);
+		n.setActorId(teacher.getId());
+		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+		n.setScenarioId(s.getId());
+		n.setScenarioName(s.getName());
+		n.setSender(teacher.getId());
+		n.setObjectId(newspaper.getId());
+
+		try{
+			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+ oldJournalist);
+		}catch(Exception e){
+			System.out.println("Delete journalist: impossibile inviare la notifica");
+		}
 		
 	}
 
