@@ -60,7 +60,7 @@ public class NewspaperController extends BaseController{
 		@ResponseStatus(value = HttpStatus.CREATED)
 		@RequestMapping(value="/v1/scenarios/{idScenario}/newspapers", method=RequestMethod.POST)
 		@PreAuthorize("hasRole('ROLE_USER') and hasPermission(#idScenario, 'Newspaper', 'WRITE')")
-		public Id createNewspaper(@PathVariable String idScenario, @RequestBody @Valid NewspaperDTO newspaperDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws ForbiddenException, MongoException, BadRequestException{
+		public Newspaper createNewspaper(@PathVariable String idScenario, @RequestBody @Valid NewspaperDTO newspaperDTO, BindingResult result, @AuthenticationPrincipal CustomUserDetails activeUser) throws ForbiddenException, MongoException, BadRequestException{
 			/*Controllo se la validazione dei campi obbligatori va a buon fine*/
 			System.out.println("CREAZIONE NUOVO GIORNALE IN CORSO...");
 			if(result.hasErrors()){
@@ -73,9 +73,8 @@ public class NewspaperController extends BaseController{
 				throw new BadRequestException("idTemplate not valid or constraints not observed!");
 			Newspaper n = newspaperService.saveNewspaper(newspaperDTO, idScenario, activeUser.getId());
 			scenarioService.lastUpdateScenario(idScenario, new Date());
-			Id id = new Id(n.getId());
 			logService.logAddNewspaper(idScenario, n.getId(), activeUser.getId());
-			return id;
+			return n;
 		}
 		
 		//ritorna l'ultimo newspaper pubblicato per quello scenario

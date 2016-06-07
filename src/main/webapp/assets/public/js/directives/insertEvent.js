@@ -31,8 +31,6 @@ angular.module("smiled.application").directive("insertEvent", [ 'CONSTANTS', 'ap
 			self.sendPostEnable = true;
 			/*--------------------------*/
 			
-			
-			
 			/*Variable and function to switch open/closed historicalDatePicker*/
 			self.showDatePicker = false;
 			self.setDateNewPost = function(){

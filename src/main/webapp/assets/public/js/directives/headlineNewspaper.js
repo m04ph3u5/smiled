@@ -4,28 +4,33 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 
 		restrict: "AE",
 		templateUrl: "assets/private/partials/headline-newspaper.html",
-		scope : {
+		scope: {
+			
+			newspaper: '=?',
 			
 		},
 		bindToController: true,
 		controller: ['$scope',function($scope){
 			var self = this;
 			self.showWarning = false;
-			var scenId = $stateParams.id;
-			self.newspaper= {}; 
+			var scenId = $stateParams.id; 
 			self.isFirst; 
-		
 			
+			console.log(self.newspaper.name + "ciaaaaao"); 
+
 			self.showPopUpCreationTitle = function (){
-			modalService.showModalCreateTitle();	
+			modalService.showModalCreateTitle(self.newspaper);	
 			};
 		
 		
 		//retrieve object newspaper 
-			self.newspaper = apiService.getMyLastNewspaper(scenId).then(
+	/*		self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 					function(data){
 						if(data.status == 'DRAFT'){
-							self.newspaper = data; 	
+							self.newspaper = data;
+							console.log(self.newspaper.name + "ciaaaaao"); 
+
+					
 						}
 						 else 
 							//TO DO, inserire redirect alla vista del nuovo numero 
@@ -35,8 +40,7 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 						
 						console.log("Errore. " + self.isFirst );	
 					}
-		)
-			
+		)*/
 		
 		//prova dataPicker
 		
@@ -53,14 +57,17 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 		}*/
 		
 		
+	   
+		
 			
 		}],
 		
 		controllerAs: "headlineNewspaper",
 		link : function(scope,elem,attrs,ctrl){
 			
-			scope.$watch('self.newspaper.name', function(val){
-			if(val.length>30) {
+			scope.$watch('self.newspaper.name.length', function(val) {
+				
+			if(val>30) {
 				ctrl.showWarning = true; 
 				console.log ("ATTENZIONE" + ctrl.showWarning);
 				

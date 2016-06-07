@@ -1,6 +1,27 @@
 angular.module('smiled.application').factory('article',
-		[ '$http', '$q', function article($http, $q) {
+		[ '$http', '$q', '$stateParams', 'apiService', function article($http, $q, $stateParams, apiService) {
 
+			var idTemplate; 
+			var newspaper = {}; 
+			var scenId = $stateParams.id;
+			var newspaperNumber; 
+			
+			newspaper = apiService.getMyLastNewspaper(scenId).then(
+					function(data){
+						newspaper = data; 
+						idTemplate = newspaper.idTemplate;
+						newspaperNumber = newspaper.number; 
+						console.log(newspaper.idTemplate + "ID"); 
+						
+					},function(reason){
+					
+						console.log("Errore.");	
+					}
+			)
+			
+			
+			
+			
 			//Oggetti articoli --> verranno scaricati da db
 			article2col = {}; 
 			article1colImg = {};
@@ -174,6 +195,36 @@ angular.module('smiled.application').factory('article',
 				
 			}
 			
+			//restituisce l'id del template che lo studente sta utilizzando 
+
+			var getIdTemplate = function(){
+				return idTemplate; 
+			}
+			
+			var getNewspaperNumber = function(){
+				return newspaperNumber; 
+				
+			}
+			
+			var getCurrentNewspaper = function () {
+				var number;  
+				
+				var s = apiService.getMyLastNewspaper(scenId); 
+						s.then(function(data){
+							/*newspaper = data; 
+							idTemplate = newspaper.idTemplate;*/
+							number = newspaper.number; 
+							
+						},function(reason){
+						
+							console.log("Errore.");	
+						}
+				)
+				
+				console.log(number + "UOOOOOO")
+				 return number; 
+			}
+		
 
 			return {
 
@@ -186,7 +237,10 @@ angular.module('smiled.application').factory('article',
 				setBooleanRedazione: setBooleanRedazione,
 				getBooleanRedazione: getBooleanRedazione,
 				setIdCurrentTemplate: setIdCurrentTemplate,
-				getIdCurrentTemplate: getIdCurrentTemplate
+				getIdCurrentTemplate: getIdCurrentTemplate,
+				getIdTemplate: getIdTemplate,
+				getNewspaperNumber: getNewspaperNumber,
+				getCurrentNewspaper: getCurrentNewspaper,
 				
 				}
 

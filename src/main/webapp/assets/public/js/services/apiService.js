@@ -1052,9 +1052,10 @@
 		);
 		return s.promise;
 	}
+	
 	var updateArticle = function(idScenario, number, articleDTO){
 		var c = $q.defer();
-		$http.put("/api/v1/scenarios/"+idScenario+"/newspapers?number="+number, articleDTO).then(
+		$http.put("/api/v1/scenarios/"+idScenario+"/newspapers/"+number+"/articles", articleDTO).then(
 				function(response){
 					c.resolve(response.data);
 				},

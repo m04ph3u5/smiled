@@ -5,7 +5,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 		restrict: "AE",
 		templateUrl: "assets/private/partials/article-two-columns.html",
 		scope: {
-			
+			newspaper: '=?'
 		},
 		
 		controller: ['$scope',function($scope){
@@ -18,6 +18,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			//id articolo provvisorio 
 			self.idArticle = "";
 			self.idTemplate = article.getIdCurrentTemplate();
+			/*self.idTemplate = $scope.newspaper.idTemplate; */
 			self.article = {};
 	
 			//caricamento articoli in base al template scelto dall'utente

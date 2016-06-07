@@ -226,7 +226,6 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/directives/editDraftPost.js"></script>
 	<script src="/assets/public/js/directives/blurElement.js"></script>
 	
-	<script src="/assets/public/js/controllers/dialogConfirmRegistrationController.js"></script>
 	
 <!--  	CUSTOM SCRIPT WRAPPING  -->
 	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>  
@@ -249,10 +248,6 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	
 	<script src="/assets/public/js/controllers/dialogConfirmRegistrationController.js"></script>
 	
-<!--  	CUSTOM SCRIPT WRAPPING  -->
-	<script src="/assets/public/js/wrapping/exceptionHandler.js"></script>  
-	<script src="/assets/public/js/wrapping/requestCounter.js"></script>
-	<script src="/assets/public/js/wrapping/stateChangeErrors.js"></script>
 
 <!-- 	<script src="/assets/public/build/meschola.min.js"></script> -->
 	

@@ -2,12 +2,12 @@ package it.polito.applied.smiled.repository;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Update;
 
 import it.polito.applied.smiled.pojo.FileReference;
+import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
@@ -34,5 +34,8 @@ public interface CustomPostRepository {
 	public List<Post> findLastInHistoricOrderAsc(String scenarioId, Long date, Integer time, Integer nItem);
 	public List<Post> findLastCharacterPostInHistoricOrderDesc(String scenarioId, String characterId, Long date, Integer time,
 			Integer nItem);
+	public List<Post> findByScenarioIdAndPostStatusAndUserId(String id, PostStatus draft, Reference userRef);
+	public List<Post> findStatusByScenarioIdAndPostStatusAndUserId(String id, PostStatus draft, Reference userRef);
+
 
 }

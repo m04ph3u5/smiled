@@ -22,6 +22,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var file = {};
 		var registrationToConfirm = {};
 		var confirmRegistrationBool = true;
+		var newspaper = {}; 
 		
 		
 		var modalInstanceCreateScen;
@@ -235,6 +236,12 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				controllerAs: 'dialogHeadline',
 				size: 'lg',
 				/*windowClass: 'center-modal'*/		
+				resolve: {
+					newspaper : function(){
+						return newspaper;
+					}
+				}
+					
 		};
 		
 			
@@ -303,7 +310,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		}
 		
 		// MODAL NEWSPAPER 
-		var showModalCreateTitle = function(){
+		var showModalCreateTitle = function(news){ 
+			newspaper = news; 
 			modalInstanceCreateTitle = $modal.open(showCreateTitle);
 			return modalInstanceCreateTitle.result; 
 		}

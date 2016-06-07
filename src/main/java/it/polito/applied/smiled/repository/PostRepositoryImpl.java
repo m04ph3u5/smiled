@@ -22,6 +22,7 @@ import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.PostReverseDateComparator;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorDesc;
+import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.scenario.Comment;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Event;
@@ -331,6 +332,32 @@ public class PostRepositoryImpl implements CustomPostRepository{
 		q.with(new Sort(new Sort.Order(Sort.Direction.DESC, "julianDayNumber"), new Sort.Order(Sort.Direction.DESC, "timeNumber")));
 		q.limit(nItem);
 
+		return mongoOp.find(q, Post.class);
+	}
+
+	@Override
+	public List<Post> findByScenarioIdAndPostStatusAndUserId(String scenarioId, PostStatus status, Reference ref) {
+		Query q = new Query();
+	
+		Criteria cOr = new Criteria();
+		
+		cOr.orOperator(Criteria.where("_class").is(Event.class.getName()), Criteria.where("_class").is(Status.class.getName()));
+		System.out.println(scenarioId+" "+status+" "+ref.getEmail());
+		q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+				.andOperator(Criteria.where("status").is(status)
+				.andOperator(Criteria.where("user").is(ref)
+				.andOperator(cOr))));
+		return mongoOp.find(q, Post.class);
+	}
+
+	@Override
+	public List<Post> findStatusByScenarioIdAndPostStatusAndUserId(String scenarioId, PostStatus status, Reference ref) {
+		Query q = new Query();
+		
+		q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+				.andOperator(Criteria.where("status").is(status)
+				.andOperator(Criteria.where("user").is(ref)
+				.andOperator(Criteria.where("_class").is(Status.class.getName())))));
 		return mongoOp.find(q, Post.class);
 	}
 }

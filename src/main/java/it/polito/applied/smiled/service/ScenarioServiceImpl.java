@@ -626,7 +626,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 				userService.removeScenarioAndSaveInBlockedList(collaborator.getId(), id);
 				permissionEvaluator.removeOnePermission(collaboratorId, Scenario.class, id);
 				removeUserFromCharacters(collaborator.getId(), scen);
-
+				List<Post> drafts = postRepository.findByScenarioIdAndPostStatusAndUserId(id, PostStatus.DRAFT, collaborator);
+				if(drafts!=null){
+					for(Post p : drafts){
+						userRepository.removeDraftPost(p.getUser().getId(), p.getId());
+					}
+				}
 			}
 			else{
 				permissionEvaluator.updatePermission(collaboratorId, id, Scenario.class, "WRITE");
@@ -697,6 +702,12 @@ public class ScenarioServiceImpl implements ScenarioService{
 					}
 				}
 				userService.deleteScenarioFromCreator(scen.getTeacherCreator().getId(), scen.getId());
+				List<Post> drafts = postRepository.findByScenarioIdAndPostStatus(id, PostStatus.DRAFT);
+				if(drafts!=null){
+					for(Post p : drafts){
+						userRepository.removeDraftPost(p.getUser().getId(), p.getId());
+					}
+				}
 				scenarioRepository.putInDeletedState(scen.getId());
 			}
 
@@ -1092,6 +1103,14 @@ public class ScenarioServiceImpl implements ScenarioService{
 
 		CharacterReference charRef = new CharacterReference(c);
 		scenarioRepository.updateCharacterToScenario(charRef, id);
+		
+		List<Post> drafts = postRepository.findStatusByScenarioIdAndPostStatusAndUserId(id, PostStatus.DRAFT, userRef);
+		System.out.println("SIZE: "+drafts.size());
+		if(drafts!=null){
+			for(Post p : drafts){
+				userRepository.removeDraftPost(p.getUser().getId(), p.getId());
+			}
+		}
 
 		if(scenario.getStatus().equals(ScenarioStatus.ACTIVE))
 			notify.notifyDeleteAssociation(userRef, charRef, scenario, activeUser.getId());

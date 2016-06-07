@@ -67,6 +67,8 @@ angular.module('smiled.application').controller('dialogScenarioCtrl', ['modalSer
 	self.endDate.days = CONSTANTS.getDays(self.scenario.endDate.month);
 	
 	self.getStartDays = function(){
+		console.log("++++++++++++++++++");
+		console.log(self.scenario.startDate.month);
 		self.startDate.days = CONSTANTS.getDays(self.scenario.startDate.month);
 	}
 	self.getEndDays = function(){

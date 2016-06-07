@@ -323,8 +323,11 @@ public class NewspaperServiceImpl implements NewspaperService {
 		//se arrivo qui significa che l'operazione corrisponde all'inserimento di un nuovo article (quindi creo un Article a partire da ArticleDTO)
 		
 		Article newA = new Article(articleDTO, userRef);
-		if( !validateCheckingConstraints(newA, nT))
-			throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+newA.getIdArticleTemplate());
+		if(statusNewspaper.equals(PostStatus.PUBLISHED)){
+			if( !validateCheckingConstraints(newA, nT))
+				throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+newA.getIdArticleTemplate());
+			
+		}
 		Newspaper ret = newspaperRepo.insertArticle(idScenario, number, newA);
 		notify.notifyUpdateNewspaper(s, userRef, ret);
 		return ret;

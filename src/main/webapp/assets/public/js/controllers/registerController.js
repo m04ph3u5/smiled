@@ -94,21 +94,21 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 	}
 	
 	//CAROUSEL
-	var scen1 = {img:"assets/public/img/green.jpg"};
-	var scen2 = {img:"assets/public/img/landing page/Personalizzabile.png"};
-	var scen3 = {img:"assets/public/img/landing page/Sicura.png"};
-	var scen4 = {img:"assets/public/img/landing page/Collaborativa.png"};
-	var scen5 = {img:"assets/public/img/cover_default.jpg"};
-	var scen6 = {img:"assets/public/img/calderone1.png"};
-	var scen7 = {img:"assets/public/img/icon/pg.png"};
-	var scen8 = {img:"assets/public/img/wizard/wiz_att.png"};
-	var scen9 = {img:"assets/public/img/wizard/wiz_char.png"};
-	var scen10 = {img:"assets/public/img/wizard/wiz_coll.png"};
-	var scen11 = {img:"assets/public/img/ic_creatingscenario.png"};
-	var scen12 = {img:"assets/public/img/ic_openscenario.png"};
-	var scen13 = {img:"assets/public/img/wizard/wiz_info.png"};
-	var scen14 = {img:"assets/public/img/wizard/wiz_rel.png"};
-	var scen15 = {img:"assets/public/img/landing page/ic_teacher.png"};
+	var scen1 = "assets/public/img/green.jpg";
+	var scen2 = "assets/public/img/landing page/Personalizzabile.png";
+	var scen3 = "assets/public/img/landing page/Sicura.png";
+	var scen4 = "assets/public/img/landing page/Collaborativa.png";
+	var scen5 = "assets/public/img/cover_default.jpg";
+	var scen6 = "assets/public/img/calderone1.png";
+	var scen7 = "assets/public/img/icon/pg.png";
+	var scen8 = "assets/public/img/wizard/wiz_att.png";
+	var scen9 = "assets/public/img/wizard/wiz_char.png";
+	var scen10 = "assets/public/img/wizard/wiz_coll.png";
+	var scen11 = "assets/public/img/ic_creatingscenario.png";
+	var scen12 = "assets/public/img/ic_openscenario.png";
+	var scen13 = "assets/public/img/wizard/wiz_info.png";
+	var scen14 = "assets/public/img/wizard/wiz_rel.png";
+	var scen15 = "assets/public/img/landing page/ic_teacher.png";
 	var scenarios = [scen1, scen2, scen3, scen4, scen5, scen6, scen7, scen8, scen9, scen10, scen11, scen12, scen13];
 	
 	var scenarioIndex = 0;

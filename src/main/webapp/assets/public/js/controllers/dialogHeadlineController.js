@@ -1,74 +1,82 @@
-angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalService','alertingGeneric', '$state', 'CONSTANTS', '$scope', 'article','$stateParams','apiService',
+angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalService','alertingGeneric', '$state', 'CONSTANTS', '$scope', 'article','$stateParams','apiService','newspaper',
        
-                                                                  function dialogHeadlineCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams, apiService){
+                                                                  function dialogHeadlineCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams, apiService, newspaper){
 	var self = this;
 	var scenId = $stateParams.id;
-	console.log(scenId + "ID SCENARIO"); 
+	self.numberNewspaper; 
 	self.isFirstEdit = true; 
-	self.newspaper = {};
 	
 	self.idCurrentTemplate = article.getIdCurrentTemplate(); 
+	var oldName = angular.copy(newspaper.name);
 	
+	self.newspaperPost = {}; 
+	self.newspaperPut = {}; 
 	
+	self.headline = newspaper.name; 
 	
     self.setHeadline = function (){	
-    if(self.newspaper.name.length<4 || self.newspaper.name == ''){
-			
+    if(self.headline.length<4 || self.headline == ''){
+		
 			alertingGeneric.addWarning("Inserire un titolo di almeno 4 caratteri");	
 			/*self.invalidTitle = true;*/
-			console.log("NO");
 		} else
 			
+			//creazione newspaper template 1 
 			
-			if(self.idCurrentTemplate == "1") {
-				self.newspaper.idTemplate = 1;
-
-				console.log(self.newspaper); 
+			if(self.idCurrentTemplate == "1" && oldName == "Inserisci il titolo") {
+				self.newspaperPost.idTemplate = 1;
+				self.newspaperPost.name = self.headline; 
 				
-				var s= apiService.createnewspaper(self.newspaper, scenId);
+				console.log(self.headline)
+				
+				var s= apiService.createnewspaper(self.newspaperPost, scenId);
 				s.then(function(data){
-					 alertingGeneric.addSuccess("Giornale creato");
-					 modalService.closeModalCreateTitle(); 		
-					 $state.go('logged.scenario.template1');	
+					 newspaper.name = self.headline;
+					 modalService.closeModalCreateTitle(); 
+					 self.numberNewspaper = data.number; 
+					 
+					 self.isFirstEdit = false; 
+					 $state.go('logged.scenario.template1');
 					 
 				 }, function(reason){
 					 
 					 alertingGeneric.addWarning("Non e' stato possibile creare il giornale, riprova!");
 				 });
 				
-				
-				
-				/*article.setTitle(headline);*/
 				modalService.closeModalCreateTitle(); 		
 				$state.go('logged.scenario.template1');	
 				
 				
+			} else {
+				
+				self.newspaperPut.name = self.headline; 
+				
+				var s= apiService.updateNewspaper(scenId, newspaper.number , self.newspaperPut);
+				s.then(function(data){
+					 newspaper.name = self.headline;
+					 modalService.closeModalCreateTitle(); 		
+					 $state.go('logged.scenario.template1');
+					 
+				 }, function(reason){
+					 alertingGeneric.addWarning("Non e' stato possibile aggiornare il giornale, riprova");
+				 });
 			}
     
     if(self.idCurrentTemplate == "2") {
 		
-		//creazione newspaper 
+		//creazione newspaper template 2
 		article.setTitle(headline);
 		modalService.closeModalCreateTitle(); 		
 		$state.go('logged.scenario.template2');
     
-			}	
-			
-				
-				
+			}		
 				
 			}
     
 
-    
-    
-			
-		
-    
-    
-    $scope.$watch('self.headline.title', function(newVal, oldVal){
+    $scope.$watch('self.headline', function(newVal, oldVal){
 		if(newVal) {
-		if(self.headline.title.length<4){
+		if(self.headline.length<4 || self.headline.length == 0){
 			self.invalidTitle = true; 	
 			
 		}
@@ -85,13 +93,8 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 	});
     		
 
-	
-	
-	//se l'utente chiude la finestra cliccando su ANNULLA 
-	
 	self.closeDialog = function (){
-		
-		self.headline.title = "Assegna un nome al giornale";
+		self.headline = oldName; 
 		$scope.$dismiss();
 		
 	}
