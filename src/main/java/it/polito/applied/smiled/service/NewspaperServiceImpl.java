@@ -305,7 +305,7 @@ public class NewspaperServiceImpl implements NewspaperService {
 			if(aa.getIdArticleTemplate()==articleDTO.getIdArticleTemplate()){
 				//si tratta di una modifica
 				Article a = new Article(articleDTO, activeUser.getId(), aa.getUser(), aa.getCreationDate());
-				if( !validateCheckingConstraints(a, nT))
+				if(statusNewspaper.equals(PostStatus.PUBLISHED) && !validateCheckingConstraints(a, nT))
 					throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+a.getIdArticleTemplate());
 				Newspaper ret = newspaperRepo.updateArticle(idScenario, number, a);
 				notify.notifyUpdateNewspaper(s, userRef, ret);

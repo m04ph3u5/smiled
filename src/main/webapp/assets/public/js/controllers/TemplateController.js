@@ -6,7 +6,6 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	self.currentIdTemplate = article.getIdCurrentTemplate();
 	var scenId = $stateParams.id;
 	
-	
 	//TO DO --> gestione se il giornale non fosse in bozza  
 	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 			function(data){
@@ -15,7 +14,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 				
 			},function(reason){
 				self.newspaper = {}; 
-				self.newspaper.name = "Inserisci il titolo";
+				self.newspaper.name = CONSTANTS.insertHeadline;
 				console.log("Errore.");	
 			}
 )

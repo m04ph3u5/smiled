@@ -61,7 +61,7 @@
            <label class ="testo" >
             <span data-ng-if="articleTwoColumns.article.city != ''" style= "font-family:serif;"> 
             {{articleTwoColumns.article.city}} - </span>
-           {{articleTwoColumns.article.text.col1 | limitTo:682}}</label>
+           {{articleTwoColumns.article.text1 | limitTo:682}}</label>
              <warning-characters data-ng-if="articleTwoColumns.showWarningTextCol1"
           stylebox = "up" style= "color: red;"
 	edit="articleTwoColumns.goToDraft()" 
@@ -70,7 +70,7 @@
         
     
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> 
-           <label class ="testo"> {{articleTwoColumns.article.text.col2 | limitTo:682}} </label> 
+           <label class ="testo"> {{articleTwoColumns.article.text2 | limitTo:682}} </label> 
             <warning-characters data-ng-if="articleTwoColumns.showWarningTextCol2"
             stylebox = "up"
 	edit="articleTwoColumns.goToDraft()" 

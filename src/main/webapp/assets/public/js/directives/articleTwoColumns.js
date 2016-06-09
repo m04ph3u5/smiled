@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state',
-                                     function(article, $state){
+angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state', 'apiService', '$stateParams', 'alertingGeneric',
+                                     function(article, $state, apiService, $stateParams, alertingGeneric){
 	return {
 
 		restrict: "AE",
@@ -15,15 +15,78 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			self.showWarningSubtitle = false; 
 			self.showWarningTextCol1 = false; 
 			self.showWarningTextCol2 = false; 
+			var scenId = $stateParams.id;
+			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
+			console.log(self.idChoosenTemplate); 
 			//id articolo provvisorio 
 			self.idArticle = "";
-			self.idTemplate = article.getIdCurrentTemplate();
-			/*self.idTemplate = $scope.newspaper.idTemplate; */
+			
+			self.lastNewspaper = article.getCurrentNewspaper(); 
+			console.log(self.lastNewspaper.status); 
+			self.idTemplate = article.getIdTemplate();
+			console.log(self.idTemplate); 
+			
+			self.articles = []; 
 			self.article = {};
+
 	
 			//caricamento articoli in base al template scelto dall'utente
 			self.loadArticle = function(idTemplate) {
 				
+			
+				
+				var s = apiService.getMyLastNewspaper(scenId);
+				s.then(function(data){
+					console.log("PASSSO DA QUIII")
+					self.newspaper = data; 
+					self.articles = self.newspaper.articles;  
+					console.log(self.articles); 
+					//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
+					for(var i=0; i<=self.articles.length; i++){
+						if(self.articles[i].idArticleTemplate == 1){
+							self.article = self.articles[i]; 
+							console.log(self.article); 
+							break; 
+							
+						} else {			
+			alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");			
+						}
+			
+					}
+					},
+					
+				  function(reason){
+				
+					console.log("Errore.");	
+				}
+		)
+				
+				
+				switch (idTemplate) {
+				case 1:
+				self.idArticle = "1";
+				self.article = article.getArticleObject(self.idArticle);
+				console.log(self.article);
+				break;
+				
+				case 2:
+				self.idArticle = "7";
+				self.article = article.getArticleObject(self.idArticle);	
+				break;
+				
+
+				default:
+				console.log("ERROR" + " " + self.idTemplate);
+					
+				}	
+				
+			}
+				
+			
+			
+			
+			self.loadArticleFirst = function(idTemplate){
+			
 				switch (idTemplate) {
 				case "id1":
 				self.idArticle = "1";
@@ -40,12 +103,19 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 				default:
 				console.log("ERROR" + " " + self.idTemplate);
 					
-				}	
-				
+				}
+	
 			}
 			
-			self.loadArticle("id" + self.idTemplate);
 			
+			if(self.lastNewspaper.status == undefined) {
+				self.loadArticleFirst("id"+self.idChoosenTemplate);		
+			} 
+			else
+				{
+				console.log(self.idTemplate); 
+				self.loadArticle(self.idTemplate);
+				}
 			
 			
 			self.goToDraft = function(){
@@ -132,7 +202,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			
 			/*controllo testo prima colonna */
 			
-			scope.$watch('articleTwoColumns.article.text.col1', function(newVal, oldVal){
+			scope.$watch('articleTwoColumns.article.text1', function(newVal, oldVal){
 				if(newVal){	
 				if(newVal.length>682) {
 					ctrl.showWarningTextCol1 = true;
@@ -151,7 +221,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 	
 			/*controllo testo seconda colonna */
 			
-			scope.$watch('articleTwoColumns.article.text.col2', function(newVal, oldVal){
+			scope.$watch('articleTwoColumns.article.text2', function(newVal, oldVal){
 				if(newVal){	
 				if(newVal.length>682) {
 					ctrl.showWarningTextCol2 = true;

@@ -222,5 +222,12 @@ angular.module("smiled.application").constant("CONSTANTS",{
 		}
 		}
 		return d;
-	}
+	}, 
+	
+	//newspaper CONSTANTS
+	
+	"insertHeadline" : "Inserisci un titolo per il giornale", 
+	
+	
+	
 });

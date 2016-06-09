@@ -3,63 +3,90 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
                                                                   function dialogHeadlineCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams, apiService, newspaper){
 	var self = this;
 	var scenId = $stateParams.id;
-	self.numberNewspaper; 
-	self.isFirstEdit = true; 
+	self.numberNewspaper;  
+	self.isFirst = true; 
 	
 	self.idCurrentTemplate = article.getIdCurrentTemplate(); 
 	var oldName = angular.copy(newspaper.name);
 	
+	self.newspaper = {}; 
 	self.newspaperPost = {}; 
 	self.newspaperPut = {}; 
 	
 	self.headline = newspaper.name; 
 	
+	//set headline - creationNewspaper 
+	
     self.setHeadline = function (){	
+    	
+    	//controllo inserimento titolo valido
     if(self.headline.length<4 || self.headline == ''){
-		
 			alertingGeneric.addWarning("Inserire un titolo di almeno 4 caratteri");	
 			/*self.invalidTitle = true;*/
 		} else
+			//creazione newspaper prima volta
 			
-			//creazione newspaper template 1 
-			
-			if(self.idCurrentTemplate == "1" && oldName == "Inserisci il titolo") {
+			if(self.idCurrentTemplate == "1" && oldName == CONSTANTS.insertHeadline) {
 				self.newspaperPost.idTemplate = 1;
 				self.newspaperPost.name = self.headline; 
-				
-				console.log(self.headline)
-				
-				var s= apiService.createnewspaper(self.newspaperPost, scenId);
+				var s = apiService.createnewspaper(self.newspaperPost, scenId);
 				s.then(function(data){
-					 newspaper.name = self.headline;
-					 modalService.closeModalCreateTitle(); 
+					 newspaper.name = self.headline; 
 					 self.numberNewspaper = data.number; 
-					 
-					 self.isFirstEdit = false; 
+					 article.setNumberJustCreated(self.numberNewspaper);
+					 article.getCurrentNewspaper();
+					 //console.log(self.newspaper);
+					 modalService.closeModalCreateTitle(); 
 					 $state.go('logged.scenario.template1');
-					 
-				 }, function(reason){
-					 
+				 },
+				 
+
+				 function(reason){ 
 					 alertingGeneric.addWarning("Non e' stato possibile creare il giornale, riprova!");
 				 });
-				
 				modalService.closeModalCreateTitle(); 		
 				$state.go('logged.scenario.template1');	
 				
 				
 			} else {
 				
-				self.newspaperPut.name = self.headline; 
+					self.numberNewspaper = article.getNumberJustCreated();
+					console.log(self.numberNewspaper); 
+					if(self.numberNewspaper == undefined) {
+						//update headline second or more time 
+						self.newspaperPut.name = self.headline; 
+						self.numberNewspaper = article.getNumberNewspaper(); 
+						var s= apiService.updateNewspaper(scenId,self.numberNewspaper, self.newspaperPut);
+						s.then(function(data){
+							 newspaper.name = self.headline;
+							 modalService.closeModalCreateTitle(); 		
+							 $state.go('logged.scenario.template1');
+							 
+						 }, function(reason){
+							 alertingGeneric.addWarning("Non e' stato possibile aggiornare il giornale, riprova");
+						 });	
+						
+						
+					} else {
+						console.log(self.numberNewspaper); 
+						
+						self.newspaperPut.name = self.headline;
+						self.newspaperPut.name = self.headline; 
+						
+						var s= apiService.updateNewspaper(scenId, self.numberNewspaper, self.newspaperPut);
+						s.then(function(data){
+							 newspaper.name = self.headline;
+							 modalService.closeModalCreateTitle(); 
+							 ; 
+							 $state.go('logged.scenario.template1');
+							 
+						 }, function(reason){
+							 alertingGeneric.addWarning("Non e' stato possibile aggiornare il giornale, riprova");
+						 });
+	
+					}
+	
 				
-				var s= apiService.updateNewspaper(scenId, newspaper.number , self.newspaperPut);
-				s.then(function(data){
-					 newspaper.name = self.headline;
-					 modalService.closeModalCreateTitle(); 		
-					 $state.go('logged.scenario.template1');
-					 
-				 }, function(reason){
-					 alertingGeneric.addWarning("Non e' stato possibile aggiornare il giornale, riprova");
-				 });
 			}
     
     if(self.idCurrentTemplate == "2") {
@@ -72,6 +99,9 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 			}		
 				
 			}
+    
+    
+    
     
 
     $scope.$watch('self.headline', function(newVal, oldVal){

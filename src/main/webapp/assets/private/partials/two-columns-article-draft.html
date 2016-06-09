@@ -41,15 +41,15 @@
 				<div class="col-sm-6 col-xs-12 animated fadeInDown">
 					<h5 ng-if="draft.id == 1">
 						<span class="green"
-							ng-class="{'red': draft.article.text.col1.length >= 683 }">
-							{{682 - draft.article.text.col1.length}} </span>Battute testo prima
+							ng-class="{'red': draft.article.text1.length >= 683 }">
+							{{682 - draft.article.text1.length}} </span>Battute testo prima
 						colonna
 					</h5>
 
 					<h5 ng-if="draft.id == 3">
 						<span class="green"
-							ng-class="{'red': draft.article.text.col1.length >= 595 }">
-							{{594 - draft.article.text.col1.length}} </span>Battute testo prima
+							ng-class="{'red': draft.article.text1.length >= 595 }">
+							{{594 - draft.article.text1.length}} </span>Battute testo prima
 						colonna
 					</h5>
 				</div>
@@ -71,15 +71,15 @@
 				<div class="col-sm-6 col-xs-12 animated fadeInDown">
 					<h5 ng-if="draft.id == 1">
 						<span class="green"
-							ng-class="{'red': draft.article.text.col2.length >= 683 }">
-							{{682 - draft.article.text.col2.length}} </span>Battute testo seconda
+							ng-class="{'red': draft.article.text2.length >= 683 }">
+							{{682 - draft.article.text2.length}} </span>Battute testo seconda
 						colonna
 					</h5>
 
 					<h5 ng-if="draft.id == 3">
 						<span class="green"
-							ng-class="{'red': draft.article.text.col2.length >= 595 }">
-							{{594 - draft.article.text.col2.length}} </span>Battute testo seconda
+							ng-class="{'red': draft.article.text2.length >= 595 }">
+							{{594 - draft.article.text2.length}} </span>Battute testo seconda
 						colonna
 					</h5>
 				</div>
@@ -119,7 +119,7 @@
 
 					<div class="col-sm-6 col-xs-12">
 						<textarea class="column-textarea"
-							ng-model="draft.article.text.col1" 
+							ng-model="draft.article.text1" 
 							placeholder="Testo dell'articolo" rows="18" style="width: 100%;">
 		
 		</textarea>
@@ -129,7 +129,7 @@
 
 					<div class="col-sm-6 col-xs-12">
 						<textarea class="column-textarea"
-							ng-model="draft.article.text.col2" rows="18" 
+							ng-model="draft.article.text2" rows="18" 
 							placeholder = "Testo dell'articolo" style="width: 100%;">
 		
 		</textarea>

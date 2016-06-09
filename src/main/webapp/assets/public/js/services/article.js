@@ -3,13 +3,16 @@ angular.module('smiled.application').factory('article',
 
 			var idTemplate; 
 			var newspaper = {}; 
+			
+			var articleById = {}; 
+			var article = {};
 			var scenId = $stateParams.id;
 			var newspaperNumber; 
+			var numberJustCreated; 
 			
 			newspaper = apiService.getMyLastNewspaper(scenId).then(
 					function(data){
 						newspaper = data; 
-						idTemplate = newspaper.idTemplate;
 						newspaperNumber = newspaper.number; 
 						console.log(newspaper.idTemplate + "ID"); 
 						
@@ -19,9 +22,7 @@ angular.module('smiled.application').factory('article',
 					}
 			)
 			
-			
-			
-			
+		
 			//Oggetti articoli --> verranno scaricati da db
 			article2col = {}; 
 			article1colImg = {};
@@ -42,11 +43,11 @@ angular.module('smiled.application').factory('article',
 			
 			article2col.title = 'Titolo primo articolo';
 			article2col.subtitle = "Sottotitolo dell'articolo";
-			article2col.text = {
+			
 					
-					col1:"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
-					col2:"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",	
-			}
+			article2col.text1 ="Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+			article2col.text2 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",	
+			
 			article2col.city = "";
 			
 			
@@ -195,35 +196,112 @@ angular.module('smiled.application').factory('article',
 				
 			}
 			
+			
 			//restituisce l'id del template che lo studente sta utilizzando 
 
 			var getIdTemplate = function(){
-				return idTemplate; 
-			}
-			
-			var getNewspaperNumber = function(){
-				return newspaperNumber; 
+				var s = apiService.getMyLastNewspaper(scenId); 
+				s.then(function(data){
+					newspaper = data;  
+				},function(reason){
 				
+					console.log("Errore.");	
+				}
+		)
+					return newspaper.idTemplate;
 			}
 			
-			var getCurrentNewspaper = function () {
-				var number;  
+			
+			
+			var getNumberNewspaper = function () {
 				
 				var s = apiService.getMyLastNewspaper(scenId); 
 						s.then(function(data){
-							/*newspaper = data; 
-							idTemplate = newspaper.idTemplate;*/
-							number = newspaper.number; 
+							newspaper = data; 
+							idTemplate = newspaper.idTemplate;
+							var number = newspaper.number; 
 							
 						},function(reason){
 						
 							console.log("Errore.");	
 						}
 				)
+
+				return newspaper.number; 
 				
-				console.log(number + "UOOOOOO")
-				 return number; 
 			}
+			
+			
+	var getCurrentNewspaper = function () {
+				
+				var s = apiService.getMyLastNewspaper(scenId); 
+						s.then(function(data){
+							newspaper = data; 
+						},function(reason){
+						
+							console.log("Errore.");	
+						}
+				)
+				console.log(newspaper); 
+				return newspaper; 
+				
+			}
+	
+	
+	var setNumberJustCreated = function (number){
+		
+		numberJustCreated = number; 
+		
+	}
+	
+	var getNumberJustCreated = function(){
+		
+		return numberJustCreated; 
+		
+		
+	}
+	
+	var findArticleById = function(id) {
+		var idArticle = id; 
+		var articles = [];  
+		var s = apiService.getMyLastNewspaper(scenId); 
+		s.then(function(data){
+			newspaper = data; 
+			articles = newspaper.articles;  
+			//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
+			for(var i=0; i<=articles.length; i++){
+				if(articles[i].idArticleTemplate == idArticle){
+					setArticle(articles[i]); 
+					console.log(articles[i]); 
+					break; 
+					
+				} else {			
+	alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");			
+				}
+	
+			}
+			},
+			
+		  function(reason){
+		
+			console.log("Errore.");	
+		}
+)
+		
+		
+	}
+	
+	var setArticle = function(a) {
+		console.log("PASSO DI QUIII"); 
+		article = a; 
+		console.log(article + "PIPPO");  
+		
+	}
+	
+	var getArticle = function(){
+		return article; 
+		
+	}
 		
 
 			return {
@@ -239,8 +317,12 @@ angular.module('smiled.application').factory('article',
 				setIdCurrentTemplate: setIdCurrentTemplate,
 				getIdCurrentTemplate: getIdCurrentTemplate,
 				getIdTemplate: getIdTemplate,
-				getNewspaperNumber: getNewspaperNumber,
 				getCurrentNewspaper: getCurrentNewspaper,
+				getNumberNewspaper: getNumberNewspaper, 
+				setNumberJustCreated: setNumberJustCreated,
+				getNumberJustCreated:getNumberJustCreated,
+				findArticleById: findArticleById, 
+				getArticle: getArticle, 
 				
 				}
 
