@@ -10,7 +10,8 @@ public class NewspaperDTO {
 	@NotNull
 	private int idTemplate;
 	private String name;
-	private HistoricalDate date;
+	private Long julianDayNumber;
+	private Integer timeNumber;
 	private ArticleDTO articleDTO;
 	
 	public int getIdTemplate() {
@@ -25,11 +26,18 @@ public class NewspaperDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public HistoricalDate getDate() {
-		return date;
+	
+	public Long getJulianDayNumber() {
+		return julianDayNumber;
 	}
-	public void setDate(HistoricalDate date) {
-		this.date = date;
+	public void setJulianDayNumber(Long julianDayNumber) {
+		this.julianDayNumber = julianDayNumber;
+	}
+	public Integer getTimeNumber() {
+		return timeNumber;
+	}
+	public void setTimeNumber(Integer timeNumber) {
+		this.timeNumber = timeNumber;
 	}
 	public ArticleDTO getArticleDTO() {
 		return articleDTO;

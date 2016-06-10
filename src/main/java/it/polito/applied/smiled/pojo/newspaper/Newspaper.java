@@ -15,7 +15,8 @@ public class Newspaper {
 	@Id
 	private String id;
 	private String name;
-	private HistoricalDate historicalDate;
+	private Long julianDayNumber;
+	private Integer timeNumber;
 	private int idTemplate;
 	private Date creationDate;
 	private Date lastUpdate;
@@ -51,12 +52,22 @@ public class Newspaper {
 		this.name = name;
 	}
 
-	public HistoricalDate getHistoricalDate() {
-		return historicalDate;
+	
+
+	public Long getJulianDayNumber() {
+		return julianDayNumber;
 	}
 
-	public void setHistoricalDate(HistoricalDate historicalDate) {
-		this.historicalDate = historicalDate;
+	public void setJulianDayNumber(Long julianDayNumber) {
+		this.julianDayNumber = julianDayNumber;
+	}
+
+	public Integer getTimeNumber() {
+		return timeNumber;
+	}
+
+	public void setTimeNumber(Integer timeNumber) {
+		this.timeNumber = timeNumber;
 	}
 
 	public int getIdTemplate() {

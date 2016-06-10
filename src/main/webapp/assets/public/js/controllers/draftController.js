@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','$state','article', '$stateParams', 
-              function draftCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, $state, article, $stateParams){
+angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','$state','article', '$stateParams', 'alertingScenario',
+              function draftCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, $state, article, $stateParams, alertingScenario){
 	 
 	var self = this; 
 	var scenId = $stateParams.id;
@@ -16,6 +16,36 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	self.isCityChecked = false; 
 	
 	self.articlePut = {}; 
+	
+	self.uploadImage=function(file){
+		Upload.upload({
+            url: CONSTANTS.urlMediaScenarioPost(scenId),
+            headers : {
+                'Content-Type': file.type
+            },
+            file: file
+        })
+        .then(
+        function (response) {
+	        self.uploadedFile = {};
+	        self.uploadedFile.id = response.data.id;
+	        self.uploadedFile.name = response.config.file[0].name;       
+        },function(reason){
+        	if(reason.status=="400" || reason.status=="406"){
+				alertingScenario.addWarning("Formato non supportato.");
+        	}else{
+        		alertingScenario.addWarning("C'è stato un errore, non è stato possibile caricare il file. Riprova per favore.");
+        	}				        
+        });
+	}
+	
+	self.getUploadedImage = function(){
+		return CONSTANTS.urlMedia(self.uploadedFile.id);
+	}
+	self.removeImage =function(){
+		self.uploadedFile = undefined;
+	}
+
 	
 
 	self.setData = function(input){
@@ -41,7 +71,8 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	    	    	/*self.articlePut.subtitle = "";*/
 	    	    	self.articlePut.text1 = input.text1; 
 	    	    	self.articlePut.text2 = input.text2; 
-	    	    	self.articlePut.imageId = input.imageId;
+	    	    	self.articlePut.imageId = self.uploadedFile.id;
+	    	    	console.log(self.uploadedFile.id + "IMMAGINE PROVA"); 
 	    	    	self.articlePut.idArticleTemplate = 1; 
 	    	    	self.articlePut.city = ""; 
 	    	    	

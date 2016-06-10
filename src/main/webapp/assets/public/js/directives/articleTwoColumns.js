@@ -22,47 +22,76 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			self.idArticle = "";
 			
 			self.lastNewspaper = article.getCurrentNewspaper(); 
-			console.log(self.lastNewspaper.status); 
+			console.log(self.lastNewspaper); 
 			self.idTemplate = article.getIdTemplate();
 			console.log(self.idTemplate); 
 			
 			self.articles = []; 
 			self.article = {};
-
-	
+		
 			//caricamento articoli in base al template scelto dall'utente
 			self.loadArticle = function(idTemplate) {
 				
-			
-				
-				var s = apiService.getMyLastNewspaper(scenId);
-				s.then(function(data){
-					console.log("PASSSO DA QUIII")
-					self.newspaper = data; 
-					self.articles = self.newspaper.articles;  
-					console.log(self.articles); 
-					//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
-					for(var i=0; i<=self.articles.length; i++){
-						if(self.articles[i].idArticleTemplate == 1){
-							self.article = self.articles[i]; 
-							console.log(self.article); 
-							break; 
-							
-						} else {			
-			alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");			
-						}
-			
-					}
-					},
-					
-				  function(reason){
-				
-					console.log("Errore.");	
-				}
-		)
-				
-				
 				switch (idTemplate) {
+				//se template 1 carico articolo relativo a quel template
+				case 1:
+					
+					var s = apiService.getMyLastNewspaper(scenId);
+					s.then(function(data){
+						
+						self.newspaper = data; 
+						self.articles = self.newspaper.articles;  
+						
+						if(self.articles = []) {
+							
+							self.idArticle = "1";
+							self.article = article.getArticleObject(self.idArticle);
+							console.log(self.article);	
+							
+						} else {
+						
+						//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
+						for(var i=0; i<=self.articles.length; i++){
+							if(self.articles[i].idArticleTemplate == 1){
+								self.article = self.articles[i]; 
+								//se l'articolo è vuoto, cioè non è ancora stato scritto, carico quello di default con i suggerimenti di scrittura
+								if(self.article = "") {
+									self.idArticle = "1";
+									self.article = article.getArticleObject(self.idArticle);
+									console.log(self.article);		
+								} 
+								console.log(self.article); 
+								break; 
+								
+							} else {			
+				alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");			
+							}
+				
+						}
+					}
+						},
+						
+					  function(reason){
+					
+						console.log("Errore.");	
+					}
+			)
+				break; //fine case 1	
+				
+					
+				case 2:
+					self.idArticle = "7";
+					self.article = article.getArticleObject(self.idArticle);	
+					break;
+					
+					
+				default:
+					console.log("ERROR" + " " + self.idTemplate);	
+					
+					
+				
+				}
+			/*	switch (idTemplate) {
 				case 1:
 				self.idArticle = "1";
 				self.article = article.getArticleObject(self.idArticle);
@@ -78,12 +107,9 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 				default:
 				console.log("ERROR" + " " + self.idTemplate);
 					
-				}	
+				}*/	
 				
 			}
-				
-			
-			
 			
 			self.loadArticleFirst = function(idTemplate){
 			
@@ -108,6 +134,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			}
 			
 			
+			//caricamento template in base all'esistenza o meno di un giornale in bozza 
 			if(self.lastNewspaper.status == undefined) {
 				self.loadArticleFirst("id"+self.idChoosenTemplate);		
 			} 
@@ -117,7 +144,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 				self.loadArticle(self.idTemplate);
 				}
 			
-			
+
 			self.goToDraft = function(){
 				
 				article.setArticleId(self.idArticle);
@@ -127,6 +154,9 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			}
 			
 			
+			
+			
+			//chiusura warning 
 			self.closeWarning = function (s){
 				
 				switch (s) {

@@ -98,10 +98,22 @@
 			</div>
 			
 	<!-- UPLOAD MEDIA -->
-	
-	<div class="col-sm-12 col-xs-12" >
-			<span class="glyphicon glyphicon-camera count"></span>
-				<label style= "margin-top: -6%; margin-left: 3%;">Carica qui l'immagine dell'articolo </label>
+
+			<div class="col-sm-12 col-xs-12" data-ngf-select
+				data-ngf-change="draft.uploadImage($files)">
+				<span class="glyphicon glyphicon-camera count"></span> <label
+					style="margin-top: -6%; margin-left: 3%;">Carica qui
+					l'immagine dell'articolo </label>
+			</div>
+
+			<div data-ng-if="draft.uploadedFile">
+				<div class="squareImg"
+					style="background-image: url('{{draft.getUploadedImage()}}')">
+					<div class="hoverContent textRight">
+						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="draft.removeImage()"></span>
+					</div>
+				</div>
 			</div>
 
 			<div class="col-sm-12 col-xs-12 textarea-container">

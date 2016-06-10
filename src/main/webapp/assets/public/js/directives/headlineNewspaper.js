@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('headlineNewspaper', ['article', 'modalService','apiService', '$stateParams',
-                                     function(article, modalService, apiService, $stateParams){
+angular.module("smiled.application").directive('headlineNewspaper', ['article', 'modalService','apiService', '$stateParams', 'CONSTANTS',
+                                     function(article, modalService, apiService, $stateParams, CONSTANTS){
 	return {
 
 		restrict: "AE",
@@ -7,6 +7,7 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 		scope: {
 			
 			newspaper: '=?',
+			scenario: '='
 			
 		},
 		bindToController: true,
@@ -16,11 +17,30 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			var scenId = $stateParams.id; 
 			self.isFirst; 
 			
-			console.log(self.newspaper.name + "ciaaaaao"); 
+			/*Initialize dates variable*/
+			self.startDate = angular.copy(self.scenario.history.startDate);
+			if(!self.startDate.afterChrist)
+				self.startDate.year*=-1;
+			self.endDate = angular.copy(self.scenario.history.endDate);
+			if(!self.endDate.afterChrist)
+				self.endDate.year*=-1;
+			
+			self.newspaper.julianDayNumber="";
+			self.newspaper.timeNumber="";
+			self.newspaper.historicalDate=CONSTANTS.insertHistoricalDateNewspaper;
+			
 
 			self.showPopUpCreationTitle = function (){
 			modalService.showModalCreateTitle(self.newspaper);	
 			};
+			
+			self.setDateNewspaper = function(){
+				modalService.showModalSetHistoryNewspaperDate(self.startDate, self.endDate, self.newspaper);
+			}
+			
+			
+			
+			
 		
 		
 		//retrieve object newspaper 

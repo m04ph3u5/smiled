@@ -1,11 +1,10 @@
 package it.polito.applied.smiled.dto;
 
-import it.polito.applied.smiled.pojo.HistoricalDate;
-
 public class NewspaperDTOPut {
 
 	private String name;
-	private HistoricalDate date;
+	private Long julianDayNumber;
+	private Integer timeNumber;
 	
 	//booleano che se a true chiede di pubblicare il newspaper
 	private boolean publish;
@@ -23,12 +22,17 @@ public class NewspaperDTOPut {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public HistoricalDate getDate() {
-		return date;
+	public Long getJulianDayNumber() {
+		return julianDayNumber;
 	}
-	public void setDate(HistoricalDate date) {
-		this.date = date;
+	public void setJulianDayNumber(Long julianDayNumber) {
+		this.julianDayNumber = julianDayNumber;
 	}
-	
+	public Integer getTimeNumber() {
+		return timeNumber;
+	}
+	public void setTimeNumber(Integer timeNumber) {
+		this.timeNumber = timeNumber;
+	}
 	
 }

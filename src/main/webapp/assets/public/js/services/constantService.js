@@ -226,7 +226,8 @@ angular.module("smiled.application").constant("CONSTANTS",{
 	
 	//newspaper CONSTANTS
 	
-	"insertHeadline" : "Inserisci un titolo per il giornale", 
+	"insertHeadline" : "Inserisci un titolo per il giornale",
+	"insertHistoricalDateNewspaper" : "Data il giornale", 
 	
 	
 	

@@ -2,7 +2,6 @@ angular.module('smiled.application').controller('customDatePickerTemplateCtrl', 
               function customDatePickerTemplateCtrl(startDate, endDate, post, modalService){
 	
 	var self = this;
-
 	self.startDate = startDate;
 	self.endDate = endDate;
 

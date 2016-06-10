@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,9 @@ import it.polito.applied.smiled.dto.NewspaperDTO;
 import it.polito.applied.smiled.dto.NewspaperDTOPut;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.NotFoundException;
+import it.polito.applied.smiled.pojo.FileMetadata;
+import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.newspaper.Article;
 import it.polito.applied.smiled.pojo.newspaper.ArticleTemplate;
@@ -43,6 +47,8 @@ public class NewspaperServiceImpl implements NewspaperService {
 	private UserService userService;
 	@Autowired
 	private NotifyService notify;
+	@Autowired
+	private GridFsManager gridFsManager;
 	
 	@Override
 	public List<NewspaperTemplate> getAllTemplates() {
@@ -108,8 +114,10 @@ public class NewspaperServiceImpl implements NewspaperService {
 		n.setActualUserId(userId);
 		n.setIdTemplate(nDTO.getIdTemplate());
 		
-		if(nDTO.getDate()!=null)
-			n.setHistoricalDate(nDTO.getDate());
+		if(nDTO.getJulianDayNumber()!=null)
+			n.setJulianDayNumber(nDTO.getJulianDayNumber());
+		if(nDTO.getTimeNumber()!=null)
+			n.setTimeNumber(nDTO.getTimeNumber());
 		if(nDTO.getArticleDTO()!=null){
 			List<Article> articles = new ArrayList<Article>();
 			Article myArticle = new Article(nDTO.getArticleDTO(), userRef);
@@ -175,11 +183,13 @@ public class NewspaperServiceImpl implements NewspaperService {
 			throw new BadRequestException("Number "+number+" of this newspaper not founded!");
 	
 		
-		if(dto.getDate()!=null)
-			n.setHistoricalDate(dto.getDate());
+		if(dto.getJulianDayNumber()!=null)
+			n.setJulianDayNumber(dto.getJulianDayNumber());
+		if(dto.getTimeNumber()!=null)
+			n.setTimeNumber(dto.getTimeNumber());
 		if(dto.getName()!=null)
 			n.setName(dto.getName());
-		if(dto.getDate()!=null || dto.getName()!=null)
+		if(dto.getJulianDayNumber()!=null || dto.getTimeNumber()!=null || dto.getName()!=null)
 			n = newspaperRepo.save(n);
 		else
 			return null;
@@ -266,7 +276,7 @@ public class NewspaperServiceImpl implements NewspaperService {
 
 	@Override
 	public Newspaper updateArticle(String idScenario, Integer number, ArticleDTO articleDTO, CustomUserDetails activeUser)
-			throws BadRequestException {
+			throws BadRequestException, IOException, NotFoundException, ForbiddenException {
 		
 		Scenario s = scenarioRepo.findById(idScenario);
 		if(s==null)
@@ -307,6 +317,17 @@ public class NewspaperServiceImpl implements NewspaperService {
 				Article a = new Article(articleDTO, activeUser.getId(), aa.getUser(), aa.getCreationDate());
 				if(statusNewspaper.equals(PostStatus.PUBLISHED) && !validateCheckingConstraints(a, nT))
 					throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+a.getIdArticleTemplate());
+				
+				if(articleDTO.getImageId()!=null){
+					FileMetadata f = gridFsManager.getMetadata(articleDTO.getImageId());
+					if(f==null)
+						throw new BadRequestException();
+					if(!f.getUserId().equals(user.getId()))
+						throw new ForbiddenException();
+					a.setImageId(articleDTO.getImageId());
+					gridFsManager.confirmImage(a.getImageId(), f);
+				}
+				
 				Newspaper ret = newspaperRepo.updateArticle(idScenario, number, a);
 				notify.notifyUpdateNewspaper(s, userRef, ret);
 				return ret;
@@ -328,6 +349,17 @@ public class NewspaperServiceImpl implements NewspaperService {
 				throw new BadRequestException("Constraints not fulfilled for this idArticleTemplate: "+newA.getIdArticleTemplate());
 			
 		}
+		
+		if(articleDTO.getImageId()!=null){
+			FileMetadata f = gridFsManager.getMetadata(articleDTO.getImageId());
+			if(f==null)
+				throw new BadRequestException();
+			if(!f.getUserId().equals(user.getId()))
+				throw new ForbiddenException();
+			newA.setImageId(articleDTO.getImageId());
+			gridFsManager.confirmImage(newA.getImageId(), f);
+		}
+		
 		Newspaper ret = newspaperRepo.insertArticle(idScenario, number, newA);
 		notify.notifyUpdateNewspaper(s, userRef, ret);
 		return ret;

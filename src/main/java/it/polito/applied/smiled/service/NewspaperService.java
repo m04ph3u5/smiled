@@ -1,5 +1,6 @@
 package it.polito.applied.smiled.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import it.polito.applied.smiled.dto.ArticleDTO;
@@ -7,6 +8,7 @@ import it.polito.applied.smiled.dto.NewspaperDTO;
 import it.polito.applied.smiled.dto.NewspaperDTOPut;
 import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
+import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.newspaper.Newspaper;
 import it.polito.applied.smiled.pojo.newspaper.NewspaperTemplate;
@@ -21,7 +23,7 @@ public interface NewspaperService {
 	public Newspaper updateNewspaper (String scenarioId, Integer number, NewspaperDTOPut dto, CustomUserDetails activeUser) throws BadRequestException;
 	public String deleteNewspaper(String idScenario, Integer number, CustomUserDetails activeUser)throws BadRequestException;
 	public Newspaper publishNewspaper(String idScenario, Integer number, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException;
-	public Newspaper updateArticle(String idScenario, Integer number, ArticleDTO articleDTO, CustomUserDetails activeUser) throws BadRequestException;
+	public Newspaper updateArticle(String idScenario, Integer number, ArticleDTO articleDTO, CustomUserDetails activeUser) throws BadRequestException, IOException, NotFoundException, ForbiddenException;
 
 	public List<Newspaper> findNewspapersInScenarioPUBLIC(String idScenario);
 	public List<Newspaper> findNewspapersInScenarioPRIVATE(String idScenario);

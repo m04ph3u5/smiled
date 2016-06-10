@@ -177,6 +177,8 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/controllers/dialogHeadlineController.js"></script>
 	<script src="/assets/public/js/controllers/dashboardNewspaperController.js"></script>
 	<script src="/assets/public/js/controllers/dialogChooseTemplateController.js"></script>
+	<script src="/assets/public/js/controllers/customDatePickerNewspaperController.js"></script>
+	<script src="/assets/public/js/controllers/dialogDeleteNewspaperControlller.js"></script>
 	
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/notifyService.js"></script>

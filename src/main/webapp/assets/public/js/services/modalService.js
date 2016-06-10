@@ -23,7 +23,8 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var registrationToConfirm = {};
 		var confirmRegistrationBool = true;
 		var newspaper = {}; 
-		
+		var scenarioId="";
+		var newspaperNumber=0;
 		
 		var modalInstanceCreateScen;
 		var modalInstanceDeleteScen;
@@ -34,6 +35,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceOpenMapForPost;
 		var modalInstanceOldCharacterChangeOnComment;
 		var modalInstanceSetHistoryDate;
+		var modalInstanceSetHistoryNewsDate; 
 		var modalInstanceCreateMission;
 		var modalInstanceDeleteResource;
 		var modalInstanceDeletePost;
@@ -54,9 +56,17 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		var optionsDeleteNewspaper = {
 				templateUrl: 'assets/private/partials/deleteNewspaper.html',
-				controller: 'templateCtrl',
-				controllerAs: 'template',
+				controller: 'dialogDeleteNewspaperCtrl',
+				controllerAs: 'dialogDelete',
 				size: 'md',	
+				resolve : {
+					scenarioId : function(){
+						return scenarioId;
+					},
+					newspaperNumber : function(){
+						return newspaperNumber;
+					}
+				}
 		}
 		
 		
@@ -79,6 +89,25 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 					},
 					post : function(){
 						return post;
+					}
+				}
+		}
+		
+		
+		var optionSetHistoryNewsDate = {
+				templateUrl: 'assets/private/partials/customDatePickerTemplateNewspaper.html',
+				controller: 'customDatePickerNewspaperCtrl',
+				controllerAs: 'customDatePickerNewspaper',
+				size: 'sm',
+				resolve : {
+					startDate : function(){
+						return startDate;
+					},
+					endDate : function(){
+						return endDate;
+					},
+					newspaper : function(){
+						return newspaper;
 					}
 				}
 		}
@@ -309,7 +338,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceDeleteCharacter.close();
 		}
 		
-		// MODAL NEWSPAPER 
+		// MODAL NEWSPAPER  
 		var showModalCreateTitle = function(news){ 
 			newspaper = news; 
 			modalInstanceCreateTitle = $modal.open(showCreateTitle);
@@ -320,7 +349,10 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			modalInstanceCreateTitle.close(); 
 		}
 		
-		var showModalDeleteNewspaper = function(){
+		var showModalDeleteNewspaper = function(scenId, newspaperNum){
+			scenarioId = angular.copy(scenId);
+			newspaperNumber = angular.copy(newspaperNum);
+			console.log(scenId+" ------ "+newspaperNum);
 			modalInstanceDeleteNewspaper = $modal.open(optionsDeleteNewspaper); 
 			return modalInstanceDeleteNewspaper.result; 	
 		}
@@ -461,16 +493,24 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		
 		
 		//datePicker Headline
-		var showModalSetNewspaperDate = function(sDate, eDate){
+		var showModalSetHistoryNewspaperDate = function(sDate, eDate, n){
 			startDate = sDate;
 			endDate = eDate;
-			modalInstanceSetHistoryDate = $modal.open(optionSetHistoryDate);
-			return modalInstanceSetHistoryDate.result;
+			newspaper = n; 
+			modalInstanceSetHistoryNewsDate = $modal.open(optionSetHistoryNewsDate);
+			return modalInstanceSetHistoryNewsDate.result;
 		}
 	
 		var closeModalSetHistoryDate = function(){
 			modalInstanceSetHistoryDate.close();
 		}
+		
+		var closeModalSetHistoryDateNewspaper = function() {
+			modalInstanceSetHistoryNewsDate.close();
+			
+			
+		}
+		
 		
 		var showModalCreateMission = function(scen){
 			scenario = scen;
@@ -573,12 +613,13 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalConfirmRegistration : closeModalConfirmRegistration,
 			showConcurrentModPost: showConcurrentModPost,
 			closeModalConcurrentModPost : closeModalConcurrentModPost,
-			
+			//MODAL NEWSPAPER
 			showChooseTemplate: showChooseTemplate,
 			closeModalShowChooseTemplate: closeModalShowChooseTemplate,
 			showModalCreateTitle : showModalCreateTitle,
 			closeModalCreateTitle : closeModalCreateTitle,
-			showModalSetNewspaperDate: showModalSetNewspaperDate,
+			showModalSetHistoryNewspaperDate: showModalSetHistoryNewspaperDate,
+			closeModalSetHistoryDateNewspaper: closeModalSetHistoryDateNewspaper,
 			showModalDeleteNewspaper: showModalDeleteNewspaper,
 			closeModalDeleteNewspaper: closeModalDeleteNewspaper,
 			deleteNewspaper: deleteNewspaper,

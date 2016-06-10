@@ -4,6 +4,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	var self = this; 
 	self.showWarning = false;
 	self.currentIdTemplate = article.getIdCurrentTemplate();
+	self.scen = $scope.scenario.scen;
 	var scenId = $stateParams.id;
 	
 	//TO DO --> gestione se il giornale non fosse in bozza  
@@ -20,26 +21,12 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 )
 
 	
+	
+
 	self.showPopUpDeleteNewspaper = function (){
-		modalService.showModalDeleteNewspaper()			
+		console.log("5555555555555555555");
+		modalService.showModalDeleteNewspaper(scenId, self.newspaper.number);			
 	}
 	
-	
-	self.deleteNewspaper = function(){
-		
-		modalService.deleteNewspaper(scenId, self.newspaper.number);
-		modalService.closeModalDeleteNewspaper();
-		$state.go("logged.scenario.editorial");
-		
-		
-	}
-	
-	
-	
-	   		
-
-
-    
-   
 	
 }]);

@@ -38,6 +38,8 @@ import it.polito.applied.smiled.service.NewspaperService;
 import it.polito.applied.smiled.service.ScenarioService;
 import it.polito.applied.smiled.service.UserService;
 
+//TODO validare date newspaper!!!
+
 @RestController
 public class NewspaperController extends BaseController{
 
@@ -233,7 +235,7 @@ public class NewspaperController extends BaseController{
 		@ResponseStatus(value = HttpStatus.OK)
 		@RequestMapping(value="/v1/scenarios/{idScenario}/newspapers/{number}/articles", method=RequestMethod.PUT)
 		@PreAuthorize("hasRole('ROLE_USER') and ( hasPermission(#idScenario, 'Scenario', 'MODERATOR') or hasPermission(#idScenario, 'Newspaper', 'WRITE'))")
-		public Newspaper updateArticle(@PathVariable String idScenario, @PathVariable Integer number, @RequestBody ArticleDTO articleDTO, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException{
+		public Newspaper updateArticle(@PathVariable String idScenario, @PathVariable Integer number, @RequestBody ArticleDTO articleDTO, @AuthenticationPrincipal CustomUserDetails activeUser) throws MongoException, BadRequestException, ForbiddenException, IllegalStateException, IOException, NotFoundException{
 			Newspaper n = newspaperService.updateArticle(idScenario, number, articleDTO, activeUser);
 			
 			scenarioService.lastUpdateScenario(idScenario, new Date());
