@@ -1,5 +1,5 @@
 angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService','$stateParams', '$state',
-              function firstTemplateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $stateParams, $state){
+              function dashboardNewspaperCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $stateParams, $state){
 	
 	
 	var self = this; 

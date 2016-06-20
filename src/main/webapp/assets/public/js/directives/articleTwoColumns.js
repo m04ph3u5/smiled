@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state', 'apiService', '$stateParams', 'alertingGeneric',
-                                     function(article, $state, apiService, $stateParams, alertingGeneric){
+angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state', 'apiService', '$stateParams', 'alertingGeneric', 'modalService',
+                                     function(article, $state, apiService, $stateParams, alertingGeneric, modalService){
 	return {
 
 		restrict: "AE",
@@ -16,34 +16,45 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			self.showWarningTextCol1 = false; 
 			self.showWarningTextCol2 = false; 
 			var scenId = $stateParams.id;
-			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
-			console.log(self.idChoosenTemplate); 
-			//id articolo provvisorio 
-			self.idArticle = "";
-			
 			self.lastNewspaper = article.getCurrentNewspaper(); 
-			console.log(self.lastNewspaper); 
+			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
+			self.currentHeadline = article.getNameJustCreated(); 
+			console.log(self.idChoosenTemplate); 
+			//id articolo
+			self.idArticle = "";
 			self.idTemplate = article.getIdTemplate();
-			console.log(self.idTemplate); 
 			
+			self.newspaper = {}; 
 			self.articles = []; 
 			self.article = {};
+			//variabile che mi serve per un controllo sul caricamento degli articoli 
+			//subito dopo che un giornale è stato cancellato
+			var oldName = angular.copy(self.lastNewspaper.name);
+			
 		
-			//caricamento articoli in base al template scelto dall'utente
-			self.loadArticle = function(idTemplate) {
-				
+			//GET article 
+			self.loadArticle = function(idTemplate) { 
 				switch (idTemplate) {
+				
 				//se template 1 carico articolo relativo a quel template
 				case 1:
-					
+					//caso di cancellazione appena avvenuta
+					if(oldName == self.lastNewspaper.name){
+						self.idArticle = "1";
+						self.article = article.getArticleObject(self.idArticle);
+						console.log(self.article);	
+					}
+
 					var s = apiService.getMyLastNewspaper(scenId);
 					s.then(function(data){
 						
 						self.newspaper = data; 
 						self.articles = self.newspaper.articles;  
+						 
+						//non ci sono articoli scritti 
 						
-						if(self.articles = []) {
-							
+						if(self.articles.length == 0) {
+							console.log("PASSO DI QUI"); 
 							self.idArticle = "1";
 							self.article = article.getArticleObject(self.idArticle);
 							console.log(self.article);	
@@ -52,15 +63,12 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 						
 						//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
 						for(var i=0; i<=self.articles.length; i++){
+							
 							if(self.articles[i].idArticleTemplate == 1){
-								self.article = self.articles[i]; 
-								//se l'articolo è vuoto, cioè non è ancora stato scritto, carico quello di default con i suggerimenti di scrittura
-								if(self.article = "") {
-									self.idArticle = "1";
-									self.article = article.getArticleObject(self.idArticle);
-									console.log(self.article);		
-								} 
-								console.log(self.article); 
+								console.log(self.articles[i].idArticleTemplate + "CIAAAAO"); 
+								self.article = self.articles[i];
+								self.idArticle = "1";
+								console.log("PASSO DI QUAA");  
 								break; 
 								
 							} else {			
@@ -73,7 +81,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 						
 					  function(reason){
 					
-						console.log("Errore.");	
+						console.log("Errore recupero articolo.");	
 					}
 			)
 				break; //fine case 1	
@@ -112,7 +120,8 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			}
 			
 			self.loadArticleFirst = function(idTemplate){
-			
+				
+				console.log("SONO STATO CHIAMATO"); 
 				switch (idTemplate) {
 				case "id1":
 				self.idArticle = "1";
@@ -128,34 +137,45 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 
 				default:
 				console.log("ERROR" + " " + self.idTemplate);
-					
 				}
-	
 			}
-			
-			
+	
 			//caricamento template in base all'esistenza o meno di un giornale in bozza 
 			if(self.lastNewspaper.status == undefined) {
 				self.loadArticleFirst("id"+self.idChoosenTemplate);		
 			} 
-			else
+			else if(self.lastNewspaper.status == 'DRAFT' || oldName == self.lastNewspaper.name)
 				{
 				console.log(self.idTemplate); 
 				self.loadArticle(self.idTemplate);
 				}
 			
-
+			
+			
+			//vai alle bozze
 			self.goToDraft = function(){
 				
-				article.setArticleId(self.idArticle);
-				console.log(self.idArticle + "ARTICOLO");
-				$state.go('logged.scenario.draftArticle2col');
+				//controllo se un nome è già stato assegnato per la creazione del giornale oppure no 
+				
+				self.currentHeadline = article.getNameJustCreated();  
+				console.log(self.currentHeadline + "NOME"); 
+				 
+				if(self.currentHeadline == "" && self.newspaper.status == undefined){
+					//modalService.showModalCreateTitle(self.newspaper);
+					modalService.showAlertNewspaper();
+			
+				} 
+				
+			 else {
+					article.setArticleId(self.idArticle);
+					console.log(self.idArticle + "ARTICOLO");
+					$state.go('logged.scenario.draftArticle2col');
+					
+				}
+				
 				
 			}
-			
-			
-			
-			
+		
 			//chiusura warning 
 			self.closeWarning = function (s){
 				

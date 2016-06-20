@@ -1,5 +1,5 @@
 angular.module('smiled.application').factory('article',
-		[ '$http', '$q', '$stateParams', 'apiService', function article($http, $q, $stateParams, apiService) {
+		[ '$http', '$q', '$stateParams', 'apiService', 'CONSTANTS','alertingGeneric', function article($http, $q, $stateParams, apiService, CONSTANTS, alertingGeneric) {
 
 			var idTemplate; 
 			var newspaper = {}; 
@@ -8,19 +8,8 @@ angular.module('smiled.application').factory('article',
 			var article = {};
 			var scenId = $stateParams.id;
 			var newspaperNumber; 
-			var numberJustCreated; 
-			
-			newspaper = apiService.getMyLastNewspaper(scenId).then(
-					function(data){
-						newspaper = data; 
-						newspaperNumber = newspaper.number; 
-						console.log(newspaper.idTemplate + "ID"); 
-						
-					},function(reason){
-					
-						console.log("Errore.");	
-					}
-			)
+			var numberJustCreated = 0; 
+			var nameJustCreated = ""; 
 			
 		
 			//Oggetti articoli --> verranno scaricati da db
@@ -53,16 +42,15 @@ angular.module('smiled.application').factory('article',
 			
 			article1colImg.title = 'Rubrica personaggio';
 			article1colImg.subtitle = '';
-			article1colImg.text = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";
-			article1colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';	
+			article1colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";
+			article1colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';
 			
 			
 			article2colImg.title = 'Titolo di un altro articolo';
 			article2colImg.subtitle = "Sottotitolo dell'articolo";
-			article2colImg.text = {
-					col1: "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
-					col2:"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",		
-			}
+			article2colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+			article2colImg.text2 = 	"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",		
+			
 			article2colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg'
 			article2colImg.city = "";
 				
@@ -122,7 +110,7 @@ angular.module('smiled.application').factory('article',
 				headline = headlineNewspaper; 
 			}
 			
-			//FUNZIONE MOLTO PROVVISORIA, RICEVE L'id dell'articolo dal controllore 
+			//FUNZIONE CHE RICEVE IL CURRENT id dal Newspaper 
 			
 			var setArticleId = function(id){
 				
@@ -233,16 +221,20 @@ angular.module('smiled.application').factory('article',
 			
 			
 	var getCurrentNewspaper = function () {
-				
 				var s = apiService.getMyLastNewspaper(scenId); 
 						s.then(function(data){
 							newspaper = data; 
 						},function(reason){
-						
-							console.log("Errore.");	
+							if(reason.status == "500") {
+								newspaper.name = CONSTANTS.insertHeadline;	
+								newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
+								console.log("Errore.");	
+								alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");
+							}
+							
 						}
 				)
-				console.log(newspaper); 
+			
 				return newspaper; 
 				
 			}
@@ -261,46 +253,23 @@ angular.module('smiled.application').factory('article',
 		
 	}
 	
-	var findArticleById = function(id) {
-		var idArticle = id; 
-		var articles = [];  
-		var s = apiService.getMyLastNewspaper(scenId); 
-		s.then(function(data){
-			newspaper = data; 
-			articles = newspaper.articles;  
-			//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
-			for(var i=0; i<=articles.length; i++){
-				if(articles[i].idArticleTemplate == idArticle){
-					setArticle(articles[i]); 
-					console.log(articles[i]); 
-					break; 
-					
-				} else {			
-	alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");			
-				}
-	
-			}
-			},
-			
-		  function(reason){
-		
-			console.log("Errore.");	
-		}
-)
-		
-		
-	}
-	
+
 	var setArticle = function(a) {
-		console.log("PASSO DI QUIII"); 
-		article = a; 
-		console.log(article + "PIPPO");  
-		
+		article = a;   
 	}
 	
 	var getArticle = function(){
 		return article; 
 		
+	}
+	
+	var setNameJustCreated = function(headline){
+		nameJustCreated = headline; 
+	}
+	
+	var getNameJustCreated = function (){
+		
+		return nameJustCreated; 
 	}
 		
 
@@ -320,9 +289,10 @@ angular.module('smiled.application').factory('article',
 				getCurrentNewspaper: getCurrentNewspaper,
 				getNumberNewspaper: getNumberNewspaper, 
 				setNumberJustCreated: setNumberJustCreated,
-				getNumberJustCreated:getNumberJustCreated,
-				findArticleById: findArticleById, 
+				getNumberJustCreated:getNumberJustCreated, 
 				getArticle: getArticle, 
+				setNameJustCreated: setNameJustCreated,
+				getNameJustCreated: getNameJustCreated,
 				
 				}
 

@@ -44,6 +44,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceCreateTitle; 
 		var modalInstanceChooseTemplate;
 		var modalInstanceDeleteNewspaper; 
+		var modalInstanceAlertNewspaper; 
 		
 		
 		var optionsChooseTemplate = {
@@ -69,6 +70,14 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				}
 		}
 		
+		var alertCreationNewspaper = {
+				
+				templateUrl: 'assets/private/partials/alertCreationNewspaper.html',
+				/*controller: 'dialogAlertCreationNews',
+				controllerAs: 'dialogAlertCreation',*/
+				size: 'md',
+				
+		}
 		
 		var optionsConcurrentModPost = {
 				templateUrl: 'assets/private/partials/concurrentModPostTemplate.html',
@@ -508,6 +517,12 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var closeModalSetHistoryDateNewspaper = function() {
 			modalInstanceSetHistoryNewsDate.close();
 			
+		}
+		
+		var showAlertNewspaper = function(){
+			
+			modalInstanceAlertNewspaper = $modal.open(alertCreationNewspaper);
+			return modalInstanceAlertNewspaper; 
 			
 		}
 		
@@ -623,6 +638,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			showModalDeleteNewspaper: showModalDeleteNewspaper,
 			closeModalDeleteNewspaper: closeModalDeleteNewspaper,
 			deleteNewspaper: deleteNewspaper,
+			showAlertNewspaper: showAlertNewspaper,
 			
 		}
 }]);

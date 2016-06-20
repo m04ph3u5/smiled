@@ -23,15 +23,15 @@
 					<h5>Controlla qui il numero di caratteri che hai ancora a
 						disposizione per ciascun campo:</h5>
 				</div>
-				<!-- First row circles -->
+				<!-- First row circles COUNT containers -->
 				<div class="col-sm-6 col-xs-12 animated fadeInDown">
-					<h5 ng-if="draft.id == 1">
+					<h5 data-ng-if="draft.id == 1">
 						<span class="blue"
 							ng-class="{'red': draft.article.title.length >= 26 }">{{25
 							- draft.article.title.length}}</span> Battute titolo
 					</h5>
 
-					<h5 ng-if="draft.id == 3">
+					<h5 data-ng-if="draft.id == 3">
 						<span class="blue"
 							ng-class="{'red': draft.article.title.length >= 28 }">{{27
 							- draft.article.title.length}}</span> Battute titolo
@@ -39,16 +39,16 @@
 
 				</div>
 				<div class="col-sm-6 col-xs-12 animated fadeInDown">
-					<h5 ng-if="draft.id == 1">
+					<h5 data-ng-if="draft.id == 1">
 						<span class="green"
-							ng-class="{'red': draft.article.text1.length >= 683 }">
+							data-ng-class="{'red': draft.article.text1.length >= 683 }">
 							{{682 - draft.article.text1.length}} </span>Battute testo prima
 						colonna
 					</h5>
 
-					<h5 ng-if="draft.id == 3">
+					<h5 data-ng-if="draft.id == 3">
 						<span class="green"
-							ng-class="{'red': draft.article.text1.length >= 595 }">
+							data-ng-class="{'red': draft.article.text1.length >= 595 }">
 							{{594 - draft.article.text1.length}} </span>Battute testo prima
 						colonna
 					</h5>
@@ -57,26 +57,26 @@
 				<div class="col-sm-6 col-xs-12 animated fadeInDown">
 					<h5 ng-if="draft.id == 1">
 						<span class="yellow"
-							ng-class="{'red': draft.article.subtitle.length >= 28 }">
+							data-ng-class="{'red': draft.article.subtitle.length >= 28 }">
 							{{27 - draft.article.subtitle.length}} </span>Battute sottotitolo
 					</h5>
 
 					<h5 ng-if="draft.id == 3">
 						<span class="yellow"
-							ng-class="{'red': draft.article.subtitle.length >= 27 }">
+							data-ng-class="{'red': draft.article.subtitle.length >= 27 }">
 							{{26 - draft.article.subtitle.length}} </span>Battute sottotitolo
 					</h5>
 				</div>
 
 				<div class="col-sm-6 col-xs-12 animated fadeInDown">
-					<h5 ng-if="draft.id == 1">
+					<h5 data-ng-if="draft.id == 1">
 						<span class="green"
-							ng-class="{'red': draft.article.text2.length >= 683 }">
+							data-ng-class="{'red': draft.article.text2.length >= 683 }">
 							{{682 - draft.article.text2.length}} </span>Battute testo seconda
 						colonna
 					</h5>
 
-					<h5 ng-if="draft.id == 3">
+					<h5 data-ng-if="draft.id == 3">
 						<span class="green"
 							ng-class="{'red': draft.article.text2.length >= 595 }">
 							{{594 - draft.article.text2.length}} </span>Battute testo seconda
@@ -97,24 +97,57 @@
 			<input class= "selectCity" placeholder="Nome città" ng-model="draft.article.city"> </input>
 			</div>
 			
-	<!-- UPLOAD MEDIA -->
+	<!-- UPLOAD MEDIA container -->
 
-			<div class="col-sm-12 col-xs-12" data-ngf-select
+			<div data-ng-if = "draft.id == '2' || draft.id == '3'"  class="col-sm-12 col-xs-12" data-ngf-select
 				data-ngf-change="draft.uploadImage($files)">
 				<span class="glyphicon glyphicon-camera count"></span> <label
-					style="margin-top: -6%; margin-left: 3%;">Carica qui
+					style="margin-top: -6%; margin-left: 3%;">Carica o modifica qui
 					l'immagine dell'articolo </label>
 			</div>
-
+				<work-spinner> <img
+				src="/assets/public/img/p_spinner.gif" /> </work-spinner>
+		
+			<div data-ng-if = "!draft.isUploaded" >
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+					<img class = "img-responsive" style = "margin-top: 4%;"src = {{draft.article.image}} />
+					<div class="hoverContent textRight">
+						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="draft.removeImage()"></span>
+					</div>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+		
+		<!-- 
+				<div data-ng-if = "!draft.isUploaded" 
+				class="squareImg"
+				
+					style="background-image: url('{{draft.article.image}}')">
+					<div class="hoverContent textRight">
+						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="draft.removeImage()"></span>
+					</div>
+				</div> -->
+				
 			<div data-ng-if="draft.uploadedFile">
-				<div class="squareImg"
-					style="background-image: url('{{draft.getUploadedImage()}}')">
+			<div class="col-sm-2"></div>
+			
+			<!-- style="background-image: url('{{draft.getUploadedImage()}}')" -->
+			
+			<div class="col-sm-8">
+				<img class = "img-responsive" style = "margin-top: 4%;"
+				src = {{draft.getUploadedImage()}} />
 					<div class="hoverContent textRight">
 						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
 							data-ng-click="draft.removeImage()"></span>
 					</div>
 				</div>
-			</div>
+					<div class="col-sm-2"></div>
+				</div>
+			
+			
 
 			<div class="col-sm-12 col-xs-12 textarea-container">
 				<div class="row">

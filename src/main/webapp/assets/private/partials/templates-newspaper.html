@@ -14,22 +14,22 @@
 				<headline-newspaper newspaper = "template.newspaper" scenario = "template.scen"></headline-newspaper>
 			</div>
 					
-					<article-two-columns newspaper = "template.newspaper"> </article-two-columns>
+					<article-two-columns newspaper=template.newspaper> </article-two-columns>
 		 <div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						
 						<div class="col-sm-12 line-3" style = "margin-top: -2%"></div>
-							<article-one-column-img></article-one-column-img>
+							<article-one-column-img newspaper= "template.newspaper"></article-one-column-img>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						</br>
-					<article-two-columns-img></article-two-columns-img>
+					<article-two-columns-img newspaper= "template.newspaper"></article-two-columns-img>
 					</div>
 			</div>
 		</div>
 		<!-- FOOTER -->
 		<div class="row">
-	<div class="col-sm-10 col-xs-8" style="cursor: pointer;" ng-click="template.showPopUpDeleteNewspaper()">
+	<div data-ng-if ="template.newspaper.status == 'DRAFT' "class="col-sm-10 col-xs-8" style="cursor: pointer;" ng-click="template.showPopUpDeleteNewspaper()">
 	<img style="width:30%; margin-top:3%;"  ng-src="assets/public/img/wizard/elimina.png">
 	</div>
 	<div class="col-sm-2 col-xs-4" style="margin-top: 4%;">
@@ -38,13 +38,24 @@
 		style = "color:white;"></i></a>
 </div>
 </div>
+
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			<div data-ng-disabled="true" style="cursor: pointer"
+				data-ng-click="template.publishNewspaper()"
+				class="btn positiveButton">PUBBLICA IL GIORNALE</div>
+		</div>
+		<div class="col-sm-4"></div>
 	</div>
+
+</div>
 	
 	
 
 <!-- ------------------ TEMPLATE 2 ------------------ -->
 
-<div data-ng-if= "template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2'" class="container-fluid">
+ <div data-ng-if= "template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2'" class="container-fluid">
 
 	<div class="row row-centered">
 		<div class="col-sm-12" id="header">
@@ -57,7 +68,7 @@
 			class="col-lg-12 col-sm-12 col-md-12 col-xs-12 col-md-offset-0 giornale"
 			style="padding-bottom: 2%;">
 			<div class="row" style="padding: 7px;">
-				<headline-newspaper></headline-newspaper>
+				<headline-newspaper newspaper = "template.newspaper" scenario = "template.scen"></headline-newspaper>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -85,11 +96,21 @@
 					style="color: white;"></i></a>
 			</div>
 		</div>
+
+
+		<div class="row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4">
+				<div data-ng-disabled="true" style="cursor: pointer"
+					data-ng-click="template.publishNewspaper()"
+					class="btn positiveButton">PUBBLICA IL GIORNALE</div>
+			</div>
+			<div class="col-sm-4"></div>
+		</div>
+
 	</div>
 
-</div>
-
-
+</div> 
 
 
 <script>
@@ -103,7 +124,7 @@ $(document).ready(function(){
 //Go to top - script
 $('#return-to-top').click(function() {      
     $('body,html').animate({
-        scrollTop : 0                       
+        scrollTop : 0                     
     }, 500);
 });
 

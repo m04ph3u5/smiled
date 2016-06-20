@@ -6,26 +6,45 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	self.currentIdTemplate = article.getIdCurrentTemplate();
 	self.scen = $scope.scenario.scen;
 	var scenId = $stateParams.id;
+	self.newspaper = {};
 	
-	//TO DO --> gestione se il giornale non fosse in bozza  
-	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
-			function(data){
-				self.newspaper = data; 
-				self.idTemplate = self.newspaper.idTemplate; 
-				
-			},function(reason){
-				self.newspaper = {}; 
-				self.newspaper.name = CONSTANTS.insertHeadline;
-				console.log("Errore.");	
-			}
-)
+	self.numberJustCreated = article.getNumberJustCreated(); 
 
-	
-	
+	self.newspaper = article.getCurrentNewspaper();
+	console.log(self.newspaper); 
 
+	if(self.newspaper = {}){
+		//TO DO --> gestione se il giornale non fosse in bozza  
+		apiService.getMyLastNewspaper(scenId).then(
+				function(data){
+					self.newspaper = data; 
+					console.log(self.newspaper);
+					
+				},function(reason){
+					
+					if(reason.status == "500"){
+						self.newspaper = {};
+						self.newspaper.name = CONSTANTS.insertHeadline;	
+						self.newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
+					}
+					
+					console.log("Errore.");	
+				}
+		);
+	}
+
+	//cancel newspaper 
 	self.showPopUpDeleteNewspaper = function (){
-		console.log("5555555555555555555");
-		modalService.showModalDeleteNewspaper(scenId, self.newspaper.number);			
+		self.numberJustCreated = article.getNumberJustCreated(); 
+		if(self.numberJustCreated  != 0) {
+			modalService.showModalDeleteNewspaper(scenId, self.numberJustCreated);
+	
+		} else {
+			
+			modalService.showModalDeleteNewspaper(scenId, self.newspaper.number);		
+		}
+		
+				
 	}
 	
 	
