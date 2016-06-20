@@ -242,6 +242,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
    	<script src="/assets/public/js/directives/articleColumnImage.js"></script>
    	<script src="/assets/public/js/directives/articleOneColumn.js"></script>
    	<script src="/assets/public/js/directives/warningCharacters.js"></script> 
+   	<script src="/assets/public/js/directives/newspaperPreview.js"></script>
    		
    	<script src="/assets/public/js/directives/alertArticle.js"></script> 
 

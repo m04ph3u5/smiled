@@ -1,11 +1,17 @@
-angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService','$stateParams', '$state',
-              function dashboardNewspaperCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $stateParams, $state){
+angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService','$stateParams', '$state','loggedUser',
+              function dashboardNewspaperCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $stateParams, $state, loggedUser){
 	
 	
 	var self = this; 
 	var scenId = $stateParams.id;
-	self.newspaper = {}; 
+	self.scen = $scope.scenario.scen;
+	self.newspaper = {};
+	//info dell'utente loggato, servono per fare i controlli sulla visualizzazione del giornale 
+	self.loggedUser = loggedUser;
+	self.currentCharacter = {}; 
 	
+	console.log(self.scen.actualJournalist); 
+	console.log(self.loggedUser.role.authority); 	
 	
 	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 			function(data){

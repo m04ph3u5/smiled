@@ -1,5 +1,5 @@
-
-<div data-ng-if="dashboardNewspaper.newspaper.status == 'PUBLISH' || dashboardNewspaper.myNews.length==0"
+<div data-ng-if = "dashboardNewspaper.loggedUser.id == dashboardNewspaper.scen.actualJournalist.id" >
+<div data-ng-if="dashboardNewspaper.newspaper.status == 'PUBLISH' || dashboardNewspaper.myNews.length==0" 
 	class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 header-container">
@@ -24,13 +24,15 @@
 					pubblicati</h3>
 
 				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+				
 			</div>
 		</div>
 
 	</div>
 </div>
-
+</div>
 <!-- Vista per chi ha già in produzione un numero -->
+<div data-ng-if = "dashboardNewspaper.loggedUser.id == dashboardNewspaper.scen.actualJournalist.id || dashboardNewspaper.loggedUser.role.authority == 'ROLE_TEACHER'"  >
 
 <div data-ng-if="dashboardNewspaper.newspaper.status == 'DRAFT'"
 	class="container-fluid">
@@ -68,6 +70,15 @@
 				<h3 style="text-align: center; color: #404b41">Numeri
 					pubblicati</h3>
 				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+				
+				<div class ="col-sm-6">
+				<newspaper-preview></newspaper-preview>
+				</div>
+				
+				<div class ="col-sm-6">
+				<newspaper-preview></newspaper-preview>
+				</div>
+				
 			</div>
 			<!-- Small views-->
 			<div
@@ -86,6 +97,31 @@
 		</div>
 	</div>
 </div>
+</div>
+</div>
+
+
+<!-- -------PER TUTTI GLI STUDENTI NON GIORNALISTI ------ -->
+<div class="container-fluid" 
+data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJournalist.id">
+
+	<div class="row">
+		<div class="col-sm-12 header-container">
+			<h4 style="text-align: center;">IL GIORNALE DELLO SCENARIO</h4>
+		</div>
+
+		<div class="col-md-12 col-sm-12 col-xs-12 body-container"
+			style="background-color: #f5f2ea;">
+			
+			<div class ="col-sm-6" style = "margin-top: 5%; ">
+				<newspaper-preview></newspaper-preview>
+			</div>
+</div>
+	</div>
+
+</div>
+
+
 
 
 <script>
