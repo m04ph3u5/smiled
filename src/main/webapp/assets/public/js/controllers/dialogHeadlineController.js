@@ -13,12 +13,13 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 	
 	self.headline = newspaper.name; 
 	
+
 	//set headline - creationNewspaper 
 	
     self.setHeadline = function (){	
     	
     	//controllo inserimento titolo valido
-    if(self.headline.length<4 || self.headline == ''){
+    if(self.headline.length<4 || self.headline == '' || newspaper.name.length<4){
     		console.log("PASSO DA QUI"); 
 			alertingGeneric.addWarning("Inserire un titolo di almeno 4 caratteri");	
 			self.invalidTitle = true;

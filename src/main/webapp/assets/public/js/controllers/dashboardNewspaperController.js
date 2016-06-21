@@ -40,10 +40,7 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 			}	
 	
 	)
-	
-	
-	
-	
+
 
 	self.idTemplate = self.newspaper.idTemplate; 
 	

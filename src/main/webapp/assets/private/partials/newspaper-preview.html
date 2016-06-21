@@ -1,0 +1,35 @@
+
+<!-------------------------- SINGLE ARTICLE PREVIEW ----------------------------->
+
+<ul class = "list-inline">
+
+<li class="col-sm-6 col-xs-6" data-ng-repeat = "article in newspaperPreview.articlePreviews">
+<div class="row preview-container">
+
+	<div class="col-sm-11 col-xs-11 line-green-bigger" style="margin-left: 3%;">
+	</div>
+
+	<h3 class="title-preview">
+	{{article.title | limitTo: 6}}...
+	</h3>
+
+	<div class="col-sm-11 col-xs-11 line-6 " style="margin-left: 3%;"></div>
+
+	<h6 class="subtitle-preview">{{article.subtitle}}</h6>
+	
+	<img class="img-responsive img-preview" style="margin-left: 4%;"
+		src="{{article.image}}" />
+</div>
+
+<div class="col-md-3 col-sm-4 col-xs-4"></div>
+<div class="col-md-6 col-sm-4 col-xs-4" style= "cursor: pointer;">
+	<button class="btn button-preview">Leggi tutto</button>
+</div>
+<div class="col-md-3 col-sm-4 col-xs-4"></div>
+<div class="row opacity-container"></div>
+</li>
+
+</ul>
+
+
+

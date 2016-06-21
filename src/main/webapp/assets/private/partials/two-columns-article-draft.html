@@ -11,7 +11,7 @@
 		
 			<div class="col-sm-12 col-xs-12" >
 			<span class="glyphicon glyphicon-time count"></span>
-				<input class="customCheckBox" id="showCount" type="checkbox"
+				<input class="customCheckBox biggerCheckbox" id="showCount" type="checkbox"
 					name="show-count" value="show-count" ng-model="draft.isChecked" />
 				<label for="showCount">Attiva il conteggio caratteri per sapere quanto puoi scrivere!</label>
 			</div>
@@ -88,7 +88,7 @@
 	<!-- CITY selector container -->
 			<div class="col-sm-12 col-xs-12" >
 			<span class= "glyphicon glyphicon-map-marker count"></span>
-				<input class="customCheckBox selectCity" id="showCount" type="checkbox"
+				<input class="customCheckBox biggerCheckbox" id="showCount" type="checkbox"
 					name="show-count" value="show-count" ng-model="draft.isCityChecked" />
 				<label>
 				Aggiungi o modifica la città del tuo articolo</label>
@@ -155,7 +155,7 @@
 						<textarea class="title-textarea" rows="1"
 							ng-model="draft.article.title"
 							placeholder="Titolo dell'articolo"> </textarea>
-
+			
 						<textarea class="subtitle-textarea" rows="1"
 							placeholder="Sottotitolo dell'articolo"
 							data-ng-if="draft.article.subtitle.length>0"
@@ -183,6 +183,9 @@
 				</div>
 
 			</div>
+			
+			
+			
 			<div class="col-sm-12 col-xs-12 background-container">
 
 				<img src="/assets/public/img/newspaper-img/sfondo-assets.png"
@@ -191,8 +194,9 @@
 			</div>
 
 		</div>
+		
 		<div class="col-sm-12 col-xs-12 button-container">
-
+		<alertgeneric></alertgeneric>
 			<button style="cursor: pointer;" class="positiveButton btn"
 				data-ng-click="draft.setData(draft.article)">
 				<span class="glyphicon glyphicon-floppy-save"></span>SALVA BOZZA

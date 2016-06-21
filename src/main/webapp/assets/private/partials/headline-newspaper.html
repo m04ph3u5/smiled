@@ -16,8 +16,9 @@
 				margin-left: 4px; cursor: pointer"></div>		
 	<h5 data-ng-if = "headlineNewspaper.newspaper.julianDayNumber == null || headlineNewspaper.newspaper.timeNumber == null" id="date">
 	{{headlineNewspaper.newspaper.historicalDate}} </h5>
-	<h5 data-ng-if = "headlineNewspaper.newspaper.julianDayNumber != null || headlineNewspaper.newspaper.timeNumber != null" id = "date"> 
-	{{headlineNewspaper.formatDate(headlineNewspaper.newspaper.julianDayNumber,headlineNewspaper.newspaper.timeNumber)}}</h5>
+	
+	 <h5 data-ng-if = "headlineNewspaper.newspaper.julianDayNumber != null || headlineNewspaper.newspaper.timeNumber != null" id = "date"> 
+	{{headlineNewspaper.formatDate(headlineNewspaper.newspaper.julianDayNumber,headlineNewspaper.newspaper.timeNumber)}}</h5> 
 
 <label class="col-sm-6 arrow_box arrow_box:after arrow_box:before animated pulse" 
 ng-if="headlineNewspaper.showWarning">

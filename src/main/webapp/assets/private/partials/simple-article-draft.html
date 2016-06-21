@@ -11,7 +11,7 @@
 
 			<div class="col-sm-12">
 				<span class="glyphicon glyphicon-time count"></span> <input
-					class="customCheckBox" id="showCount" type="checkbox"
+					class="customCheckBox biggerCheckbox " id="showCount" type="checkbox"
 					name="show-count" value="show-count" ng-model="draft.isChecked" />
 				<label for="showCount">Attiva il conteggio caratteri per
 					sapere quanto puoi scrivere</label>
@@ -42,9 +42,9 @@
 			</div>
 
 			<!-- CITY selector container -->
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-sm-12 col-xs-12" data-ng-if="draft.id != '2'">
 				<span class="glyphicon glyphicon-map-marker count"></span> <input
-					class="customCheckBox" id="showCount" type="checkbox"
+					class="customCheckBox biggerCheckbox " id="showCount" type="checkbox"
 					name="show-count" value="show-count" ng-model="draft.isCityChecked" />
 				<label for="showCount"> Aggiungi o modifica la città del tuo
 					articolo</label>
@@ -55,15 +55,12 @@
 				<input class="selectCity" placeholder="Nome città"
 					ng-model="draft.article.city"> </input>
 			</div>
-
-
-
 			<!-- UPLOAD MEDIA container -->
 
 			<div data-ng-if="draft.id == '2'" class="col-sm-12 col-xs-12"
 				data-ngf-select data-ngf-change="draft.uploadImage($files)">
 				<span class="glyphicon glyphicon-camera count"></span> <label
-					style="margin-top: -6%; margin-left: 3%;">Carica qui
+					style="margin-top: -6%; margin-left: 3%; cursor: pointer;">Carica qui
 					l'immagine dell'articolo </label>
 			</div>
 

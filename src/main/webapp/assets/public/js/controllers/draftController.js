@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','$state','article', '$stateParams', 'alertingScenario',
-              function draftCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, $state, article, $stateParams, alertingScenario){
+angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','$state','article', '$stateParams', 'alertingGeneric',
+              function draftCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, $state, article, $stateParams, alertingGeneric){
 	 
 	var self = this; 
 	var scenId = $stateParams.id;
@@ -88,9 +88,7 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 		}
 	
 	}
-
-	
-		self.getArticleDraft();  
+	self.getArticleDraft();  
 	
 	
 	/*----------------------  UPLOAD ARTICLE IMAGE     ---------------------*/
@@ -130,15 +128,6 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	/*----------------------  UPDATE DRAFT ARTICLE    ---------------------*/
 	
 	self.setData = function(input){
-	      
-	       if (input == undefined ) {
-	            console.log ("its undefined");
-	        }       
-	        else {
-	        	// gestire se l'utente non scrive nulla
-	        	if (input.title == "") {
-	        		input.title = "Titolo dell'articolo";
-	        	}
 	        	
 	        	/*if (input.subtitle == "") {
 	        		input.subtitle = "Sottotitolo dell'articolo";
@@ -149,6 +138,15 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	    	    	
 	    	    	if(self.id == "1") {
 	    	    		
+	    	    		if(input.title.length<5 || input.title == "" || input.title == null){
+	    	    			alertingGeneric.addWarning("Inserire un titolo di almeno 5 caratteri");
+	    	    		} else if(input.subtitle.length<5 || input.subtitle == "" ){
+	    	    			alertingGeneric.addWarning("Inserire un sottitolo di almeno 5 caratteri");
+	    	    			 
+	    	    		} else if (input.text1 == "" || input.text1.length<20 || input.text2 == "" || input.text2.lenght<20) {
+	    	    			alertingGeneric.addWarning("Hai inserito un testo troppo corto, scrivi una frase più lunga.");
+	    	    		}	
+	    	    		else {
 	    	    	self.articlePut.title = input.title; 
 	    	    	self.articlePut.subtitle = input.subtitle; 
 	    	    	self.articlePut.text1 = input.text1; 
@@ -171,9 +169,19 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 						 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
 						 console.log("Impossibile aggiornare l'articolo.")
 					 })
-	    	    	
+	    	    		}
 	    	    } else
 	    	    	if(self.id == "2") {
+	    	    		
+	    	    		if(input.title.length<5 || input.title == "" || input.title == null){
+	    	    			alertingGeneric.addWarning("Inserire un titolo di almeno 5 caratteri");
+	    	    		} 
+	    	    		
+	    	    		else if (input.text1 == "" || input.text1.length<20) {
+	    	    			alertingGeneric.addWarning("Hai inserito un testo troppo corto, scrivi una frase più lunga.");
+	    	    		}
+	    	    		
+	    	    		
 		    	    	self.articlePut.title = input.title; 
 		    	    	self.articlePut.text1 = input.text1; 
 		    	    	if(self.isUploaded == true){
@@ -205,6 +213,16 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 		    	    } 
 	    	    	
 	    	    	if(self.id == "3") {
+	    	    
+	    	    		if(input.title.length<5 || input.title == "" || input.title == null){
+	    	    			alertingGeneric.addWarning("Inserire un titolo di almeno 5 caratteri");
+	    	    		} else if(input.subtitle.length<5 || input.subtitle == "" ){
+	    	    			alertingGeneric.addWarning("Inserire un sottitolo di almeno 5 caratteri");
+	    	    			 
+	    	    		} else if (input.text1 == "" || input.text1.length<20 || input.text2 == "" || input.text2.lenght<20) {
+	    	    			alertingGeneric.addWarning("Hai inserito un testo troppo corto, scrivi una frase più lunga.");
+	    	    		}	
+	    	    		
 	    	    		
 		    	    	self.articlePut.title = input.title; 
 		    	    	self.articlePut.subtitle = input.subtitle; 
@@ -249,11 +267,14 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	            /*article.setArticleObject(input, self.id);
 	            $state.go('logged.scenario.template1');*/
 	      
-	    	    }
+	    	    
 	    	    
 
 	       
 	}
+	
+
+	
 
 	
 }]);

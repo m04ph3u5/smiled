@@ -221,7 +221,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			
 			scope.$watch('articleTwoColumnsImg.article.text1', function(newVal, oldVal){
 				if(newVal){	
-				if(newVal.length>574) {
+				if(newVal.length>594) {
 					ctrl.showWarningTextCol1 = true;
 					console.log ("ATTENZIONE");
 			
@@ -238,7 +238,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			
 			scope.$watch('articleTwoColumnsImg.article.text2', function(newVal, oldVal){
 				if(newVal){	
-				if(newVal.length>574) {
+				if(newVal.length>594) {
 					ctrl.showWarningTextCol2 = true;
 					console.log ("ATTENZIONE");
 			

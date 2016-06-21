@@ -29,8 +29,13 @@
 		</div>
 
 	</div>
+	
+	
+	
 </div>
+
 </div>
+
 <!-- Vista per chi ha già in produzione un numero -->
 <div data-ng-if = "dashboardNewspaper.loggedUser.id == dashboardNewspaper.scen.actualJournalist.id || dashboardNewspaper.loggedUser.role.authority == 'ROLE_TEACHER'"  >
 
@@ -71,11 +76,7 @@
 					pubblicati</h3>
 				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
 				
-				<div class ="col-sm-6">
-				<newspaper-preview></newspaper-preview>
-				</div>
-				
-				<div class ="col-sm-6">
+				<div class="col-sm-12 col-xs-12">
 				<newspaper-preview></newspaper-preview>
 				</div>
 				
@@ -93,13 +94,23 @@
 				<h3 style="text-align: center; color: #404b41">Numeri
 					pubblicati</h3>
 				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+				
+				<div class="col-sm-12 col-xs-12">
+				<newspaper-preview></newspaper-preview>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
+
 </div>
 
+
+<div class="col-sm-2 col-xs-4" style="margin-top: 4%; cursor: pointer;">
+				<a href="#" class ="return-to-top" data-toggle="tooltip"
+					title="Torna su"><i class="glyphicon glyphicon-chevron-up"
+					style="color: white;"></i></a>
+			</div>
 
 <!-- -------PER TUTTI GLI STUDENTI NON GIORNALISTI ------ -->
 <div class="container-fluid" 
@@ -122,6 +133,20 @@ data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJo
 </div>
 
 
+
+<script>
+$(document).ready(function(){ 
+    
+    	$('.return-to-top').click(function() {   
+    		console.log("MATTEO");
+    	    $("body,html").animate({
+    	        scrollTop : 0                     
+    	    }, 500);
+    	    return false;
+    	});
+    	
+});
+</script>
 
 
 <script>
