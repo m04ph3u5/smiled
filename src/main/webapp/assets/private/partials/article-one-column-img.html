@@ -1,7 +1,7 @@
 <div class="row title-container " style="padding: 4%;">
 	<div class="col-sm-12 col-xs-12 title-art-1col">
 		<!-- icona art 2 -->
-		<div
+		<div data-ng-if="articleOneColumnImg.newspaper.status == 'DRAFT'"
 			class="col-xs-4 col-sm-4
 						visible-xs visible-sm visible-md visible-lg pull-right"
 			style="margin-top: 25px;">
@@ -11,19 +11,39 @@
 				class="img-mod-2">
 			</a>
 		</div>
+		<div data-ng-if="articleOneColumnImg.newspaper.status == undefined" data-ng-hide="articleOneColumnImg.newspaper.status == PUBLISHED"
+			class="col-xs-4 col-sm-4
+						visible-xs visible-sm visible-md visible-lg pull-right"
+			style="margin-top: 25px;">
+			<a style="cursor: pointer" ng-click="articleOneColumnImg.goToDraft()">
+				<img data-toggle="tooltip" title="Modifica articolo"
+				src="/assets/public/img/newspaper-img/ic_edit_article.png"
+				class="img-mod-2">
+			</a>
+		</div>
+
 		<h4 class="title-art-1col" style="cursor: pointer"
 			ng-click="articleOneColumnImg.goToDraft()">
 			{{articleOneColumnImg.article.title}}</h4>
 	</div>
 </div>
-<div
+<div data-ng-if="!articleOneColumnImg.isPublished"
 	data-ng-if="articleOneColumnImg.idTemplate = 1 || articleOneColumnImg.idChoosenTemplate == '1'"
-	class="img-container" data-ng-click = "articleOneColumnImg.goToDraft()">
+	class="img-container" data-ng-click="articleOneColumnImg.goToDraft()">
 	<!-- Aggiungere classe enlarge dell'immagine quando il numero è pubblicato (cioè per chi legge) -->
-	<img data-ng-src="{{articleOneColumnImg.article.image}}" 
-		data-ng-err = "assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"
+	<img data-ng-src="{{articleOneColumnImg.article.image}}"
+		data-ng-err="assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"
 		class="img-responsive img-article"> <span
 		class="pull-right uploadImage glyphicon glyphicon-camera"></span>
+</div>
+
+<div data-ng-if="articleOneColumnImg.isPublished"
+	data-ng-if="articleOneColumnImg.idTemplate = 1 || articleOneColumnImg.idChoosenTemplate == '1'"
+	class="img-container">
+	<!-- Aggiungere classe enlarge dell'immagine quando il numero è pubblicato (cioè per chi legge) -->
+	<img data-ng-src="{{articleOneColumnImg.article.image}}"
+		data-ng-err="assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"
+		class="img-responsive">
 </div>
 <!-- data-err-src="assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"  -->
 

@@ -570,7 +570,7 @@ angular.module('smiled.application')
 		//Impaginazione 1 - INTERNA ALLO SCENARIO
 		
 		.state('logged.scenario.template1',{
-			url: '/giornale-impaginazione1',
+			url: '/giornale-impaginazione',
 			views : {
 				'body' : {
 					templateUrl : "assets/private/partials/templates-newspaper.html",
@@ -583,20 +583,27 @@ angular.module('smiled.application')
 			}
 		})
 		
-		//impaginazione 2 
-		.state('logged.scenario.template2',{
-			url: '/giornale-impaginazione2',
-			views : {
-				'body' : {
-					templateUrl : "assets/private/partials/second-template-newspaper.html",
-					controller: "secondTemplateCtrl", 
-					controllerAs: "secondTemplate"	
-				}
+		
+		//pagina vista giornale pubblicato
+		
+		.state('logged.scenario.newspublished', {
+		url: '/giornale-pubblicato',
+		views : {
+			
+			'body' : {
+				
+				templateUrl : "assets/private/partials/published-newspaper.html",
+				controller: "publishedNewspaperCtrl", 
+				controllerAs: "publishedNewspaper"
 			},
 			data: {
-				pageTitle : "Redazione del Giornale - Meschola"
+				pageTitle: "Redazione del Giornale - Meschola"	
 			}
+		}
+			
 		})
+		
+		
 		
 		//Bozza articolo - (2 colonne)
 		

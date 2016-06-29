@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state', 'apiService', '$stateParams', 'alertingGeneric', 'modalService',
-                                     function(article, $state, apiService, $stateParams, alertingGeneric, modalService){
+angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state', 'apiService', '$stateParams', 'alertingGeneric', 'modalService', 'CONSTANTS',
+                                     function(article, $state, apiService, $stateParams, alertingGeneric, modalService, CONSTANTS){
 	return {
 
 		restrict: "AE",
@@ -11,12 +11,15 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 		controller: ['$scope',function($scope){
 			
 			var self = this;
+		
 			self.showWarningTitle = false; 
 			self.showWarningSubtitle = false; 
 			self.showWarningTextCol1 = false; 
 			self.showWarningTextCol2 = false; 
-			var scenId = $stateParams.id;
-			self.lastNewspaper = article.getCurrentNewspaper(); 
+			var scenId = $stateParams.id; 
+			
+			self.lastNewspaper = article.getCurrentNewspaper();
+		
 			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
 			self.currentHeadline = article.getNameJustCreated(); 
 			console.log(self.idChoosenTemplate); 
@@ -25,15 +28,52 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			self.idTemplate = article.getIdTemplate();
 			
 			self.newspaper = {}; 
+			self.publishedNewspapers = [];
+			self.publishedNewspapers.number = 0; 
+			self.isPublished; 
+			self.isJustDeleted = article.getIsJustDeleted(); 
+			self.isDraft = article.getIsDraft(); 
 			self.articles = []; 
 			self.article = {};
+			self.publishedNewsNumber = article.getPublishedNewspaperNumber(); 
 			//variabile che mi serve per un controllo sul caricamento degli articoli 
 			//subito dopo che un giornale è stato cancellato
-			var oldName = angular.copy(self.lastNewspaper.name);
-			
+			var oldName = angular.copy(self.lastNewspaper.name); 
+	
 		
+	/*-------------------------- ARTICOLO PER GIORNALE PUBBLICATO ---------------------------------*/
+
+			self.loadArticlePublished = function(newsNumber){
+				
+				apiService.getpublishedNewspapers(scenId).then (
+						
+						function(data) {
+							self.publishedNewspapers = data;
+							var found = false;
+							for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
+								if(self.publishedNewspapers[i].number == newsNumber) { 
+									for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
+										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 1){
+											self.article = self.publishedNewspapers[i].articles[j];
+											console.log(self.article); 
+											found = true;
+											break; 
+
+										}
+									}
+
+								}
+
+							}
+							}
+						,function(reason){	
+						}	
+						);	
+			}
+	/*-------------------------- ARTICOLO PER GIORNALE IN BOZZA ---------------------------------*/
 			//GET article 
 			self.loadArticle = function(idTemplate) { 
+			
 				switch (idTemplate) {
 				
 				//se template 1 carico articolo relativo a quel template
@@ -42,7 +82,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 					if(oldName == self.lastNewspaper.name){
 						self.idArticle = "1";
 						self.article = article.getArticleObject(self.idArticle);
-						console.log(self.article);	
+						
 					}
 
 					var s = apiService.getMyLastNewspaper(scenId);
@@ -54,10 +94,9 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 						//non ci sono articoli scritti 
 						
 						if(self.articles.length == 0) {
-							console.log("PASSO DI QUI"); 
 							self.idArticle = "1";
 							self.article = article.getArticleObject(self.idArticle);
-							console.log(self.article);	
+						
 							
 						} else {
 						
@@ -65,10 +104,8 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 						for(var i=0; i<=self.articles.length; i++){
 							
 							if(self.articles[i].idArticleTemplate == 1){
-								console.log(self.articles[i].idArticleTemplate + "CIAAAAO"); 
 								self.article = self.articles[i];
-								self.idArticle = "1";
-								console.log("PASSO DI QUAA");  
+								self.idArticle = "1";  
 								break; 
 								
 							} else {			
@@ -95,33 +132,13 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 					
 				default:
 					console.log("ERROR" + " " + self.idTemplate);	
-					
-					
-				
 				}
-			/*	switch (idTemplate) {
-				case 1:
-				self.idArticle = "1";
-				self.article = article.getArticleObject(self.idArticle);
-				console.log(self.article);
-				break;
-				
-				case 2:
-				self.idArticle = "7";
-				self.article = article.getArticleObject(self.idArticle);	
-				break;
-				
-
-				default:
-				console.log("ERROR" + " " + self.idTemplate);
-					
-				}*/	
+		
 				
 			}
 			
 			self.loadArticleFirst = function(idTemplate){
 				
-				console.log("SONO STATO CHIAMATO"); 
 				switch (idTemplate) {
 				case "id1":
 				self.idArticle = "1";
@@ -141,38 +158,56 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			}
 	
 			//caricamento template in base all'esistenza o meno di un giornale in bozza 
-			if(self.lastNewspaper.status == undefined) {
-				self.loadArticleFirst("id"+self.idChoosenTemplate);		
-			} 
-			else if(self.lastNewspaper.status == 'DRAFT' || oldName == self.lastNewspaper.name)
-				{
-				console.log(self.idTemplate); 
-				self.loadArticle(self.idTemplate);
+			if($state.current.name == 'logged.scenario.template1') {
+				self.isPublished = false; 
+				if(self.lastNewspaper.status == undefined || self.lastNewspaper.status  == 'PUBLISHED' || self.isJustDeleted == true) {
+					self.loadArticleFirst("id"+self.idChoosenTemplate);		
+				} 
+				else if(self.lastNewspaper.status == 'DRAFT')
+					{
+					console.log(self.idTemplate); 
+					self.loadArticle(self.idTemplate);
+					}
+				
+				
+	/*			var s = apiService.getMyLastNewspaper(scenId); 
+				s.then(function(data){
+						self.lastNewspaper = data; 	
+						if(self.lastNewspaper.status == undefined) {
+							self.loadArticleFirst("id"+self.idChoosenTemplate);		
+						}
+						else if(self.lastNewspaper.status == 'DRAFT' || oldName == self.lastNewspaper.name)
+							{
+							console.log(self.idTemplate); 
+							self.loadArticle(self.idTemplate);
+							}
+				},function(reason){	
 				}
+		)*/		
+			}
 			
-			
-			
+			if($state.current.name == 'logged.scenario.newspublished'){
+				self.isPublished = true;
+				if(self.publishedNewsNumber  != null || self.publishedNewsNumber  != undefined)  {
+				self.loadArticlePublished(self.publishedNewsNumber); 
+							
+			}		
+			}
 			//vai alle bozze
 			self.goToDraft = function(){
 				
 				//controllo se un nome è già stato assegnato per la creazione del giornale oppure no 
-				
-				self.currentHeadline = article.getNameJustCreated();  
-				console.log(self.currentHeadline + "NOME"); 
-				 
+				self.currentHeadline = article.getNameJustCreated();   
 				if(self.currentHeadline == "" && self.newspaper.status == undefined){
-					//modalService.showModalCreateTitle(self.newspaper);
 					modalService.showAlertNewspaper();
 			
 				} 
 				
 			 else {
 					article.setArticleId(self.idArticle);
-					console.log(self.idArticle + "ARTICOLO");
 					$state.go('logged.scenario.draftArticle2col');
 					
 				}
-				
 				
 			}
 		
@@ -187,7 +222,6 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 				
 				case "subtitle":
 				self.showWarningSubtitle = false;
-				console.log ("CHIUDI!");
 				break;
 				
 				case "col1":
@@ -267,8 +301,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 				
 				}
 				});
-			
-	
+
 			/*controllo testo seconda colonna */
 			
 			scope.$watch('articleTwoColumns.article.text2', function(newVal, oldVal){

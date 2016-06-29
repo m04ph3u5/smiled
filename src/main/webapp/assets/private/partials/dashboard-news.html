@@ -1,5 +1,5 @@
 <div data-ng-if = "dashboardNewspaper.loggedUser.id == dashboardNewspaper.scen.actualJournalist.id" >
-<div data-ng-if="dashboardNewspaper.newspaper.status == 'PUBLISH' || dashboardNewspaper.myNews.length==0" 
+<div data-ng-if="dashboardNewspaper.newspaper.status == 'PUBLISHED' || dashboardNewspaper.myNews.length==0" 
 	class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 header-container">
@@ -24,7 +24,9 @@
 					pubblicati</h3>
 
 				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
-				
+				<div class="col-sm-12 col-xs-12">
+				<newspaper-preview></newspaper-preview>
+				</div>
 			</div>
 		</div>
 
@@ -96,7 +98,7 @@
 				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
 				
 				<div class="col-sm-12 col-xs-12">
-				<newspaper-preview></newspaper-preview>
+			<newspaper-preview></newspaper-preview>
 				</div>
 			</div>
 		</div>

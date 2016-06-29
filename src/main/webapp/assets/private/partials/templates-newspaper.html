@@ -32,13 +32,17 @@
 	<div data-ng-if ="template.newspaper.status == 'DRAFT'"class="col-sm-10 col-xs-8" style="cursor: pointer;" ng-click="template.showPopUpDeleteNewspaper()">
 	<img style="width:30%; margin-top:3%;"  ng-src="assets/public/img/wizard/elimina.png">
 	</div>
+	
+	<div data-ng-if ="template.newspaper.status == undefined"class="col-sm-10 col-xs-8" style="cursor: pointer;" ng-click="template.showPopUpDeleteNewspaper()">
+	<img style="width:30%; margin-top:3%;"  ng-src="assets/public/img/wizard/elimina.png">
+	</div>
 
 </div>
 
 	<div class="row">
 		<div class="col-sm-4"></div>
 		<div class="col-sm-4">
-			<div data-ng-disabled="true" style="cursor: pointer"
+			<div  style="cursor: pointer"
 				data-ng-click="template.publishNewspaper()"
 				class="btn positiveButton">PUBBLICA IL GIORNALE</div>
 		</div>
@@ -93,7 +97,7 @@
 		<div class="row">
 			<div class="col-sm-4"></div>
 			<div class="col-sm-4">
-				<div data-ng-disabled="true" style="cursor: pointer"
+				<div  style="cursor: pointer"
 					data-ng-click="template.publishNewspaper()"
 					class="btn positiveButton">PUBBLICA IL GIORNALE</div>
 			</div>
@@ -124,7 +128,6 @@ $(document).ready(function(){
 	
 	
     	$('.return-to-top').click(function() {   
-    		console.log("MATTEO");
     	    $("body,html").animate({
     	        scrollTop : 0                     
     	    }, 500);

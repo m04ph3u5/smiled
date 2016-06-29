@@ -5,25 +5,32 @@
 	<h5 id="number">Numero {{headlineNewspaper.newspaper.number}}</h5>
 	<!-- aggiungere ng-model="title" -->
 	<label 
-	 style="cursor: pointer;" id="text-area-title-newspaper"
-		rows="1" data-ng-model="headlineNewspaper.newspaper.name" 
-		data-ng-click="headlineNewspaper.showPopUpCreationTitle()">
-		  <span data-ng-if="headlineNewspaper.isFirst"> Assegna un nome al giornale</span>
-		 {{headlineNewspaper.newspaper.name}}
-		</label>		
-	<div data-ng-click="headlineNewspaper.setDateNewspaper()"
-				class="glyphicon glyphicon-calendar" style="float:right; margin-top: 10px; 
-				margin-left: 4px; cursor: pointer"></div>		
-	<h5 data-ng-if = "headlineNewspaper.newspaper.julianDayNumber == null || headlineNewspaper.newspaper.timeNumber == null" id="date">
-	{{headlineNewspaper.newspaper.historicalDate}} </h5>
-	
-	 <h5 data-ng-if = "headlineNewspaper.newspaper.julianDayNumber != null || headlineNewspaper.newspaper.timeNumber != null" id = "date"> 
-	{{headlineNewspaper.formatDate(headlineNewspaper.newspaper.julianDayNumber,headlineNewspaper.newspaper.timeNumber)}}</h5> 
+	style="cursor: pointer;" id="text-area-title-newspaper" rows="1"
+		data-ng-model="headlineNewspaper.newspaper.name"
+		data-ng-click="headlineNewspaper.showPopUpCreationTitle()"> <span
+		data-ng-if="headlineNewspaper.isFirst"
+		data-ng-style="headlineNewspaper.color"> Assegna un nome al
+			giornale</span> {{headlineNewspaper.newspaper.name}}
+	</label>
 
-<label class="col-sm-6 arrow_box arrow_box:after arrow_box:before animated pulse" 
-ng-if="headlineNewspaper.showWarning">
- Attento, il titolo è troppo lungo! Scegli un nome più corto per il giornale. 
-</label>
+
+	<div data-ng-if="headlineNewspaper.newspaper.status == DRAFT" data-ng-click="headlineNewspaper.setDateNewspaper()"
+		class="glyphicon glyphicon-calendar"
+		style="float: right; margin-top: 10px; margin-left: 4px; cursor: pointer"></div>
+
+	<h5
+		data-ng-if="headlineNewspaper.newspaper.julianDayNumber == null || headlineNewspaper.newspaper.timeNumber == null"
+		id="date">{{headlineNewspaper.newspaper.historicalDate}}</h5>
+
+	<h5
+		data-ng-if="headlineNewspaper.newspaper.julianDayNumber != null || headlineNewspaper.newspaper.timeNumber != null"
+		id="date">
+		{{headlineNewspaper.formatDate(headlineNewspaper.newspaper.julianDayNumber,headlineNewspaper.newspaper.timeNumber)}}</h5>
+
+	<label
+		class="col-sm-6 arrow_box arrow_box:after arrow_box:before animated pulse"
+		ng-if="headlineNewspaper.showWarning"> Attento, il titolo è
+		troppo lungo! Scegli un nome più corto per il giornale. </label>
 
 </div>
 <div class="col-sm-12 line-2"></div>

@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('articleOneColumnImg', ['article', '$state', 'apiService', '$stateParams','alertingGeneric', 'CONSTANTS',
-                                     function(article, $state, apiService, $stateParams,alertingGeneric, CONSTANTS){
+angular.module("smiled.application").directive('articleOneColumnImg', ['article', '$state', 'apiService', '$stateParams','alertingGeneric', 'CONSTANTS', 'modalService',
+                                     function(article, $state, apiService, $stateParams,alertingGeneric, CONSTANTS, modalService){
 	return {
 
 		restrict: "AE",
@@ -20,9 +20,9 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			self.idArticle = "";
 			self.article = {};
 			self.isSubtitle = false;
+			self.currentHeadline = {}; 
 			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
 			self.idTemplate = article.getIdTemplate();
-			self.currentHeadline = article.getNameJustCreated();
 			self.isImage = true; 
 			self.lastNewspaper = article.getCurrentNewspaper(); 
 			
@@ -30,14 +30,49 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			
 			//initialize variable
 			self.newspaper = {}; 
+			self.publishedNewspapers = [];
+			self.publishedNewspapers.number = 0; 
+			self.publishedNewsNumber = article.getPublishedNewspaperNumber(); 
+			self.isPublished; 
+			self.isJustDeleted = article.getIsJustDeleted(); 
 			self.articles = []; 
 			self.article = {};
-			//variabile che mi serve per un controllo sul caricamento degli articoli 
-			//subito dopo che un giornale è stato cancellato
 			/*var oldName = angular.copy(self.lastNewspaper.name);*/
 			var oldName = angular.copy(self.lastNewspaper.name);
 			
+			/*-------------------------- ARTICOLO PER GIORNALE PUBBLICATO ---------------------------------*/			
+			self.loadArticlePublished = function(newsNumber){
+				apiService.getpublishedNewspapers(scenId).then (
+						function(data) {
+							self.publishedNewspapers = data;  
+							var found = false;
+							for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
+								if(self.publishedNewspapers[i].number == newsNumber) { 
+									for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
+										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 2){
+											self.article = self.publishedNewspapers[i].articles[j];
+											self.article.image = CONSTANTS.urlMedia(self.publishedNewspapers[i].articles[j].imageId); 
+											console.log(self.article); 
+											found = true;
+											break; 
+
+										}
+
+
+
+
+									}
+
+								}
+
+							}
+							}
+						,function(reason){	
+						}	
+						);	
+			}
 			
+			/*-------------------------- ARTICOLO PER GIORNALE IN BOZZA ---------------------------------*/
 			//GET article 
 			self.loadArticle = function(idTemplate) { 
 				switch (idTemplate) {
@@ -67,7 +102,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 						} else {
 						
 							//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
-							for(var i=0; i<=self.articles.length; i++){
+							for(var i=0; i<self.articles.length; i++){
 								if(self.articles[i].idArticleTemplate == 2){
 									self.article = self.articles[i];
 									self.article.image = CONSTANTS.urlMedia(self.article.imageId);
@@ -110,7 +145,6 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 
 			
 			self.loadArticleFirst = function(idTemplate) {
-				console.log("dovrei passare di qui"); 
 				switch (idTemplate) {
 				case "id1":
 				
@@ -134,7 +168,10 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			
 			
 			//caricamento template in base all'esistenza o meno di un giornale in bozza 
-			if(self.lastNewspaper.status == undefined) {
+			
+			if($state.current.name == 'logged.scenario.template1') {
+				self.isPublished = false; 
+			if(self.lastNewspaper.status == undefined || self.lastNewspaper.status  == 'PUBLISHED' || self.isJustDeleted == true) {
 				
 				self.loadArticleFirst("id"+self.idChoosenTemplate);		
 			} 
@@ -143,13 +180,36 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 				console.log(self.idTemplate); 
 				self.loadArticle(self.idTemplate);
 				}
+		
+			}
+			
+			
+			if($state.current.name == 'logged.scenario.newspublished'){
+				self.isPublished = true; 
+				if(self.publishedNewsNumber  != null || self.publishedNewsNumber  != undefined)  {
+				self.loadArticlePublished(self.publishedNewsNumber); 
+							
+			}		
+			}
+			
 			
 	
 			self.goToDraft = function(){
 				
-				console.log(self.idArticle); 
-				article.setArticleId(self.idArticle);
-				$state.go('logged.scenario.draftArticleSimple');
+				
+				self.currentHeadline = article.getNameJustCreated();  
+				 
+				if(self.currentHeadline == "" && self.newspaper.status == undefined){
+					//modalService.showModalCreateTitle(self.newspaper);
+					modalService.showAlertNewspaper();
+				} else {
+					
+					console.log(self.idArticle); 
+					article.setArticleId(self.idArticle);
+					$state.go('logged.scenario.draftArticleSimple');
+					
+				}
+				
 				
 			}
 			

@@ -1,5 +1,5 @@
-angular.module("smiled.application").directive('headlineNewspaper', ['article', 'modalService','apiService', '$stateParams', 'CONSTANTS',
-                                     function(article, modalService, apiService, $stateParams, CONSTANTS){
+angular.module("smiled.application").directive('headlineNewspaper', ['article', 'modalService','apiService', '$stateParams', 'CONSTANTS', '$state',
+                                     function(article, modalService, apiService, $stateParams, CONSTANTS, $state){
 	return {
 
 		restrict: "AE",
@@ -7,7 +7,7 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 		scope: {
 			
 			newspaper: '=?',
-			scenario: '='
+			scenario: '=',
 			
 		},
 		bindToController: true,
@@ -16,8 +16,31 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			self.showWarning = false;
 			var scenId = $stateParams.id; 
 			self.isFirst;  
-			self.date = {}; 
-			
+			self.date = {};  
+	
+			if($state.current.name == 'logged.scenario.newspublished'){
+				apiService.getpublishedNewspapers(scenId).then (
+						function(data) {
+							self.publishedNewspapers = data; 
+							self.publishedNewspaperNumber = article.getPublishedNewspaperNumber(); 
+							var found = false;
+							for(var i=0; !found && i<self.publishedNewspapers.length; i++) {
+								if(self.publishedNewspapers[i].number = self.publishedNewspaperNumber) { 
+									self.newspaper = self.publishedNewspapers[i];
+									console.log(self.newspaper); 
+									found = true;
+									break; 
+								}
+							}
+						},function(reason){
+							
+							
+						}	
+						);
+		}
+		 
+		 
+		 
 			if(self.newspaper.number == undefined){
 			//scarico l'ultimo numero pubblicato per conoscere il numero del giornale 
 			var n = apiService.getLastNewspaper(scenId);
@@ -38,21 +61,27 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 				
 			}
 			
+			if($state.current.name == 'logged.scenario.template1') {
+			if(self.newspaper.status == 'DRAFT' || self.newspaper.status == undefined){
+				
+				/*Initialize dates variable*/
+				self.startDate = angular.copy(self.scenario.history.startDate);
+				if(!self.startDate.afterChrist)
+					self.startDate.year*=-1;
+				self.endDate = angular.copy(self.scenario.history.endDate);
+				if(!self.endDate.afterChrist)
+					self.endDate.year*=-1;
+				self.newspaper.historicalDate=CONSTANTS.insertHistoricalDateNewspaper; 	
+				
+			}
+			}
 			
-			/*Initialize dates variable*/
-			self.startDate = angular.copy(self.scenario.history.startDate);
-			if(!self.startDate.afterChrist)
-				self.startDate.year*=-1;
-			self.endDate = angular.copy(self.scenario.history.endDate);
-			if(!self.endDate.afterChrist)
-				self.endDate.year*=-1;
-			
-
-			self.newspaper.historicalDate=CONSTANTS.insertHistoricalDateNewspaper; 
 
 			self.showPopUpCreationTitle = function (){
 			modalService.showModalCreateTitle(self.newspaper);	
 			};
+			
+			
 			
 			self.setDateNewspaper = function(){
 				modalService.showModalSetHistoryNewspaperDate(self.startDate, self.endDate, self.newspaper);
@@ -103,36 +132,22 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			var getMonthString = function(month){
 				return CONSTANTS.monthString(month);
 			}
-
+			
+			
+/*
+			$scope.$watch('self.newspaper.name', function(val){
+				
+				if(val != "Inserisci un titolo per il giornale"){
+					console.log("LINK FUNCTION"); 
+					article.setIsDraft(true); 
+				}
+				
+			});*/
+			
+			
 		}],
 		
 		controllerAs: "headlineNewspaper",
-		link : function(scope,elem,attrs,ctrl){
-			
-			scope.$watch('self.newspaper.name.length', function(val) {
-				
-			if(val>30) {
-				ctrl.showWarning = true; 
-				console.log ("ATTENZIONE" + ctrl.showWarning);
-				
-			}
-				
-			else
-				{
-				ctrl.showWarning = false; 
-				console.log ("VA BENE");
-				
-				}
-			
-			
-			});	
-			
-			
-			
-		}
-			
-		
-       
 
 } 
 }]);

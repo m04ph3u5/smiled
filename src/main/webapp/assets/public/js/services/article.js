@@ -10,8 +10,10 @@ angular.module('smiled.application').factory('article',
 			var newspaperNumber; 
 			var numberJustCreated = 0; 
 			var nameJustCreated = ""; 
+			var publishedNewspaperNumber = 0; 
+			var isDraft; 
+			var isJustDeleted; 
 			
-		
 			//Oggetti articoli --> verranno scaricati da db
 			article2col = {}; 
 			article1colImg = {};
@@ -223,9 +225,23 @@ angular.module('smiled.application').factory('article',
 	var getCurrentNewspaper = function () {
 				var s = apiService.getMyLastNewspaper(scenId); 
 						s.then(function(data){
-							newspaper = data; 
+							
+							if(data.status == "DRAFT"){
+								newspaper = data; 	
+							}
+							
+							else if (data.status == "PUBLISHED") {
+								
+								newspaper = {};
+								newspaper.name = CONSTANTS.insertHeadline;	
+								newspaper.articles = [];
+								newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
+								
+							}
+
 						},function(reason){
 							if(reason.status == "500") {
+								newspaper = {};
 								newspaper.name = CONSTANTS.insertHeadline;	
 								newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
 								console.log("Errore.");	
@@ -271,6 +287,43 @@ angular.module('smiled.application').factory('article',
 		
 		return nameJustCreated; 
 	}
+	
+	
+	var setPublishedNewspaperNumber = function(number){
+		publishedNewspaperNumber = number; 
+		
+		
+	}
+	
+	var getPublishedNewspaperNumber = function (){
+		return publishedNewspaperNumber; 
+		
+	}
+	
+	var setIsDraft = function(isNew) {	
+		isDraft = isNew; 
+	}
+	
+	var getIsDraft = function(){
+		
+		return isDraft; 
+		
+	}
+	
+	var setIsJustDeleted = function(){
+		
+		isJustDeleted = true; 
+		
+	}
+	
+	var getIsJustDeleted = function(){
+		
+		return isJustDeleted; 
+	}
+	
+	
+	
+
 		
 
 			return {
@@ -293,6 +346,12 @@ angular.module('smiled.application').factory('article',
 				getArticle: getArticle, 
 				setNameJustCreated: setNameJustCreated,
 				getNameJustCreated: getNameJustCreated,
+				setPublishedNewspaperNumber: setPublishedNewspaperNumber,
+				getPublishedNewspaperNumber: getPublishedNewspaperNumber,
+				setIsDraft: setIsDraft,
+				getIsDraft: getIsDraft,
+				setIsJustDeleted: setIsJustDeleted,
+				getIsJustDeleted: getIsJustDeleted,
 				
 				}
 

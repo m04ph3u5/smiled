@@ -2,15 +2,22 @@
 <!-------------------------- SINGLE ARTICLE PREVIEW ----------------------------->
 
 <ul class = "list-inline">
-
-<li class="col-sm-6 col-xs-6" data-ng-repeat = "article in newspaperPreview.articlePreviews">
+<li class="col-sm-6 col-xs-6" data-ng-repeat = "article in newspaperPreview.articlesPreviews">
 <div class="row preview-container">
 
 	<div class="col-sm-11 col-xs-11 line-green-bigger" style="margin-left: 3%;">
 	</div>
 
-	<h3 class="title-preview">
-	{{article.title | limitTo: 6}}...
+	<h3 class="title-preview visible-xs hidden-lg hidden-md hidden-sm">
+	{{article.title | limitTo: 10}}...
+	</h3>
+	
+	<h3 class= "title-preview hidden-xs hidden-md">
+	{{article.title}}
+	</h3>
+	
+	<h3 class="title-preview hidden-xs hidden-lg visible-md hidden-sm">
+	{{article.title | limitTo: 10}}...
 	</h3>
 
 	<div class="col-sm-11 col-xs-11 line-6 " style="margin-left: 3%;"></div>
@@ -22,9 +29,10 @@
 </div>
 
 <div class="col-md-3 col-sm-4 col-xs-4"></div>
-<div class="col-md-6 col-sm-4 col-xs-4" style= "cursor: pointer;">
+<div class="col-md-6 col-sm-4 col-xs-4" style= "cursor: pointer;" 
+data-ng-click ="newspaperPreview.goToNewspaper(article.newspaperNumber)"> 
 	<button class="btn button-preview">Leggi tutto</button>
-</div>
+</div> 
 <div class="col-md-3 col-sm-4 col-xs-4"></div>
 <div class="row opacity-container"></div>
 </li>

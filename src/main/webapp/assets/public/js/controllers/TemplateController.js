@@ -6,19 +6,27 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	self.currentIdTemplate = article.getIdCurrentTemplate();
 	self.scen = $scope.scenario.scen;
 	var scenId = $stateParams.id;
+	self.newspaperPut = {}; 
+	self.newspaperPut.publish = false; 
 	self.newspaper = {};
 	
 	self.numberJustCreated = article.getNumberJustCreated(); 
 
 	self.newspaper = article.getCurrentNewspaper();
-	console.log(self.newspaper); 
-
+	
 	if(self.newspaper = {}){
-		//TO DO --> gestione se il giornale non fosse in bozza  
+		
 		apiService.getMyLastNewspaper(scenId).then(
 				function(data){
-					self.newspaper = data; 
-					console.log(self.newspaper);
+					
+					if(data.status == "DRAFT"){
+						self.newspaper = data; 	
+						
+					} else {
+						self.newspaper = {};
+						self.newspaper.name = CONSTANTS.insertHeadline;	
+						self.newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper;	
+					}
 					
 				},function(reason){
 					
@@ -36,6 +44,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	//cancel newspaper 
 	self.showPopUpDeleteNewspaper = function (){
 		self.numberJustCreated = article.getNumberJustCreated(); 
+		 
 		if(self.numberJustCreated  != 0) {
 			modalService.showModalDeleteNewspaper(scenId, self.numberJustCreated);
 	
@@ -43,9 +52,27 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 			
 			modalService.showModalDeleteNewspaper(scenId, self.newspaper.number);		
 		}
-		
-				
 	}
+	 
 	
+	//pubblicazione giornale
+	self.publishNewspaper = function(){
+		
+		self.newspaperPut.publish = true; 
+		console.log(self.newspaperPut); 
+		var n = apiService.updateNewspaper(scenId, self.newspaper.number, self.newspaperPut); 
+		n.then(function(data){
+			
+			$state.go('logged.scenario.editorial');
+			
+			
+		}, function(reason){
+			
+			console.log("Impossibile pubblicare il giornale"); 
+			
+		}
+				);
+
+	}
 	
 }]);

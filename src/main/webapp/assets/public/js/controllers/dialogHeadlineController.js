@@ -10,25 +10,25 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 	self.newspaper = {}; 
 	self.newspaperPost = {}; 
 	self.newspaperPut = {}; 
-	
-	self.headline = newspaper.name; 
+	self.headline = {}; 
+	self.headline = newspaper.name;
 	
 
 	//set headline - creationNewspaper 
 	
     self.setHeadline = function (){	
     	
+ 
     	//controllo inserimento titolo valido
-    if(self.headline.length<4 || self.headline == '' || newspaper.name.length<4){
+    if(self.headline.length<4){
     		console.log("PASSO DA QUI"); 
 			alertingGeneric.addWarning("Inserire un titolo di almeno 4 caratteri");	
-			self.invalidTitle = true;
 		} /*else if(self.headline.length>30){
 			alertingGeneric.addWarning("Il nome scelto è troppo lungo, scegli una nome più corto per la testata");
 			
 		}*/
-			//creazione newspaper prima volta
-			
+			//creazione newspaper (se superato il primo controllo) prima volta
+    else {
 			if(self.idCurrentTemplate == "1" && oldName == CONSTANTS.insertHeadline) {
 				self.newspaperPost.idTemplate = 1;
 				self.newspaperPost.name = self.headline; 
@@ -39,6 +39,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 					 newspaper.name = self.headline; 
 					 self.numberNewspaper = data.number; 
 					 article.setNumberJustCreated(self.numberNewspaper);
+					 article.setIsDraft(true); 
 					 article.getCurrentNewspaper();
 					 //console.log(self.newspaper);
 					 modalService.closeModalCreateTitle(); 
@@ -53,11 +54,11 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 				$state.go('logged.scenario.template1');	
 				
 				
-			} else {
+			} else  {
 				
 					self.numberNewspaper = article.getNumberJustCreated();
-					console.log(self.numberNewspaper); 
-					if(self.numberNewspaper == undefined) {
+					
+					if(self.numberNewspaper == undefined || self.numberNewspaper == 0) {
 						//update headline second or more time 
 						self.newspaperPut.name = self.headline; 
 						self.numberNewspaper = article.getNumberNewspaper(); 
@@ -72,7 +73,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 						 });	
 						
 						
-					} else {
+					} else  {
 						console.log(self.numberNewspaper); 
 						
 						self.newspaperPut.name = self.headline;
@@ -88,10 +89,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 						 }, function(reason){
 							 alertingGeneric.addWarning("Non e' stato possibile aggiornare il giornale, riprova");
 						 });
-	
 					}
-	
-				
 			}
     
     if(self.idCurrentTemplate == "2") {
@@ -100,29 +98,10 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 		article.setTitle(headline);
 		modalService.closeModalCreateTitle(); 		
 		$state.go('logged.scenario.template2');
-    
-			}		
-				
-			}
-    
-
-    /*$scope.$watch('self.headline', function(newVal, oldVal){
-		if(newVal) {
-		if(self.headline.length<4 || self.headline.length == 0 || self.headline.length>30){
-			self.invalidTitle = true; 	
-			
-		} 
-		
-		else {
-			
-			self.invalidTitle = false;
-				
+			}			
 		}
-		
-		}
-		
-		
-	});*/
+    
+}
     		
 
 	self.closeDialog = function (){
@@ -130,6 +109,8 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 		$scope.$dismiss();
 		
 	}
+
+	
 	
 }]);
 

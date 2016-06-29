@@ -8,10 +8,7 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 	self.newspaper = {};
 	//info dell'utente loggato, servono per fare i controlli sulla visualizzazione del giornale 
 	self.loggedUser = loggedUser;
-	self.currentCharacter = {}; 
-	
-	console.log(self.scen.actualJournalist); 
-	console.log(self.loggedUser.role.authority); 	
+	self.currentCharacter = {}; 	
 	
 	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 			function(data){
