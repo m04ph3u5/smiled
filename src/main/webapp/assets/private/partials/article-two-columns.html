@@ -1,30 +1,4 @@
-
-<!-- <label class="col-sm-6 arrow_box1 arrow_box1:after arrow_box1:before animated pulse"
-				data-ng-if="articleTwoColumns.showWarningTitle">
-				  Attento, hai scritto troppi caratteri. 
-				  <a data-ng-click="articleTwoColumns.goToDraft()"> MODIFICA ORA </a> e attiva il conteggio 
-				  caratteri nelle bozze.
-				<br>
-				<a data-ng-click="articleTwoColumns.closeWarning()" style="color:#cb654f;"> Chiudi </a></label> -->
-
 <div class="row">
-
-	<!-- icona art 1 -->
-	<div data-ng-if="articleTwoColumns.newspaper.status == 'DRAFT' || articleTwoColumns.newspaper.status == undefined" 
-	
-		class=" col-xs-4 col-sm-4 col-md-2 col-lg-2
-		visible-xs visible-sm visible-md visible-lg 
-					pull-right wow bounceInUp">
-		<a style="cursor: pointer" ng-click="articleTwoColumns.goToDraft()">
-			<img data-toggle="tooltip" title="Modifica articolo"
-			src="/assets/public/img/newspaper-img/ic_edit_article.png"
-			class="img-mod-2">
-		</a>
-	</div>
-
-
-
-
 
 	<div class="col-sm-10 col-md-10 col-xs-10">
 		<warning-characters data-ng-if="articleTwoColumns.showWarningTitle"
@@ -55,8 +29,8 @@
 	stylebox="up" edit="articleTwoColumns.goToDraft()"
 	close="articleTwoColumns.closeWarning('subtitle')"></warning-characters>
 
-
 <div class="col-sm-12 line-2"></div>
+
 
 <div class="row">
 
@@ -85,9 +59,14 @@
 			close="articleTwoColumns.closeWarning('col2')"></warning-characters>
 	</div>
 
-
+<div class="col-sm-12">
+<div data-ng-if = "articleTwoColumns.isPublished" class = "col-sm-6 pull-right">
+<span class= "articleAuthor">Scritto da {{articleTwoColumns.article.author}}</span>
+</div>
+</div>
 
 </div>
+
 
 
 <script>

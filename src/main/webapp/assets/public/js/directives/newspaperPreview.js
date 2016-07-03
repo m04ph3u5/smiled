@@ -51,6 +51,7 @@ angular.module("smiled.application").directive("newspaperPreview", [ '$statePara
 
 
 			self.goToNewspaper = function(newspaperNumber){
+				console.log(newspaperNumber); 
 				article.setPublishedNewspaperNumber(newspaperNumber); 
 				article.setIsDraft(false); 
 				$state.go('logged.scenario.newspublished');

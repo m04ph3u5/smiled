@@ -580,6 +580,12 @@ angular.module('smiled.application')
 			},
 			data: {
 				pageTitle : "Redazione del Giornale - Meschola"
+			},
+			resolve : {
+				loggedUser : function(userService){
+					return userService.getMe();
+				} 
+			
 			}
 		})
 		
@@ -598,6 +604,13 @@ angular.module('smiled.application')
 			},
 			data: {
 				pageTitle: "Redazione del Giornale - Meschola"	
+			},
+			
+			resolve : {
+				loggedUser : function(userService){
+					return userService.getMe();
+				} 
+			
 			}
 		}
 			

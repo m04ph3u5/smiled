@@ -22,7 +22,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			self.currentHeadline = article.getNameJustCreated();
 			self.isImage = true; 
 			self.lastNewspaper = article.getCurrentNewspaper(); 
-			self.idArticle = "";
+			self.idArticle = 0;
 
 			self.newspaper = {}; 
 			self.publishedNewspapers = [];
@@ -31,6 +31,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			self.isPublished;
 			self.isJustDeleted = article.getIsJustDeleted();
 			self.isDraft = article.getIsDraft(); 
+			self.isFirst; 
 			self.articles = []; 
 			self.article = {};
 
@@ -45,18 +46,17 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 							var found = false;
 							for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
 								if(self.publishedNewspapers[i].number == newsNumber) { 
+									
 									for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
 										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 3){
+											self.newspaper = self.publishedNewspapers[i]; 
 											self.article = self.publishedNewspapers[i].articles[j];
 											self.article.image = CONSTANTS.urlMedia(self.publishedNewspapers[i].articles[j].imageId); 
+											self.article.author = self.publishedNewspapers[i].articles[j].user.firstname + " " + self.publishedNewspapers[i].articles[j].user.lastname; 
 											console.log(self.article); 
 											found = true;
 											break; 
-
 										}
-
-
-
 
 									}
 
@@ -78,20 +78,16 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 
 				//se template 1 carico articolo relativo a quel template
 				case 1:
-					//caso di cancellazione appena avvenuta
-					if(oldName == self.lastNewspaper.name){
-						self.idArticle = "3";
-						self.article = article.getArticleObject(self.idArticle);	
-					}
 					var s = apiService.getMyLastNewspaper(scenId);
 					s.then(function(data){
 
 						self.newspaper = data; 
 						self.articles = self.newspaper.articles;  
-
+						
 						//non ci sono articoli scritti 
 						if(self.articles.length == 0) {
-							self.idArticle = "3";
+							self.idArticle = 3;
+							article.setArticleObject(self.idArticle);
 							self.article = article.getArticleObject(self.idArticle);
 
 
@@ -99,15 +95,25 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 
 							//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
 							for(var i=0; i<self.articles.length; i++){
-
 								if(self.articles[i].idArticleTemplate == 3){
 									self.article = self.articles[i];
-									self.article.image = CONSTANTS.urlMedia(self.article.imageId); 
-									self.idArticle = "3";  
+									
+									if(self.article.imageId == null) {
+										self.article.image = null; 
+									} else {
+										
+										self.article.image = CONSTANTS.urlMedia(self.article.imageId); 	
+										
+									}
+									
+									
+									self.idArticle = 3;  
 									break; 
 
 								} else {			
-									alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");			
+									self.idArticle = 3;
+									article.setArticleObject(self.idArticle);
+									self.article = article.getArticleObject(self.idArticle);			
 								}
 
 							}
@@ -136,11 +142,13 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			}
 
 			self.loadArticleFirst = function(idTemplate){
-
+				self.isFirst = true; 
 				switch (idTemplate) {
 				case "id1":
-					self.idArticle = "3";
+					self.idArticle = 3;
+					article.setArticleObject(self.idArticle);
 					self.article = article.getArticleObject(self.idArticle);
+					console.log(self.article); 
 					break;
 
 				case "id2":
@@ -158,7 +166,8 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 
 			if($state.current.name == 'logged.scenario.template1') {
 				self.isPublished = false; 
-				if(self.lastNewspaper.status == undefined || self.lastNewspaper.status  == 'PUBLISHED' || self.isJustDeleted == true ) {
+				if(self.lastNewspaper.status == undefined && self.isDraft == false || self.lastNewspaper.status  == 'PUBLISHED' 
+					|| self.isJustDeleted == true && self.isDraft == false ) {
 					self.loadArticleFirst("id"+self.idChoosenTemplate);		
 				} 
 				else if(self.lastNewspaper.status == 'DRAFT'  || oldName == self.lastNewspaper.name)
@@ -181,7 +190,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 
 				self.currentHeadline = article.getNameJustCreated();  
 
-				if(self.currentHeadline == "" && self.newspaper.status == undefined){
+				if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true){
 					//modalService.showModalCreateTitle(self.newspaper);
 					modalService.showAlertNewspaper();
 				} else {

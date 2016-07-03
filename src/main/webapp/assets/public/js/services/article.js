@@ -11,8 +11,10 @@ angular.module('smiled.application').factory('article',
 			var numberJustCreated = 0; 
 			var nameJustCreated = ""; 
 			var publishedNewspaperNumber = 0; 
-			var isDraft; 
+			var isDraft = false; 
 			var isJustDeleted; 
+			var isEditing; 
+			var idPublishedTemplate = 0; 
 			
 			//Oggetti articoli --> verranno scaricati da db
 			article2col = {}; 
@@ -23,38 +25,14 @@ angular.module('smiled.application').factory('article',
 			article2colTemp2 = {};
 			article1col = {};
 			
-			idArticle = ""; 
+			idArticle = 0; 
 			idCurrentTemplate = ""; 
 			
 			headline = {}; 
 			headline.title = 'Assegna un nome al giornale';
 			headline.date = ''; 
 			headline.number = '';
-			
-			
-			article2col.title = 'Titolo primo articolo';
-			article2col.subtitle = "Sottotitolo dell'articolo";
-			
-					
-			article2col.text1 ="Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
-			article2col.text2 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",	
-			
-			article2col.city = "";
-			
-			
-			article1colImg.title = 'Rubrica personaggio';
-			article1colImg.subtitle = '';
-			article1colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";
-			article1colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';
-			
-			
-			article2colImg.title = 'Titolo di un altro articolo';
-			article2colImg.subtitle = "Sottotitolo dell'articolo";
-			article2colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
-			article2colImg.text2 = 	"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",		
-			
-			article2colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg'
-			article2colImg.city = "";
+	
 				
 			article1colImgTemp2.title = "Il punto di vista dell'antagonista";
 			article1colImgTemp2.subtitle = ""; 
@@ -81,22 +59,49 @@ angular.module('smiled.application').factory('article',
 			}
 			article2colTemp2.city = ""; 
 			
-			var setArticleObject = function(input, id) {
-				if(id == "1") {article2col = input; }
-				if (id == "2") {article1colImg = input; }
-				if (id == "3") {article2colImg = input; }
+			//SETTAGGIO VALORI DI SUGGERIMENTO ARTICOLI PER GIORNALE APPENA CREATO 
+			var setArticleObject = function(id) {
+				if(id == 1) 
+				{
+					article2col.title = 'Titolo primo articolo';
+					article2col.subtitle = "Sottotitolo dell'articolo";
+					
+							
+					article2col.text1 ="Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+					article2col.text2 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",	
+					
+					article2col.city = "";
+				 }
+				if (id == 2) {
+					article1colImg.title = 'Rubrica personaggio';
+					article1colImg.subtitle = '';
+					article1colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";
+					article1colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';
+					}
+				if (id == 3) {
+					 
+					article2colImg.title = 'Titolo di un altro articolo';
+					article2colImg.subtitle = "Sottotitolo dell'articolo";
+					article2colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
+					article2colImg.text2 = 	"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",		
+					
+					article2colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg'
+					article2colImg.city = "";
+
+				}
+				
+				
 				if(id== "4") {article1colImgTemp2 = input;}
 				if (id == "5") {articleColImage = input; }
 				if(id == "6") {article1col = input; }
 				if( id == "7") {article2colTemp2 = input; }
 				
-				 console.log(article2col);
 			}
 			
 			var getArticleObject = function(id) {
-				if (id == "1") return article2col;
-				if (id == "2") return article1colImg;
-				if (id == "3") return article2colImg;
+				if (id == 1) return article2col;
+				if (id == 2) return article1colImg;
+				if (id == 3) return article2colImg;
 				if(id == "4") return article1colImgTemp2; 
 				if (id == "5") return articleColImage; 
 				if(id == "6") return article1col; 
@@ -116,16 +121,16 @@ angular.module('smiled.application').factory('article',
 			
 			var setArticleId = function(id){
 				
-				if(id == "1") {
+				if(id == 1) {
 					idArticle = id;
 				}
 				
-				if(id == "2"){
+				if(id == 2){
 					
 					idArticle = id; 
 				}
 				
-				if(id == "3") {
+				if(id == 3) {
 					
 					idArticle = id;
 				}
@@ -200,6 +205,7 @@ angular.module('smiled.application').factory('article',
 		)
 					return newspaper.idTemplate;
 			}
+			
 			
 			
 			
@@ -320,15 +326,37 @@ angular.module('smiled.application').factory('article',
 		
 		return isJustDeleted; 
 	}
+	var setIsEditing = function(isEditingPublished){
+		
+		isEditing = isEditingPublished; 
+		
+	}
+	
+var getIsEditing = function(){
+		return isEditing;
+		
+	}
+
+
+var setIdPublishedTemplate = function(id) {
+	idPublishedTemplate = id; 
+	
+}
+
+	
+var getIdPublishedTemplate = function() {
+	
+	return idPublishedTemplate; 
 	
 	
+}
 	
 
 		
 
 			return {
 
-				setArticleObject : setArticleObject, 
+				setArticleObject : setArticleObject,
 				getArticleObject : getArticleObject, 			
 				getTitle : getTitle,
 				setTitle : setTitle,
@@ -352,7 +380,10 @@ angular.module('smiled.application').factory('article',
 				getIsDraft: getIsDraft,
 				setIsJustDeleted: setIsJustDeleted,
 				getIsJustDeleted: getIsJustDeleted,
-				
+				setIsEditing: setIsEditing,
+				getIsEditing: getIsEditing,
+				setIdPublishedTemplate: setIdPublishedTemplate,
+				getIdPublishedTemplate: getIdPublishedTemplate,
 				}
 
 			

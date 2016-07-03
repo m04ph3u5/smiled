@@ -17,7 +17,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			var scenId = $stateParams.id;
 			self.showWarningTitle = false; 
 			self.showWarningText = false;  
-			self.idArticle = "";
+			self.idArticle = 0;
 			self.article = {};
 			self.isSubtitle = false;
 			self.currentHeadline = {}; 
@@ -34,10 +34,11 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			self.publishedNewspapers.number = 0; 
 			self.publishedNewsNumber = article.getPublishedNewspaperNumber(); 
 			self.isPublished; 
+			self.isFirst; 
+			self.isDraft = article.getIsDraft(); 
 			self.isJustDeleted = article.getIsJustDeleted(); 
 			self.articles = []; 
 			self.article = {};
-			/*var oldName = angular.copy(self.lastNewspaper.name);*/
 			var oldName = angular.copy(self.lastNewspaper.name);
 			
 			/*-------------------------- ARTICOLO PER GIORNALE PUBBLICATO ---------------------------------*/			
@@ -49,17 +50,17 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 							for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
 								if(self.publishedNewspapers[i].number == newsNumber) { 
 									for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
+										self.newspaper = self.publishedNewspapers[i]; 
+										console.log("GIORNALE PUBBLICATO"); 
 										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 2){
 											self.article = self.publishedNewspapers[i].articles[j];
 											self.article.image = CONSTANTS.urlMedia(self.publishedNewspapers[i].articles[j].imageId); 
+											self.article.author = self.publishedNewspapers[i].articles[j].user.firstname + " " + self.publishedNewspapers[i].articles[j].user.lastname;
 											console.log(self.article); 
 											found = true;
 											break; 
 
 										}
-
-
-
 
 									}
 
@@ -79,13 +80,6 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 				
 				//se template 1 carico articolo relativo a quel template
 				case 1:
-					//caso di cancellazione appena avvenuta
-					if(oldName == self.lastNewspaper.name){ 
-						self.idArticle = "2";
-						self.article = article.getArticleObject(self.idArticle);
-						console.log(self.article);	
-					}
-
 					var s = apiService.getMyLastNewspaper(scenId);
 					s.then(function(data){
 						
@@ -95,24 +89,33 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 						//se non ci sono articoli scritti 
 						
 						if(self.articles.length == 0) {
-							self.idArticle = "2";
+							self.idArticle = 2;
+							article.setArticleObject(self.idArticle);
 							self.article = article.getArticleObject(self.idArticle);
-	
 							
-						} else {
+						} 
+						else {
 						
 							//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
 							for(var i=0; i<self.articles.length; i++){
 								if(self.articles[i].idArticleTemplate == 2){
 									self.article = self.articles[i];
-									self.article.image = CONSTANTS.urlMedia(self.article.imageId);
-									console.log(self.article.imageId); 
-									self.idArticle = "2";  
+									
+									if(self.article.imageId == null) {
+										self.article.image = null; 
+									} else {
+										
+										self.article.image = CONSTANTS.urlMedia(self.article.imageId);
+									}
+									
+									
+									self.idArticle = 2;  
 									break; 
 									
 								} else {
 									
-									self.idArticle = "2";
+									self.idArticle = 2;
+									article.setArticleObject(self.idArticle);
 									self.article = article.getArticleObject(self.idArticle);
 								
 								}
@@ -145,10 +148,11 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 
 			
 			self.loadArticleFirst = function(idTemplate) {
+				self.isFirst = true; 
 				switch (idTemplate) {
 				case "id1":
-				
-				self.idArticle = "2"
+				self.idArticle = 2; 
+				article.setArticleObject(self.idArticle);
 				self.article = article.getArticleObject(self.idArticle);
 				break;
 				
@@ -171,7 +175,8 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			
 			if($state.current.name == 'logged.scenario.template1') {
 				self.isPublished = false; 
-			if(self.lastNewspaper.status == undefined || self.lastNewspaper.status  == 'PUBLISHED' || self.isJustDeleted == true) {
+			if(self.lastNewspaper.status == undefined && self.isDraft == false || self.lastNewspaper.status  == 'PUBLISHED' 
+				|| self.isJustDeleted == true && self.isDraft == false ) {
 				
 				self.loadArticleFirst("id"+self.idChoosenTemplate);		
 			} 
@@ -199,7 +204,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 				
 				self.currentHeadline = article.getNameJustCreated();  
 				 
-				if(self.currentHeadline == "" && self.newspaper.status == undefined){
+				if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true){
 					//modalService.showModalCreateTitle(self.newspaper);
 					modalService.showAlertNewspaper();
 				} else {

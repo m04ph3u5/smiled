@@ -3,31 +3,7 @@
 </div>
 <!--title & subtitle -->
 <div class="col-sm-12">
-<div data-ng-if = "articleTwoColumnsImg.newspaper.status == 'DRAFT'"
-class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right "
-style="animation-delay: 1s;" >
-		<a style="cursor: pointer;"  data-placement="bottom"
-		data-ng-click = "articleTwoColumnsImg.goToDraft()" > 
-			<img
-	data-toggle="tooltip" title="Modifica articolo" 
-		src="/assets/public/img/newspaper-img/ic_edit_article.png"
-		class="img-mod-3">
-			</a>
-</div>
 
-
-<div data-ng-if = "articleTwoColumnsImg.newspaper.status == undefined" 
-
-class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right "
-style="animation-delay: 1s;" >
-		<a style="cursor: pointer;"  data-placement="bottom"
-		data-ng-click = "articleTwoColumnsImg.goToDraft()" > 
-			<img
-	data-toggle="tooltip" title="Modifica articolo" 
-		src="/assets/public/img/newspaper-img/ic_edit_article.png"
-		class="img-mod-3">
-			</a>
-</div>
 
 
 </div>
@@ -50,7 +26,7 @@ style="animation-delay: 1s;" >
 	close="articleTwoColumnsImg.closeWarning('subtitle')"></warning-characters>
 
 <label class="text-art" style=" margin: 0;" 
-data-ng-class="{'marginText': !articleTwoColumns.isPublished}">
+data-ng-class="{'marginText': !articleTwoColumnsImg.isPublished}">
 <span data-ng-if="articleTwoColumnsImg.article.city != ''" style= "font-family:serif;"> 
             {{articleTwoColumnsImg.article.city}} - </span>
 	{{articleTwoColumnsImg.article.text1 | limitTo: 594}}</label>
@@ -60,12 +36,19 @@ data-ng-class="{'marginText': !articleTwoColumns.isPublished}">
 	close="articleTwoColumnsImg.closeWarning('col1')"></warning-characters>
 
 <label class="text-art"  
-data-ng-class="{'marginText': !articleTwoColumns.isPublished}">
+data-ng-class="{'marginText': !articleTwoColumnsImg.isPublished}">
 	{{articleTwoColumnsImg.article.text2 | limitTo: 594}} </label>
 	<warning-characters
 	data-ng-if="articleTwoColumnsImg.showWarningTextCol2" stylebox="up"
 	edit="articleTwoColumnsImg.goToDraft()"
 	close="articleTwoColumnsImg.closeWarning('col2')"></warning-characters>
+
+
+<span data-ng-if = "articleTwoColumnsImg.isPublished" 
+class= "articleAuthor">Scritto da {{articleTwoColumnsImg.article.author}}</span>
+
+	
+
 
 <br />
 <div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
@@ -77,7 +60,7 @@ data-ng-click = "articleTwoColumnsImg.goToDraft()">
 		data-ng-err = "assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"
 		class="img-responsive img-article" />
 	<img data-ng-if= "articleTwoColumnsImg.article.image == null"
-	src = "assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg" />
+	src = "assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"  class="img-responsive img-article"/>
 	 <span 
 		class="pull-right uploadImage glyphicon glyphicon-camera"></span>
 </div> 
@@ -87,8 +70,6 @@ data-ng-click = "articleTwoColumnsImg.goToDraft()">
 	<img data-ng-src="{{articleTwoColumnsImg.article.image}}"
 		data-ng-err = "assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"
 		class="img-responsive" />
-	<img data-ng-if= "articleTwoColumnsImg.article.image == null"
-	src = "assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg" />
 </div>
 
 

@@ -38,10 +38,8 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 						}	
 						);
 		}
-		 
-		 
-		 
-			if(self.newspaper.number == undefined){
+
+			if(self.newspaper == undefined){
 			//scarico l'ultimo numero pubblicato per conoscere il numero del giornale 
 			var n = apiService.getLastNewspaper(scenId);
 			n.then(

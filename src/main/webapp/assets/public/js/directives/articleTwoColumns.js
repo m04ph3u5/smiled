@@ -1,11 +1,13 @@
-angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state', 'apiService', '$stateParams', 'alertingGeneric', 'modalService', 'CONSTANTS',
-                                     function(article, $state, apiService, $stateParams, alertingGeneric, modalService, CONSTANTS){
+angular.module("smiled.application").directive('articleTwoColumns', ['article', '$state', 'apiService', '$stateParams', 'alertingGeneric', 'modalService', 'CONSTANTS', 'userService',
+                                     function(article, $state, apiService, $stateParams, alertingGeneric, modalService, CONSTANTS, userService){
 	return {
 
 		restrict: "AE",
 		templateUrl: "assets/private/partials/article-two-columns.html",
 		scope: {
-			newspaper: '=?'
+			newspaper: '=?',
+			loggedUser: '=?',
+			scenario: '=?'
 		},
 		
 		controller: ['$scope',function($scope){
@@ -17,29 +19,31 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			self.showWarningTextCol1 = false; 
 			self.showWarningTextCol2 = false; 
 			var scenId = $stateParams.id; 
-			
 			self.lastNewspaper = article.getCurrentNewspaper();
-		
+			
 			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
 			self.currentHeadline = article.getNameJustCreated(); 
 			console.log(self.idChoosenTemplate); 
 			//id articolo
-			self.idArticle = "";
+			self.idArticle = 0;
 			self.idTemplate = article.getIdTemplate();
 			
 			self.newspaper = {}; 
 			self.publishedNewspapers = [];
 			self.publishedNewspapers.number = 0; 
 			self.isPublished; 
+			self.isJournalist; 
+			self.isFirst; 
 			self.isJustDeleted = article.getIsJustDeleted(); 
 			self.isDraft = article.getIsDraft(); 
+			console.log(self.isDraft + "APPENA CREATO, STATO BOZZA"); 
 			self.articles = []; 
 			self.article = {};
 			self.publishedNewsNumber = article.getPublishedNewspaperNumber(); 
 			//variabile che mi serve per un controllo sul caricamento degli articoli 
 			//subito dopo che un giornale è stato cancellato
 			var oldName = angular.copy(self.lastNewspaper.name); 
-	
+			
 		
 	/*-------------------------- ARTICOLO PER GIORNALE PUBBLICATO ---------------------------------*/
 
@@ -55,6 +59,8 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 									for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
 										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 1){
 											self.article = self.publishedNewspapers[i].articles[j];
+											self.article.author = self.publishedNewspapers[i].articles[j].user.firstname + " " + self.publishedNewspapers[i].articles[j].user.lastname; 
+											console.log("OGGETTO ARTICOLO"); 
 											console.log(self.article); 
 											found = true;
 											break; 
@@ -73,144 +79,129 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 	/*-------------------------- ARTICOLO PER GIORNALE IN BOZZA ---------------------------------*/
 			//GET article 
 			self.loadArticle = function(idTemplate) { 
-			
+
 				switch (idTemplate) {
-				
+
 				//se template 1 carico articolo relativo a quel template
 				case 1:
-					//caso di cancellazione appena avvenuta
-					if(oldName == self.lastNewspaper.name){
-						self.idArticle = "1";
-						self.article = article.getArticleObject(self.idArticle);
-						
-					}
 
 					var s = apiService.getMyLastNewspaper(scenId);
 					s.then(function(data){
-						
+
 						self.newspaper = data; 
 						self.articles = self.newspaper.articles;  
-						 
+
 						//non ci sono articoli scritti 
-						
+
 						if(self.articles.length == 0) {
-							self.idArticle = "1";
+							self.idArticle = 1;
+							article.setArticleObject(self.idArticle);
 							self.article = article.getArticleObject(self.idArticle);
-						
-							
+
+
 						} else {
-						
-						//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
-						for(var i=0; i<=self.articles.length; i++){
-							
-							if(self.articles[i].idArticleTemplate == 1){
-								self.article = self.articles[i];
-								self.idArticle = "1";  
-								break; 
-								
-							} else {			
-				alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");			
+
+							//ciclo sull'array che contiene gli articoli per ricavare quello che mi interessa
+							for(var i=0; i<self.articles.length; i++){
+
+								if(self.articles[i].idArticleTemplate == 1){
+									self.article = self.articles[i];
+									self.idArticle = 1;  
+									break; 
+
+								} else {	
+									
+									self.idArticle = 1; 
+									article.setArticleObject(self.idArticle);
+									self.article = article.getArticleObject(self.idArticle);
+											
+								}
+
 							}
-				
 						}
-					}
-						},
-						
-					  function(reason){
-					
+					},
+
+					function(reason){
+
 						console.log("Errore recupero articolo.");	
 					}
-			)
-				break; //fine case 1	
-				
-					
+					)
+					break; 	
+
+
 				case 2:
 					self.idArticle = "7";
 					self.article = article.getArticleObject(self.idArticle);	
 					break;
-					
-					
+
+
 				default:
 					console.log("ERROR" + " " + self.idTemplate);	
 				}
-		
-				
+
+
 			}
 			
 			self.loadArticleFirst = function(idTemplate){
-				
+				self.isFirst = true; 
 				switch (idTemplate) {
 				case "id1":
-				self.idArticle = "1";
-				self.article = article.getArticleObject(self.idArticle);
-				console.log(self.article);
-				break;
-				
+					self.idArticle = 1;
+					article.setArticleObject(self.idArticle);
+					self.article = article.getArticleObject(self.idArticle);
+					console.log(self.article);
+					break;
+
 				case "id2":
-				self.idArticle = "7";
-				self.article = article.getArticleObject(self.idArticle);	
-				break;
-				
+					self.idArticle = "7";
+					self.article = article.getArticleObject(self.idArticle);	
+					break;
+
 
 				default:
-				console.log("ERROR" + " " + self.idTemplate);
+					console.log("ERROR" + " " + self.idTemplate);
 				}
 			}
 	
 			//caricamento template in base all'esistenza o meno di un giornale in bozza 
 			if($state.current.name == 'logged.scenario.template1') {
 				self.isPublished = false; 
-				if(self.lastNewspaper.status == undefined || self.lastNewspaper.status  == 'PUBLISHED' || self.isJustDeleted == true) {
+				if(self.lastNewspaper.status == undefined && self.isDraft == false || 
+					self.lastNewspaper.status  == 'PUBLISHED' || self.isJustDeleted == true && self.isDraft == false ) {
 					self.loadArticleFirst("id"+self.idChoosenTemplate);		
 				} 
-				else if(self.lastNewspaper.status == 'DRAFT')
-					{
-					console.log(self.idTemplate); 
+				else if(self.lastNewspaper.status == 'DRAFT' || self.isDraft == true)
+				{
+					console.log("PASSO DI QUI PER SCARICARE ARTICOLO"); 
 					self.loadArticle(self.idTemplate);
-					}
-				
-				
-	/*			var s = apiService.getMyLastNewspaper(scenId); 
-				s.then(function(data){
-						self.lastNewspaper = data; 	
-						if(self.lastNewspaper.status == undefined) {
-							self.loadArticleFirst("id"+self.idChoosenTemplate);		
-						}
-						else if(self.lastNewspaper.status == 'DRAFT' || oldName == self.lastNewspaper.name)
-							{
-							console.log(self.idTemplate); 
-							self.loadArticle(self.idTemplate);
-							}
-				},function(reason){	
-				}
-		)*/		
+				}	
 			}
 			
 			if($state.current.name == 'logged.scenario.newspublished'){
 				self.isPublished = true;
 				if(self.publishedNewsNumber  != null || self.publishedNewsNumber  != undefined)  {
-				self.loadArticlePublished(self.publishedNewsNumber); 
-							
-			}		
+					self.loadArticlePublished(self.publishedNewsNumber); 
+
+				}		
 			}
 			//vai alle bozze
 			self.goToDraft = function(){
-				
 				//controllo se un nome è già stato assegnato per la creazione del giornale oppure no 
-				self.currentHeadline = article.getNameJustCreated();   
-				if(self.currentHeadline == "" && self.newspaper.status == undefined){
-					modalService.showAlertNewspaper();
+				self.currentHeadline = article.getNameJustCreated(); 
 			
+				if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true){
+					modalService.showAlertNewspaper();
+
 				} 
-				
-			 else {
+
+				else {
 					article.setArticleId(self.idArticle);
 					$state.go('logged.scenario.draftArticle2col');
-					
+
 				}
-				
+
 			}
-		
+
 			//chiusura warning 
 			self.closeWarning = function (s){
 				
@@ -237,6 +228,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 					
 				}
 			}
+		
 			
 			
 			

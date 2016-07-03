@@ -1,10 +1,21 @@
 
 <!-------------------------- SINGLE ARTICLE PREVIEW ----------------------------->
 
-<ul class = "list-inline">
-<li class="col-sm-6 col-xs-6" data-ng-repeat = "article in newspaperPreview.articlesPreviews">
-<div class="row preview-container">
 
+<ul class = "list-inline">
+<li class="col-sm-6 col-xs-6" style="max-width: 303px;" data-ng-repeat = "article in newspaperPreview.articlesPreviews">
+<div class="row preview-container">
+<div 
+class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right "
+style="animation-delay: 1s;" >
+		<a style="cursor: pointer;"  data-placement="bottom"
+	data-ng-click ="newspaperPreview.goToNewspaper(article.newspaperNumber)" > 
+			<img
+	data-toggle="tooltip" title="Modifica articolo" 
+		src="/assets/public/img/newspaper-img/ic_edit_article.png"
+		class="img-mod-3">
+			</a>
+</div>
 	<div class="col-sm-11 col-xs-11 line-green-bigger" style="margin-left: 3%;">
 	</div>
 

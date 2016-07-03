@@ -5,38 +5,66 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 	var self = this; 
 	var scenId = $stateParams.id;
 	self.scen = $scope.scenario.scen;
+	self.isModerator = false;
+	self.isJournalist = false; 
 	self.newspaper = {};
 	//info dell'utente loggato, servono per fare i controlli sulla visualizzazione del giornale 
 	self.loggedUser = loggedUser;
-	self.currentCharacter = {}; 	
+	self.currentCharacter = {}; 
+	self.myNews = []; 
+	self.publishedNews = []; 
+
 	
+	if(self.scen.teacherCreator.id==self.loggedUser.id){
+		/*self.isCreator=true;*/
+		self.isModerator=true;	
+
+	}
+
+	if(self.loggedUser.id == self.scen.actualJournalist.id){
+		self.isJournalist = true; 
+
+	}
+
+	if(self.isJournalist){
+		self.myNews = apiService.getMyNewspapers(scenId).then(
+				function(data)	{
+					self.myNews = data; 
+				}, function(reason){
+					console.log("Non esistono giornali, nè pubblicati, nè in bozza"); 
+				}
+		)
+	}
+
 	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 			function(data){
-				
 				self.newspaper = data; 
 				console.log(self.newspaper.status + "STATO");  
-				
-				
-				
 			},function(reason){
 				$state.go('logged.scenario.editorial');
-				console.log("Non c'è l'ultimo giornale");	
+				console.log("Non c'è l'ultimo giornale.");	
 			}
-)
-
-	self.myNews = [];
-	
-	self.myNews = apiService.getMyNewspapers(scenId).then(
-			function(data){
-				
-				self.myNews = data;
-				console.log(self.myNews + "GIORNALI")
-				
-			},function(reason){
-				console.log("Errore.");	
-			}	
-	
 	)
+
+	self.publishedNews = apiService.getpublishedNewspapers(scenId).then(
+
+			function(data){
+				self.publishedNews = data; 
+
+			}, function(reason){
+				console.log("Non ci sono giornali pubblicati.");
+
+
+			}
+
+
+	)
+	
+	
+	
+
+
+	
 
 
 	self.idTemplate = self.newspaper.idTemplate; 

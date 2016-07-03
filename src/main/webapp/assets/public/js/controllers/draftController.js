@@ -5,8 +5,7 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	var scenId = $stateParams.id;
 	//settaggio id da service - verrà preso dal DB
 	self.id = article.getArticleId(); 
-	console.log(self.id + "ID ARTICOLO")
-	if(self.id == ""){
+	if(self.id == null || self.id == 0){
 		$state.go('logged.scenario.template1');	
 	}
 	
@@ -14,30 +13,52 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 
 	self.idCurrentTemplate = article.getIdCurrentTemplate();
 	self.idTemplate = article.getIdTemplate(); 
+	self.idPublishedTemplate = article.getIdPublishedTemplate(); 
 	self.isChecked = false;
 	self.isCityChecked = false; 
 	self.isUploaded = false;
+	self.isEditing; 
 	self.articles = []; 
 	self.article = {};
 	self.article.image = null;
 	var oldIdImage; 
 	self.articlePut = {}; 
 
-	 
+	self.publishedNewspaperNumber = article.getPublishedNewspaperNumber();
+	
 	/*----------------------  GET ARTICLE ACCORDING TO ARTICLE ID    ---------------------*/
+	
+		var getArticlePublishedObject = function (id) {
+		apiService.getpublishedNewspapers(scenId).then (
+				function(data) {
+					self.publishedNewspapers = data;  
+					var found = false;
+					for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
+						if(self.publishedNewspapers[i].number == self.publishedNewspaperNumber) { 
+							for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
+								self.newspaper = self.publishedNewspapers[i]; 
+								
+								if(self.publishedNewspapers[i].articles[j].idArticleTemplate == id){
+									self.article = self.publishedNewspapers[i].articles[j];
+									
+									self.article.image = CONSTANTS.urlMedia(self.publishedNewspapers[i].articles[j].imageId); 
+									console.log(self.article); 
+									found = true;
+									break; 
 
-	self.getArticleDraft = function() {
-		console.log(self.id); 
-		if(self.id == "1"){
-			getArticleObject(1); 
-		} else
-		if (self.id == "2") {
-			getArticleObject(2);	
-		} else
-		if (self.id == "3") {
-			getArticleObject(3);
+								}
+							}
+
+						}
+
+					}
+					}
+				,function(reason){	
+				}	
+				);
+		
+		
 		}
-			}
 
 	var getArticleObject = function(id) {
 		
@@ -53,7 +74,7 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 				
 			} else {
 				 
-				for(var i=0; i<=self.articles.length; i++){
+				for(var i=0; i<self.articles.length; i++){
 					if(self.articles[i].idArticleTemplate == id){
 						self.article = self.articles[i]; 
 						console.log("Passo di qui");
@@ -87,9 +108,40 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 			console.log("Errore.");	
 		}
 	
-	}
-	self.getArticleDraft();  
 	
+	}
+	
+	self.getArticleDraft = function() {
+		self.isEditing = article.getIsEditing(); 
+		if(self.isEditing && self.idPublishedTemplate == 1){
+			
+			if(self.id == 1){
+				getArticlePublishedObject(1); 
+			} else
+				if (self.id == 2) {
+				getArticlePublishedObject(2);	
+			} else
+				if (self.id == 3) {
+				getArticlePublishedObject(3);
+			}
+		
+		} else {
+			
+			if(self.id == 1){
+				getArticleObject(1); 
+			} else
+			if (self.id == 2) {
+				getArticleObject(2);	
+			} else
+			if (self.id == 3) {
+				getArticleObject(3);
+			}
+			
+		}	
+			
+}
+	
+	self.getArticleDraft();  
 	
 	/*----------------------  UPLOAD ARTICLE IMAGE     ---------------------*/
 	
@@ -128,15 +180,10 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	/*----------------------  UPDATE DRAFT ARTICLE    ---------------------*/
 	
 	self.setData = function(input){
-	        	
-	        	/*if (input.subtitle == "") {
-	        		input.subtitle = "Sottotitolo dell'articolo";
-	        		
-	        	}*/
-	           
-	    	    if (self.idTemplate == 1) {
+	
+	    	    if(self.idTemplate == 1 || self.idPublishedTemplate == 1) {
 	    	    	
-	    	    	if(self.id == "1") {
+	    	    	if(self.id == 1) {
 	    	    		
 	    	    		if(input.title.length<5 || input.title == "" || input.title == null){
 	    	    			alertingGeneric.addWarning("Inserire un titolo di almeno 5 caratteri");
@@ -155,23 +202,40 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	    	    	
 	    	    	if(input.city == undefined) {self.articlePut.city = ""}
 	    	    	else { self.articlePut.city = input.city;   }
-	    	    	 
 	    	    	
-	    	    	console.log(self.articlePut); 
-
-	    	    	//put dell'articolo al db
-	    	    	var s= apiService.updateArticle(scenId,self.newsNumber , self.articlePut);
-					s.then(function(data){ 		
-						 $state.go('logged.scenario.template1');
-						 
-					 }, function(reason){
-						 
-						 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
-						 console.log("Impossibile aggiornare l'articolo.")
-					 })
+	    	     
+	    	    	if(self.isEditing){
+	    	    	
+	    	    		article.setIsEditing(false); 
+	    	    		//put dell'articolo al db
+		    	    	var s= apiService.updateArticle(scenId,self.publishedNewspaperNumber , self.articlePut);
+						s.then(function(data){ 	
+					
+							 $state.go('logged.scenario.editorial');
+							 
+						 }, function(reason){
+							 
+							 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
+							 console.log("Impossibile aggiornare l'articolo.")
+						 })	
+	    	    		
+	    	    	} else {
+	    	    		
+	    	    		//put dell'articolo al db
+		    	    	var s= apiService.updateArticle(scenId,self.newsNumber , self.articlePut);
+						s.then(function(data){ 		
+							 $state.go('logged.scenario.template1');
+							 
+						 }, function(reason){
+							 
+							 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
+							 console.log("Impossibile aggiornare l'articolo.")
+						 })	
+	    	    	}
+	    	    	
 	    	    		}
 	    	    } else
-	    	    	if(self.id == "2") {
+	    	    	if(self.id == 2) {
 	    	    		
 	    	    		if(input.title.length<5 || input.title == "" || input.title == null){
 	    	    			alertingGeneric.addWarning("Inserire un titolo di almeno 5 caratteri");
@@ -198,8 +262,28 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 		    	    	
 		    	    	if(input.city == undefined) {self.articlePut.city = ""}
 		    	    	else { self.articlePut.city = input.city;   }
-		    	    	console.log(self.articlePut); 
-
+		    	    	
+		    	    
+		    	    	 
+		    	    	if(self.isEditing){
+		    	    	
+		    	    		article.setIsEditing(false); 
+		    	    		console.log(self.publishedNewspaperNumber); 
+		    	    		//put dell'articolo al db
+			    	    	var s= apiService.updateArticle(scenId,self.publishedNewspaperNumber , self.articlePut);
+							s.then(function(data){ 	
+						
+								 $state.go('logged.scenario.editorial');
+								 
+							 }, function(reason){
+								 
+								 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
+								 console.log("Impossibile aggiornare l'articolo.")
+							 })	
+		    	    		
+		    	    	} else {
+		    	    		
+		    	    	
 		    	    	//put dell'articolo al db
 		    	    	var s= apiService.updateArticle(scenId,self.newsNumber , self.articlePut);
 						s.then(function(data){ 		
@@ -210,9 +294,11 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 							 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
 							 console.log("Impossibile aggiornare l'articolo.")
 						 })
+						 
+		    	    	}
 		    	    } 
 	    	    	
-	    	    	if(self.id == "3") {
+	    	    	if(self.id == 3) {
 	    	    
 	    	    		if(input.title.length<5 || input.title == "" || input.title == null){
 	    	    			alertingGeneric.addWarning("Inserire un titolo di almeno 5 caratteri");
@@ -242,18 +328,42 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	    	    			
 	    	    			
 	    	    		}
-		    	    	//put dell'articolo al db
-		    	    	var s= apiService.updateArticle(scenId,self.newsNumber , self.articlePut);
-						s.then(function(data){ 		
-							 $state.go('logged.scenario.template1');
-						 }, function(reason){
-							 
-							 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
-							 console.log("Impossibile aggiornare l'articolo.")
-						 })
-		    	    }
-	    	    	
-	    	    	
+		    	    	
+		    	    	if(!self.isUploaded) {
+		    	    		
+		    	    		self.articlePut.imageId = null; 
+		    	    		
+		    	    	}
+		    	    	
+		    	    	if(self.isEditing){
+		    	    		article.setIsEditing(false); 
+		    	    		//put dell'articolo al db
+			    	    	var s= apiService.updateArticle(scenId,self.publishedNewspaperNumber , self.articlePut);
+							s.then(function(data){ 	
+						
+								 $state.go('logged.scenario.editorial');
+								 
+							 }, function(reason){
+								 
+								 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
+								 console.log("Impossibile aggiornare l'articolo.")
+							 })	
+		    	    		
+		    	    	} else {
+
+		    	    	  	//put dell'articolo al db
+			    	    	var s= apiService.updateArticle(scenId,self.newsNumber , self.articlePut);
+							s.then(function(data){ 		
+								 $state.go('logged.scenario.template1');
+							 }, function(reason){
+								 
+								 alertingGeneric.addWarning("Non e' stato possibile memorizzare l'articolo, riprova!");
+								 console.log("Impossibile aggiornare l'articolo.")
+							 })
+			    	    }	
+		    	    		
+		    	    		
+		    	    	}
 	  	
 	    	 }
 	    	    

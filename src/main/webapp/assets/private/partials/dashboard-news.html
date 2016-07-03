@@ -23,17 +23,13 @@
 				<h3 style="text-align: center; color: #404b41">Numeri
 					pubblicati</h3>
 
-				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+				<h5 >Non è ancora stato pubblicato il primo numero del giornale.</h5>
 				<div class="col-sm-12 col-xs-12">
 				<newspaper-preview></newspaper-preview>
 				</div>
 			</div>
 		</div>
-
 	</div>
-	
-	
-	
 </div>
 
 </div>
@@ -76,7 +72,8 @@
 				style="z-index: +2; margin-top: 50%;">
 				<h3 style="text-align: center; color: #404b41">Numeri
 					pubblicati</h3>
-				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+			<h5 data-ng-if="dashboardNewspaper.publishedNews.length==0">
+			Non è ancora stato pubblicato il primo numero del giornale.</h5>
 				
 				<div class="col-sm-12 col-xs-12">
 				<newspaper-preview></newspaper-preview>
@@ -95,7 +92,7 @@
 		 previews-container dimensions-xs">
 				<h3 style="text-align: center; color: #404b41">Numeri
 					pubblicati</h3>
-				<h5>Non è ancora stato pubblicato il primo numero del giornale.</h5>
+	<h5 data-ng-if="dashboardNewspaper.publishedNews.length==0">Non è ancora stato pubblicato il primo numero del giornale.</h5>
 				
 				<div class="col-sm-12 col-xs-12">
 			<newspaper-preview></newspaper-preview>
@@ -108,11 +105,25 @@
 </div>
 
 
-<div class="col-sm-2 col-xs-4" style="margin-top: 4%; cursor: pointer;">
-				<a href="#" class ="return-to-top" data-toggle="tooltip"
-					title="Torna su"><i class="glyphicon glyphicon-chevron-up"
-					style="color: white;"></i></a>
-			</div>
+
+<!-- -------PER I DOCENTI - POSSONO ACCEDERE AL GIORNALE IN PRODUZIONE ------ -->
+
+
+<div data-ng-if="dashboardNewspaper.isModerator"
+	class="col-md-12 col-sm-12 col-xs-12 body-container"
+	style="background-color: #f5f2ea; margin-top: 5%; border: solid 2px #e2ddd0;">
+	<h4 class="col-sm-8" style="padding-top: 7%; padding-left: 20%;">
+		<a href=""> Vai al giornale in produzione 
+	</h4>
+	</a>
+
+	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+		style="cursor: pointer;" ng-click="dashboardNewspaper.goToTemplate()">
+		<img class="img-responsive-wip" style="padding-bottom: 5%;"
+			src="assets/public/img/newspaper-img/ic_wipNewspaper.png">
+	</div>
+
+</div>
 
 <!-- -------PER TUTTI GLI STUDENTI NON GIORNALISTI ------ -->
 <div class="container-fluid" 
@@ -121,12 +132,13 @@ data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJo
 	<div class="row">
 		<div class="col-sm-12 header-container">
 			<h4 style="text-align: center;">IL GIORNALE DELLO SCENARIO</h4>
+			<h6 style="text-align: center;" > Leggi qui tutti i numeri dello scenario pubblicati </h6>
 		</div>
 
 		<div class="col-md-12 col-sm-12 col-xs-12 body-container"
 			style="background-color: #f5f2ea;">
 			
-			<div class ="col-sm-6" style = "margin-top: 5%; ">
+			<div class ="col-sm-12" style = "margin-top: 5%; ">
 				<newspaper-preview></newspaper-preview>
 			</div>
 </div>
@@ -134,6 +146,11 @@ data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJo
 
 </div>
 
+<div class="col-sm-2 col-xs-4" style="margin-top: 4%; cursor: pointer;">
+				<a href="#" class ="return-to-top" data-toggle="tooltip"
+					title="Torna su"><i class="glyphicon glyphicon-chevron-up"
+					style="color: white;"></i></a>
+			</div>
 
 
 <script>
