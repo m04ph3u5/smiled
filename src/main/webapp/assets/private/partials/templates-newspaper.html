@@ -1,94 +1,158 @@
 
 <!-- ------------------ TEMPLATE 1 ------------------ -->
 
-<div data-ng-if= "template.newspaper.idTemplate == 1 || template.currentIdTemplate == '1' && template.newspaper.status == undefined" class="container-fluid">
+<div
+	data-ng-if="template.newspaper.idTemplate == 1 || template.currentIdTemplate == '1' && template.newspaper.status == undefined"
+	class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12" id="header">
 			<h4 id="page-title">Ora che hai scelto l'impaginazione del
 				numero inizia a scrivere gli articoli:</h4>
 		</div>
 	</div>
+
 	<div class="row">
-		<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 giornale" style="padding-bottom: 2%;">
+		<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 giornale"
+			style="padding-bottom: 2%;">
 			<div class="row" style="padding: 7px;">
-				<headline-newspaper newspaper = "template.newspaper" scenario = "template.scen"></headline-newspaper>
+				<headline-newspaper newspaper="template.newspaper"
+					scenario="template.scen"></headline-newspaper>
 			</div>
-			
-			
-	<!-- icona art 1 -->		
-<div data-ng-if = "template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"  
 
-class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right "
-style="animation-delay: 1s;" >
-		<a style="cursor: pointer;"  data-placement="bottom"
-		data-ng-click = "template.goToDraft(1)" > 
-			<img
-	data-toggle="tooltip" title="Modifica articolo" 
-		src="/assets/public/img/newspaper-img/ic_edit_article.png"
-		class="img-mod-2">
-			</a>
-</div>
 
-	<article-two-columns newspaper="template.newspaper" scenario = "template.scen" loggedUser= "template.loggedUser" > </article-two-columns>
-		 <div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-		
-	<div data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
-			class="col-xs-4 col-sm-4
+			<!-- icona art 1 -->
+			<div
+				data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+				class=" col-xs-2 col-sm-2 hidden-xs visible-sm visible-md visible-lg pull-right "
+				style="animation-delay: 1s;">
+				<a style="cursor: pointer;" data-placement="bottom"
+					data-ng-click="template.goToDraft(1)"> <img
+					data-toggle="tooltip" title="Modifica articolo"
+					src="/assets/public/img/newspaper-img/ic_edit_article.png"
+					class="img-mod-2">
+				</a>
+			</div>
+
+			<div
+				data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+				class=" col-xs-2 col-sm-2 visible-xs hidden-sm hidden-md hidden-lg pull-right "
+				style="animation-delay: 1s;">
+				<a style="cursor: pointer;" data-placement="bottom"
+					data-ng-click="template.goToDraft(1)"> <img
+					data-toggle="tooltip" title="Modifica articolo"
+					src="/assets/public/img/newspaper-img/ic_edit_article.png"
+					class="img-mod-3">
+				</a>
+			</div>
+
+
+			<article-two-columns scenario="template.scen"
+				loggedUser="template.loggedUser" newspaper="template.newspaper" > </article-two-columns>
+			<div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+				<div
+					data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+					class="col-xs-4 col-sm-4
 						visible-xs visible-sm visible-md visible-lg pull-right"
-			style="margin-top: 25px;">
-			<a style="cursor: pointer" ng-click="template.goToDraft(2)">
-				<img data-toggle="tooltip" title="Modifica articolo"
-				src="/assets/public/img/newspaper-img/ic_edit_article.png"
-				class="img-mod-2">
-			</a>
-		</div>				
-						
-						
-						<div class="col-sm-12 line-3" style = "margin-top: -2%"></div>
-							<article-one-column-img newspaper= "template.newspaper"></article-one-column-img>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						</br>
-						
-		<div data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
-			class="col-xs-4 col-sm-4
+					style="margin-top: 25px;">
+					<a style="cursor: pointer" ng-click="template.goToDraft(2)"> <img
+						data-toggle="tooltip" title="Modifica articolo"
+						src="/assets/public/img/newspaper-img/ic_edit_article.png"
+						class="img-mod-2">
+					</a>
+				</div>
+
+
+				<div class="col-sm-12 line-3" style="margin-top: -2%"></div>
+				<article-one-column-img  newspaper="template.newspaper"></article-one-column-img>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				</br>
+
+				<div
+					data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+					class="col-xs-4 col-sm-4
 						visible-xs visible-sm visible-md visible-lg pull-right"
-			style="margin-top: 25px;">
-			<a style="cursor: pointer" ng-click="template.goToDraft(3)">
-				<img data-toggle="tooltip" title="Modifica articolo"
-				src="/assets/public/img/newspaper-img/ic_edit_article.png"
-				class="img-mod-2">
-			</a>
-		</div>					
-					<article-two-columns-img newspaper= "template.newspaper"></article-two-columns-img>
-					</div>
+					style="margin-top: 25px;">
+					<a style="cursor: pointer;" data-ng-click="template.goToDraft(3)">
+						<img data-toggle="tooltip" title="Modifica articolo"
+						src="/assets/public/img/newspaper-img/ic_edit_article.png"
+						class="img-mod-2">
+					</a>
+				</div>
+				<article-two-columns-img  newspaper="template.newspaper"></article-two-columns-img>
 			</div>
 		</div>
-		<!-- FOOTER -->
+	</div>
+	<!-- FOOTER -->
 
 	<div class="row">
-	<div class="col-xs-4 col-sm-4">
-	<button style="cursor: pointer;" class="warningButton btn" 
-	data-ng-click="template.showPopUpDeleteNewspaper()">ELIMINA IL GIORNALE</button>	
+		<div class="col-xs-5 col-sm-4">
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/deleteNewspaper.png"
+				data-ng-click="template.showPopUpDeleteNewspaper()" />
+
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.showPopUpDeleteNewspaper()">Elimina il
+				giornale</h6>
 		</div>
-		<div style="cursor: pointer;" class="col-xs-4 col-sm-4">
-				<div data-ng-click="template.goToDashboard();"
-					class="btn generalButton1">TORNA ALLA REDAZIONE</div>
-			</div>
-		<div class="col-xs-4 col-sm-4">
-			<div style="cursor: pointer;" style="cursor: pointer"
-				data-ng-click="template.publishNewspaper()"
-				class="btn positiveButton">PUBBLICA IL GIORNALE</div>
+
+
+		<div style="cursor: pointer;"
+			class="hidden-xs visible-sm visible-md visible-lg col-sm-4">
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/backToDashboard.png"
+				data-ng-click="template.goToDashboard();" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.goToDashboard();">Torna alla
+				redazione</h6>
 		</div>
-	
+
+		<div style="cursor: pointer;"
+			class="visible-xs hidden-sm hidden-md hidden-lg pull-right col-xs-5">
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/backToDashboard.png"
+				data-ng-click="template.goToDashboard();" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.goToDashboard();">Torna alla
+				redazione</h6>
+		</div>
+		
+
+		<div
+			class="hidden-xs visible-sm visible-md visible-lg col-sm-4">
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/publishNewspaper.png"
+				data-ng-click="template.publishNewspaper()" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.publishNewspaper()">Pubblica il
+				giornale</h6>
+		</div>
+
+<div class="visible-xs hidden-sm hidden-md hidden-lg col-xs-3"></div>
+		<div style="margin-top: 4%;"
+			class="visible-xs hidden-sm hidden-md hidden-lg pull-left col-xs-6 col-sm-4">
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/publishNewspaper.png"
+				data-ng-click="template.publishNewspaper()" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.publishNewspaper()">Pubblica il
+				giornale</h6>
+		</div>
+<div class="visible-xs hidden-sm hidden-md hidden-lg col-xs-3"></div>
 	</div>
 
 </div>
 
 <!-- ------------------ TEMPLATE 2 ------------------ -->
 
- <div data-ng-if= "template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2' && template.newspaper.status == undefined" class="container-fluid">
+<div
+	data-ng-if="template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2' && template.newspaper.status == undefined"
+	class="container-fluid">
 
 	<div class="row row-centered">
 		<div class="col-sm-12" id="header">
@@ -101,7 +165,8 @@ style="animation-delay: 1s;" >
 			class="col-lg-12 col-sm-12 col-md-12 col-xs-12 col-md-offset-0 giornale"
 			style="padding-bottom: 2%;">
 			<div class="row" style="padding: 7px;">
-				<headline-newspaper newspaper = "template.newspaper" scenario = "template.scen"></headline-newspaper>
+				<headline-newspaper newspaper="template.newspaper"
+					scenario="template.scen"></headline-newspaper>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -123,7 +188,7 @@ style="animation-delay: 1s;" >
 				<img style="width: 30%; margin-top: 3%;"
 					ng-src="assets/public/img/wizard/elimina.png">
 			</div>
-			
+
 		</div>
 
 
@@ -143,50 +208,43 @@ style="animation-delay: 1s;" >
 
 	</div>
 
-</div> 
+</div>
 
-<div class="col-sm-12 col-xs-12" style="margin-top: 4%; ">
-		<a href="#" class="return-to-top" data-toggle="tooltip" style = " float: right;"
-		title="Torna su" ><i class="glyphicon glyphicon-chevron-up" 
-		style = "color:white;"></i></a>
+<div class="col-sm-12 col-xs-8 pull-right" style="margin-top: 4%;">
+	<a href="#" class="return-to-top" data-toggle="tooltip"
+		style="float: right;" title="Torna su"><i
+		class="glyphicon glyphicon-chevron-up" style="color: white;"></i></a>
 </div>
 
 <script>
-$(document).ready(function(){ 
-    
-	
-	  $(window).scroll(function () {
-	        if ($(this).scrollTop() > 50) {
-	            $('.return-to-top').fadeIn();
-	        } else {
-	            $('.return-to-top').fadeOut();
-	        }
-	    });
-	
-	
-    	$('.return-to-top').click(function() {   
-    	    $("body,html").animate({
-    	        scrollTop : 0                     
-    	    }, 500);
-    	    return false;
-    	});
-    	
-});
+	$(document).ready(function() {
+
+		$(window).scroll(function() {
+			if ($(this).scrollTop() > 50) {
+				$('.return-to-top').fadeIn();
+			} else {
+				$('.return-to-top').fadeOut();
+			}
+		});
+
+		$('.return-to-top').click(function() {
+			$("body,html").animate({
+				scrollTop : 0
+			}, 500);
+			return false;
+		});
+
+	});
 </script>
 
 
 <script>
-
-//Go to top - script
-
- 
+	//Go to top - script
 </script>
 
- <script>
-  new WOW().init(
-	{
-		animateClass: 'animated',
-		
-	}	  
-  );
- </script>
+<script>
+	new WOW().init({
+		animateClass : 'animated',
+
+	});
+</script>

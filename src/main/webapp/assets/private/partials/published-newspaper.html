@@ -1,5 +1,4 @@
 
-
 	<div class="row">
 		<div class="col-sm-12" id="header">
 			<h4 id="page-title"> Stai leggendo il giornale numero 
@@ -8,7 +7,7 @@
 	</div>
 
 
-
+<div class="container-fluid">
 <div class="row">
 		<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 giornale" style="padding-bottom: 2%;">
 			<div class="row" style="padding: 7px;">
@@ -26,7 +25,7 @@ style="animation-delay: 1s;" >
 			<img
 	data-toggle="tooltip" title="Modifica articolo" 
 		src="/assets/public/img/newspaper-img/ic_edit_article.png"
-		class="img-mod-2">
+		class="img-mod-3">
 			</a>
 </div>
 					
@@ -52,15 +51,14 @@ style="animation-delay: 1s;" >
 					</div>
 					
 			<div data-ng-if = "publishedNewspaper.isJournalist"  
-
-class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right "
-style="animation-delay: 1s;" >
+	class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right "
+	style="animation-delay: 1s;" >
 		<a style="cursor: pointer;"  data-placement="bottom"
 		data-ng-click = "publishedNewspaper.goToDraft(3)" > 
 			<img
 	data-toggle="tooltip" title="Modifica articolo" 
 		src="/assets/public/img/newspaper-img/ic_edit_article.png"
-		class="img-mod-2">
+		class="img-mod-3">
 			</a>
 </div>				
 					
@@ -72,8 +70,17 @@ style="animation-delay: 1s;" >
 		</div> 
 		
 	<div class="row">	
-	<div class="col-sm-4 pull-right">
-			<div data-ng-click="publishedNewspaper.goToDashboard();"
-			class="btn generalButton1">TORNA ALLA REDAZIONE</div>
-			</div>
+	
+	<div style="cursor: pointer;"
+			class="col-xs-4 col-sm-3 pull-right">
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/backToDashboard.png"
+				data-ng-click="publishedNewspaper.goToDashboard();" />
+			<h6  style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="publishedNewspaper.goToDashboard();">Torna alla
+				redazione</h6>
+		</div>
+	
+	</div>
+	
 	</div>

@@ -23,8 +23,13 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 
 	if(self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 
-
-	}
+		article.setIsJournalist(true); 
+	} else {
+		
+		article.setIsJournalist(false); 
+		
+	} 
+	
 
 	if(self.isJournalist){
 		self.myNews = apiService.getMyNewspapers(scenId).then(
@@ -38,34 +43,25 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 
 	self.newspaper = apiService.getMyLastNewspaper(scenId).then(
 			function(data){
-				self.newspaper = data; 
-				console.log(self.newspaper.status + "STATO");  
+				self.newspaper = data;  
 			},function(reason){
 				$state.go('logged.scenario.editorial');
 				console.log("Non c'è l'ultimo giornale.");	
 			}
 	)
 
-	self.publishedNews = apiService.getpublishedNewspapers(scenId).then(
-
+	apiService.getpublishedNewspapers(scenId).then(
+    
 			function(data){
 				self.publishedNews = data; 
-
+				
 			}, function(reason){
 				console.log("Non ci sono giornali pubblicati.");
-
-
 			}
-
 
 	)
 	
-	
-	
-
-
-	
-
+	console.log(self.publishedNews);
 
 	self.idTemplate = self.newspaper.idTemplate; 
 	
@@ -77,7 +73,7 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 		//modalService.showModalChooseTemplate();
 	};
 	
-	self.goToTemplate = function (){	
+	self.goToTemplate = function (){
 	$state.go('logged.scenario.template1');
 	}
 	

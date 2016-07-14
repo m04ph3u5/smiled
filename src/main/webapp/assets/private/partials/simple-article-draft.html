@@ -57,14 +57,14 @@
 			</div>
 			<!-- UPLOAD MEDIA container -->
 
-			<div data-ng-if="draft.id == '2'" class="col-sm-12 col-xs-12"
+			<div style = "cursor: pointer;" data-ng-if="draft.id == '2'" class="col-sm-12 col-xs-12"
 				data-ngf-select data-ngf-change="draft.uploadImage($files)">
 				<span class="glyphicon glyphicon-camera count"></span> <label
 					style="margin-top: -6%; margin-left: 3%; cursor: pointer;">Carica qui
 					l'immagine dell'articolo </label>
 			</div>
 
-			<work-spinner> <img
+			<work-spinner> <img 
 				src="/assets/public/img/p_spinner.gif" /> </work-spinner>
 				
 				<div data-ng-if = "!draft.isUploaded" >

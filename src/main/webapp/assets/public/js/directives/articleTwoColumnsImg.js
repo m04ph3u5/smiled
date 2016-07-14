@@ -5,8 +5,8 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 		restrict: "AE",
 		templateUrl: "assets/private/partials/article-two-columns-img.html",
 		scope: {
-
-			newspaper: '=?'
+			
+			newspaper: "=?"
 		},
 
 		controller: ['$scope',function($scope){
@@ -21,7 +21,6 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			self.idTemplate = article.getIdTemplate();
 			self.currentHeadline = article.getNameJustCreated();
 			self.isImage = true; 
-			self.lastNewspaper = article.getCurrentNewspaper(); 
 			self.idArticle = 0;
 
 			self.newspaper = {}; 
@@ -35,7 +34,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			self.articles = []; 
 			self.article = {};
 
-			var oldName = angular.copy(self.lastNewspaper.name);
+			var oldName = angular.copy($scope.newspaper.name);
 
 
 			/*-------------------------- ARTICOLO PER GIORNALE PUBBLICATO ---------------------------------*/			
@@ -47,7 +46,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 							for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
 								if(self.publishedNewspapers[i].number == newsNumber) { 
 									
-									for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
+									for(var j=0; j<self.publishedNewspapers[i].articles.length; j++) {
 										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 3){
 											self.newspaper = self.publishedNewspapers[i]; 
 											self.article = self.publishedNewspapers[i].articles[j];
@@ -105,8 +104,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 										self.article.image = CONSTANTS.urlMedia(self.article.imageId); 	
 										
 									}
-									
-									
+
 									self.idArticle = 3;  
 									break; 
 
@@ -166,11 +164,11 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 
 			if($state.current.name == 'logged.scenario.template1') {
 				self.isPublished = false; 
-				if(self.lastNewspaper.status == undefined && self.isDraft == false || self.lastNewspaper.status  == 'PUBLISHED' 
+				if($scope.newspaper.status == undefined && self.isDraft == false || $scope.newspaper.status  == 'PUBLISHED' 
 					|| self.isJustDeleted == true && self.isDraft == false ) {
 					self.loadArticleFirst("id"+self.idChoosenTemplate);		
 				} 
-				else if(self.lastNewspaper.status == 'DRAFT'  || oldName == self.lastNewspaper.name)
+				else if($scope.newspaper.status == 'DRAFT'  || oldName == $scope.newspaper.name)
 				{
 					console.log(self.idTemplate); 
 					self.loadArticle(self.idTemplate);
@@ -190,7 +188,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 
 				self.currentHeadline = article.getNameJustCreated();  
 
-				if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true){
+				if(self.currentHeadline == "" && $scope.newspaper.status == undefined || self.isJustDeleted == true){
 					//modalService.showModalCreateTitle(self.newspaper);
 					modalService.showAlertNewspaper();
 				} else {
@@ -210,7 +208,6 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 
 				case "subtitle":
 					self.showWarningSubtitle = false;
-					console.log ("CHIUDI!");
 					break;
 
 				case "col1":

@@ -1,5 +1,5 @@
 angular.module('smiled.application').factory('article',
-		[ '$http', '$q', '$stateParams', 'apiService', 'CONSTANTS','alertingGeneric', function article($http, $q, $stateParams, apiService, CONSTANTS, alertingGeneric) {
+		[ '$http', '$q', '$stateParams', 'apiService', 'CONSTANTS','alertingGeneric', '$sce', function article($http, $q, $stateParams, apiService, CONSTANTS, alertingGeneric, $sce) {
 
 			var idTemplate; 
 			var newspaper = {}; 
@@ -15,6 +15,8 @@ angular.module('smiled.application').factory('article',
 			var isJustDeleted; 
 			var isEditing; 
 			var idPublishedTemplate = 0; 
+			var isPublished = false; 
+			var isJournalist;  
 			
 			//Oggetti articoli --> verranno scaricati da db
 			article2col = {}; 
@@ -63,27 +65,27 @@ angular.module('smiled.application').factory('article',
 			var setArticleObject = function(id) {
 				if(id == 1) 
 				{
-					article2col.title = 'Titolo primo articolo';
-					article2col.subtitle = "Sottotitolo dell'articolo";
+					article2col.title = 'Articolo di CRONACA';
+					article2col.subtitle = "Suggerimenti di scrittura";
 					
 							
-					article2col.text1 ="Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
-					article2col.text2 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",	
+					article2col.text1 ="Questo tipo di articolo e' solitamente collocato in prima pagina ed e' caratterizzato da una narrazione oggettiva su un avvenimento.  In questo spazio potrai raccontare l'evento piu' importante che si e' verificato nello scenario.",
+					article2col.text2 = "Esistono diverse tipologie di cronaca -la cronaca bianca: notizie di eventi di vario tipo; -la cronaca nera:  crimini e delitti -la cronca rosa: sulla vita privata dei personaggi della storia. Clicca sul bottone di modifica e inizia a scrivere l'articolo!",	
 					
 					article2col.city = "";
 				 }
 				if (id == 2) {
-					article1colImg.title = 'Rubrica personaggio';
+					article1colImg.title = 'Rubrica del quotidiano';
 					article1colImg.subtitle = '';
-					article1colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!";
+					article1colImg.text1 = "La Rubrica e' una tipologia di articolo che si trova molto spesso sulla prima pagina dei maggiori quotidiani.  Si tratta di uno spazio in cui il giornalista scrive le proprie riflessioni su un tema specifico:  ad esempio costume, vita politica, societa', inquinamento etc.  Oltre a trattare un tema legato alla società o all'epoca storica in cui e' ambientata la storia questo spazio puo' essere dedicato anche all'analisi di un personaggio dello scenario. Clicca sul bottone di modifica e inizia a scrivere! Ricorda di caricare anche un'immagine in questo articolo!";
 					article1colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';
 					}
 				if (id == 3) {
 					 
-					article2colImg.title = 'Titolo di un altro articolo';
-					article2colImg.subtitle = "Sottotitolo dell'articolo";
-					article2colImg.text1 = "Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",
-					article2colImg.text2 = 	"Qui comparira' il testo dell'articolo. Clicca sul bottone di modifica e inizia a scrivere!",		
+					article2colImg.title = 'Editoriale e commento';
+					article2colImg.subtitle = "Altre tipologie";
+					article2colImg.text1 = "L'articolo Editoriale o Commento  sono tipologie di articoli caratterizzati dall'analisi di una tesi a partire da una notizia di cronaca; per sua natura e' spesso scritto da un'opinionista che argomenta il proprio punto di vista. In genere si sceglie un tema di politica interna o estera oppure riflessioni intorno a problemi di particolare rilievo.",
+					article2colImg.text2 = 	"Oltre all'editoriale esiste una tipologia di articolo, il Reportage, che puo' essere suddiviso anche in piu' puntate e quindi essere riproposto al prossimo numero. Solitamente si sceglie un avvenimento importante con approfondimenti sul contesto e sulle problematiche legate all'evento.",		
 					
 					article2colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg'
 					article2colImg.city = "";
@@ -231,7 +233,7 @@ angular.module('smiled.application').factory('article',
 	var getCurrentNewspaper = function () {
 				var s = apiService.getMyLastNewspaper(scenId); 
 						s.then(function(data){
-							
+							console.log("vengo chiamato ora, scarico giornale"); 
 							if(data.status == "DRAFT"){
 								newspaper = data; 	
 							}
@@ -250,12 +252,13 @@ angular.module('smiled.application').factory('article',
 								newspaper = {};
 								newspaper.name = CONSTANTS.insertHeadline;	
 								newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
-								console.log("Errore.");	
+									
 								alertingGeneric.addWarning("Non e' stato possibile visualizzare gli articoli, ricarica la pagina.");
 							}
 							
 						}
 				)
+				
 			
 				return newspaper; 
 				
@@ -303,7 +306,6 @@ angular.module('smiled.application').factory('article',
 	
 	var getPublishedNewspaperNumber = function (){
 		return publishedNewspaperNumber; 
-		
 	}
 	
 	var setIsDraft = function(isNew) {	
@@ -316,9 +318,8 @@ angular.module('smiled.application').factory('article',
 		
 	}
 	
-	var setIsJustDeleted = function(){
-		
-		isJustDeleted = true; 
+	var setIsJustDeleted = function(value){
+		isJustDeleted = value; 
 		
 	}
 	
@@ -348,6 +349,30 @@ var getIdPublishedTemplate = function() {
 	
 	return idPublishedTemplate; 
 	
+	
+}
+
+
+var setIsPublished = function(value){
+	
+	isPublished = value; 
+	
+}
+
+var getIsPublished = function(){
+	
+	return isPublished; 
+}
+
+var setIsJournalist = function(value){
+	
+	isJournalist = value;
+	
+}
+
+var getIsJournalist = function(){
+	
+	return isJournalist;
 	
 }
 	
@@ -384,6 +409,10 @@ var getIdPublishedTemplate = function() {
 				getIsEditing: getIsEditing,
 				setIdPublishedTemplate: setIdPublishedTemplate,
 				getIdPublishedTemplate: getIdPublishedTemplate,
+				getIsPublished: getIsPublished,
+				setIsPublished: setIsPublished,
+				setIsJournalist: setIsJournalist,
+				getIsJournalist: getIsJournalist
 				}
 
 			

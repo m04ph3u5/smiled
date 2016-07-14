@@ -18,6 +18,8 @@ angular.module("smiled.application").directive("newspaperPreview", [ '$statePara
 			self.article = {};
 			self.isDraft; 
 			self.article.idArticleTemplate = 0; 
+			self.isJournalist = article.getIsJournalist(); 
+			console.log(self.isJournalist + "CIAO"); 
 
 			/*------------------- DATA FOR PREVIEWS THUMBNAILS ----------------*/
 
@@ -34,7 +36,6 @@ angular.module("smiled.application").directive("newspaperPreview", [ '$statePara
 										self.articlesPreviews.push(self.publishedNewspapers[i].articles[j]);
 										
 									}
-									 
 
 								}
 							}
@@ -49,11 +50,12 @@ angular.module("smiled.application").directive("newspaperPreview", [ '$statePara
 			); 
 
 
+			
+			
 
-			self.goToNewspaper = function(newspaperNumber){
-				console.log(newspaperNumber); 
+			self.goToNewspaper = function(newspaperNumber){ 
 				article.setPublishedNewspaperNumber(newspaperNumber); 
-				article.setIsDraft(false); 
+				article.setIsPublished(true);  
 				$state.go('logged.scenario.newspublished');
 
 

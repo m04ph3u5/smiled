@@ -5,7 +5,8 @@ angular.module("smiled.application").controller('dialogDeleteNewspaperCtrl', ['m
 		console.log(scenarioId);
 		console.log(newspaperNumber);
 		var n = modalService.deleteNewspaper(scenarioId, newspaperNumber);
-		article.setIsJustDeleted(); 
+		article.setIsJustDeleted(true);
+		
 		article.setIsDraft(false); 
 		modalService.closeModalDeleteNewspaper();
 		$state.go("logged.scenario.editorial");

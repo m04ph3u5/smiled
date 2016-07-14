@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('registerCtrl', ['apiService', '$state', 'alertingRegistration',
-                                                                 function registerCtrl(apiService, $state, alertingRegistration){
+angular.module('smiled.application').controller('registerCtrl', ['apiService', '$state', 'alertingRegistration','$scope',
+                                                                 function registerCtrl(apiService, $state, alertingRegistration, $scope){
 
 	var self = this;
 	self.user= {};
@@ -193,4 +193,6 @@ angular.module('smiled.application').controller('registerCtrl', ['apiService', '
 		}
 		self.scenariosToShowS = scenarios.slice(scenarioIndex,scenarioIndex+1);
 	}
+	
+	
 }]);

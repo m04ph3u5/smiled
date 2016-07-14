@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state', '$stateParams', 'loggedUser',
-              function templateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams, loggedUser){
+angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state', '$stateParams', 'loggedUser','alertingGeneric',
+              function templateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams, loggedUser, alertingGeneric){
 	
 	var self = this; 
 	self.showWarning = false;
@@ -11,63 +11,92 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	self.newspaperPut = {}; 
 	self.newspaperPut.publish = false; 
 	self.newspaper = {};
+	self.newspaper = article.getCurrentNewspaper();
 	self.idArticle; 
 	
 	self.numberJustCreated = article.getNumberJustCreated(); 
 
-	self.newspaper = article.getCurrentNewspaper();
-	
 	
 	if(self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 
-
 	}
 	
 	
-	if(self.newspaper = {}){
-		
+	
 		apiService.getMyLastNewspaper(scenId).then(
 				function(data){
-					
+					/*Il giornale esiste già */
 					if(data.status == "DRAFT"){
 						self.newspaper = data; 	
 						
-					} else {
-						self.newspaper = {};
-						self.newspaper.name = CONSTANTS.insertHeadline;	
-						self.newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper;	
-					}
+						console.log("IL GIORNALE ESISTE GIà"); 
+					} 
+					
+					/*La redazione ha già un giornale, prendo il nome della testata precedente*/
+					
+					else if (data.status == "PUBLISHED")  {
+						
+						var n = apiService.getLastNewspaper(scenId);
+						n.then(
+								function(data){
+									self.newspaper.number = data.number+1;
+									self.newspaper.name = CONSTANTS.insertHeadline; 
+									/*self.newspaper.name = data.name;*/ 
+								
+									
+								},function(reason){
+			
+									console.log("Errore.");	
+								}
+						);
+						
+					} console.log(self.newspaper); 
 					
 				},function(reason){
-					
-					if(reason.status == "500"){
+					/*Giornale del tutto nuovo, assegno variabili di default*/
+					if(reason.status == "500" || reason.status == "404"){
 						self.newspaper = {};
-						self.newspaper.name = CONSTANTS.insertHeadline;	
 						self.newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
+						self.newspaper.name = CONSTANTS.insertHeadline; 
 					}
 					
 					console.log("Errore.");	
 				}
+				
+				
 		);
-	}
-
-	
-	self.goToDashboard = function(){
 		
+		//settaggio numero appena si sceglie il template in base a un giornale esistente o meno e NOME in base a giornale già esistente o meno
+		
+		var n = apiService.getLastNewspaper(scenId);
+		n.then(
+				function(data){
+					self.newspaper.number = data.number+1; 
+					
+				},function(reason){
+					
+					if(reason.status == "500" || reason.status == "404"){
+						self.newspaper.number = 1;
+					 
+					}
+				}
+		);			
+
+	self.goToDashboard = function(){	
 		$state.go('logged.scenario.editorial');
 		
 	}
-	
-	
-	
+
 	//vai alle bozze per modifica 
 	self.goToDraft = function(id){
+		
+		console.log(self.newspaper.number); 
+		
 		
 		//controllo se un nome è già stato assegnato per la creazione del giornale oppure no 
 		self.currentHeadline = article.getNameJustCreated(); 
 		if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true){
 			modalService.showAlertNewspaper();
-
 		} 
 
 		else {
@@ -93,7 +122,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 				console.log("ERROR");
 				
 			}
-			/*article.setArticleId(self.idArticle);*/
+			article.setArticleId(self.idArticle);
 			
 
 		}
@@ -117,24 +146,37 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	
 	//pubblicazione giornale
 	self.publishNewspaper = function(){
-		
 		self.newspaperPut.publish = true; 
-		console.log(self.newspaperPut); 
-		var n = apiService.updateNewspaper(scenId, self.newspaper.number, self.newspaperPut); 
-		n.then(function(data){
+		console.log(self.newspaper.julianDayNumber + "DATA"); 
+		
+		if(self.newspaper.julianDayNumber == null) {
 			
-			$state.go('logged.scenario.editorial');
+			modalService.showAlertPublicNewspaper("data");
 			
+		} else {
 			
-		}, function(reason){
+			var n = apiService.updateNewspaper(scenId, self.newspaper.number, self.newspaperPut); 
+			n.then(function(data){
+				alertingGeneric.addSuccess("Giornale pubblicato con successo!");
+				article.setIsJustDeleted(true);
+				article.setIsDraft(false);
+				$state.go('logged.scenario.editorial');
+
+			}, function(reason){
+
+
+				modalService.showAlertPublicNewspaper("numeroArticoli");
+				console.log("Impossibile pubblicare il giornale"); 
+
+			}
+			);	
 			
-			console.log("Impossibile pubblicare il giornale"); 
 			
 		}
-				);
-
+		
+		
+	
+						
 	}
-	
-	
 	
 }]);

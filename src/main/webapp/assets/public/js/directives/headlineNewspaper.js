@@ -15,8 +15,12 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			var self = this;
 			self.showWarning = false;
 			var scenId = $stateParams.id; 
-			self.isFirst;  
-			self.date = {};  
+			self.isFirst; 
+			self.isPublished = article.getIsPublished(); 
+			self.date = {};
+			
+			self.isPublished = article.getIsPublished();
+			
 	
 			if($state.current.name == 'logged.scenario.newspublished'){
 				apiService.getpublishedNewspapers(scenId).then (
@@ -27,7 +31,6 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 							for(var i=0; !found && i<self.publishedNewspapers.length; i++) {
 								if(self.publishedNewspapers[i].number = self.publishedNewspaperNumber) { 
 									self.newspaper = self.publishedNewspapers[i];
-									console.log(self.newspaper); 
 									found = true;
 									break; 
 								}
@@ -38,26 +41,6 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 						}	
 						);
 		}
-
-			if(self.newspaper == undefined){
-			//scarico l'ultimo numero pubblicato per conoscere il numero del giornale 
-			var n = apiService.getLastNewspaper(scenId);
-			n.then(
-					function(data){
-						self.newspaper.number = data.number+1; 
-						
-					},function(reason){
-						
-						if(reason.status == "500"){
-							//si tratta del primo numero, non ne è stato trovato uno precedente 
-							self.newspaper.number = 1; 
-						}
-						
-						console.log("Errore.");	
-					}
-			);	
-				
-			}
 			
 			if($state.current.name == 'logged.scenario.template1') {
 			if(self.newspaper.status == 'DRAFT' || self.newspaper.status == undefined){
@@ -70,7 +53,6 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 				if(!self.endDate.afterChrist)
 					self.endDate.year*=-1;
 				self.newspaper.historicalDate=CONSTANTS.insertHistoricalDateNewspaper; 	
-				
 			}
 			}
 			
@@ -131,16 +113,6 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 				return CONSTANTS.monthString(month);
 			}
 			
-			
-/*
-			$scope.$watch('self.newspaper.name', function(val){
-				
-				if(val != "Inserisci un titolo per il giornale"){
-					console.log("LINK FUNCTION"); 
-					article.setIsDraft(true); 
-				}
-				
-			});*/
 			
 			
 		}],

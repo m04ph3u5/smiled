@@ -6,9 +6,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 		templateUrl: "assets/private/partials/article-one-column-img.html",
 		//isolated scope 
 		scope: {
-			
-			newspaper: '=?'
-			
+			newspaper: "=?"
 		},
 		
 		controller: ['$scope',function($scope){
@@ -24,12 +22,8 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
 			self.idTemplate = article.getIdTemplate();
 			self.isImage = true; 
-			self.lastNewspaper = article.getCurrentNewspaper(); 
-			
-			console.log(self.idChoosenTemplate + "PROVA"+ self.idTemplate); 
 			
 			//initialize variable
-			self.newspaper = {}; 
 			self.publishedNewspapers = [];
 			self.publishedNewspapers.number = 0; 
 			self.publishedNewsNumber = article.getPublishedNewspaperNumber(); 
@@ -39,7 +33,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			self.isJustDeleted = article.getIsJustDeleted(); 
 			self.articles = []; 
 			self.article = {};
-			var oldName = angular.copy(self.lastNewspaper.name);
+			var oldName = angular.copy($scope.newspaper.name);
 			
 			/*-------------------------- ARTICOLO PER GIORNALE PUBBLICATO ---------------------------------*/			
 			self.loadArticlePublished = function(newsNumber){
@@ -49,7 +43,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 							var found = false;
 							for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
 								if(self.publishedNewspapers[i].number == newsNumber) { 
-									for(var j=0; i<self.publishedNewspapers[i].articles.length; j++) {
+									for(var j=0; j<self.publishedNewspapers[i].articles.length; j++) {
 										self.newspaper = self.publishedNewspapers[i]; 
 										console.log("GIORNALE PUBBLICATO"); 
 										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 2){
@@ -175,12 +169,12 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			
 			if($state.current.name == 'logged.scenario.template1') {
 				self.isPublished = false; 
-			if(self.lastNewspaper.status == undefined && self.isDraft == false || self.lastNewspaper.status  == 'PUBLISHED' 
+			if($scope.newspaper.status == undefined && self.isDraft == false || $scope.newspaper.status  == 'PUBLISHED' 
 				|| self.isJustDeleted == true && self.isDraft == false ) {
 				
 				self.loadArticleFirst("id"+self.idChoosenTemplate);		
 			} 
-			else if(self.lastNewspaper.status == 'DRAFT' || oldName == self.lastNewspaper.name)
+			else if($scope.newspaper.status == 'DRAFT' || oldName == $scope.newspaper.name)
 				{
 				console.log(self.idTemplate); 
 				self.loadArticle(self.idTemplate);

@@ -3,12 +3,12 @@
 
 
 <ul class = "list-inline">
-<li class="col-sm-6 col-xs-6" style="max-width: 303px;" data-ng-repeat = "article in newspaperPreview.articlesPreviews">
+<li class="col-sm-6 col-xs-12" style="max-width: 303px;" data-ng-repeat = "article in newspaperPreview.articlesPreviews">
 <div class="row preview-container">
 <div 
 class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg pull-right "
 style="animation-delay: 1s;" >
-		<a style="cursor: pointer;"  data-placement="bottom"
+		<a style="cursor: pointer;"  data-ng-if = "newspaperPreview.isJournalist == true" data-placement="bottom"
 	data-ng-click ="newspaperPreview.goToNewspaper(article.newspaperNumber)" > 
 			<img
 	data-toggle="tooltip" title="Modifica articolo" 
@@ -42,7 +42,8 @@ style="animation-delay: 1s;" >
 <div class="col-md-3 col-sm-4 col-xs-4"></div>
 <div class="col-md-6 col-sm-4 col-xs-4" style= "cursor: pointer;" 
 data-ng-click ="newspaperPreview.goToNewspaper(article.newspaperNumber)"> 
-	<button class="btn button-preview">Leggi tutto</button>
+<div class="col-xs-2 visible-xs hidden-sm hidden-md hidden-lg"></div>
+<button class="btn button-preview">Leggi tutto</button>
 </div> 
 <div class="col-md-3 col-sm-4 col-xs-4"></div>
 <div class="row opacity-container"></div>

@@ -1,6 +1,7 @@
 <div data-ng-if = "dashboardNewspaper.loggedUser.id == dashboardNewspaper.scen.actualJournalist.id" >
 <div data-ng-if="dashboardNewspaper.newspaper.status == 'PUBLISHED' || dashboardNewspaper.myNews.length==0" 
 	class="container-fluid">
+	<alertgeneric></alertgeneric>
 	<div class="row">
 		<div class="col-sm-12 header-container">
 			<h4 style="text-align: center;">BENVENUTO IN REDAZIONE</h4>
@@ -39,6 +40,7 @@
 
 <div data-ng-if="dashboardNewspaper.newspaper.status == 'DRAFT'"
 	class="container-fluid">
+	<alertgeneric></alertgeneric>
 	<div class="row">
 		<div class="col-sm-12 header-container">
 			<h4 style="text-align: center;">BENTORNATO NELLA REDAZIONE DEL
@@ -89,12 +91,12 @@
 			</div>
 			<div
 				class="col-sm-12 col-sx-12 hidden-lg hidden-md hidden-sm visible-xs bg-image-xs 
-		 previews-container dimensions-xs">
-				<h3 style="text-align: center; color: #404b41">Numeri
+		 previews-container  previews-container">
+				<h3 style="text-align: center;">Numeri
 					pubblicati</h3>
 	<h5 data-ng-if="dashboardNewspaper.publishedNews.length==0">Non è ancora stato pubblicato il primo numero del giornale.</h5>
 				
-				<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-12 col-xs-12 previews-container">
 			<newspaper-preview></newspaper-preview>
 				</div>
 			</div>
@@ -109,7 +111,7 @@
 <!-- -------PER I DOCENTI - POSSONO ACCEDERE AL GIORNALE IN PRODUZIONE ------ -->
 
 
-<div data-ng-if="dashboardNewspaper.isModerator"
+<!-- <div data-ng-if="dashboardNewspaper.isModerator"
 	class="col-md-12 col-sm-12 col-xs-12 body-container"
 	style="background-color: #f5f2ea; margin-top: 5%; border: solid 2px #e2ddd0;">
 	<h4 class="col-sm-8" style="padding-top: 7%; padding-left: 20%;">
@@ -123,11 +125,12 @@
 			src="assets/public/img/newspaper-img/ic_wipNewspaper.png">
 	</div>
 
-</div>
+</div> -->
 
 <!-- -------PER TUTTI GLI STUDENTI NON GIORNALISTI ------ -->
 <div class="container-fluid" 
-data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJournalist.id">
+	data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJournalist.id
+	|| dashboardNewspaper.publishedNews.lenght>0">
 
 	<div class="row">
 		<div class="col-sm-12 header-container">
@@ -137,7 +140,17 @@ data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJo
 
 		<div class="col-md-12 col-sm-12 col-xs-12 body-container"
 			style="background-color: #f5f2ea;">
-			
+<div data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJournalist.id
+	" class = "container-fluid">
+
+<h6 data-ng-if = "dashboardNewspaper.publishedNews.length == 0" style="text-align: center;">Il giornalista non ha ancora pubblicato nessun numero!</h6>
+	<div class="col-sm-12">
+			<img data-ng-if = "dashboardNewspaper.publishedNews.length == 0"
+					src="/assets/public/img/newspaper-img/bg_dashboard_giornalista.png"
+					class="img-responsive" style="z-index: 0;" />
+			</div>
+
+</div>
 			<div class ="col-sm-12" style = "margin-top: 5%; ">
 				<newspaper-preview></newspaper-preview>
 			</div>
@@ -145,6 +158,7 @@ data-ng-if="dashboardNewspaper.loggedUser.id != dashboardNewspaper.scen.actualJo
 	</div>
 
 </div>
+
 
 <div class="col-sm-2 col-xs-4" style="margin-top: 4%; cursor: pointer;">
 				<a href="#" class ="return-to-top" data-toggle="tooltip"

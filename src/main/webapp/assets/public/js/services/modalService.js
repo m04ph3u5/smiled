@@ -45,6 +45,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		var modalInstanceChooseTemplate;
 		var modalInstanceDeleteNewspaper; 
 		var modalInstanceAlertNewspaper; 
+		var modalInstanceAlertPublicNewspaper; 
 		
 		
 		var optionsChooseTemplate = {
@@ -78,6 +79,20 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 				size: 'md',
 				
 		}
+		
+		var alertPublicNewspaper = {
+				templateUrl: 'assets/private/partials/alertPublicNewspaper.html',	
+				size: 'md',		
+		}
+		
+		
+		var alertDateNewspaper = {
+				templateUrl: 'assets/private/partials/alertDateNewspaper.html',	
+				size: 'md',		
+		}
+		
+		
+		
 		
 		var optionsConcurrentModPost = {
 				templateUrl: 'assets/private/partials/concurrentModPostTemplate.html',
@@ -526,6 +541,18 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			
 		}
 		
+		var showAlertPublicNewspaper = function(reason) {
+			if(reason == "numeroArticoli"){
+				modalInstanceAlertPublicNewspaper = $modal.open(alertPublicNewspaper); 
+			} else if(reason == "data") {
+				
+				modalInstanceAlertPublicNewspaper = $modal.open(alertDateNewspaper); 
+				
+			}
+			
+			
+		}
+		
 		
 		var showModalCreateMission = function(scen){
 			scenario = scen;
@@ -639,6 +666,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 			closeModalDeleteNewspaper: closeModalDeleteNewspaper,
 			deleteNewspaper: deleteNewspaper,
 			showAlertNewspaper: showAlertNewspaper,
+			showAlertPublicNewspaper: showAlertPublicNewspaper,
 			
 		}
 }]);

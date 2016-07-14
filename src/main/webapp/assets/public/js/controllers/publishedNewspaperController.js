@@ -10,34 +10,24 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
 	self.isJournalist; 
 	self.isEditing; 
 	self.idArticle; 
-	
+	self.publishedNewspaperNumber = article.getPublishedNewspaperNumber(); 
 	
 	
 	if(self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 
-
-	}
+	} 
 	
-	
-	apiService.getpublishedNewspapers(scenId).then (
+	apiService.getnewspaperNumber(scenId,self.publishedNewspaperNumber).then(
 			function(data) {
-				self.publishedNewspapers = data; 
-				self.publishedNewspaperNumber = article.getPublishedNewspaperNumber(); 
-				var found = false;
-				for(var i=0; !found && i<self.publishedNewspapers.length; i++) {
-					if(self.publishedNewspapers[i].number == self.publishedNewspaperNumber) { 
-						self.newspaper = self.publishedNewspapers[i]; 
-						article.setIdPublishedTemplate(self.newspaper.idTemplate);
-						console.log(self.newspaper.idTemplate + "VENGO SETTATO - TEMPLATE"); 
-						found = true;
-						break;
-					}
-				}
-			},function(reason){
-				
-				
-			}	
-			);
+				self.newspaper = data; 
+				article.setIdPublishedTemplate(self.newspaper.idTemplate);
+	
+			}, function(reason) {	
+				$state.go('logged.scenario.editorial');
+			}
+	)
+	
+	
 	
 	self.publishedNewspapers = [];
 	

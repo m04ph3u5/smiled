@@ -91,7 +91,7 @@
 				<input class="customCheckBox biggerCheckbox" id="showCount" type="checkbox"
 					name="show-count" value="show-count" ng-model="draft.isCityChecked" />
 				<label>
-				Aggiungi o modifica la città del tuo articolo</label>
+				Aggiungi o modifica il luogo del tuo articolo</label>
 			</div>
 			<div class="col-sm-12 col-xs-12 animated fadeInDown" data-ng-if="draft.isCityChecked">
 			<input class= "selectCity" placeholder="Nome città" ng-model="draft.article.city"> </input>
@@ -99,7 +99,7 @@
 			
 	<!-- UPLOAD MEDIA container -->
 
-			<div data-ng-if = "draft.id == '2' || draft.id == '3'"  class="col-sm-12 col-xs-12" data-ngf-select
+			<div style= "cursor: pointer;" data-ng-if = "draft.id == 2 || draft.id == 3"  class="col-sm-12 col-xs-12" data-ngf-select
 				data-ngf-change="draft.uploadImage($files)">
 				<span class="glyphicon glyphicon-camera count"></span> <label
 					style="margin-top: -6%; margin-left: 3%;">Carica o modifica qui
@@ -119,17 +119,6 @@
 					</div>
 					<div class="col-sm-2"></div>
 				</div>
-		
-		<!-- 
-				<div data-ng-if = "!draft.isUploaded" 
-				class="squareImg"
-				
-					style="background-image: url('{{draft.article.image}}')">
-					<div class="hoverContent textRight">
-						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
-							data-ng-click="draft.removeImage()"></span>
-					</div>
-				</div> -->
 				
 			<div data-ng-if="draft.uploadedFile">
 			<div class="col-sm-2"></div>
@@ -158,7 +147,7 @@
 			
 						<textarea class="subtitle-textarea" rows="1"
 							placeholder="Sottotitolo dell'articolo"
-							data-ng-if="draft.article.subtitle.length>0"
+							data-ng-if="draft.article.subtitle.length>=0"
 							ng-model="draft.article.subtitle" style="width: 100%;"> </textarea>
 					</div>
 
@@ -169,8 +158,6 @@
 		
 		</textarea>
 					</div>
-
-
 
 					<div class="col-sm-6 col-xs-12">
 						<textarea class="column-textarea"
@@ -183,9 +170,7 @@
 				</div>
 
 			</div>
-			
-			
-			
+
 			<div class="col-sm-12 col-xs-12 background-container">
 
 				<img src="/assets/public/img/newspaper-img/sfondo-assets.png"

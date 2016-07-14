@@ -10,7 +10,7 @@ angular.module('smiled.application').controller('dialogChooseTemplateCtrl', ['mo
     	if(idTemplate == "1") {
     		
         	article.setBooleanRedazione();
-        	article.setIdCurrentTemplate(idTemplate);
+        	article.setIdCurrentTemplate(idTemplate); 
             $state.go('logged.scenario.template1');
         	modalService.closeModalShowChooseTemplate();	
     		
@@ -45,12 +45,7 @@ angular.module('smiled.application').controller('dialogChooseTemplateCtrl', ['mo
 	    {
 	      image: 'assets/public/img/newspaper-img/template_II.png'
 	    },
-	    {
-	      image: 'assets/public/img/newspaper-img/primo-template.png'
-	    },
-	    {
-	      image: 'assets/public/img/newspaper-img/primo-template.png'
-	    }
+	    
 	  ];
 	
 	
