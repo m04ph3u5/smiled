@@ -40,6 +40,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 					 article.getCurrentNewspaper();
 					 modalService.closeModalCreateTitle(); 
 					 $state.go('logged.scenario.template1');
+					 alertingGeneric.addSuccess("Hai appena creato il giornale!");
 				 },
 				 
 

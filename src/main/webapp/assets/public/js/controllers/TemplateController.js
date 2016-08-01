@@ -21,8 +21,6 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 		self.isJournalist = true; 
 	}
 	
-	
-	
 		apiService.getMyLastNewspaper(scenId).then(
 				function(data){
 					/*Il giornale esiste già */
@@ -151,7 +149,6 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	//pubblicazione giornale
 	self.publishNewspaper = function(){
 		self.newspaperPut.publish = true; 
-		console.log(self.newspaper.julianDayNumber + "DATA"); 
 		
 		if(self.newspaper.julianDayNumber == null) {
 			
@@ -167,7 +164,6 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 				$state.go('logged.scenario.editorial');
 
 			}, function(reason){
-
 
 				modalService.showAlertPublicNewspaper("numeroArticoli");
 				console.log("Impossibile pubblicare il giornale"); 

@@ -1,4 +1,3 @@
-
 <!-- ------------------ TEMPLATE 1 ------------------ -->
 
 <div
@@ -12,6 +11,7 @@
 	</div>
 
 	<div class="row">
+	
 		<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 giornale"
 			style="padding-bottom: 2%;">
 			<div class="row" style="padding: 7px;">
@@ -84,11 +84,48 @@
 				<article-two-columns-img  newspaper="template.newspaper"></article-two-columns-img>
 			</div>
 		</div>
+		 <div class="hidden-xs hidden-sm hidden-md visible-lg col-xs-5 col-sm-3 animate fadeIn pull-right"
+		 style="margin-bottom:5%;">
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/deleteNewspaper.png"
+				data-ng-click="template.showPopUpDeleteNewspaper()" />
+
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.showPopUpDeleteNewspaper()">Elimina il
+				giornale</h6>
+		</div>
+		
+		<div style="cursor: pointer; margin-bottom:5%;"
+			class="hidden-xs hidden-sm hidden-md visible-lg col-sm-3 pull-right animate wow fadeIn"
+			>
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/backToDashboard.png"
+				data-ng-click="template.goToDashboard();" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.goToDashboard();">Torna alla
+				redazione</h6>
+		</div>
+		
+		<div
+			class="hidden-xs hidden-sm hidden-md visible-lg col-sm-3 pull-right animate wow fadeIn"
+			 style="margin-bottom:5%;">
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/publishNewspaper.png"
+				data-ng-click="template.publishNewspaper()" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.publishNewspaper()">Pubblica il
+				giornale</h6>
+		</div> 
+		
+		
+		
 	</div>
-	<!-- FOOTER -->
+	<!-- FOOTER ONLY MD AND SMALL VIEWPORT -->
 
 	<div class="row">
-		<div class="col-xs-5 col-sm-4">
+		<div class="col-xs-5 col-sm-4 hidden-lg animate wow fadeIn">
 
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
 				src="assets/public/img/icon/deleteNewspaper.png"
@@ -101,7 +138,7 @@
 
 
 		<div style="cursor: pointer;"
-			class="hidden-xs visible-sm visible-md visible-lg col-sm-4">
+			class="hidden-xs visible-sm visible-md hidden-lg col-sm-4 animate wow fadeIn">
 
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
 				src="assets/public/img/icon/backToDashboard.png"
@@ -109,10 +146,10 @@
 			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
 				data-ng-click="template.goToDashboard();">Torna alla
 				redazione</h6>
-		</div>
+		</div> 
 
 		<div style="cursor: pointer;"
-			class="visible-xs hidden-sm hidden-md hidden-lg pull-right col-xs-5">
+			class="visible-xs hidden-sm hidden-md hidden-lg pull-right col-xs-5 animate wow fadeIn">
 
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
 				src="assets/public/img/icon/backToDashboard.png"
@@ -124,7 +161,7 @@
 		
 
 		<div
-			class="hidden-xs visible-sm visible-md visible-lg col-sm-4">
+			class="hidden-xs visible-sm visible-md hidden-lg col-sm-4 animate wow fadeIn">
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
 				src="assets/public/img/icon/publishNewspaper.png"
 				data-ng-click="template.publishNewspaper()" />
@@ -135,7 +172,7 @@
 
 <div class="visible-xs hidden-sm hidden-md hidden-lg col-xs-3"></div>
 		<div style="margin-top: 4%;"
-			class="visible-xs hidden-sm hidden-md hidden-lg pull-left col-xs-6 col-sm-4">
+			class="visible-xs hidden-sm hidden-md hidden-lg pull-left col-xs-6 col-sm-4 animate wow fadeIn">
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
 				src="assets/public/img/icon/publishNewspaper.png"
 				data-ng-click="template.publishNewspaper()" />
