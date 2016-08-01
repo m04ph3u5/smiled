@@ -457,13 +457,13 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 				}
 			}else{
 				console.log("######################ID NOT NULL");
-
 				if(!isEquivalent(self.scenario, self.scenarioServer) && infoValidate()){
+					console.log(scenarioDTO.newspaperEnabled);
 					apiService.updateScenario(scenarioDTO, id).then(
 							function(data){
 								self.scenarioServer = data;
 								self.scenario = angular.copy(data);
-								
+								console.log(self.scenario);
 								if(self.scenario.newspaperEnabled)
 									self.showNewspaperTab=true;
 								else
@@ -1071,8 +1071,9 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.openScenario = function(){
 			self.exitWizard();
+			$state.go("logged.scenario.posts", {id : id});
 			var scenarioDTO = {"status": "ACTIVE"};
-			apiService.updateScenario(scenarioDTO, id).then(
+		/*	apiService.updateScenario(scenarioDTO, id).then(
 					function(data){
 						self.scenarioServer=data;
 						$state.go("logged.scenario.posts", {id : id});
@@ -1080,7 +1081,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(reason){
 						console.log("C'è stato un problema, impossibile attivare lo scenario");
 					}
-			);
+			);*/
 		}
 		
 		self.closeScenario = function(){
