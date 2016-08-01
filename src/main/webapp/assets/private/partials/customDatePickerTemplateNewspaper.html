@@ -1,0 +1,18 @@
+<div class="modal-header">
+	<h3 class="modal-title">Quando è stato scritto il giornale?</h3>
+	<h6>{{customDatePickerNewspaper.dateString}}</h6>
+</div>
+<div class="modal-body">
+	<div style="margin-left:35px; margin-right:35px; margin-top:10px; margin-bottom:25px;" custom-date-picker 
+			start-date="customDatePickerNewspaper.startDate" end-date="customDatePickerNewspaper.endDate" 
+			date-string="customDatePickerNewspaper.dateString"
+			date-number="customDatePickerNewspaper.dateNumber" 
+			time-number="customDatePickerNewspaper.timeNumber"
+			></div>	
+</div>
+<div class="modal-footer">
+	<button class="positiveButton btn" data-ng-click="customDatePickerNewspaper.updateDate()"><span class="glyphicon glyphicon-floppy-save"></span>OK</button>
+	<button class="warningButton btn" data-ng-click="customDatePickerNewspaper.cancel()">ANNULLA</button>
+	
+</div>
+<!-- Test commit -->

@@ -22,7 +22,7 @@
 
 			<!-- icona art 1 -->
 			<div
-				data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+				data-ng-if="template.isJournalist"
 				class=" col-xs-2 col-sm-2 hidden-xs visible-sm visible-md visible-lg pull-right "
 				style="animation-delay: 1s;">
 				<a style="cursor: pointer;" data-placement="bottom"
@@ -34,7 +34,7 @@
 			</div>
 
 			<div
-				data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+				data-ng-if="template.isJournalist"
 				class=" col-xs-2 col-sm-2 visible-xs hidden-sm hidden-md hidden-lg pull-right "
 				style="animation-delay: 1s;">
 				<a style="cursor: pointer;" data-placement="bottom"
@@ -52,7 +52,7 @@
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
 				<div
-					data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+					data-ng-if="template.isJournalist"
 					class="col-xs-4 col-sm-4
 						visible-xs visible-sm visible-md visible-lg pull-right"
 					style="margin-top: 25px;">
@@ -71,7 +71,7 @@
 				</br>
 
 				<div
-					data-ng-if="template.newspaper.status == undefined || template.newspaper.status == 'DRAFT'"
+					data-ng-if="template.isJournalist"
 					class="col-xs-4 col-sm-4
 						visible-xs visible-sm visible-md visible-lg pull-right"
 					style="margin-top: 25px;">

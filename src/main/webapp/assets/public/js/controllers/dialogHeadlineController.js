@@ -36,6 +36,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 					 self.numberNewspaper = data.number; 
 					 article.setNumberJustCreated(self.numberNewspaper);
 					 article.setIsDraft(true); 
+					 article.setIsJustDeleted(false);
 					 article.getCurrentNewspaper();
 					 modalService.closeModalCreateTitle(); 
 					 $state.go('logged.scenario.template1');

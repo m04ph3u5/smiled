@@ -95,7 +95,10 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 		
 		//controllo se un nome è già stato assegnato per la creazione del giornale oppure no 
 		self.currentHeadline = article.getNameJustCreated(); 
-		if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true){
+		self.isJustDeleted = article.getIsJustDeleted();
+		console.log(self.isJustDeleted + "PROVA APPENA CANCELLATO"); 
+		if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true || self.newspaper.status == undefined
+				|| self.currentHeadline == ""){
 			modalService.showAlertNewspaper();
 		} 
 
@@ -132,6 +135,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	
 	//cancel newspaper 
 	self.showPopUpDeleteNewspaper = function (){
+	
 		self.numberJustCreated = article.getNumberJustCreated(); 
 		 
 		if(self.numberJustCreated  != 0) {
