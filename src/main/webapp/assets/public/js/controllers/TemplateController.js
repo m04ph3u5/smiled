@@ -14,8 +14,11 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	self.newspaper = article.getCurrentNewspaper();
 	self.idArticle; 
 	
-	self.numberJustCreated = article.getNumberJustCreated(); 
-
+	self.numberJustCreated = article.getNumberJustCreated();
+	
+	console.log("OGGETTO SCENARIO");
+	console.log(self.scen);
+	
 	
 	if(self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 

@@ -118,9 +118,7 @@
 				data-ng-click="template.publishNewspaper()">Pubblica il
 				giornale</h6>
 		</div> 
-		
-		
-		
+
 	</div>
 	<!-- FOOTER ONLY MD AND SMALL VIEWPORT -->
 
@@ -187,7 +185,25 @@
 
 <!-- ------------------ TEMPLATE 2 ------------------ -->
 
-<div
+<h6 style="text-align: center;"
+data-ng-if="template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2' && template.newspaper.status == undefined">
+ Stiamo lavorando alla realizzazione della seconda impaginazione.</h6>
+			<div class="col-sm-12 hidden-xs background-container">
+				<img
+					src="/assets/public/img/newspaper-img/bg_dashboard_giornalista.png"
+					class="img-responsive backgroundParallax-news"
+					style="z-index: 0; margin-top: -50%;" />
+			</div>
+			
+				<!-- Small views-->
+			<div
+				class="col-sm-12 hidden-lg hidden-md hidden-sm visible-xs bg-image-xs">
+				<img
+					src="/assets/public/img/newspaper-img/bg_dashboard_giornalista.png"
+					class="img-responsive" style="z-index: 0;" />
+			</div>
+
+<!-- <div
 	data-ng-if="template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2' && template.newspaper.status == undefined"
 	class="container-fluid">
 
@@ -245,13 +261,13 @@
 
 	</div>
 
-</div>
+</div> -->
 
-<div class="col-sm-12 col-xs-8 pull-right" style="margin-top: 4%;">
+<!-- <div class="col-sm-12 col-xs-8 pull-right" style="margin-top: 4%;">
 	<a href="#" class="return-to-top" data-toggle="tooltip"
 		style="float: right;" title="Torna su"><i
 		class="glyphicon glyphicon-chevron-up" style="color: white;"></i></a>
-</div>
+</div> -->
 
 <script>
 	$(document).ready(function() {

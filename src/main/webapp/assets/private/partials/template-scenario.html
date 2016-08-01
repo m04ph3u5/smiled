@@ -73,7 +73,7 @@
 				<img class="img imgMediumTemplate marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>	
 			
-			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" ng-click ="scenario.goToNewspaper()"  >
+			<div style="cursor:pointer;" data-ng-if="scenario.scen.newspaperEnabled" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" ng-click ="scenario.goToNewspaper()"  >
 				<img class="img imgMediumTemplate marginEmS" src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
 			</div>	
 		</div>
@@ -88,7 +88,7 @@
 				<img class="img imgSmallTemplate marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>	
 			
-			<div style="cursor:pointer;" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" ng-click ="scenario.goToNewspaper()" >
+			<div style="cursor:pointer;" data-ng-if="scenario.scen.newspaperEnabled" class="row marginMTop text-center visible-xs visible-sm visible-md hidden-lg" ng-click ="scenario.goToNewspaper()" >
 				<img class="img imgSmallTemplate marginEmS" src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
 			</div>	
 			
@@ -105,7 +105,7 @@
 				<img class="img imgSmallTemplate" src="assets/public/img/icon/ic_socialgraph.png">
 			</div>
 			
-		   <div style="cursor:pointer;" ng-click ="scenario.goToNewspaper()"   class="col-xs-3" >
+		   <div style="cursor:pointer;" data-ng-if="scenario.scen.newspaperEnabled"  data-ng-click ="scenario.goToNewspaper()" class="col-xs-3" >
 				<img class="img imgSmallTemplate " src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
 			</div> 
 			
@@ -127,12 +127,6 @@
             	<span style="font-size:1.4em; cursor:pointer;" data-ng-if="scenario.isModerator" class="pull-right glyphicon glyphicon-camera" id="uploadSpan" ngf-select ngf-change="scenario.uploadCover($files)">
 				</span>
             </div>
-		
-			
-				
-						
-		
-			
 			
 		</div>
 			
@@ -231,8 +225,7 @@
 				<img class="img title marginEmS" src="assets/public/img/icon/ic_mat_clip.png">
 			</div>
 			
-			<div style="cursor:pointer" ng-click ="scenario.goToNewspaper()" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg">
-			
+			<div style="cursor:pointer" data-ng-if="scenario.scen.newspaperEnabled" data-ng-click ="scenario.goToNewspaper()" class="row marginMTop text-center hidden-xs hidden-sm hidden-md visible-lg">
 				<img class="img title marginEmS" src="assets/public/img/newspaper-img/icon-newspaper-nuova.png">
 				
 			</div>
