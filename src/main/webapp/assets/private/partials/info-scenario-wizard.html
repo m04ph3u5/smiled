@@ -1,48 +1,65 @@
 <alertgeneric></alertgeneric>
 <label for="title">TITOLO</label>
-<input id="title" type="text" class="form-control" placeholder="SCEGLI UN TITOLO"
-		data-ng-model="scenarioWizard.scenario.name" value="{{scenarioWizard.scenario.name}}"/>
+<input id="title" type="text" class="form-control"
+	placeholder="SCEGLI UN TITOLO"
+	data-ng-model="scenarioWizard.scenario.name"
+	value="{{scenarioWizard.scenario.name}}" />
 <label for="description">DESCRIZIONE</label>
-<textarea id="description" type="text" class="form-control" placeholder="Inserisci una descrizione"
-		data-ng-model="scenarioWizard.scenario.description" value="{{scenarioWizard.scenario.description}}"/>
+<textarea id="description" type="text" class="form-control"
+	placeholder="Inserisci una descrizione"
+	data-ng-model="scenarioWizard.scenario.description"
+	value="{{scenarioWizard.scenario.description}}" />
 <label for="startDate">DATA INIZIO</label>
-<input style="cursor:pointer" id="startDate" type="text" readonly="readonly" data-ng-click="scenarioWizard.showPopUpSetDate(true)"
-		class="form-control" placeholder="yyyy-MM-dd" value="{{scenarioWizard.scenario.history.startDate.day}}/{{scenarioWizard.scenario.history.startDate.month}}/{{scenarioWizard.scenario.history.startDate.year }} {{scenarioWizard.scenario.history.startDate.afterChrist ? 'd.C.' : 'a.C.'}}"/>
+<input style="cursor: pointer" id="startDate" type="text"
+	readonly="readonly"
+	data-ng-click="scenarioWizard.showPopUpSetDate(true)"
+	class="form-control" placeholder="yyyy-MM-dd"
+	value="{{scenarioWizard.scenario.history.startDate.day}}/{{scenarioWizard.scenario.history.startDate.month}}/{{scenarioWizard.scenario.history.startDate.year }} {{scenarioWizard.scenario.history.startDate.afterChrist ? 'd.C.' : 'a.C.'}}" />
 <label for="endDate">DATA FINE</label>
-<input style="cursor:pointer" id="endDate" type="text" class="form-control" placeholder="yyyy-MM-dd" readonly="readonly" data-ng-click="scenarioWizard.showPopUpSetDate(false)"
-		value="{{scenarioWizard.scenario.history.endDate.day}}/{{scenarioWizard.scenario.history.endDate.month}}/{{scenarioWizard.scenario.history.endDate.year}} {{scenarioWizard.scenario.history.endDate.afterChrist ? 'd.C.' : 'a.C.'}}"/>	
+<input style="cursor: pointer" id="endDate" type="text"
+	class="form-control" placeholder="yyyy-MM-dd" readonly="readonly"
+	data-ng-click="scenarioWizard.showPopUpSetDate(false)"
+	value="{{scenarioWizard.scenario.history.endDate.day}}/{{scenarioWizard.scenario.history.endDate.month}}/{{scenarioWizard.scenario.history.endDate.year}} {{scenarioWizard.scenario.history.endDate.afterChrist ? 'd.C.' : 'a.C.'}}" />
 <br>
 <label for="newspaperEnabled">Attiva giornale dello scenario</label>
-<input class="customCheckBox"  id="newspaperEnabled" type="checkbox"  data-ng-model="scenarioWizard.scenario.newspaperEnabled" name="newspaper-enabled" value="newspaper-enabled" />
+<input class="customCheckBox" id="newspaperEnabled" type="checkbox"
+	data-ng-model="scenarioWizard.scenario.newspaperEnabled"
+	name="newspaper-enabled" value="newspaper-enabled" />
 <br>
-<label for="showRelations">Grafo delle relazioni visibile anche agli studenti</label>
-<input class="customCheckBox"  id="showRelations" type="checkbox"  data-ng-model="scenarioWizard.scenario.showRelationsToAll" name="show-relations" value="show-relations" />
-<button class="generalButton1 btn pull-right" style="margin-top:5px;" data-ng-click="scenarioWizard.saveInfo()"><span class="glyphicon glyphicon-floppy-save"></span> SALVA</button>
+<label for="showRelations">Grafo delle relazioni visibile anche
+	agli studenti</label>
+<input class="customCheckBox" id="showRelations" type="checkbox"
+	data-ng-model="scenarioWizard.scenario.showRelationsToAll"
+	name="show-relations" value="show-relations" />
+<button class="generalButton1 btn pull-right" style="margin-top: 5px;"
+	data-ng-click="scenarioWizard.saveInfo()">
+	<span class="glyphicon glyphicon-floppy-save"></span> SALVA
+</button>
 
 <div class="row text-center">
 	<div class="col-md-6 marginMTop">
 		<a href="" ngf-select ngf-change="scenarioWizard.uploadCover($files)">
-			<p>Aggiungi la copertina dello scenario</p>	
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10 imageHere marginMTop">				
-			<img data-ng-src="{{scenarioWizard.scenarioCover}}" 	
-				data-err-src="assets/public/img/wizard/bguploadimg.jpg" 				
-				class="coverMapPreview">
-			</div>		
-		</div>	
+			<p>Aggiungi la copertina dello scenario</p>
+			<div class="row">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-10 imageHere marginMTop">
+					<img data-ng-src="{{scenarioWizard.scenarioCover}}"
+						data-err-src="assets/public/img/wizard/bguploadimg.jpg"
+						class="coverMapPreview">
+				</div>
+			</div>
 		</a>
 	</div>
 	<div class="col-md-6 marginMTop">
 		<a href="" ngf-select ngf-change="scenarioWizard.uploadMap($files)">
-				<p>Aggiungi la mappa dello scenario</p>	
+			<p>Aggiungi la mappa dello scenario</p>
 			<div class="row">
 				<div class="col-xs-1"></div>
-					<div class="col-xs-10 imageHere marginMTop">					
-						<img data-ng-src="{{scenarioWizard.map}}"
-							data-err-src="assets/public/img/wizard/bguploadimg.jpg" 					
-							class="coverMapPreview">
-					</div>
+				<div class="col-xs-10 imageHere marginMTop">
+					<img data-ng-src="{{scenarioWizard.map}}"
+						data-err-src="assets/public/img/wizard/bguploadimg.jpg"
+						class="coverMapPreview">
+				</div>
 			</div>
 		</a>
 	</div>
@@ -51,12 +68,14 @@
 <div class="row text-center">
 	<div class="col-md-6 marginMTop"></div>
 	<div class="col-md-6 marginMTop">
-		<a href="" data-ui-sref="logged.toolMap">
-			Scarica tool per generare mappe 
-			<img class="titleIcon" ng-src="assets/public/img/icon/generateMap.png">
+		<a href="" data-ui-sref="logged.toolMap"> Scarica tool per
+			generare mappe <img class="titleIcon"
+			ng-src="assets/public/img/icon/generateMap.png">
 		</a>
 	</div>
 </div>
-<a href="">
-<img ng-src="assets/public/img/wizard/avanti.png" class="pull-right marginMTop wizButton" data-ui-sref="logged.scenarioWizard.attendees" data-ng-click="scenarioWizard.saveInfo()">
+<a href=""> <img ng-src="assets/public/img/wizard/avanti.png"
+	class="pull-right marginMTop wizButton"
+	data-ui-sref="logged.scenarioWizard.attendees"
+	data-ng-click="scenarioWizard.saveInfo()">
 </a>

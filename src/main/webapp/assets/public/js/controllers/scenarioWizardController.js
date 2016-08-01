@@ -438,6 +438,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			scenarioDTO.newspaperEnabled = self.scenario.newspaperEnabled;
 			
 			if(id==null){
+				console.log("######################ID NULL");
 				scenarioDTO.showRelationsToAll = true;
 				scenarioDTO.newspaperEnabled = true;
 				
@@ -455,6 +456,8 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					console.log("fail infoValidate");
 				}
 			}else{
+				console.log("######################ID NOT NULL");
+
 				if(!isEquivalent(self.scenario, self.scenarioServer) && infoValidate()){
 					apiService.updateScenario(scenarioDTO, id).then(
 							function(data){

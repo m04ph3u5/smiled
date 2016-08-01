@@ -56,15 +56,15 @@ public abstract class BaseController {
 //		return error;
 //	}
 //	
-//	@ExceptionHandler(NotFoundException.class)
-//	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-//	public ErrorInfo handleNotFoundException(NotFoundException e){
-//		ErrorInfo error = new ErrorInfo();
-//		error.setMessage(e.getMessage());
-//		error.setStatusCode("404");
-//		/*DA INSERIRE URL*/
-//		return error;
-//	}
+	@ExceptionHandler(NotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ErrorInfo handleNotFoundException(NotFoundException e){
+		ErrorInfo error = new ErrorInfo();
+		error.setMessage(e.getMessage());
+		error.setStatusCode("404");
+		/*DA INSERIRE URL*/
+		return error;
+	}
 //	
 //	@ExceptionHandler(BadCredentialsException.class)
 //	@ResponseStatus(value = HttpStatus.FORBIDDEN)
@@ -140,7 +140,7 @@ public abstract class BaseController {
 	public ErrorInfo handleFileNotFoundException(FileNotFoundException e){
 		ErrorInfo error = new ErrorInfo();
 		error.setStatusCode("404");
-		System.out.println("File not found"+e.getMessage());
+		System.out.println("File not found "+e.getMessage());
 		return error;
 	}
 //	
