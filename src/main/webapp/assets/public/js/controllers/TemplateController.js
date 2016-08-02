@@ -92,14 +92,12 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	self.goToDraft = function(id){
 		
 		console.log(self.newspaper.number); 
-		
-		
 		//controllo se un nome è già stato assegnato per la creazione del giornale oppure no 
 		self.currentHeadline = article.getNameJustCreated(); 
 		self.isJustDeleted = article.getIsJustDeleted();
-		console.log(self.isJustDeleted + "PROVA APPENA CANCELLATO"); 
+	
 		if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true || self.newspaper.status == undefined
-				|| self.currentHeadline == ""){
+				){
 			modalService.showAlertNewspaper();
 		} 
 
