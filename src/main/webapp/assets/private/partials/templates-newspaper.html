@@ -12,7 +12,7 @@
 
 	<div class="row">
 	
-		<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 giornale"
+		<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 giornale pull-right"
 			style="padding-bottom: 2%;">
 			<div class="row" style="padding: 7px;">
 				<headline-newspaper newspaper="template.newspaper"
@@ -23,7 +23,7 @@
 			<!-- icona art 1 -->
 			<div
 				data-ng-if="template.isJournalist"
-				class=" col-xs-2 col-sm-2 hidden-xs visible-sm visible-md visible-lg pull-right "
+				class=" col-xs-2 col-sm-2 hidden-xs visible-sm visible-md visible-lg pull-right"
 				style="animation-delay: 1s;">
 				<a style="cursor: pointer;" data-placement="bottom"
 					data-ng-click="template.goToDraft(1)"> <img
@@ -35,7 +35,7 @@
 
 			<div
 				data-ng-if="template.isJournalist"
-				class=" col-xs-2 col-sm-2 visible-xs hidden-sm hidden-md hidden-lg pull-right "
+				class=" col-xs-2 col-sm-2 visible-xs hidden-sm hidden-md hidden-lg pull-right"
 				style="animation-delay: 1s;">
 				<a style="cursor: pointer;" data-placement="bottom"
 					data-ng-click="template.goToDraft(1)"> <img
@@ -84,7 +84,7 @@
 				<article-two-columns-img  newspaper="template.newspaper"></article-two-columns-img>
 			</div>
 		</div>
-		 <div class="hidden-xs hidden-sm hidden-md visible-lg col-xs-5 col-sm-3 animate fadeIn pull-right"
+		 <div class="hidden-xs hidden-sm hidden-md visible-lg col-xs-5 col-sm-3 animate fadeIn pull-left"
 		 style="margin-bottom:5%;">
 
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
@@ -97,7 +97,7 @@
 		</div>
 		
 		<div style="cursor: pointer; margin-bottom:5%;"
-			class="hidden-xs hidden-sm hidden-md visible-lg col-sm-3 pull-right animate wow fadeIn"
+			class="hidden-xs hidden-sm hidden-md visible-lg col-sm-3 pull-left animate wow fadeIn"
 			>
 
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
@@ -109,7 +109,7 @@
 		</div>
 		
 		<div
-			class="hidden-xs hidden-sm hidden-md visible-lg col-sm-3 pull-right animate wow fadeIn"
+			class="hidden-xs hidden-sm hidden-md visible-lg col-sm-3 pull-left animate wow fadeIn"
 			 style="margin-bottom:5%;">
 			<img class="ic-wizard-newspaper" style="cursor: pointer"
 				src="assets/public/img/icon/publishNewspaper.png"
@@ -184,9 +184,9 @@
 </div>
 
 <!-- ------------------ TEMPLATE 2 ------------------ -->
-
+<div class="row" data-ng-if="template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2' && template.newspaper.status == undefined">
 <h6 style="text-align: center;"
-data-ng-if="template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2' && template.newspaper.status == undefined">
+>
  Stiamo lavorando alla realizzazione della seconda impaginazione.</h6>
 			<div class="col-sm-12 hidden-xs background-container">
 				<img
@@ -202,7 +202,7 @@ data-ng-if="template.newspaper.idTemplate == 2 || template.currentIdTemplate == 
 					src="/assets/public/img/newspaper-img/bg_dashboard_giornalista.png"
 					class="img-responsive" style="z-index: 0;" />
 			</div>
-
+</div>
 <!-- <div
 	data-ng-if="template.newspaper.idTemplate == 2 || template.currentIdTemplate == '2' && template.newspaper.status == undefined"
 	class="container-fluid">
