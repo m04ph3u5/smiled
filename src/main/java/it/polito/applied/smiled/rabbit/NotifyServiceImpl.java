@@ -17,6 +17,7 @@ import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.PublishedNewspaper;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.scenario.Status;
 import it.polito.applied.smiled.repository.NotificationRepository;
@@ -29,6 +30,7 @@ public class NotifyServiceImpl implements NotifyService{
 	private final String TOPIC = "topicExchange";
 	private final String DIRECT = "directExchange";
 	private final String NARRATORE = "Il Narratore";
+	private final String GIORNALISTA = "Il giornalista";
 	private final int PREVIEW = 15;
 
 	private final String USER_QUEUE_PREFIX="user.";
@@ -138,6 +140,9 @@ public class NotifyServiceImpl implements NotifyService{
 		}else if(p.getClass().equals(Event.class)){
 			n.setActorId(null);
 			n.setActorName(NARRATORE);
+		}else if(p.getClass().equals(PublishedNewspaper.class)){
+			n.setActorId(null);
+			n.setActorName(GIORNALISTA);
 		}
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());

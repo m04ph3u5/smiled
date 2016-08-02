@@ -1071,9 +1071,10 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 		
 		self.openScenario = function(){
 			self.exitWizard();
-			$state.go("logged.scenario.posts", {id : id});
 			var scenarioDTO = {"status": "ACTIVE"};
-		/*	apiService.updateScenario(scenarioDTO, id).then(
+			scenarioDTO.showRelationsToAll = self.scenario.showRelationsToAll;
+			scenarioDTO.newspaperEnabled = self.scenario.newspaperEnabled;
+			apiService.updateScenario(scenarioDTO, id).then(
 					function(data){
 						self.scenarioServer=data;
 						$state.go("logged.scenario.posts", {id : id});
@@ -1081,7 +1082,7 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 					function(reason){
 						console.log("C'è stato un problema, impossibile attivare lo scenario");
 					}
-			);*/
+			);
 		}
 		
 		self.closeScenario = function(){
