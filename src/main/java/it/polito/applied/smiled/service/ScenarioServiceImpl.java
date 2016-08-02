@@ -57,6 +57,7 @@ import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
+import it.polito.applied.smiled.pojo.scenario.PublishedNewspaper;
 import it.polito.applied.smiled.pojo.scenario.Relation;
 import it.polito.applied.smiled.pojo.scenario.Revision;
 import it.polito.applied.smiled.pojo.scenario.RevisionStatus;
@@ -1381,6 +1382,24 @@ public class ScenarioServiceImpl implements ScenarioService{
 			l.add(postsId.get(i).getId());
 		}
 		return postRepository.customPageableFindAll(l, l.size(), p, false, true, activeUser.getId(), moderator);
+	}
+	
+	@Override
+	public Id insertPublishedNewspaper(String scenarioId, PublishedNewspaper pn, CustomUserDetails activeUser) throws BadRequestException{
+		Scenario scenario = scenarioRepository.findById(scenarioId);
+		User u = userRepository.findById(activeUser.getId());
+		if(scenario==null || u==null)
+			throw new BadRequestException();
+		if(!scenario.getStatus().equals(ScenarioStatus.ACTIVE))
+			throw new BadRequestException();
+		
+		pn.setUser(new Reference(u));
+		pn = postRepository.save(pn);
+		PostReference postReference = new PostReference(pn);
+		scenarioRepository.addPostToScenario(scenarioId, postReference);
+		notify.notifyCreatePost(scenario, pn);
+		
+		return new Id(pn.getId());
 	}
 
 	@Override

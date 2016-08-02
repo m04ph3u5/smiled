@@ -27,6 +27,7 @@ import it.polito.applied.smiled.pojo.scenario.Character;
 import it.polito.applied.smiled.pojo.scenario.CommentDTO;
 import it.polito.applied.smiled.pojo.scenario.CommentInterface;
 import it.polito.applied.smiled.pojo.scenario.Post;
+import it.polito.applied.smiled.pojo.scenario.PublishedNewspaper;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.rabbit.Notification;
 import it.polito.applied.smiled.security.CustomUserDetails;
@@ -124,5 +125,13 @@ public interface ScenarioService {
 	public List<Post> getCharacterPosts(String id, String characterId, Long date, Integer time, Integer nItem,
 			Authentication auth) throws BadRequestException;
 	public void updateOldScenariosReference();
+	/**
+	 * @param scenarioId
+	 * @param pn
+	 * @param user
+	 * @return
+	 * @throws BadRequestException 
+	 */
+	public Id insertPublishedNewspaper(String scenarioId, PublishedNewspaper pn, CustomUserDetails user) throws BadRequestException;
 	
 }

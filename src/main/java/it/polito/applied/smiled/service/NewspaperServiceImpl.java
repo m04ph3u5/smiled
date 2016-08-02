@@ -15,13 +15,13 @@ import it.polito.applied.smiled.exception.BadRequestException;
 import it.polito.applied.smiled.exception.ForbiddenException;
 import it.polito.applied.smiled.exception.NotFoundException;
 import it.polito.applied.smiled.pojo.FileMetadata;
-import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.Reference;
 import it.polito.applied.smiled.pojo.newspaper.Article;
 import it.polito.applied.smiled.pojo.newspaper.ArticleTemplate;
 import it.polito.applied.smiled.pojo.newspaper.Newspaper;
 import it.polito.applied.smiled.pojo.newspaper.NewspaperTemplate;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
+import it.polito.applied.smiled.pojo.scenario.PublishedNewspaper;
 import it.polito.applied.smiled.pojo.scenario.Scenario;
 import it.polito.applied.smiled.pojo.scenario.ScenarioStatus;
 import it.polito.applied.smiled.pojo.user.User;
@@ -49,6 +49,8 @@ public class NewspaperServiceImpl implements NewspaperService {
 	private NotifyService notify;
 	@Autowired
 	private GridFsManager gridFsManager;
+	@Autowired
+	private ScenarioService scenarioService;
 	
 	@Override
 	public List<NewspaperTemplate> getAllTemplates() {
@@ -58,7 +60,6 @@ public class NewspaperServiceImpl implements NewspaperService {
 	@Override
 	public NewspaperTemplate findNewspaperTemplateByIdTemplate(int id) {
 		return newspaperTemplateRepo.findByIdTemplate(id);
-		
 	}
 	private boolean validateCheckingConstraints(Article a, NewspaperTemplate nTemplate) {
 		int idArticleTemplate = a.getIdArticleTemplate();
@@ -241,7 +242,6 @@ public class NewspaperServiceImpl implements NewspaperService {
 	@Override
 	public Newspaper publishNewspaper(String idScenario, Integer number, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException {
 		
-		// TODO Verifico che per tutti gli articoli siano rispettati i vincoli
 		Newspaper n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeletedOrPublished(idScenario, number);
 		if(n==null)
 			throw new BadRequestException("Newspaper not found or already published!");
@@ -268,7 +268,10 @@ public class NewspaperServiceImpl implements NewspaperService {
 		n.setPublishedDate(publishedDate);
 		n.setLastUpdate(publishedDate);
 		Newspaper publishedNewspaper = newspaperRepo.save(n);
-	
+		
+		PublishedNewspaper pn = new PublishedNewspaper(publishedNewspaper);
+		scenarioService.insertPublishedNewspaper(idScenario, pn, activeUser);
+		//TODO pubblicare post fittizio che annuncia la pubblicazione del nuovo numero.
 		notify.notifyNewNewspaper(scen, activeUser.getId(), publishedNewspaper);
 		
 		return publishedNewspaper;
