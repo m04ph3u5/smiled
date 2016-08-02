@@ -18,7 +18,6 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 	if(self.scen.teacherCreator.id==self.loggedUser.id){
 		/*self.isCreator=true;*/
 		self.isModerator=true;	
-
 	}
 
 	if(self.loggedUser.id == self.scen.actualJournalist.id){

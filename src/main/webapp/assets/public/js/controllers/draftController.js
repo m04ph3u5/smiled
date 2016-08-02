@@ -299,7 +299,6 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 
 					} else {
 
-
 						//put dell'articolo al db
 						var s = apiService.getMyLastNewspaper(scenId); 
 						s.then(function(data){
@@ -346,10 +345,9 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 				else { self.articlePut.city = input.city;   }
 
 				if(self.isUploaded == true){
-
+					
 					self.articlePut.imageId = self.uploadedFile.id;
 					self.isUploaded == false; 
-
 
 				} 	else 
 				{		
