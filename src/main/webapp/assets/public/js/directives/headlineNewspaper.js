@@ -8,11 +8,15 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			
 			newspaper: '=?',
 			scenario: '=',
+			isJournalist: '=?'
 			
 		},
 		bindToController: true,
 		controller: ['$scope',function($scope){
 			var self = this;
+			if(self.isJournalist==undefined){
+				self.isJournalist=true;
+			}
 			self.showWarning = false;
 			var scenId = $stateParams.id; 
 			self.isFirst; 
@@ -64,7 +68,11 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			
 			
 			self.setDateNewspaper = function(){
-				modalService.showModalSetHistoryNewspaperDate(self.startDate, self.endDate, self.newspaper);
+				if(self.newspaper!=null && self.newspaper.status!=undefined){
+					modalService.showModalSetHistoryNewspaperDate(self.startDate, self.endDate, self.newspaper);
+				}else{
+					modalService.showAlertNewspaper();
+				}
 			}
 			
 			//format date

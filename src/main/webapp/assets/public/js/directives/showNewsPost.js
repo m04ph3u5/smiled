@@ -85,7 +85,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 				//TODO modificare label per date dopo annullamento
 			}
 
-			if(self.post.imagesMetadata.length >0){
+			if(self.post.imagesMetadata && self.post.imagesMetadata.length >0){
 				self.colorImageMarker = {'color': '#89b151'};
 			}
 
@@ -266,7 +266,7 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			
 			var assignFileType = function (){
 				self.files.splice(0,self.files.length);
-				for (var i=0; i<self.post.filesMetadata.length; i++){
+				for (var i=0; self.post.filesMetadata && i<self.post.filesMetadata.length; i++){
 					var myFile = {};
 					myFile.id = self.post.filesMetadata[i].id;
 					myFile.originalName = self.post.filesMetadata[i].originalName;

@@ -28,7 +28,7 @@ public interface NotifyService {
 	public void notifyNewMetaComment(Scenario s, Post p, MetaComment c) ;
 	public void notifyLikeToPost(Scenario s, Post p, CharacterReference actor) ;
 	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s, String senderId) ;
-	public void notifyNewJournalist(Reference user, Scenario s, String senderId);
+	public void notifyNewJournalist(Reference teacher, Scenario s, String newJournalistId);
 	public void notifyDeleteJournalist(Reference user, Scenario s, String senderId);
 	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s, String senderId) ;
 	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor, Mission m, String senderId) ;
@@ -48,9 +48,9 @@ public interface NotifyService {
 	 * Notifiche relative al newspaper --------INIZIO----------------------------------
 	 */
 	
-	public void notifyNewspaperON(Scenario s, Reference actor);
-	public void notifyNewspaperOFF(Scenario s, Reference actor);
-	public void notifyNewNewspaper(Scenario s, String journalistId, Newspaper newspaper);
+//	public void notifyNewspaperON(Scenario s, Reference actor);
+//	public void notifyNewspaperOFF(Scenario s, Reference actor);
+	public void notifyNewNewspaper(Scenario s, Reference journalist, Newspaper newspaper);
 	public void notifyDeleteNewspaper(Scenario s, Reference actor, Newspaper newspaper);
 	public void notifyUpdateNewspaper(Scenario s, Reference actor, Newspaper newspaper);
 	public void notifyNewJournalist(Scenario s, Reference actor, Newspaper newspaper, String newJournalistId);

@@ -242,6 +242,9 @@ public class NewspaperServiceImpl implements NewspaperService {
 	@Override
 	public Newspaper publishNewspaper(String idScenario, Integer number, CustomUserDetails activeUser) throws BadRequestException, ForbiddenException {
 		
+		User u = userRepo.findById(activeUser.getId());
+		if(u==null)
+			throw new ForbiddenException();
 		Newspaper n = newspaperRepo.findNewspaperByIdScenarioAndNumberAndStatusNotDeletedOrPublished(idScenario, number);
 		if(n==null)
 			throw new BadRequestException("Newspaper not found or already published!");
@@ -272,7 +275,7 @@ public class NewspaperServiceImpl implements NewspaperService {
 		PublishedNewspaper pn = new PublishedNewspaper(publishedNewspaper);
 		scenarioService.insertPublishedNewspaper(idScenario, pn, activeUser);
 		//TODO pubblicare post fittizio che annuncia la pubblicazione del nuovo numero.
-		notify.notifyNewNewspaper(scen, activeUser.getId(), publishedNewspaper);
+		notify.notifyNewNewspaper(scen, new Reference(u), publishedNewspaper);
 		
 		return publishedNewspaper;
 	}
@@ -370,6 +373,9 @@ public class NewspaperServiceImpl implements NewspaperService {
 
 	@Override
 	public String updateJournalist(String idScenario, Reference newJournalist, CustomUserDetails activeUser) throws BadRequestException {
+		User u = userRepo.findById(activeUser.getId());
+		if(u==null)
+			throw new BadRequestException();
 		Scenario scen = scenarioRepo.findById(idScenario);
 		if(scen==null)
 			throw new BadRequestException("Scenario not found!");
@@ -413,7 +419,7 @@ public class NewspaperServiceImpl implements NewspaperService {
 			}
 			if(newJournalist!=null){
 				userService.addJournalistPermission(newJournalist.getId(), idScenario);
-				notify.notifyNewJournalist(newJournalist, scen, newJournalist.getId());
+				notify.notifyNewJournalist(new Reference(u), scen, newJournalist.getId());
 			}
 				
 		

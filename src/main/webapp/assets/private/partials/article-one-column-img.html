@@ -2,8 +2,7 @@
 	<div class="col-sm-12 col-xs-12 title-art-1col">
 
 
-		<h4 class="title-art-1col" style="cursor: pointer"
-			ng-click="articleOneColumnImg.goToDraft()">
+		<h4 class="title-art-1col">
 			{{articleOneColumnImg.article.title}}</h4>
 	</div>
 </div>
@@ -23,7 +22,7 @@
 
 <div data-ng-if="articleOneColumnImg.isPublished"
 	data-ng-if="articleOneColumnImg.idTemplate = 1 || articleOneColumnImg.idChoosenTemplate == '1'"
-	class="img-container image-article-container">
+	class="image-article-container">
 	<!-- Aggiungere classe enlarge dell'immagine quando il numero è pubblicato (cioè per chi legge) -->
 	<img data-ng-src="{{articleOneColumnImg.article.image}}"
 		data-ng-err="assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg"

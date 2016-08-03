@@ -626,6 +626,7 @@ public class NotifyServiceImpl implements NotifyService{
 		n.setMainReceiver(newJournalistId);
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
+		System.out.println("NOTIFY NEW JOURNALIST!");
 		
 		try{
 			brokerProducer.sendNotify(n, DIRECT, USER_QUEUE_PREFIX+newJournalistId);
@@ -656,46 +657,47 @@ public class NotifyServiceImpl implements NotifyService{
 		}
 	}
 
-	@Override
-	public void notifyNewspaperON(Scenario s, Reference teacher) {
-		Notification n = new Notification();
-		n.setDate(new Date());
-		
-		n.setVerb(NotificationType.NEWSPAPER_ON);
-		n.setActorId(teacher.getId());
-		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
-		n.setScenarioId(s.getId());
-		n.setScenarioName(s.getName());
-		n.setSender(teacher.getId());
-		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
-		
-	}
+//	@Override
+//	public void notifyNewspaperON(Scenario s, Reference teacher) {
+//		Notification n = new Notification();
+//		n.setDate(new Date());
+//		
+//		n.setVerb(NotificationType.NEWSPAPER_ON);
+//		n.setActorId(teacher.getId());
+//		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+//		n.setScenarioId(s.getId());
+//		n.setScenarioName(s.getName());
+//		n.setSender(teacher.getId());
+//		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
+//		
+//	}
+//
+//	@Override
+//	public void notifyNewspaperOFF(Scenario s, Reference teacher) {
+//		Notification n = new Notification();
+//		n.setDate(new Date());
+//		
+//		n.setVerb(NotificationType.NEWSPAPER_OFF);
+//		n.setActorId(teacher.getId());
+//		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
+//		n.setScenarioId(s.getId());
+//		n.setScenarioName(s.getName());
+//		n.setSender(teacher.getId());
+//		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
+//		
+//	}
 
 	@Override
-	public void notifyNewspaperOFF(Scenario s, Reference teacher) {
-		Notification n = new Notification();
-		n.setDate(new Date());
-		
-		n.setVerb(NotificationType.NEWSPAPER_OFF);
-		n.setActorId(teacher.getId());
-		n.setActorName(teacher.getFirstname()+" "+teacher.getLastname());
-		n.setScenarioId(s.getId());
-		n.setScenarioName(s.getName());
-		n.setSender(teacher.getId());
-		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());
-		
-	}
-
-	@Override
-	public void notifyNewNewspaper(Scenario s, String journalistId, Newspaper newspaper) {
+	public void notifyNewNewspaper(Scenario s, Reference journalist, Newspaper newspaper) {
 		Notification n = new Notification();
 		n.setDate(new Date());
 		
 		n.setVerb(NotificationType.NEW_NEWSPAPER);
-		n.setActorId(journalistId);
+		n.setActorId(journalist.getId());
+		n.setActorName(journalist.getFirstname()+" "+journalist.getLastname());
 		n.setScenarioId(s.getId());
 		n.setScenarioName(s.getName());
-		n.setSender(journalistId);
+		n.setSender(journalist.getId());
 		n.setObjectId(newspaper.getId());
 		n.setObjectContent(newspaper.getName() +" ,numero: "+newspaper.getNumber());
 		brokerProducer.sendNotify(n, TOPIC, "s"+s.getId());

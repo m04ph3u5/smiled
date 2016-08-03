@@ -12,7 +12,8 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	/*self.newsNumber = article.getNumberNewspaper();*/
 
 	self.idCurrentTemplate = article.getIdCurrentTemplate();
-	self.idTemplate = article.getIdTemplate(); 
+	//TODO CHECK
+	 
 	self.idPublishedTemplate = article.getIdPublishedTemplate(); 
 	self.isChecked = false;
 	self.isCityChecked = false; 
@@ -33,6 +34,7 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 		apiService.getpublishedNewspapers(scenId).then (
 				function(data) {
 					self.publishedNewspapers = data;  
+					self.idTemplate = data.idTemplate;
 					var found = false;
 					for(var i=0;  !found && i<self.publishedNewspapers.length; i++) { 
 						if(self.publishedNewspapers[i].number == self.publishedNewspaperNumber) { 
@@ -65,7 +67,7 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 
 		var s = apiService.getMyLastNewspaper(scenId);
 		s.then(function(data){
-
+			self.idTemplate = data.idTemplate;
 			self.newspaper = data; 
 			self.articles = self.newspaper.articles;  
 

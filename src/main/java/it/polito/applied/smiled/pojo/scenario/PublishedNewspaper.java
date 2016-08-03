@@ -32,6 +32,10 @@ public class PublishedNewspaper extends Post{
 		this();
 		this.name=n.getName();
 		this.number=n.getNumber();
+		this.setScenarioId(n.getIdScenario());
+		this.setStatus(PostStatus.PUBLISHED);
+		this.setJulianDayNumber(n.getJulianDayNumber());
+		this.setTimeNumber(n.getTimeNumber());
 	}
 	
 	public int getNumber() {

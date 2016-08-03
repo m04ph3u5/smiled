@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state', '$stateParams','alertingGeneric', 'loggedUser', 'article',
-              function publishedNewspaperCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams, alertingGeneric, loggedUser, article){
+angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state', '$stateParams','alertingGeneric', 'loggedUser',
+              function publishedNewspaperCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams, alertingGeneric, loggedUser){
 	
 	var self = this; 
 	self.newspaper = {};
@@ -7,11 +7,18 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
 	self.scen = $scope.scenario.scen;
 	self.newspaper = {}; 
 	self.loggedUser = loggedUser;
-	self.isJournalist; 
+	self.isJournalist=false; 
 	self.isEditing; 
 	self.idArticle; 
-	self.publishedNewspaperNumber = article.getPublishedNewspaperNumber(); 
-	
+	if($stateParams.number){
+		console.log("IN IF "+$stateParams.number);
+		self.publishedNewspaperNumber = $stateParams.number;
+		article.setPublishedNewspaperNumber($stateParams.number);
+
+	} else {
+		console.log("IN ELSE");
+		self.publishedNewspaperNumber = article.getPublishedNewspaperNumber(); 
+	}
 	
 	if(self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 
@@ -19,7 +26,9 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
 	
 	apiService.getnewspaperNumber(scenId,self.publishedNewspaperNumber).then(
 			function(data) {
-				self.newspaper = data; 
+				self.newspaper = data;
+				console.log("PRINT NEWSPAPAER!!!!!"); 
+				console.log(data);
 				article.setIdPublishedTemplate(self.newspaper.idTemplate);
 	
 			}, function(reason) {	

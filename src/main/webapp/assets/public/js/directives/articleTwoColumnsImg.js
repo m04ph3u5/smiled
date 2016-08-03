@@ -18,7 +18,7 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 			self.showWarningTextCol2 = false; 
 			self.showWarningSubtitle = false; 
 			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
-			self.idTemplate = article.getIdTemplate();
+			
 			self.currentHeadline = article.getNameJustCreated();
 			self.isImage = true; 
 			self.idArticle = 0;
@@ -170,8 +170,16 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 				} 
 				else if($scope.newspaper.status == 'DRAFT'  || oldName == $scope.newspaper.name)
 				{
-					console.log(self.idTemplate); 
-					self.loadArticle(self.idTemplate);
+					article.getIdTemplate().then(
+						function(data){
+							self.idTemplate = data;
+							console.log(self.idTemplate); 
+							self.loadArticle(self.idTemplate);
+						},
+						function(reason) {
+							console.log(reason);
+						}
+					);
 				}
 			}
 

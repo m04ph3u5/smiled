@@ -197,21 +197,22 @@ angular.module('smiled.application').factory('article',
 			//restituisce l'id del template che lo studente sta utilizzando 
 
 			var getIdTemplate = function(){
+				var p = $q.defer();
 				var s = apiService.getMyLastNewspaper(scenId); 
 				s.then(function(data){
-					newspaper = data;  
+					newspaper = data; 
+					p.resolve(newspaper.idTemplate);
 				},function(reason){
-				
+					p.reject(reason);
 					console.log("Errore.");	
-				}
-		)
-					return newspaper.idTemplate;
+				});
+				return p.promise;
 			}
 			
 			
 			
 			
-			var getNumberNewspaper = function () {
+		/*	var getNumberNewspaper = function () {
 				
 				var s = apiService.getMyLastNewspaper(scenId); 
 						s.then(function(data){
@@ -227,10 +228,10 @@ angular.module('smiled.application').factory('article',
 
 				return newspaper.number; 
 				
-			}
+			}*/
 			
 			
-	var getCurrentNewspaper = function () {
+/*	var getCurrentNewspaper = function () {
 				var s = apiService.getMyLastNewspaper(scenId); 
 						s.then(function(data){
 							console.log("vengo chiamato ora, scarico giornale"); 
@@ -262,7 +263,7 @@ angular.module('smiled.application').factory('article',
 			
 				return newspaper; 
 				
-			}
+			}*/
 	
 	
 	var setNumberJustCreated = function (number){
@@ -392,8 +393,8 @@ var getIsJournalist = function(){
 				setIdCurrentTemplate: setIdCurrentTemplate,
 				getIdCurrentTemplate: getIdCurrentTemplate,
 				getIdTemplate: getIdTemplate,
-				getCurrentNewspaper: getCurrentNewspaper,
-				getNumberNewspaper: getNumberNewspaper, 
+				/*getCurrentNewspaper: getCurrentNewspaper,*/
+				/*getNumberNewspaper: getNumberNewspaper,*/ 
 				setNumberJustCreated: setNumberJustCreated,
 				getNumberJustCreated:getNumberJustCreated, 
 				getArticle: getArticle, 

@@ -1,5 +1,5 @@
-angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state', '$stateParams', 'loggedUser','alertingGeneric',
-              function templateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams, loggedUser, alertingGeneric){
+angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$scope', 'apiService', 'Upload','notifyService','article', 'modalService', '$state', '$stateParams', 'loggedUser','alertingGeneric','$rootScope',
+              function templateCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams, loggedUser, alertingGeneric, $rootScope){
 	
 	var self = this; 
 	self.showWarning = false;
@@ -11,7 +11,6 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	self.newspaperPut = {}; 
 	self.newspaperPut.publish = false; 
 	self.newspaper = {};
-	self.newspaper = article.getCurrentNewspaper();
 	self.idArticle; 
 	
 	self.numberJustCreated = article.getNumberJustCreated();
@@ -36,20 +35,20 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 					/*La redazione ha già un giornale, prendo il nome della testata precedente*/
 					
 					else if (data.status == "PUBLISHED")  {
-						
-						var n = apiService.getLastNewspaper(scenId);
+						self.newspaper.number = data.number+1;
+						self.newspaper.name = CONSTANTS.insertHeadline
+						/*var n = apiService.getLastNewspaper(scenId);
 						n.then(
 								function(data){
 									self.newspaper.number = data.number+1;
 									self.newspaper.name = CONSTANTS.insertHeadline; 
-									/*self.newspaper.name = data.name;*/ 
 								
 									
 								},function(reason){
 			
 									console.log("Errore.");	
 								}
-						);
+						);*/
 						
 					} console.log(self.newspaper); 
 					
@@ -59,6 +58,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 						self.newspaper = {};
 						self.newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
 						self.newspaper.name = CONSTANTS.insertHeadline; 
+						self.newspaper.number = 1;
 					}
 					
 					console.log("Errore.");	
@@ -69,7 +69,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 		
 		//settaggio numero appena si sceglie il template in base a un giornale esistente o meno e NOME in base a giornale già esistente o meno
 		
-		var n = apiService.getLastNewspaper(scenId);
+	/*	var n = apiService.getLastNewspaper(scenId);
 		n.then(
 				function(data){
 					self.newspaper.number = data.number+1; 
@@ -81,7 +81,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 					 
 					}
 				}
-		);			
+		);*/			
 
 	self.goToDashboard = function(){	
 		$state.go('logged.scenario.editorial');
@@ -96,8 +96,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 		self.currentHeadline = article.getNameJustCreated(); 
 		self.isJustDeleted = article.getIsJustDeleted();
 	
-		if(self.currentHeadline == "" && self.newspaper.status == undefined || self.isJustDeleted == true || self.newspaper.status == undefined
-				){
+		if(self.isJustDeleted == true || self.newspaper.status == undefined){
 			modalService.showAlertNewspaper();
 		} 
 
@@ -179,5 +178,14 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	
 						
 	}
+
+	var listenerOnHeader = $rootScope.$on("dialogHeadlineCtrl.createNewspaper",function(event, data){
+		self.newspaper = data.newspaper;
+	});
+
+	$scope.$on("$destroy", function() {
+		listenerOnHeader();
+    });
+
 	
 }]);

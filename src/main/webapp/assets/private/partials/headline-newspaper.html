@@ -5,12 +5,16 @@
 
 	<h5 id="number">Numero {{headlineNewspaper.newspaper.number}}</h5>
 	<!-- aggiungere ng-model="title" -->
-	<label 
+	<label data-ng-if="headlineNewspaper.isJournalist"
 	style="cursor: pointer;" id="text-area-title-newspaper" rows="1"
 		data-ng-model="headlineNewspaper.newspaper.name"
 		data-ng-click="headlineNewspaper.showPopUpCreationTitle()"> <span
 		data-ng-if="headlineNewspaper.isFirst"> Assegna un nome al
 			giornale</span> {{headlineNewspaper.newspaper.name}}
+	</label>
+	<label data-ng-if="!headlineNewspaper.isJournalist"
+	 id="text-area-title-newspaper" rows="1">
+		 {{headlineNewspaper.newspaper.name}}
 	</label>
 
 	<div data-ng-if="headlineNewspaper.newspaper.status == 'DRAFT' || headlineNewspaper.newspaper.status == undefined" data-ng-click="headlineNewspaper.setDateNewspaper()"

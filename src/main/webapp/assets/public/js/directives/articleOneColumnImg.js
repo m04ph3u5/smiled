@@ -20,7 +20,6 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			self.isSubtitle = false;
 			self.currentHeadline = {}; 
 			self.idChoosenTemplate = article.getIdCurrentTemplate(); 
-			self.idTemplate = article.getIdTemplate();
 			self.isImage = true; 
 			
 			//initialize variable
@@ -176,8 +175,17 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 			} 
 			else if($scope.newspaper.status == 'DRAFT' || oldName == $scope.newspaper.name)
 				{
-				console.log(self.idTemplate); 
-				self.loadArticle(self.idTemplate);
+				article.getIdTemplate().then(
+					function(data){
+						self.idTemplate = data;
+						console.log(self.idTemplate); 
+						self.loadArticle(self.idTemplate);
+					},
+					function(reason) {
+						console.log(reason);
+					}
+				);
+				
 				}
 		
 			}

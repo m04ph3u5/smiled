@@ -1,532 +1,746 @@
 <div data-ng-if="!showNewsPost.deleted">
 
-<div data-ng-if="showNewsPost.post.character" class="container-fluid">
-	<div class="col-md-12 box boxGray">
-		<div class="row marginSTop">
-			<div class="colPadding">
-				<div class="squareCharImg" data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.post.character.id}}' })"
-					style="background-image:url('{{showNewsPost.post.character.cover}}'), url('assets/public/img/icon/pg.png'); cursor:pointer;"></div>	
-			</div>
-			<div class="col-xs-12 col-sm-10">
-				<span class="pull-right marginMRight" href="">						
-					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
-						<span class="glyphicon glyphicon-user"></span>
-						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
-					</a>
-					 
-					<a href="" data-ui-sref="logged.scenario.post({id : '{{showNewsPost.scenario.id}}', idPost : '{{showNewsPost.post.id}}' })">
-						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 	
-					</a>
-										
-					
-						
-					<div  data-ng-show="showNewsPost.editButton"  class="marginMLeft dropdown pull-right">
-						<a style="cursor:pointer;" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
-						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
-						 </ul>	
-					 </div>	
-					 <div data-ng-if="showNewsPost.post.lastChangeDate && (showNewsPost.post.lastChangeDate != showNewsPost.post.creationDate)">
-						<font size="2" color="#868686">Modificato il: {{showNewsPost.post.lastChangeDate | date: showNewsPost.realDateFormat}}</font>
-					</div>				
-				</span>	
-				<div class="row colPaddingScen">					
-								
-					<h4 class="pull-left"><a href="" data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.post.character.id}}' })">
-											{{showNewsPost.post.character.name}}</a>
-					</h4>
+	<div data-ng-if="showNewsPost.post.character" class="container-fluid">
+		<div class="col-md-12 box boxGray">
+			<div class="row marginSTop">
+				<div class="colPadding">
+					<div class="squareCharImg"
+						data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.post.character.id}}' })"
+						style="background-image: url('{{showNewsPost.post.character.cover}}'), url('assets/public/img/icon/pg.png'); cursor: pointer;"></div>
 				</div>
-	<!-- DIV di default  INIZIO --------------------------------------------------------------------------------->
-				<div  ng-show="!showNewsPost.editPost">
+				<div class="col-xs-12 col-sm-10">
+					<span class="pull-right marginMRight" href=""> <a href=""
+						data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
+							<span class="glyphicon glyphicon-user"></span>
+							{{showNewsPost.post.user.firstname}}
+							{{showNewsPost.post.user.lastname}},
+					</a> <a href=""
+						data-ui-sref="logged.scenario.post({id : '{{showNewsPost.scenario.id}}', idPost : '{{showNewsPost.post.id}}' })">
+							{{showNewsPost.post.creationDate | date:
+							showNewsPost.realDateFormat}} </a>
+
+
+
+						<div data-ng-show="showNewsPost.editButton"
+							class="marginMLeft dropdown pull-right">
+							<a style="cursor: pointer;"
+								class="glyphicon glyphicon-cog dropdown-toggle"
+								id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="true"></a>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								<li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica
+										post</a></li>
+								<li><a href="#" ng-click="showNewsPost.deletePost()">Elimina
+										post</a></li>
+							</ul>
+						</div>
+						<div
+							data-ng-if="showNewsPost.post.lastChangeDate && (showNewsPost.post.lastChangeDate != showNewsPost.post.creationDate)">
+							<font size="2" color="#868686">Modificato il:
+								{{showNewsPost.post.lastChangeDate | date:
+								showNewsPost.realDateFormat}}</font>
+						</div>
+					</span>
 					<div class="row colPaddingScen">
-						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}
-							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-							<a><span style="cursor:pointer;" data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
-						</p>
+
+						<h4 class="pull-left">
+							<a href=""
+								data-ui-sref="logged.scenario.charprofile({id : '{{showNewsPost.scenario.id}}', idCharacter : '{{showNewsPost.post.character.id}}' })">
+								{{showNewsPost.post.character.name}}</a>
+						</h4>
 					</div>
-					<div class="row text-left paddingMRight colPaddingScen">
-						<p class="textJustify" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></p>
-					</div>
-					<div data-ng-show="showNewsPost.post.tags.length>0" class="row colPaddingScen text-left marginSTop">
-						<b>Con: </b>
-						<span data-ng-repeat="t in showNewsPost.post.tags">
-							<a href="" data-ui-sref="logged.scenario.charprofile({id: '{{showNewsPost.scenario.id}}' ,idCharacter: '{{t.id}}' })">{{t.firstname}}</a>
-						</span>
-					</div>					
-					<div class="row colPaddingScen">								
-						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
-								data-ng-repeat="col in row track by $index">
-								<div class="squareImg" style="background-image:url('{{col}}'); cursor:pointer;"></div>
+					<!-- DIV di default  INIZIO --------------------------------------------------------------------------------->
+					<div ng-show="!showNewsPost.editPost">
+						<div class="row colPaddingScen">
+							<p class="pull-left">
+								{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}
+								<span data-ng-show="showNewsPost.post.place.text"> -
+									presso <i>{{showNewsPost.post.place.text}}</i>
+								</span> <a><span style="cursor: pointer;"
+									data-ng-click="showNewsPost.viewMap()"
+									data-ng-show="showNewsPost.post.place.x"
+									class="glyphicon glyphicon-map-marker"></span></a>
+							</p>
+						</div>
+						<div class="row text-left paddingMRight colPaddingScen">
+							<p class="textJustify"
+								data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></p>
+						</div>
+						<div data-ng-show="showNewsPost.post.tags.length>0"
+							class="row colPaddingScen text-left marginSTop">
+							<b>Con: </b> <span data-ng-repeat="t in showNewsPost.post.tags">
+								<a href=""
+								data-ui-sref="logged.scenario.charprofile({id: '{{showNewsPost.scenario.id}}' ,idCharacter: '{{t.id}}' })">{{t.firstname}}</a>
+							</span>
+						</div>
+						<div class="row colPaddingScen">
+							<div
+								data-ng-repeat="row in showNewsPost.post.media track by $index">
+								<div
+									data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
+									data-ng-repeat="col in row track by $index">
+									<div class="squareImg"
+										style="background-image: url('{{col}}'); cursor: pointer;"></div>
+								</div>
+								<div class="row" style="margin: 5px;"></div>
 							</div>
-							<div class="row" style="margin:5px;"></div>
-						</div>
-						<div data-ng-repeat="file in showNewsPost.files">
-							<div class="col-sm-2 marginMTop">
-								<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self" download="{{file.originalName}}">						
-								<div class="row">
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
-										data-ng-if="file.fileType == 'img'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
-										data-ng-if="file.fileType == 'pdf'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
-										data-ng-if="file.fileType == 'doc'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
-										data-ng-if="file.fileType == 'ppt'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
-										data-ng-if="file.fileType == 'excel'"></div>
-									</div>
-									<div class="row tooltips" title="{{file.originalName}}">
-										{{file.originalName | limitTo: 7}}
-										<span ng-if="file.originalName.length>7">...</span>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>	
-					<div class="row colPaddingScen">
-					<div class="col-xs-12 noPaddingLeft">
-					<hr class="colPadding"></div>
-				</div>					
-				<div class="row colPaddingScen text-left">
-					<div data-ng-class="showNewsPost.classCommentButton" class="btn invisibleButton">
-						<like-to post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenario.id}}"></like-to>
-					</div>
-					<button type="button" class="btn invisibleButton"
-						data-ng-class="showNewsPost.classCommentButton"
-						data-ng-click="showNewsPost.switchShowComment()">			
-						<span class="glyphicon glyphicon-comment marginLRight"></span>
-					Commenta
-					</button>						
-					<button type="button" class="btn invisibleButton"								
-						data-ng-click="showNewsPost.switchShowMetaComment()" >
-						<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>Suggerisci
-					</button>
-				</div>						
-				<div class="row colPaddingScen marginSTop">
-					<summarize-info-post data-ng-if="!showNewsPost.deleted" post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
-				</div>
-				<div data-ng-if="showNewsPost.showComment" class="row colPaddingScen">
-					<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-						scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter" logged-user="showNewsPost.loggedUser"></comment-to>
-				</div>
-				<div data-ng-if="showNewsPost.showMetaComment" class="row colPaddingScen">
-					<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
-						scenario-id="{{showNewsPost.scenario.id}}" logged-user="showNewsPost.loggedUser"></meta-comment-to>
-				</div>
-				</div>
-				
-	<!-- DIV di default  FINE ----------------------------------------------------------------------------------------------------------->
-				
-	<!-- DIV di update  INIZIO ---------------------------------------------------------------------------------------------------------->
-				
-				<div ng-show="showNewsPost.editPost">
-					<div class="row colPaddingScen">
-						<p class="pull-left"><a href="" data-ng-click="showNewsPost.updateDate()">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
-							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-							<a><span style="cursor:pointer" title="Georeferenzia il post"
-									class="tooltips glyphicon glyphicon-map-marker"
-									data-ng-click="showNewsPost.updatePositionPost(); insertStatus.hideTagBox()"></span></a>
-						</p>
-					</div>
-					<div class="row colPaddingScen paddingMRight">
-						<textarea data-ng-model ="showNewsPost.postDTO.text" class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
-				
-					</div>
-					<div data-ng-show="showNewsPost.post.tags.length>0" class="row colPaddingScen text-left marginSTop">
-						<b>Con: </b>
-						<div class="tags-wrapper">
-						<div class="tags-cloud">
-							<div data-ng-repeat="t in showNewsPost.post.tags" class="tag">
-								<span class="tagName" >
-									{{t.firstname}}
-								</span>
-								<span>
-									&nbsp;<b data-ng-click="showNewsPost.removeTag($index)" class="glyphicon glyphicon-remove"></b>
-								</span>	
-							</div>
-						</div>
-						</div>
-						
-					</div>
-							
-					<div class="row colPaddingScen marginSTop ">
-						<div class="pull-left marginSTop marginMRight">
-							<div title="Aggiungi un'immagine al post" ngf-select
-								ngf-change="showNewsPost.addImageToPost($files)"
-								class="tooltips glyphicon glyphicon-camera iconsMargin"
-								data-ng-style="showNewsPost.colorImageMarker"
-								data-ng-click="showNewsPost.hideTagBox()"></div>
-							
-							<div title="Allega un file al post" ngf-select
-								ngf-change="showNewsPost.addFileToPost($files)"
-								class="tooltips glyphicon glyphicon-file iconsMargin"
-								data-ng-style="showNewsPost.colorFileMarker"
-								data-ng-click="showNewsPost.hideTagBox()"></div>
-						
-							<div title="Aggiungi una posizione al post"
-								class="tooltips glyphicon glyphicon-map-marker iconsMargin"
-								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()"
-								data-ng-style="showNewsPost.colorMapMarker"></div>
-				
-							<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="showNewsPost.colorTagsMarker"
-								title="Tagga personaggi al post"
-								data-ng-click="showNewsPost.switchShowTagBox()">
-							</div>
-						</div>
-					</div>
-					<div class="row colPaddingScen text-left">		
-	
-						<tags-input data-ng-show="showNewsPost.showTagBox"
-							data-ng-model="showNewsPost.newCharactersToTags" display-property="name"
-							placeholder="TAGGA UN PERSONAGGIO" replace-spaces-with-dashes="false"
-							template="tag-template" add-from-autocomplete-only="true">
-						<auto-complete source="showNewsPost.search($query)"
-							min-length="0" load-on-focus="true" load-on-empty="true"
-							max-results-to-show="32" template="autocomplete-template">
-						</auto-complete> </tags-input>
-					</div>
-				<div>
-					<div class="row colPaddingScen">							
-						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-							<div data-ng-repeat="col in row track by $index" class="text-left imgToPost colPadding">
-								<div class="squareImg" style="background-image:url('{{col}}')">
-									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeImage($parent.$index, $index);"></span></div>
+							<div data-ng-repeat="file in showNewsPost.files">
+								<div class="col-sm-2 marginMTop">
+									<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self"
+										download="{{file.originalName}}">
+										<div class="row">
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_img.png')"
+												data-ng-if="file.fileType == 'img'"></div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_pdf.png')"
+												data-ng-if="file.fileType == 'pdf'"></div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_doc.png')"
+												data-ng-if="file.fileType == 'doc'"></div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_ppt.png')"
+												data-ng-if="file.fileType == 'ppt'"></div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_excel.png')"
+												data-ng-if="file.fileType == 'excel'"></div>
+										</div>
+										<div class="row tooltips" title="{{file.originalName}}">
+											{{file.originalName | limitTo: 7}} <span
+												ng-if="file.originalName.length>7">...</span>
+										</div>
+									</a>
 								</div>
 							</div>
-							<div class="row" style="margin:5px;"></div>	
 						</div>
-					</div>
-					
-					<div class="row colPaddingScen">
-						<div data-ng-repeat="file in showNewsPost.files">				
-								<div class="col-sm-2 textLeft marginMTop">
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
-										data-ng-if="file.fileType == 'img'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
-										data-ng-if="file.fileType == 'pdf'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
-										data-ng-if="file.fileType == 'doc'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
-										data-ng-if="file.fileType == 'ppt'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
-										data-ng-if="file.fileType == 'excel'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="row tooltips" title="{{file.originalName}}">
-										{{file.originalName | limitTo: 7}}
-										<span ng-if="file.originalName.length>7">...</span>
-									</div>
-								</div>
-						</div>
-					</div>
-				</div>
-					<div class="row marginEmS col-xs-12">
-						<div class="pull-right">
-							<button data-ng-click="showNewsPost.updateStatus()"
-								class="btn positiveButton">AGGIORNA POST</button>
-							
-							<button data-ng-click="showNewsPost.closeEditPost()"
-								class="btn warningButton">ANNULLA</button>
-						</div>
-					</div>
-				</div>
-				<!-- DIV di update  FINE --------------------------------------------------------------------------------->		
-								
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-</div>
-
-<!-- EVENTO -->
-<div data-ng-if="!showNewsPost.deleted">
-				
-<div data-ng-if="!showNewsPost.post.character" class="container-fluid">
-	<div class="col-md-12 box boxGray">
-		<div class="row marginSTop">
-			<div class="colPadding">
-				<div class="squareCharImg" style="background-image:url('assets/public/img/narr.png')"></div>	
-			</div>
-			
-			<div class="col-xs-12 col-sm-10">
-				<span class="pull-right marginMRight" href="">
-					<a href="" data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
-						<span class="glyphicon glyphicon-user"></span>
-						{{showNewsPost.post.user.firstname}} {{showNewsPost.post.user.lastname}},
-					</a>
-					<a href="" data-ui-sref="logged.scenario.post({id : '{{showNewsPost.scenario.id}}', idPost : '{{showNewsPost.post.id}}' })">
-						{{showNewsPost.post.creationDate | date: showNewsPost.realDateFormat}} 	
-					</a>
-					
-						<div class="marginMLeft dropdown pull-right">
-						<a style="cursor:pointer;" data-ng-show="showNewsPost.editButton" class="glyphicon glyphicon-cog dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						    <li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica post</a></li>
-						    <li><a href="#" ng-click="showNewsPost.deletePost()">Elimina post</a></li>
-						 </ul>	
-					 </div>	
-					 <div data-ng-if="showNewsPost.post.lastChangeDate && (showNewsPost.post.lastChangeDate != showNewsPost.post.creationDate)">
-						<font size="2" color="#868686">Modificato il: {{showNewsPost.post.lastChangeDate | date: showNewsPost.realDateFormat}}</font>
-					</div>		
-				</span>
-				<div class="row colPaddingScen">
-					<h4 class="pull-left">
-						<a href="">Narratore</a>
-					</h4>
-				</div>
-				
-				<!--  DIV di default inizio -->
-				<div data-ng-show="!showNewsPost.editPost">
-					<div class="row colPaddingScen">			
-						<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}
-							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-							<a href=""><span data-ng-click="showNewsPost.viewMap()" data-ng-show="showNewsPost.post.place.x" class="glyphicon glyphicon-map-marker"></span></a>
-						</p>				
-					</div>
-					<div class="row colPaddingScen">
-						<p class="textJustify" data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></p>
-					</div>
-					<div data-ng-show="showNewsPost.post.tags.length>0" class="row colPaddingScen text-left marginSTop"> 
-							
-						<b>Con: </b>
-						<span data-ng-repeat="t in showNewsPost.post.tags">
-							<a href="" data-ui-sref="logged.scenario.charprofile({id: '{{showNewsPost.scenario.id}}' ,idCharacter: '{{t.id}}' })">{{t.firstname}}</a>
-						</span>
-					</div>
-					<div class="row colPaddingScen">
-						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-							<div data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
-								data-ng-repeat="col in row track by $index">
-								<div class="squareImg" style="background-image:url('{{col}}'); cursor:pointer;"></div>
-							</div>
-							<div class="row" style="margin:5px;"></div>
-						</div>
-						<div data-ng-repeat="file in showNewsPost.files">
-							<div class="col-sm-2 marginMTop">
-								<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self" download="{{file.originalName}}">						
-								<div class="row">
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
-										ng-if="file.fileType == 'img'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
-										ng-if="file.fileType == 'pdf'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
-										ng-if="file.fileType == 'doc'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
-										ng-if="file.fileType == 'ppt'"></div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
-										ng-if="file.fileType == 'excel'"></div>
-									</div>
-									<div class="row tooltips" title="{{file.originalName}}">
-										{{file.originalName | limitTo: 7}}
-										<span ng-if="file.originalName.length>7">...</span>
-									</div>
-								</a>
+						<div class="row colPaddingScen">
+							<div class="col-xs-12 noPaddingLeft">
+								<hr class="colPadding">
 							</div>
 						</div>
-					</div>
-					<div class="row colPaddingScen">
-						<div class="col-xs-12 noPaddingLeft">
-							<hr class="colPaddingScen">
-						</div>
-					</div>			
-					<div class="row colPaddingScen text-left">
-						<div data-ng-class="showNewsPost.classCommentButton" class="btn invisibleButton">
-							<like-to  post="showNewsPost.post" liker="showNewsPost.currentCharacter"
-							scenario-id="{{showNewsPost.scenario.id}}"></like-to>
-						</div>
-						<button class="btn invisibleButton"
-								data-ng-class="showNewsPost.classCommentButton" 
+						<div class="row colPaddingScen text-left">
+							<div data-ng-class="showNewsPost.classCommentButton"
+								class="btn invisibleButton">
+								<like-to post="showNewsPost.post"
+									liker="showNewsPost.currentCharacter"
+									scenario-id="{{showNewsPost.scenario.id}}"></like-to>
+							</div>
+							<button type="button" class="btn invisibleButton"
+								data-ng-class="showNewsPost.classCommentButton"
 								data-ng-click="showNewsPost.switchShowComment()">
-							<span class="glyphicon glyphicon-comment marginLRight"></span>
-							Commenta
-						</button>
-						<button class="btn invisibleButton"
+								<span class="glyphicon glyphicon-comment marginLRight"></span>
+								Commenta
+							</button>
+							<button type="button" class="btn invisibleButton"
 								data-ng-click="showNewsPost.switchShowMetaComment()">
-							<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>
-							Suggerisci
-						</button>				
+								<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>Suggerisci
+							</button>
+						</div>
+						<div class="row colPaddingScen marginSTop">
+							<summarize-info-post data-ng-if="!showNewsPost.deleted"
+								post="showNewsPost.post"
+								current-character="showNewsPost.currentCharacter"
+								show-comment="showNewsPost.showComment"
+								show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
+						</div>
+						<div data-ng-if="showNewsPost.showComment"
+							class="row colPaddingScen">
+							<comment-to post="showNewsPost.post"
+								writer="showNewsPost.currentCharacter"
+								scenario-id="{{showNewsPost.scenario.id}}"
+								current-character="showNewsPost.currentCharacter"
+								logged-user="showNewsPost.loggedUser"></comment-to>
+						</div>
+						<div data-ng-if="showNewsPost.showMetaComment"
+							class="row colPaddingScen">
+							<meta-comment-to post="showNewsPost.post"
+								writer="showNewsPost.loggedUser"
+								scenario-id="{{showNewsPost.scenario.id}}"
+								logged-user="showNewsPost.loggedUser"></meta-comment-to>
+						</div>
 					</div>
-					<div class="row colPaddingScen marginSTop">
-						<summarize-info-post  post="showNewsPost.post" current-character="showNewsPost.currentCharacter" show-comment="showNewsPost.showComment" show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
-					</div>	
-					<div data-ng-if="showNewsPost.showComment" class="row">
-						<comment-to post="showNewsPost.post" writer="showNewsPost.currentCharacter"
-							scenario-id="{{showNewsPost.scenario.id}}" current-character="showNewsPost.currentCharacter" logged-user="showNewsPost.loggedUser"></comment-to>
-					</div>
-					<div data-ng-if="showNewsPost.showMetaComment" class="row">
-						<meta-comment-to post="showNewsPost.post" writer="showNewsPost.loggedUser"
-							scenario-id="{{showNewsPost.scenario.id}}" logged-user="showNewsPost.loggedUser"></meta-comment-to>
-					</div>
-				</div>
-				
-			
-			<!-- DIV di default fine -->
-			
-			<!-- DIV di update inizio -->
-		
-					
-			<div data-ng-show="showNewsPost.editPost">
-				<div class="row colPaddingScen">
-						<p class="pull-left"><a data-ng-click="showNewsPost.updateDate()" href="">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
-							<span data-ng-show="showNewsPost.post.place.text"> - presso <i>{{showNewsPost.post.place.text}}</i></span>
-							<a><span style="cursor:pointer" title="Georeferenzia il post"
+
+					<!-- DIV di default  FINE ----------------------------------------------------------------------------------------------------------->
+
+					<!-- DIV di update  INIZIO ---------------------------------------------------------------------------------------------------------->
+
+					<div ng-show="showNewsPost.editPost">
+						<div class="row colPaddingScen">
+							<p class="pull-left">
+								<a href="" data-ng-click="showNewsPost.updateDate()">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
+								<span data-ng-show="showNewsPost.post.place.text"> -
+									presso <i>{{showNewsPost.post.place.text}}</i>
+								</span> <a><span style="cursor: pointer"
+									title="Georeferenzia il post"
 									class="tooltips glyphicon glyphicon-map-marker"
 									data-ng-click="showNewsPost.updatePositionPost(); insertStatus.hideTagBox()"></span></a>
-						</p>
-				</div>
-				<div class="row colPaddingScen paddingMRight">
-					<textarea data-ng-model ="showNewsPost.postDTO.text" class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
-				
-				</div>
-			
+							</p>
+						</div>
+						<div class="row colPaddingScen paddingMRight">
+							<textarea data-ng-model="showNewsPost.postDTO.text"
+								class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
 
-				<div data-ng-show="showNewsPost.post.tags.length>0" class="row colPaddingScen text-left marginSTop">
-						<b>Con: </b>
-						<div class="tags-wrapper">
-						<div class="tags-cloud">
-							<div data-ng-repeat="t in showNewsPost.post.tags" class="tag">
-								<span class="tagName" >
-									{{t.firstname}}
-								</span>
-								<span>
-									&nbsp;<b data-ng-click="showNewsPost.removeTag($index)" class="glyphicon glyphicon-remove"></b>
-								</span>	
-							</div>
 						</div>
-						</div>
-						
-				</div>
-							
-					<div class="row marginSTop colPaddingScen">
-						<div class="pull-left marginSTop marginMRight">
-							<div title="Aggiungi un'immagine al post" ngf-select
-								ngf-change="showNewsPost.addImageToPost($files)"
-								class="tooltips glyphicon glyphicon-camera iconsMargin"
-								data-ng-style="showNewsPost.colorImageMarker"
-								data-ng-click="showNewsPost.hideTagBox()"></div>
-							
-							<div title="Allega un file al post" ngf-select
-								ngf-change="showNewsPost.addFileToPost($files)"
-								class="tooltips glyphicon glyphicon-file iconsMargin"
-								data-ng-style="showNewsPost.colorFileMarker"
-								data-ng-click="showNewsPost.hideTagBox()"></div>
-						
-							<div title="Aggiungi una posizione al post"
-								class="tooltips glyphicon glyphicon-map-marker iconsMargin"
-								data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()"
-								data-ng-style="showNewsPost.colorMapMarker"></div>
-				
-							<div class="tooltips glyphicon glyphicon-tags iconsMargin" data-ng-style="showNewsPost.colorTagsMarker"
-								title="Tagga personaggi al post"
-								data-ng-click="showNewsPost.switchShowTagBox()">
-							</div>
-						</div>
-					</div>
-					<div class="row text-left colPaddingScen">		
-	
-						<tags-input data-ng-show="showNewsPost.showTagBox"
-							data-ng-model="showNewsPost.newCharactersToTags" display-property="name"
-							placeholder="TAGGA UN PERSONAGGIO" replace-spaces-with-dashes="false"
-							template="tag-template" add-from-autocomplete-only="true">
-						<auto-complete source="showNewsPost.search($query)"
-							min-length="0" load-on-focus="true" load-on-empty="true"
-							max-results-to-show="32" template="autocomplete-template">
-						</auto-complete> </tags-input>
-					</div>
-				
-					<div>
-					<div class="row colPaddingScen">							
-						<div data-ng-repeat="row in showNewsPost.post.media track by $index">
-							<div data-ng-repeat="col in row track by $index" class="text-left imgToPost colPadding">
-								<div class="squareImg" style="background-image:url('{{col}}')">
-									<div class="hoverContent textRight"><span class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeImage($parent.$index, $index);"></span></div>
-								</div>
-							</div>
-							<div class="row" style="margin:5px;"></div>	
-						</div>
-					</div>
-					
-					<div class="row colPaddingScen">
-						<div data-ng-repeat="file in showNewsPost.files">				
-								<div class="col-sm-2 textLeft marginMTop">
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_img.png')" 
-										data-ng-if="file.fileType == 'img'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_pdf.png')" 
-										data-ng-if="file.fileType == 'pdf'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_doc.png')" 
-										data-ng-if="file.fileType == 'doc'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_ppt.png')" 
-										data-ng-if="file.fileType == 'ppt'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="squareFileIcon" style="background-image:url('assets/public/img/files/ic_excel.png')" 
-										data-ng-if="file.fileType == 'excel'">
-										<div class="hoverContent textRight"><span  show-on-hover-parent
-											class="glyphicon glyphicon-remove marginMTop iconsMargin"
-											data-ng-click="showNewsPost.removeFile(file)"></span></div>
-									</div>
-									<div class="row tooltips" title="{{file.originalName}}">
-										{{file.originalName | limitTo: 7}}
-										<span ng-if="file.originalName.length>7">...</span>
+						<div data-ng-show="showNewsPost.post.tags.length>0"
+							class="row colPaddingScen text-left marginSTop">
+							<b>Con: </b>
+							<div class="tags-wrapper">
+								<div class="tags-cloud">
+									<div data-ng-repeat="t in showNewsPost.post.tags" class="tag">
+										<span class="tagName"> {{t.firstname}} </span> <span>
+											&nbsp;<b data-ng-click="showNewsPost.removeTag($index)"
+											class="glyphicon glyphicon-remove"></b>
+										</span>
 									</div>
 								</div>
+							</div>
+
+						</div>
+
+						<div class="row colPaddingScen marginSTop ">
+							<div class="pull-left marginSTop marginMRight">
+								<div title="Aggiungi un'immagine al post" ngf-select
+									ngf-change="showNewsPost.addImageToPost($files)"
+									class="tooltips glyphicon glyphicon-camera iconsMargin"
+									data-ng-style="showNewsPost.colorImageMarker"
+									data-ng-click="showNewsPost.hideTagBox()"></div>
+
+								<div title="Allega un file al post" ngf-select
+									ngf-change="showNewsPost.addFileToPost($files)"
+									class="tooltips glyphicon glyphicon-file iconsMargin"
+									data-ng-style="showNewsPost.colorFileMarker"
+									data-ng-click="showNewsPost.hideTagBox()"></div>
+
+								<div title="Aggiungi una posizione al post"
+									class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+									data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()"
+									data-ng-style="showNewsPost.colorMapMarker"></div>
+
+								<div class="tooltips glyphicon glyphicon-tags iconsMargin"
+									data-ng-style="showNewsPost.colorTagsMarker"
+									title="Tagga personaggi al post"
+									data-ng-click="showNewsPost.switchShowTagBox()"></div>
+							</div>
+						</div>
+						<div class="row colPaddingScen text-left">
+
+							<tags-input data-ng-show="showNewsPost.showTagBox"
+								data-ng-model="showNewsPost.newCharactersToTags"
+								display-property="name" placeholder="TAGGA UN PERSONAGGIO"
+								replace-spaces-with-dashes="false" template="tag-template"
+								add-from-autocomplete-only="true"> <auto-complete
+								source="showNewsPost.search($query)" min-length="0"
+								load-on-focus="true" load-on-empty="true"
+								max-results-to-show="32" template="autocomplete-template">
+							</auto-complete> </tags-input>
+						</div>
+						<div>
+							<div class="row colPaddingScen">
+								<div
+									data-ng-repeat="row in showNewsPost.post.media track by $index">
+									<div data-ng-repeat="col in row track by $index"
+										class="text-left imgToPost colPadding">
+										<div class="squareImg"
+											style="background-image: url('{{col}}')">
+											<div class="hoverContent textRight">
+												<span
+													class="glyphicon glyphicon-remove marginMTop iconsMargin"
+													data-ng-click="showNewsPost.removeImage($parent.$index, $index);"></span>
+											</div>
+										</div>
+									</div>
+									<div class="row" style="margin: 5px;"></div>
+								</div>
+							</div>
+
+							<div class="row colPaddingScen">
+								<div data-ng-repeat="file in showNewsPost.files">
+									<div class="col-sm-2 textLeft marginMTop">
+										<div class="squareFileIcon"
+											style="background-image: url('assets/public/img/files/ic_img.png')"
+											data-ng-if="file.fileType == 'img'">
+											<div class="hoverContent textRight">
+												<span show-on-hover-parent
+													class="glyphicon glyphicon-remove marginMTop iconsMargin"
+													data-ng-click="showNewsPost.removeFile(file)"></span>
+											</div>
+										</div>
+										<div class="squareFileIcon"
+											style="background-image: url('assets/public/img/files/ic_pdf.png')"
+											data-ng-if="file.fileType == 'pdf'">
+											<div class="hoverContent textRight">
+												<span show-on-hover-parent
+													class="glyphicon glyphicon-remove marginMTop iconsMargin"
+													data-ng-click="showNewsPost.removeFile(file)"></span>
+											</div>
+										</div>
+										<div class="squareFileIcon"
+											style="background-image: url('assets/public/img/files/ic_doc.png')"
+											data-ng-if="file.fileType == 'doc'">
+											<div class="hoverContent textRight">
+												<span show-on-hover-parent
+													class="glyphicon glyphicon-remove marginMTop iconsMargin"
+													data-ng-click="showNewsPost.removeFile(file)"></span>
+											</div>
+										</div>
+										<div class="squareFileIcon"
+											style="background-image: url('assets/public/img/files/ic_ppt.png')"
+											data-ng-if="file.fileType == 'ppt'">
+											<div class="hoverContent textRight">
+												<span show-on-hover-parent
+													class="glyphicon glyphicon-remove marginMTop iconsMargin"
+													data-ng-click="showNewsPost.removeFile(file)"></span>
+											</div>
+										</div>
+										<div class="squareFileIcon"
+											style="background-image: url('assets/public/img/files/ic_excel.png')"
+											data-ng-if="file.fileType == 'excel'">
+											<div class="hoverContent textRight">
+												<span show-on-hover-parent
+													class="glyphicon glyphicon-remove marginMTop iconsMargin"
+													data-ng-click="showNewsPost.removeFile(file)"></span>
+											</div>
+										</div>
+										<div class="row tooltips" title="{{file.originalName}}">
+											{{file.originalName | limitTo: 7}} <span
+												ng-if="file.originalName.length>7">...</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row marginEmS col-xs-12">
+							<div class="pull-right">
+								<button data-ng-click="showNewsPost.updateStatus()"
+									class="btn positiveButton">AGGIORNA POST</button>
+
+								<button data-ng-click="showNewsPost.closeEditPost()"
+									class="btn warningButton">ANNULLA</button>
+							</div>
 						</div>
 					</div>
+					<!-- DIV di update  FINE --------------------------------------------------------------------------------->
+
 				</div>
-					<div class="row col-xs-12 marginMTop">
-						<div class="pull-right">
-							<button data-ng-click="showNewsPost.updateEvent()"
-								class="btn positiveButton">AGGIORNA POST</button>
-							
-							<button data-ng-click="showNewsPost.closeEditPost()"
-								class="btn warningButton">ANNULLA</button>
-						</div>
-					</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- EVENTO -->
+	<div data-ng-if="!showNewsPost.post.character">
+		<div data-ng-if="showNewsPost.post.number" class="container-fluid">
+			<div class="col-md-12 box boxGray">
+				<div class="row marginSTop">
+					<div class="colPadding">
+						<div class="squareCharImg"
+							style="background-image: url('assets/public/img/wizard/wiz_newspaper.png')"></div>
+					</div>
+					<div class="col-xs-12 col-sm-10">
+						<span class="pull-right marginMRight" href=""> <a href=""
+							data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
+								<span class="glyphicon glyphicon-user"></span>
+								{{showNewsPost.post.user.firstname}}
+								{{showNewsPost.post.user.lastname}},
+						</a> <a href=""
+							data-ui-sref="logged.scenario.post({id : '{{showNewsPost.scenario.id}}', idPost : '{{showNewsPost.post.id}}' })">
+								{{showNewsPost.post.creationDate | date:
+								showNewsPost.realDateFormat}} </a>
+						</span>
+						<div class="row colPaddingScen">
+							<h4 class="pull-left">
+								<a href="">Giornalista</a>
+							</h4>
+						</div>
+
+						<!--  DIV di default inizio -->
+						<div data-ng-show="!showNewsPost.editPost">
+							<div class="row colPaddingScen">
+								<p class="pull-left">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}
+								</p>
+							</div>
+
+							<div class="col-sm-8 col-sm-offset-2 background-published">
+								<div class="pull-left number-published">Numero
+									{{showNewsPost.post.number}}</div><br> <div class="title-published">{{showNewsPost.post.name}}</div>
+								<button data-ui-sref="logged.scenario.newspublished({id: showNewsPost.post.scenarioId, number : showNewsPost.post.number})"" class="btn button-published">Leggi il giornale
+									completo</button>
+							</div>
+
+
+							<div class="row colPaddingScen">
+								<div class="col-xs-12 noPaddingLeft">
+									<hr class="colPaddingScen">
+								</div>
+							</div>
+							<div class="row colPaddingScen text-left">
+								<div data-ng-class="showNewsPost.classCommentButton"
+									class="btn invisibleButton">
+									<like-to post="showNewsPost.post"
+										liker="showNewsPost.currentCharacter"
+										scenario-id="{{showNewsPost.scenario.id}}"></like-to>
+								</div>
+								<button class="btn invisibleButton"
+									data-ng-class="showNewsPost.classCommentButton"
+									data-ng-click="showNewsPost.switchShowComment()">
+									<span class="glyphicon glyphicon-comment marginLRight"></span>
+									Commenta
+								</button>
+								<button class="btn invisibleButton"
+									data-ng-click="showNewsPost.switchShowMetaComment()">
+									<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>
+									Suggerisci
+								</button>
+							</div>
+							<div class="row colPaddingScen marginSTop">
+								<summarize-info-post post="showNewsPost.post"
+									current-character="showNewsPost.currentCharacter"
+									show-comment="showNewsPost.showComment"
+									show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
+							</div>
+							<div data-ng-if="showNewsPost.showComment" class="row">
+								<comment-to post="showNewsPost.post"
+									writer="showNewsPost.currentCharacter"
+									scenario-id="{{showNewsPost.scenario.id}}"
+									current-character="showNewsPost.currentCharacter"
+									logged-user="showNewsPost.loggedUser"></comment-to>
+							</div>
+							<div data-ng-if="showNewsPost.showMetaComment" class="row">
+								<meta-comment-to post="showNewsPost.post"
+									writer="showNewsPost.loggedUser"
+									scenario-id="{{showNewsPost.scenario.id}}"
+									logged-user="showNewsPost.loggedUser"></meta-comment-to>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div data-ng-if="!showNewsPost.post.number" class="container-fluid">
+			<div class="col-md-12 box boxGray">
+				<div class="row marginSTop">
+					<div class="colPadding">
+						<div class="squareCharImg"
+							style="background-image: url('assets/public/img/narr.png')"></div>
+					</div>
+
+					<div class="col-xs-12 col-sm-10">
+						<span class="pull-right marginMRight" href=""> <a href=""
+							data-ui-sref="logged.userProfile({id : '{{showNewsPost.post.user.id}}'})">
+								<span class="glyphicon glyphicon-user"></span>
+								{{showNewsPost.post.user.firstname}}
+								{{showNewsPost.post.user.lastname}},
+						</a> <a href=""
+							data-ui-sref="logged.scenario.post({id : '{{showNewsPost.scenario.id}}', idPost : '{{showNewsPost.post.id}}' })">
+								{{showNewsPost.post.creationDate | date:
+								showNewsPost.realDateFormat}} </a>
+
+							<div class="marginMLeft dropdown pull-right">
+								<a style="cursor: pointer;"
+									data-ng-show="showNewsPost.editButton"
+									class="glyphicon glyphicon-cog dropdown-toggle"
+									id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="true"></a>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#" ng-click="showNewsPost.switchEditPost()">Modifica
+											post</a></li>
+									<li><a href="#" ng-click="showNewsPost.deletePost()">Elimina
+											post</a></li>
+								</ul>
+							</div>
+							<div
+								data-ng-if="showNewsPost.post.lastChangeDate && (showNewsPost.post.lastChangeDate != showNewsPost.post.creationDate)">
+								<font size="2" color="#868686">Modificato il:
+									{{showNewsPost.post.lastChangeDate | date:
+									showNewsPost.realDateFormat}}</font>
+							</div>
+						</span>
+						<div class="row colPaddingScen">
+							<h4 class="pull-left">
+								<a href="">Narratore</a>
+							</h4>
+						</div>
+
+						<!--  DIV di default inizio -->
+						<div data-ng-show="!showNewsPost.editPost">
+							<div class="row colPaddingScen">
+								<p class="pull-left">
+									{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}
+									<span data-ng-show="showNewsPost.post.place.text"> -
+										presso <i>{{showNewsPost.post.place.text}}</i>
+									</span> <a href=""><span data-ng-click="showNewsPost.viewMap()"
+										data-ng-show="showNewsPost.post.place.x"
+										class="glyphicon glyphicon-map-marker"></span></a>
+								</p>
+							</div>
+							<div class="row colPaddingScen">
+								<p class="textJustify"
+									data-ng-bind-html="showNewsPost.post.text | linky:'_blank'"></p>
+							</div>
+							<div data-ng-show="showNewsPost.post.tags.length>0"
+								class="row colPaddingScen text-left marginSTop">
+
+								<b>Con: </b> <span data-ng-repeat="t in showNewsPost.post.tags">
+									<a href=""
+									data-ui-sref="logged.scenario.charprofile({id: '{{showNewsPost.scenario.id}}' ,idCharacter: '{{t.id}}' })">{{t.firstname}}</a>
+								</span>
+							</div>
+							<div class="row colPaddingScen">
+								<div
+									data-ng-repeat="row in showNewsPost.post.media track by $index">
+									<div
+										data-ng-click="showNewsPost.openPostGallery($parent.$index, $index)"
+										data-ng-repeat="col in row track by $index">
+										<div class="squareImg"
+											style="background-image: url('{{col}}'); cursor: pointer;"></div>
+									</div>
+									<div class="row" style="margin: 5px;"></div>
+								</div>
+								<div data-ng-repeat="file in showNewsPost.files">
+									<div class="col-sm-2 marginMTop">
+										<a href="{{showNewsPost.getMediaUrl(file.id)}}" target="_self"
+											download="{{file.originalName}}">
+											<div class="row">
+												<div class="squareFileIcon"
+													style="background-image: url('assets/public/img/files/ic_img.png')"
+													ng-if="file.fileType == 'img'"></div>
+												<div class="squareFileIcon"
+													style="background-image: url('assets/public/img/files/ic_pdf.png')"
+													ng-if="file.fileType == 'pdf'"></div>
+												<div class="squareFileIcon"
+													style="background-image: url('assets/public/img/files/ic_doc.png')"
+													ng-if="file.fileType == 'doc'"></div>
+												<div class="squareFileIcon"
+													style="background-image: url('assets/public/img/files/ic_ppt.png')"
+													ng-if="file.fileType == 'ppt'"></div>
+												<div class="squareFileIcon"
+													style="background-image: url('assets/public/img/files/ic_excel.png')"
+													ng-if="file.fileType == 'excel'"></div>
+											</div>
+											<div class="row tooltips" title="{{file.originalName}}">
+												{{file.originalName | limitTo: 7}} <span
+													ng-if="file.originalName.length>7">...</span>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="row colPaddingScen">
+								<div class="col-xs-12 noPaddingLeft">
+									<hr class="colPaddingScen">
+								</div>
+							</div>
+							<div class="row colPaddingScen text-left">
+								<div data-ng-class="showNewsPost.classCommentButton"
+									class="btn invisibleButton">
+									<like-to post="showNewsPost.post"
+										liker="showNewsPost.currentCharacter"
+										scenario-id="{{showNewsPost.scenario.id}}"></like-to>
+								</div>
+								<button class="btn invisibleButton"
+									data-ng-class="showNewsPost.classCommentButton"
+									data-ng-click="showNewsPost.switchShowComment()">
+									<span class="glyphicon glyphicon-comment marginLRight"></span>
+									Commenta
+								</button>
+								<button class="btn invisibleButton"
+									data-ng-click="showNewsPost.switchShowMetaComment()">
+									<span class="glyphicon glyphicon-exclamation-sign marginLRight"></span>
+									Suggerisci
+								</button>
+							</div>
+							<div class="row colPaddingScen marginSTop">
+								<summarize-info-post post="showNewsPost.post"
+									current-character="showNewsPost.currentCharacter"
+									show-comment="showNewsPost.showComment"
+									show-meta-comment="showNewsPost.showMetaComment"></summarize-info-post>
+							</div>
+							<div data-ng-if="showNewsPost.showComment" class="row">
+								<comment-to post="showNewsPost.post"
+									writer="showNewsPost.currentCharacter"
+									scenario-id="{{showNewsPost.scenario.id}}"
+									current-character="showNewsPost.currentCharacter"
+									logged-user="showNewsPost.loggedUser"></comment-to>
+							</div>
+							<div data-ng-if="showNewsPost.showMetaComment" class="row">
+								<meta-comment-to post="showNewsPost.post"
+									writer="showNewsPost.loggedUser"
+									scenario-id="{{showNewsPost.scenario.id}}"
+									logged-user="showNewsPost.loggedUser"></meta-comment-to>
+							</div>
+						</div>
+
+
+						<!-- DIV di default fine -->
+
+						<!-- DIV di update inizio -->
+
+
+						<div data-ng-show="showNewsPost.editPost">
+							<div class="row colPaddingScen">
+								<p class="pull-left">
+									<a data-ng-click="showNewsPost.updateDate()" href="">{{showNewsPost.formatDate(showNewsPost.post.julianDayNumber,showNewsPost.post.timeNumber)}}</a>
+									<span data-ng-show="showNewsPost.post.place.text"> -
+										presso <i>{{showNewsPost.post.place.text}}</i>
+									</span> <a><span style="cursor: pointer"
+										title="Georeferenzia il post"
+										class="tooltips glyphicon glyphicon-map-marker"
+										data-ng-click="showNewsPost.updatePositionPost(); insertStatus.hideTagBox()"></span></a>
+								</p>
+							</div>
+							<div class="row colPaddingScen paddingMRight">
+								<textarea data-ng-model="showNewsPost.postDTO.text"
+									class="pull-left allWidth" rows="3">{{showNewsPost.postDTO.text}}</textarea>
+
+							</div>
+
+
+							<div data-ng-show="showNewsPost.post.tags.length>0"
+								class="row colPaddingScen text-left marginSTop">
+								<b>Con: </b>
+								<div class="tags-wrapper">
+									<div class="tags-cloud">
+										<div data-ng-repeat="t in showNewsPost.post.tags" class="tag">
+											<span class="tagName"> {{t.firstname}} </span> <span>
+												&nbsp;<b data-ng-click="showNewsPost.removeTag($index)"
+												class="glyphicon glyphicon-remove"></b>
+											</span>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="row marginSTop colPaddingScen">
+								<div class="pull-left marginSTop marginMRight">
+									<div title="Aggiungi un'immagine al post" ngf-select
+										ngf-change="showNewsPost.addImageToPost($files)"
+										class="tooltips glyphicon glyphicon-camera iconsMargin"
+										data-ng-style="showNewsPost.colorImageMarker"
+										data-ng-click="showNewsPost.hideTagBox()"></div>
+
+									<div title="Allega un file al post" ngf-select
+										ngf-change="showNewsPost.addFileToPost($files)"
+										class="tooltips glyphicon glyphicon-file iconsMargin"
+										data-ng-style="showNewsPost.colorFileMarker"
+										data-ng-click="showNewsPost.hideTagBox()"></div>
+
+									<div title="Aggiungi una posizione al post"
+										class="tooltips glyphicon glyphicon-map-marker iconsMargin"
+										data-ng-click="showNewsPost.setPositionPost(); showNewsPost.hideTagBox()"
+										data-ng-style="showNewsPost.colorMapMarker"></div>
+
+									<div class="tooltips glyphicon glyphicon-tags iconsMargin"
+										data-ng-style="showNewsPost.colorTagsMarker"
+										title="Tagga personaggi al post"
+										data-ng-click="showNewsPost.switchShowTagBox()"></div>
+								</div>
+							</div>
+							<div class="row text-left colPaddingScen">
+
+								<tags-input data-ng-show="showNewsPost.showTagBox"
+									data-ng-model="showNewsPost.newCharactersToTags"
+									display-property="name" placeholder="TAGGA UN PERSONAGGIO"
+									replace-spaces-with-dashes="false" template="tag-template"
+									add-from-autocomplete-only="true"> <auto-complete
+									source="showNewsPost.search($query)" min-length="0"
+									load-on-focus="true" load-on-empty="true"
+									max-results-to-show="32" template="autocomplete-template">
+								</auto-complete> </tags-input>
+							</div>
+
+							<div>
+								<div class="row colPaddingScen">
+									<div
+										data-ng-repeat="row in showNewsPost.post.media track by $index">
+										<div data-ng-repeat="col in row track by $index"
+											class="text-left imgToPost colPadding">
+											<div class="squareImg"
+												style="background-image: url('{{col}}')">
+												<div class="hoverContent textRight">
+													<span
+														class="glyphicon glyphicon-remove marginMTop iconsMargin"
+														data-ng-click="showNewsPost.removeImage($parent.$index, $index);"></span>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="margin: 5px;"></div>
+									</div>
+								</div>
+
+								<div class="row colPaddingScen">
+									<div data-ng-repeat="file in showNewsPost.files">
+										<div class="col-sm-2 textLeft marginMTop">
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_img.png')"
+												data-ng-if="file.fileType == 'img'">
+												<div class="hoverContent textRight">
+													<span show-on-hover-parent
+														class="glyphicon glyphicon-remove marginMTop iconsMargin"
+														data-ng-click="showNewsPost.removeFile(file)"></span>
+												</div>
+											</div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_pdf.png')"
+												data-ng-if="file.fileType == 'pdf'">
+												<div class="hoverContent textRight">
+													<span show-on-hover-parent
+														class="glyphicon glyphicon-remove marginMTop iconsMargin"
+														data-ng-click="showNewsPost.removeFile(file)"></span>
+												</div>
+											</div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_doc.png')"
+												data-ng-if="file.fileType == 'doc'">
+												<div class="hoverContent textRight">
+													<span show-on-hover-parent
+														class="glyphicon glyphicon-remove marginMTop iconsMargin"
+														data-ng-click="showNewsPost.removeFile(file)"></span>
+												</div>
+											</div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_ppt.png')"
+												data-ng-if="file.fileType == 'ppt'">
+												<div class="hoverContent textRight">
+													<span show-on-hover-parent
+														class="glyphicon glyphicon-remove marginMTop iconsMargin"
+														data-ng-click="showNewsPost.removeFile(file)"></span>
+												</div>
+											</div>
+											<div class="squareFileIcon"
+												style="background-image: url('assets/public/img/files/ic_excel.png')"
+												data-ng-if="file.fileType == 'excel'">
+												<div class="hoverContent textRight">
+													<span show-on-hover-parent
+														class="glyphicon glyphicon-remove marginMTop iconsMargin"
+														data-ng-click="showNewsPost.removeFile(file)"></span>
+												</div>
+											</div>
+											<div class="row tooltips" title="{{file.originalName}}">
+												{{file.originalName | limitTo: 7}} <span
+													ng-if="file.originalName.length>7">...</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row col-xs-12 marginMTop">
+								<div class="pull-right">
+									<button data-ng-click="showNewsPost.updateEvent()"
+										class="btn positiveButton">AGGIORNA POST</button>
+
+									<button data-ng-click="showNewsPost.closeEditPost()"
+										class="btn warningButton">ANNULLA</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>				
 </div>
+
 <script type="text/ng-template" id="tag-template">
       <div class="tag-template">
  <!--       <div class="left-panel">

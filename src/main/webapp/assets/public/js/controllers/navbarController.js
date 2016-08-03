@@ -51,7 +51,6 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 	}
 	
 	var formatVerb = function(notifications){
-		
 		if(notifications!=null && notifications.length>0){
 			var scenarioId = userService.getScenarioId();
 			var reloadAssociation = false;
@@ -146,19 +145,19 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 						notifications[i].text = notifications[i].actorName +" ha aggiunto "+notifications[i].objectContent+" come collaboratore dello scenario "+notifications[i].scenarioName;
 					}else if(notifications[i].verb == "DEL_MOD"){
 						notifications[i].text = notifications[i].actorName +" ti ha rimosso dallo scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb = "NEWSPAPER_ON"){
+					}else if(notifications[i].verb == "NEWSPAPER_ON"){
 						notifications[i].text = notifications[i].actorName +" ha abilitato il giornale  dallo scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb = "NEWSPAPER_OFF"){
+					}else if(notifications[i].verb == "NEWSPAPER_OFF"){
 						notifications[i].text = notifications[i].actorName +" ha disabilitato il giornale  dallo scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb = "NEW_NEWSPAPER"){
+					}else if(notifications[i].verb == "NEW_NEWSPAPER"){
 						notifications[i].text = notifications[i].actorName +" ha pubblicato "+notifications[i].objectContent+" dello scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb = "DEL_NEWSPAPER"){
+					}else if(notifications[i].verb == "DEL_NEWSPAPER"){
 						notifications[i].text = notifications[i].actorName +" ha rimosso "+notifications[i].objectContent+" dello scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb = "UPD_NEWSPAPER"){
+					}else if(notifications[i].verb == "UPD_NEWSPAPER"){
 						notifications[i].text = notifications[i].actorName +" ha modificato il giornale ("+notifications[i].objectContent+") dello scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb = "NEW_JOURNALIST"){
+					}else if(notifications[i].verb == "NEW_JOURNALIST"){
 						notifications[i].text = notifications[i].actorName +" ti ha nominato giornalista dello scenario "+notifications[i].scenarioName;
-					}else if(notifications[i].verb = "DEL_JOURNALIST"){
+					}else if(notifications[i].verb == "DEL_JOURNALIST"){
 						notifications[i].text = notifications[i].actorName +" ti ha rimosso dal ruolo di giornalista dello scenario "+notifications[i].scenarioName;
 					}
 					
@@ -350,7 +349,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 		}else if(n.verb=="DEL_MOD" || n.verb=="DEL_ATTENDEE"){
 			$state.go('logged.dashboard');
 		}else if(n.verb=="NEW_NEWSPAPER" || n.verb=="DEL_NEWSPAPER" || n.verb=="NEWSPAPER_ON" || n.verb=="NEWSPAPER_OFF" || n.verb=="NEW_JOURNALIST" || n.verb=="DEL_JOURNALIST"){
-			$state.go('logged.scenario.editorial');
+			$state.go('logged.scenario.editorial', {"id":n.scenarioId });
 		}
 		
 	}
@@ -369,7 +368,7 @@ angular.module('smiled.application').controller('navbarCtrl', [ 'userService', '
 					return "assets/public/img/narr.png";
 				}
 			}else if(n.verb=="NEW_NEWSPAPER" || n.verb=="DEL_NEWSPAPER" || n.verb=="NEWSPAPER_ON" || n.verb=="NEWSPAPER_OFF" || n.verb=="NEW_JOURNALIST" || n.verb=="DEL_JOURNALIST"){
-				return "assets/public/img/newspaper-img/ic_edit_article.png";
+				return "assets/public/img/wizard/wiz_newspaper.png";
 			}else{
 				if(n.verb=="TAG_ON_CREATE" ||n.verb=="TAG_ON_MOD" ){
 					if(n.actorId){

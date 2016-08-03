@@ -1,6 +1,6 @@
-angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalService','alertingGeneric', '$state', 'CONSTANTS', '$scope', 'article','$stateParams','apiService','newspaper',
+angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalService','alertingGeneric', '$state', 'CONSTANTS', '$scope', 'article','$stateParams','apiService','newspaper','$rootScope',
        
-                                                                  function dialogHeadlineCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams, apiService, newspaper){
+                                                                  function dialogHeadlineCtrl(modalService, alertingGeneric, $state, CONSTANTS, $scope, article, $stateParams, apiService, newspaper, $rootScope){
 	var self = this;
 	var scenId = $stateParams.id;
 	self.numberNewspaper;  
@@ -37,10 +37,10 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 					 article.setNumberJustCreated(self.numberNewspaper);
 					 article.setIsDraft(true); 
 					 article.setIsJustDeleted(false);
-					 article.getCurrentNewspaper();
 					 modalService.closeModalCreateTitle(); 
 					 $state.go('logged.scenario.template1');
 					 alertingGeneric.addSuccess("Hai appena creato il giornale!");
+					 $rootScope.$broadcast("dialogHeadlineCtrl.createNewspaper",{newspaper:data});
 				 },
 				 
 

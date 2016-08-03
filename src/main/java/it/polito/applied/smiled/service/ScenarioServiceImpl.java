@@ -293,18 +293,18 @@ public class ScenarioServiceImpl implements ScenarioService{
 					notify.notifyOpenScenario(scenarioUpdated, r);
 					if(newJournalist!=null){
 						userService.addJournalistPermission(newJournalist.getId(), scenarioUpdated.getId());
-						notify.notifyNewJournalist(newJournalist, scenarioUpdated, newJournalist.getId());
+						notify.notifyNewJournalist(r, scenarioUpdated, newJournalist.getId());
 					}
 					
 				}
 			}
 			//se la modifica dello scenario ha riguardato l'attivazione del giornale utilizzo logService per loggare opportunamente l'operazione
 			//se il dto dice che il giornale dello scenario è attivo e oldScenario dice il contrario significa che sto attivando
-			if(scenario.isNewspaperEnabled()==true && oldScenario.isNewspaperEnabled()==false){
+			if(scenario.isNewspaperEnabled() && !oldScenario.isNewspaperEnabled()){
 				logService.logNewspaperON(oldScenario.getId(), user.getId());
 			}
 			//se il dto dice che il giornale dello scenario è disattivo e oldScenario dice il contrario significa che sto disattivando
-			else if(scenario.isNewspaperEnabled()==false && oldScenario.isNewspaperEnabled()==true){
+			else if(!scenario.isNewspaperEnabled() && oldScenario.isNewspaperEnabled()){
 				logService.logNewspaperOFF(oldScenario.getId(), user.getId());
 			}
 			

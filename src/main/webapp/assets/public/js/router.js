@@ -593,7 +593,7 @@ angular.module('smiled.application')
 		//pagina vista giornale pubblicato
 		
 		.state('logged.scenario.newspublished', {
-		url: '/giornale-pubblicato',
+		url: '/giornale-pubblicato/{number}',
 		views : {
 			
 			'body' : {

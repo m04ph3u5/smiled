@@ -22,8 +22,6 @@ angular.module('smiled.application').controller('customDatePickerNewspaperCtrl',
 		newspaper.julianDayNumber = self.dateNumber;
 		newspaper.historicalDate = self.dateString;
 		newspaper.timeNumber = self.timeNumber;
-		self.currentNews = article.getCurrentNewspaper();
-		newspaper.number = self.currentNews.number; 
 		self.updateNewspaper(newspaper); 
 		console.log(newspaper); 
 		modalService.closeModalSetHistoryDateNewspaper();
