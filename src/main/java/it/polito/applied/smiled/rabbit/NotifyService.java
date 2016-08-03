@@ -29,7 +29,7 @@ public interface NotifyService {
 	public void notifyLikeToPost(Scenario s, Post p, CharacterReference actor) ;
 	public void notifyNewAssociation(Reference user, CharacterReference actor, Scenario s, String senderId) ;
 	public void notifyNewJournalist(Reference teacher, Scenario s, String newJournalistId);
-	public void notifyDeleteJournalist(Reference user, Scenario s, String senderId);
+	public void notifyDeleteJournalist(Reference teacher, Scenario s, String oldJournalistId);
 	public void notifyDeleteAssociation(Reference user, CharacterReference actor, Scenario s, String senderId) ;
 	public void notifyNewPersonalMission(Reference user, Scenario s, CharacterReference actor, Mission m, String senderId) ;
 	public void notifyNewGlobalMission(Reference user, Scenario s, Mission m) ;

@@ -415,7 +415,7 @@ public class NewspaperServiceImpl implements NewspaperService {
 			
 			if(oldUserJournalist!=null){
 				userService.removeJournalistPermission(oldUserJournalist.getId(), idScenario);
-				notify.notifyDeleteJournalist(oldUserJournalist, scen, oldUserJournalist.getId());
+				notify.notifyDeleteJournalist(new Reference(u), scen, oldUserJournalist.getId());
 			}
 			if(newJournalist!=null){
 				userService.addJournalistPermission(newJournalist.getId(), idScenario);
