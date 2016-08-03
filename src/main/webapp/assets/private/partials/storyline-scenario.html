@@ -33,11 +33,13 @@
 					<div class="timeline-header">
 						<div class="row colPadding">
 							<div data-ng-if="post.character.id" href="" class="squareImgStoryline" data-ui-sref="logged.scenario.charprofile({id : '{{post.scenarioId}}', idCharacter : '{{post.character.id}}' })" style=" cursor:pointer; background-image:url('{{post.character.cover}}'),url('assets/public/img/icon/pg.png');"></div>
-							<div data-ng-if="!post.character.id" href="" class="squareImgStoryline" style=" cursor:pointer; background-image:url('{{post.character.cover}}'),url('assets/public/img/icon/pg.png');"></div>
+							<div data-ng-if="!post.character.id && !post.number" href="" class="squareImgStoryline" style=" cursor:pointer; background-image:url('{{post.character.cover}}'),url('assets/public/img/icon/pg.png');"></div>
+							<div data-ng-if="!post.character.id && post.number" href="" class="squareImgStoryline" style=" cursor:pointer; background-image:url('assets/public/img/wizard/wiz_newspaper.png'),url('assets/public/img/icon/pg.png');"></div>
 							
 							<div class="col-xs-8">
 								<a data-ng-if="post.character.id" href="" data-ui-sref="logged.scenario.charprofile({id : '{{post.scenarioId}}', idCharacter : '{{post.character.id}}' })"><h6>{{post.character.name}}</h6></a>
-								<a data-ng-if="!post.character.id" href=""><h6>{{post.character.name}}</h6></a>
+								<a data-ng-if="!post.character.id && !post.number"" href=""><h6>{{post.character.name}}</h6></a>
+								<a data-ng-if="!post.character.id && post.number"" href=""><h6>Giornalista</h6></a>
 								<div class="text-center">{{scenarioStoryline.formatDate(post.julianDayNumber, post.timeNumber)}}</div>
 							</div>
 						</div>
@@ -52,7 +54,11 @@
 					</div>
 					<div class="timeline-body">
 						<div class="row storylineText">
-						<p class="textJustify" data-ng-bind-html="post.text | linky:'_blank'"></p>
+						<p data-ng-if="!post.number" class="textJustify" data-ng-bind-html="post.text | linky:'_blank'"></p>
+						<p data-ng-if="post.number" class="textJustify">Pubblicato il numero {{post.number}} di 
+							<span data-ui-sref="logged.scenario.newspublished({id: post.scenarioId, number : post.number})" style="cursor:pointer;">{{post.name}}</span>
+						</p>
+						
 						</div>
 						<div data-ng-repeat="row in post.media track by $index">
 							<div class="row storylineText">

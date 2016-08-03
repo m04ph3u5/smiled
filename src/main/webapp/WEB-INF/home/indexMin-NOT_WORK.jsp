@@ -21,6 +21,7 @@
 <link rel="stylesheet" href="/assets/public/css/lara-custom-meschola.css">
 <!-- Own Style file MIN -->
 <link rel="stylesheet" href="/assets/public/css/meschola.min.css">
+<link rel="stylesheet" href="/assets/public/css/meschola.min.less">
 
   <!-- Google Web Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
@@ -32,7 +33,7 @@
 
 <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 <script type="text/javascript">
-    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalit√† che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformit√† con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
+    window.cookieconsent_options = {"message":"I cookie consentono una gamma di funzionalit‡† che migliorano la tua fruizione di questo sito. Utilizzando il sito, l'utente accetta l'uso dei cookie in conformit‡† con le nostre linee guida. Scrollando o cliccando sulla pagina l'utente accetta l'utilizzo dei cookie del sito.","dismiss":"Accetto","learnMore":"Policy","link":"http://www.meschola.it/cookie-policy","theme":"dark-top"};
 </script>
 
 <script type="text/javascript" 
@@ -58,7 +59,7 @@ src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"
 	<script src="/assets/public/js/vendor/jquery-ui/ui/i18n/datepicker-it.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
 	
-	<script src="/assets/public/build/meschola_05_2016.min.js"></script>
+	<script src="/assets/public/build/meschola.min.js"></script>
 	
 	<script src="/assets/public/js/support/angular-locale_it-it.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-date/0.0.8/date.min.js"></script>
