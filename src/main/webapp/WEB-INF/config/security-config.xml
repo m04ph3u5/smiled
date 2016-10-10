@@ -99,7 +99,7 @@
 	<beans:bean id="usernamePasswordAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
 	    <beans:property name="rememberMeServices" ref="rememberMeServices"/>
 	    <beans:property name="authenticationManager" ref="authenticationManager"/>
-	    <!-- Haven't added bean definitions of myAuthenticationSuccessHandler and myAuthenticationFailureHandler because they are out of scope of this post. Besides, I think they are too simple to implement. -->
+
 	    <beans:property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>
 	    <beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler"/>
 	    <beans:property name="filterProcessesUrl" value="/apiLogin"/>
