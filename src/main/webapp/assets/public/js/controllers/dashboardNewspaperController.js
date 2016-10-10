@@ -20,7 +20,7 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 		self.isModerator=true;	
 	}
 
-	if(self.loggedUser.id == self.scen.actualJournalist.id){
+	if(self.scen.actualJournalist!=null && self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 
 		article.setIsJournalist(true); 
 	} else {

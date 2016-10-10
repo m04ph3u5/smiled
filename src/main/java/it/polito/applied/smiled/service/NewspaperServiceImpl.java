@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import it.polito.applied.smiled.dto.ArticleDTO;
@@ -51,6 +52,12 @@ public class NewspaperServiceImpl implements NewspaperService {
 	private GridFsManager gridFsManager;
 	@Autowired
 	private ScenarioService scenarioService;
+	
+	@Value("#{'${newspaper.fonts}'.split(',')}") 
+	private List<String> supportedFonts;
+	
+	@Value("${newspaper.default.font}")
+	private String defaultFont;
 	
 	@Override
 	public List<NewspaperTemplate> getAllTemplates() {
@@ -114,6 +121,17 @@ public class NewspaperServiceImpl implements NewspaperService {
 		n.setStatus(PostStatus.DRAFT);
 		n.setActualUserId(userId);
 		n.setIdTemplate(nDTO.getIdTemplate());
+		
+		System.out.print(nDTO.getFont()+" ");
+		System.out.println(nDTO.getFont().hashCode());
+		System.out.print(supportedFonts.get(1)+" ");
+		System.out.println(supportedFonts.get(1).hashCode());
+		
+		if(nDTO.getFont()!=null && supportedFonts.contains(nDTO.getFont())){
+		  n.setFont(nDTO.getFont());
+		} else {
+		  n.setFont(defaultFont);
+		}
 		
 		if(nDTO.getJulianDayNumber()!=null)
 			n.setJulianDayNumber(nDTO.getJulianDayNumber());
@@ -183,7 +201,9 @@ public class NewspaperServiceImpl implements NewspaperService {
 		if (n==null)
 			throw new BadRequestException("Number "+number+" of this newspaper not founded!");
 	
-		
+		if(dto.getFont()!=null && supportedFonts.contains(dto.getFont())){
+		  n.setFont(dto.getFont());
+		}
 		if(dto.getJulianDayNumber()!=null)
 			n.setJulianDayNumber(dto.getJulianDayNumber());
 		if(dto.getTimeNumber()!=null)

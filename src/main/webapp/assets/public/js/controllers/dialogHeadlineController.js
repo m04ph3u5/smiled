@@ -27,6 +27,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 				self.newspaperPost.idTemplate = 1;
 				self.newspaperPost.name = self.headline; 
 				//inviare proprietà font al db
+				self.newspaperPost.font = self.isChecked;
 				article.setNameJustCreated(self.headline); 
 				
 				var s = apiService.createnewspaper(self.newspaperPost, scenId);
@@ -56,7 +57,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 					if(self.numberNewspaper == undefined || self.numberNewspaper == 0) {
 						//update headline second time, when it's just created
 						self.newspaperPut.name = self.headline; 
-						//inviare proprietà font al db
+						self.newspaperPut.font = self.isChecked;
 							var s= apiService.updateNewspaper(scenId, newspaper.number, self.newspaperPut);
 							s.then(function(data){
 								 newspaper.name = self.headline;
@@ -76,8 +77,7 @@ angular.module('smiled.application').controller('dialogHeadlineCtrl', ['modalSer
 					} else  {
 					
 						self.newspaperPut.name = self.headline;
-						//mandare font al db
-						newspaper.font = self.isChecked; 
+						self.newspaperPut.font = self.isChecked;
 						
 						var s= apiService.updateNewspaper(scenId, newspaper.number, self.newspaperPut);
 						s.then(function(data){

@@ -13,6 +13,7 @@ public class NewspaperDTO {
 	private Long julianDayNumber;
 	private Integer timeNumber;
 	private ArticleDTO articleDTO;
+	private String font;
 	
 	public int getIdTemplate() {
 		return idTemplate;
@@ -45,6 +46,12 @@ public class NewspaperDTO {
 	public void setArticleDTO(ArticleDTO articleDTO) {
 		this.articleDTO = articleDTO;
 	}
+  public String getFont() {
+    return font;
+  }
+  public void setFont(String font) {
+    this.font = font;
+  }
 	
 	
 	

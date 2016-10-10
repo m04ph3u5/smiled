@@ -17,8 +17,7 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
 		self.publishedNewspaperNumber = article.getPublishedNewspaperNumber();
 		
 	}
-	
-	if(self.loggedUser.id == self.scen.actualJournalist.id){
+	if(self.scen.actualJournalist!=null && self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 
 	} 
 	
@@ -41,8 +40,11 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
 	
 	
 	self.goToDashboard = function(){
-		
-		$state.go('logged.scenario.editorial');
+		if(self.scen.newspaperEnabled){
+		  $state.go('logged.scenario.editorial');
+		} else {
+	      $state.go('logged.scenario.posts');
+		}
 		
 	}
 	
