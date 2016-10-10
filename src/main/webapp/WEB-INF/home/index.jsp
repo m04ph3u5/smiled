@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta
 	description="Meschola è la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
+<head>
 <link rel="shortcut icon" href="/assets/public/img/icon/favicon.ico">
 <link rel="icon" type="image/png"
 	href="/assets/public/img/icon/favicon.png">
@@ -73,11 +74,16 @@
 <link href='https://fonts.googleapis.com/css?family=Bree+Serif'
 	rel='stylesheet' type='text/css'>
 
-<!-- Fonts newspaper -->
-<link href='https://fonts.googleapis.com/css?family=Coustard'
-	rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Montaga'
-	rel='stylesheet' type='text/css'>
+  <!-- Fonts newspaper -->
+    <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montaga' rel='stylesheet' type='text/css'>
+    
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+  	<link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet' type='text/css'>
+  	<link href='https://fonts.googleapis.com/css?family=Patrick+Hand' rel='stylesheet' type='text/css'>
+  	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Rakkas" rel="stylesheet">
+  	<link href="https://fonts.googleapis.com/css?family=Montez" rel="stylesheet">
+  	<link href="https://fonts.googleapis.com/css?family=Katibeh" rel="stylesheet">
 
 <link href='https://fonts.googleapis.com/css?family=Montserrat'
 	rel='stylesheet' type='text/css'>

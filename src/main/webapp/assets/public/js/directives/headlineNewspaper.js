@@ -5,7 +5,6 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 		restrict: "AE",
 		templateUrl: "assets/private/partials/headline-newspaper.html",
 		scope: {
-			
 			newspaper: '=?',
 			scenario: '=',
 			isJournalist: '=?'
@@ -21,29 +20,30 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			var scenId = $stateParams.id; 
 			self.isFirst; 
 			self.isPublished = article.getIsPublished(); 
-			self.date = {};
-			
+			self.date = {}; 
 			self.isPublished = article.getIsPublished();
-			
 	
 			if($state.current.name == 'logged.scenario.newspublished'){
-				apiService.getpublishedNewspapers(scenId).then (
+			/*	apiService.getpublishedNewspapers(scenId).then (
 						function(data) {
 							self.publishedNewspapers = data; 
 							self.publishedNewspaperNumber = article.getPublishedNewspaperNumber(); 
+							console.log(self.publishedNewspaperNumber); 
+							console.log("numero"); 
 							var found = false;
 							for(var i=0; !found && i<self.publishedNewspapers.length; i++) {
 								if(self.publishedNewspapers[i].number = self.publishedNewspaperNumber) { 
 									self.newspaper = self.publishedNewspapers[i];
+									console.log(self.newspaper.name);
+									console.log("NOME GIORNALE PUBBLICATO"); 
+									
 									found = true;
 									break; 
 								}
 							}
-						},function(reason){
-							
-							
+						},function(reason){	
 						}	
-						);
+						);*/
 		}
 			
 			if($state.current.name == 'logged.scenario.template1') {
@@ -119,13 +119,51 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			
 			var getMonthString = function(month){
 				return CONSTANTS.monthString(month);
-			}
-			
-			
+			}	
 			
 		}],
 		
 		controllerAs: "headlineNewspaper",
 
+		link : function(scope,elem,attrs,ctrl){
+		scope.$watch('headlineNewspaper.newspaper.font', function(newVal, oldVal){
+			if(newVal){	
+				if(ctrl.newspaper.font == 'Rakkas'){
+					ctrl.newspaper.font = {'font-family': 'Rakkas' };
+					console.log(ctrl.newspaper.font);	
+				} else
+
+					if(ctrl.newspaper.font == 'Patrick Hand') {
+						console.log(ctrl.newspaper.font);
+						ctrl.newspaper.font = {'font-family': 'Patrick Hand'};		
+					} else 
+						if (ctrl.newspaper.font == 'Abril Fatface'){
+
+							ctrl.newspaper.font = {'font-family': 'Abril Fatface'};		
+
+						} else 
+							if (ctrl.newspaper.font == 'Katibeh'){
+
+								ctrl.newspaper.font = {'font-family': 'Katibeh'};	
+
+							}
+
+							else 
+								if (ctrl.newspaper.font == undefined){
+
+									ctrl.newspaper.font = oldVal;	
+
+								}
+
+			} else {
+			
+			ctrl.newspaper.font = oldVal;	
+			
+		}
+			
+			
+			});
+		}
+		
 } 
 }]);

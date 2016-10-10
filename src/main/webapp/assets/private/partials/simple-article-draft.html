@@ -11,10 +11,10 @@
 
 			<div class="col-sm-12">
 				<span class="glyphicon glyphicon-time count"></span> <input
-					class="customCheckBox biggerCheckbox " id="showCount" type="checkbox"
-					name="show-count" value="show-count" ng-model="draft.isChecked" />
-				<label for="showCount">Attiva il conteggio caratteri per
-					sapere quanto puoi scrivere</label>
+					class="customCheckBox biggerCheckbox " id="showCount"
+					type="checkbox" name="show-count" value="show-count"
+					ng-model="draft.isChecked" /> <label for="showCount">Attiva
+					il conteggio caratteri per sapere quanto puoi scrivere</label>
 			</div>
 
 			<!-- Count chars cirlces containers -->
@@ -44,10 +44,10 @@
 			<!-- CITY selector container -->
 			<div class="col-sm-12 col-xs-12" data-ng-if="draft.id != '2'">
 				<span class="glyphicon glyphicon-map-marker count"></span> <input
-					class="customCheckBox biggerCheckbox " id="showCount" type="checkbox"
-					name="show-count" value="show-count" ng-model="draft.isCityChecked" />
-				<label for="showCount"> Aggiungi o modifica la città del tuo
-					articolo</label>
+					class="customCheckBox biggerCheckbox " id="showCount"
+					type="checkbox" name="show-count" value="show-count"
+					ng-model="draft.isCityChecked" /> <label for="showCount">
+					Aggiungi o modifica la città del tuo articolo</label>
 			</div>
 
 			<div class="col-sm-12 col-xs-12 animated fadeInDown"
@@ -57,37 +57,22 @@
 			</div>
 			<!-- UPLOAD MEDIA container -->
 
-			<div style = "cursor: pointer;" data-ng-if="draft.id == '2'" class="col-sm-12 col-xs-12"
-				data-ngf-select data-ngf-change="draft.uploadImage($files)">
+			<div style="cursor: pointer;" data-ng-if="draft.id == '2'"
+				class="col-sm-12 col-xs-12" data-ngf-select
+				data-ngf-change="draft.uploadImage($files)">
 				<span class="glyphicon glyphicon-camera count"></span> <label
-					style="margin-top: -6%; margin-left: 3%; cursor: pointer;">Carica qui
-					l'immagine dell'articolo </label>
+					style="margin-top: -6%; margin-left: 3%; cursor: pointer;">Carica
+					qui l'immagine dell'articolo </label>
 			</div>
 
-			<work-spinner> <img 
+			<work-spinner> <img
 				src="/assets/public/img/p_spinner.gif" /> </work-spinner>
-				
-				<div data-ng-if = "!draft.isUploaded" >
-					<div class="col-sm-2"></div>
+
+			<div data-ng-if="!draft.isUploaded">
+				<div class="col-sm-2"></div>
 				<div class="col-sm-8">
-				<img class= "img-responsive"  style = "margin-top: 4%;"
-					src = "{{draft.article.image}}"/>
-					<div class="hoverContent textRight">
-						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
-							data-ng-click="draft.removeImage()"></span>
-					</div>
-					</div>
-						<div class="col-sm-2"></div>
-				</div>
-	
-				
-			<div data-ng-if="draft.uploadedFile">
-			<div class="col-sm-2"></div>
-			
-			<div class="col-sm-8">
-				<img class="img-responsive"
-				style = "margin-top: 4%;"
-					 src = "{{draft.getUploadedImage()}}"/>
+					<img class="img-responsive" style="margin-top: 4%;"
+						src="{{draft.article.image}}" />
 					<div class="hoverContent textRight">
 						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
 							data-ng-click="draft.removeImage()"></span>
@@ -95,7 +80,22 @@
 				</div>
 				<div class="col-sm-2"></div>
 			</div>
-			
+
+
+			<div data-ng-if="draft.uploadedFile">
+				<div class="col-sm-2"></div>
+
+				<div class="col-sm-8">
+					<img class="img-responsive" style="margin-top: 4%;"
+						src="{{draft.getUploadedImage()}}" />
+					<div class="hoverContent textRight">
+						<span class="glyphicon glyphicon-remove marginMTop iconsMargin"
+							data-ng-click="draft.removeImage()"></span>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+
 
 			<div class="col-sm-12 textarea-container">
 				<div class="row">
@@ -121,20 +121,23 @@
 					</div>
 				</div>
 			</div>
-		<div class="col-sm-12 background-container">
-		<img src="/assets/public/img/newspaper-img/sfondo-assets.png"
+			<div class="col-sm-12 background-container">
+				<img src="/assets/public/img/newspaper-img/sfondo-assets.png"
 					class="img-responsive" />
 			</div>
 		</div>
 		<div class="col-sm-12 button-container">
-			<button data-ng-if = "!draft.isEditing" style="cursor: pointer;" class="positiveButton btn"
+			<button data-ng-if="!draft.isEditing" style="cursor: pointer;"
+				class="positiveButton btn"
 				data-ng-click="draft.setData(draft.article)">
 				<span class="glyphicon glyphicon-floppy-save"></span>SALVA BOZZA
 			</button>
-			
-			<button data-ng-if = "draft.isEditing" style="cursor: pointer;" class="positiveButton btn"
+
+			<button data-ng-if="draft.isEditing" style="cursor: pointer;"
+				class="positiveButton btn"
 				data-ng-click="draft.setData(draft.article)">
-				<span class="glyphicon glyphicon-floppy-save"></span>AGGIORNA GIORNALE
+				<span class="glyphicon glyphicon-floppy-save"></span>AGGIORNA
+				GIORNALE
 			</button>
 
 		</div>

@@ -69,15 +69,15 @@ angular.module('smiled.application').factory('article',
 					article2col.subtitle = "Suggerimenti di scrittura";
 					
 							
-					article2col.text1 ="Questo tipo di articolo e' solitamente collocato in prima pagina ed e' caratterizzato da una narrazione oggettiva su un avvenimento.  In questo spazio potrai raccontare l'evento piu' importante che si e' verificato nello scenario.",
-					article2col.text2 = "Esistono diverse tipologie di cronaca -la cronaca bianca: notizie di eventi di vario tipo; -la cronaca nera:  crimini e delitti -la cronca rosa: sulla vita privata dei personaggi della storia. Clicca sul bottone di modifica e inizia a scrivere l'articolo!",	
+					article2col.text1 ="Questo tipo di articolo e' solitamente collocato in prima pagina ed e' caratterizzato da una narrazione oggettiva su un avvenimento di attualità. In questo spazio potrai raccontare l'evento piu' importante che si e' verificato nel contesto storico dello scenario.",
+					article2col.text2 = "Esistono diverse tipologie di cronaca -la cronaca bianca: notizie di eventi di vario tipo; -la cronaca nera:  crimini e delitti -la cronca rosa: sulla vita privata delle persone coinvolte. Clicca sul bottone di modifica e inizia a scrivere l'articolo!",	
 					
 					article2col.city = "";
 				 }
 				if (id == 2) {
 					article1colImg.title = 'Rubrica del quotidiano';
 					article1colImg.subtitle = '';
-					article1colImg.text1 = "La Rubrica e' una tipologia di articolo che si trova molto spesso sulla prima pagina dei maggiori quotidiani.  Si tratta di uno spazio in cui il giornalista scrive le proprie riflessioni su un tema specifico:  ad esempio costume, vita politica, societa', inquinamento etc.  Oltre a trattare un tema legato alla società o all'epoca storica in cui e' ambientata la storia questo spazio puo' essere dedicato anche all'analisi di un personaggio dello scenario. Clicca sul bottone di modifica e inizia a scrivere! Ricorda di caricare anche un'immagine in questo articolo!";
+					article1colImg.text1 = "La Rubrica e' una tipologia di articolo che si trova molto spesso sulla prima pagina dei maggiori quotidiani.  Si tratta di uno spazio in cui il giornalista scrive le proprie riflessioni su un tema specifico:  ad esempio costume, vita politica, societa', inquinamento etc. Viene solitamente trattato un tema legato alla società o all'epoca storica in cui e' ambientata la storia. Clicca sul bottone di modifica e inizia a scrivere! Ricorda di caricare anche un'immagine in questo articolo!";
 					article1colImg.image = 'assets/public/img/newspaper-img/ic_photo_default-horizontal.jpg';
 					}
 				if (id == 3) {
