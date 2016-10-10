@@ -2,7 +2,6 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
               function publishedNewspaperCtrl(CONSTANTS,$scope, apiService,Upload, notifyService, article, modalService, $state, $stateParams, alertingGeneric, loggedUser){
 	
 	var self = this; 
-	self.newspaper = {};
 	var scenId = $stateParams.id;
 	self.scen = $scope.scenario.scen;
 	self.newspaper = {}; 
@@ -11,13 +10,12 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
 	self.isEditing; 
 	self.idArticle; 
 	if($stateParams.number){
-		console.log("IN IF "+$stateParams.number);
 		self.publishedNewspaperNumber = $stateParams.number;
 		article.setPublishedNewspaperNumber($stateParams.number);
 
 	} else {
-		console.log("IN ELSE");
-		self.publishedNewspaperNumber = article.getPublishedNewspaperNumber(); 
+		self.publishedNewspaperNumber = article.getPublishedNewspaperNumber();
+		
 	}
 	
 	if(self.loggedUser.id == self.scen.actualJournalist.id){
@@ -27,8 +25,8 @@ angular.module('smiled.application').controller('publishedNewspaperCtrl', ['CONS
 	apiService.getnewspaperNumber(scenId,self.publishedNewspaperNumber).then(
 			function(data) {
 				self.newspaper = data;
-				console.log("PRINT NEWSPAPAER!!!!!"); 
-				console.log(data);
+				console.log(self.newspaper.name);
+				console.log("GIORNALE PUBBLICATO CTRL")
 				article.setIdPublishedTemplate(self.newspaper.idTemplate);
 	
 			}, function(reason) {	

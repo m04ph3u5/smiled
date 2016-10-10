@@ -17,7 +17,7 @@
 			</div>
 		<div id="sticky-anchor"></div>
 			<!-- Count chars cirlces containers -->
-			<div class="row" ng-if="draft.isChecked" id="sticky"
+			<div class="row" ng-if="draft.isChecked" 
 				style="background-color: #f6f2ea">
 				<div class="col-sm-12 col-xs-12">
 					<h5>Controlla qui il numero di caratteri che hai ancora a
@@ -98,15 +98,15 @@
 			</div>
 			
 	<!-- UPLOAD MEDIA container -->
-
+			<work-spinner> <img
+				src="/assets/public/img/p_spinner.gif" /> </work-spinner>
 			<div style= "cursor: pointer;" data-ng-if = "draft.id == 2 || draft.id == 3"  class="col-sm-12 col-xs-12" data-ngf-select
 				data-ngf-change="draft.uploadImage($files)">
 				<span class="glyphicon glyphicon-camera count"></span> <label
 					style="margin-top: -6%; margin-left: 3%;">Carica o modifica qui
 					l'immagine dell'articolo </label>
 			</div>
-				<work-spinner> <img
-				src="/assets/public/img/p_spinner.gif" /> </work-spinner>
+				
 		
 			<div data-ng-if = "!draft.isUploaded" >
 			<div class="col-sm-2"></div>

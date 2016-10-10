@@ -2,55 +2,54 @@
 <!-------------------------- SINGLE ARTICLE PREVIEW ----------------------------->
 
 
-<ul class = "list-inline">
-<li class="col-sm-6 col-xs-12" style="max-width: 303px;" data-ng-repeat = "article in newspaperPreview.articlesPreviews">
-<div class="row preview-container">
-<div 
-class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg"
-style="animation-delay: 1s;" >
-		<a style="cursor: pointer;"  data-ng-if = "newspaperPreview.isJournalist == true" data-placement="bottom"
-	data-ng-click ="newspaperPreview.goToNewspaper(article.newspaperNumber)" > 
-			<img
-	data-toggle="tooltip" title="Modifica articolo" 
-		src="/assets/public/img/newspaper-img/ic_edit_article.png"
-		class="img-mod-3">
-			</a>
-</div>
+<ul class="list-inline">
+	<li class="col-sm-6 col-xs-12" style="max-width: 303px;"
+		data-ng-repeat="article in newspaperPreview.articlesPreviews">
+		<div class="row preview-container">
+			<div
+				class=" col-xs-2 col-sm-2 visible-xs visible-sm visible-md visible-lg"
+				style="animation-delay: 1s;">
+				<a style="cursor: pointer;"
+					data-ng-if="newspaperPreview.isJournalist == true"
+					data-placement="bottom"
+					data-ng-click="newspaperPreview.goToNewspaper(article.newspaperNumber)">
+					<img data-toggle="tooltip" title="Modifica articolo"
+					src="/assets/public/img/newspaper-img/ic_edit_article.png"
+					class="img-mod-3">
+				</a>
+			</div>
 
-	<div class="col-sm-11 col-xs-11 line-green-bigger" style="margin-left: 3%;">
-	</div>
+			<div class="col-sm-11 col-xs-11 line-green-bigger"
+				style="margin-left: 3%;"></div>
 
-	<h3 class="title-preview visible-xs hidden-lg hidden-md hidden-sm">
-	{{article.title | limitTo: 10}}...
-	</h3>
-	
-	<h3 class= "title-preview hidden-xs hidden-md">
-	{{article.title}}
-	</h3>
-	
-	<h3 class="title-preview hidden-xs hidden-lg visible-md hidden-sm">
-	{{article.title | limitTo: 10}}...
-	</h3>
+			<h3 class="title-preview visible-xs hidden-lg hidden-md hidden-sm">
+				{{article.title | limitTo: 10}}...</h3>
 
-	<div class="col-sm-11 col-xs-11 line-6 " style="margin-left: 3%;"></div>
+			<h3 class="title-preview hidden-xs hidden-md">{{article.title}}
+			</h3>
 
-	<h6 class="subtitle-preview">{{article.subtitle}}</h6>
-	
-	<div class="img-container-art image-article-container">
-	<img class="img-responsive img-preview" style="margin-left: 4%;"
-		src="{{article.image}}" />
-</div>
-</div>
+			<h3 class="title-preview hidden-xs hidden-lg visible-md hidden-sm">
+				{{article.title | limitTo: 10}}...</h3>
 
-<div class="col-md-3 col-sm-4 col-xs-4"></div>
-<div class="col-md-6 col-sm-4 col-xs-4" style= "cursor: pointer;" 
-data-ng-click ="newspaperPreview.goToNewspaper(article.newspaperNumber)"> 
-<div class="col-xs-2 visible-xs hidden-sm hidden-md hidden-lg"></div>
-<button class="btn button-preview">Leggi tutto</button>
-</div> 
-<div class="col-md-3 col-sm-4 col-xs-4"></div>
-<div class="row opacity-container"></div>
-</li>
+			<div class="col-sm-11 col-xs-11 line-6 " style="margin-left: 3%;"></div>
+
+			<h6 class="subtitle-preview">{{article.subtitle}}</h6>
+
+			<div class="img-container-art image-article-container">
+				<img class="img-responsive img-preview" style="margin-left: 4%;"
+					src="{{article.image}}" />
+			</div>
+		</div>
+
+		<div class="col-md-3 col-sm-4 col-xs-4"></div>
+		<div class="col-md-6 col-sm-4 col-xs-4" style="cursor: pointer;"
+			data-ng-click="newspaperPreview.goToNewspaper(article.newspaperNumber)">
+			<div class="col-xs-2 visible-xs hidden-sm hidden-md hidden-lg"></div>
+			<button class="btn button-preview">Leggi tutto</button>
+		</div>
+		<div class="col-md-3 col-sm-4 col-xs-4"></div>
+		<div class="row opacity-container"></div>
+	</li>
 
 </ul>
 

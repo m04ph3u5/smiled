@@ -15,9 +15,6 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 	
 	self.numberJustCreated = article.getNumberJustCreated();
 	
-	console.log("OGGETTO SCENARIO");
-	console.log(self.scen);
-	
 	
 	if(self.loggedUser.id == self.scen.actualJournalist.id){
 		self.isJournalist = true; 
@@ -28,7 +25,6 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 					/*Il giornale esiste già */
 					if(data.status == "DRAFT"){
 						self.newspaper = data; 	
-						
 						console.log("IL GIORNALE ESISTE GIà"); 
 					} 
 					
@@ -36,7 +32,8 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 					
 					else if (data.status == "PUBLISHED")  {
 						self.newspaper.number = data.number+1;
-						self.newspaper.name = CONSTANTS.insertHeadline
+						self.newspaper.name = CONSTANTS.insertHeadline;
+						self.newspaper.font = {'font-family': 'Abril Fatface'};
 						/*var n = apiService.getLastNewspaper(scenId);
 						n.then(
 								function(data){
@@ -59,6 +56,7 @@ angular.module('smiled.application').controller('templateCtrl', ['CONSTANTS', '$
 						self.newspaper.historicalDate = CONSTANTS.insertHistoricalDateNewspaper; 
 						self.newspaper.name = CONSTANTS.insertHeadline; 
 						self.newspaper.number = 1;
+						self.newspaper.font = {'font-family': 'Abril Fatface'};
 					}
 					
 					console.log("Errore.");	

@@ -1,26 +1,74 @@
 <div class="modal-header">
-	<h3 class="modal-title"> Nome del giornale dello scenario </h3>
+	<h3 class="modal-title">Nome del giornale dello scenario</h3>
 </div>
 
 <div class="modal-body">
-<div class = "row">
-<div class= "col-sm-12">
-<label>Scegli un nome provvisorio per il giornale, potrai cambiarlo quando vorrai </label>
+	<div class="row">
+		<div class="col-sm-12">
+			<label>Scegli un nome provvisorio per il giornale, potrai
+				cambiarlo quando vorrai </label>
 
-</div>
+		</div>
 
-</div>
+	</div>
 
 	<div class="row">
 		<div class="col-sm-3">
 			<label> <strong> Nome della testata: </label>
 		</div>
 		<div class="col-sm-9">
-      		
-			<textarea id="modal-title" rows="1" data-ng-model="dialogHeadline.headline" 
-			placeholder="Nome del giornale"> </textarea>
-			
+			<textarea id="modal-title" rows="1"
+				data-ng-model="dialogHeadline.headline"
+				placeholder="Nome del giornale"> </textarea>
+
 		</div>
+		<hr>
+		<div class="col-sm-12 col-xs-12">
+			<span class="glyphicon glyphicon-font count"></span> <input
+				class="customCheckBox biggerCheckbox" id="showCount" type="checkbox"
+				name="show-count" value="show-count"
+				ng-model="dialogHeadline.isChangeChecked" /> <label for="showCount">CAMBIA
+				IL FONT DELLA TESTATA</label>
+		</div>
+	</div>
+
+	<div class="row animated fadeInDown"
+		data-ng-if="dialogHeadline.isChangeChecked">
+		<div class="col-sm-12 col-md-6">
+			<input class="customCheckBox biggerCheckbox" id="showFont1"
+				type="radio" name="show-font" value="Rakkas"
+				ng-model="dialogHeadline.isChecked" /> <label class="font1">NOME
+				DEL GIORNALE</label>
+		</div>
+
+		<div class="col-sm-12 col-md-6">
+			<input class="customCheckBox biggerCheckbox" id="showFont2"
+				type="radio" name="show-font" value="Patrick Hand"
+				ng-model="dialogHeadline.isChecked" /> <label class="font2">NOME
+				DEL GIORNALE</label>
+		</div>
+
+
+	</div>
+	<div class="row animated fadeInDown"
+		data-ng-if="dialogHeadline.isChangeChecked">
+
+
+		<div class="col-sm-12 col-md-6">
+			<input class="customCheckBox biggerCheckbox" id="showFont3"
+				type="radio" name="show-font" value="Katibeh"
+				ng-model="dialogHeadline.isChecked" /> <label class="font4">NOME
+				DEL GIORNALE</label>
+		</div>
+
+
+		<div class="col-sm-12 col-md-6">
+			<input class="customCheckBox biggerCheckbox" id="showFont3"
+				type="radio" name="show-font" value="Abril Fatface"
+				ng-model="dialogHeadline.isChecked" /> <label class="font3">NOME
+				DEL GIORNALE</label>
+		</div>
+
 	</div>
 	<alertgeneric></alertgeneric>
 </div>
@@ -29,8 +77,13 @@
 
 <div class="modal-footer">
 
-	<button ng-disabled="dialogHeadline.invalidTitle" class="positiveButton btn" 
-	data-ng-click="dialogHeadline.setHeadline()"><span class="glyphicon glyphicon-floppy-save"></span>SALVA</button>
-	<button class="warningButton btn" data-ng-click="dialogHeadline.closeDialog()">ANNULLA</button>
-	
+	<button ng-disabled="dialogHeadline.invalidTitle"
+		class="positiveButton btn"
+		data-ng-click="dialogHeadline.setHeadline()">
+		<span class="glyphicon glyphicon-floppy-save"></span>SALVA
+	</button>
+	<button class="warningButton btn"
+		data-ng-click="dialogHeadline.closeDialog()">ANNULLA</button>
+
 </div>
+

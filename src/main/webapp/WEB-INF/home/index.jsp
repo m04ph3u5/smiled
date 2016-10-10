@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta description="Meschola è la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
+	<meta description="Meschola ï¿½ la piattaforma digitale per la didattica che consente a docenti e studenti di interpretare fatti, argomenti e personaggi in modo originale e collaborativo, sfruttando i meccanismi comunicativi e relazionali tipici dei social network.">
 <link rel="shortcut icon" href="/assets/public/img/icon/favicon.ico">
 <link rel="icon" type="image/png" href="/assets/public/img/icon/favicon.png">
 
@@ -58,7 +58,9 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   	<link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet' type='text/css'>
   	<link href='https://fonts.googleapis.com/css?family=Patrick+Hand' rel='stylesheet' type='text/css'>
-  
+  	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Rakkas" rel="stylesheet">
+  	<link href="https://fonts.googleapis.com/css?family=Montez" rel="stylesheet">
+  	<link href="https://fonts.googleapis.com/css?family=Katibeh" rel="stylesheet">
 
 <title data-ng-bind="$state.current.data.pageTitle">Meschola</title>    
 
