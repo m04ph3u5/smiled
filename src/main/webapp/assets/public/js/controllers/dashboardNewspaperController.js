@@ -7,6 +7,7 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
 	self.scen = $scope.scenario.scen;
 	self.isModerator = false;
 	self.isJournalist = false; 
+	self.emptynews = false; 
 	self.newspaper = {};
 	//info dell'utente loggato, servono per fare i controlli sulla visualizzazione del giornale 
 	self.loggedUser = loggedUser;
@@ -53,6 +54,10 @@ angular.module('smiled.application').controller('dashboardNewspaperCtrl', ['CONS
     
 			function(data){
 				self.publishedNews = data; 
+				if(self.publishedNews.length == 0) {
+					self.emptynews = true; 
+					
+				}
 				
 			}, function(reason){
 				console.log("Non ci sono giornali pubblicati.");

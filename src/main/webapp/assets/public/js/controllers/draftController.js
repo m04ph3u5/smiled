@@ -27,6 +27,12 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 	self.articlePut = {}; 
 
 	self.publishedNewspaperNumber = article.getPublishedNewspaperNumber();
+	
+	self.goToTemplate = function() {
+		
+		$state.go('logged.scenario.template1');
+		
+	}
 
 	/*----------------------  GET ARTICLE ACCORDING TO ARTICLE ID AND IF PUBLISHED OR DRAFT   ---------------------*/
 
@@ -411,11 +417,11 @@ angular.module('smiled.application').controller('draftCtrl', ['CONSTANTS', '$sco
 		/*article.setArticleObject(input, self.id);
 	            $state.go('logged.scenario.template1');*/
 
-
-
-
+		
 
 	}
+	
+	
 
 
 

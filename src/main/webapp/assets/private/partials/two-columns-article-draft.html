@@ -187,6 +187,11 @@
 				<span class="glyphicon glyphicon-floppy-save"></span>SALVA BOZZA
 			</button>
 			
+			<button data-ng-if = "!draft.isEditing" style="cursor: pointer;" class="positiveButton btn"
+				data-ng-click="draft.goToTemplate()">
+				 TORNA AL GIORNALE
+			</button>
+			
 			<button data-ng-if = "draft.isEditing" style="cursor: pointer;" class="positiveButton btn"
 				data-ng-click="draft.setData(draft.article)">
 				<span class="glyphicon glyphicon-floppy-save"></span>AGGIORNA GIORNALE
