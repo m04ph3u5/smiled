@@ -70,7 +70,8 @@
 
 
 				<div class="col-sm-12 line-3" style="margin-top: -2%"></div>
-				<article-one-column-img newspaper="template.newspaper"></article-one-column-img>
+				<article-one-column-img newspaper="template.newspaper" scenario="template.scen"
+				loggedUser="template.loggedUser"></article-one-column-img>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				</br>
@@ -191,9 +192,42 @@
 		realizzazione della seconda impaginazione.</h6>
 		
 	<img src="/assets/public/img/newspaper-img/template_II.png"
-					class="img-responsive" />	
+					class="img-responsive" />						
+		
+	
+		<div style="cursor: pointer;"
+			class="hidden-xs visible-sm visible-md hidden-lg col-sm-4 animate wow fadeIn">
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/backToDashboard.png"
+				data-ng-click="template.goToDashboard();" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.goToDashboard();">Torna alla redazione</h6>
+		</div>
+
+		<div style="cursor: pointer;"
+			class="visible-xs hidden-sm hidden-md hidden-lg pull-right col-xs-5 animate wow fadeIn">
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/backToDashboard.png"
+				data-ng-click="template.goToDashboard();" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.goToDashboard();">Torna alla redazione</h6>
+		</div>	
+		
+		<div style="cursor: pointer; margin-bottom: 5%;"
+			class="hidden-xs hidden-sm hidden-md visible-lg col-sm-3 pull-left animate wow fadeIn">
+
+			<img class="ic-wizard-newspaper" style="cursor: pointer"
+				src="assets/public/img/icon/backToDashboard.png"
+				data-ng-click="template.goToDashboard();" />
+			<h6 class="hidden-xs" style="cursor: pointer; margin-top: 4%;"
+				data-ng-click="template.goToDashboard();">Torna alla redazione</h6>
+		</div>
+		
 		
 </div>	
+
 		<!-- 
 	 <div class="col-sm-12 hidden-xs background-container">
 			<img

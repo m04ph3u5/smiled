@@ -130,11 +130,11 @@ angular.module("smiled.application").directive('headlineNewspaper', ['article', 
 			if(newVal){	
 				if(ctrl.newspaper.font == 'Rakkas'){
 					ctrl.newspaper.font = {'font-family': 'Rakkas' };
-					console.log(ctrl.newspaper.font);	
+					
 				} else
 
 					if(ctrl.newspaper.font == 'Patrick Hand') {
-						console.log(ctrl.newspaper.font);
+						
 						ctrl.newspaper.font = {'font-family': 'Patrick Hand'};		
 					} else 
 						if (ctrl.newspaper.font == 'Abril Fatface'){

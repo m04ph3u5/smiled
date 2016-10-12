@@ -168,18 +168,17 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 					|| self.isJustDeleted == true && self.isDraft == false ) {
 					self.loadArticleFirst("id"+self.idChoosenTemplate);		
 				} 
-				else if($scope.newspaper.status == 'DRAFT'  || oldName == $scope.newspaper.name)
+				else if($scope.newspaper.status == 'DRAFT'  || oldName == $scope.newspaper.name || self.isDraft == true)
 				{
-					article.getIdTemplate().then(
-						function(data){
-							self.idTemplate = data;
-							console.log(self.idTemplate); 
-							self.loadArticle(self.idTemplate);
-						},
-						function(reason) {
-							console.log(reason);
-						}
-					);
+					var s = apiService.getMyLastNewspaper(scenId); 
+					s.then(function(data){
+						self.idTemplate = data.idTemplate;  
+						self.loadArticle(self.idTemplate);
+					},function(reason){
+					
+						console.log("Errore.");	
+					}
+			)
 				}
 			}
 
@@ -243,12 +242,12 @@ angular.module("smiled.application").directive('articleTwoColumnsImg', ['article
 				if(newVal){	
 					if(newVal.length>28) {
 						ctrl.showWarningTitle = true;
-						console.log ("ATTENZIONE");
+						
 
 					} else
 					{
 						ctrl.showWarningTitle = false; 
-						console.log ("VA BENE");
+						
 
 					}
 				}
