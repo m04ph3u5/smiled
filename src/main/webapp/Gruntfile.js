@@ -52,9 +52,10 @@ module.exports = function(grunt) {
 				},
 				files : {
 					'assets/public/css/<%= pkg.name %>-<%= pkg.version %>.min.css' : ['assets/public/css/custom-style.css', 'assets/public/css/secondaryCss.css', 
-					                                               'assets/public/css/storyline.css', 'assets/public/css/validation-form.css',
+					                                               'assets/public/css/validation-form.css',
 					                                               'assets/public/js/vendor/ui-slider/slider.css'],
-					'assets/public/css/login-style-<%= pkg.version %>.min.css' : ['assets/public/css/login-style.css']
+					'assets/public/css/login-style-<%= pkg.version %>.min.css' : ['assets/public/css/login-style.css'],
+				    'assets/public/css/storyline-<%= pkg.version %>.min.css' : ['assets/public/css/storyline.css']
 				}
 //				files : [{
 //					expand : true,

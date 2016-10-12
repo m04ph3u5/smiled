@@ -22,7 +22,11 @@ angular.module('smiled.application').controller('customDatePickerNewspaperCtrl',
 		newspaper.julianDayNumber = self.dateNumber;
 		newspaper.historicalDate = self.dateString;
 		newspaper.timeNumber = self.timeNumber;
-		self.updateNewspaper(newspaper); 
+		var newspaperPUT = {};
+		newspaperPUT.julianDayNumber = self.dateNumber;
+		newspaperPUT.timeNumber = self.timeNumber;
+		newspaperPUT.number = newspaper.number;
+		self.updateNewspaper(newspaperPUT); 
 		console.log(newspaper); 
 		modalService.closeModalSetHistoryDateNewspaper();
 	}
@@ -35,7 +39,6 @@ angular.module('smiled.application').controller('customDatePickerNewspaperCtrl',
 	
 	
 	self.updateNewspaper = function(toUpdateNewspaper){
-		console.log(scenId + " " + toUpdateNewspaper.number + " " + toUpdateNewspaper.historicalDate); 
 		var s = apiService.updateNewspaper(scenId, toUpdateNewspaper.number, toUpdateNewspaper); 
 		console.log("UPDATE DATE OK!"); 
 	}
