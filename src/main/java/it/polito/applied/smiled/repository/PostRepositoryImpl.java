@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.WriteResult;
 
+import it.polito.applied.smiled.dto.NewspaperDTOPut;
 import it.polito.applied.smiled.pojo.FileReference;
 import it.polito.applied.smiled.pojo.PostReverseDateComparator;
 import it.polito.applied.smiled.pojo.PostReverseHistoricalDateComparatorAsc;
@@ -29,6 +30,7 @@ import it.polito.applied.smiled.pojo.scenario.Event;
 import it.polito.applied.smiled.pojo.scenario.MetaComment;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
+import it.polito.applied.smiled.pojo.scenario.PublishedNewspaper;
 import it.polito.applied.smiled.pojo.scenario.Revision;
 import it.polito.applied.smiled.pojo.scenario.RevisionStatus;
 import it.polito.applied.smiled.pojo.scenario.Status;
@@ -360,4 +362,27 @@ public class PostRepositoryImpl implements CustomPostRepository{
 				.andOperator(Criteria.where("_class").is(Status.class.getName())))));
 		return mongoOp.find(q, Post.class);
 	}
+
+  @Override
+  public void updateNewspaperReference(String scenarioId, Integer number, NewspaperDTOPut dto) {
+    Query q = new Query();
+    q.addCriteria(Criteria.where("scenarioId").is(scenarioId)
+        .andOperator(Criteria.where("_class").is(PublishedNewspaper.class.getName())
+        .andOperator(Criteria.where("number").is(number))));
+    
+    Update u = new Update();
+    if(dto.getFont()!=null){
+      u.set("font", dto.getFont());
+    }
+    if(dto.getName()!=null){
+      u.set("name", dto.getName());
+    }
+    if(dto.getJulianDayNumber()!=null){
+      u.set("julianDaynumber", dto.getJulianDayNumber());
+    }
+    if(dto.getTimeNumber()!=null){
+      u.set("timeNumber", dto.getTimeNumber());
+    }
+    mongoOp.updateFirst(q, u, Post.class);
+  }
 }

@@ -555,6 +555,14 @@ angular.module("smiled.application").directive('showNewsPost', [ 'CONSTANTS', 'a
 			}
 			
 			/*-------------------------------------------------------*/
+			/*Font for newspaper title*/
+			if(self.post.number){
+				if(self.post.font){
+					self.style = {'font-family' : self.post.font};
+				} else {
+					self.style = {'font-family' : 'Abril Fatface'};
+				}
+			}
 
 		},
 		controllerAs: "showNewsPost",

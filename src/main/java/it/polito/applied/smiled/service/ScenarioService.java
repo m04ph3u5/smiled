@@ -14,6 +14,7 @@ import it.polito.applied.smiled.dto.CharacterDTO;
 import it.polito.applied.smiled.dto.EmailDTO;
 import it.polito.applied.smiled.dto.EventDTO;
 import it.polito.applied.smiled.dto.MissionDTO;
+import it.polito.applied.smiled.dto.NewspaperDTOPut;
 import it.polito.applied.smiled.dto.RevisionDTO;
 import it.polito.applied.smiled.dto.ScenarioDTO;
 import it.polito.applied.smiled.dto.StatusDTO;
@@ -133,5 +134,6 @@ public interface ScenarioService {
 	 * @throws BadRequestException 
 	 */
 	public Id insertPublishedNewspaper(String scenarioId, PublishedNewspaper pn, CustomUserDetails user) throws BadRequestException;
+  public void updateNewspaperPostReference(String scenarioId, Integer number, NewspaperDTOPut dto);
 	
 }

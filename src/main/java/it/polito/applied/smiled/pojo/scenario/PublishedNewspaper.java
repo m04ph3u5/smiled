@@ -16,40 +16,48 @@ import it.polito.applied.smiled.pojo.newspaper.Newspaper;
  */
 public class PublishedNewspaper extends Post{
 
-	private int number;
-	private String name;
-	
-	public PublishedNewspaper(){
-		this.setCreationDate(new Date());
-		this.setLastChangeDate(this.getCreationDate());
-		this.setLikes(new HashSet<CharacterReference>());
-		this.setComments(new ArrayList<Comment>());
-		this.setMetaComments(new ArrayList<MetaComment>());
-		this.setRevision(new Revision());
-	}
-	
-	public PublishedNewspaper(Newspaper n){
-		this();
-		this.name=n.getName();
-		this.number=n.getNumber();
-		this.setScenarioId(n.getIdScenario());
-		this.setStatus(PostStatus.PUBLISHED);
-		this.setJulianDayNumber(n.getJulianDayNumber());
-		this.setTimeNumber(n.getTimeNumber());
-	}
-	
-	public int getNumber() {
-		return number;
-	}
-	public void setNumber(int number) {
-		this.number = number;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+  private int number;
+  private String name;
+  private String font;
 
-	
+  public PublishedNewspaper(){
+    this.setCreationDate(new Date());
+    this.setLastChangeDate(this.getCreationDate());
+    this.setLikes(new HashSet<CharacterReference>());
+    this.setComments(new ArrayList<Comment>());
+    this.setMetaComments(new ArrayList<MetaComment>());
+    this.setRevision(new Revision());
+  }
+
+  public PublishedNewspaper(Newspaper n){
+    this();
+    this.name=n.getName();
+    this.number=n.getNumber();
+    this.setScenarioId(n.getIdScenario());
+    this.setStatus(PostStatus.PUBLISHED);
+    this.setJulianDayNumber(n.getJulianDayNumber());
+    this.setTimeNumber(n.getTimeNumber());
+    this.font = n.getFont();
+  }
+
+  public int getNumber() {
+    return number;
+  }
+  public void setNumber(int number) {
+    this.number = number;
+  }
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+  public String getFont() {
+    return font;
+  }
+  public void setFont(String font) {
+    this.font = font;
+  }
+
+
 }

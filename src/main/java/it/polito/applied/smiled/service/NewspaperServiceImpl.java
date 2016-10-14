@@ -196,8 +196,13 @@ public class NewspaperServiceImpl implements NewspaperService {
 		if (n==null)
 			throw new BadRequestException("Number "+number+" of this newspaper not founded!");
 	
-		if(dto.getFont()!=null && supportedFonts.contains(dto.getFont())){
-		  n.setFont(dto.getFont());
+		
+		if(dto.getFont()!=null){
+		  if(supportedFonts.contains(dto.getFont())){
+		    n.setFont(dto.getFont());
+		  } else {
+		    dto.setFont(null);
+		  }
 		}
 		if(dto.getJulianDayNumber()!=null)
 			n.setJulianDayNumber(dto.getJulianDayNumber());
@@ -205,8 +210,13 @@ public class NewspaperServiceImpl implements NewspaperService {
 			n.setTimeNumber(dto.getTimeNumber());
 		if(dto.getName()!=null)
 			n.setName(dto.getName());
-		if(dto.getJulianDayNumber()!=null || dto.getTimeNumber()!=null || dto.getName()!=null)
+		if(dto.getJulianDayNumber()!=null || dto.getTimeNumber()!=null || dto.getName()!=null
+		    || (dto.getFont()!=null && supportedFonts.contains(dto.getFont()))){
 			n = newspaperRepo.save(n);
+			if(n.getStatus().equals(PostStatus.PUBLISHED)){
+			  scenarioService.updateNewspaperPostReference(scenarioId, number, dto);
+			}
+		}
 		else
 			return null;
 		
