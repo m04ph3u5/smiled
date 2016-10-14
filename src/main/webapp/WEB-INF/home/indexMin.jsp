@@ -32,7 +32,7 @@
 <link rel="stylesheet"
 	href="/assets/public/css/lara-custom-meschola.css">
 <link rel="stylesheet"
-	href="/assets/public/css/storyline-0.2.1.min.css">
+	href="/assets/public/css/storyline-0.2.2.min.css">
 
 <!-- CSS and LESS newspaper -->
 <link rel="stylesheet/less"
@@ -64,7 +64,7 @@
 <!-- <link rel="stylesheet" -->
 <!-- 	href="assets/public/js/vendor/ui-slider/slider.css"> -->
 <link rel="stylesheet"
-	href="/assets/public/css/meschola-0.2.1.min.css">
+	href="/assets/public/css/meschola-0.2.2.min.css">
 
 <!-- Google Web Fonts -->
 <link href='https://fonts.googleapis.com/css?family=Coustard'
@@ -153,7 +153,7 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-resource.min.js"></script>
 		
-			<script src="/assets/public/build/meschola-0.2.1.min.js"></script>
+			<script src="/assets/public/build/meschola-0.2.2.min.js"></script>
 		
 		
 	<script

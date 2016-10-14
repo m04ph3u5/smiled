@@ -377,10 +377,10 @@ public class PostRepositoryImpl implements CustomPostRepository{
     if(dto.getName()!=null){
       u.set("name", dto.getName());
     }
-    if(dto.getJulianDayNumber()!=null){
+    if(dto.getJulianDayNumber()!=null && dto.getJulianDayNumber()>0){
       u.set("julianDaynumber", dto.getJulianDayNumber());
     }
-    if(dto.getTimeNumber()!=null){
+    if(dto.getTimeNumber()!=null && dto.getTimeNumber()>0){
       u.set("timeNumber", dto.getTimeNumber());
     }
     mongoOp.updateFirst(q, u, Post.class);
