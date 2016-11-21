@@ -31,6 +31,8 @@
 
 <link rel="stylesheet"
 	href="/assets/public/css/lara-custom-meschola.css">
+<link rel="stylesheet"
+	href="/assets/public/css/storyline-0.2.1.min.css">
 
 <!-- CSS and LESS newspaper -->
 <link rel="stylesheet/less"
@@ -55,13 +57,14 @@
 	src="/assets/public/js/vendor/less/less.js"></script>
 <script type="text/javascript" src="/assets/public/js/vendor/wow.js"></script>
 <!-- Own Style file -->
-<link rel="stylesheet" href="/assets/public/css/custom-style.css">
-<link rel="stylesheet" href="/assets/public/css/secondaryCss.css">
-<link rel="stylesheet" href="/assets/public/css/storyline.css">
-<link rel="stylesheet" href="/assets/public/css/validation-form.css">
+<!-- <link rel="stylesheet" href="/assets/public/css/custom-style.css"> -->
+<!-- <link rel="stylesheet" href="/assets/public/css/secondaryCss.css"> -->
+<!-- <link rel="stylesheet" href="/assets/public/css/storyline.css"> -->
+<!-- <link rel="stylesheet" href="/assets/public/css/validation-form.css"> -->
+<!-- <link rel="stylesheet" -->
+<!-- 	href="assets/public/js/vendor/ui-slider/slider.css"> -->
 <link rel="stylesheet"
-	href="assets/public/js/vendor/ui-slider/slider.css">
-
+	href="/assets/public/css/meschola-0.2.1.min.css">
 
 <!-- Google Web Fonts -->
 <link href='https://fonts.googleapis.com/css?family=Coustard'
@@ -74,16 +77,25 @@
 <link href='https://fonts.googleapis.com/css?family=Bree+Serif'
 	rel='stylesheet' type='text/css'>
 
-  <!-- Fonts newspaper -->
-    <link href='https://fonts.googleapis.com/css?family=Coustard' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Montaga' rel='stylesheet' type='text/css'>
-    
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-  	<link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet' type='text/css'>
-  	<link href='https://fonts.googleapis.com/css?family=Patrick+Hand' rel='stylesheet' type='text/css'>
-  	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Rakkas" rel="stylesheet">
-  	<link href="https://fonts.googleapis.com/css?family=Montez" rel="stylesheet">
-  	<link href="https://fonts.googleapis.com/css?family=Katibeh" rel="stylesheet">
+<!-- Fonts newspaper -->
+<link href='https://fonts.googleapis.com/css?family=Coustard'
+	rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Montaga'
+	rel='stylesheet' type='text/css'>
+
+<link href='https://fonts.googleapis.com/css?family=Montserrat'
+	rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Philosopher'
+	rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Patrick+Hand'
+	rel='stylesheet' type='text/css'>
+<link
+	href="https://fonts.googleapis.com/css?family=Abril+Fatface|Rakkas"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Montez"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Katibeh"
+	rel="stylesheet">
 
 <link href='https://fonts.googleapis.com/css?family=Montserrat'
 	rel='stylesheet' type='text/css'>
@@ -141,7 +153,7 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-resource.min.js"></script>
 		
-			<script src="/assets/public/build/meschola.min.js"></script>
+			<script src="/assets/public/build/meschola-0.2.1.min.js"></script>
 		
 		
 	<script

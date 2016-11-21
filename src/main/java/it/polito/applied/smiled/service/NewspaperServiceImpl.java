@@ -122,11 +122,6 @@ public class NewspaperServiceImpl implements NewspaperService {
 		n.setActualUserId(userId);
 		n.setIdTemplate(nDTO.getIdTemplate());
 		
-		System.out.print(nDTO.getFont()+" ");
-		System.out.println(nDTO.getFont().hashCode());
-		System.out.print(supportedFonts.get(1)+" ");
-		System.out.println(supportedFonts.get(1).hashCode());
-		
 		if(nDTO.getFont()!=null && supportedFonts.contains(nDTO.getFont())){
 		  n.setFont(nDTO.getFont());
 		} else {

@@ -123,7 +123,7 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 
 					function(reason){
 						$state.go("logged.scenario.editorial"); 
-						console.log("Errore recupero articolo.");	
+							
 					}
 					)
 					break; 	
@@ -175,13 +175,13 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 				} 
 				
 				
+				
 				else if($scope.newspaper.status == 'DRAFT' || self.isDraft == true)
 					
 				{
 					var s = apiService.getMyLastNewspaper(scenId); 
 					s.then(function(data){
 						self.idTemplate = data.idTemplate;  
-						console.log("PASSO DI QUI PER SCARICARE ARTICOLO"); 
 						self.loadArticle(self.idTemplate);
 					},function(reason){
 					
@@ -194,10 +194,9 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 			}
 			
 			if($state.current.name == 'logged.scenario.newspublished'){
-				console.log("PASSO DI QUI, GIORNALE PUBBLICATO"); 
+				
 				self.isPublished = true;
-				if(self.publishedNewsNumber  != null || self.publishedNewsNumber  != undefined)  {
-					console.log("PASSO DI QUI PER CHIAMARE IL METODO DI CARICAMENTO" + self.publishedNewsNumber); 
+				if(self.publishedNewsNumber  != null || self.publishedNewsNumber  != undefined)  { 
 					self.loadArticlePublished(self.publishedNewsNumber); 
 
 				}		
@@ -262,12 +261,12 @@ angular.module("smiled.application").directive('articleTwoColumns', ['article', 
 				if(newVal){	
 			if(newVal.length>25) {
 				ctrl.showWarningTitle = true;
-				console.log ("ATTENZIONE");
+				
 				
 			} else
 				{
 				ctrl.showWarningTitle = false; 
-				console.log ("VA BENE");
+				
 				
 				}
 				}

@@ -6,7 +6,10 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 		templateUrl: "assets/private/partials/article-one-column-img.html",
 		//isolated scope 
 		scope: {
-			newspaper: "=?"
+			loggedUser: '=?',
+			newspaper: "=?",
+			scenario: '=?',
+			
 		},
 		
 		controller: ['$scope',function($scope){
@@ -44,7 +47,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 								if(self.publishedNewspapers[i].number == newsNumber) { 
 									for(var j=0; j<self.publishedNewspapers[i].articles.length; j++) {
 										self.newspaper = self.publishedNewspapers[i]; 
-										console.log("GIORNALE PUBBLICATO"); 
+										
 										if(self.publishedNewspapers[i].articles[j].idArticleTemplate == 2){
 											self.article = self.publishedNewspapers[i].articles[j];
 											self.article.image = CONSTANTS.urlMedia(self.publishedNewspapers[i].articles[j].imageId); 
@@ -119,7 +122,7 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 						
 					  function(reason){
 					
-						console.log("Errore recupero articolo.");	
+						
 					}
 			)
 				break; //fine case 1	
@@ -173,18 +176,18 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 				
 				self.loadArticleFirst("id"+self.idChoosenTemplate);		
 			} 
-			else if($scope.newspaper.status == 'DRAFT' || oldName == $scope.newspaper.name)
+			else if($scope.newspaper.status == 'DRAFT' || oldName == $scope.newspaper.name || self.isDraft == true)
 				{
-				article.getIdTemplate().then(
-					function(data){
-						self.idTemplate = data;
-						console.log(self.idTemplate); 
-						self.loadArticle(self.idTemplate);
-					},
-					function(reason) {
-						console.log(reason);
-					}
-				);
+				var s = apiService.getMyLastNewspaper(scenId); 
+				s.then(function(data){
+					self.idTemplate = data.idTemplate;  
+					
+					self.loadArticle(self.idTemplate);
+				},function(reason){
+				
+					console.log("Errore.");	
+				}
+		)
 				
 				}
 		
@@ -250,12 +253,12 @@ angular.module("smiled.application").directive('articleOneColumnImg', ['article'
 				if(newVal){	
 			if(newVal.length>25) {
 				ctrl.showWarningTitle = true;
-				console.log ("ATTENZIONE");
+				
 				
 			} else
 				{
 				ctrl.showWarningTitle = false; 
-				console.log ("VA BENE");
+				
 				
 				}
 				}
