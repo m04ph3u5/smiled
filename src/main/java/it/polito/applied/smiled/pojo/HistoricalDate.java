@@ -31,7 +31,6 @@ public class HistoricalDate {
 	}
 	
 	public HistoricalDate(int year, int month, int day, int hour, int minute, boolean afterChrist){
-		System.out.println("costruttore con parametri historicaldate");
 		this.afterChrist=afterChrist;
 		this.year=year;
 		this.month=month;

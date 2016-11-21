@@ -17,6 +17,30 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		return lastMe;
 	}
 	
+	/*Map utilities objects*/
+	var bounds = {};
+	var center = {};
+	var tileUrl = "";
+
+	var getBounds = function(){
+		return bounds;
+	}
+	var setBounds = function(b){
+		bounds=b;
+	}
+	var getCenter = function(){
+		return center;
+	}
+	var setCenter = function(c){
+		center=c;
+	}
+	var getTileUrl = function(){
+		return tileUrl;
+	}
+	var setTileUrl = function(s){
+		tileUrl = s;
+	}
+	/* */
 	
 	var getMe = function(){
 		var u = $q.defer();
@@ -234,7 +258,13 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		forgotPasswordRequest : forgotPasswordRequest,
 		deleteRegisterTeacher : deleteRegisterTeacher,
 		getUserByEmail : getUserByEmail,
-		getMeForPermission : getMeForPermission
+		getMeForPermission : getMeForPermission,
+		getBounds : getBounds,
+		setBounds : setBounds,
+		getCenter : getCenter,
+		setCenter : setCenter,
+		getTileUrl : getTileUrl,
+		setTileUrl : setTileUrl
 	}
 
 	

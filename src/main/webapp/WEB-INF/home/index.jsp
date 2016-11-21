@@ -61,7 +61,7 @@
 <link rel="stylesheet" href="/assets/public/css/validation-form.css">
 <link rel="stylesheet"
 	href="assets/public/js/vendor/ui-slider/slider.css">
-
+<link rel="stylesheet" href="/assets/public/js/vendor/leaflet/css/leaflet.css">
 
 <!-- Google Web Fonts -->
 <link href='https://fonts.googleapis.com/css?family=Coustard'
@@ -184,7 +184,10 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.min.js"
 		type="text/javascript"></script>
 	<script src="/assets/public/js/support/datepicker.min.js"></script>
-
+	<script src="/assets/public/js/vendor/leaflet/leaflet.js"></script>
+	<script src="/assets/public/js/vendor/leaflet/angular-simple-logger.js"></script>
+	<script src="/assets/public/js/vendor/leaflet/ui-leaflet.min.js"></script>
+	
 
 	<!-- CUSTOM SCRIPT -->
 	<script src="/assets/public/js/app.js"></script>
@@ -257,6 +260,10 @@
 		src="/assets/public/js/controllers/dialogDeleteNewspaperController.js"></script>
 	<script
 		src="/assets/public/js/controllers/publishedNewspaperController.js"></script>
+
+	<!-- REAL MAP CONTROLLER -->
+	<script src="/assets/public/js/controllers/realMap/teacherRealMapModalController.js"></script>
+	<!--  -->
 
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/notifyService.js"></script>

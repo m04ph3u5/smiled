@@ -9,38 +9,37 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class RegistrationToken {
-	
-	@Id
-	private String id;
-	@Indexed(unique=true)
-	private String email;
-	private String token;
-	private Date date;
-	          
-	
-	public RegistrationToken(){}
-	
-	public RegistrationToken(String email){
-		this.email=email;
-		token=UUID.randomUUID().toString();
-		date = new Date();
-	}
 
-	
-	public String getId() {
-		return id;
-	}
+  @Id
+  private String id;
+  @Indexed(unique = true)
+  private String email;
+  private String token;
+  private Date date;
 
-	public String getEmail() {
-		return email;
-	}
+  public RegistrationToken() {
+  }
 
-	public String getToken() {
-		return token;
-	}
+  public RegistrationToken(String email) {
+    this.email = email;
+    token = UUID.randomUUID().toString();
+    date = new Date();
+  }
 
-	public Date getDate() {
-		return date;
-	}
-	
+  public String getId() {
+    return id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public Date getDate() {
+    return date;
+  }
+
 }

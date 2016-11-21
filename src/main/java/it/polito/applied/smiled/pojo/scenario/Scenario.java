@@ -18,254 +18,304 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Scenario {
-	@Id
-	private String id;
-	private String name;
-	private Date startDate;
-	private Date endDate;
-	private Date creationDate;
-	private Date lastUpdateDate;
-	 
-	private ScenarioStatus status;
-	private History history;
-	private String cover;
-	private String description;
-	
-	private List<CharacterReference> characters;
-	
-	private List<PostReference> posts;
-	
-	private Reference teacherCreator;
-	private List<Reference> attendees;
-	private List<Reference> collaborators;
-	private List<Reference> invited;
-	
-	private boolean showRelationsToAll;
-	
-	private Mission mission;
-	private boolean newspaperEnabled;
-	
-	private Reference actualJournalist;
-	private Date actualJournalistStart;
-	private Map<String, ArrayList<IntervalDate>> pastJournalistId;   //la chiave e' l'id dello user, la lista contiene tutte le volte (tutti gli intervalli temporali) in cui quello user ha interpretato il ruolo di giornalista nello scenario
-	
-	/*TODO
-	 * Valutare inizializzazione liste (fondamantale nel caso di operazioni in memoria, con aggiunta metodi add, remove dalle liste)*/
-	
-	public Scenario(){
-	}
-	
-	public Scenario(ScenarioDTO s, Reference teacherCreator){
-		name=s.getName();
-		status=ScenarioStatus.CREATED_V1;
-		history= s.getHistory();
-		description = s.getDescription();
-		//cover=s.getCover();
-		this.teacherCreator = teacherCreator;
-		this.showRelationsToAll = s.isShowRelationsToAll();
-		this.newspaperEnabled = s.isNewspaperEnabled();
-		creationDate = new Date();
-		lastUpdateDate = creationDate;
-	}
-	
+  @Id
+  private String id;
+  private String name;
+  private Date startDate;
+  private Date endDate;
+  private Date creationDate;
+  private Date lastUpdateDate;
 
-	
-	public boolean isNewspaperEnabled() {
-		return newspaperEnabled;
-	}
+  private ScenarioStatus status;
+  private History history;
+  private String cover;
+  private String description;
 
-	public void setNewspaperEnabled(boolean newspaperEnabled) {
-		this.newspaperEnabled = newspaperEnabled;
-	}
+  private List<CharacterReference> characters;
 
-	public Date getStartActualJournalist() {
-		return actualJournalistStart;
-	}
+  private List<PostReference> posts;
 
-	public void setStartActualJournalist(Date actualJournalistStart) {
-		this.actualJournalistStart = actualJournalistStart;
-	}
+  private Reference teacherCreator;
+  private List<Reference> attendees;
+  private List<Reference> collaborators;
+  private List<Reference> invited;
 
-	public Reference getActualJournalist() {
-		return actualJournalist;
-	}
+  private boolean showRelationsToAll;
 
-	public void setActualJournalist(Reference newActualUser) {
-		Date now = new Date();
-		/*Se lo Scenario non è ancora attivo oppure se il giornalista non era già interpretato da qualcuno, non devo gestire la lista di PastJournalist*/
-		if(this.status.equals(ScenarioStatus.ACTIVE) && this.actualJournalist!=null){
-			if(pastJournalistId==null)
-				pastJournalistId=new HashMap<String, ArrayList<IntervalDate>>();
-			IntervalDate intervalDate = new IntervalDate(actualJournalistStart,now);
-			if(pastJournalistId.containsKey(this.actualJournalist.getId())){
-				ArrayList<IntervalDate> tmp = pastJournalistId.get(this.actualJournalist.getId());   //tmp rappresenta la lista di volte che l'user che sto togliendo dal ruolo di journalist aveva interpretato il journalist
-				tmp.add(intervalDate);
-				pastJournalistId.put(this.actualJournalist.getId(), tmp);
-			}else{
-				ArrayList<IntervalDate> a = new ArrayList<IntervalDate>();
-				a.add(intervalDate);
-				pastJournalistId.put(this.actualJournalist.getId(), a);
-			}
-		}
-		this.actualJournalist = newActualUser;
-		if(newActualUser!=null)
-			actualJournalistStart = now;
-		else
-			actualJournalistStart = null;
-	}
+  private Mission mission;
+  private boolean newspaperEnabled;
 
-	public Map<String, ArrayList<IntervalDate>> getPastJournalistId() {
-		return pastJournalistId;
-	}
+  /*
+   * False to use image as map (first implementation) True if instead it uses
+   * real map (new leaflet implementation)
+   */
+  private boolean realMap;
 
-	public void setPastJournalistId(Map<String, ArrayList<IntervalDate>> pastJournalistId) {
-		this.pastJournalistId = pastJournalistId;
-	}
+  private Reference actualJournalist;
+  private Date actualJournalistStart;
+  private Map<String, ArrayList<IntervalDate>> pastJournalistId; // la chiave e'
+                                                                 // l'id dello
+                                                                 // user, la
+                                                                 // lista
+                                                                 // contiene
+                                                                 // tutte le
+                                                                 // volte (tutti
+                                                                 // gli
+                                                                 // intervalli
+                                                                 // temporali)
+                                                                 // in cui
+                                                                 // quello user
+                                                                 // ha
+                                                                 // interpretato
+                                                                 // il ruolo di
+                                                                 // giornalista
+                                                                 // nello
+                                                                 // scenario
 
-	public Mission getMission() {
-		return mission;
-	}
+  /*
+   * TODO Valutare inizializzazione liste (fondamantale nel caso di operazioni
+   * in memoria, con aggiunta metodi add, remove dalle liste)
+   */
 
-	public void setMission(Mission mission) {
-		this.mission = mission;
-	}
+  public Scenario() {
+  }
 
-	public String getName() {
-		return name;
-	}
+  public Scenario(ScenarioDTO s, Reference teacherCreator) {
+    name = s.getName();
+    status = ScenarioStatus.CREATED_V1;
+    history = s.getHistory();
+    description = s.getDescription();
+    // cover=s.getCover();
+    this.teacherCreator = teacherCreator;
+    this.showRelationsToAll = s.isShowRelationsToAll();
+    this.newspaperEnabled = s.isNewspaperEnabled();
+    creationDate = new Date();
+    lastUpdateDate = creationDate;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
+  public boolean isNewspaperEnabled() {
+    return newspaperEnabled;
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public void setNewspaperEnabled(boolean newspaperEnabled) {
+    this.newspaperEnabled = newspaperEnabled;
+  }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+  public Date getStartActualJournalist() {
+    return actualJournalistStart;
+  }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+  public void setStartActualJournalist(Date actualJournalistStart) {
+    this.actualJournalistStart = actualJournalistStart;
+  }
 
-	public Date getLastUpdateDate() {
-		return lastUpdateDate;
-	}
+  public Reference getActualJournalist() {
+    return actualJournalist;
+  }
 
-	public void setLastUpdateDate(Date lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-	public Date getEndDate() {
-		return endDate;
-	}
+  public void setActualJournalist(Reference newActualUser) {
+    Date now = new Date();
+    /*
+     * Se lo Scenario non è ancora attivo oppure se il giornalista non era già
+     * interpretato da qualcuno, non devo gestire la lista di PastJournalist
+     */
+    if (this.status.equals(ScenarioStatus.ACTIVE) && this.actualJournalist != null) {
+      if (pastJournalistId == null)
+        pastJournalistId = new HashMap<String, ArrayList<IntervalDate>>();
+      IntervalDate intervalDate = new IntervalDate(actualJournalistStart, now);
+      if (pastJournalistId.containsKey(this.actualJournalist.getId())) {
+        ArrayList<IntervalDate> tmp = pastJournalistId.get(this.actualJournalist.getId()); // tmp
+                                                                                           // rappresenta
+                                                                                           // la
+                                                                                           // lista
+                                                                                           // di
+                                                                                           // volte
+                                                                                           // che
+                                                                                           // l'user
+                                                                                           // che
+                                                                                           // sto
+                                                                                           // togliendo
+                                                                                           // dal
+                                                                                           // ruolo
+                                                                                           // di
+                                                                                           // journalist
+                                                                                           // aveva
+                                                                                           // interpretato
+                                                                                           // il
+                                                                                           // journalist
+        tmp.add(intervalDate);
+        pastJournalistId.put(this.actualJournalist.getId(), tmp);
+      } else {
+        ArrayList<IntervalDate> a = new ArrayList<IntervalDate>();
+        a.add(intervalDate);
+        pastJournalistId.put(this.actualJournalist.getId(), a);
+      }
+    }
+    this.actualJournalist = newActualUser;
+    if (newActualUser != null)
+      actualJournalistStart = now;
+    else
+      actualJournalistStart = null;
+  }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	public History getHistory() {
-		return history;
-	}
+  public Map<String, ArrayList<IntervalDate>> getPastJournalistId() {
+    return pastJournalistId;
+  }
 
-	public void setHistory(History history) {
-		this.history = history;
-	}
+  public void setPastJournalistId(Map<String, ArrayList<IntervalDate>> pastJournalistId) {
+    this.pastJournalistId = pastJournalistId;
+  }
 
-	public String getCover() {
-		return cover;
-	}
+  public Mission getMission() {
+    return mission;
+  }
 
-	public void setCover(String cover) {
-		this.cover = cover;
-	}
+  public void setMission(Mission mission) {
+    this.mission = mission;
+  }
 
-	
+  public String getName() {
+    return name;
+  }
 
-	public List<CharacterReference> getCharacters() {
-		return characters;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setCharacters(List<CharacterReference> characters) {
-		this.characters = characters;
-	}
-	
-	public CharacterReference getCharacter(String id){
-		for(CharacterReference c : characters){
-			if(c.getId().equals(id))
-				return c;
-		}
-		return null;
-	}
+  public String getDescription() {
+    return description;
+  }
 
-	public String getId() {
-		return id;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	
-	public List<Reference> getAttendees() {
-		return attendees;
-	}
+  public Date getStartDate() {
+    return startDate;
+  }
 
-	public void setAttendees(List<Reference> attendees) {
-		this.attendees = attendees;
-	}
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
+  }
 
-	public List<Reference> getCollaborators() {
-		return collaborators;
-	}
+  public Date getLastUpdateDate() {
+    return lastUpdateDate;
+  }
 
-	public void setCollaborators(List<Reference> collaborators) {
-		this.collaborators = collaborators;
-	}
+  public void setLastUpdateDate(Date lastUpdateDate) {
+    this.lastUpdateDate = lastUpdateDate;
+  }
 
-	public Reference getTeacherCreator() {
-		return teacherCreator;
-	}
+  public Date getEndDate() {
+    return endDate;
+  }
 
-	public void setTeacherCreator(Reference teacherCreator) {
-		this.teacherCreator = teacherCreator;
-	}
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
 
-	public ScenarioStatus getStatus() {
-		return status;
-	}
+  public History getHistory() {
+    return history;
+  }
 
-	public void setStatus(ScenarioStatus status) {
-		this.status = status;
-	}
+  public void setHistory(History history) {
+    this.history = history;
+  }
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
+  public String getCover() {
+    return cover;
+  }
 
-	public List<PostReference> getPosts() {
-		return posts;
-	}
+  public void setCover(String cover) {
+    this.cover = cover;
+  }
 
-	public void setPosts(List<PostReference> posts) {
-		this.posts = posts;
-	}
+  public List<CharacterReference> getCharacters() {
+    return characters;
+  }
 
-	public List<Reference> getInvited() {
-		return invited;
-	}
+  public void setCharacters(List<CharacterReference> characters) {
+    this.characters = characters;
+  }
 
-	public void setInvited(List<Reference> invited) {
-		this.invited = invited;
-	}
+  public CharacterReference getCharacter(String id) {
+    for (CharacterReference c : characters) {
+      if (c.getId().equals(id))
+        return c;
+    }
+    return null;
+  }
 
-	public boolean isShowRelationsToAll() {
-		return showRelationsToAll;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public void setShowRelationsToAll(boolean showRelationsToAll) {
-		this.showRelationsToAll = showRelationsToAll;
-	}
+  public List<Reference> getAttendees() {
+    return attendees;
+  }
 
-	
-	
+  public void setAttendees(List<Reference> attendees) {
+    this.attendees = attendees;
+  }
+
+  public List<Reference> getCollaborators() {
+    return collaborators;
+  }
+
+  public void setCollaborators(List<Reference> collaborators) {
+    this.collaborators = collaborators;
+  }
+
+  public Reference getTeacherCreator() {
+    return teacherCreator;
+  }
+
+  public void setTeacherCreator(Reference teacherCreator) {
+    this.teacherCreator = teacherCreator;
+  }
+
+  public ScenarioStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(ScenarioStatus status) {
+    this.status = status;
+  }
+
+  public Date getCreationDate() {
+    return creationDate;
+  }
+
+  public List<PostReference> getPosts() {
+    return posts;
+  }
+
+  public void setPosts(List<PostReference> posts) {
+    this.posts = posts;
+  }
+
+  public List<Reference> getInvited() {
+    return invited;
+  }
+
+  public void setInvited(List<Reference> invited) {
+    this.invited = invited;
+  }
+
+  public boolean isShowRelationsToAll() {
+    return showRelationsToAll;
+  }
+
+  public void setShowRelationsToAll(boolean showRelationsToAll) {
+    this.showRelationsToAll = showRelationsToAll;
+  }
+
+  public boolean isRealMap() {
+    return realMap;
+  }
+
+  public void setRealMap(boolean realMap) {
+    this.realMap = realMap;
+  }
+
 }

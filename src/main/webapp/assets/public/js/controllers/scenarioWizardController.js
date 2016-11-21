@@ -428,14 +428,66 @@ angular.module('smiled.application').controller('scenarioWizardCtrl', ['apiServi
 			self.saveInfo();
 			self.checkOpenAccordion();
 		}
+
+
+	/*Choice map updates 
+	  Array of two elements to manage what kind of map user wants to Choice
+	  There is a boolean value that represents this choice ("realMap"). It is false by default,
+	  in order to adapt to old open scenarios.
+	*/
+	self.kindOfMap = [];
+	var real = {"name" : "Mappa reale", "tooltip" : "Scegli la mappa selezionando un'area sul planisfero", selected: self.scenario.realMap};
+	var fantasy = {"name" : "Mappa di fantasia", "tooltip" : "Carica un'immagine ed utilizzala come mappa per il tuo scenario", selected: !self.scenario.realMap};
+  self.kindOfMap.push(real);
+	self.kindOfMap.push(fantasy);
+  var center = userService.getCenter();
+  
+	self.switchMapChoice = function(position){
+		console.log(userService.getBounds());
+		console.log(userService.getCenter());
+		for(var i=0; i<self.kindOfMap.length; i++){
+			if(i!=position){
+				self.kindOfMap[i].selected = !self.kindOfMap[position].selected;
+			}
+		}
+		self.scenario.realMap = self.kindOfMap[0].selected;
+		console.log(self.scenario.realMap);
+	}
+  
+  self.openRealMapModal = function(){
+    //var center = self.scenario.history.center;
+    
+    modalService.showRealMapTeacher(center);
+  }
 		
 		self.saveInfo = function(){
 			var scenarioDTO = {};
 			scenarioDTO.name = self.scenario.name;
 			scenarioDTO.description = self.scenario.description;
 			scenarioDTO.history = self.scenario.history;
+			if(self.scenario.realMap){
+				var realMap = {};
+				var northEast = {};
+				var bounds = userService.getBounds();
+				northEast.x = bounds.northEast.lat;
+				northEast.y = bounds.northEast.lng;
+				realMap.northEast = northEast;
+				var southWest = {};
+				southWest.x = bounds.southWest.lat;
+				southWest.y = bounds.southWest.lng;
+				realMap.southWest = southWest;
+				var center = userService.getCenter();
+				var c = {};
+				c.x = center.lat;
+				c.y = center.lng;
+				realMap.center = c;
+				realMap.zoom = center.zoom;
+				realMap.tileUrl = userService.getTileUrl();
+				scenarioDTO.history.realMap = realMap;
+			}
 			scenarioDTO.showRelationsToAll = self.scenario.showRelationsToAll;
 			scenarioDTO.newspaperEnabled = self.scenario.newspaperEnabled;
+            scenarioDTO.realMap = self.scenario.realMap;
 			
 			if(id==null){
 				console.log("######################ID NULL");

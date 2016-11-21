@@ -31,6 +31,14 @@
 <input class="customCheckBox" id="showRelations" type="checkbox"
 	data-ng-model="scenarioWizard.scenario.showRelationsToAll"
 	name="show-relations" value="show-relations" />
+<br>
+
+<label data-ng-repeat="m in scenarioWizard.kindOfMap">{{m.name}}
+	<input class="customCheckBox" type="checkbox" data-ng-model="m.selected" data-ng-click="scenarioWizard.switchMapChoice($index)">
+</label>
+
+
+
 <button class="generalButton1 btn pull-right" style="margin-top: 5px;"
 	data-ng-click="scenarioWizard.saveInfo()">
 	<span class="glyphicon glyphicon-floppy-save"></span> SALVA
@@ -50,7 +58,7 @@
 			</div>
 		</a>
 	</div>
-	<div class="col-md-6 marginMTop">
+	<div data-ng-if="!scenarioWizard.scenario.realMap" class="col-md-6 marginMTop">
 		<a href="" ngf-select ngf-change="scenarioWizard.uploadMap($files)">
 			<p>Aggiungi la mappa dello scenario</p>
 			<div class="row">
@@ -64,8 +72,22 @@
 		</a>
 	</div>
 
+	<div data-ng-if="scenarioWizard.scenario.realMap" class="col-md-6 marginMTop">
+		<a href="" data-ng-click="scenarioWizard.openRealMapModal()">
+			<p>Aggiungi la mappa dello scenario</p>
+			<div class="row">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-10 imageHere marginMTop">
+					<img data-ng-src="{{scenarioWizard.map}}"
+						data-err-src="assets/public/img/wizard/map.png"
+						class="coverMapPreview">
+				</div>
+			</div>
+		</a>
+	</div>
+
 </div>
-<div class="row text-center">
+<div data-ng-if="!scenarioWizard.scenario.realMap" class="row text-center">
 	<div class="col-md-6 marginMTop"></div>
 	<div class="col-md-6 marginMTop">
 		<a href="" data-ui-sref="logged.toolMap"> Scarica tool per

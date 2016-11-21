@@ -166,6 +166,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 			//TODO controllare
 			u.set("showRelationsToAll", scenario.isShowRelationsToAll());
 			u.set("newspaperEnabled", scenario.isNewspaperEnabled());
+			u.set("realMap", scenario.isRealMap());
 			
 			if(scenario.isNewspaperEnabled()==false){
 				newspaperService.updateJournalist(id, null, user);
@@ -184,7 +185,7 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(scenario.getHistory().getMapId()!=null){
 					u.set("history.mapId", scenario.getHistory().getMapId());
 				}
-
+				//TODO aggiornare i campi di realMAP!!!
 			}
 			ScenarioStatus newStatus = scenario.getStatus();
 			if(newStatus != null){
