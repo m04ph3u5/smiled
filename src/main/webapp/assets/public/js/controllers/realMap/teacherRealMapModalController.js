@@ -1,27 +1,57 @@
-angular.module('smiled.application').controller('teacherRealMapModalController', ['userService', 'center', 'modalService',
-    function (userService, center, modalService) {
+angular.module('smiled.application').controller('teacherRealMapModalController', ['userService', 'center', 'modalService', '$scope',
+    function (userService, center, modalService, $scope) {
 
         var self = this;
+        var tileUrl = userService.getTileUrl();
         self.map = {
             bounds: {},
             center: center,
+            layers: {
+                    baselayers: {
+                        Streets: {
+                            name: 'Streets',
+                            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            type: 'xyz',
+   
+                        },
+                        Satellite: {
+                            name: 'Satellite',
+                            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                            type: 'xyz',
+                          }
+                         /* ,
+                       Vintage: {
+                            name: 'Vintage',
+                            url: 'https://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
+                            type: 'xyz',
+                            layerOptions: {
+                                apikey: 'pk.eyJ1IjoidG9ydmEiLCJhIjoiY2lqanljYjNiMDA0anZzbHhsMHNocG9qaSJ9.MbxiyjWjNlAL0A1lmVbkFQ',
+                                mapid: 'mapbox.Vintage'
+                            }
+					   }*/
+					}
+				},
             tiles: {
-                url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                url: tileUrl
 
             }
         }
-      /*  $scope.$watch(angular.bind(this, function () {
-            return this.map.center.zoom;
-        }), function (zoom) {
-            this.map.tiles.url = (zoom > 6) ?
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" :
-                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-        });*/
+      var lay = {};
+      $scope.$on('leafletDirectiveMap.baselayerchange', function(ev, layer) {
+				 lay = layer.leafletEvent.name;
+				 
+			}); 
 
         self.setMaxBounds = function (b) {
             console.log(b);
             userService.setBounds(b);
             userService.setCenter(self.map.center);
+            var baseUrl;
+            angular.forEach(self.map.layers.baselayers, function(item) {
+	        	if (item.name == lay) 
+			    baseUrl = item.url;
+	        });
+            userService.setTileUrl(baseUrl);
             //TODO add call to userService to store tileUrl choosen
             modalService.closeRealMapTeacher();
         }

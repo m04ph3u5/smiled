@@ -58,6 +58,7 @@ import it.polito.applied.smiled.pojo.scenario.Mission;
 import it.polito.applied.smiled.pojo.scenario.Post;
 import it.polito.applied.smiled.pojo.scenario.PostStatus;
 import it.polito.applied.smiled.pojo.scenario.PublishedNewspaper;
+import it.polito.applied.smiled.pojo.scenario.RealMap;
 import it.polito.applied.smiled.pojo.scenario.Relation;
 import it.polito.applied.smiled.pojo.scenario.Revision;
 import it.polito.applied.smiled.pojo.scenario.RevisionStatus;
@@ -185,7 +186,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 				if(scenario.getHistory().getMapId()!=null){
 					u.set("history.mapId", scenario.getHistory().getMapId());
 				}
-				//TODO aggiornare i campi di realMAP!!!
+				if(scenario.isRealMap() && scenario.getHistory().getRealMap()!=null){
+				  u.set("history.realMap", scenario.getHistory().getRealMap());
+				}
 			}
 			ScenarioStatus newStatus = scenario.getStatus();
 			if(newStatus != null){
