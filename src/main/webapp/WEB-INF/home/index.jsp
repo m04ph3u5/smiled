@@ -263,7 +263,8 @@
 
 	<!-- REAL MAP CONTROLLER -->
 	<script src="/assets/public/js/controllers/realMap/teacherRealMapModalController.js"></script>
-	<!--  -->
+	<script src="/assets/public/js/controllers/realMap/studentRealMapModalController.js"></script>
+	<!-- ****************** -->
 
 	<script src="/assets/public/js/services/userService.js"></script>
 	<script src="/assets/public/js/services/notifyService.js"></script>
@@ -328,8 +329,11 @@
 	<script src="/assets/public/js/directives/articleOneColumn.js"></script>
 	<script src="/assets/public/js/directives/warningCharacters.js"></script>
 	<script src="/assets/public/js/directives/newspaperPreview.js"></script>
-
 	<script src="/assets/public/js/directives/alertArticle.js"></script>
+	
+	<!-- REAL MAP -->
+	<script src="/assets/public/js/directives/realMapPostView.js"></script>
+	<!-- ******** -->
 
 	<!--   <script src="/assets/public/build/meschola_1.min.js"></script> -->
 

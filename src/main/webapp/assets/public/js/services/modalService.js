@@ -50,6 +50,19 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 	var modalInstanceAlertNewspaper;
 	var modalInstanceAlertPublicNewspaper;
 	var modalInstanceRealMapTeacher;
+	var modalInstanceRealMapStudent;
+
+    var optionsRealMapStudent = {
+		templateUrl: 'assets/private/partials/realMap/openRealMapPost.html',
+		controller: 'studentModalController',
+		controllerAs: 'studentModalController',
+		size: 'lg',
+		resolve: {
+			post: function () {
+				return post;
+			}
+		}
+	}
 
 	var optionsRealMapTeacher = {
 		templateUrl: 'assets/private/partials/realMap/realMapTeacherModal.html',
@@ -642,6 +655,18 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		modalInstanceRealMapTeacher.close();
 
 	}
+
+    var showRealMapStudent = function (p) {
+		post = p;
+		modalInstanceRealMapStudent = $modal.open(optionsRealMapStudent);
+		return modalInstanceRealMapStudent.result;
+
+	}
+
+	var closeRealMapStudent = function () {
+		modalInstanceRealMapStudent.close();
+
+	}
 	return {
 		createScenario: createScenario,
 		deleteScenario: deleteScenario,
@@ -695,7 +720,9 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		showAlertPublicNewspaper: showAlertPublicNewspaper,
 		//REAL MAP MODAL
 		showRealMapTeacher : showRealMapTeacher,
-		closeRealMapTeacher : closeRealMapTeacher
+		closeRealMapTeacher : closeRealMapTeacher,
+		showRealMapStudent : showRealMapStudent,
+		closeRealMapStudent : closeRealMapStudent
 
 	}
 }]);

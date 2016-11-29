@@ -385,13 +385,19 @@ angular.module("smiled.application").directive("insertStatus", [ 'CONSTANTS', 'a
 			/*Function to open map*/
 			self.colorMapMarker = {};
 			self.setPositionNewPost = function(){
-				var map;
-				if(self.scenario.history.mapId) 
-					map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)};
-				else
-					map = null;
-				
-				modalService.showModalOpenMap(self.newPost,map);
+				console.log("OPEN MAP!");
+				console.log(self.scenario);
+				if(!self.scenario.realMap){
+					var map;
+					if(self.scenario.history.mapId) 
+						map = {'url': CONSTANTS.urlMedia(self.scenario.history.mapId)};
+					else
+						map = null;
+					
+					modalService.showModalOpenMap(self.newPost,map);
+				} else {
+					modalService.showRealMapStudent(self.newPost);
+				}
 
 			}
 			/*--------------------*/

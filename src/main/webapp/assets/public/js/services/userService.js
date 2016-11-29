@@ -21,6 +21,7 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 	var bounds = {};
 	var center = {};
 	var tileUrl = "";
+	var marker = {};
 
 	var getBounds = function(){
 		return bounds;
@@ -39,6 +40,12 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 	}
 	var setTileUrl = function(s){
 		tileUrl = s;
+	}
+	var getMarker = function(){
+		return marker;
+	}
+	var setMarker = function(m){
+		marker = m;
 	}
 	/* */
 	
@@ -264,7 +271,9 @@ angular.module('smiled.application').factory('userService', [ '$http', '$q', '$c
 		getCenter : getCenter,
 		setCenter : setCenter,
 		getTileUrl : getTileUrl,
-		setTileUrl : setTileUrl
+		setTileUrl : setTileUrl,
+		setMarker : setMarker,
+		getMarker : getMarker
 	}
 
 	
