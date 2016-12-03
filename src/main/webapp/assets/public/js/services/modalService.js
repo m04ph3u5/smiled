@@ -26,9 +26,6 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 	var scenarioId = "";
 	var newspaperNumber = 0;
 
-	//Real map center for teacher defining bounds
-	var center = {};
-
 	var modalInstanceCreateScen;
 	var modalInstanceDeleteScen;
 	var modalInstanceDeleteAttendee;
@@ -68,12 +65,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 		templateUrl: 'assets/private/partials/realMap/realMapTeacherModal.html',
 		controller: 'teacherRealMapModalController',
 		controllerAs: 'teacherMap',
-		size: 'lg',
-		resolve: {
-			center: function () {
-				return center;
-			}
-		}
+		size: 'lg'
 	}
 
 
@@ -644,8 +636,7 @@ angular.module('smiled.application').factory('modalService', ['$modal', 'apiServ
 
 	}
 
-	var showRealMapTeacher = function (c) {
-		center = c;
+	var showRealMapTeacher = function () {
 		modalInstanceRealMapTeacher = $modal.open(optionsRealMapTeacher);
 		return modalInstanceRealMapTeacher.result;
 

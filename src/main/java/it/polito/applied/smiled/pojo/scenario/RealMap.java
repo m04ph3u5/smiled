@@ -1,13 +1,14 @@
 package it.polito.applied.smiled.pojo.scenario;
 
-public class RealMap {
+import java.util.List;
 
+public class RealMap {
   private Place northEast;
   private Place southWest;
-  //TODO write another class that map center object with lat, lng and zoom values
   private Place center;
   private int zoom;
   private String tileUrl;
+  private List<MapLayer> layers;
 
   public Place getNorthEast() {
     return northEast;
@@ -47,6 +48,14 @@ public class RealMap {
 
   public void setTileUrl(String tileUrl) {
     this.tileUrl = tileUrl;
+  }
+
+  public List<MapLayer> getLayers() {
+    return layers;
+  }
+
+  public void setLayers(List<MapLayer> layers) {
+    this.layers = layers;
   }
 
 }
